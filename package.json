@@ -1,0 +1,75 @@
+{
+  "name": "spotspot",
+  "version": "1.0.0",
+  "description": "Spotify mini-player for macOS",
+  "homepage": "http://wstone.io/SpotSpot/",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "SPOTSPOT_ENV=DEV electron-forge start",
+    "package": "electron-forge package --platform=darwin --arch=x64",
+    "make": "electron-forge make",
+    "docs": "lite-server"
+  },
+  "repository": "https://github.com/will-stone/SpotSpot",
+  "bugs": {
+    "url": "https://github.com/will-stone/SpotSpot/issues"
+  },
+  "keywords": [
+    "Electron",
+    "Spotify",
+    "mini-player",
+    "macOS"
+  ],
+  "author": "Will Stone",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-preset-env": "^1.5.1",
+    "babel-preset-react": "^6.24.1",
+    "electron-forge": "^3.0.1",
+    "electron-prebuilt-compile": "1.6.8",
+    "lite-server": "^2.3.0",
+    "prettier": "^1.4.4"
+  },
+  "dependencies": {
+    "electron-compile": "^6.4.1",
+    "minireset.css": "^0.0.3",
+    "opn": "^5.1.0",
+    "spotify-node-applescript": "^1.1.0",
+    "textfit": "^2.3.1"
+  },
+  "config": {
+    "forge": {
+      "make_targets": {
+        "win32": [
+          "squirrel"
+        ],
+        "darwin": [
+          "zip"
+        ],
+        "linux": [
+          "deb",
+          "rpm"
+        ]
+      },
+      "electronPackagerConfig": {
+        "icon": "src/images/icon/icon.png.icns",
+        "ignore": [
+          "docs"
+        ]
+      },
+      "electronWinstallerConfig": {
+        "name": ""
+      },
+      "electronInstallerDebian": {},
+      "electronInstallerRedhat": {},
+      "github_repository": {
+        "owner": "",
+        "name": ""
+      },
+      "windowsStoreConfig": {
+        "packageName": ""
+      }
+    }
+  }
+}
