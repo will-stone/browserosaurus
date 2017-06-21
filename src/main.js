@@ -19,7 +19,7 @@ function createMainWindow(incomingURL) {
     backgroundColor: '#191917',
     // icon: path.join(__dirname, 'images/icon/icon.png'),
     // focusable: false,
-    frame: false,
+    // frame: false,
     resizable: false,
     // transparent: true,
     show: false,
