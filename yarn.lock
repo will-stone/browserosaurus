@@ -1340,13 +1340,13 @@ combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@2.8.x, commander@~2.8.1:
+commander@2.8.x, commander@^2.2.0, commander@~2.8.1:
   version "2.8.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.8.1.tgz#06be367febfda0c330aa1e2a072d3dc9762425d4"
   dependencies:
     graceful-readlink ">= 1.0.0"
 
-commander@^2.2.0, commander@^2.9.0:
+commander@^2.9.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.9.0.tgz#9c99094176e12240cb22d6c5146098400fe0f7d4"
   dependencies:
@@ -1889,9 +1889,9 @@ electron-forge-template-vue@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/electron-forge-template-vue/-/electron-forge-template-vue-1.0.2.tgz#c935f5aa96a2798c6ea9b834465e3212e4f71d33"
 
-electron-forge@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/electron-forge/-/electron-forge-3.0.1.tgz#f73c7378a551cdd35df0b258e77436d02920602c"
+electron-forge@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/electron-forge/-/electron-forge-3.0.5.tgz#c8f54c99058014583dbee67584c29960cef56b74"
   dependencies:
     aws-sdk "^2.9.0"
     babel-register "^6.16.3"
@@ -1905,9 +1905,8 @@ electron-forge@^3.0.1:
     electron-forge-template-vue "^1.0.2"
     electron-packager "^8.5.2"
     electron-rebuild "^1.5.7"
-    electron-sudo malept/electron-sudo#fix-linux-sudo-detection
     form-data "^2.1.4"
-    fs-promise "^2.0.0"
+    fs-extra "^3.0.0"
     github "^9.0.0"
     glob "^7.1.1"
     inquirer "^3.0.1 "
@@ -2045,13 +2044,6 @@ electron-rebuild@^1.5.7:
     rimraf "^2.6.1"
     spawn-rx "^2.0.10"
     yargs "^7.0.2"
-
-electron-sudo@malept/electron-sudo#fix-linux-sudo-detection:
-  version "4.0.12"
-  resolved "https://codeload.github.com/malept/electron-sudo/tar.gz/73d135de6f0da7abb7e2b3cee9aa3a1d3fd4e4db"
-  dependencies:
-    babel-runtime "^6.18.0"
-    bluebird "^3.4.6"
 
 electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.11:
   version "1.3.11"
@@ -2488,7 +2480,7 @@ fs-extra@^2.0.0, fs-extra@^2.1.2:
     graceful-fs "^4.1.2"
     jsonfile "^2.1.0"
 
-fs-promise@^2.0.0, fs-promise@^2.0.2:
+fs-promise@^2.0.2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/fs-promise/-/fs-promise-2.0.3.tgz#f64e4f854bcf689aa8bddcba268916db3db46854"
   dependencies:

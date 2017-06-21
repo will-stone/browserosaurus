@@ -26,7 +26,7 @@
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.5.1",
     "babel-preset-react": "^6.24.1",
-    "electron-forge": "^3.0.1",
+    "electron-forge": "^3.0.5",
     "electron-prebuilt-compile": "1.6.8",
     "lite-server": "^2.3.0",
     "prettier": "^1.4.4"

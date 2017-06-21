@@ -1,16 +1,29 @@
+const electron = require('electron')
 const opn = require('opn')
+const currentWindow = electron.remote.getCurrentWindow()
+const url = currentWindow.url
 
-const button = document.getElementById('button')
+// URL Text
+const urlText = document.getElementById('url')
+urlText.innerText = url
 
-button.addEventListener('click', () => {
-  opn('http://sindresorhus.com', { app: 'firefox' })
-    .then(function(t) {
-      console.log('hello')
-    })
-    .catch(function(e) {
-      console.log('bum')
-    })
-})
+// Utils
+
+const openBrowser = appName =>
+  opn(url, { app: appName, wait: false })
+    .then(t => currentWindow.close())
+    .catch(e => console.log('bum'))
+
+// Browser Buttons
+
+const firefox = document.getElementById('firefox')
+firefox.addEventListener('click', () => openBrowser('firefox'))
+
+const chrome = document.getElementById('chrome')
+chrome.addEventListener('click', () => openBrowser('google chrome'))
+
+const safari = document.getElementById('safari')
+safari.addEventListener('click', () => openBrowser('safari'))
 
 // // This file is required by the index.html file and will
 // // be executed in the renderer process for that window.
