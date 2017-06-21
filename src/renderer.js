@@ -1,17 +1,20 @@
 const electron = require('electron')
 const opn = require('opn')
 const currentWindow = electron.remote.getCurrentWindow()
-const url = currentWindow.url
+let url = null
 
 // URL Text
 const urlText = document.getElementById('url')
-urlText.innerText = url
 
 // Utils
 
 const openBrowser = appName =>
   opn(url, { app: appName, wait: false })
-    .then(t => currentWindow.close())
+    .then(t => {
+      currentWindow.hide()
+      url = null
+      urlText.innerText = url
+    })
     .catch(e => console.log('bum'))
 
 // Browser Buttons
@@ -24,6 +27,12 @@ chrome.addEventListener('click', () => openBrowser('google chrome'))
 
 const safari = document.getElementById('safari')
 safari.addEventListener('click', () => openBrowser('safari'))
+
+// Listen for URL
+electron.ipcRenderer.on('incomingURL', function(event, message) {
+  url = message
+  urlText.innerText = url
+})
 
 // // This file is required by the index.html file and will
 // // be executed in the renderer process for that window.

@@ -9,7 +9,7 @@ let mainWindow
 
 let tray = null
 
-function createMainWindow(incomingURL) {
+function createMainWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 250,
@@ -35,11 +35,11 @@ function createMainWindow(incomingURL) {
     })
   )
 
-  mainWindow.url = incomingURL
+  // mainWindow.url = incomingURL
 
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show()
-  })
+  // mainWindow.once('ready-to-show', () => {
+  //   mainWindow.show()
+  // })
 
   // Menubar icon
   // tray = new Tray(path.join(__dirname, 'images/icon/tray_iconTemplate.png'))
@@ -74,14 +74,14 @@ function createMainWindow(incomingURL) {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-// app.on('ready', () => createMainWindow(null))
+app.on('ready', createMainWindow)
 
 app.setAsDefaultProtocolClient('http')
 
 app.on('open-url', (event, url) => {
   event.preventDefault()
-  createMainWindow(url)
-  // mainWindow.webContents.send('incomingURL', url)
+  mainWindow.show()
+  mainWindow.webContents.send('incomingURL', url)
 })
 
 // Quit when all windows are closed. Except on darwin.
