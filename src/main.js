@@ -8,22 +8,23 @@ const url = require('url')
 let mainWindow
 
 let tray = null
+let willQuitApp = false
 
 function createMainWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 250,
-    height: 100,
+    width: 700,
+    height: 500,
     acceptFirstMouse: true,
     alwaysOnTop: true,
     backgroundColor: '#191917',
     // icon: path.join(__dirname, 'images/icon/icon.png'),
-    // focusable: false,
-    // frame: false,
+    frame: false,
     resizable: false,
     // transparent: true,
     show: false,
-    title: 'Linky'
+    title: 'Linky',
+    vibrancy: 'dark'
   })
 
   // and load the index.html of the app.
@@ -59,15 +60,22 @@ function createMainWindow() {
 
   // Open the DevTools.
   // if (process.env.SPOTSPOT_ENV === 'DEV') {
-  //   mainWindow.webContents.openDevTools({ mode: 'detach' })
+  // mainWindow.webContents.openDevTools({ mode: 'detach' })
   // }
 
-  // Hide dock icon
-  // app.dock.hide()
+  mainWindow.on('blur', e => {
+    mainWindow.hide()
+  })
 
-  // Emitted when the window is closed.
-  mainWindow.on('closed', function() {
-    mainWindow = null
+  mainWindow.on('close', e => {
+    if (willQuitApp) {
+      /* the user tried to quit the app */
+      mainWindow = null
+    } else {
+      /* the user only tried to close the window */
+      e.preventDefault()
+      mainWindow.hide()
+    }
   })
 }
 
@@ -83,6 +91,10 @@ app.on('open-url', (event, url) => {
   mainWindow.show()
   mainWindow.webContents.send('incomingURL', url)
 })
+
+/* 'before-quit' is emitted when Electron receives 
+ * the signal to exit and wants to start closing windows */
+app.on('before-quit', () => (willQuitApp = true))
 
 // Quit when all windows are closed. Except on darwin.
 app.on('window-all-closed', () => {

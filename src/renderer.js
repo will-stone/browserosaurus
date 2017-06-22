@@ -31,6 +31,7 @@ safari.addEventListener('click', () => openBrowser('safari'))
 // Listen for URL
 electron.ipcRenderer.on('incomingURL', function(event, message) {
   url = message
+  console.log(url)
   urlText.innerText = url
 })
 
