@@ -4,7 +4,7 @@ const currentWindow = electron.remote.getCurrentWindow()
 let url = null
 
 // URL Text
-const urlText = document.getElementById('url')
+// const urlText = document.getElementById('url')
 
 // Utils
 
@@ -13,7 +13,6 @@ const openBrowser = appName =>
     .then(t => {
       currentWindow.hide()
       url = null
-      urlText.innerText = url
     })
     .catch(e => console.log('bum'))
 
@@ -31,8 +30,8 @@ safari.addEventListener('click', () => openBrowser('safari'))
 // Listen for URL
 electron.ipcRenderer.on('incomingURL', function(event, message) {
   url = message
-  console.log(url)
-  urlText.innerText = url
+  // console.log(url)
+  // urlText.innerText = url
 })
 
 // // This file is required by the index.html file and will

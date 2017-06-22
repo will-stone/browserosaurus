@@ -1,3 +1,4 @@
+const electron = require('electron')
 const { app, BrowserWindow, Tray, Menu, protocol } = require('electron')
 
 const path = require('path')
@@ -13,18 +14,18 @@ let willQuitApp = false
 function createMainWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 700,
-    height: 500,
+    width: 200,
+    height: 50,
     acceptFirstMouse: true,
     alwaysOnTop: true,
-    backgroundColor: '#191917',
+    // backgroundColor: '#191917',
     // icon: path.join(__dirname, 'images/icon/icon.png'),
     frame: false,
     resizable: false,
-    // transparent: true,
+    movable: false,
+    transparent: true,
     show: false,
-    title: 'Linky',
-    vibrancy: 'dark'
+    title: 'Linky'
   })
 
   // and load the index.html of the app.
@@ -82,14 +83,20 @@ function createMainWindow() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createMainWindow)
+app.on('ready', () => {
+  if (!mainWindow) {
+    createMainWindow()
+  }
+})
 
 app.setAsDefaultProtocolClient('http')
 
 app.on('open-url', (event, url) => {
   event.preventDefault()
-  mainWindow.show()
   mainWindow.webContents.send('incomingURL', url)
+  const cursorScreenPoint = electron.screen.getCursorScreenPoint()
+  mainWindow.setPosition(cursorScreenPoint.x, cursorScreenPoint.y)
+  mainWindow.show()
 })
 
 /* 'before-quit' is emitted when Electron receives 
