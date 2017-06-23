@@ -1,8 +1,4 @@
-const electron = require('electron')
-const { app, BrowserWindow, Tray, Menu, protocol } = require('electron')
-
-const path = require('path')
-const url = require('url')
+import electron, { app, BrowserWindow, Tray, Menu, protocol } from 'electron'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -19,7 +15,7 @@ function createMainWindow() {
     acceptFirstMouse: true,
     alwaysOnTop: true,
     // backgroundColor: '#191917',
-    // icon: path.join(__dirname, 'images/icon/icon.png'),
+    icon: `${__dirname}/images/icon/icon.png`,
     frame: false,
     resizable: false,
     movable: false,
@@ -29,13 +25,7 @@ function createMainWindow() {
   })
 
   // and load the index.html of the app.
-  mainWindow.loadURL(
-    url.format({
-      pathname: path.join(__dirname, 'index.html'),
-      protocol: 'file:',
-      slashes: true
-    })
-  )
+  mainWindow.loadURL(`file://${__dirname}/index.html`)
 
   // mainWindow.url = incomingURL
 
