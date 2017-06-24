@@ -2,7 +2,7 @@ body {
   padding: 2rem;
   text-align: center;
   color: #f1f1f1;
-  background-color: #222220;
+  background-color: #012423;
   font-family: Helvetica, sans-serif;
   font-size: 18px;
   line-height: 1.6;
@@ -17,7 +17,7 @@ p {
 }
 
 a {
-  color: #2fd566;
+  color: #10813f;
 }
 
 .wrapper {
@@ -27,10 +27,8 @@ a {
 
 .logo {
   display: block;
-  width: 100px;
+  width: 150px;
   margin: 0 auto 1rem auto;
-  border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
 h1 {
@@ -55,7 +53,7 @@ h2 {
   width: 300px;
   margin: 0 auto 1rem auto;
   border-radius: 5px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .links {
@@ -69,7 +67,7 @@ h2 {
   margin-left: 1rem;
   padding: 7px 12px;
   text-decoration: none;
-  color: #2fd566;
+  color: #10813f;
   border: 1px solid #ffffff;
   border-radius: 20px;
   background: transparent;
@@ -78,8 +76,8 @@ h2 {
 
 .button:hover,
 .button:active {
-  color: #2fd566;
-  border-color: #2fd566;
+  color: #10813f;
+  border-color: #10813f;
 }
 
 .disclaimer {

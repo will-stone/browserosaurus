@@ -50,7 +50,7 @@ function createMainWindow() {
   // tray.setContextMenu(contextMenu)
 
   // Open the DevTools.
-  // if (process.env.SPOTSPOT_ENV === 'DEV') {
+  // if (process.env.ENV === 'DEV') {
   // mainWindow.webContents.openDevTools({ mode: 'detach' })
   // }
 

@@ -1,11 +1,15 @@
-# SpotSpot
+# Browserosaurus
 
 ## Development
 
-`git clone git@github.com:will-stone/SpotSpot.git`
+`git clone git@github.com:will-stone/browserosaurus.git`
 
-`cd spotspot`
+`cd browserosaurus`
 
 `yarn`
 
 `yarn start`
+
+### Make icon.icns
+
+To build an icns file from `src/images/icon/icon.png`, simply run `yarn icns`.
