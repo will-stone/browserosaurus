@@ -1,5 +1,6 @@
 {
-  "name": "linky",
+  "name": "browserosaurus",
+  "productName": "Browserosaurus",
   "version": "1.0.0",
   "description": "Choose which browser to use when you open a link",
   "homepage": "",
@@ -8,11 +9,12 @@
     "start": "ENV=DEV electron-forge start",
     "package": "electron-forge package --platform=darwin --arch=x64",
     "make": "electron-forge make",
+    "icns": "cd ./src/images/icon && ./png2icns.sh icon.png",
     "docs": "lite-server"
   },
-  "repository": "https://github.com/will-stone/linky",
+  "repository": "https://github.com/will-stone/browserosaurus",
   "bugs": {
-    "url": "https://github.com/will-stone/linky/issues"
+    "url": "https://github.com/will-stone/browserosaurus/issues"
   },
   "keywords": [
     "Electron",
@@ -51,7 +53,7 @@
         ]
       },
       "electronPackagerConfig": {
-        "icon": "src/images/icon/icon.png.icns",
+        "icon": "src/images/icon/icon.icns",
         "ignore": [
           "docs"
         ]

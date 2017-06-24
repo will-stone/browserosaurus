@@ -21,7 +21,7 @@ function createMainWindow() {
     movable: false,
     transparent: true,
     show: false,
-    title: 'Linky'
+    title: 'Browserosaurus'
   })
 
   // and load the index.html of the app.
@@ -46,7 +46,7 @@ function createMainWindow() {
   //     }
   //   }
   // ])
-  // tray.setToolTip('Linky')
+  // tray.setToolTip('Browserosaurus')
   // tray.setContextMenu(contextMenu)
 
   // Open the DevTools.
