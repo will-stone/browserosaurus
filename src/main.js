@@ -1,4 +1,46 @@
 import electron, { app, BrowserWindow, Tray, Menu, protocol } from 'electron'
+import jp from 'jsonpath'
+
+import { spawn } from 'child_process'
+import parser from 'xml2json'
+
+const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
+
+let profile = ''
+const browsers = [
+  'Brave',
+  'Chromium',
+  'Firefox',
+  'Google Chrome',
+  'Maxthon',
+  'Opera',
+  'Safari',
+  'SeaMonkey',
+  'TorBrowser',
+  'Vivaldi'
+]
+
+sp.stdout.setEncoding('utf8')
+sp.stdout.on('data', data => {
+  profile += data
+})
+
+sp.stderr.on('data', data => {
+  console.log(`stderr: ${data}`)
+})
+
+sp.on('close', code => {
+  console.log(`child process exited with code ${code}`)
+})
+
+sp.stdout.on('end', function() {
+  profile = parser.toJson(profile, { object: true })
+  const installedBrowsers = jp
+    .query(profile, 'plist.array.dict.array[1].dict[*].string[0]')
+    .filter(item => browsers.indexOf(item) > -1)
+  console.log(installedBrowsers)
+  console.log('Finished collecting data chunks.')
+})
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -51,7 +93,7 @@ function createMainWindow() {
 
   // Open the DevTools.
   // if (process.env.ENV === 'DEV') {
-  // mainWindow.webContents.openDevTools({ mode: 'detach' })
+  //   mainWindow.webContents.openDevTools({ mode: 'detach' })
   // }
 
   mainWindow.on('blur', e => {
