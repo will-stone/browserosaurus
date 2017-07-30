@@ -6,10 +6,10 @@
 
 `cd browserosaurus`
 
-`yarn`
+`npm install` (not Yarn)
 
-`yarn start`
+`npm start`
 
 ### Make icon.icns
 
-To build an icns file from `src/images/icon/icon.png`, simply run `yarn icns`.
+To build an icns file from `src/images/icon/icon.png`, simply run `npm run icns`.
