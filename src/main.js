@@ -18,14 +18,13 @@ function createMainWindow() {
     height: 50,
     acceptFirstMouse: true,
     alwaysOnTop: true,
-    // backgroundColor: '#191917',
     icon: `${__dirname}/images/icon/icon.png`,
     frame: false,
     resizable: false,
     movable: false,
-    transparent: true,
     show: false,
-    title: 'Browserosaurus'
+    title: 'Browserosaurus',
+    backgroundColor: '#ffffff'
   })
 
   // and load the index.html of the app.
@@ -53,7 +52,7 @@ function createMainWindow() {
 
   // Open the DevTools.
   // if (process.env.ENV === 'DEV') {
-  //   mainWindow.webContents.openDevTools({ mode: 'detach' })
+  mainWindow.webContents.openDevTools({ mode: 'detach' })
   // }
 
   const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
@@ -119,7 +118,7 @@ app.on('ready', () => {
 })
 
 // Prompt to set as default browser
-// app.setAsDefaultProtocolClient('http')
+app.setAsDefaultProtocolClient('http')
 
 const showWindow = url => {
   if (mainWindow && mainWindow.webContents) {

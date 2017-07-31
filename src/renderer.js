@@ -8,33 +8,27 @@ electron.ipcRenderer.on('incomingURL', function(event, message) {
   url = message
 })
 
-// Listen for installedBrowsers
-electron.ipcRenderer.on('installedBrowsers', (event, installedBrowsers) => {
-  installedBrowsers.map(browser => {
-    const button = document.createElement('button') // Create an <li> node
-    const browserText = document.createTextNode(browser) // Create a text node
-    button.appendChild(browserText) // Append the text to <li>
-    document.body.appendChild(button) // Append <li> to <ul>
-  })
-})
-
-// Utils
-
 const openBrowser = appName =>
   opn(url, { app: appName, wait: false })
     .then(t => {
       currentWindow.hide()
       url = null
     })
-    .catch(e => console.log('bum'))
+    .catch(e =>
+      alert(
+        'Oh no! An error just occurred, please report this as a  GitHub issue.'
+      )
+    )
 
-// Browser Buttons
-
-// const firefox = document.getElementById('firefox')
-// firefox.addEventListener('click', () => openBrowser('firefox'))
-
-// const chrome = document.getElementById('chrome')
-// chrome.addEventListener('click', () => openBrowser('google chrome'))
-
-// const safari = document.getElementById('safari')
-// safari.addEventListener('click', () => openBrowser('safari'))
+// Listen for installedBrowsers
+electron.ipcRenderer.on('installedBrowsers', (event, installedBrowsers) => {
+  console.log(installedBrowsers)
+  installedBrowsers.map(browser => {
+    document.getElementById('loading').style.display = 'none'
+    const button = document.createElement('button')
+    const browserText = document.createTextNode(browser)
+    button.appendChild(browserText)
+    document.body.appendChild(button)
+    button.addEventListener('click', () => openBrowser(browser))
+  })
+})
