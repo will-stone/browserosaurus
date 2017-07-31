@@ -14,8 +14,8 @@ let willQuitApp = false
 function createMainWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 200,
-    height: 50,
+    width: 160,
+    height: 32,
     acceptFirstMouse: true,
     alwaysOnTop: true,
     icon: `${__dirname}/images/icon/icon.png`,
@@ -24,7 +24,7 @@ function createMainWindow() {
     movable: false,
     show: false,
     title: 'Browserosaurus',
-    backgroundColor: '#ffffff'
+    backgroundColor: '#111111'
   })
 
   // and load the index.html of the app.
@@ -35,25 +35,26 @@ function createMainWindow() {
   // })
 
   // Menubar icon
-  // tray = new Tray(path.join(__dirname, 'images/icon/tray_iconTemplate.png'))
-  // tray.setPressedImage(
-  //   path.join(__dirname, 'images/icon/tray_iconHighlight.png')
-  // )
-  // const contextMenu = Menu.buildFromTemplate([
-  //   {
-  //     label: 'Quit',
-  //     click: function() {
-  //       app.quit()
-  //     }
-  //   }
-  // ])
-  // tray.setToolTip('Browserosaurus')
-  // tray.setContextMenu(contextMenu)
+  tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
+  tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Quit',
+      click: function() {
+        app.quit()
+      }
+    }
+  ])
+  tray.setToolTip('Browserosaurus')
+  tray.setContextMenu(contextMenu)
 
   // Open the DevTools.
   // if (process.env.ENV === 'DEV') {
-  mainWindow.webContents.openDevTools({ mode: 'detach' })
+  // mainWindow.webContents.openDevTools({ mode: 'detach' })
   // }
+
+  // Hide dock icon
+  app.dock.hide()
 
   const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
 

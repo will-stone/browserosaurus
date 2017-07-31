@@ -26,8 +26,11 @@ electron.ipcRenderer.on('installedBrowsers', (event, installedBrowsers) => {
   installedBrowsers.map(browser => {
     document.getElementById('loading').style.display = 'none'
     const button = document.createElement('button')
-    const browserText = document.createTextNode(browser)
-    button.appendChild(browserText)
+    // const browserText = document.createTextNode(browser)
+    // button.appendChild(browserText)
+    const browserLogo = document.createElement('img')
+    browserLogo.src = `images/browser-logos/${browser}.png`
+    button.appendChild(browserLogo)
     document.body.appendChild(button)
     button.addEventListener('click', () => openBrowser(browser))
   })

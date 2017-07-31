@@ -8,21 +8,25 @@ body {
 }
 
 body {
-  display: flex;
   margin: 0;
-  padding: 1px;
+  padding: 0;
 }
 
 button {
-  flex-grow: 1;
+  width: 32px;
+  height: 32px;
   padding: 0;
   border-width: 0;
   outline: none;
-  background-color: white;
+  background-color: transparent;
   font-size: 14px;
 
   &:hover {
-    color: white;
-    background-color: royalblue;
+    background-color: white;
   }
+}
+
+button > img {
+  width: 100%;
+  height: 100%;
 }
