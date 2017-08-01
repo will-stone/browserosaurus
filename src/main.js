@@ -15,7 +15,7 @@ function createMainWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 160,
-    height: 32,
+    height: 64,
     acceptFirstMouse: true,
     alwaysOnTop: true,
     icon: `${__dirname}/images/icon/icon.png`,
