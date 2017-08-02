@@ -6,14 +6,14 @@ import parser from 'xml2json'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow = null
+let pickerWindow = null
 
 let tray = null
 let willQuitApp = false
 
-function createMainWindow() {
+function createPickerWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({
+  pickerWindow = new BrowserWindow({
     width: 160,
     height: 64,
     acceptFirstMouse: true,
@@ -28,7 +28,7 @@ function createMainWindow() {
   })
 
   // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/index.html`)
+  pickerWindow.loadURL(`file://${__dirname}/index.html`)
 
   // mainWindow.once('ready-to-show', () => {
   //   mainWindow.show()
@@ -49,9 +49,9 @@ function createMainWindow() {
   tray.setContextMenu(contextMenu)
 
   // Open the DevTools.
-  // if (process.env.ENV === 'DEV') {
-  // mainWindow.webContents.openDevTools({ mode: 'detach' })
-  // }
+  if (process.env.ENV === 'DEV') {
+    pickerWindow.webContents.openDevTools({ mode: 'detach' })
+  }
 
   // Hide dock icon
   app.dock.hide()
@@ -76,35 +76,26 @@ function createMainWindow() {
   sp.stdout.on('data', data => {
     profile += data
   })
-
-  sp.stderr.on('data', data => {
-    console.log(`stderr: ${data}`)
-  })
-
-  sp.on('close', code => {
-    console.log(`child process exited with code ${code}`)
-  })
-
   sp.stdout.on('end', () => {
     profile = parser.toJson(profile, { object: true })
     const installedBrowsers = jp
       .query(profile, 'plist.array.dict.array[1].dict[*].string[0]')
       .filter(item => browsers.indexOf(item) > -1)
-    mainWindow.webContents.send('installedBrowsers', installedBrowsers)
+    pickerWindow.webContents.send('installedBrowsers', installedBrowsers)
   })
 
-  mainWindow.on('blur', e => {
-    mainWindow.hide()
+  pickerWindow.on('blur', e => {
+    pickerWindow.hide()
   })
 
-  mainWindow.on('close', e => {
+  pickerWindow.on('close', e => {
     if (willQuitApp) {
       /* the user tried to quit the app */
-      mainWindow = null
+      pickerWindow = null
     } else {
       /* the user only tried to close the window */
       e.preventDefault()
-      mainWindow.hide()
+      pickerWindow.hide()
     }
   })
 }
@@ -113,8 +104,8 @@ function createMainWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  if (!mainWindow) {
-    createMainWindow()
+  if (!pickerWindow) {
+    createPickerWindow()
   }
 })
 
@@ -122,11 +113,11 @@ app.on('ready', () => {
 app.setAsDefaultProtocolClient('http')
 
 const showWindow = url => {
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send('incomingURL', url)
+  if (pickerWindow && pickerWindow.webContents) {
+    pickerWindow.webContents.send('incomingURL', url)
     const cursorScreenPoint = electron.screen.getCursorScreenPoint()
-    mainWindow.setPosition(cursorScreenPoint.x, cursorScreenPoint.y)
-    mainWindow.show()
+    pickerWindow.setPosition(cursorScreenPoint.x, cursorScreenPoint.y)
+    pickerWindow.show()
   } else {
     setTimeout(() => showWindow(url), 200)
   }
