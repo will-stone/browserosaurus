@@ -11,10 +11,46 @@ let pickerWindow = null
 let tray = null
 let willQuitApp = false
 
-function createPickerWindow() {
+const findInstalledBrowsers = () => {
+  return new Promise((fulfill, reject) => {
+    const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
+
+    let profile = ''
+    const browsers = [
+      'Brave',
+      'Chromium',
+      'Firefox',
+      'Google Chrome',
+      'Maxthon',
+      'Opera',
+      'Safari',
+      'SeaMonkey',
+      'TorBrowser',
+      'Vivaldi'
+    ]
+
+    sp.stdout.setEncoding('utf8')
+    sp.stdout.on('data', data => {
+      profile += data
+    })
+    sp.stderr.on('data', data => {
+      console.log(`stderr: ${data}`)
+      reject(data)
+    })
+    sp.stdout.on('end', () => {
+      profile = parser.toJson(profile, { object: true })
+      const installedBrowsers = jp
+        .query(profile, 'plist.array.dict.array[1].dict[*].string[0]')
+        .filter(item => browsers.indexOf(item) > -1)
+      fulfill(installedBrowsers)
+    })
+  })
+}
+
+function createPickerWindow(installedBrowsers) {
   // Create the browser window.
   pickerWindow = new BrowserWindow({
-    width: 160,
+    width: 128,
     height: 64,
     acceptFirstMouse: true,
     alwaysOnTop: true,
@@ -30,9 +66,9 @@ function createPickerWindow() {
   // and load the index.html of the app.
   pickerWindow.loadURL(`file://${__dirname}/index.html`)
 
-  // mainWindow.once('ready-to-show', () => {
-  //   mainWindow.show()
-  // })
+  pickerWindow.once('ready-to-show', () => {
+    pickerWindow.webContents.send('installedBrowsers', installedBrowsers)
+  })
 
   // Menubar icon
   tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
@@ -49,40 +85,12 @@ function createPickerWindow() {
   tray.setContextMenu(contextMenu)
 
   // Open the DevTools.
-  if (process.env.ENV === 'DEV') {
-    pickerWindow.webContents.openDevTools({ mode: 'detach' })
-  }
+  // if (process.env.ENV === 'DEV') {
+  //   pickerWindow.webContents.openDevTools({ mode: 'detach' })
+  // }
 
   // Hide dock icon
   app.dock.hide()
-
-  const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
-
-  let profile = ''
-  const browsers = [
-    'Brave',
-    'Chromium',
-    'Firefox',
-    'Google Chrome',
-    'Maxthon',
-    'Opera',
-    'Safari',
-    'SeaMonkey',
-    'TorBrowser',
-    'Vivaldi'
-  ]
-
-  sp.stdout.setEncoding('utf8')
-  sp.stdout.on('data', data => {
-    profile += data
-  })
-  sp.stdout.on('end', () => {
-    profile = parser.toJson(profile, { object: true })
-    const installedBrowsers = jp
-      .query(profile, 'plist.array.dict.array[1].dict[*].string[0]')
-      .filter(item => browsers.indexOf(item) > -1)
-    pickerWindow.webContents.send('installedBrowsers', installedBrowsers)
-  })
 
   pickerWindow.on('blur', e => {
     pickerWindow.hide()
@@ -100,18 +108,6 @@ function createPickerWindow() {
   })
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', () => {
-  if (!pickerWindow) {
-    createPickerWindow()
-  }
-})
-
-// Prompt to set as default browser
-app.setAsDefaultProtocolClient('http')
-
 const showWindow = url => {
   if (pickerWindow && pickerWindow.webContents) {
     pickerWindow.webContents.send('incomingURL', url)
@@ -123,10 +119,24 @@ const showWindow = url => {
   }
 }
 
-app.on('open-url', (event, url) => {
-  event.preventDefault()
-  showWindow(url)
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready', () => {
+  if (!pickerWindow) {
+    findInstalledBrowsers().then(installedBrowsers => {
+      createPickerWindow(installedBrowsers)
+
+      app.on('open-url', (event, url) => {
+        event.preventDefault()
+        showWindow(url)
+      })
+    })
+  }
 })
+
+// Prompt to set as default browser
+// app.setAsDefaultProtocolClient('http')
 
 /* 'before-quit' is emitted when Electron receives 
  * the signal to exit and wants to start closing windows */
