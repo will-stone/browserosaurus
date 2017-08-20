@@ -5,6 +5,9 @@
 html,
 body {
   height: 100%;
+  color: white;
+  font-family: sans-serif;
+  font-size: 16px;
 }
 
 body {
@@ -12,22 +15,34 @@ body {
   padding: 0;
 }
 
-button {
-  display: inline-block;
-  width: 32px;
-  height: 32px;
+#browserList {
+  margin: 0;
   padding: 0;
-  border-width: 0;
-  outline: none;
-  background-color: transparent;
 
-  &:hover {
-    background-color: white;
+   > li {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 200ms linear;
+    border-width: 0;
+    outline: none;
+    background-color: transparent;
+
+    &:hover {
+      color: #111111;
+      background-color: white;
+    }
   }
-}
 
-button > img {
-  display: block;
-  width: 32px;
-  height: 32px;
+  img {
+    display: block;
+    width: 32px;
+    height: 32px;
+  }
+
+  span {
+    display: block;
+    margin-left: 1rem;
+  }
 }

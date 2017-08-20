@@ -3,27 +3,20 @@ const opn = require('opn')
 const currentWindow = electron.remote.getCurrentWindow()
 let url = null
 
-// electron.ipcRenderer.send('pickerReady', 1)
-
-// electron.ipcRenderer.on('async-reply', (event, arg) => {
-//   // Print 2
-//   console.log(arg);
-//   // Send sync message to main process
-//   let mainValue = ipcRenderer.sendSync('sync', 3);
-//   // Print 4
-//   console.log(mainValue);
-// });
-
 // Listen for URL
-electron.ipcRenderer.on('incomingURL', (event, message) => (url = message))
+electron.ipcRenderer.on('incomingURL', (event, message) => {
+  const urlField = document.getElementById('url')
+  urlField.innerText = message
+  url = message
+})
 
 const openBrowser = appName =>
   opn(url, { app: appName, wait: false })
-    .then(t => {
+    .then(() => {
       currentWindow.hide()
       url = null
     })
-    .catch(e =>
+    .catch(() =>
       alert(
         'Oh no! An error just occurred, please report this as a  GitHub issue. Opened URL was ' +
           url
@@ -32,13 +25,19 @@ const openBrowser = appName =>
 
 // Listen for installedBrowsers
 electron.ipcRenderer.on('installedBrowsers', (event, installedBrowsers) => {
+  const browserList = document.getElementById('browserList')
+  document.getElementById('loading').style.display = 'none'
   installedBrowsers.map(browser => {
-    document.getElementById('loading').style.display = 'none'
-    const button = document.createElement('button')
+    const listItem = document.createElement('li')
     const browserLogo = document.createElement('img')
     browserLogo.src = `images/browser-logos/${browser}.png`
-    button.appendChild(browserLogo)
-    document.body.appendChild(button)
-    button.addEventListener('click', () => openBrowser(browser))
+    listItem.appendChild(browserLogo)
+
+    const browserName = document.createElement('span')
+    browserName.innerText = browser
+    listItem.appendChild(browserName)
+
+    listItem.addEventListener('click', () => openBrowser(browser))
+    browserList.appendChild(listItem)
   })
 })

@@ -1,9 +1,4 @@
-import electron, {
-  app,
-  BrowserWindow,
-  Tray,
-  Menu //protocol
-} from 'electron'
+import { app, BrowserWindow, Tray, Menu } from 'electron'
 import jp from 'jsonpath'
 
 // This allows for log messages to be sent to console.app
@@ -63,8 +58,8 @@ const findInstalledBrowsers = () => {
 function createPickerWindow(callback) {
   // Create the browser window.
   pickerWindow = new BrowserWindow({
-    width: 128,
-    height: 64,
+    width: 400,
+    height: 600,
     acceptFirstMouse: true,
     alwaysOnTop: true,
     icon: `${__dirname}/images/icon/icon.png`,
@@ -78,10 +73,6 @@ function createPickerWindow(callback) {
 
   // and load the index.html of the app.
   pickerWindow.loadURL(`file://${__dirname}/index.html`)
-
-  // pickerWindow.once('ready-to-show', () =>
-  //   pickerWindow.webContents.send('installedBrowsers', installedBrowsers)
-  // )
 
   // Menubar icon
   tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
@@ -97,12 +88,7 @@ function createPickerWindow(callback) {
   tray.setToolTip('Browserosaurus')
   tray.setContextMenu(contextMenu)
 
-  // Open the DevTools.
-  // if (process.env.ENV === 'DEV') {
-  // pickerWindow.webContents.openDevTools({ mode: 'detach' })
-  // }
-
-  pickerWindow.on('blur', e => {
+  pickerWindow.on('blur', () => {
     pickerWindow.hide()
   })
 
@@ -124,8 +110,8 @@ function createPickerWindow(callback) {
 
 const sendUrlToRenderer = url => {
   pickerWindow.webContents.send('incomingURL', url)
-  const cursorScreenPoint = electron.screen.getCursorScreenPoint()
-  pickerWindow.setPosition(cursorScreenPoint.x, cursorScreenPoint.y)
+  // const cursorScreenPoint = electron.screen.getCursorScreenPoint()
+  // pickerWindow.setPosition(cursorScreenPoint.x, cursorScreenPoint.y)
   pickerWindow.show()
 }
 
@@ -136,6 +122,7 @@ app.on('ready', () => {
       pickerWindow.once('ready-to-show', () => {
         pickerWindow.webContents.send('installedBrowsers', installedBrowsers)
         eventEmitter.emit('pickerWindowReady')
+        // pickerWindow.webContents.openDevTools({ mode: 'detach' })
       })
     })
   })
@@ -156,7 +143,7 @@ app.on('open-url', (event, url) => {
 })
 
 // Prompt to set as default browser
-// app.setAsDefaultProtocolClient('http')
+app.setAsDefaultProtocolClient('http')
 
 /* 'before-quit' is emitted when Electron receives 
  * the signal to exit and wants to start closing windows */
