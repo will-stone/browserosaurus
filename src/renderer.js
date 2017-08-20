@@ -3,10 +3,19 @@ const opn = require('opn')
 const currentWindow = electron.remote.getCurrentWindow()
 let url = null
 
+// electron.ipcRenderer.send('pickerReady', 1)
+
+// electron.ipcRenderer.on('async-reply', (event, arg) => {
+//   // Print 2
+//   console.log(arg);
+//   // Send sync message to main process
+//   let mainValue = ipcRenderer.sendSync('sync', 3);
+//   // Print 4
+//   console.log(mainValue);
+// });
+
 // Listen for URL
-electron.ipcRenderer.on('incomingURL', function(event, message) {
-  url = message
-})
+electron.ipcRenderer.on('incomingURL', (event, message) => (url = message))
 
 const openBrowser = appName =>
   opn(url, { app: appName, wait: false })
@@ -16,7 +25,8 @@ const openBrowser = appName =>
     })
     .catch(e =>
       alert(
-        'Oh no! An error just occurred, please report this as a  GitHub issue.'
+        'Oh no! An error just occurred, please report this as a  GitHub issue. Opened URL was ' +
+          url
       )
     )
 

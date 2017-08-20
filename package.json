@@ -23,11 +23,17 @@
   "author": "Will Stone",
   "license": "MIT",
   "devDependencies": {
+    "babel-eslint": "7.2.3",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.5.1",
     "babel-preset-react": "^6.24.1",
     "electron-forge": "^3.0.5",
     "electron-prebuilt-compile": "1.6.8",
+    "eslint": "3.19.0",
+    "eslint-plugin-flowtype": "2.33.0",
+    "eslint-plugin-import": "2.2.0",
+    "eslint-plugin-jsx-a11y": "5.0.1",
+    "eslint-plugin-react": "7.0.1",
     "lite-server": "^2.3.0",
     "prettier": "^1.4.4"
   },
@@ -36,6 +42,7 @@
     "electron-compile": "^6.4.1",
     "jsonpath": "^0.2.11",
     "minireset.css": "^0.0.3",
+    "nslog": "^3.0.0",
     "opn": "^5.1.0",
     "xml2js": "^0.4.17",
     "xml2json": "^0.11.0"

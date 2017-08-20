@@ -1,15 +1,23 @@
 import electron, { app, BrowserWindow, Tray, Menu, protocol } from 'electron'
 import jp from 'jsonpath'
 
+// This allows for log messages to be sent to console.app
+// import nslog from 'nslog'
+//  e.g. nslog('message')
+
 import { spawn } from 'child_process'
 import parser from 'xml2json'
+
+const EventEmitter = require('events')
+
+const eventEmitter = new EventEmitter()
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let pickerWindow = null
-
 let tray = null
 let willQuitApp = false
+let appIsReady = false
 
 const findInstalledBrowsers = () => {
   return new Promise((fulfill, reject) => {
@@ -20,6 +28,7 @@ const findInstalledBrowsers = () => {
       'Brave',
       'Chromium',
       'Firefox',
+      'FirefoxNightly',
       'Google Chrome',
       'Maxthon',
       'Opera',
@@ -47,7 +56,7 @@ const findInstalledBrowsers = () => {
   })
 }
 
-function createPickerWindow(installedBrowsers) {
+function createPickerWindow(callback) {
   // Create the browser window.
   pickerWindow = new BrowserWindow({
     width: 128,
@@ -66,9 +75,9 @@ function createPickerWindow(installedBrowsers) {
   // and load the index.html of the app.
   pickerWindow.loadURL(`file://${__dirname}/index.html`)
 
-  pickerWindow.once('ready-to-show', () => {
-    pickerWindow.webContents.send('installedBrowsers', installedBrowsers)
-  })
+  // pickerWindow.once('ready-to-show', () =>
+  //   pickerWindow.webContents.send('installedBrowsers', installedBrowsers)
+  // )
 
   // Menubar icon
   tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
@@ -86,11 +95,8 @@ function createPickerWindow(installedBrowsers) {
 
   // Open the DevTools.
   // if (process.env.ENV === 'DEV') {
-  //   pickerWindow.webContents.openDevTools({ mode: 'detach' })
+  // pickerWindow.webContents.openDevTools({ mode: 'detach' })
   // }
-
-  // Hide dock icon
-  app.dock.hide()
 
   pickerWindow.on('blur', e => {
     pickerWindow.hide()
@@ -106,31 +112,41 @@ function createPickerWindow(installedBrowsers) {
       pickerWindow.hide()
     }
   })
-}
 
-const showWindow = url => {
-  if (pickerWindow && pickerWindow.webContents) {
-    pickerWindow.webContents.send('incomingURL', url)
-    const cursorScreenPoint = electron.screen.getCursorScreenPoint()
-    pickerWindow.setPosition(cursorScreenPoint.x, cursorScreenPoint.y)
-    pickerWindow.show()
-  } else {
-    setTimeout(() => showWindow(url), 200)
+  if (callback) {
+    callback()
   }
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', () => {
-  if (!pickerWindow) {
-    findInstalledBrowsers().then(installedBrowsers => {
-      createPickerWindow(installedBrowsers)
+const sendUrlToRenderer = url => {
+  pickerWindow.webContents.send('incomingURL', url)
+  const cursorScreenPoint = electron.screen.getCursorScreenPoint()
+  pickerWindow.setPosition(cursorScreenPoint.x, cursorScreenPoint.y)
+  pickerWindow.show()
+}
 
-      app.on('open-url', (event, url) => {
-        event.preventDefault()
-        showWindow(url)
+app.on('ready', () => {
+  appIsReady = true
+  findInstalledBrowsers().then(installedBrowsers => {
+    createPickerWindow(() => {
+      pickerWindow.once('ready-to-show', () => {
+        pickerWindow.webContents.send('installedBrowsers', installedBrowsers)
+        eventEmitter.emit('pickerWindowReady')
       })
+    })
+  })
+})
+
+// Hide dock icon
+app.dock.hide()
+
+app.on('open-url', (event, url) => {
+  event.preventDefault()
+  if (appIsReady) {
+    sendUrlToRenderer(url)
+  } else {
+    app.on('ready', () => {
+      eventEmitter.on('pickerWindowReady', () => sendUrlToRenderer(url))
     })
   }
 })
