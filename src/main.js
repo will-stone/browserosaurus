@@ -1,4 +1,9 @@
-import electron, { app, BrowserWindow, Tray, Menu, protocol } from 'electron'
+import electron, {
+  app,
+  BrowserWindow,
+  Tray,
+  Menu //protocol
+} from 'electron'
 import jp from 'jsonpath'
 
 // This allows for log messages to be sent to console.app
@@ -9,7 +14,6 @@ import { spawn } from 'child_process'
 import parser from 'xml2json'
 
 const EventEmitter = require('events')
-
 const eventEmitter = new EventEmitter()
 
 // Keep a global reference of the window object, if you don't, the window will
