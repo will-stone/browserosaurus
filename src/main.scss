@@ -28,6 +28,16 @@ body {
 #browserList {
   margin: 0;
   padding: 0;
+  transition: all 200ms ease-in;
+  transform: scaleY(0);
+  transform-origin: center top;
+  opacity: 0;
+
+  .is-open & {
+    transition-timing-function: ease-out;
+    transform: scaleY(1);
+    opacity: 1;
+  }
 
    > li {
     display: flex;
@@ -37,7 +47,7 @@ body {
     transition: all 200ms linear;
     border-width: 0;
     outline: none;
-    background-color: transparent;
+    background-color: #111111;
 
     &:hover,
     &.active {
@@ -45,20 +55,29 @@ body {
       background-color: white;
     }
   }
+}
 
-  .browserLogo {
-    display: block;
-    width: 32px;
-    height: 32px;
-    margin-right: 1rem;
-  }
+.browserLogo {
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin-right: 1rem;
+  opacity: 0;
+}
 
-  .browserName {
-    margin-right: auto;
-  }
+.browserName {
+  margin-right: auto;
+  opacity: 0;
+}
 
-  .browserKey {
-    opacity: 0.3;
-    font-weight: bold;
-  }
+.browserKey {
+  opacity: 0.3;
+  opacity: 0;
+  font-weight: bold;
+}
+
+.is-open .browserLogo,
+.is-open .browserName,
+.is-open .browserKey {
+  opacity: 1;
 }

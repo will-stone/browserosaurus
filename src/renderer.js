@@ -3,6 +3,15 @@ const opn = require('opn')
 const currentWindow = electron.remote.getCurrentWindow()
 const Mousetrap = require('mousetrap')
 let url = null
+const browserList = document.getElementById('browserList')
+
+const closeWindow = () => {
+  document.body.classList.remove('is-open')
+  setTimeout(() => {
+    currentWindow.hide()
+    url = null
+  }, 300)
+}
 
 // Listen for URL
 electron.ipcRenderer.on('incomingURL', (event, message) => {
@@ -11,12 +20,21 @@ electron.ipcRenderer.on('incomingURL', (event, message) => {
   url = message
 })
 
+electron.ipcRenderer.on('open', () => {
+  document.body.classList.add('is-open')
+})
+
+electron.ipcRenderer.on('close', () => {
+  closeWindow()
+})
+
+Mousetrap.bind('esc', () => {
+  closeWindow()
+})
+
 const openBrowser = appName =>
   opn(url, { app: appName, wait: false })
-    .then(() => {
-      currentWindow.hide()
-      url = null
-    })
+    .then(() => closeWindow())
     .catch(() =>
       alert(
         'Oh no! An error just occurred, please report this as a  GitHub issue. Opened URL was ' +
@@ -26,7 +44,6 @@ const openBrowser = appName =>
 
 // Listen for installedBrowsers
 electron.ipcRenderer.on('installedBrowsers', (event, installedBrowsers) => {
-  const browserList = document.getElementById('browserList')
   document.getElementById('loading').style.display = 'none'
   installedBrowsers
     .map(browser => {

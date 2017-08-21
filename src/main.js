@@ -5,12 +5,6 @@ import parser from 'xml2json'
 
 import browsers from './browsers'
 
-// This allows for log messages to be sent to console.app
-// import nslog from 'nslog'
-//  e.g. nslog('message')
-
-const devMode = false
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let pickerWindow = null
@@ -66,7 +60,9 @@ function createPickerWindow(numberOfBrowsers, callback) {
     movable: false,
     show: false,
     title: 'Browserosaurus',
-    backgroundColor: '#111111'
+    // backgroundColor: '#111111',
+    transparent: true,
+    hasShadow: false
   })
 
   // and load the index.html of the app.
@@ -86,11 +82,10 @@ function createPickerWindow(numberOfBrowsers, callback) {
   tray.setToolTip('Browserosaurus')
   tray.setContextMenu(contextMenu)
 
-  if (!devMode) {
-    pickerWindow.on('blur', () => {
-      pickerWindow.hide()
-    })
-  }
+  pickerWindow.on('blur', () => {
+    pickerWindow.webContents.send('close', true)
+    setTimeout(() => pickerWindow.hide(), 300)
+  })
 
   if (callback) {
     callback()
@@ -101,6 +96,7 @@ const sendUrlToRenderer = url => {
   pickerWindow.webContents.send('incomingURL', url)
   pickerWindow.center() // moves window to current screen
   pickerWindow.show()
+  pickerWindow.webContents.send('open', true)
 }
 
 app.on('ready', () => {
@@ -113,9 +109,7 @@ app.on('ready', () => {
           sendUrlToRenderer(global.URLToOpen)
           global.URLToOpen = null
         }
-        if (devMode) {
-          pickerWindow.webContents.openDevTools({ mode: 'detach' })
-        }
+        // pickerWindow.webContents.openDevTools({ mode: 'detach' })
       })
     })
   })
@@ -134,6 +128,4 @@ app.on('open-url', (event, url) => {
 })
 
 // Prompt to set as default browser
-if (devMode) {
-  app.setAsDefaultProtocolClient('http')
-}
+// app.setAsDefaultProtocolClient('http')
