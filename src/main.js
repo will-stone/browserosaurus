@@ -1,21 +1,20 @@
 import { app, BrowserWindow, Tray, Menu } from 'electron'
 import jp from 'jsonpath'
+import { spawn } from 'child_process'
+import parser from 'xml2json'
+
+import browsers from './browsers'
 
 // This allows for log messages to be sent to console.app
 // import nslog from 'nslog'
 //  e.g. nslog('message')
 
-import { spawn } from 'child_process'
-import parser from 'xml2json'
-
-const EventEmitter = require('events')
-const eventEmitter = new EventEmitter()
+const devMode = false
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let pickerWindow = null
 let tray = null
-let willQuitApp = false
 let appIsReady = false
 
 const findInstalledBrowsers = () => {
@@ -23,19 +22,6 @@ const findInstalledBrowsers = () => {
     const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
 
     let profile = ''
-    const browsers = [
-      'Brave',
-      'Chromium',
-      'Firefox',
-      'FirefoxNightly',
-      'Google Chrome',
-      'Maxthon',
-      'Opera',
-      'Safari',
-      'SeaMonkey',
-      'TorBrowser',
-      'Vivaldi'
-    ]
 
     sp.stdout.setEncoding('utf8')
     sp.stdout.on('data', data => {
@@ -47,19 +33,31 @@ const findInstalledBrowsers = () => {
     })
     sp.stdout.on('end', () => {
       profile = parser.toJson(profile, { object: true })
-      const installedBrowsers = jp
-        .query(profile, 'plist.array.dict.array[1].dict[*].string[0]')
-        .filter(item => browsers.indexOf(item) > -1)
+      const installedApps = jp.query(
+        profile,
+        'plist.array.dict.array[1].dict[*].string[0]'
+      )
+      const installedBrowsers = installedApps
+        .map(appName => {
+          for (let i = 0; i < browsers.length; i++) {
+            const browser = browsers[i]
+            if (browser.name === appName) {
+              return browser
+            }
+          }
+          return false
+        })
+        .filter(x => x) // remove empties
       fulfill(installedBrowsers)
     })
   })
 }
 
-function createPickerWindow(callback) {
+function createPickerWindow(numberOfBrowsers, callback) {
   // Create the browser window.
   pickerWindow = new BrowserWindow({
     width: 400,
-    height: 600,
+    height: numberOfBrowsers * 64 + 48,
     acceptFirstMouse: true,
     alwaysOnTop: true,
     icon: `${__dirname}/images/icon/icon.png`,
@@ -88,20 +86,11 @@ function createPickerWindow(callback) {
   tray.setToolTip('Browserosaurus')
   tray.setContextMenu(contextMenu)
 
-  pickerWindow.on('blur', () => {
-    pickerWindow.hide()
-  })
-
-  pickerWindow.on('close', e => {
-    if (willQuitApp) {
-      /* the user tried to quit the app */
-      pickerWindow = null
-    } else {
-      /* the user only tried to close the window */
-      e.preventDefault()
+  if (!devMode) {
+    pickerWindow.on('blur', () => {
       pickerWindow.hide()
-    }
-  })
+    })
+  }
 
   if (callback) {
     callback()
@@ -110,19 +99,23 @@ function createPickerWindow(callback) {
 
 const sendUrlToRenderer = url => {
   pickerWindow.webContents.send('incomingURL', url)
-  // const cursorScreenPoint = electron.screen.getCursorScreenPoint()
-  // pickerWindow.setPosition(cursorScreenPoint.x, cursorScreenPoint.y)
+  pickerWindow.center() // moves window to current screen
   pickerWindow.show()
 }
 
 app.on('ready', () => {
   appIsReady = true
   findInstalledBrowsers().then(installedBrowsers => {
-    createPickerWindow(() => {
+    createPickerWindow(installedBrowsers.length, () => {
       pickerWindow.once('ready-to-show', () => {
         pickerWindow.webContents.send('installedBrowsers', installedBrowsers)
-        eventEmitter.emit('pickerWindowReady')
-        // pickerWindow.webContents.openDevTools({ mode: 'detach' })
+        if (global.URLToOpen) {
+          sendUrlToRenderer(global.URLToOpen)
+          global.URLToOpen = null
+        }
+        if (devMode) {
+          pickerWindow.webContents.openDevTools({ mode: 'detach' })
+        }
       })
     })
   })
@@ -136,28 +129,11 @@ app.on('open-url', (event, url) => {
   if (appIsReady) {
     sendUrlToRenderer(url)
   } else {
-    app.on('ready', () => {
-      eventEmitter.on('pickerWindowReady', () => sendUrlToRenderer(url))
-    })
+    global.URLToOpen = url // this will be handled later in the createWindow callback
   }
 })
 
 // Prompt to set as default browser
-app.setAsDefaultProtocolClient('http')
-
-/* 'before-quit' is emitted when Electron receives 
- * the signal to exit and wants to start closing windows */
-app.on('before-quit', () => (willQuitApp = true))
-
-// Quit when all windows are closed. Except on darwin.
-app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q.
-  // Exceptions include System Preferences, App Store,
-  // Though there is no way to re-open the main window
-  // through the menu, but you can click on the dock icon.
-  // Noted in the README
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
+if (devMode) {
+  app.setAsDefaultProtocolClient('http')
+}

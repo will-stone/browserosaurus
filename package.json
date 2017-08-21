@@ -42,6 +42,7 @@
     "electron-compile": "^6.4.1",
     "jsonpath": "^0.2.11",
     "minireset.css": "^0.0.3",
+    "mousetrap": "^1.6.1",
     "nslog": "^3.0.0",
     "opn": "^5.1.0",
     "xml2js": "^0.4.17",

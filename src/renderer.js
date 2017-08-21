@@ -1,6 +1,7 @@
 const electron = require('electron')
 const opn = require('opn')
 const currentWindow = electron.remote.getCurrentWindow()
+const Mousetrap = require('mousetrap')
 let url = null
 
 // Listen for URL
@@ -27,17 +28,47 @@ const openBrowser = appName =>
 electron.ipcRenderer.on('installedBrowsers', (event, installedBrowsers) => {
   const browserList = document.getElementById('browserList')
   document.getElementById('loading').style.display = 'none'
-  installedBrowsers.map(browser => {
-    const listItem = document.createElement('li')
-    const browserLogo = document.createElement('img')
-    browserLogo.src = `images/browser-logos/${browser}.png`
-    listItem.appendChild(browserLogo)
+  installedBrowsers
+    .map(browser => {
+      // use alias as label if available, otherwise use name
+      if (!browser.alias) {
+        browser.alias = browser.name
+      }
+      return browser
+    })
+    .sort((a, b) => {
+      // alphabetise
+      if (a.alias < b.alias) return -1
+      if (a.alias > b.alias) return 1
+      return 0
+    })
+    .map(browser => {
+      const listItem = document.createElement('li')
 
-    const browserName = document.createElement('span')
-    browserName.innerText = browser
-    listItem.appendChild(browserName)
+      const browserLogo = document.createElement('img')
+      browserLogo.classList.add('browserLogo')
+      browserLogo.src = `images/browser-logos/${browser.name}.png`
+      listItem.appendChild(browserLogo)
 
-    listItem.addEventListener('click', () => openBrowser(browser))
-    browserList.appendChild(listItem)
-  })
+      const browserName = document.createElement('span')
+      browserName.classList.add('browserName')
+      browserName.innerText = browser.alias
+      listItem.appendChild(browserName)
+
+      const browserKey = document.createElement('span')
+      browserKey.classList.add('browserKey')
+      browserKey.innerText = browser.key
+      listItem.appendChild(browserKey)
+
+      listItem.addEventListener('click', () => openBrowser(browser.name))
+      browserList.appendChild(listItem)
+
+      Mousetrap.bind(browser.key, () => {
+        listItem.classList.add('active')
+        setTimeout(() => {
+          openBrowser(browser.name)
+          listItem.classList.remove('active')
+        }, 200)
+      })
+    })
 })

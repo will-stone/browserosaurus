@@ -15,6 +15,16 @@ body {
   padding: 0;
 }
 
+#url {
+  overflow: hidden;
+  height: 3rem;
+  padding: 1rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background-color: #333333;
+  line-height: 1rem;
+}
+
 #browserList {
   margin: 0;
   padding: 0;
@@ -29,20 +39,26 @@ body {
     outline: none;
     background-color: transparent;
 
-    &:hover {
+    &:hover,
+    &.active {
       color: #111111;
       background-color: white;
     }
   }
 
-  img {
+  .browserLogo {
     display: block;
     width: 32px;
     height: 32px;
+    margin-right: 1rem;
   }
 
-  span {
-    display: block;
-    margin-left: 1rem;
+  .browserName {
+    margin-right: auto;
+  }
+
+  .browserKey {
+    opacity: 0.3;
+    font-weight: bold;
   }
 }
