@@ -1,8 +1,8 @@
 {
   "name": "browserosaurus",
   "productName": "Browserosaurus",
-  "version": "1.0.1",
-  "description": "Choose which browser to use when you open a link",
+  "version": "1.0.2",
+  "description": "The browser prompter for macOS",
   "homepage": "",
   "main": "src/main.js",
   "scripts": {
@@ -33,6 +33,7 @@
     "prettier": "^1.4.4"
   },
   "dependencies": {
+    "about-window": "^1.7.1",
     "electron-compile": "^6.4.1",
     "jsonpath": "^0.2.11",
     "mousetrap": "^1.6.1",

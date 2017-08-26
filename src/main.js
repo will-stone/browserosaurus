@@ -2,6 +2,7 @@ import { app, BrowserWindow, Tray, Menu } from 'electron'
 import jp from 'jsonpath'
 import { spawn } from 'child_process'
 import parser from 'xml2json'
+import openAboutWindow from 'about-window'
 
 import browsers from './browsers'
 
@@ -71,6 +72,14 @@ function createPickerWindow(numberOfBrowsers, callback) {
   tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
   tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
   const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'About',
+      click: function() {
+        openAboutWindow({
+          icon_path: `${__dirname}/images/icon/icon.png`
+        })
+      }
+    },
     {
       label: 'Quit',
       click: function() {
