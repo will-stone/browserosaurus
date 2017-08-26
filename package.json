@@ -1,7 +1,7 @@
 {
   "name": "browserosaurus",
   "productName": "Browserosaurus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Choose which browser to use when you open a link",
   "homepage": "",
   "main": "src/main.js",
@@ -9,17 +9,13 @@
     "start": "ENV=DEV electron-forge start",
     "package": "electron-forge package --platform=darwin --arch=x64",
     "make": "electron-forge make",
-    "icns": "cd ./src/images/icon && ./png2icns.sh icon.png",
-    "docs": "lite-server"
+    "icns": "cd ./src/images/icon && ./png2icns.sh icon.png"
   },
   "repository": "https://github.com/will-stone/browserosaurus",
   "bugs": {
     "url": "https://github.com/will-stone/browserosaurus/issues"
   },
-  "keywords": [
-    "Electron",
-    "Browser chooser"
-  ],
+  "keywords": ["Electron", "Browser chooser"],
   "author": "Will Stone",
   "license": "MIT",
   "devDependencies": {
@@ -34,7 +30,6 @@
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "5.0.1",
     "eslint-plugin-react": "7.0.1",
-    "lite-server": "^2.3.0",
     "prettier": "^1.4.4"
   },
   "dependencies": {
@@ -47,28 +42,21 @@
   "config": {
     "forge": {
       "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
-        "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
-        ]
+        "win32": ["squirrel"],
+        "darwin": ["zip"],
+        "linux": ["deb", "rpm"]
       },
       "electronPackagerConfig": {
         "icon": "src/images/icon/icon.icns",
-        "ignore": [
-          "docs"
-        ],
+        "ignore": ["docs"],
         "protocols": [
           {
             "name": "HTTP link",
-            "schemes": [
-              "http"
-            ]
+            "schemes": ["http", "https"]
+          },
+          {
+            "name": "File",
+            "schemes": ["file"]
           }
         ]
       }

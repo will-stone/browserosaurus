@@ -60,7 +60,6 @@ function createPickerWindow(numberOfBrowsers, callback) {
     movable: false,
     show: false,
     title: 'Browserosaurus',
-    // backgroundColor: '#111111',
     transparent: true,
     hasShadow: false
   })
@@ -101,6 +100,9 @@ const sendUrlToRenderer = url => {
 
 app.on('ready', () => {
   appIsReady = true
+  // Prompt to set as default browser
+  app.setAsDefaultProtocolClient('http')
+
   findInstalledBrowsers().then(installedBrowsers => {
     createPickerWindow(installedBrowsers.length, () => {
       pickerWindow.once('ready-to-show', () => {
@@ -126,6 +128,3 @@ app.on('open-url', (event, url) => {
     global.URLToOpen = url // this will be handled later in the createWindow callback
   }
 })
-
-// Prompt to set as default browser
-// app.setAsDefaultProtocolClient('http')
