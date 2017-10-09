@@ -1,4 +1,5 @@
 export default [
+  { name: 'Google Chrome Canary', alias: 'Canary', key: 'a' },
   { name: 'Brave', key: 'b' },
   { name: 'Chromium', key: 'c' },
   { name: 'Firefox', key: 'f' },
