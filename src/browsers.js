@@ -2,6 +2,7 @@ export default [
   { name: 'Brave', key: 'b' },
   { name: 'Chromium', key: 'c' },
   { name: 'Firefox', key: 'f' },
+  { name: 'FirefoxDeveloperEdition', key: 'd' },
   { name: 'FirefoxNightly', alias: 'Nightly', key: 'n' },
   { name: 'Google Chrome', key: 'g' },
   { name: 'Google Chrome Canary', key: 'y' },
