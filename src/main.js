@@ -108,7 +108,6 @@ const sendUrlToRenderer = url => {
 }
 
 app.on('ready', () => {
-  appIsReady = true
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
 
@@ -120,6 +119,7 @@ app.on('ready', () => {
           sendUrlToRenderer(global.URLToOpen)
           global.URLToOpen = null
         }
+        appIsReady = true
         // pickerWindow.webContents.openDevTools({ mode: 'detach' })
       })
     })
