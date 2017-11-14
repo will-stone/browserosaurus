@@ -1,9 +1,9 @@
 {
   "name": "browserosaurus",
   "productName": "Browserosaurus",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "The browser prompter for macOS",
-  "homepage": "",
+  "homepage": "http://wstone.io/browserosaurus/",
   "main": "src/main.js",
   "scripts": {
     "start": "ENV=DEV electron-forge start",
@@ -15,10 +15,7 @@
   "bugs": {
     "url": "https://github.com/will-stone/browserosaurus/issues"
   },
-  "keywords": [
-    "Electron",
-    "Browser chooser"
-  ],
+  "keywords": ["Electron", "Browser chooser"],
   "author": "Will Stone",
   "license": "MIT",
   "devDependencies": {
@@ -46,35 +43,21 @@
   "config": {
     "forge": {
       "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
-        "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
-        ]
+        "win32": ["squirrel"],
+        "darwin": ["zip"],
+        "linux": ["deb", "rpm"]
       },
       "electronPackagerConfig": {
         "icon": "src/images/icon/icon.icns",
-        "ignore": [
-          "docs"
-        ],
+        "ignore": ["docs"],
         "protocols": [
           {
             "name": "HTTP link",
-            "schemes": [
-              "http",
-              "https"
-            ]
+            "schemes": ["http", "https"]
           },
           {
             "name": "File",
-            "schemes": [
-              "file"
-            ]
+            "schemes": ["file"]
           }
         ]
       }
