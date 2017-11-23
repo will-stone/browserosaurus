@@ -1,7 +1,7 @@
 {
   "name": "browserosaurus",
   "productName": "Browserosaurus",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "The browser prompter for macOS",
   "homepage": "http://wstone.io/browserosaurus/",
   "main": "src/main.js",
@@ -9,6 +9,8 @@
     "start": "ENV=DEV electron-forge start",
     "package": "electron-forge package --platform=darwin --arch=x64",
     "make": "electron-forge make",
+    "makedmg": "electron-forge make --targets dmg",
+    "makezip": "electron-forge make --targets zip",
     "icns": "cd ./src/images/icon && ./png2icns.sh icon.png"
   },
   "repository": "https://github.com/will-stone/browserosaurus",
@@ -26,18 +28,18 @@
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.5.1",
     "babel-preset-react": "^6.24.1",
-    "electron-forge": "^3.0.5",
-    "electron-prebuilt-compile": "1.6.8",
+    "electron-forge": "^4.1.3",
+    "electron-prebuilt-compile": "1.7.9",
     "eslint": "3.19.0",
     "eslint-plugin-flowtype": "2.33.0",
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "5.0.1",
     "eslint-plugin-react": "7.0.1",
-    "prettier": "^1.4.4"
+    "prettier": "^1.8.0"
   },
   "dependencies": {
     "about-window": "^1.7.1",
-    "electron-compile": "^6.4.1",
+    "electron-compile": "^6.4.2",
     "jsonpath": "^0.2.11",
     "mem-fs": "^1.1.3",
     "mem-fs-editor": "^3.0.2",
@@ -48,15 +50,9 @@
   "config": {
     "forge": {
       "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
         "darwin": [
+          "dmg",
           "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
         ]
       },
       "electronPackagerConfig": {
