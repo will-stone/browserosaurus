@@ -1,7 +1,8 @@
 {
   "version": "<%= version %>",
   "settings": {
-    "configMode": "override"
+    "configMode": "override",
+    "autoOrdering": true
   },
   "browsers": [
     {

@@ -245,10 +245,17 @@ app.on('ready', () => {
     findInstalledBrowsers().then(installedBrowsers => {
       createPickerWindow(installedBrowsers.length, () => {
         pickerWindow.once('ready-to-show', () => {
+          //TODO: Find a better way to check/merge configuration fields on user made JSON 
           pickerWindow.webContents.send(
             'installedBrowsers',
             installedBrowsers,
-            notifications
+            notifications,
+            {
+              autoOrdering:
+                configUser.settings.autoOrdering ||
+                (configDefault.settings.autoOrdering &&
+                  configUser.settings.autoOrdering !== false) // This whole thing is just ugly, but it will do the job
+            }
           )
           if (global.URLToOpen) {
             sendUrlToRenderer(global.URLToOpen)

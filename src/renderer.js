@@ -45,7 +45,7 @@ const openBrowser = appName =>
 // Listen for installedBrowsers
 electron.ipcRenderer.on(
   'installedBrowsers',
-  (event, installedBrowsers, notifications) => {
+  (event, installedBrowsers, notifications, settings) => {
     const listKeys = []
 
     document.getElementById('loading').style.display = 'none'
@@ -59,8 +59,11 @@ electron.ipcRenderer.on(
       })
       .sort((a, b) => {
         // alphabetise
-        if (a.alias < b.alias) return -1
-        if (a.alias > b.alias) return 1
+
+        if (settings.autoOrdering) {
+          if (a.alias < b.alias) return -1
+          if (a.alias > b.alias) return 1
+        }
         return 0
       })
       .map(browser => {
