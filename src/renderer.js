@@ -43,49 +43,64 @@ const openBrowser = appName =>
     )
 
 // Listen for installedBrowsers
-electron.ipcRenderer.on('installedBrowsers', (event, installedBrowsers) => {
-  document.getElementById('loading').style.display = 'none'
-  installedBrowsers
-    .map(browser => {
-      // use alias as label if available, otherwise use name
-      if (!browser.alias) {
-        browser.alias = browser.name
-      }
-      return browser
-    })
-    .sort((a, b) => {
-      // alphabetise
-      if (a.alias < b.alias) return -1
-      if (a.alias > b.alias) return 1
-      return 0
-    })
-    .map(browser => {
-      const listItem = document.createElement('li')
+electron.ipcRenderer.on(
+  'installedBrowsers',
+  (event, installedBrowsers, notifications) => {
+    const listKeys = []
 
-      const browserLogo = document.createElement('img')
-      browserLogo.classList.add('browserLogo')
-      browserLogo.src = `images/browser-logos/${browser.name}.png`
-      listItem.appendChild(browserLogo)
-
-      const browserName = document.createElement('span')
-      browserName.classList.add('browserName')
-      browserName.innerText = browser.alias
-      listItem.appendChild(browserName)
-
-      const browserKey = document.createElement('span')
-      browserKey.classList.add('browserKey')
-      browserKey.innerText = browser.key
-      listItem.appendChild(browserKey)
-
-      listItem.addEventListener('click', () => openBrowser(browser.name))
-      browserList.appendChild(listItem)
-
-      Mousetrap.bind(browser.key, () => {
-        listItem.classList.add('active')
-        setTimeout(() => {
-          openBrowser(browser.name)
-          listItem.classList.remove('active')
-        }, 200)
+    document.getElementById('loading').style.display = 'none'
+    installedBrowsers
+      .map(browser => {
+        // use alias as label if available, otherwise use name
+        if (!browser.alias) {
+          browser.alias = browser.name
+        }
+        return browser
       })
-    })
-})
+      .sort((a, b) => {
+        // alphabetise
+        if (a.alias < b.alias) return -1
+        if (a.alias > b.alias) return 1
+        return 0
+      })
+      .map(browser => {
+        const listItem = document.createElement('li')
+
+        browser.key = browser.key.trim()[0]
+
+        if (listKeys.indexOf(browser.key) == -1) {
+          listKeys.push(browser.key)
+        } else {
+          browser.key = ''
+        }
+
+        const browserLogo = document.createElement('img')
+        browserLogo.classList.add('browserLogo')
+        browserLogo.src = `images/browser-logos/${browser.icon ||
+          browser.name}.png`
+        listItem.appendChild(browserLogo)
+
+        const browserName = document.createElement('span')
+        browserName.classList.add('browserName')
+        browserName.innerText = browser.alias
+        listItem.appendChild(browserName)
+
+        const browserKey = document.createElement('span')
+        browserKey.classList.add('browserKey')
+        browserKey.innerText = browser.key
+        listItem.appendChild(browserKey)
+
+        listItem.addEventListener('click', () => openBrowser(browser.name))
+        browserList.appendChild(listItem)
+
+        if (browser.key != '')
+          Mousetrap.bind(browser.key, () => {
+            listItem.classList.add('active')
+            setTimeout(() => {
+              openBrowser(browser.name)
+              listItem.classList.remove('active')
+            }, 200)
+          })
+      })
+  }
+)

@@ -9,37 +9,43 @@ import openAboutWindow from 'about-window'
 import memFs from 'mem-fs'
 import editor from 'mem-fs-editor'
 
+class Notification {
+  constructor(type, msg) {
+    this.type = type
+    this.msg = msg
+  }
+}
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let pickerWindow = null
 let tray = null
 let appIsReady = false
 
-let configFileName = 'browserosaurus.json'
+let configFileName = '.config/browserosaurus.json'
 
-var browsers = {}
-var config = {}
+let configDefault = {}
+let configUser = {}
+let notifications = []
 var version = app.getVersion()
 
 const loadConfig = () => {
   return new Promise((fulfill, reject) => {
-    var notifications = []
-
     var configPath = require('os').homedir() + '/' + configFileName
     var configLocalPath = './src/browserosaurus.json'
 
     var store = memFs.create()
     var fs = editor.create(store)
 
-    var configUser = fs.read(configPath, {
+    var configUserFile = fs.read(configPath, {
       defaults: null
     })
-    var configDefault = fs.read(configLocalPath, {
+    var configDefaultFile = fs.read(configLocalPath, {
       defaults: null
     })
 
-    if (configUser === null) {
-      configUser = configDefault
+    if (configUserFile === null) {
+      configUserFile = configDefaultFile
 
       fs.copyTpl(configLocalPath, configPath, {
         version: '1.0.0'
@@ -50,33 +56,38 @@ const loadConfig = () => {
       })
     }
 
+    configDefault = JSON.parse(configDefaultFile)
+
     try {
-      var configUserObject = JSON.parse(configUser)
+      configUser = JSON.parse(configUserFile)
     } catch (e) {
       if (e instanceof SyntaxError) {
-        notifications.push({ type: 'error', msg: 'Nothing works' })
+        notifications.push(new Notification('error', 'Nothing works'))
+        configUser = configDefault
       } else {
         throw e
       }
     }
 
+    //TODO: Implement some semVer arithmetic
     if (
-      configUserObject.version !== version &&
-      configUserObject.version !== '<%= version %>'
+      configUser.version !== version &&
+      configUser.version !== '<%= version %>'
     ) {
-      notifications.push({
-        type: 'warning',
-        msg: 'Please update you configuraton file'
-      })
+      notifications.push(
+        new Notification('warning', 'Please update you configuration file')
+      )
     }
 
-    if (configUserObject.settings.configMode == 'override') {
-      browsers = configUserObject.browsers
-    } else if (configUserObject.settings.configMode == 'merge') {
-      browsers = mergeConfigs(configUserObject, JSON.parse(configDefault))
+    if (configUser.settings.configMode == 'override') {
+      // Actually, don't do anything
+      // browsers = configUserObject.browsers
+    } else if (configUser.settings.configMode == 'merge') {
+      configUser = mergeConfigs(configUser, configDefault)
     }
 
-    fulfill(notifications)
+    // NOTE: Not sure what to pass here, nothing is required
+    fulfill(true)
   })
 }
 
@@ -102,22 +113,67 @@ const findInstalledBrowsers = () => {
         profile,
         'plist.array.dict.array[1].dict[*].string[0]'
       )
-      const installedBrowsers = installedApps
-        .map(appName => {
-          for (let i = 0; i < browsers.length; i++) {
-            const browser = browsers[i]
-            if (browser.name === appName) {
-              return browser
+      //TODO: Delete old code
+
+      // const installedBrowsers = installedApps
+      //   .map(appName => {
+      //     for (let i = 0; i < browsers.length; i++) {
+      //       const browser = browsers[i]
+      //       if (browser.name === appName) {
+      //         return browser
+      //       }
+      //     }
+      //     return false
+      //   })
+      //   .filter(x => x) // remove empties
+      //
+
+      // NOTE: Algorithmically speaking this whole thing is an overkill, but working with small numers it will be fine
+      const installedBrowsers = configUser.browsers
+        .map(browser => {
+          // Quoting @will-stone from https://github.com/will-stone/browserosaurus/issues/13
+          // Not on defaults list, not in profiler results: *Notification says: "Google Chrome Error" not currently supported or found on this Mac.
+
+          if (installedApps.indexOf(browser.name) == -1) {
+            notifications.push(
+              new Notification('error', 'Browser/app not found.')
+            )
+            return false
+          } else {
+            // Not on defaults list, in profiler results (therefore shown with no icon): *Notification says: "Beaker Browser" not officially supported, please ask Browserosaurus to add this browser.
+            if (
+              configDefault.browsers
+                .map(defaultBrowser => {
+                  if (defaultBrowser.name == browser.name) {
+                    return true
+                  } else {
+                    return false
+                  }
+                })
+                .filter(x => x).length == 0
+            ) {
+              notifications.push(
+                new Notification(
+                  'warning',
+                  'Youtra dev, I knew it! Please open an issue about this wonderful browser..'
+                )
+              )
+              browser.icon = 'Custom'
             }
+            return browser
           }
-          return false
         })
-        .filter(x => x) // remove empties
+        .filter(x => x)
+
+      // TODO: remove debugging printouts
+      console.log(notifications)
+
       fulfill(installedBrowsers)
     })
   })
 }
 
+// TODO: Something, but not now
 function mergeConfigs(localConfig, userConfig) {
   return userConfig
 }
@@ -189,7 +245,11 @@ app.on('ready', () => {
     findInstalledBrowsers().then(installedBrowsers => {
       createPickerWindow(installedBrowsers.length, () => {
         pickerWindow.once('ready-to-show', () => {
-          pickerWindow.webContents.send('installedBrowsers', installedBrowsers)
+          pickerWindow.webContents.send(
+            'installedBrowsers',
+            installedBrowsers,
+            notifications
+          )
           if (global.URLToOpen) {
             sendUrlToRenderer(global.URLToOpen)
             global.URLToOpen = null
