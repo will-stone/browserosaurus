@@ -264,7 +264,7 @@ app.on('ready', () => {
             installedBrowsers,
             notifications,
             {
-              autoOrdering: getSetting('autoOrdering')
+              autoOrdering: getSetting('alphabeticalOrder')
             }
           )
           if (global.URLToOpen) {

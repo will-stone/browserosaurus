@@ -2,7 +2,7 @@
   "version": "<%= version %>",
   "settings": {
     "configMode": "override",
-    "autoOrdering": true
+    "alphabeticalOrder": true
   },
   "browsers": [
     {
