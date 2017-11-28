@@ -79,10 +79,10 @@ const loadConfig = () => {
       )
     }
 
-    if (configUser.settings.configMode == 'override') {
+    if (getSetting('configMode') == 'override') {
       // Actually, don't do anything
       // browsers = configUserObject.browsers
-    } else if (configUser.settings.configMode == 'merge') {
+    } else if (getSetting('configMode') == 'merge') {
       configUser = mergeConfigs(configUser, configDefault)
     }
 
@@ -113,27 +113,12 @@ const findInstalledBrowsers = () => {
         profile,
         'plist.array.dict.array[1].dict[*].string[0]'
       )
-      //TODO: Delete old code
-
-      // const installedBrowsers = installedApps
-      //   .map(appName => {
-      //     for (let i = 0; i < browsers.length; i++) {
-      //       const browser = browsers[i]
-      //       if (browser.name === appName) {
-      //         return browser
-      //       }
-      //     }
-      //     return false
-      //   })
-      //   .filter(x => x) // remove empties
-      //
 
       // NOTE: Algorithmically speaking this whole thing is an overkill, but working with small numers it will be fine
       const installedBrowsers = configUser.browsers
         .map(browser => {
           // Quoting @will-stone from https://github.com/will-stone/browserosaurus/issues/13
           // Not on defaults list, not in profiler results: *Notification says: "Google Chrome Error" not currently supported or found on this Mac.
-
           if (installedApps.indexOf(browser.name) == -1) {
             notifications.push(
               new Notification('error', 'Browser/app not found.')
@@ -174,8 +159,20 @@ const findInstalledBrowsers = () => {
 }
 
 // TODO: Something, but not now
-function mergeConfigs(localConfig, userConfig) {
-  return userConfig
+function mergeConfigs(userConfigLocal, configDefaultLocal) {
+  return userConfigLocal
+}
+
+function getSetting(key) {
+  if ('settings' in configUser) {
+    if (key in configUser.settings) {
+      return configUser.settings[key]
+    } else {
+      return configDefault.settings[key]
+    }
+  } else {
+    return configDefault.settings[key]
+  }
 }
 
 function createPickerWindow(numberOfBrowsers, callback) {
@@ -245,16 +242,12 @@ app.on('ready', () => {
     findInstalledBrowsers().then(installedBrowsers => {
       createPickerWindow(installedBrowsers.length, () => {
         pickerWindow.once('ready-to-show', () => {
-          //TODO: Find a better way to check/merge configuration fields on user made JSON 
           pickerWindow.webContents.send(
             'installedBrowsers',
             installedBrowsers,
             notifications,
             {
-              autoOrdering:
-                configUser.settings.autoOrdering ||
-                (configDefault.settings.autoOrdering &&
-                  configUser.settings.autoOrdering !== false) // This whole thing is just ugly, but it will do the job
+              autoOrdering: getSetting('autoOrdering')
             }
           )
           if (global.URLToOpen) {
