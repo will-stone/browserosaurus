@@ -160,6 +160,23 @@ const findInstalledBrowsers = () => {
 
 // TODO: Something, but not now
 function mergeConfigs(userConfigLocal, configDefaultLocal) {
+  var browsersUser = userConfigLocal.browsers
+  var browsersDefaults = configDefaultLocal.browsers
+
+  var browsersUserNames = browsersUser.map(browser => {
+    return browser.name
+  })
+
+  browsersDefaults = browsersDefaults
+    .map(browser => {
+      if (browsersUserNames.indexOf(browser.name) == -1) {
+        return browser
+      }
+    })
+    .filter(x => x)
+
+  userConfigLocal.browsers = userConfigLocal.browsers.concat(browsersDefaults)
+
   return userConfigLocal
 }
 
