@@ -8,9 +8,9 @@
 
 `cd browserosaurus`
 
-`npm install` (not Yarn)
+`yarn install`
 
-`npm start`
+`yarn start`
 
 ### Browser logos
 
@@ -18,4 +18,4 @@ https://github.com/alrra/browser-logos
 
 ### Make icon.icns
 
-To build an icns file from `src/images/icon/icon.png`, simply run `npm run icns`.
+To build an icns file from `src/images/icon/icon.png`, simply run `yarn run icns`.
