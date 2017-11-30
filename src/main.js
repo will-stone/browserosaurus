@@ -10,9 +10,18 @@ import memFs from 'mem-fs'
 import editor from 'mem-fs-editor'
 
 class Notification {
-  constructor(type, msg) {
+  constructor(type, msg, disposed = false) {
     this.type = type
     this.msg = msg
+    this.disposed = disposed
+  }
+
+  setDisposed(val) {
+    this.disposed = val
+  }
+
+  dispose() {
+    this.disposed = true
   }
 }
 
