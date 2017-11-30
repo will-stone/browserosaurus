@@ -6,7 +6,7 @@
   "homepage": "http://wstone.io/browserosaurus/",
   "main": "src/main.js",
   "scripts": {
-    "start": "ENV=DEV electron-forge start",
+    "start": "electron-forge start",
     "package": "electron-forge package --platform=darwin --arch=x64",
     "make": "electron-forge make",
     "makedmg": "electron-forge make --targets dmg",

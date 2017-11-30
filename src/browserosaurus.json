@@ -1,9 +1,5 @@
 {
   "version": "<%= version %>",
-  "settings": {
-    "configMode": "override",
-    "alphabeticalOrder": true
-  },
   "browsers": [
     {
       "name": "Brave",

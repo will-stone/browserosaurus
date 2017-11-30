@@ -88,13 +88,6 @@ const loadConfig = () => {
       )
     }
 
-    if (getSetting('configMode') == 'override') {
-      // Actually, don't do anything
-      // browsers = configUserObject.browsers
-    } else if (getSetting('configMode') == 'merge') {
-      configUser = mergeConfigs(configUser, configDefault)
-    }
-
     // NOTE: Not sure what to pass here, nothing is required
     fulfill(true)
   })
@@ -167,40 +160,6 @@ const findInstalledBrowsers = () => {
   })
 }
 
-// TODO: Something, but not now
-function mergeConfigs(userConfigLocal, configDefaultLocal) {
-  var browsersUser = userConfigLocal.browsers
-  var browsersDefaults = configDefaultLocal.browsers
-
-  var browsersUserNames = browsersUser.map(browser => {
-    return browser.name
-  })
-
-  browsersDefaults = browsersDefaults
-    .map(browser => {
-      if (browsersUserNames.indexOf(browser.name) == -1) {
-        return browser
-      }
-    })
-    .filter(x => x)
-
-  userConfigLocal.browsers = userConfigLocal.browsers.concat(browsersDefaults)
-
-  return userConfigLocal
-}
-
-function getSetting(key) {
-  if ('settings' in configUser) {
-    if (key in configUser.settings) {
-      return configUser.settings[key]
-    } else {
-      return configDefault.settings[key]
-    }
-  } else {
-    return configDefault.settings[key]
-  }
-}
-
 function createPickerWindow(numberOfBrowsers, callback) {
   // Create the browser window.
   pickerWindow = new BrowserWindow({
@@ -271,10 +230,7 @@ app.on('ready', () => {
           pickerWindow.webContents.send(
             'installedBrowsers',
             installedBrowsers,
-            notifications,
-            {
-              autoOrdering: getSetting('alphabeticalOrder')
-            }
+            notifications
           )
           if (global.URLToOpen) {
             sendUrlToRenderer(global.URLToOpen)
