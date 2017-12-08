@@ -3,61 +3,75 @@
   "browsers": [
     {
       "name": "Brave",
-      "key": "b"
+      "key": "b",
+      "enabled": true
     },
     {
       "name": "Chromium",
-      "key": "c"
+      "key": "c",
+      "enabled": true
     },
     {
       "name": "Firefox",
-      "key": "f"
+      "key": "f",
+      "enabled": true
     },
     {
       "name": "FirefoxDeveloperEdition",
       "alias": "Firefox Developer Edition",
-      "key": "d"
+      "key": "d",
+      "enabled": true
     },
     {
       "name": "FirefoxNightly",
       "alias": "Nightly",
-      "key": "n"
+      "key": "n",
+      "enabled": true
     },
     {
       "name": "Google Chrome",
-      "key": "g"
+      "key": "g",
+      "enabled": true
     },
     {
       "name": "Google Chrome Canary",
-      "key": "y"
+      "key": "y",
+      "enabled": true
     },
     {
       "name": "Iridium",
-      "key": "i"
+      "key": "i",
+      "enabled": true
     },
     {
       "name": "Maxthon",
-      "key": "m"
+      "key": "m",
+      "enabled": true
     },
     {
       "name": "Min",
-      "key": "-"
+      "key": "-",
+      "enabled": true
     },
     {
       "name": "Opera",
-      "key": "o"
+      "key": "o",
+      "enabled": true
     },
     {
       "name": "Safari",
-      "key": "s"
+      "key": "s",
+      "enabled": true
     },
     {
       "name": "TorBrowser",
-      "key": "t"
+      "key": "t",
+      "enabled": true
     },
     {
       "name": "Vivaldi",
-      "key": "v"
+      "key": "v",
+      "enabled": true
     }
   ]
 }

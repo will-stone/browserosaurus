@@ -119,6 +119,9 @@ const findInstalledBrowsers = () => {
       // NOTE: Algorithmically speaking this whole thing is an overkill, but working with small numers it will be fine
       const installedBrowsers = configUser.browsers
         .map(browser => {
+          if (browser.enabled === false) {
+            return false
+          }
           // Quoting @will-stone from https://github.com/will-stone/browserosaurus/issues/13
           // Not on defaults list, not in profiler results: *Notification says: "Google Chrome Error" not currently supported or found on this Mac.
           if (installedApps.indexOf(browser.name) == -1) {
