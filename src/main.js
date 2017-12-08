@@ -145,7 +145,7 @@ const findInstalledBrowsers = () => {
               notifications.push(
                 new Notification(
                   'warning',
-                  'Youtra dev, I knew it! Please open an issue about this wonderful browser..'
+                  "You're a dev, I knew it! Please open an issue about this wonderful browser.."
                 )
               )
               browser.icon = 'Custom'
