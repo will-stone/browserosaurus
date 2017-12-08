@@ -4,13 +4,94 @@ import { spawn } from 'child_process'
 import parser from 'xml2json'
 import openAboutWindow from 'about-window'
 
-import browsers from './browsers'
+// import browsers from './browsers'
+
+import memFs from 'mem-fs'
+import editor from 'mem-fs-editor'
+
+class Notification {
+  constructor(type, msg, disposed = false) {
+    this.type = type
+    this.msg = msg
+    this.disposed = disposed
+  }
+
+  setDisposed(val) {
+    this.disposed = val
+  }
+
+  dispose() {
+    this.disposed = true
+  }
+}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let pickerWindow = null
 let tray = null
 let appIsReady = false
+
+let configFileName = '.config/browserosaurus.json'
+
+let configDefault = {}
+let configUser = {}
+let notifications = []
+var version = app.getVersion()
+
+const loadConfig = () => {
+  return new Promise((fulfill, reject) => {
+    var configPath = require('os').homedir() + '/' + configFileName
+    var configLocalPath = './src/browserosaurus.json'
+
+    var store = memFs.create()
+    var fs = editor.create(store)
+
+    var configUserFile = fs.read(configPath, {
+      defaults: null
+    })
+    var configDefaultFile = fs.read(configLocalPath, {
+      defaults: null
+    })
+
+    if (configUserFile === null) {
+      configUserFile = configDefaultFile
+
+      fs.copyTpl(configLocalPath, configPath, {
+        version: '1.0.0'
+      })
+
+      fs.commit(() => {
+        return true
+      })
+    }
+
+    configDefault = JSON.parse(configDefaultFile)
+
+    try {
+      configUser = JSON.parse(configUserFile)
+    } catch (e) {
+      if (e instanceof SyntaxError) {
+        notifications.push(new Notification('error', 'Nothing works'))
+        configUser = configDefault
+      } else {
+        throw e
+      }
+    }
+
+    //TODO: Implement some semVer arithmetic
+    if (
+      configUser.version !== version &&
+      configUser.version !== '<%= version %>'
+    ) {
+      notifications.push(
+        new Notification('warning', 'Please update you configuration file')
+      )
+    }
+
+    // NOTE: Not sure what to pass here, nothing is required
+    fulfill(true)
+  })
+}
 
 const findInstalledBrowsers = () => {
   return new Promise((fulfill, reject) => {
@@ -27,22 +108,56 @@ const findInstalledBrowsers = () => {
       reject(data)
     })
     sp.stdout.on('end', () => {
-      profile = parser.toJson(profile, { object: true })
+      profile = parser.toJson(profile, {
+        object: true
+      })
       const installedApps = jp.query(
         profile,
         'plist.array.dict.array[1].dict[*].string[0]'
       )
-      const installedBrowsers = installedApps
-        .map(appName => {
-          for (let i = 0; i < browsers.length; i++) {
-            const browser = browsers[i]
-            if (browser.name === appName) {
-              return browser
-            }
+
+      // NOTE: Algorithmically speaking this whole thing is an overkill, but working with small numers it will be fine
+      const installedBrowsers = configUser.browsers
+        .map(browser => {
+          if (browser.enabled === false) {
+            return false
           }
-          return false
+          // Quoting @will-stone from https://github.com/will-stone/browserosaurus/issues/13
+          // Not on defaults list, not in profiler results: *Notification says: "Google Chrome Error" not currently supported or found on this Mac.
+          if (installedApps.indexOf(browser.name) == -1) {
+            notifications.push(
+              new Notification('error', 'Browser/app not found.')
+            )
+            return false
+          } else {
+            // Not on defaults list, in profiler results (therefore shown with no icon): *Notification says: "Beaker Browser" not officially supported, please ask Browserosaurus to add this browser.
+            if (
+              configDefault.browsers
+                .map(defaultBrowser => {
+                  if (defaultBrowser.name == browser.name) {
+                    return true
+                  } else {
+                    return false
+                  }
+                })
+                .filter(x => x).length == 0
+            ) {
+              notifications.push(
+                new Notification(
+                  'warning',
+                  "You're a dev, I knew it! Please open an issue about this wonderful browser.."
+                )
+              )
+              browser.icon = 'Custom'
+            }
+            return browser
+          }
         })
-        .filter(x => x) // remove empties
+        .filter(x => x)
+
+      // TODO: remove debugging printouts
+      console.log(notifications)
+
       fulfill(installedBrowsers)
     })
   })
@@ -111,19 +226,25 @@ app.on('ready', () => {
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
 
-  findInstalledBrowsers().then(installedBrowsers => {
-    createPickerWindow(installedBrowsers.length, () => {
-      pickerWindow.once('ready-to-show', () => {
-        pickerWindow.webContents.send('installedBrowsers', installedBrowsers)
-        if (global.URLToOpen) {
-          sendUrlToRenderer(global.URLToOpen)
-          global.URLToOpen = null
-        }
-        appIsReady = true
-        // pickerWindow.webContents.openDevTools({ mode: 'detach' })
+  loadConfig().then(() =>
+    findInstalledBrowsers().then(installedBrowsers => {
+      createPickerWindow(installedBrowsers.length, () => {
+        pickerWindow.once('ready-to-show', () => {
+          pickerWindow.webContents.send(
+            'installedBrowsers',
+            installedBrowsers,
+            notifications
+          )
+          if (global.URLToOpen) {
+            sendUrlToRenderer(global.URLToOpen)
+            global.URLToOpen = null
+          }
+          appIsReady = true
+          // pickerWindow.webContents.openDevTools({ mode: 'detach' })
+        })
       })
     })
-  })
+  )
 })
 
 // Hide dock icon
