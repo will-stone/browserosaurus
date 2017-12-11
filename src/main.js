@@ -20,7 +20,7 @@ let configUser = {}
 const loadConfig = () => {
   return new Promise(fulfill => {
     const configPath = require('os').homedir() + '/' + configFileName
-    const configLocalPath = './src/browserosaurus.json'
+    const configLocalPath = '/src/browserosaurus.json'
 
     const store = memFs.create()
     const fs = editor.create(store)
@@ -28,9 +28,16 @@ const loadConfig = () => {
     let configUserFile = fs.read(configPath, {
       defaults: null
     })
-    const configDefaultFile = fs.read(configLocalPath, {
-      defaults: null
-    })
+
+    // Since I'm unable to detect if the script is running in a packaged app or not,
+    // and that determines the base path, I try both ways.
+    const configDefaultFile =
+      fs.read(process.cwd() + configLocalPath, {
+        defaults: null
+      }) ||
+      fs.read(process.resourcesPath + '/app' + configLocalPath, {
+        defaults: null
+      })
 
     if (configUserFile === null) {
       configUserFile = configDefaultFile
