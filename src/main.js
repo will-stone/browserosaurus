@@ -17,20 +17,18 @@ let configFileName = '.config/browserosaurus.json'
 let configDefault = {}
 let configUser = {}
 
-let version = app.getVersion()
-
 const loadConfig = () => {
-  return new Promise((fulfill, reject) => {
-    var configPath = require('os').homedir() + '/' + configFileName
-    var configLocalPath = './src/browserosaurus.json'
+  return new Promise(fulfill => {
+    const configPath = require('os').homedir() + '/' + configFileName
+    const configLocalPath = './src/browserosaurus.json'
 
-    var store = memFs.create()
-    var fs = editor.create(store)
+    const store = memFs.create()
+    const fs = editor.create(store)
 
-    var configUserFile = fs.read(configPath, {
+    let configUserFile = fs.read(configPath, {
       defaults: null
     })
-    var configDefaultFile = fs.read(configLocalPath, {
+    const configDefaultFile = fs.read(configLocalPath, {
       defaults: null
     })
 
@@ -58,18 +56,17 @@ const loadConfig = () => {
       }
     }
 
-    var defBrowserFound
-    var userBrowserFound
+    let userBrowserFound
 
     // Create clone of the default browsers
-    let browsersDefalts = configDefault.browsers.slice(0)
+    let browsersDefaults = configDefault.browsers.slice(0)
 
     configUser.browsers.map((userBrowser, userBrowserId) => {
       userBrowserFound = false
 
-      browsersDefalts.map((defBrowser, defBrowserId) => {
+      browsersDefaults.map((defBrowser, defBrowserId) => {
         if (defBrowser.name == userBrowser.name) {
-          browsersDefalts[defBrowserId] = false
+          browsersDefaults[defBrowserId] = false
           userBrowserFound = true
         }
       })
@@ -79,7 +76,7 @@ const loadConfig = () => {
       }
     })
 
-    configUser.browsers = configUser.browsers.concat(browsersDefalts)
+    configUser.browsers = configUser.browsers.concat(browsersDefaults)
     configUser.browsers = configUser.browsers.filter(x => x)
 
     fs.writeJSON(configPath, configUser)
