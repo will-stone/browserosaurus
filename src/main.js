@@ -3,14 +3,76 @@ import jp from 'jsonpath'
 import { spawn } from 'child_process'
 import parser from 'xml2json'
 import openAboutWindow from 'about-window'
-
-import browsers from './browsers'
+import memFs from 'mem-fs'
+import editor from 'mem-fs-editor'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let pickerWindow = null
 let tray = null
 let appIsReady = false
+
+let configFileName = 'browserosaurus.json'
+
+var browsers = {}
+var config = {}
+var version = app.getVersion()
+
+const loadConfig = () => {
+  return new Promise((fulfill, reject) => {
+
+    var notifications = []
+
+    var configPath = require('os').homedir() + '/' + configFileName
+    var configLocalPath = './src/browserosaurus.json'
+
+    var store = memFs.create();
+    var fs = editor.create(store);
+
+    var configUser = fs.read(configPath, {
+      'defaults': null
+    })
+    var configDefault = fs.read(configLocalPath, {
+      'defaults': null
+    })
+
+    if (configUser === null) {
+
+      configUser = configDefault
+
+      fs.copyTpl(configLocalPath, configPath, {
+        version: "1.0.0"
+      })
+
+      fs.commit(() => {
+        return true
+      })
+    }
+
+    try {
+      var configUserObject = JSON.parse(configUser)
+    } catch (e) {
+      if (e instanceof SyntaxError) {
+        notifications.push({type: "error", msg: "Nothing works"})
+      } else {
+        throw e
+      }
+    }
+
+    if (configUserObject.version !== version && configUserObject.version !== "<%= version %>") {
+      notifications.push({type: "warning", msg: "Please update you configuraton file"})
+    }
+
+    if (configUserObject.settings.configMode == "override") {
+      browsers = configUserObject.browsers
+    } else if (configUserObject.settings.configMode == "merge") {
+      browsers = mergeConfigs(configUserObject, JSON.parse(configDefault))
+    }
+
+    fulfill(notifications)
+
+  })
+}
 
 const findInstalledBrowsers = () => {
   return new Promise((fulfill, reject) => {
@@ -111,7 +173,7 @@ app.on('ready', () => {
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
 
-  findInstalledBrowsers().then(installedBrowsers => {
+loadConfig().then(() => findInstalledBrowsers().then(installedBrowsers => {
     createPickerWindow(installedBrowsers.length, () => {
       pickerWindow.once('ready-to-show', () => {
         pickerWindow.webContents.send('installedBrowsers', installedBrowsers)
@@ -123,7 +185,7 @@ app.on('ready', () => {
         // pickerWindow.webContents.openDevTools({ mode: 'detach' })
       })
     })
-  })
+  }))
 })
 
 // Hide dock icon
