@@ -53,12 +53,6 @@ electron.ipcRenderer.on('installedBrowsers', (event, installedBrowsers) => {
       }
       return browser
     })
-    .sort((a, b) => {
-      // alphabetise
-      if (a.alias < b.alias) return -1
-      if (a.alias > b.alias) return 1
-      return 0
-    })
     .map(browser => {
       const listItem = document.createElement('li')
 
