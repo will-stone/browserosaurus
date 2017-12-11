@@ -46,6 +46,7 @@ const openBrowser = appName =>
 electron.ipcRenderer.on('installedBrowsers', (event, installedBrowsers) => {
   document.getElementById('loading').style.display = 'none'
   installedBrowsers
+    .filter(browser => browser.enabled)
     .map(browser => {
       // use alias as label if available, otherwise use name
       if (!browser.alias) {
