@@ -92,7 +92,6 @@ function createPickerWindow(numberOfBrowsers, callback) {
 
   pickerWindow.on('blur', () => {
     pickerWindow.webContents.send('close', true)
-    setTimeout(() => pickerWindow.hide(), 300)
   })
 
   if (callback) {
@@ -101,10 +100,9 @@ function createPickerWindow(numberOfBrowsers, callback) {
 }
 
 const sendUrlToRenderer = url => {
-  pickerWindow.webContents.send('incomingURL', url)
   pickerWindow.center() // moves window to current screen
   pickerWindow.show()
-  pickerWindow.webContents.send('open', true)
+  pickerWindow.webContents.send('incomingURL', url)
 }
 
 app.on('ready', () => {

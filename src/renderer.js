@@ -4,21 +4,29 @@ const currentWindow = electron.remote.getCurrentWindow()
 const Mousetrap = require('mousetrap')
 let url = null
 const browserList = document.getElementById('browserList')
+const urlField = document.getElementById('url')
 
 const closeWindow = () => {
   document.body.classList.remove('is-open')
-  currentWindow.hide()
-  url = null
+  urlField.innerText = ''
+
+  // remove active from all browsers
+  var browserItems = document.querySelectorAll('.active')
+  browserItems.forEach(activeBrowser => {
+    activeBrowser.classList.remove('active')
+  })
+
+  setTimeout(() => {
+    // if not paused, escape causes an audible error (beep) and is-open isn't successfully removed. Presumably there's some sort of race condition here. Anyway, the timeout seems to solve it.
+    currentWindow.hide()
+    url = null
+  }, 0)
 }
 
 // Listen for URL
 electron.ipcRenderer.on('incomingURL', (event, message) => {
-  const urlField = document.getElementById('url')
   urlField.innerText = message
   url = message
-})
-
-electron.ipcRenderer.on('open', () => {
   document.body.classList.add('is-open')
 })
 
