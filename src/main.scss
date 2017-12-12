@@ -21,38 +21,23 @@ body {
   padding: 1rem;
   white-space: nowrap;
   text-overflow: ellipsis;
-  background-color: #333333;
   line-height: 1rem;
 }
 
 #browserList {
   margin: 0;
   padding: 0;
-  transition: all 200ms ease-in;
-  transform: scaleY(0);
-  transform-origin: center top;
-  opacity: 0;
-
-  .is-open & {
-    transition-timing-function: ease-out;
-    transform: scaleY(1);
-    opacity: 1;
-  }
 
    > li {
     display: flex;
     align-items: center;
     padding: 1rem;
     cursor: pointer;
-    transition: all 200ms linear;
     border-width: 0;
     outline: none;
-    background-color: #111111;
 
-    &:hover,
     &.active {
-      color: #111111;
-      background-color: white;
+      background-color: #126edb;
     }
   }
 }
@@ -62,22 +47,12 @@ body {
   width: 32px;
   height: 32px;
   margin-right: 1rem;
-  opacity: 0;
 }
 
 .browserName {
   margin-right: auto;
-  opacity: 0;
 }
 
 .browserKey {
-  opacity: 0.3;
-  opacity: 0;
   font-weight: bold;
-}
-
-.is-open .browserLogo,
-.is-open .browserName,
-.is-open .browserKey {
-  opacity: 1;
 }

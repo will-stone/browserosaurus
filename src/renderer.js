@@ -4,24 +4,23 @@ const currentWindow = electron.remote.getCurrentWindow()
 const Mousetrap = require('mousetrap')
 let url = null
 const browserList = document.getElementById('browserList')
+const urlField = document.getElementById('url')
 
 const closeWindow = () => {
-  document.body.classList.remove('is-open')
+  urlField.innerText = ''
+
   setTimeout(() => {
+    // if not paused, escape causes an audible error (beep). Presumably there's some sort of race condition here. Anyway, the timeout seems to solve it.
     currentWindow.hide()
     url = null
-  }, 300)
+  }, 0)
 }
 
 // Listen for URL
 electron.ipcRenderer.on('incomingURL', (event, message) => {
-  const urlField = document.getElementById('url')
   urlField.innerText = message
   url = message
-})
-
-electron.ipcRenderer.on('open', () => {
-  document.body.classList.add('is-open')
+  currentWindow.show()
 })
 
 electron.ipcRenderer.on('close', () => {
@@ -72,14 +71,24 @@ electron.ipcRenderer.on('installedBrowsers', (event, installedBrowsers) => {
       browserKey.innerText = browser.key
       listItem.appendChild(browserKey)
 
-      listItem.addEventListener('click', () => openBrowser(browser.name))
+      listItem.addEventListener('click', () => {
+        listItem.classList.remove('active')
+        openBrowser(browser.name)
+      })
+      listItem.addEventListener('mouseenter', () => {
+        listItem.classList.add('active')
+      })
+      listItem.addEventListener('mouseleave', () => {
+        listItem.classList.remove('active')
+      })
+
       browserList.appendChild(listItem)
 
       Mousetrap.bind(browser.key, () => {
         listItem.classList.add('active')
         setTimeout(() => {
-          openBrowser(browser.name)
           listItem.classList.remove('active')
+          openBrowser(browser.name)
         }, 200)
       })
     })

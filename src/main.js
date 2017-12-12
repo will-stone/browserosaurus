@@ -100,8 +100,8 @@ function createPickerWindow(numberOfBrowsers, callback) {
     movable: false,
     show: false,
     title: 'Browserosaurus',
-    transparent: true,
-    hasShadow: false
+    hasShadow: true,
+    backgroundColor: '#111111'
   })
 
   // and load the index.html of the app.
@@ -131,7 +131,6 @@ function createPickerWindow(numberOfBrowsers, callback) {
 
   pickerWindow.on('blur', () => {
     pickerWindow.webContents.send('close', true)
-    setTimeout(() => pickerWindow.hide(), 300)
   })
 
   if (callback) {
@@ -140,10 +139,8 @@ function createPickerWindow(numberOfBrowsers, callback) {
 }
 
 const sendUrlToRenderer = url => {
-  pickerWindow.webContents.send('incomingURL', url)
   pickerWindow.center() // moves window to current screen
-  pickerWindow.show()
-  pickerWindow.webContents.send('open', true)
+  pickerWindow.webContents.send('incomingURL', url)
 }
 
 app.on('ready', () => {
