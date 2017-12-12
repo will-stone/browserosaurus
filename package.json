@@ -1,7 +1,7 @@
 {
   "name": "browserosaurus",
   "productName": "Browserosaurus",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "The browser prompter for macOS",
   "homepage": "http://wstone.io/browserosaurus/",
   "main": "src/main.js",
@@ -10,8 +10,6 @@
     "start": "ENV=DEV electron-forge start",
     "package": "electron-forge package --platform=darwin --arch=x64",
     "make": "electron-forge make",
-    "makedmg": "electron-forge make --targets dmg",
-    "makezip": "electron-forge make --targets zip",
     "icns": "cd ./src/images/icon && ./png2icns.sh icon.png"
   },
   "repository": "https://github.com/will-stone/browserosaurus",
@@ -46,7 +44,7 @@
   "config": {
     "forge": {
       "make_targets": {
-        "darwin": ["dmg", "zip"]
+        "darwin": ["dmg"]
       },
       "electronPackagerConfig": {
         "packageManager": "yarn",
