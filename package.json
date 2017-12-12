@@ -49,6 +49,7 @@
         "darwin": ["dmg", "zip"]
       },
       "electronPackagerConfig": {
+        "packageManager": "yarn",
         "icon": "src/images/icon/icon.icns",
         "ignore": ["docs"],
         "protocols": [
