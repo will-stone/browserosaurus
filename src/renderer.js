@@ -10,12 +10,6 @@ const closeWindow = () => {
   document.body.classList.remove('is-open')
   urlField.innerText = ''
 
-  // remove active from all browsers
-  var browserItems = document.querySelectorAll('.active')
-  browserItems.forEach(activeBrowser => {
-    activeBrowser.classList.remove('active')
-  })
-
   setTimeout(() => {
     // if not paused, escape causes an audible error (beep) and is-open isn't successfully removed. Presumably there's some sort of race condition here. Anyway, the timeout seems to solve it.
     currentWindow.hide()
@@ -83,14 +77,24 @@ electron.ipcRenderer.on('installedBrowsers', (event, installedBrowsers) => {
       browserKey.innerText = browser.key
       listItem.appendChild(browserKey)
 
-      listItem.addEventListener('click', () => openBrowser(browser.name))
+      listItem.addEventListener('click', () => {
+        listItem.classList.remove('active')
+        openBrowser(browser.name)
+      })
+      listItem.addEventListener('mouseenter', () => {
+        listItem.classList.add('active')
+      })
+      listItem.addEventListener('mouseleave', () => {
+        listItem.classList.remove('active')
+      })
+
       browserList.appendChild(listItem)
 
       Mousetrap.bind(browser.key, () => {
         listItem.classList.add('active')
         setTimeout(() => {
-          openBrowser(browser.name)
           listItem.classList.remove('active')
+          openBrowser(browser.name)
         }, 200)
       })
     })
