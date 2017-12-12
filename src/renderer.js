@@ -7,11 +7,10 @@ const browserList = document.getElementById('browserList')
 const urlField = document.getElementById('url')
 
 const closeWindow = () => {
-  document.body.classList.remove('is-open')
   urlField.innerText = ''
 
   setTimeout(() => {
-    // if not paused, escape causes an audible error (beep) and is-open isn't successfully removed. Presumably there's some sort of race condition here. Anyway, the timeout seems to solve it.
+    // if not paused, escape causes an audible error (beep). Presumably there's some sort of race condition here. Anyway, the timeout seems to solve it.
     currentWindow.hide()
     url = null
   }, 0)
@@ -21,7 +20,7 @@ const closeWindow = () => {
 electron.ipcRenderer.on('incomingURL', (event, message) => {
   urlField.innerText = message
   url = message
-  document.body.classList.add('is-open')
+  currentWindow.show()
 })
 
 electron.ipcRenderer.on('close', () => {

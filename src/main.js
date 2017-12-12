@@ -101,7 +101,6 @@ function createPickerWindow(numberOfBrowsers, callback) {
 
 const sendUrlToRenderer = url => {
   pickerWindow.center() // moves window to current screen
-  pickerWindow.show()
   pickerWindow.webContents.send('incomingURL', url)
 }
 

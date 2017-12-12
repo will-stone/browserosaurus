@@ -19,15 +19,9 @@ body {
   overflow: hidden;
   height: 3rem;
   padding: 1rem;
-  transition: opacity 300ms linear;
   white-space: nowrap;
   text-overflow: ellipsis;
-  opacity: 0;
   line-height: 1rem;
-
-  .is-open & {
-    opacity: 1;
-  }
 }
 
 #browserList {
@@ -39,14 +33,8 @@ body {
     align-items: center;
     padding: 1rem;
     cursor: pointer;
-    transition: opacity 300ms linear;
-    opacity: 0;
     border-width: 0;
     outline: none;
-
-    .is-open & {
-      opacity: 1;
-    }
 
     &.active {
       background-color: #126edb;
@@ -59,22 +47,12 @@ body {
   width: 32px;
   height: 32px;
   margin-right: 1rem;
-  opacity: 0;
 }
 
 .browserName {
   margin-right: auto;
-  opacity: 0;
 }
 
 .browserKey {
-  opacity: 0.3;
-  opacity: 0;
   font-weight: bold;
-}
-
-.is-open .browserLogo,
-.is-open .browserName,
-.is-open .browserKey {
-  opacity: 1;
 }
