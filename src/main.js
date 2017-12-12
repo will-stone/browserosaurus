@@ -3,8 +3,9 @@ import jp from 'jsonpath'
 import { spawn } from 'child_process'
 import parser from 'xml2json'
 import openAboutWindow from 'about-window'
-import memFs from 'mem-fs'
-import editor from 'mem-fs-editor'
+import Store from 'electron-store'
+
+import defaultBrowsers from './browsers'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -12,85 +13,39 @@ let pickerWindow = null
 let tray = null
 let appIsReady = false
 
-let configFileName = '.config/browserosaurus.json'
+const defaultConfig = { browsers: defaultBrowsers }
+const userConfig = {}
 
-let configDefault = {}
-let configUser = {}
+const store = new Store({ defaults: defaultConfig })
 
 const loadConfig = () => {
   return new Promise(fulfill => {
-    const configPath = require('os').homedir() + '/' + configFileName
-    const configLocalPath = '/src/browserosaurus.json'
-
-    const store = memFs.create()
-    const fs = editor.create(store)
-
-    let configUserFile = fs.read(configPath, {
-      defaults: null
-    })
-
-    // Since I'm unable to detect if the script is running in a packaged app or not,
-    // and that determines the base path, I try both ways.
-    const configDefaultFile =
-      fs.read(process.cwd() + configLocalPath, {
-        defaults: null
-      }) ||
-      fs.read(process.resourcesPath + '/app' + configLocalPath, {
-        defaults: null
-      })
-
-    if (configUserFile === null) {
-      configUserFile = configDefaultFile
-
-      fs.copyTpl(configLocalPath, configPath, {
-        version: '1.0.0'
-      })
-
-      fs.commit(() => {
-        return true
-      })
-    }
-
-    configDefault = JSON.parse(configDefaultFile)
-
-    try {
-      configUser = JSON.parse(configUserFile)
-    } catch (e) {
-      if (e instanceof SyntaxError) {
-        configUser = configDefault
-      } else {
-        throw e
-      }
-    }
+    userConfig['browsers'] = store.get('browsers')
 
     let userBrowserFound
 
     // Create clone of the default browsers
-    let browsersDefaults = configDefault.browsers.slice(0)
+    let defaultBrowsersClone = defaultConfig.browsers.slice(0)
 
-    configUser.browsers.map((userBrowser, userBrowserId) => {
+    userConfig.browsers.map((userBrowser, userBrowserId) => {
       userBrowserFound = false
 
-      browsersDefaults.map((defBrowser, defBrowserId) => {
+      defaultBrowsersClone.map((defBrowser, defBrowserId) => {
         if (defBrowser.name == userBrowser.name) {
-          browsersDefaults[defBrowserId] = false
+          defaultBrowsersClone[defBrowserId] = false
           userBrowserFound = true
         }
       })
 
       if (userBrowserFound === false) {
-        configUser.browsers[userBrowserId] = false
+        userConfig.browsers[userBrowserId] = false
       }
     })
 
-    configUser.browsers = configUser.browsers.concat(browsersDefaults)
-    configUser.browsers = configUser.browsers.filter(x => x)
+    userConfig.browsers = userConfig.browsers.concat(defaultBrowsersClone)
+    userConfig.browsers = userConfig.browsers.filter(x => x)
 
-    fs.writeJSON(configPath, configUser)
-
-    fs.commit(() => {
-      return true
-    })
+    store.set('browsers', userConfig.browsers)
 
     fulfill(true)
   })
@@ -118,8 +73,8 @@ const findInstalledBrowsers = () => {
       )
       const installedBrowsers = installedApps
         .map(appName => {
-          for (let i = 0; i < configUser.browsers.length; i++) {
-            const browser = configUser.browsers[i]
+          for (let i = 0; i < userConfig.browsers.length; i++) {
+            const browser = userConfig.browsers[i]
             if (browser.name === appName) {
               return browser
             }
