@@ -61,8 +61,8 @@ function createPickerWindow(numberOfBrowsers, callback) {
     movable: false,
     show: false,
     title: 'Browserosaurus',
-    transparent: true,
-    hasShadow: false
+    hasShadow: true,
+    backgroundColor: '#111111'
   })
 
   // and load the index.html of the app.

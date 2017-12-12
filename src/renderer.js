@@ -7,10 +7,8 @@ const browserList = document.getElementById('browserList')
 
 const closeWindow = () => {
   document.body.classList.remove('is-open')
-  setTimeout(() => {
-    currentWindow.hide()
-    url = null
-  }, 300)
+  currentWindow.hide()
+  url = null
 }
 
 // Listen for URL
