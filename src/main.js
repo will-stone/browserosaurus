@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Tray, Menu } from 'electron'
+import { app, BrowserWindow, Tray, Menu, ipcMain } from 'electron'
 import jp from 'jsonpath'
 import { spawn } from 'child_process'
 import parser from 'xml2json'
@@ -10,6 +10,7 @@ import defaultBrowsers from './browsers'
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let pickerWindow = null
+let preferencesWindow = null
 let tray = null
 let appIsReady = false
 
@@ -87,11 +88,11 @@ const findInstalledBrowsers = () => {
   })
 }
 
-function createPickerWindow(numberOfBrowsers, callback) {
+function createPickerWindow(installedBrowsers, callback) {
   // Create the browser window.
   pickerWindow = new BrowserWindow({
     width: 400,
-    height: numberOfBrowsers * 64 + 48,
+    height: installedBrowsers.length * 64 + 48,
     acceptFirstMouse: true,
     alwaysOnTop: true,
     icon: `${__dirname}/images/icon/icon.png`,
@@ -104,6 +105,8 @@ function createPickerWindow(numberOfBrowsers, callback) {
     backgroundColor: '#111111'
   })
 
+  pickerWindow.installedBrowsers = installedBrowsers
+
   // and load the index.html of the app.
   pickerWindow.loadURL(`file://${__dirname}/index.html`)
 
@@ -111,6 +114,12 @@ function createPickerWindow(numberOfBrowsers, callback) {
   tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
   tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
   const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Preferences',
+      click: function() {
+        createPreferencesWindow(installedBrowsers)
+      }
+    },
     {
       label: 'About',
       click: function() {
@@ -143,15 +152,53 @@ const sendUrlToRenderer = url => {
   pickerWindow.webContents.send('incomingURL', url)
 }
 
+/**
+ * Create Preferences Window
+ * @param {array} installedBrowsers
+ */
+function createPreferencesWindow(installedBrowsers) {
+  if (!preferencesWindow) {
+    preferencesWindow = new BrowserWindow({
+      width: 400,
+      height: installedBrowsers.length * 64 + 24,
+      icon: `${__dirname}/images/icon/icon.png`,
+      resizable: false,
+      backgroundColor: '#111111'
+    })
+
+    preferencesWindow.installedBrowsers = installedBrowsers
+    preferencesWindow.loadURL(`file://${__dirname}/preferences.html`)
+    // allow window to be opened again
+    preferencesWindow.on('close', () => (preferencesWindow = null))
+  } else {
+    // Bring to front
+    preferencesWindow.show()
+  }
+}
+
+ipcMain.on('toggle-browser', (event, browserName) => {
+  const browserIndex = userConfig.browsers.findIndex(
+    browser => browser.name === browserName
+  )
+
+  userConfig.browsers[browserIndex].enabled = !userConfig.browsers[browserIndex]
+    .enabled
+
+  store.set('browsers', userConfig.browsers)
+
+  pickerWindow.reload()
+  preferencesWindow.reload()
+})
+
 app.on('ready', () => {
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
 
   loadConfig().then(() =>
     findInstalledBrowsers().then(installedBrowsers => {
-      createPickerWindow(installedBrowsers.length, () => {
+      createPickerWindow(installedBrowsers, () => {
         pickerWindow.once('ready-to-show', () => {
-          pickerWindow.webContents.send('installedBrowsers', installedBrowsers)
+          // pickerWindow.webContents.send('installedBrowsers', installedBrowsers)
           if (global.URLToOpen) {
             sendUrlToRenderer(global.URLToOpen)
             global.URLToOpen = null

@@ -29,6 +29,7 @@ body {
   padding: 0;
 
    > li {
+    position: relative;
     display: flex;
     align-items: center;
     padding: 1rem;
@@ -38,6 +39,12 @@ body {
 
     &.active {
       background-color: #126edb;
+    }
+
+    &.is-enabled:after {
+      position: absolute;
+      right: 1rem;
+      content: '✔';
     }
   }
 }
