@@ -41,6 +41,8 @@ const openBrowser = appName =>
       )
     )
 
+currentWindow.setSize(400, currentWindow.installedBrowsers.filter(browser => browser.enabled).length * 64 + 48);
+
 // Populate installedBrowsers
 currentWindow.installedBrowsers
   .filter(browser => browser.enabled)
