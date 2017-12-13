@@ -14,6 +14,7 @@ let preferencesWindow = null
 let tray = null
 let appIsReady = false
 let installedBrowsers = []
+let wantToQuit = false
 
 const defaultConfig = { browsers: defaultBrowsers }
 const userConfig = {}
@@ -126,7 +127,12 @@ function createTrayIcon() {
     {
       label: 'Preferences',
       click: function() {
-        createPreferencesWindow()
+        togglePreferencesWindow(() => {
+          preferencesWindow.webContents.send(
+            'incomingBrowsers',
+            installedBrowsers
+          )
+        })
       }
     },
     {
@@ -140,6 +146,7 @@ function createTrayIcon() {
     {
       label: 'Quit',
       click: function() {
+        wantToQuit = true
         app.quit()
       }
     }
@@ -153,27 +160,37 @@ const sendUrlToRenderer = url => {
   pickerWindow.webContents.send('incomingURL', url)
 }
 
-/**
- * Create Preferences Window
- */
-function createPreferencesWindow() {
+function createPreferencesWindow(callback) {
+  preferencesWindow = new BrowserWindow({
+    width: 400,
+    height: 64 + 24,
+    icon: `${__dirname}/images/icon/icon.png`,
+    resizable: false,
+    show: false
+  })
+
+  // preferencesWindow.installedBrowsers = installedBrowsers
+  preferencesWindow.loadURL(`file://${__dirname}/preferences.html`)
+  // allow window to be opened again
+  preferencesWindow.on('close', e => {
+    if (wantToQuit == false) {
+      e.preventDefault()
+      preferencesWindow.hide()
+    }
+  })
+
+  if (callback) {
+    callback()
+  }
+}
+
+function togglePreferencesWindow(callback) {
   if (!preferencesWindow) {
-    preferencesWindow = new BrowserWindow({
-      width: 400,
-      height: installedBrowsers.length * 64 + 24,
-      icon: `${__dirname}/images/icon/icon.png`,
-      resizable: false
-    })
-
-    preferencesWindow.installedBrowsers = installedBrowsers
-
-    // preferencesWindow.installedBrowsers = installedBrowsers
-    preferencesWindow.loadURL(`file://${__dirname}/preferences.html`)
-    // allow window to be opened again
-    preferencesWindow.on('close', () => (preferencesWindow = null))
+    createPreferencesWindow(callback)
   } else {
     // Bring to front
     preferencesWindow.show()
+    callback()
   }
 }
 
@@ -194,6 +211,7 @@ app.on('ready', () => {
   app.setAsDefaultProtocolClient('http')
 
   loadConfig().then(() => {
+    createTrayIcon()
     createPickerWindow(() => {
       pickerWindow.once('ready-to-show', () => {
         if (global.URLToOpen) {
@@ -203,9 +221,11 @@ app.on('ready', () => {
         appIsReady = true
       })
     })
-    findInstalledBrowsers().then(installedBrowsers => {
+    createPreferencesWindow()
+    findInstalledBrowsers().then(data => {
+      installedBrowsers = data
       pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
-      createTrayIcon()
+      preferencesWindow.webContents.send('incomingBrowsers', installedBrowsers)
     })
   })
   //)
