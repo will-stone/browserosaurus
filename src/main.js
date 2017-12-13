@@ -1,13 +1,13 @@
-import { app, BrowserWindow, Tray, Menu, ipcMain } from 'electron'
-import jp from 'jsonpath'
-import { spawn } from 'child_process'
-import parser from 'xml2json'
 import openAboutWindow from 'about-window'
+import { spawn } from 'child_process'
+import { app, BrowserWindow, Tray, Menu, ipcMain } from 'electron'
 import Store from 'electron-store'
+import jp from 'jsonpath'
+import parser from 'xml2json'
 
 import defaultBrowsers from './browsers'
 
-// Keep a global reference of the window object, if you don't, the window will
+// Keep a global reference of the window objects, if you don't, the windows will
 // be closed automatically when the JavaScript object is garbage collected.
 let pickerWindow = null
 let preferencesWindow = null
@@ -21,7 +21,13 @@ const userConfig = {}
 
 const store = new Store({ defaults: defaultConfig })
 
-const loadConfig = () => {
+/**
+ * Load config
+ *
+ * Syncs the default browser configuration with the store.
+ * @returns {Promise} Simply returns true once config has been loaded.
+ */
+function loadConfig() {
   return new Promise(fulfill => {
     userConfig['browsers'] = store.get('browsers')
 
@@ -54,7 +60,14 @@ const loadConfig = () => {
   })
 }
 
-const findInstalledBrowsers = () => {
+/**
+ * Find installed browsers
+ *
+ * Scans the system for all known browsers (in browsers.js file).
+ * @returns {Promise} returns array of browsers if resolved, and string
+ * if rejected.
+ */
+function findInstalledBrowsers() {
   return new Promise((fulfill, reject) => {
     const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
 
@@ -90,6 +103,13 @@ const findInstalledBrowsers = () => {
   })
 }
 
+/**
+ * Create picker window
+ *
+ * Creates the window that is used to display browser selection after clicking
+ * a link.
+ * @param {Function} callback function to run after this one finishes.
+ */
 function createPickerWindow(callback) {
   pickerWindow = new BrowserWindow({
     width: 400,
@@ -117,6 +137,12 @@ function createPickerWindow(callback) {
   }
 }
 
+/**
+ * Create tray icon
+ *
+ * Creates the menubar icon and menu items.
+ * @returns {null}
+ */
 function createTrayIcon() {
   tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
   tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
@@ -151,13 +177,29 @@ function createTrayIcon() {
   ])
   tray.setToolTip('Browserosaurus')
   tray.setContextMenu(contextMenu)
+
+  return null
 }
 
-const sendUrlToRenderer = url => {
+/**
+ * Send URL to picker
+ *
+ * When url is clicked, this sends the url to the picker renderer so browsers
+ * know what to open.
+ * @param {String} url clicked link.
+ */
+function sendUrlToPicker(url) {
   pickerWindow.center() // moves window to current screen
   pickerWindow.webContents.send('incomingURL', url)
 }
 
+/**
+ * Create Preferences Window
+ *
+ * Creates the window used to display the preferences, triggered from the
+ * menubar icon.
+ * @param {Function} callback function to run after this one finishes.
+ */
 function createPreferencesWindow(callback) {
   preferencesWindow = new BrowserWindow({
     width: 400,
@@ -182,6 +224,12 @@ function createPreferencesWindow(callback) {
   }
 }
 
+/**
+ * Toggle Preferences Window
+ *
+ * Shows and brings preferences window to front.
+ * @param {Function} callback function to run after this one finishes.
+ */
 function togglePreferencesWindow(callback) {
   if (!preferencesWindow) {
     createPreferencesWindow(callback)
@@ -192,6 +240,14 @@ function togglePreferencesWindow(callback) {
   }
 }
 
+/**
+ * Toggle browser event
+ *
+ * Listens for the toggle-browser event, triggered from the picker renderer and
+ * updates the enabled/disabled status of the checked/unchecked browser.
+ * @param {String} browserName
+ * @param {Boolean} enabled
+ */
 ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
   const browserIndex = userConfig.browsers.findIndex(
     browser => browser.name === browserName
@@ -204,6 +260,11 @@ ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
   pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
 })
 
+/**
+ * App on ready
+ *
+ * Run once electron has loaded and the app is considered _ready for use_.
+ */
 app.on('ready', () => {
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
@@ -213,7 +274,7 @@ app.on('ready', () => {
     createPickerWindow(() => {
       pickerWindow.once('ready-to-show', () => {
         if (global.URLToOpen) {
-          sendUrlToRenderer(global.URLToOpen)
+          sendUrlToPicker(global.URLToOpen)
           global.URLToOpen = null
         }
         appIsReady = true
@@ -229,13 +290,19 @@ app.on('ready', () => {
   //)
 })
 
-// Hide dock icon
+// Hide dock icon. Also prevents Browserosaurus from appearing in cmd-tab.
 app.dock.hide()
 
+/**
+ * App on open URL
+ *
+ * When a URL is sent to Browserosaurus (as it is default browser), send it to
+ * the picker.
+ */
 app.on('open-url', (event, url) => {
   event.preventDefault()
   if (appIsReady) {
-    sendUrlToRenderer(url)
+    sendUrlToPicker(url)
   } else {
     global.URLToOpen = url // this will be handled later in the createWindow callback
   }

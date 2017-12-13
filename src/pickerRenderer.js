@@ -6,6 +6,7 @@ let url = null
 const browserList = document.getElementById('browserList')
 const urlField = document.getElementById('url')
 
+// Hide the picker window
 const closeWindow = () => {
   urlField.innerText = ''
 
@@ -23,20 +24,29 @@ electron.ipcRenderer.on('incomingURL', (event, message) => {
   currentWindow.show()
 })
 
+// Update browsers
 electron.ipcRenderer.on('incomingBrowsers', (event, message) => {
   emptiesPicker()
   populatePicker(message)
 })
 
+// Listen for window close event, i.e. on blur, escape etc.
 electron.ipcRenderer.on('close', () => {
   closeWindow()
 })
 
+// Escape key hides picker window.
 Mousetrap.bind('esc', () => {
   closeWindow()
 })
 
-const openBrowser = appName =>
+/**
+ * Open Browser
+ *
+ * Sends the URL to the chosen browser and tells OS to open it.
+ * @param {String} appName name of browser as recognised by macOS
+ */
+function openBrowser(appName) {
   opn(url, { app: appName, wait: false })
     .then(() => closeWindow())
     .catch(() =>
@@ -45,14 +55,26 @@ const openBrowser = appName =>
           url
       )
     )
+}
 
-const emptiesPicker = () => {
+/**
+ * Empties Picker
+ *
+ * Clears the picker window of all browsers, readying it to be repopulated.
+ */
+function emptiesPicker() {
   while (browserList.firstChild) {
     browserList.removeChild(browserList.firstChild)
   }
 }
 
-const populatePicker = installedBrowsers => {
+/**
+ * Populate picker
+ *
+ * Injects all present and enabled browsers as list items of picker.
+ * @param {Array} installedBrowsers
+ */
+function populatePicker(installedBrowsers) {
   if (installedBrowsers.length > 0) {
     // Populate installedBrowsers
 
