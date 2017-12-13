@@ -28,6 +28,7 @@ body {
 #browserList {
   margin: 0;
   padding: 0;
+  user-select: none;
 
    > li {
     position: relative;
@@ -66,6 +67,14 @@ body {
 
 #preferences {
   color: #111111;
+
+  #browserList > li {
+    cursor: default;
+
+    &.sortable-ghost {
+      opacity: 0;
+    }
+  }
 }
 
 #picker {

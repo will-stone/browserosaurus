@@ -1,3 +1,4 @@
+const Sortable = require('sortablejs')
 const electron = require('electron')
 const browserList = document.getElementById('browserList')
 
@@ -12,6 +13,10 @@ const currentWindow = electron.remote.getCurrentWindow()
  */
 function toggleBrowser(browserName, enabled) {
   electron.ipcRenderer.send('toggle-browser', { browserName, enabled })
+}
+
+function sortBrowser(oldIndex, newIndex) {
+  electron.ipcRenderer.send('sort-browser', { oldIndex, newIndex })
 }
 
 /**
@@ -54,6 +59,7 @@ function populatePreferences(installedBrowsers) {
       })
       .map(browser => {
         const li = document.createElement('li')
+        li.classList.add('browserItem')
 
         const logo = document.createElement('img')
         logo.classList.add('browserLogo')
@@ -97,6 +103,11 @@ function populatePreferences(installedBrowsers) {
 
         browserList.appendChild(li)
       })
+
+    Sortable.create(browserList, {
+      draggable: '.browserItem',
+      onEnd: e => sortBrowser(e.oldIndex, e.newIndex)
+    })
   } else {
     const listItem = document.createElement('li')
 

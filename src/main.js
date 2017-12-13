@@ -29,7 +29,7 @@ const store = new Store({ defaults: defaultConfig })
  */
 function loadConfig() {
   return new Promise(fulfill => {
-    userConfig['browsers'] = store.get('browsers')
+    userConfig.browsers = store.get('browsers')
 
     let userBrowserFound
 
@@ -240,6 +240,11 @@ function togglePreferencesWindow(callback) {
   }
 }
 
+function arraySwap(array, x, y) {
+  array[x] = array.splice(y, 1, array[x])[0]
+  return array
+}
+
 /**
  * Toggle browser event
  *
@@ -252,12 +257,23 @@ ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
   const browserIndex = userConfig.browsers.findIndex(
     browser => browser.name === browserName
   )
-
   userConfig.browsers[browserIndex].enabled = enabled
-
   store.set('browsers', userConfig.browsers)
-
   pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
+})
+
+ipcMain.on('sort-browser', (event, { oldIndex, newIndex }) => {
+  const from = installedBrowsers[oldIndex].name
+  const to = installedBrowsers[newIndex].name
+  const fromIndex = userConfig.browsers.findIndex(
+    browser => browser.name === from
+  )
+  const toIndex = userConfig.browsers.findIndex(browser => browser.name === to)
+  userConfig.browsers = arraySwap(userConfig.browsers, fromIndex, toIndex)
+  store.set('browsers', userConfig.browsers)
+  findInstalledBrowsers().then(installedBrowsers => {
+    pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
+  })
 })
 
 /**
@@ -281,8 +297,7 @@ app.on('ready', () => {
       })
     })
     createPreferencesWindow()
-    findInstalledBrowsers().then(data => {
-      installedBrowsers = data
+    findInstalledBrowsers().then(installedBrowsers => {
       pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
       preferencesWindow.webContents.send('incomingBrowsers', installedBrowsers)
     })
