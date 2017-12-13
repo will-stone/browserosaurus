@@ -162,8 +162,7 @@ function createPreferencesWindow(installedBrowsers) {
       width: 400,
       height: installedBrowsers.length * 64 + 24,
       icon: `${__dirname}/images/icon/icon.png`,
-      resizable: false,
-      backgroundColor: '#111111'
+      resizable: false
     })
 
     preferencesWindow.installedBrowsers = installedBrowsers
@@ -176,18 +175,16 @@ function createPreferencesWindow(installedBrowsers) {
   }
 }
 
-ipcMain.on('toggle-browser', (event, browserName) => {
+ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
   const browserIndex = userConfig.browsers.findIndex(
     browser => browser.name === browserName
   )
 
-  userConfig.browsers[browserIndex].enabled = !userConfig.browsers[browserIndex]
-    .enabled
+  userConfig.browsers[browserIndex].enabled = enabled
 
   store.set('browsers', userConfig.browsers)
 
   pickerWindow.reload()
-  // preferencesWindow.reload()
 })
 
 app.on('ready', () => {
