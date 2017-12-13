@@ -53,9 +53,6 @@ const emptiesPicker = () => {
 }
 
 const populatePicker = installedBrowsers => {
-
-  console.log(installedBrowsers.length)
-
   if (installedBrowsers.length > 0) {
     // Populate installedBrowsers
 
@@ -114,9 +111,8 @@ const populatePicker = installedBrowsers => {
       })
   } else {
     const listItem = document.createElement('li')
-    console.log("somithing")
 
-    listItem.innerText = 'Loading..'
+    listItem.innerText = 'Loading...'
 
     browserList.appendChild(listItem)
     currentWindow.setSize(400, 64 + 48)
