@@ -13,6 +13,7 @@ let pickerWindow = null
 let preferencesWindow = null
 let tray = null
 let appIsReady = false
+let installedBrowsers = []
 
 const defaultConfig = { browsers: defaultBrowsers }
 const userConfig = {}
@@ -72,7 +73,7 @@ const findInstalledBrowsers = () => {
         profile,
         'plist.array.dict.array[1].dict[*].string[0]'
       )
-      const installedBrowsers = installedApps
+      installedBrowsers = installedApps
         .map(appName => {
           for (let i = 0; i < userConfig.browsers.length; i++) {
             const browser = userConfig.browsers[i]
@@ -92,7 +93,7 @@ function createPickerWindow(installedBrowsers, callback) {
   // Create the browser window.
   pickerWindow = new BrowserWindow({
     width: 400,
-    height: installedBrowsers.length * 64 + 48,
+    height: 64 + 48,
     acceptFirstMouse: true,
     alwaysOnTop: true,
     icon: `${__dirname}/images/icon/icon.png`,
@@ -105,7 +106,7 @@ function createPickerWindow(installedBrowsers, callback) {
     backgroundColor: '#111111'
   })
 
-  pickerWindow.installedBrowsers = installedBrowsers
+  pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
 
   // and load the index.html of the app.
   pickerWindow.loadURL(`file://${__dirname}/index.html`)
@@ -160,7 +161,7 @@ function createPreferencesWindow(installedBrowsers) {
   if (!preferencesWindow) {
     preferencesWindow = new BrowserWindow({
       width: 400,
-      height: installedBrowsers.length * 64 + 24,
+      height: 2 * 64 + 24,
       icon: `${__dirname}/images/icon/icon.png`,
       resizable: false,
       backgroundColor: '#111111'
@@ -194,21 +195,21 @@ app.on('ready', () => {
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
 
-  loadConfig().then(() =>
-    findInstalledBrowsers().then(installedBrowsers => {
-      createPickerWindow(installedBrowsers, () => {
-        pickerWindow.once('ready-to-show', () => {
-          // pickerWindow.webContents.send('installedBrowsers', installedBrowsers)
-          if (global.URLToOpen) {
-            sendUrlToRenderer(global.URLToOpen)
-            global.URLToOpen = null
-          }
-          appIsReady = true
-          // pickerWindow.webContents.openDevTools({ mode: 'detach' })
-        })
+  loadConfig().then(() => {
+    createPickerWindow(installedBrowsers, () => {
+      pickerWindow.once('ready-to-show', () => {
+        if (global.URLToOpen) {
+          sendUrlToRenderer(global.URLToOpen)
+          global.URLToOpen = null
+        }
+        appIsReady = true
       })
     })
-  )
+    findInstalledBrowsers().then(installedBrowsers => {
+      pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
+    })
+  })
+  //)
 })
 
 // Hide dock icon

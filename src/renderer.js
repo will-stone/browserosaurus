@@ -23,6 +23,11 @@ electron.ipcRenderer.on('incomingURL', (event, message) => {
   currentWindow.show()
 })
 
+electron.ipcRenderer.on('incomingBrowsers', (event, message) => {
+  emptiesPicker()
+  populatePicker(message)
+})
+
 electron.ipcRenderer.on('close', () => {
   closeWindow()
 })
@@ -41,54 +46,79 @@ const openBrowser = appName =>
       )
     )
 
-currentWindow.setSize(400, currentWindow.installedBrowsers.filter(browser => browser.enabled).length * 64 + 48);
+const emptiesPicker = () => {
+  while (browserList.firstChild) {
+    browserList.removeChild(browserList.firstChild)
+  }
+}
 
-// Populate installedBrowsers
-currentWindow.installedBrowsers
-  .filter(browser => browser.enabled)
-  .map(browser => {
-    // use alias as label if available, otherwise use name
-    if (!browser.alias) {
-      browser.alias = browser.name
-    }
-    return browser
-  })
-  .map(browser => {
+const populatePicker = installedBrowsers => {
+
+  console.log(installedBrowsers.length)
+
+  if (installedBrowsers.length > 0) {
+    // Populate installedBrowsers
+
+    currentWindow.setSize(
+      400,
+      installedBrowsers.filter(browser => browser.enabled).length * 64 + 48
+    )
+
+    installedBrowsers
+      .filter(browser => browser.enabled)
+      .map(browser => {
+        // use alias as label if available, otherwise use name
+        if (!browser.alias) {
+          browser.alias = browser.name
+        }
+        return browser
+      })
+      .map(browser => {
+        const listItem = document.createElement('li')
+
+        const browserLogo = document.createElement('img')
+        browserLogo.classList.add('browserLogo')
+        browserLogo.src = `images/browser-logos/${browser.name}.png`
+        listItem.appendChild(browserLogo)
+
+        const browserName = document.createElement('span')
+        browserName.classList.add('browserName')
+        browserName.innerText = browser.alias
+        listItem.appendChild(browserName)
+
+        const browserKey = document.createElement('span')
+        browserKey.classList.add('browserKey')
+        browserKey.innerText = browser.key
+        listItem.appendChild(browserKey)
+
+        listItem.addEventListener('click', () => {
+          listItem.classList.remove('active')
+          openBrowser(browser.name)
+        })
+        listItem.addEventListener('mouseenter', () => {
+          listItem.classList.add('active')
+        })
+        listItem.addEventListener('mouseleave', () => {
+          listItem.classList.remove('active')
+        })
+
+        browserList.appendChild(listItem)
+
+        Mousetrap.bind(browser.key, () => {
+          listItem.classList.add('active')
+          setTimeout(() => {
+            listItem.classList.remove('active')
+            openBrowser(browser.name)
+          }, 200)
+        })
+      })
+  } else {
     const listItem = document.createElement('li')
+    console.log("somithing")
 
-    const browserLogo = document.createElement('img')
-    browserLogo.classList.add('browserLogo')
-    browserLogo.src = `images/browser-logos/${browser.name}.png`
-    listItem.appendChild(browserLogo)
-
-    const browserName = document.createElement('span')
-    browserName.classList.add('browserName')
-    browserName.innerText = browser.alias
-    listItem.appendChild(browserName)
-
-    const browserKey = document.createElement('span')
-    browserKey.classList.add('browserKey')
-    browserKey.innerText = browser.key
-    listItem.appendChild(browserKey)
-
-    listItem.addEventListener('click', () => {
-      listItem.classList.remove('active')
-      openBrowser(browser.name)
-    })
-    listItem.addEventListener('mouseenter', () => {
-      listItem.classList.add('active')
-    })
-    listItem.addEventListener('mouseleave', () => {
-      listItem.classList.remove('active')
-    })
+    listItem.innerText = 'Loading..'
 
     browserList.appendChild(listItem)
-
-    Mousetrap.bind(browser.key, () => {
-      listItem.classList.add('active')
-      setTimeout(() => {
-        listItem.classList.remove('active')
-        openBrowser(browser.name)
-      }, 200)
-    })
-  })
+    currentWindow.setSize(400, 64 + 48)
+  }
+}
