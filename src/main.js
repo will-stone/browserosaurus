@@ -91,7 +91,6 @@ const findInstalledBrowsers = () => {
 }
 
 function createPickerWindow(callback) {
-  // Create the browser window.
   pickerWindow = new BrowserWindow({
     width: 400,
     height: 64 + 48,
@@ -107,8 +106,7 @@ function createPickerWindow(callback) {
     backgroundColor: '#111111'
   })
 
-  // and load the index.html of the app.
-  pickerWindow.loadURL(`file://${__dirname}/index.html`)
+  pickerWindow.loadURL(`file://${__dirname}/picker.html`)
 
   pickerWindow.on('blur', () => {
     pickerWindow.webContents.send('close', true)
