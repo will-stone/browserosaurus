@@ -1,20 +1,21 @@
 export default [
-  { name: 'Brave', key: 'b' },
-  { name: 'Chromium', key: 'c' },
-  { name: 'Firefox', key: 'f' },
+  { name: 'Brave', key: 'b', enabled: true },
+  { name: 'Chromium', key: 'c', enabled: true },
+  { name: 'Firefox', key: 'f', enabled: true },
   {
     name: 'FirefoxDeveloperEdition',
     alias: 'Firefox Developer Edition',
-    key: 'd'
+    key: 'd',
+    enabled: true
   },
-  { name: 'FirefoxNightly', alias: 'Nightly', key: 'n' },
-  { name: 'Google Chrome', key: 'g' },
-  { name: 'Google Chrome Canary', key: 'y' },
-  { name: 'Iridium', key: 'i' },
-  { name: 'Maxthon', key: 'm' },
-  { name: 'Min', key: '-' },
-  { name: 'Opera', key: 'o' },
-  { name: 'Safari', key: 's' },
-  { name: 'TorBrowser', key: 't' },
-  { name: 'Vivaldi', key: 'v' }
+  { name: 'FirefoxNightly', alias: 'Nightly', key: 'n', enabled: true },
+  { name: 'Google Chrome', key: 'g', enabled: true },
+  { name: 'Google Chrome Canary', key: 'y', enabled: true },
+  { name: 'Iridium', key: 'i', enabled: true },
+  { name: 'Maxthon', key: 'm', enabled: true },
+  { name: 'Min', key: '-', enabled: true },
+  { name: 'Opera', key: 'o', enabled: true },
+  { name: 'Safari', key: 's', enabled: true },
+  { name: 'TorBrowser', key: 't', enabled: true },
+  { name: 'Vivaldi', key: 'v', enabled: true }
 ]

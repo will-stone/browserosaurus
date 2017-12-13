@@ -1,3 +1,5 @@
+@import 'node_modules/pretty-checkbox/src/pretty-checkbox.scss';
+
 * {
   box-sizing: border-box;
 }
@@ -5,7 +7,6 @@
 html,
 body {
   height: 100%;
-  color: white;
   font-family: sans-serif;
   font-size: 16px;
 }
@@ -29,15 +30,21 @@ body {
   padding: 0;
 
    > li {
+    position: relative;
     display: flex;
     align-items: center;
     padding: 1rem;
-    cursor: pointer;
     border-width: 0;
     outline: none;
 
     &.active {
       background-color: #126edb;
+    }
+
+    &.is-enabled:after {
+      position: absolute;
+      right: 1rem;
+      content: '✔';
     }
   }
 }
@@ -55,4 +62,16 @@ body {
 
 .browserKey {
   font-weight: bold;
+}
+
+#preferences {
+  color: #111111;
+}
+
+#picker {
+  color: white;
+
+  #browserList > li {
+    cursor: pointer;
+  }
 }

@@ -7,19 +7,19 @@
   <link rel="stylesheet" href="main.scss">
 </head>
 
-<body>
+<body id="picker">
 
   <div id="url"></div>
 
-  <div id="loading">Loading...</div>
-
-  <ul id="browserList"></ul>
+  <ul id="browserList">
+    <li>Loading...
+      <li>
+  </ul>
 
 </body>
 
 <script>
-  require('./renderer.js')
-
+  require('./pickerRenderer.js')
 </script>
 
 </html>
