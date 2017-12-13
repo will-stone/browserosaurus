@@ -27,8 +27,9 @@ currentWindow.installedBrowsers
     browserName.innerText = browser.alias
     listItem.appendChild(browserName)
 
-    listItem.addEventListener('click', () => {
+    listItem.addEventListener('click', (e) => {
       toggleBrowser(browser.name)
+      e.target.classList.toggle('is-enabled')
     })
 
     listItem.addEventListener('mouseenter', () => {

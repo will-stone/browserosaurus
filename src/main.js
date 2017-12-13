@@ -187,7 +187,7 @@ ipcMain.on('toggle-browser', (event, browserName) => {
   store.set('browsers', userConfig.browsers)
 
   pickerWindow.reload()
-  preferencesWindow.reload()
+  // preferencesWindow.reload()
 })
 
 app.on('ready', () => {
