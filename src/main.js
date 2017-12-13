@@ -89,7 +89,7 @@ const findInstalledBrowsers = () => {
   })
 }
 
-function createPickerWindow(installedBrowsers, callback) {
+function createPickerWindow(callback) {
   // Create the browser window.
   pickerWindow = new BrowserWindow({
     width: 400,
@@ -106,19 +106,27 @@ function createPickerWindow(installedBrowsers, callback) {
     backgroundColor: '#111111'
   })
 
-  pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
-
   // and load the index.html of the app.
   pickerWindow.loadURL(`file://${__dirname}/index.html`)
 
-  // Menubar icon
+  pickerWindow.on('blur', () => {
+    pickerWindow.webContents.send('close', true)
+  })
+
+  if (callback) {
+    callback()
+  }
+}
+
+function createTrayIcon() {
   tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
   tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
+
   const contextMenu = Menu.buildFromTemplate([
     {
       label: 'Preferences',
       click: function() {
-        createPreferencesWindow(installedBrowsers)
+        createPreferencesWindow()
       }
     },
     {
@@ -138,14 +146,6 @@ function createPickerWindow(installedBrowsers, callback) {
   ])
   tray.setToolTip('Browserosaurus')
   tray.setContextMenu(contextMenu)
-
-  pickerWindow.on('blur', () => {
-    pickerWindow.webContents.send('close', true)
-  })
-
-  if (callback) {
-    callback()
-  }
 }
 
 const sendUrlToRenderer = url => {
@@ -155,18 +155,19 @@ const sendUrlToRenderer = url => {
 
 /**
  * Create Preferences Window
- * @param {array} installedBrowsers
  */
-function createPreferencesWindow(installedBrowsers) {
+function createPreferencesWindow() {
   if (!preferencesWindow) {
     preferencesWindow = new BrowserWindow({
       width: 400,
-      height: 2 * 64 + 24,
+      height: installedBrowsers.length * 64 + 24,
       icon: `${__dirname}/images/icon/icon.png`,
       resizable: false
     })
 
     preferencesWindow.installedBrowsers = installedBrowsers
+
+    // preferencesWindow.installedBrowsers = installedBrowsers
     preferencesWindow.loadURL(`file://${__dirname}/preferences.html`)
     // allow window to be opened again
     preferencesWindow.on('close', () => (preferencesWindow = null))
@@ -185,7 +186,7 @@ ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
 
   store.set('browsers', userConfig.browsers)
 
-  pickerWindow.reload()
+  pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
 })
 
 app.on('ready', () => {
@@ -193,7 +194,7 @@ app.on('ready', () => {
   app.setAsDefaultProtocolClient('http')
 
   loadConfig().then(() => {
-    createPickerWindow(installedBrowsers, () => {
+    createPickerWindow(() => {
       pickerWindow.once('ready-to-show', () => {
         if (global.URLToOpen) {
           sendUrlToRenderer(global.URLToOpen)
@@ -204,6 +205,7 @@ app.on('ready', () => {
     })
     findInstalledBrowsers().then(installedBrowsers => {
       pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
+      createTrayIcon()
     })
   })
   //)
