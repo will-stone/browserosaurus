@@ -87,11 +87,11 @@ function findInstalledBrowsers() {
         profile,
         'plist.array.dict.array[1].dict[*].string[0]'
       )
-      installedBrowsers = installedApps
-        .map(appName => {
-          for (let i = 0; i < userConfig.browsers.length; i++) {
-            const browser = userConfig.browsers[i]
-            if (browser.name === appName) {
+      installedBrowsers = userConfig.browsers
+        .map(browser => {
+          for (let i = 0; i < installedApps.length; i++) {
+            //const browser = installedApps[i]
+            if (browser.name === installedApps[i]) {
               return browser
             }
           }
@@ -265,15 +265,18 @@ ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
 ipcMain.on('sort-browser', (event, { oldIndex, newIndex }) => {
   const from = installedBrowsers[oldIndex].name
   const to = installedBrowsers[newIndex].name
+
   const fromIndex = userConfig.browsers.findIndex(
     browser => browser.name === from
   )
   const toIndex = userConfig.browsers.findIndex(browser => browser.name === to)
+
   userConfig.browsers = arraySwap(userConfig.browsers, fromIndex, toIndex)
+  installedBrowsers = arraySwap(installedBrowsers, oldIndex, newIndex)
+
   store.set('browsers', userConfig.browsers)
-  findInstalledBrowsers().then(installedBrowsers => {
-    pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
-  })
+  pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
+  preferencesWindow.webContents.send('incomingBrowsers', installedBrowsers)
 })
 
 /**
