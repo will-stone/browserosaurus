@@ -1,3 +1,4 @@
+const Sortable = require('sortablejs')
 const electron = require('electron')
 const browserList = document.getElementById('browserList')
 
@@ -12,6 +13,18 @@ const currentWindow = electron.remote.getCurrentWindow()
  */
 function toggleBrowser(browserName, enabled) {
   electron.ipcRenderer.send('toggle-browser', { browserName, enabled })
+}
+
+/**
+ * Sort browser
+ *
+ * Sends the sort-browser event to main.js. This allows browsers to be
+ * reordered.
+ * @param {Number} oldIndex index of browser being moved from.
+ * @param {*} newIndex index of place browser is being moved to.
+ */
+function sortBrowser(oldIndex, newIndex) {
+  electron.ipcRenderer.send('sort-browser', { oldIndex, newIndex })
 }
 
 /**
@@ -54,6 +67,11 @@ function populatePreferences(installedBrowsers) {
       })
       .map(browser => {
         const li = document.createElement('li')
+        li.classList.add('browserItem')
+
+        const handle = document.createElement('span')
+        handle.classList.add('handle')
+        li.appendChild(handle)
 
         const logo = document.createElement('img')
         logo.classList.add('browserLogo')
@@ -97,6 +115,12 @@ function populatePreferences(installedBrowsers) {
 
         browserList.appendChild(li)
       })
+
+    Sortable.create(browserList, {
+      draggable: '.browserItem',
+      handle: '.handle',
+      onEnd: e => sortBrowser(e.oldIndex, e.newIndex)
+    })
   } else {
     const listItem = document.createElement('li')
 

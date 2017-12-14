@@ -29,7 +29,7 @@ const store = new Store({ defaults: defaultConfig })
  */
 function loadConfig() {
   return new Promise(fulfill => {
-    userConfig['browsers'] = store.get('browsers')
+    userConfig.browsers = store.get('browsers')
 
     let userBrowserFound
 
@@ -87,11 +87,11 @@ function findInstalledBrowsers() {
         profile,
         'plist.array.dict.array[1].dict[*].string[0]'
       )
-      installedBrowsers = installedApps
-        .map(appName => {
-          for (let i = 0; i < userConfig.browsers.length; i++) {
-            const browser = userConfig.browsers[i]
-            if (browser.name === appName) {
+      installedBrowsers = userConfig.browsers
+        .map(browser => {
+          for (let i = 0; i < installedApps.length; i++) {
+            //const browser = installedApps[i]
+            if (browser.name === installedApps[i]) {
               return browser
             }
           }
@@ -241,6 +241,19 @@ function togglePreferencesWindow(callback) {
 }
 
 /**
+ * Array Move
+ *
+ * Utility function to move an array item to a specific spot in the array.
+ * @param {Array} array
+ * @param {Number} fromIndex
+ * @param {Number} toIndex
+ */
+function arrayMove(array, fromIndex, toIndex) {
+  array.splice(toIndex, 0, array.splice(fromIndex, 1)[0])
+  return array
+}
+
+/**
  * Toggle browser event
  *
  * Listens for the toggle-browser event, triggered from the picker renderer and
@@ -252,12 +265,34 @@ ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
   const browserIndex = userConfig.browsers.findIndex(
     browser => browser.name === browserName
   )
-
   userConfig.browsers[browserIndex].enabled = enabled
+  store.set('browsers', userConfig.browsers)
+  pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
+})
+
+/**
+ * Sort browser event
+ *
+ * Listens for the sort-browser event, triggered from the preferences renderer
+ * when a browser is dragged to a new position.
+ * @param {Number} oldIndex index of browser being moved from.
+ * @param {Number} newIndex index of place browser is being moved to.
+ */
+ipcMain.on('sort-browser', (event, { oldIndex, newIndex }) => {
+  const from = installedBrowsers[oldIndex].name
+  const to = installedBrowsers[newIndex].name
+
+  const fromIndex = userConfig.browsers.findIndex(
+    browser => browser.name === from
+  )
+  const toIndex = userConfig.browsers.findIndex(browser => browser.name === to)
+
+  userConfig.browsers = arrayMove(userConfig.browsers, fromIndex, toIndex)
+  installedBrowsers = arrayMove(installedBrowsers, oldIndex, newIndex)
 
   store.set('browsers', userConfig.browsers)
-
   pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
+  preferencesWindow.webContents.send('incomingBrowsers', installedBrowsers)
 })
 
 /**
@@ -281,8 +316,7 @@ app.on('ready', () => {
       })
     })
     createPreferencesWindow()
-    findInstalledBrowsers().then(data => {
-      installedBrowsers = data
+    findInstalledBrowsers().then(installedBrowsers => {
       pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
       preferencesWindow.webContents.send('incomingBrowsers', installedBrowsers)
     })

@@ -28,6 +28,29 @@ body {
 #browserList {
   margin: 0;
   padding: 0;
+  user-select: none;
+
+  .handle {
+    display: inline-block;
+    overflow: hidden;
+    width: 16px;
+    height: 20px;
+    margin-top: -0.7em;
+    margin-right: 0.3em;
+    padding: 3px 4px;
+    content: '....';
+    cursor: move;
+    vertical-align: middle;
+    letter-spacing: 2px;
+    color: #aaaaaa;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 5px;
+
+    &:after {
+      content: '.. .. .. ..';
+    }
+  }
 
    > li {
     position: relative;
@@ -66,6 +89,14 @@ body {
 
 #preferences {
   color: #111111;
+
+  #browserList > li {
+    cursor: default;
+
+    &.sortable-ghost {
+      opacity: 0;
+    }
+  }
 }
 
 #picker {
