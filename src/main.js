@@ -215,9 +215,10 @@ function createPreferencesWindow(callback) {
     resizable: false,
     show: false,
     alwaysOnTop: true,
-    frame: false,
-    acceptFirstMouse: true,
-    hasShadow: true
+    frame: true,
+    hasShadow: true,
+    minimizable: false,
+    maximizable: false
   })
 
   // preferencesWindow.installedBrowsers = installedBrowsers
@@ -228,10 +229,6 @@ function createPreferencesWindow(callback) {
       e.preventDefault()
       preferencesWindow.hide()
     }
-  })
-
-  preferencesWindow.on('blur', () => {
-    preferencesWindow.hide()
   })
 
   if (callback) {
