@@ -15,6 +15,14 @@ function toggleBrowser(browserName, enabled) {
   electron.ipcRenderer.send('toggle-browser', { browserName, enabled })
 }
 
+/**
+ * Sort browser
+ *
+ * Sends the sort-browser event to main.js. This allows browsers to be
+ * reordered.
+ * @param {Number} oldIndex index of browser being moved from.
+ * @param {*} newIndex index of place browser is being moved to.
+ */
 function sortBrowser(oldIndex, newIndex) {
   electron.ipcRenderer.send('sort-browser', { oldIndex, newIndex })
 }
