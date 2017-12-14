@@ -128,6 +128,13 @@ function createPickerWindow(callback) {
 
   pickerWindow.loadURL(`file://${__dirname}/picker.html`)
 
+  pickerWindow.on('close', e => {
+    if (wantToQuit == false) {
+      e.preventDefault()
+      pickerWindow.hide()
+    }
+  })
+
   pickerWindow.on('blur', () => {
     pickerWindow.webContents.send('close', true)
   })
@@ -206,7 +213,11 @@ function createPreferencesWindow(callback) {
     height: 64 + 24,
     icon: `${__dirname}/images/icon/icon.png`,
     resizable: false,
-    show: false
+    show: false,
+    alwaysOnTop: true,
+    frame: false,
+    acceptFirstMouse: true,
+    hasShadow: true
   })
 
   // preferencesWindow.installedBrowsers = installedBrowsers
@@ -217,6 +228,10 @@ function createPreferencesWindow(callback) {
       e.preventDefault()
       preferencesWindow.hide()
     }
+  })
+
+  preferencesWindow.on('blur', () => {
+    preferencesWindow.hide()
   })
 
   if (callback) {
@@ -235,6 +250,7 @@ function togglePreferencesWindow(callback) {
     createPreferencesWindow(callback)
   } else {
     // Bring to front
+    preferencesWindow.center()
     preferencesWindow.show()
     callback()
   }
