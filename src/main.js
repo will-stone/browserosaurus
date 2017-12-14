@@ -241,7 +241,7 @@ function togglePreferencesWindow(callback) {
 }
 
 function arraySwap(array, x, y) {
-  array[x] = array.splice(y, 1, array[x])[0]
+  array.splice(y, 0, array.splice(x, 1)[0])
   return array
 }
 
