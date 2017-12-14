@@ -63,12 +63,6 @@ body {
     &.active {
       background-color: #126edb;
     }
-
-    &.is-enabled:after {
-      position: absolute;
-      right: 1rem;
-      content: '✔';
-    }
   }
 }
 
