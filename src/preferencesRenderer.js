@@ -69,6 +69,10 @@ function populatePreferences(installedBrowsers) {
         const li = document.createElement('li')
         li.classList.add('browserItem')
 
+        const handle = document.createElement('span')
+        handle.classList.add('handle')
+        li.appendChild(handle)
+
         const logo = document.createElement('img')
         logo.classList.add('browserLogo')
         logo.src = `images/browser-logos/${browser.name}.png`
@@ -114,6 +118,7 @@ function populatePreferences(installedBrowsers) {
 
     Sortable.create(browserList, {
       draggable: '.browserItem',
+      handle: '.handle',
       onEnd: e => sortBrowser(e.oldIndex, e.newIndex)
     })
   } else {
