@@ -4,6 +4,8 @@ import { app, BrowserWindow, Tray, Menu, ipcMain } from 'electron'
 import Store from 'electron-store'
 import jp from 'jsonpath'
 import parser from 'xml2json'
+import fetch from 'node-fetch'
+import semver from 'semver'
 
 import defaultBrowsers from './browsers'
 
@@ -156,6 +158,12 @@ function createTrayIcon() {
 
   const contextMenu = Menu.buildFromTemplate([
     {
+      label: 'Check for update...',
+      click: function() {
+        createUpdateWindow()
+      }
+    },
+    {
       label: 'Preferences',
       click: function() {
         togglePreferencesWindow(() => {
@@ -186,6 +194,19 @@ function createTrayIcon() {
   tray.setContextMenu(contextMenu)
 
   return null
+}
+
+function checkForUpdate() {
+  return fetch(
+    'https://api.github.com/repos/will-stone/browserosaurus/releases/latest'
+  )
+    .then(response => response.json())
+    .then(response => semver.gt(response.tag_name, app.getVersion()))
+}
+
+async function createUpdateWindow() {
+  const updateAvailable = await checkForUpdate()
+  console.log(updateAvailable)
 }
 
 /**
