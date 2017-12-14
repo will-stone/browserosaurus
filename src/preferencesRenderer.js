@@ -56,7 +56,7 @@ function emptiesPreferences() {
  */
 function populatePreferences(installedBrowsers) {
   if (installedBrowsers.length > 0) {
-    currentWindow.setSize(400, installedBrowsers.length * 64 + 24)
+    currentWindow.setSize(400, installedBrowsers.length * 64 + 22)
     installedBrowsers
       .map(browser => {
         // use alias as label if available, otherwise use name
