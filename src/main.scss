@@ -100,3 +100,43 @@ body {
     cursor: pointer;
   }
 }
+
+#update {
+  padding: 1rem;
+  text-align: center;
+
+  .showUpdate,
+  .noUpdate {
+    display: none;
+  }
+
+  &.updateAvailable {
+    .checking,
+    .noUpdate {
+      display: none;
+    }
+
+    .showUpdate {
+      display: block;
+    }
+  }
+
+  &.noUpdate {
+    .checking,
+    .showUpdate {
+      display: none;
+    }
+
+    .noUpdate {
+      display: block;
+    }
+  }
+}
+
+.button {
+  padding: 1rem;
+  color: white;
+  border: 0;
+  background-color: #126edb;
+  font-size: inherit;
+}

@@ -13,6 +13,7 @@ import defaultBrowsers from './browsers'
 // be closed automatically when the JavaScript object is garbage collected.
 let pickerWindow = null
 let preferencesWindow = null
+let updateWindow = null
 let tray = null
 let appIsReady = false
 let installedBrowsers = []
@@ -201,13 +202,41 @@ function checkForUpdate() {
     'https://api.github.com/repos/will-stone/browserosaurus/releases/latest'
   )
     .then(response => response.json())
-    .then(response => semver.gt(response.tag_name, app.getVersion()))
+    .then(response => {
+      if (semver.gt(response.tag_name, app.getVersion())) {
+        return response.assets[0].browser_download_url
+      } else {
+        return false
+      }
+    })
 }
 
-async function createUpdateWindow() {
-  const updateAvailable = await checkForUpdate()
-  console.log(updateAvailable)
+function createUpdateWindow() {
+  updateWindow = new BrowserWindow({
+    width: 400,
+    height: 200,
+    icon: `${__dirname}/images/icon/icon.png`,
+    resizable: false,
+    show: true,
+    alwaysOnTop: true,
+    frame: true,
+    hasShadow: true,
+    minimizable: false,
+    maximizable: false
+  })
+
+  updateWindow.loadURL(`file://${__dirname}/update.html`)
 }
+
+ipcMain.on('check-for-update', async () => {
+  const updateAvailable = await checkForUpdate()
+  updateWindow.webContents.send('updateAvailable', updateAvailable)
+})
+
+ipcMain.on('open-download-link', (event, url) => {
+  updateWindow.close()
+  sendUrlToPicker(url)
+})
 
 /**
  * Send URL to picker
@@ -242,8 +271,8 @@ function createPreferencesWindow(callback) {
     maximizable: false
   })
 
-  // preferencesWindow.installedBrowsers = installedBrowsers
   preferencesWindow.loadURL(`file://${__dirname}/preferences.html`)
+
   // allow window to be opened again
   preferencesWindow.on('close', e => {
     if (wantToQuit == false) {

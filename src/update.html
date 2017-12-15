@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Browserosaurus Update</title>
+  <link rel="stylesheet" href="main.scss">
+</head>
+
+<body id="update">
+
+  <div class="checking">Checking&hellip;</div>
+
+  <div class="showUpdate">
+    <h1>Update available!</h1>
+    <button id="downloadButton" class="button">Download new version</button>
+  </div>
+
+  <div class="noUpdate">You have the latest version.</div>
+
+</body>
+
+<script>
+  require('./updateRenderer.js')
+</script>
+
+</html>
