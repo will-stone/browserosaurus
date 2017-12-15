@@ -18,6 +18,7 @@ let tray = null
 let appIsReady = false
 let installedBrowsers = []
 let wantToQuit = false
+let globalUpdateUrl = { url: null, ver: null }
 
 const defaultConfig = { browsers: defaultBrowsers }
 const userConfig = {}
@@ -157,13 +158,96 @@ function createTrayIcon() {
   tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
   tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
 
-  const contextMenu = Menu.buildFromTemplate([
+  const noUpdateMenuItem = [
+    {
+      label: "You're updated",
+      click: function(menuItem, browserWindow, e) {
+        menuItem.enabled = false
+
+        contextMenu = Menu.buildFromTemplate(
+          [
+            {
+              label: 'Checking',
+              enabled: false
+            }
+          ].concat(contextMenuTemplate)
+        )
+        tray.setContextMenu(contextMenu)
+
+        checkForUpdate().then(result => {
+          menuItem.enabled = true
+          //console.log('finish check', result)
+          if (result == false) {
+            contextMenu = Menu.buildFromTemplate(
+              noUpdateMenuItem.concat(contextMenuTemplate)
+            )
+            tray.setContextMenu(contextMenu)
+          } else {
+            globalUpdateUrl = result
+            yesUpdateMenuItem[0].label += ' (' + globalUpdateUrl.ver + ')'
+            contextMenu = Menu.buildFromTemplate(
+              yesUpdateMenuItem.concat(contextMenuTemplate)
+            )
+            tray.setContextMenu(contextMenu)
+          }
+        })
+      }
+    }
+  ]
+
+  let yesUpdateMenuItem = [
+    {
+      label: 'Download version',
+      click: function(menuItem, browserWindow, e) {
+        sendUrlToPicker(globalUpdateUrl.url)
+
+        contextMenu = Menu.buildFromTemplate(
+          updateMenuItem.concat(contextMenuTemplate)
+        )
+        tray.setContextMenu(contextMenu)
+      }
+    }
+  ]
+
+  const updateMenuItem = [
     {
       label: 'Check for update...',
-      click: function() {
-        createUpdateWindow()
+      click: function(menuItem, browserWindow, e) {
+        menuItem.enabled = false
+
+        contextMenu = Menu.buildFromTemplate(
+          [
+            {
+              label: 'Checking',
+              enabled: false
+            }
+          ].concat(contextMenuTemplate)
+        )
+        tray.setContextMenu(contextMenu)
+
+        checkForUpdate().then(result => {
+          menuItem.enabled = true
+          //console.log('finish check', result)
+          if (result == false) {
+            contextMenu = Menu.buildFromTemplate(
+              noUpdateMenuItem.concat(contextMenuTemplate)
+            )
+            tray.setContextMenu(contextMenu)
+          } else {
+            globalUpdateUrl = result
+
+            yesUpdateMenuItem[0].label += ' (' + globalUpdateUrl.ver + ')'
+            contextMenu = Menu.buildFromTemplate(
+              yesUpdateMenuItem.concat(contextMenuTemplate)
+            )
+            tray.setContextMenu(contextMenu)
+          }
+        })
       }
-    },
+    }
+  ]
+
+  const contextMenuTemplate = [
     {
       label: 'Preferences',
       click: function() {
@@ -190,7 +274,12 @@ function createTrayIcon() {
         app.quit()
       }
     }
-  ])
+  ]
+
+  let contextMenu = Menu.buildFromTemplate(
+    updateMenuItem.concat(contextMenuTemplate)
+  )
+
   tray.setToolTip('Browserosaurus')
   tray.setContextMenu(contextMenu)
 
@@ -204,7 +293,10 @@ function checkForUpdate() {
     .then(response => response.json())
     .then(response => {
       if (semver.gt(response.tag_name, app.getVersion())) {
-        return response.assets[0].browser_download_url
+        return {
+          url: response.assets[0].browser_download_url,
+          ver: response.tag_name
+        }
       } else {
         return false
       }
