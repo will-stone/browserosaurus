@@ -9,10 +9,24 @@
 
 <body id="preferences">
 
-  <ul id="browserList">
-    <li>Loading&hellip;
-      <li>
+  <div id="titleBar">Preferences</div>
+
+  <ul id="navbar">
+    <li id="browsers-tab" class="is-active">Browsers</li>
+    <li id="about-tab">About</li>
   </ul>
+
+  <ul id="browserList" class="tab-pane is-active">
+    <li id="browsersLoading">Loading&hellip;</li>
+  </ul>
+
+  <div id="about" class="tab-pane text-center">
+    <p>
+      <img src="./images/icon/icon.png" height="100" width="100" alt="" />
+    </p>
+    <h1>Browserosaurus</h1>
+    <h2 id="browserosaurusVersion"></h2>
+  </div>
 
 </body>
 

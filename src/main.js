@@ -1,4 +1,4 @@
-import openAboutWindow from 'about-window'
+// import openAboutWindow from 'about-window'
 import { spawn } from 'child_process'
 import { app, BrowserWindow, Tray, Menu, ipcMain } from 'electron'
 import Store from 'electron-store'
@@ -71,39 +71,41 @@ function loadConfig() {
  * if rejected.
  */
 function findInstalledBrowsers() {
-  return new Promise((fulfill, reject) => {
-    const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
+  // return new Promise((fulfill, reject) => {
+  const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
 
-    let profile = ''
+  let profile = ''
 
-    sp.stdout.setEncoding('utf8')
-    sp.stdout.on('data', data => {
-      profile += data
-    })
-    sp.stderr.on('data', data => {
-      console.log(`stderr: ${data}`)
-      reject(data)
-    })
-    sp.stdout.on('end', () => {
-      profile = parser.toJson(profile, { object: true })
-      const installedApps = jp.query(
-        profile,
-        'plist.array.dict.array[1].dict[*].string[0]'
-      )
-      installedBrowsers = userConfig.browsers
-        .map(browser => {
-          for (let i = 0; i < installedApps.length; i++) {
-            //const browser = installedApps[i]
-            if (browser.name === installedApps[i]) {
-              return browser
-            }
-          }
-          return false
-        })
-        .filter(x => x) // remove empties
-      fulfill(installedBrowsers)
-    })
+  sp.stdout.setEncoding('utf8')
+  sp.stdout.on('data', data => {
+    profile += data
   })
+  sp.stderr.on('data', data => {
+    console.log(`stderr: ${data}`)
+    // reject(data)
+  })
+  sp.stdout.on('end', () => {
+    profile = parser.toJson(profile, { object: true })
+    const installedApps = jp.query(
+      profile,
+      'plist.array.dict.array[1].dict[*].string[0]'
+    )
+    installedBrowsers = userConfig.browsers
+      .map(browser => {
+        for (let i = 0; i < installedApps.length; i++) {
+          //const browser = installedApps[i]
+          if (browser.name === installedApps[i]) {
+            return browser
+          }
+        }
+        return false
+      })
+      .filter(x => x) // remove empties
+    // fulfill(installedBrowsers)
+    pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
+    preferencesWindow.webContents.send('incomingBrowsers', installedBrowsers)
+  })
+  // })
 }
 
 /**
@@ -126,7 +128,7 @@ function createPickerWindow(callback) {
     show: false,
     title: 'Browserosaurus',
     hasShadow: true,
-    backgroundColor: '#111111'
+    backgroundColor: '#21252b'
   })
 
   pickerWindow.loadURL(`file://${__dirname}/picker.html`)
@@ -159,28 +161,9 @@ function createTrayIcon() {
 
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: 'Check for update...',
-      click: function() {
-        createUpdateWindow()
-      }
-    },
-    {
       label: 'Preferences',
       click: function() {
-        togglePreferencesWindow(() => {
-          preferencesWindow.webContents.send(
-            'incomingBrowsers',
-            installedBrowsers
-          )
-        })
-      }
-    },
-    {
-      label: 'About',
-      click: function() {
-        openAboutWindow({
-          icon_path: `${__dirname}/images/icon/icon.png`
-        })
+        togglePreferencesWindow()
       }
     },
     {
@@ -211,22 +194,9 @@ function checkForUpdate() {
     })
 }
 
-function createUpdateWindow() {
-  updateWindow = new BrowserWindow({
-    width: 400,
-    height: 200,
-    icon: `${__dirname}/images/icon/icon.png`,
-    resizable: false,
-    show: true,
-    alwaysOnTop: true,
-    frame: true,
-    hasShadow: true,
-    minimizable: false,
-    maximizable: false
-  })
-
-  updateWindow.loadURL(`file://${__dirname}/update.html`)
-}
+ipcMain.on('scan-for-browsers', () => {
+  findInstalledBrowsers()
+})
 
 ipcMain.on('check-for-update', async () => {
   const updateAvailable = await checkForUpdate()
@@ -255,18 +225,21 @@ function sendUrlToPicker(url) {
  *
  * Creates the window used to display the preferences, triggered from the
  * menubar icon.
- * @param {Function} callback function to run after this one finishes.
  */
-function createPreferencesWindow(callback) {
+function createPreferencesWindow() {
   preferencesWindow = new BrowserWindow({
     width: 400,
-    height: 64 + 24,
+    height: 146,
     icon: `${__dirname}/images/icon/icon.png`,
     resizable: false,
     show: false,
     alwaysOnTop: true,
     frame: true,
     hasShadow: true,
+    minimizable: false,
+    maximizable: false,
+    titleBarStyle: 'hidden',
+    backgroundColor: '#21252b',
     minimizable: false,
     maximizable: false
   })
@@ -280,26 +253,20 @@ function createPreferencesWindow(callback) {
       preferencesWindow.hide()
     }
   })
-
-  if (callback) {
-    callback()
-  }
 }
 
 /**
  * Toggle Preferences Window
  *
  * Shows and brings preferences window to front.
- * @param {Function} callback function to run after this one finishes.
  */
-function togglePreferencesWindow(callback) {
+function togglePreferencesWindow() {
   if (!preferencesWindow) {
-    createPreferencesWindow(callback)
+    createPreferencesWindow()
   } else {
     // Bring to front
     preferencesWindow.center()
     preferencesWindow.show()
-    callback()
   }
 }
 
@@ -379,12 +346,11 @@ app.on('ready', () => {
       })
     })
     createPreferencesWindow()
-    findInstalledBrowsers().then(installedBrowsers => {
-      pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
-      preferencesWindow.webContents.send('incomingBrowsers', installedBrowsers)
-    })
+    findInstalledBrowsers() //.then(installedBrowsers => {
+    //   pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
+    //   preferencesWindow.webContents.send('incomingBrowsers', installedBrowsers)
+    // })
   })
-  //)
 })
 
 // Hide dock icon. Also prevents Browserosaurus from appearing in cmd-tab.
