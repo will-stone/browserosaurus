@@ -186,7 +186,12 @@ function checkForUpdate() {
   )
     .then(response => response.json())
     .then(response => {
-      if (semver.gt(response.tag_name, app.getVersion())) {
+      if (
+        response.message &&
+        response.message.startsWith('API rate limit exceeded')
+      ) {
+        return 'API rate limit exceeded, please try again later'
+      } else if (semver.gt(response.tag_name, app.getVersion())) {
         return response.assets[0].browser_download_url
       } else {
         return false
@@ -199,8 +204,12 @@ ipcMain.on('scan-for-browsers', () => {
 })
 
 ipcMain.on('check-for-update', async () => {
-  const updateAvailable = await checkForUpdate()
-  updateWindow.webContents.send('updateAvailable', updateAvailable)
+  try {
+    const updateAvailable = await checkForUpdate()
+    preferencesWindow.webContents.send('updateAvailable', updateAvailable)
+  } catch (err) {
+    console.log(err)
+  }
 })
 
 ipcMain.on('open-download-link', (event, url) => {

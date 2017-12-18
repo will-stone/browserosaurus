@@ -38,12 +38,27 @@ function switchTab(tabId) {
       browserList.classList.remove('is-active')
       browsersTab.classList.remove('is-active')
       currentWindow.setSize(400, 300 + 97)
+      electron.ipcRenderer.send('check-for-update')
       break
 
     default:
       break
   }
 }
+
+electron.ipcRenderer.on('updateAvailable', (event, updateUrl) => {
+  const updateStatus = document.getElementById('updateStatus')
+  // const downloadButton = document.getElementById('downloadButton')
+
+  if (updateUrl) {
+    // downloadButton.addEventListener('click', () =>
+    //   electron.ipcRenderer.send('open-download-link', updateUrl)
+    // )
+    updateStatus.innerText = updateUrl
+  } else {
+    updateStatus.innerText = updateUrl
+  }
+})
 
 navItems.forEach(item =>
   item.addEventListener('click', function() {
