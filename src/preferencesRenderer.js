@@ -1,5 +1,6 @@
+// import browsers from './browsers'
 // Modules
-const Sortable = require('sortablejs')
+import sortable from 'sortablejs'
 const electron = require('electron')
 
 // Window
@@ -51,9 +52,6 @@ electron.ipcRenderer.on('updateAvailable', (event, updateUrl) => {
   // const downloadButton = document.getElementById('downloadButton')
 
   if (updateUrl) {
-    // downloadButton.addEventListener('click', () =>
-    //   electron.ipcRenderer.send('open-download-link', updateUrl)
-    // )
     updateStatus.innerText = updateUrl
   } else {
     updateStatus.innerText = updateUrl
@@ -77,17 +75,17 @@ navItems.forEach(item =>
  */
 function toggleBrowser(browserName, enabled) {
   // update local copy of browsers
-  installedBrowsers = installedBrowsers.map(browser => {
-    if (browser.name === browserName) {
-      return {
-        ...browser,
-        enabled
-      }
-    } else {
-      return browser
-    }
-  })
-  // update main.js copy of browsers
+  // installedBrowsers = installedBrowsers.map(browser => {
+  //   if (browser.name === browserName) {
+  //     return {
+  //       ...browser,
+  //       enabled
+  //     }
+  //   } else {
+  //     return browser
+  //   }
+  // })
+  // // update main.js copy of browsers
   electron.ipcRenderer.send('toggle-browser', { browserName, enabled })
 }
 
@@ -187,7 +185,7 @@ function populatePreferences() {
   browserList.innerHTML = ''
   browserList.appendChild(browserListFrag)
 
-  Sortable.create(browserList, {
+  sortable.create(browserList, {
     draggable: '.browserItem',
     handle: '.handle',
     onEnd: e => sortBrowser(e.oldIndex, e.newIndex)

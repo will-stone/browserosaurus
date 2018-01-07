@@ -6,6 +6,7 @@ import jp from 'jsonpath'
 import parser from 'xml2json'
 import fetch from 'node-fetch'
 import semver from 'semver'
+import unionBy from 'lodash/unionBy'
 
 import defaultBrowsers from './browsers'
 
@@ -13,99 +14,92 @@ import defaultBrowsers from './browsers'
 // be closed automatically when the JavaScript object is garbage collected.
 let pickerWindow = null
 let preferencesWindow = null
-let updateWindow = null
 let tray = null
 let appIsReady = false
-let installedBrowsers = []
 let wantToQuit = false
 
-const defaultConfig = { browsers: defaultBrowsers }
-const userConfig = {}
-
-const store = new Store({ defaults: defaultConfig })
-
-/**
- * Load config
- *
- * Syncs the default browser configuration with the store.
- * @returns {Promise} Simply returns true once config has been loaded.
- */
-function loadConfig() {
-  return new Promise(fulfill => {
-    userConfig.browsers = store.get('browsers')
-
-    let userBrowserFound
-
-    // Create clone of the default browsers
-    let defaultBrowsersClone = defaultConfig.browsers.slice(0)
-
-    userConfig.browsers.map((userBrowser, userBrowserId) => {
-      userBrowserFound = false
-
-      defaultBrowsersClone.map((defBrowser, defBrowserId) => {
-        if (defBrowser.name == userBrowser.name) {
-          defaultBrowsersClone[defBrowserId] = false
-          userBrowserFound = true
-        }
-      })
-
-      if (userBrowserFound === false) {
-        userConfig.browsers[userBrowserId] = false
-      }
-    })
-
-    userConfig.browsers = userConfig.browsers.concat(defaultBrowsersClone)
-    userConfig.browsers = userConfig.browsers.filter(x => x)
-
-    store.set('browsers', userConfig.browsers)
-
-    fulfill(true)
-  })
-}
+// Start store and set browsers if it is the first run
+const store = new Store({ defaults: { browsers: [] } })
 
 /**
  * Find installed browsers
  *
- * Scans the system for all known browsers (in browsers.js file).
+ * Scans the system for all known browsers (white-listed in browsers.js file).
  * @returns {Promise} returns array of browsers if resolved, and string
  * if rejected.
  */
 function findInstalledBrowsers() {
-  // return new Promise((fulfill, reject) => {
-  const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
+  return new Promise((fulfill, reject) => {
+    const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
 
-  let profile = ''
+    let profile = ''
 
-  sp.stdout.setEncoding('utf8')
-  sp.stdout.on('data', data => {
-    profile += data
-  })
-  sp.stderr.on('data', data => {
-    console.log(`stderr: ${data}`)
-    // reject(data)
-  })
-  sp.stdout.on('end', () => {
-    profile = parser.toJson(profile, { object: true })
-    const installedApps = jp.query(
-      profile,
-      'plist.array.dict.array[1].dict[*].string[0]'
-    )
-    installedBrowsers = userConfig.browsers
-      .map(browser => {
-        for (let i = 0; i < installedApps.length; i++) {
-          //const browser = installedApps[i]
-          if (browser.name === installedApps[i]) {
-            return browser
+    sp.stdout.setEncoding('utf8')
+    sp.stdout.on('data', data => {
+      profile += data
+    })
+    sp.stderr.on('data', data => {
+      console.log(`stderr: ${data}`)
+      reject(data)
+    })
+    sp.stdout.on('end', () => {
+      profile = parser.toJson(profile, { object: true })
+      const installedApps = jp.query(
+        profile,
+        'plist.array.dict.array[1].dict[*].string[0]'
+      )
+      const installedBrowsers = Object.keys(defaultBrowsers)
+        .map(name => {
+          for (let i = 0; i < installedApps.length; i++) {
+            if (name === installedApps[i]) {
+              return name
+            }
           }
-        }
-        return false
-      })
-      .filter(x => x) // remove empties
-    // fulfill(installedBrowsers)
-    pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
-    preferencesWindow.webContents.send('incomingBrowsers', installedBrowsers)
+        })
+        .filter(x => x) // remove empties
+      fulfill(installedBrowsers)
+    })
   })
-  // })
+}
+
+function sendBrowsersToRenderers(browsers) {
+  const enabledBrowsers = browsers.filter(browser => browser.enabled)
+  pickerWindow.webContents.send('incomingBrowsers', enabledBrowsers)
+  preferencesWindow.webContents.send('incomingBrowsers', browsers)
+}
+
+function initBrowsers() {
+  findInstalledBrowsers()
+    .then(installedBrowsers => {
+      const storedBrowsers = store.get('browsers')
+
+      // remove unistalled browsers from user config
+      const storedBrowsersPruned = storedBrowsers
+        .map(browser => {
+          if (installedBrowsers.indexOf(browser.name) === -1) {
+            return null
+          }
+          return browser
+        })
+        .filter(x => x)
+
+      const installedBrowsersWithDetails = installedBrowsers.map(name => ({
+        name,
+        key: defaultBrowsers[name].key,
+        alias: defaultBrowsers[name].alias || null,
+        enabled: true
+      }))
+
+      const mergedBrowsers = unionBy(
+        storedBrowsersPruned,
+        installedBrowsersWithDetails,
+        'name'
+      )
+
+      sendBrowsersToRenderers(mergedBrowsers)
+      store.set('browsers', mergedBrowsers)
+    })
+    .catch(err => console.error(err))
 }
 
 /**
@@ -199,10 +193,6 @@ function checkForUpdate() {
     })
 }
 
-ipcMain.on('scan-for-browsers', () => {
-  findInstalledBrowsers()
-})
-
 ipcMain.on('check-for-update', async () => {
   try {
     const updateAvailable = await checkForUpdate()
@@ -210,11 +200,6 @@ ipcMain.on('check-for-update', async () => {
   } catch (err) {
     console.log(err)
   }
-})
-
-ipcMain.on('open-download-link', (event, url) => {
-  updateWindow.close()
-  sendUrlToPicker(url)
 })
 
 /**
@@ -287,10 +272,10 @@ function togglePreferencesWindow() {
  * @param {Number} fromIndex
  * @param {Number} toIndex
  */
-function arrayMove(array, fromIndex, toIndex) {
-  array.splice(toIndex, 0, array.splice(fromIndex, 1)[0])
-  return array
-}
+// function arrayMove(array, fromIndex, toIndex) {
+//   array.splice(toIndex, 0, array.splice(fromIndex, 1)[0])
+//   return array
+// }
 
 /**
  * Toggle browser event
@@ -300,14 +285,15 @@ function arrayMove(array, fromIndex, toIndex) {
  * @param {String} browserName
  * @param {Boolean} enabled
  */
-ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
-  const browserIndex = userConfig.browsers.findIndex(
-    browser => browser.name === browserName
-  )
-  userConfig.browsers[browserIndex].enabled = enabled
-  store.set('browsers', userConfig.browsers)
-  pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
-})
+// ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
+//   const storedBrowsers = store.get('browsers')
+//   const browserIndex = userConfig.browsers.findIndex(
+//     browser => browser.name === browserName
+//   )
+//   userConfig.browsers[browserIndex].enabled = enabled
+//   store.set('browsers', userConfig.browsers)
+//   pickerWindow.webContents.send('incomingBrowsers', userConfig.browsers)
+// })
 
 /**
  * Sort browser event
@@ -317,22 +303,22 @@ ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
  * @param {Number} oldIndex index of browser being moved from.
  * @param {Number} newIndex index of place browser is being moved to.
  */
-ipcMain.on('sort-browser', (event, { oldIndex, newIndex }) => {
-  const from = installedBrowsers[oldIndex].name
-  const to = installedBrowsers[newIndex].name
+// ipcMain.on('sort-browser', (event, { oldIndex, newIndex }) => {
+//   const from = installedBrowsers[oldIndex].name
+//   const to = installedBrowsers[newIndex].name
 
-  const fromIndex = userConfig.browsers.findIndex(
-    browser => browser.name === from
-  )
-  const toIndex = userConfig.browsers.findIndex(browser => browser.name === to)
+//   const fromIndex = userConfig.browsers.findIndex(
+//     browser => browser.name === from
+//   )
+//   const toIndex = userConfig.browsers.findIndex(browser => browser.name === to)
 
-  userConfig.browsers = arrayMove(userConfig.browsers, fromIndex, toIndex)
-  installedBrowsers = arrayMove(installedBrowsers, oldIndex, newIndex)
+//   userConfig.browsers = arrayMove(userConfig.browsers, fromIndex, toIndex)
+//   installedBrowsers = arrayMove(installedBrowsers, oldIndex, newIndex)
 
-  store.set('browsers', userConfig.browsers)
-  pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
-  preferencesWindow.webContents.send('incomingBrowsers', installedBrowsers)
-})
+//   store.set('browsers', userConfig.browsers)
+//   pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
+//   preferencesWindow.webContents.send('incomingBrowsers', installedBrowsers)
+// })
 
 /**
  * App on ready
@@ -343,22 +329,17 @@ app.on('ready', () => {
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
 
-  loadConfig().then(() => {
-    createTrayIcon()
-    createPickerWindow(() => {
-      pickerWindow.once('ready-to-show', () => {
-        if (global.URLToOpen) {
-          sendUrlToPicker(global.URLToOpen)
-          global.URLToOpen = null
-        }
-        appIsReady = true
-      })
+  createTrayIcon()
+  createPreferencesWindow()
+  createPickerWindow(() => {
+    pickerWindow.once('ready-to-show', () => {
+      initBrowsers()
+      if (global.URLToOpen) {
+        sendUrlToPicker(global.URLToOpen)
+        global.URLToOpen = null
+      }
+      appIsReady = true
     })
-    createPreferencesWindow()
-    findInstalledBrowsers() //.then(installedBrowsers => {
-    //   pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
-    //   preferencesWindow.webContents.send('incomingBrowsers', installedBrowsers)
-    // })
   })
 })
 
@@ -376,6 +357,7 @@ app.on('open-url', (event, url) => {
   if (appIsReady) {
     sendUrlToPicker(url)
   } else {
-    global.URLToOpen = url // this will be handled later in the createWindow callback
+    // this will be handled later in the createWindow callback
+    global.URLToOpen = url
   }
 })

@@ -25,9 +25,9 @@ electron.ipcRenderer.on('incomingURL', (event, message) => {
 })
 
 // Update browsers
-electron.ipcRenderer.on('incomingBrowsers', (event, message) => {
+electron.ipcRenderer.on('incomingBrowsers', (event, browsers) => {
   emptiesPicker()
-  populatePicker(message)
+  populatePicker(browsers)
 })
 
 // Listen for window close event, i.e. on blur, escape etc.
@@ -72,18 +72,18 @@ function emptiesPicker() {
  * Populate picker
  *
  * Injects all present and enabled browsers as list items of picker.
- * @param {Array} installedBrowsers
+ * @param {Array} browsers
  */
-function populatePicker(installedBrowsers) {
-  if (installedBrowsers.length > 0) {
+function populatePicker(browsers) {
+  if (browsers.length > 0) {
     // Populate installedBrowsers
 
     currentWindow.setSize(
       400,
-      installedBrowsers.filter(browser => browser.enabled).length * 64 + 48
+      browsers.filter(browser => browser.enabled).length * 64 + 48
     )
 
-    installedBrowsers
+    browsers
       .filter(browser => browser.enabled)
       .map(browser => {
         // use alias as label if available, otherwise use name
