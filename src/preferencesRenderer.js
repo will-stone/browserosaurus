@@ -75,16 +75,16 @@ navItems.forEach(item =>
  */
 function toggleBrowser(browserName, enabled) {
   // update local copy of browsers
-  // installedBrowsers = installedBrowsers.map(browser => {
-  //   if (browser.name === browserName) {
-  //     return {
-  //       ...browser,
-  //       enabled
-  //     }
-  //   } else {
-  //     return browser
-  //   }
-  // })
+  installedBrowsers = installedBrowsers.map(browser => {
+    if (browser.name === browserName) {
+      return {
+        ...browser,
+        enabled
+      }
+    } else {
+      return browser
+    }
+  })
   // // update main.js copy of browsers
   electron.ipcRenderer.send('toggle-browser', { browserName, enabled })
 }
