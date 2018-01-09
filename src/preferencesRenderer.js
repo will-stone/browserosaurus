@@ -18,7 +18,6 @@ const bVersion = document.getElementById('browserosaurusVersion')
 bVersion.innerText = version
 
 // Global vars
-let installedBrowsers = []
 let currentTab = 'browsers-tab'
 
 function switchTab(tabId) {
@@ -72,18 +71,6 @@ navItems.forEach(item =>
  * @param {Bool} enabled
  */
 function toggleBrowser(browserName, enabled) {
-  // // update local copy of browsers
-  // installedBrowsers = installedBrowsers.map(browser => {
-  //   if (browser.name === browserName) {
-  //     return {
-  //       ...browser,
-  //       enabled
-  //     }
-  //   } else {
-  //     return browser
-  //   }
-  // })
-  // // update main.js copy of browsers
   electron.ipcRenderer.send('toggle-browser', { browserName, enabled })
 }
 
@@ -104,10 +91,9 @@ function sortBrowser(oldIndex, newIndex) {
  *
  * Listens for installed browsers from main.js, repopulating the window.
  */
-electron.ipcRenderer.on('incomingBrowsers', (event, message) => {
-  installedBrowsers = message
+electron.ipcRenderer.on('incomingBrowsers', (event, browsers) => {
   if (currentTab === 'browsers-tab') {
-    populatePreferences()
+    populatePreferences(browsers)
   }
 })
 
@@ -116,12 +102,12 @@ electron.ipcRenderer.on('incomingBrowsers', (event, message) => {
  *
  * Injects all browsers as list items of preferences.
  */
-function populatePreferences() {
-  currentWindow.setSize(400, installedBrowsers.length * 64 + 97)
+function populatePreferences(browsers) {
+  currentWindow.setSize(400, browsers.length * 64 + 97)
 
   var browserListFrag = document.createDocumentFragment()
 
-  installedBrowsers
+  browsers
     .map(browser => {
       // use alias as label if available, otherwise use name
       if (!browser.alias) {
