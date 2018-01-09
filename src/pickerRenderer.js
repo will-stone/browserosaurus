@@ -149,12 +149,7 @@ class PickerWindow extends Window {
       this.browserList.innerHTML = ''
       this.browserList.appendChild(browserListFrag)
     } else {
-      // const listItem = document.createElement('li')
-
-      // listItem.innerText = 'No browsers'
-
       this.browserList.innerHTML = ''
-      // this.browserList.appendChild(listItem)
       this.window.setSize(400, 48)
     }
   }
