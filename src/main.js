@@ -135,7 +135,7 @@ function createPickerWindow(callback) {
   })
 
   pickerWindow.on('blur', () => {
-    pickerWindow.webContents.send('close', true)
+    pickerWindow.hide()
   })
 
   if (callback) {
@@ -279,7 +279,7 @@ ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
   )
   browsers[browserIndex].enabled = enabled
   store.set('browsers', browsers)
-  pickerWindow.webContents.send('incomingBrowsers', browsers)
+  sendBrowsersToRenderers(browsers)
 })
 
 /**

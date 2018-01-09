@@ -2,12 +2,29 @@ import electron from 'electron'
 import opn from 'opn'
 import Mousetrap from 'mousetrap'
 
-class PickerWindow {
+class Window {
   constructor() {
-    this.url = null
     this.window = electron.remote.getCurrentWindow()
-    this.urlField = document.getElementById('url')
     this.browserList = document.getElementById('browserList')
+
+    /**
+     * Event: Update browsers
+     */
+    electron.ipcRenderer.on('incomingBrowsers', (event, browsers) =>
+      this.onReceiveBrowsers(browsers)
+    )
+  }
+
+  onReceiveBrowsers() {
+    return false
+  }
+}
+
+class PickerWindow extends Window {
+  constructor() {
+    super()
+    this.url = null
+    this.urlField = document.getElementById('url')
 
     /**
      * Event: Listen for URL
@@ -20,29 +37,16 @@ class PickerWindow {
     })
 
     /**
-     * Event: Update browsers
-     * Re/populate browser list
-     */
-    electron.ipcRenderer.on('incomingBrowsers', (event, browsers) => {
-      this.emptiesPicker()
-      this.populatePicker(browsers)
-    })
-
-    /**
-     * Event: Close window i.e. on blur, escape etc.
-     * Hide picker window
-     */
-    electron.ipcRenderer.on('close', () => {
-      this.hideWindow()
-    })
-
-    /**
      * Event: Escape key
      * Hide picker window
      */
     Mousetrap.bind('esc', () => {
       this.hideWindow()
     })
+  }
+
+  onReceiveBrowsers(browsers) {
+    this.populatePicker(browsers)
   }
 
   /**
@@ -78,16 +82,6 @@ class PickerWindow {
   }
 
   /**
-   * Empties Picker
-   * Clears the picker window of all browsers, readying it to be repopulated.
-   */
-  emptiesPicker() {
-    while (this.browserList.firstChild) {
-      this.browserList.removeChild(this.browserList.firstChild)
-    }
-  }
-
-  /**
    * Populate picker
    * Injects all present and enabled browsers as list items of picker.
    * @param {Array} browsers
@@ -100,6 +94,8 @@ class PickerWindow {
         400,
         browsers.filter(browser => browser.enabled).length * 64 + 48
       )
+
+      const browserListFrag = document.createDocumentFragment()
 
       browsers
         .filter(browser => browser.enabled)
@@ -139,7 +135,7 @@ class PickerWindow {
             listItem.classList.remove('active')
           })
 
-          this.browserList.appendChild(listItem)
+          browserListFrag.appendChild(listItem)
 
           Mousetrap.bind(browser.key, () => {
             listItem.classList.add('active')
@@ -149,13 +145,17 @@ class PickerWindow {
             }, 200)
           })
         })
+
+      this.browserList.innerHTML = ''
+      this.browserList.appendChild(browserListFrag)
     } else {
-      const listItem = document.createElement('li')
+      // const listItem = document.createElement('li')
 
-      listItem.innerText = 'Loading...'
+      // listItem.innerText = 'No browsers'
 
-      this.browserList.appendChild(listItem)
-      this.window.setSize(400, 64 + 48)
+      this.browserList.innerHTML = ''
+      // this.browserList.appendChild(listItem)
+      this.window.setSize(400, 48)
     }
   }
 }

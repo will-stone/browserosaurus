@@ -1,7 +1,5 @@
-// import browsers from './browsers'
-// Modules
 import sortable from 'sortablejs'
-const electron = require('electron')
+import electron from 'electron'
 
 // Window
 const currentWindow = electron.remote.getCurrentWindow()
@@ -74,17 +72,17 @@ navItems.forEach(item =>
  * @param {Bool} enabled
  */
 function toggleBrowser(browserName, enabled) {
-  // update local copy of browsers
-  installedBrowsers = installedBrowsers.map(browser => {
-    if (browser.name === browserName) {
-      return {
-        ...browser,
-        enabled
-      }
-    } else {
-      return browser
-    }
-  })
+  // // update local copy of browsers
+  // installedBrowsers = installedBrowsers.map(browser => {
+  //   if (browser.name === browserName) {
+  //     return {
+  //       ...browser,
+  //       enabled
+  //     }
+  //   } else {
+  //     return browser
+  //   }
+  // })
   // // update main.js copy of browsers
   electron.ipcRenderer.send('toggle-browser', { browserName, enabled })
 }
@@ -95,7 +93,7 @@ function toggleBrowser(browserName, enabled) {
  * Sends the sort-browser event to main.js. This allows browsers to be
  * reordered.
  * @param {Number} oldIndex index of browser being moved from.
- * @param {*} newIndex index of place browser is being moved to.
+ * @param {Number} newIndex index of place browser is being moved to.
  */
 function sortBrowser(oldIndex, newIndex) {
   electron.ipcRenderer.send('sort-browser', { oldIndex, newIndex })
