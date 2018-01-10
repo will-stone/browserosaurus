@@ -2,23 +2,7 @@ import electron from 'electron'
 import opn from 'opn'
 import Mousetrap from 'mousetrap'
 
-class Window {
-  constructor() {
-    this.window = electron.remote.getCurrentWindow()
-    this.browserList = document.getElementById('browserList')
-
-    /**
-     * Event: Update browsers
-     */
-    electron.ipcRenderer.on('incomingBrowsers', (event, browsers) =>
-      this.onReceiveBrowsers(browsers)
-    )
-  }
-
-  onReceiveBrowsers() {
-    return false
-  }
-}
+import Window from './Window'
 
 class PickerWindow extends Window {
   constructor() {

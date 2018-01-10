@@ -1,177 +1,174 @@
 import sortable from 'sortablejs'
 import electron from 'electron'
 
-// Window
-const currentWindow = electron.remote.getCurrentWindow()
+import Window from './Window'
 
-// Elements
-const navbar = document.getElementById('navbar')
-const navItems = navbar.querySelectorAll('li')
-const browsersTab = document.getElementById('browsers-tab')
-const aboutTab = document.getElementById('about-tab')
-const browserList = document.getElementById('browserList')
-const about = document.getElementById('about')
+class PreferencesWindow extends Window {
+  constructor() {
+    super()
+    this.navbar = document.getElementById('navbar')
+    this.navItems = this.navbar.querySelectorAll('li')
+    this.browsersTab = document.getElementById('browsers-tab')
+    this.aboutTab = document.getElementById('about-tab')
+    this.about = document.getElementById('about')
+    this.bVersion = document.getElementById('browserosaurusVersion')
 
-// Version
-const version = electron.remote.app.getVersion()
-const bVersion = document.getElementById('browserosaurusVersion')
-bVersion.innerText = version
+    this.localVersion = electron.remote.app.getVersion()
+    this.bVersion.innerText = this.localVersion
 
-// Global vars
-let currentTab = 'browsers-tab'
+    this.browserTabWindowHeight = 0
 
-function switchTab(tabId) {
-  switch (tabId) {
-    case 'browsers-tab':
-      about.classList.remove('is-active')
-      aboutTab.classList.remove('is-active')
-      browserList.classList.add('is-active')
-      browsersTab.classList.add('is-active')
-      populatePreferences()
-      break
-
-    case 'about-tab':
-      about.classList.add('is-active')
-      aboutTab.classList.add('is-active')
-      browserList.classList.remove('is-active')
-      browsersTab.classList.remove('is-active')
-      currentWindow.setSize(400, 300 + 97)
-      electron.ipcRenderer.send('check-for-update')
-      break
-
-    default:
-      break
-  }
-}
-
-electron.ipcRenderer.on('updateAvailable', (event, updateUrl) => {
-  const updateStatus = document.getElementById('updateStatus')
-  // const downloadButton = document.getElementById('downloadButton')
-
-  if (updateUrl) {
-    updateStatus.innerText = updateUrl
-  } else {
-    updateStatus.innerText = updateUrl
-  }
-})
-
-navItems.forEach(item =>
-  item.addEventListener('click', function() {
-    const tabId = item.id
-    currentTab = tabId
-    switchTab(tabId)
-  })
-)
-
-/**
- * Toggle browser
- *
- * Sends the toggle-browser event to main.js. This enable/disables the browser.
- * @param {String} browserName
- * @param {Bool} enabled
- */
-function toggleBrowser(browserName, enabled) {
-  electron.ipcRenderer.send('toggle-browser', { browserName, enabled })
-}
-
-/**
- * Sort browser
- *
- * Sends the sort-browser event to main.js. This allows browsers to be
- * reordered.
- * @param {Number} oldIndex index of browser being moved from.
- * @param {Number} newIndex index of place browser is being moved to.
- */
-function sortBrowser(oldIndex, newIndex) {
-  electron.ipcRenderer.send('sort-browser', { oldIndex, newIndex })
-}
-
-/**
- * Incoming browsers event
- *
- * Listens for installed browsers from main.js, repopulating the window.
- */
-electron.ipcRenderer.on('incomingBrowsers', (event, browsers) => {
-  if (currentTab === 'browsers-tab') {
-    populatePreferences(browsers)
-  }
-})
-
-/**
- * Populate preferences
- *
- * Injects all browsers as list items of preferences.
- */
-function populatePreferences(browsers) {
-  currentWindow.setSize(400, browsers.length * 64 + 97)
-
-  var browserListFrag = document.createDocumentFragment()
-
-  browsers
-    .map(browser => {
-      // use alias as label if available, otherwise use name
-      if (!browser.alias) {
-        browser.alias = browser.name
+    electron.ipcRenderer.on('updateAvailable', (event, updateUrl) => {
+      const updateStatus = document.getElementById('updateStatus')
+      if (updateUrl) {
+        updateStatus.innerText = updateUrl
+      } else {
+        updateStatus.innerText = updateUrl
       }
-      return browser
     })
-    .map(browser => {
-      const li = document.createElement('li')
-      li.classList.add('browserItem')
 
-      const handle = document.createElement('span')
-      handle.classList.add('handle')
-      li.appendChild(handle)
+    /**
+     * Incoming browsers event
+     *
+     * Listens for installed browsers from main.js, repopulating the window.
+     */
+    electron.ipcRenderer.on('incomingBrowsers', (event, browsers) => {
+      this.populatePreferences(browsers)
+    })
 
-      const logo = document.createElement('img')
-      logo.classList.add('browserLogo')
-      logo.src = `images/browser-logos/${browser.name}.png`
-      li.appendChild(logo)
-
-      const name = document.createElement('span')
-      name.classList.add('browserName')
-      name.innerText = browser.alias
-      li.appendChild(name)
-
-      const checkboxWrapper = document.createElement('div')
-      checkboxWrapper.classList.add('pretty')
-      checkboxWrapper.classList.add('p-svg')
-
-      const checkbox = document.createElement('input')
-      checkbox.type = 'checkbox'
-      checkboxWrapper.appendChild(checkbox)
-
-      if (browser.enabled) {
-        checkbox.checked = true
-      }
-
-      checkbox.addEventListener('change', e => {
-        toggleBrowser(browser.name, e.target.checked)
+    this.navItems.forEach(tab =>
+      tab.addEventListener('click', function() {
+        this.switchTab(tab.id)
       })
+    )
+  }
 
-      const checkState = document.createElement('div')
-      checkState.classList.add('state')
-      checkState.classList.add('p-success')
-      // check icon
-      checkState.innerHTML = `
+  switchTab(tabId) {
+    switch (tabId) {
+      case 'browsers-tab':
+        this.about.classList.remove('is-active')
+        this.aboutTab.classList.remove('is-active')
+        this.browserList.classList.add('is-active')
+        this.browsersTab.classList.add('is-active')
+        this.window.setSize(400, this.browserTabWindowHeight)
+        break
+
+      case 'about-tab':
+        this.about.classList.add('is-active')
+        this.aboutTab.classList.add('is-active')
+        this.browserList.classList.remove('is-active')
+        this.browsersTab.classList.remove('is-active')
+        this.window.setSize(400, 300 + 97)
+        electron.ipcRenderer.send('check-for-update')
+        break
+
+      default:
+        break
+    }
+  }
+
+  /**
+   * Toggle browser
+   *
+   * Sends the toggle-browser event to main.js. This enable/disables the browser.
+   * @param {String} browserName
+   * @param {Bool} enabled
+   */
+  toggleBrowser(browserName, enabled) {
+    electron.ipcRenderer.send('toggle-browser', { browserName, enabled })
+  }
+
+  /**
+   * Sort browser
+   *
+   * Sends the sort-browser event to main.js. This allows browsers to be
+   * reordered.
+   * @param {Number} oldIndex index of browser being moved from.
+   * @param {Number} newIndex index of place browser is being moved to.
+   */
+  sortBrowser(oldIndex, newIndex) {
+    electron.ipcRenderer.send('sort-browser', { oldIndex, newIndex })
+  }
+
+  /**
+   * Populate preferences
+   *
+   * Injects all browsers as list items of preferences.
+   */
+  populatePreferences(browsers) {
+    this.browserTabWindowHeight = browsers.length * 64 + 97
+    this.window.setSize(400, this.browserTabWindowHeight)
+
+    var browserListFrag = document.createDocumentFragment()
+
+    browsers
+      .map(browser => {
+        // use alias as label if available, otherwise use name
+        if (!browser.alias) {
+          browser.alias = browser.name
+        }
+        return browser
+      })
+      .map(browser => {
+        const li = document.createElement('li')
+        li.classList.add('browserItem')
+
+        const handle = document.createElement('span')
+        handle.classList.add('handle')
+        li.appendChild(handle)
+
+        const logo = document.createElement('img')
+        logo.classList.add('browserLogo')
+        logo.src = `images/browser-logos/${browser.name}.png`
+        li.appendChild(logo)
+
+        const name = document.createElement('span')
+        name.classList.add('browserName')
+        name.innerText = browser.alias
+        li.appendChild(name)
+
+        const checkboxWrapper = document.createElement('div')
+        checkboxWrapper.classList.add('pretty')
+        checkboxWrapper.classList.add('p-svg')
+
+        const checkbox = document.createElement('input')
+        checkbox.type = 'checkbox'
+        checkboxWrapper.appendChild(checkbox)
+
+        if (browser.enabled) {
+          checkbox.checked = true
+        }
+
+        checkbox.addEventListener('change', e => {
+          this.toggleBrowser(browser.name, e.target.checked)
+        })
+
+        const checkState = document.createElement('div')
+        checkState.classList.add('state')
+        checkState.classList.add('p-success')
+        // check icon
+        checkState.innerHTML = `
         <svg class="svg svg-icon" viewBox="0 0 20 20">
           <path d="M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z" style="stroke: white;fill:white;"></path>
         </svg>
         <label></label>`
 
-      checkboxWrapper.appendChild(checkState)
+        checkboxWrapper.appendChild(checkState)
 
-      li.appendChild(checkboxWrapper)
+        li.appendChild(checkboxWrapper)
 
-      browserListFrag.appendChild(li)
+        browserListFrag.appendChild(li)
+      })
+
+    this.browserList.innerHTML = ''
+    this.browserList.appendChild(browserListFrag)
+
+    sortable.create(this.browserList, {
+      draggable: '.browserItem',
+      handle: '.handle',
+      onEnd: e => this.sortBrowser(e.oldIndex, e.newIndex)
     })
-
-  browserList.innerHTML = ''
-  browserList.appendChild(browserListFrag)
-
-  sortable.create(browserList, {
-    draggable: '.browserItem',
-    handle: '.handle',
-    onEnd: e => sortBrowser(e.oldIndex, e.newIndex)
-  })
+  }
 }
+
+new PreferencesWindow()
