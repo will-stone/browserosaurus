@@ -2,7 +2,7 @@ import electron from 'electron'
 import opn from 'opn'
 import Mousetrap from 'mousetrap'
 
-import Window from './Window'
+import Window from '../shared/Window'
 
 class PickerWindow extends Window {
   constructor() {
@@ -95,7 +95,7 @@ class PickerWindow extends Window {
 
           const browserLogo = document.createElement('img')
           browserLogo.classList.add('browserLogo')
-          browserLogo.src = `images/browser-logos/${browser.name}.png`
+          browserLogo.src = `../images/browser-logos/${browser.name}.png`
           listItem.appendChild(browserLogo)
 
           const browserName = document.createElement('span')

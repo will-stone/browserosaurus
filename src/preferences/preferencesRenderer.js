@@ -1,21 +1,11 @@
 import sortable from 'sortablejs'
 import electron from 'electron'
 
-import Window from './Window'
+import Window from '../shared/Window'
 
 class PreferencesWindow extends Window {
   constructor() {
     super()
-    this.navbar = document.getElementById('navbar')
-    this.navItems = this.navbar.querySelectorAll('li')
-    this.browsersTab = document.getElementById('browsers-tab')
-    this.aboutTab = document.getElementById('about-tab')
-    this.about = document.getElementById('about')
-    this.bVersion = document.getElementById('browserosaurusVersion')
-
-    this.localVersion = electron.remote.app.getVersion()
-    this.bVersion.innerText = this.localVersion
-
     this.browserTabWindowHeight = 0
 
     electron.ipcRenderer.on('updateAvailable', (event, updateUrl) => {
@@ -36,28 +26,44 @@ class PreferencesWindow extends Window {
       this.populatePreferences(browsers)
     })
 
-    this.navItems.forEach(tab =>
-      tab.addEventListener('click', function() {
+    this.attachNavClickEvents()
+    this.populateVersion()
+  }
+
+  populateVersion() {
+    const bVersion = document.getElementById('browserosaurusVersion')
+    const localVersion = electron.remote.app.getVersion()
+    bVersion.innerText = localVersion
+  }
+
+  attachNavClickEvents() {
+    const navbar = document.getElementById('navbar')
+    const navItems = navbar.querySelectorAll('li')
+    navItems.forEach(tab =>
+      tab.addEventListener('click', () => {
         this.switchTab(tab.id)
       })
     )
   }
 
   switchTab(tabId) {
+    const browsersTab = document.getElementById('browsers-tab')
+    const aboutTab = document.getElementById('about-tab')
+    const about = document.getElementById('about')
     switch (tabId) {
       case 'browsers-tab':
-        this.about.classList.remove('is-active')
-        this.aboutTab.classList.remove('is-active')
+        about.classList.remove('is-active')
+        aboutTab.classList.remove('is-active')
         this.browserList.classList.add('is-active')
-        this.browsersTab.classList.add('is-active')
+        browsersTab.classList.add('is-active')
         this.window.setSize(400, this.browserTabWindowHeight)
         break
 
       case 'about-tab':
-        this.about.classList.add('is-active')
-        this.aboutTab.classList.add('is-active')
+        about.classList.add('is-active')
+        aboutTab.classList.add('is-active')
         this.browserList.classList.remove('is-active')
-        this.browsersTab.classList.remove('is-active')
+        browsersTab.classList.remove('is-active')
         this.window.setSize(400, 300 + 97)
         electron.ipcRenderer.send('check-for-update')
         break
@@ -119,7 +125,7 @@ class PreferencesWindow extends Window {
 
         const logo = document.createElement('img')
         logo.classList.add('browserLogo')
-        logo.src = `images/browser-logos/${browser.name}.png`
+        logo.src = `../images/browser-logos/${browser.name}.png`
         li.appendChild(logo)
 
         const name = document.createElement('span')

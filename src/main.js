@@ -1,14 +1,13 @@
-// import openAboutWindow from 'about-window'
-import { spawn } from 'child_process'
 import { app, BrowserWindow, Tray, Menu, ipcMain } from 'electron'
 import Store from 'electron-store'
-import jp from 'jsonpath'
-import parser from 'xml2json'
 import fetch from 'node-fetch'
 import semver from 'semver'
 import unionBy from 'lodash/unionBy'
 
-import defaultBrowsers from './browsers'
+import whiteListedBrowsers from './config/browsers'
+
+import findInstalledBrowsers from './utils/findInstalledBrowsers'
+import arrayMove from './utils/arrayMove'
 
 // Keep a global reference of the window objects, if you don't, the windows will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -21,85 +20,10 @@ let wantToQuit = false
 // Start store and set browsers if it is the first run
 const store = new Store({ defaults: { browsers: [] } })
 
-/**
- * Find installed browsers
- *
- * Scans the system for all known browsers (white-listed in browsers.js file).
- * @returns {Promise} returns array of browser names (Strings) if resolved, and
- * string if rejected.
- */
-function findInstalledBrowsers() {
-  return new Promise((fulfill, reject) => {
-    const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
-
-    let profile = ''
-
-    sp.stdout.setEncoding('utf8')
-    sp.stdout.on('data', data => {
-      profile += data
-    })
-    sp.stderr.on('data', data => {
-      console.log(`stderr: ${data}`)
-      reject(data)
-    })
-    sp.stdout.on('end', () => {
-      profile = parser.toJson(profile, { object: true })
-      const installedApps = jp.query(
-        profile,
-        'plist.array.dict.array[1].dict[*].string[0]'
-      )
-      const installedBrowsers = Object.keys(defaultBrowsers)
-        .map(name => {
-          for (let i = 0; i < installedApps.length; i++) {
-            if (name === installedApps[i]) {
-              return name
-            }
-          }
-        })
-        .filter(x => x) // remove empties
-      fulfill(installedBrowsers)
-    })
-  })
-}
-
 function sendBrowsersToRenderers(browsers) {
   const enabledBrowsers = browsers.filter(browser => browser.enabled)
   pickerWindow.webContents.send('incomingBrowsers', enabledBrowsers)
   preferencesWindow.webContents.send('incomingBrowsers', browsers)
-}
-
-function initBrowsers() {
-  findInstalledBrowsers()
-    .then(installedBrowsers => {
-      const storedBrowsers = store.get('browsers')
-
-      // remove unistalled browsers from user config
-      const storedBrowsersPruned = storedBrowsers
-        .map(browser => {
-          if (installedBrowsers.indexOf(browser.name) === -1) {
-            return null
-          }
-          return browser
-        })
-        .filter(x => x)
-
-      const installedBrowsersWithDetails = installedBrowsers.map(name => ({
-        name,
-        key: defaultBrowsers[name].key,
-        alias: defaultBrowsers[name].alias || null,
-        enabled: true
-      }))
-
-      const mergedBrowsers = unionBy(
-        storedBrowsersPruned,
-        installedBrowsersWithDetails,
-        'name'
-      )
-
-      sendBrowsersToRenderers(mergedBrowsers)
-      store.set('browsers', mergedBrowsers)
-    })
-    .catch(err => console.error(err))
 }
 
 /**
@@ -125,7 +49,7 @@ function createPickerWindow(callback) {
     backgroundColor: '#21252b'
   })
 
-  pickerWindow.loadURL(`file://${__dirname}/picker.html`)
+  pickerWindow.loadURL(`file://${__dirname}/picker/picker.html`)
 
   pickerWindow.on('close', e => {
     if (wantToQuit == false) {
@@ -238,7 +162,7 @@ function createPreferencesWindow() {
     maximizable: false
   })
 
-  preferencesWindow.loadURL(`file://${__dirname}/preferences.html`)
+  preferencesWindow.loadURL(`file://${__dirname}/preferences/preferences.html`)
 
   // allow window to be opened again
   preferencesWindow.on('close', e => {
@@ -283,19 +207,6 @@ ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
 })
 
 /**
- * Array Move
- *
- * Utility function to move an array item to a specific spot in the array.
- * @param {Array} array
- * @param {Number} fromIndex
- * @param {Number} toIndex
- */
-function arrayMove(array, fromIndex, toIndex) {
-  array.splice(toIndex, 0, array.splice(fromIndex, 1)[0])
-  return array
-}
-
-/**
  * Sort browser event
  *
  * Listens for the sort-browser event, triggered from the preferences renderer
@@ -304,10 +215,7 @@ function arrayMove(array, fromIndex, toIndex) {
  * @param {Number} newIndex index of place browser is being moved to.
  */
 ipcMain.on('sort-browser', (event, { oldIndex, newIndex }) => {
-  let browsers = store.get('browsers')
-
-  browsers = arrayMove(browsers, oldIndex, newIndex)
-
+  const browsers = arrayMove(store.get('browsers'), oldIndex, newIndex)
   store.set('browsers', browsers)
   pickerWindow.webContents.send('incomingBrowsers', browsers)
 })
@@ -325,7 +233,38 @@ app.on('ready', () => {
   createPreferencesWindow()
   createPickerWindow(() => {
     pickerWindow.once('ready-to-show', () => {
-      initBrowsers()
+      findInstalledBrowsers(whiteListedBrowsers)
+        .then(installedBrowsers => {
+          const storedBrowsers = store.get('browsers')
+
+          // remove unistalled browsers from user config
+          const storedBrowsersPruned = storedBrowsers
+            .map(browser => {
+              if (installedBrowsers.indexOf(browser.name) === -1) {
+                return null
+              }
+              return browser
+            })
+            .filter(x => x)
+
+          const installedBrowsersWithDetails = installedBrowsers.map(name => ({
+            name,
+            key: whiteListedBrowsers[name].key,
+            alias: whiteListedBrowsers[name].alias || null,
+            enabled: true
+          }))
+
+          const mergedBrowsers = unionBy(
+            storedBrowsersPruned,
+            installedBrowsersWithDetails,
+            'name'
+          )
+
+          sendBrowsersToRenderers(mergedBrowsers)
+          store.set('browsers', mergedBrowsers)
+        })
+        .catch(err => console.error(err))
+
       if (global.URLToOpen) {
         sendUrlToPicker(global.URLToOpen)
         global.URLToOpen = null
