@@ -23,6 +23,15 @@ class PrefsWindow extends Window {
     this.populateVersion()
   }
 
+  /**
+   * On Update Available
+   *
+   * Function called when update available event is fired. Populates the update
+   * status element in About tab.
+   * @param {object} event - unused
+   * @param {object} param1 - {update: boolean, message: string} if true,
+   * message is update URL.
+   */
   onUpdateAvaialble(event, { update, message }) {
     const updateStatus = document.getElementById('updateStatus')
     if (update) {
