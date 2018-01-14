@@ -1,5 +1,5 @@
 import sortable from 'sortablejs'
-import electron, { remote } from 'electron'
+import electron, { remote, shell } from 'electron'
 
 import Window from '../shared/Window'
 
@@ -7,33 +7,40 @@ class PrefsWindow extends Window {
   constructor() {
     super()
     this.browserTabWindowHeight = 0
-    this.currentTab = 'browsers-tab'
+    this.activeTabIndex = 0
 
     /**
      * Event: Update Available
      *
      * After update checked in main, it is then sent here where About tab is
      * updated.
-     * @param {string} updateURL
+     * @param {object} update - {update: boolean, message: string}
      */
-    electron.ipcRenderer.on('updateAvailable', (event, updateURL) => {
-      const updateStatus = document.getElementById('updateStatus')
-      if (updateURL) {
-        updateStatus.innerText = updateURL
-      } else {
-        updateStatus.innerText = updateURL
-      }
-    })
+    electron.ipcRenderer.on('updateAvailable', this.onUpdateAvaialble)
 
     // Setup
     this.attachNavClickEvents()
     this.populateVersion()
   }
 
+  onUpdateAvaialble(event, { update, message }) {
+    const updateStatus = document.getElementById('updateStatus')
+    if (update) {
+      const button = document.createElement('button')
+      button.classList.add('button')
+      button.addEventListener('click', () => shell.openExternal(message))
+      button.innerText = 'Update available!'
+      updateStatus.innerHTML = ''
+      updateStatus.appendChild(button)
+    } else {
+      updateStatus.innerText = message
+    }
+  }
+
   /**
    * Populate Version
    *
-   * Get the current version and place it in the About tab
+   * Get the version of this app and place it in the About tab
    */
   populateVersion() {
     const bVersion = document.getElementById('browserosaurusVersion')
@@ -47,13 +54,10 @@ class PrefsWindow extends Window {
    * Make tab buttons clickable.
    */
   attachNavClickEvents() {
-    const navbar = document.getElementById('navbar')
-    const navItems = navbar.querySelectorAll('li')
-    navItems.forEach(tab =>
-      tab.addEventListener('click', () => {
-        this.switchTab(tab.id)
-      })
-    )
+    const tabButtons = document.getElementsByClassName('tab-button')
+    Array.from(tabButtons).forEach((tabButton, index) => {
+      tabButton.addEventListener('click', () => this.switchTab(index))
+    })
   }
 
   /**
@@ -62,32 +66,29 @@ class PrefsWindow extends Window {
    * Move to selected tab.
    * @param {string} tabId
    */
-  switchTab(tabId) {
-    const browsersTab = document.getElementById('browsers-tab')
-    const aboutTab = document.getElementById('about-tab')
-    const about = document.getElementById('about')
-    this.currentTab = tabId
-    switch (tabId) {
-      case 'browsers-tab':
-        about.classList.remove('is-active')
-        aboutTab.classList.remove('is-active')
-        this.browserList.classList.add('is-active')
-        browsersTab.classList.add('is-active')
+  switchTab(tabIndex) {
+    this.activeTabIndex = tabIndex
+    const tabButtons = Array.from(document.getElementsByClassName('tab-button'))
+    const tabs = Array.from(document.getElementsByClassName('tab'))
+
+    tabButtons.forEach((tabButton, index) => {
+      if (index === this.activeTabIndex) {
+        tabButton.classList.add('is-active')
+        tabs[index].classList.add('is-active')
+      } else {
+        tabButton.classList.remove('is-active')
+        tabs[index].classList.remove('is-active')
+      }
+
+      if (this.activeTabIndex === 0) {
+        // Browsers
         this.window.setSize(400, this.browserTabWindowHeight)
-        break
-
-      case 'about-tab':
-        about.classList.add('is-active')
-        aboutTab.classList.add('is-active')
-        this.browserList.classList.remove('is-active')
-        browsersTab.classList.remove('is-active')
-        this.window.setSize(400, 300 + 97)
+      } else if (this.activeTabIndex === 1) {
+        // About
+        this.window.setSize(400, 420)
         electron.ipcRenderer.send('check-for-update')
-        break
-
-      default:
-        break
-    }
+      }
+    })
   }
 
   /**
@@ -123,7 +124,7 @@ class PrefsWindow extends Window {
   onReceiveBrowsers(browsers) {
     this.browserTabWindowHeight = browsers.length * 64 + 97
 
-    if (this.currentTab === 'browsers-tab') {
+    if (this.activeTabIndex === 0) {
       this.window.setSize(400, this.browserTabWindowHeight)
     }
 

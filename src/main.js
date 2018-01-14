@@ -159,7 +159,8 @@ function checkForUpdate() {
       ) {
         return {
           update: false,
-          message: 'API rate limit exceeded, please try again later'
+          message:
+            "API rate limit exceeded, please try again later or visit Browserosaurus's website to check for an update"
         }
       } else if (semver.gt(response.tag_name, app.getVersion())) {
         return {

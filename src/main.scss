@@ -89,30 +89,29 @@ body {
   line-height: 2rem;
 }
 
-#preferences {
-  #navbar {
-    display: flex;
-    justify-content: space-around;
-    height: 64px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    -webkit-app-region: drag;
-    border-bottom: 1px solid #111111;
-    line-height: 64px;
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  height: 64px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  -webkit-app-region: drag;
+  border-bottom: 1px solid #111111;
+  line-height: 64px;
 
-    li {
-      cursor: default;
-      -webkit-app-region: no-drag;
-      opacity: 0.5;
+  li {
+    cursor: default;
+    -webkit-app-region: no-drag;
+    opacity: 0.5;
 
-      &.is-active,
-      &:hover {
-        opacity: 1;
-      }
+    &:hover {
+      opacity: 1;
     }
   }
+}
 
+#preferences {
   #browserList {
      > li {
       cursor: default;
@@ -130,7 +129,13 @@ body {
   }
 }
 
-.tab-pane {
+.tab-button {
+  &.is-active {
+    opacity: 1;
+  }
+}
+
+.tab {
   display: none;
 
   &.is-active {
@@ -140,6 +145,7 @@ body {
 
 .button {
   padding: 1rem;
+  text-decoration: none;
   color: white;
   border: 0;
   background-color: #126edb;
