@@ -1,41 +1,51 @@
 import sortable from 'sortablejs'
-import electron from 'electron'
+import electron, { remote } from 'electron'
 
 import Window from '../shared/Window'
 
-class PreferencesWindow extends Window {
+class PrefsWindow extends Window {
   constructor() {
     super()
     this.browserTabWindowHeight = 0
+    this.currentTab = 'browsers-tab'
 
-    electron.ipcRenderer.on('updateAvailable', (event, updateUrl) => {
+    /**
+     * Event: Update Available
+     *
+     * After update checked in main, it is then sent here where About tab is
+     * updated.
+     * @param {string} updateURL
+     */
+    electron.ipcRenderer.on('updateAvailable', (event, updateURL) => {
       const updateStatus = document.getElementById('updateStatus')
-      if (updateUrl) {
-        updateStatus.innerText = updateUrl
+      if (updateURL) {
+        updateStatus.innerText = updateURL
       } else {
-        updateStatus.innerText = updateUrl
+        updateStatus.innerText = updateURL
       }
     })
 
-    /**
-     * Incoming browsers event
-     *
-     * Listens for installed browsers from main.js, repopulating the window.
-     */
-    electron.ipcRenderer.on('incomingBrowsers', (event, browsers) => {
-      this.populatePreferences(browsers)
-    })
-
+    // Setup
     this.attachNavClickEvents()
     this.populateVersion()
   }
 
+  /**
+   * Populate Version
+   *
+   * Get the current version and place it in the About tab
+   */
   populateVersion() {
     const bVersion = document.getElementById('browserosaurusVersion')
-    const localVersion = electron.remote.app.getVersion()
+    const localVersion = remote.app.getVersion()
     bVersion.innerText = localVersion
   }
 
+  /**
+   * Attach Nav Click Events
+   *
+   * Make tab buttons clickable.
+   */
   attachNavClickEvents() {
     const navbar = document.getElementById('navbar')
     const navItems = navbar.querySelectorAll('li')
@@ -46,10 +56,17 @@ class PreferencesWindow extends Window {
     )
   }
 
+  /**
+   * Switch Tab
+   *
+   * Move to selected tab.
+   * @param {string} tabId
+   */
   switchTab(tabId) {
     const browsersTab = document.getElementById('browsers-tab')
     const aboutTab = document.getElementById('about-tab')
     const about = document.getElementById('about')
+    this.currentTab = tabId
     switch (tabId) {
       case 'browsers-tab':
         about.classList.remove('is-active')
@@ -76,34 +93,39 @@ class PreferencesWindow extends Window {
   /**
    * Toggle browser
    *
-   * Sends the toggle-browser event to main.js. This enable/disables the browser.
-   * @param {String} browserName
-   * @param {Bool} enabled
+   * Sends the toggle-browser event to main.js. This enable/disables the
+   * browser.
+   * @param {string} browserName
+   * @param {boolean} enabled
    */
   toggleBrowser(browserName, enabled) {
     electron.ipcRenderer.send('toggle-browser', { browserName, enabled })
   }
 
   /**
-   * Sort browser
+   * Sort Browser
    *
    * Sends the sort-browser event to main.js. This allows browsers to be
    * reordered.
-   * @param {Number} oldIndex index of browser being moved from.
-   * @param {Number} newIndex index of place browser is being moved to.
+   * @param {number} oldIndex index of browser being moved from.
+   * @param {number} newIndex index of place browser is being moved to.
    */
   sortBrowser(oldIndex, newIndex) {
     electron.ipcRenderer.send('sort-browser', { oldIndex, newIndex })
   }
 
   /**
-   * Populate preferences
+   * On Receive Browsers (see Window class)
    *
-   * Injects all browsers as list items of preferences.
+   * Injects all browsers as list items in browsers tab.
+   * @param {array} browsers - array of objects
    */
-  populatePreferences(browsers) {
+  onReceiveBrowsers(browsers) {
     this.browserTabWindowHeight = browsers.length * 64 + 97
-    this.window.setSize(400, this.browserTabWindowHeight)
+
+    if (this.currentTab === 'browsers-tab') {
+      this.window.setSize(400, this.browserTabWindowHeight)
+    }
 
     var browserListFrag = document.createDocumentFragment()
 
@@ -177,4 +199,4 @@ class PreferencesWindow extends Window {
   }
 }
 
-new PreferencesWindow()
+new PrefsWindow()

@@ -8,20 +8,22 @@ class PickerWindow extends Window {
   constructor() {
     super()
     this.url = null
-    this.urlField = document.getElementById('url')
 
     /**
      * Event: Listen for URL
+     *
      * Update URL global var and show window
+     * @param {string} incomingURL
      */
     electron.ipcRenderer.on('incomingURL', (event, incomingURL) => {
-      this.urlField.innerText = incomingURL
-      this.url = incomingURL
+      this.setURL(incomingURL)
+      this.window.center() // moves window to current screen
       this.window.show()
     })
 
     /**
      * Event: Escape key
+     *
      * Hide picker window
      */
     Mousetrap.bind('esc', () => {
@@ -29,35 +31,43 @@ class PickerWindow extends Window {
     })
   }
 
-  onReceiveBrowsers(browsers) {
-    this.populatePicker(browsers)
+  /**
+   * Set URL Field
+   *
+   * @param {string} value
+   */
+  setURL(value) {
+    const urlField = document.getElementById('url')
+    urlField.innerText = value
+    this.url = value
   }
 
   /**
    * Hide Window
-   * Hides the window, resetting the URL text and global var
+   *
+   * Hides this window, resetting the URL text.
    */
   hideWindow() {
     // remove url from field
-    this.urlField.innerText = ''
+    this.setURL(null)
     setTimeout(() => {
       // if not paused, escape causes an audible error (beep). Presumably there's some sort of race condition here. Anyway, the timeout seems to solve it.
       this.window.hide()
-      this.url = null
     }, 0)
   }
 
   /**
    * Open Browser
-   * Sends the URL to the chosen browser and tells OS to open it.
-   * @param {String} appName name of browser as recognised by macOS
+   *
+   * Tells the OS to open chosen browser with this.url.
+   * @param {string} appName name of browser as recognised by macOS
    */
   openBrowser(appName) {
     opn(this.url, { app: appName, wait: false })
       .then(() => this.hideWindow())
       .catch(() => {
         alert(
-          `Oh no! An error just occurred, please report this as a  GitHub issue. Opened URL was ${
+          `Oh no! An error just occurred, please report this as a GitHub issue. Opened URL was ${
             this.url
           }`
         )
@@ -66,11 +76,12 @@ class PickerWindow extends Window {
   }
 
   /**
-   * Populate picker
+   * On Receive Browsers (see Window class)
+   *
    * Injects all present and enabled browsers as list items of picker.
-   * @param {Array} browsers
+   * @param {array} browsers - array of objects
    */
-  populatePicker(browsers) {
+  onReceiveBrowsers(browsers) {
     if (browsers.length > 0) {
       // Populate installedBrowsers
 

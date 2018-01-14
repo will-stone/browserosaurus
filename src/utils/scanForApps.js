@@ -3,13 +3,13 @@ import jp from 'jsonpath'
 import parser from 'xml2json'
 
 /**
- * Find installed browsers
+ * Scan For Apps
  *
- * Scans the system for all known browsers (white-listed in browsers.js file).
- * @returns {Promise} returns array of browser names (Strings) if resolved, and
+ * Scans the system for all installed apps.
+ * @returns {promise} - returns array of app names (Strings) if resolved, and
  * string if rejected.
  */
-function findInstalledBrowsers(whiteListedBrowsers) {
+function scanForApps() {
   return new Promise((fulfill, reject) => {
     const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
 
@@ -29,18 +29,9 @@ function findInstalledBrowsers(whiteListedBrowsers) {
         profile,
         'plist.array.dict.array[1].dict[*].string[0]'
       )
-      const installedBrowsers = Object.keys(whiteListedBrowsers)
-        .map(name => {
-          for (let i = 0; i < installedApps.length; i++) {
-            if (name === installedApps[i]) {
-              return name
-            }
-          }
-        })
-        .filter(x => x) // remove empties
-      fulfill(installedBrowsers)
+      fulfill(installedApps)
     })
   })
 }
 
-export default findInstalledBrowsers
+export default scanForApps
