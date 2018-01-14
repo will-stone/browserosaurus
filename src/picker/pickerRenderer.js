@@ -21,11 +21,15 @@ class PickerWindow extends Window {
       this.window.show()
     })
 
-    /**
-     * Event: Escape key
-     *
-     * Hide picker window
-     */
+    this.escToHideWindow() // this is actually unbound and rebound when browsers are recevied but good to put this here incase the user wants to use escape to hide the window before the browsers are received.
+  }
+
+  /**
+   * Esc to Hide Window
+   *
+   * Binds escape key to hide picker window
+   */
+  escToHideWindow() {
     Mousetrap.bind('esc', () => {
       this.hideWindow()
     })
@@ -82,6 +86,11 @@ class PickerWindow extends Window {
    * @param {array} browsers - array of objects
    */
   onReceiveBrowsers(browsers) {
+    // Remove all key bindings
+    Mousetrap.reset()
+    // Reattach escape to hide window
+    this.escToHideWindow()
+
     if (browsers.length > 0) {
       // Populate installedBrowsers
 
