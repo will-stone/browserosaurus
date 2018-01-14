@@ -1,114 +1,32 @@
-import openAboutWindow from 'about-window'
-import { spawn } from 'child_process'
 import { app, BrowserWindow, Tray, Menu, ipcMain } from 'electron'
 import Store from 'electron-store'
-import jp from 'jsonpath'
-import parser from 'xml2json'
+import unionBy from 'lodash/unionBy'
+import fetch from 'node-fetch'
+import semver from 'semver'
 
-import defaultBrowsers from './browsers'
+import whiteListedBrowsers from './config/browsers'
+
+import arrayMove from './utils/arrayMove'
+import scanForApps from './utils/scanForApps'
 
 // Keep a global reference of the window objects, if you don't, the windows will
 // be closed automatically when the JavaScript object is garbage collected.
 let pickerWindow = null
-let preferencesWindow = null
+let prefsWindow = null
 let tray = null
 let appIsReady = false
-let installedBrowsers = []
 let wantToQuit = false
 
-const defaultConfig = { browsers: defaultBrowsers }
-const userConfig = {}
-
-const store = new Store({ defaults: defaultConfig })
+// Start store and set browsers if first run
+const store = new Store({ defaults: { browsers: [] } })
 
 /**
- * Load config
- *
- * Syncs the default browser configuration with the store.
- * @returns {Promise} Simply returns true once config has been loaded.
- */
-function loadConfig() {
-  return new Promise(fulfill => {
-    userConfig.browsers = store.get('browsers')
-
-    let userBrowserFound
-
-    // Create clone of the default browsers
-    let defaultBrowsersClone = defaultConfig.browsers.slice(0)
-
-    userConfig.browsers.map((userBrowser, userBrowserId) => {
-      userBrowserFound = false
-
-      defaultBrowsersClone.map((defBrowser, defBrowserId) => {
-        if (defBrowser.name == userBrowser.name) {
-          defaultBrowsersClone[defBrowserId] = false
-          userBrowserFound = true
-        }
-      })
-
-      if (userBrowserFound === false) {
-        userConfig.browsers[userBrowserId] = false
-      }
-    })
-
-    userConfig.browsers = userConfig.browsers.concat(defaultBrowsersClone)
-    userConfig.browsers = userConfig.browsers.filter(x => x)
-
-    store.set('browsers', userConfig.browsers)
-
-    fulfill(true)
-  })
-}
-
-/**
- * Find installed browsers
- *
- * Scans the system for all known browsers (in browsers.js file).
- * @returns {Promise} returns array of browsers if resolved, and string
- * if rejected.
- */
-function findInstalledBrowsers() {
-  return new Promise((fulfill, reject) => {
-    const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
-
-    let profile = ''
-
-    sp.stdout.setEncoding('utf8')
-    sp.stdout.on('data', data => {
-      profile += data
-    })
-    sp.stderr.on('data', data => {
-      console.log(`stderr: ${data}`)
-      reject(data)
-    })
-    sp.stdout.on('end', () => {
-      profile = parser.toJson(profile, { object: true })
-      const installedApps = jp.query(
-        profile,
-        'plist.array.dict.array[1].dict[*].string[0]'
-      )
-      installedBrowsers = userConfig.browsers
-        .map(browser => {
-          for (let i = 0; i < installedApps.length; i++) {
-            //const browser = installedApps[i]
-            if (browser.name === installedApps[i]) {
-              return browser
-            }
-          }
-          return false
-        })
-        .filter(x => x) // remove empties
-      fulfill(installedBrowsers)
-    })
-  })
-}
-
-/**
- * Create picker window
+ * Create Picker Window
  *
  * Creates the window that is used to display browser selection after clicking
  * a link.
- * @param {Function} callback function to run after this one finishes.
+ * @param {function} callback - function to run at the end of this one.
+ * @returns {null}
  */
 function createPickerWindow(callback) {
   pickerWindow = new BrowserWindow({
@@ -123,10 +41,10 @@ function createPickerWindow(callback) {
     show: false,
     title: 'Browserosaurus',
     hasShadow: true,
-    backgroundColor: '#111111'
+    backgroundColor: '#21252b'
   })
 
-  pickerWindow.loadURL(`file://${__dirname}/picker.html`)
+  pickerWindow.loadURL(`file://${__dirname}/picker/picker.html`)
 
   pickerWindow.on('close', e => {
     if (wantToQuit == false) {
@@ -136,16 +54,18 @@ function createPickerWindow(callback) {
   })
 
   pickerWindow.on('blur', () => {
-    pickerWindow.webContents.send('close', true)
+    pickerWindow.hide()
   })
 
   if (callback) {
     callback()
   }
+
+  return null
 }
 
 /**
- * Create tray icon
+ * Create Tray Icon
  *
  * Creates the menubar icon and menu items.
  * @returns {null}
@@ -158,20 +78,13 @@ function createTrayIcon() {
     {
       label: 'Preferences',
       click: function() {
-        togglePreferencesWindow(() => {
-          preferencesWindow.webContents.send(
-            'incomingBrowsers',
-            installedBrowsers
-          )
-        })
-      }
-    },
-    {
-      label: 'About',
-      click: function() {
-        openAboutWindow({
-          icon_path: `${__dirname}/images/icon/icon.png`
-        })
+        if (!prefsWindow) {
+          createPrefsWindow()
+        } else {
+          // Bring to front
+          prefsWindow.center()
+          prefsWindow.show()
+        }
       }
     },
     {
@@ -189,28 +102,16 @@ function createTrayIcon() {
 }
 
 /**
- * Send URL to picker
- *
- * When url is clicked, this sends the url to the picker renderer so browsers
- * know what to open.
- * @param {String} url clicked link.
- */
-function sendUrlToPicker(url) {
-  pickerWindow.center() // moves window to current screen
-  pickerWindow.webContents.send('incomingURL', url)
-}
-
-/**
- * Create Preferences Window
+ * Create Prefs Window
  *
  * Creates the window used to display the preferences, triggered from the
  * menubar icon.
- * @param {Function} callback function to run after this one finishes.
+ * @returns {null}
  */
-function createPreferencesWindow(callback) {
-  preferencesWindow = new BrowserWindow({
+function createPrefsWindow() {
+  prefsWindow = new BrowserWindow({
     width: 400,
-    height: 64 + 24,
+    height: 146,
     icon: `${__dirname}/images/icon/icon.png`,
     resizable: false,
     show: false,
@@ -218,98 +119,126 @@ function createPreferencesWindow(callback) {
     frame: true,
     hasShadow: true,
     minimizable: false,
+    maximizable: false,
+    titleBarStyle: 'hidden',
+    backgroundColor: '#21252b',
+    minimizable: false,
     maximizable: false
   })
 
-  // preferencesWindow.installedBrowsers = installedBrowsers
-  preferencesWindow.loadURL(`file://${__dirname}/preferences.html`)
+  prefsWindow.loadURL(`file://${__dirname}/prefs/prefs.html`)
+
   // allow window to be opened again
-  preferencesWindow.on('close', e => {
+  prefsWindow.on('close', e => {
     if (wantToQuit == false) {
       e.preventDefault()
-      preferencesWindow.hide()
+      prefsWindow.hide()
     }
   })
 
-  if (callback) {
-    callback()
-  }
+  return null
 }
 
 /**
- * Toggle Preferences Window
+ * Check For Update
  *
- * Shows and brings preferences window to front.
- * @param {Function} callback function to run after this one finishes.
+ * Checks GitHub API for Browserosaurus's latest release.
+ * NB: only allowed 60 requests per IP address per hour.
+ * @returns {object} - {update: boolean, message: string} if update true,
+ * message is URL to latest release, else message is string to be displayed.
  */
-function togglePreferencesWindow(callback) {
-  if (!preferencesWindow) {
-    createPreferencesWindow(callback)
-  } else {
-    // Bring to front
-    preferencesWindow.center()
-    preferencesWindow.show()
-    callback()
-  }
+function checkForUpdate() {
+  return fetch(
+    'https://api.github.com/repos/will-stone/browserosaurus/releases/latest'
+  )
+    .then(response => response.json())
+    .then(response => {
+      if (
+        response.message &&
+        response.message.startsWith('API rate limit exceeded')
+      ) {
+        return {
+          update: false,
+          message:
+            "API rate limit exceeded, please try again later or visit Browserosaurus's website to check for an update"
+        }
+      } else if (semver.gt(response.tag_name, app.getVersion())) {
+        return {
+          update: true,
+          message:
+            'https://github.com/will-stone/browserosaurus/releases/latest'
+        }
+      } else {
+        return { update: false, message: 'You have the latest version' }
+      }
+    })
 }
 
 /**
- * Array Move
+ * Send Browsers To Renderers
  *
- * Utility function to move an array item to a specific spot in the array.
- * @param {Array} array
- * @param {Number} fromIndex
- * @param {Number} toIndex
+ * Takes an array of browsers and sends it to the prefs and picker windows
+ * @param {array} browsers - array of browsers and their details.
+ * @returns {null}
  */
-function arrayMove(array, fromIndex, toIndex) {
-  array.splice(toIndex, 0, array.splice(fromIndex, 1)[0])
-  return array
+function sendBrowsersToRenderers(browsers) {
+  const enabledBrowsers = browsers.filter(browser => browser.enabled)
+  pickerWindow.webContents.send('incomingBrowsers', enabledBrowsers)
+  prefsWindow.webContents.send('incomingBrowsers', browsers)
+  return null
 }
 
 /**
- * Toggle browser event
+ * Event: Check For Update
  *
- * Listens for the toggle-browser event, triggered from the picker renderer and
- * updates the enabled/disabled status of the checked/unchecked browser.
- * @param {String} browserName
- * @param {Boolean} enabled
+ * Listens for call to check for update, triggered when navigating to "About"
+ * tab in prefs window.
+ */
+ipcMain.on('check-for-update', async () => {
+  try {
+    const updateAvailable = await checkForUpdate()
+    prefsWindow.webContents.send('updateAvailable', updateAvailable)
+  } catch (err) {
+    console.log(err)
+  }
+})
+
+/**
+ * Event: Toggle Browser
+ *
+ * Listens for the toggle-browser event, triggered from the prefs renderer and
+ * updates the enabled/disabled status of the checked/unchecked browser. Then
+ * sends updated browsers array back to renderers.
+ * @param {string} browserName
+ * @param {boolean} enabled
  */
 ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
-  const browserIndex = userConfig.browsers.findIndex(
+  const browsers = store.get('browsers')
+  const browserIndex = browsers.findIndex(
     browser => browser.name === browserName
   )
-  userConfig.browsers[browserIndex].enabled = enabled
-  store.set('browsers', userConfig.browsers)
-  pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
+  browsers[browserIndex].enabled = enabled
+  store.set('browsers', browsers)
+  sendBrowsersToRenderers(browsers)
 })
 
 /**
- * Sort browser event
+ * Event: Sort Browser
  *
- * Listens for the sort-browser event, triggered from the preferences renderer
- * when a browser is dragged to a new position.
- * @param {Number} oldIndex index of browser being moved from.
- * @param {Number} newIndex index of place browser is being moved to.
+ * Listens for the sort-browser event, triggered from the prefs renderer when a
+ * browser is dragged to a new position. Then sends updated browsers array back
+ * to renderers.
+ * @param {number} oldIndex - index of browser being moved from.
+ * @param {number} newIndex - index of place browser is being moved to.
  */
 ipcMain.on('sort-browser', (event, { oldIndex, newIndex }) => {
-  const from = installedBrowsers[oldIndex].name
-  const to = installedBrowsers[newIndex].name
-
-  const fromIndex = userConfig.browsers.findIndex(
-    browser => browser.name === from
-  )
-  const toIndex = userConfig.browsers.findIndex(browser => browser.name === to)
-
-  userConfig.browsers = arrayMove(userConfig.browsers, fromIndex, toIndex)
-  installedBrowsers = arrayMove(installedBrowsers, oldIndex, newIndex)
-
-  store.set('browsers', userConfig.browsers)
-  pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
-  preferencesWindow.webContents.send('incomingBrowsers', installedBrowsers)
+  const browsers = arrayMove(store.get('browsers'), oldIndex, newIndex)
+  store.set('browsers', browsers)
+  sendBrowsersToRenderers(browsers)
 })
 
 /**
- * App on ready
+ * Event: App Ready
  *
  * Run once electron has loaded and the app is considered _ready for use_.
  */
@@ -317,40 +246,82 @@ app.on('ready', () => {
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
 
-  loadConfig().then(() => {
-    createTrayIcon()
-    createPickerWindow(() => {
-      pickerWindow.once('ready-to-show', () => {
-        if (global.URLToOpen) {
-          sendUrlToPicker(global.URLToOpen)
-          global.URLToOpen = null
-        }
-        appIsReady = true
-      })
-    })
-    createPreferencesWindow()
-    findInstalledBrowsers().then(installedBrowsers => {
-      pickerWindow.webContents.send('incomingBrowsers', installedBrowsers)
-      preferencesWindow.webContents.send('incomingBrowsers', installedBrowsers)
+  createTrayIcon()
+  createPrefsWindow()
+  createPickerWindow(() => {
+    pickerWindow.once('ready-to-show', async () => {
+      if (global.URLToOpen) {
+        // if Browserosaurus was opened with a link, this will now be sent on to the picker window
+        pickerWindow.webContents.send('incomingURL', global.URLToOpen)
+        global.URLToOpen = null // not required any more
+      }
+
+      // get all apps on system
+      const installedApps = await scanForApps()
+
+      // filter the apps to just the browsers on system
+      const installedBrowsers = Object.keys(whiteListedBrowsers)
+        .map(name => {
+          for (let i = 0; i < installedApps.length; i++) {
+            if (name === installedApps[i]) {
+              return name
+            }
+          }
+        })
+        .filter(x => x) // remove empties
+
+      // get browsers in store
+      const storedBrowsers = store.get('browsers')
+
+      // convert each installed browser string to object with keyboard shortcut, alias name, and enabled status details.
+      const installedBrowsersWithDetails = installedBrowsers.map(name => ({
+        name,
+        key: whiteListedBrowsers[name].key,
+        alias: whiteListedBrowsers[name].alias || null,
+        enabled: true
+      }))
+
+      // remove unistalled browsers from stored config
+      const storedBrowsersPruned = storedBrowsers
+        .map(browser => {
+          if (installedBrowsers.indexOf(browser.name) === -1) {
+            return null
+          }
+          return browser
+        })
+        .filter(x => x) // remove nulls
+
+      // merge the stored with installed browsers, this will add new browsers where necessary, keeping the stored config if present.
+      const mergedBrowsers = unionBy(
+        storedBrowsersPruned,
+        installedBrowsersWithDetails,
+        'name'
+      )
+
+      sendBrowsersToRenderers(mergedBrowsers)
+      store.set('browsers', mergedBrowsers)
+
+      appIsReady = true
     })
   })
-  //)
 })
 
-// Hide dock icon. Also prevents Browserosaurus from appearing in cmd-tab.
-app.dock.hide()
-
 /**
- * App on open URL
+ * Event: Open URL
  *
  * When a URL is sent to Browserosaurus (as it is default browser), send it to
  * the picker.
+ * @param {string} url
  */
 app.on('open-url', (event, url) => {
   event.preventDefault()
   if (appIsReady) {
-    sendUrlToPicker(url)
+    pickerWindow.webContents.send('incomingURL', url)
   } else {
-    global.URLToOpen = url // this will be handled later in the createWindow callback
+    // app not ready yet, this will be handled later in the createWindow callback
+    global.URLToOpen = url
   }
 })
+
+// Hide dock icon. Also prevents Browserosaurus from appearing in cmd-tab.
+app.dock.hide()

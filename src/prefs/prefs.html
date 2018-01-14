@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Browserosaurus Preferences</title>
+  <link rel="stylesheet" href="../main.scss">
+</head>
+
+<body id="preferences">
+
+  <div id="titleBar">Preferences</div>
+
+  <ul class="navbar">
+    <li class="tab-button is-active">Browsers</li>
+    <li class="tab-button">About</li>
+  </ul>
+
+  <ul id="browserList" class="tab is-active">
+    <li id="browsersLoading">Loading&hellip;</li>
+  </ul>
+
+  <div id="about" class="tab text-center">
+    <p>
+      <img src="../images/icon/icon.png" height="100" width="100" alt="" />
+    </p>
+    <h1>Browserosaurus</h1>
+    <h2 id="browserosaurusVersion"></h2>
+    <p id="updateStatus">Checking for update...</p>
+  </div>
+
+</body>
+
+<script>
+  import './prefsRenderer.js'
+</script>
+
+</html>

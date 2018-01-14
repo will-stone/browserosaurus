@@ -14,6 +14,7 @@ body {
 body {
   margin: 0;
   padding: 0;
+  color: white;
 }
 
 #url {
@@ -81,22 +82,76 @@ body {
   font-weight: bold;
 }
 
-#preferences {
-  color: #111111;
+#titleBar {
+  height: 2rem;
+  -webkit-app-region: drag;
+  text-align: center;
+  line-height: 2rem;
+}
 
-  #browserList > li {
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  height: 64px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  -webkit-app-region: drag;
+  border-bottom: 1px solid #111111;
+  line-height: 64px;
+
+  li {
     cursor: default;
+    -webkit-app-region: no-drag;
+    opacity: 0.5;
 
-    &.sortable-ghost {
-      opacity: 0;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+#preferences {
+  #browserList {
+     > li {
+      cursor: default;
+
+      &.sortable-ghost {
+        opacity: 0;
+      }
     }
   }
 }
 
 #picker {
-  color: white;
-
   #browserList > li {
     cursor: pointer;
   }
+}
+
+.tab-button {
+  &.is-active {
+    opacity: 1;
+  }
+}
+
+.tab {
+  display: none;
+
+  &.is-active {
+    display: block;
+  }
+}
+
+.button {
+  padding: 1rem;
+  text-decoration: none;
+  color: white;
+  border: 0;
+  background-color: #126edb;
+  font-size: inherit;
+}
+
+.text-center {
+  text-align: center;
 }
