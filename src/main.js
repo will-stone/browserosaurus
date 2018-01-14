@@ -250,6 +250,12 @@ app.on('ready', () => {
   createPrefsWindow()
   createPickerWindow(() => {
     pickerWindow.once('ready-to-show', async () => {
+      if (global.URLToOpen) {
+        // if Browserosaurus was opened with a link, this will now be sent on to the picker window
+        pickerWindow.webContents.send('incomingURL', global.URLToOpen)
+        global.URLToOpen = null // not required any more
+      }
+
       // get all apps on system
       const installedApps = await scanForApps()
 
@@ -294,14 +300,9 @@ app.on('ready', () => {
 
       sendBrowsersToRenderers(mergedBrowsers)
       store.set('browsers', mergedBrowsers)
-    })
 
-    if (global.URLToOpen) {
-      // if Browserosaurus was opened with a link, this will now be sent on to the picker window
-      pickerWindow.webContents.send('incomingURL', global.URLToOpen)
-      global.URLToOpen = null
-    }
-    appIsReady = true
+      appIsReady = true
+    })
   })
 })
 
