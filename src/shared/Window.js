@@ -23,6 +23,21 @@ class Window {
   onReceiveBrowsers() {
     return false
   }
+
+  /**
+   * Update Window Height
+   *
+   * public method
+   * Sets the window height to current scroll height
+   */
+  updateWindowHeight() {
+    const height = Math.min(
+      document.body.scrollHeight,
+      document.body.clientHeight
+    )
+    this.window.setSize(400, height)
+    return false
+  }
 }
 
 export default Window

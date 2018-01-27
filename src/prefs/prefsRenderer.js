@@ -6,7 +6,6 @@ import Window from '../shared/Window'
 class PrefsWindow extends Window {
   constructor() {
     super()
-    this.browserTabWindowHeight = 0
     this.activeTabIndex = 0
 
     /**
@@ -91,13 +90,12 @@ class PrefsWindow extends Window {
 
       if (this.activeTabIndex === 0) {
         // Browsers
-        this.window.setSize(400, this.browserTabWindowHeight)
       } else if (this.activeTabIndex === 1) {
         // About
-        this.window.setSize(400, 420)
         electron.ipcRenderer.send('check-for-update')
       }
     })
+    this.updateWindowHeight()
   }
 
   /**
@@ -131,12 +129,6 @@ class PrefsWindow extends Window {
    * @param {array} browsers - array of objects
    */
   onReceiveBrowsers(browsers) {
-    this.browserTabWindowHeight = browsers.length * 64 + 97
-
-    if (this.activeTabIndex === 0) {
-      this.window.setSize(400, this.browserTabWindowHeight)
-    }
-
     var browserListFrag = document.createDocumentFragment()
 
     browsers
@@ -200,6 +192,8 @@ class PrefsWindow extends Window {
 
     this.browserList.innerHTML = ''
     this.browserList.appendChild(browserListFrag)
+
+    this.updateWindowHeight()
 
     sortable.create(this.browserList, {
       draggable: '.browserItem',

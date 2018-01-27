@@ -6,7 +6,6 @@
 
 html,
 body {
-  height: 100%;
   font-family: sans-serif;
   font-size: 16px;
 }
@@ -137,6 +136,7 @@ body {
 
 .tab {
   display: none;
+  padding-bottom: 1rem;
 
   &.is-active {
     display: block;

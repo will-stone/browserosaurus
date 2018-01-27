@@ -94,11 +94,6 @@ class PickerWindow extends Window {
     if (browsers.length > 0) {
       // Populate installedBrowsers
 
-      this.window.setSize(
-        400,
-        browsers.filter(browser => browser.enabled).length * 64 + 48
-      )
-
       const browserListFrag = document.createDocumentFragment()
 
       browsers
@@ -154,8 +149,9 @@ class PickerWindow extends Window {
       this.browserList.appendChild(browserListFrag)
     } else {
       this.browserList.innerHTML = ''
-      this.window.setSize(400, 48)
     }
+
+    this.updateWindowHeight()
   }
 }
 
