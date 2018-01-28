@@ -30,28 +30,6 @@ body {
   padding: 0;
   user-select: none;
 
-  .handle {
-    display: inline-block;
-    overflow: hidden;
-    width: 16px;
-    height: 20px;
-    margin-top: -0.7em;
-    margin-right: 0.3em;
-    padding: 3px 4px;
-    content: '....';
-    cursor: move;
-    vertical-align: middle;
-    letter-spacing: 2px;
-    color: #aaaaaa;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 5px;
-
-    &:after {
-      content: '.. .. .. ..';
-    }
-  }
-
    > li {
     position: relative;
     display: flex;
@@ -63,6 +41,30 @@ body {
     &.active {
       background-color: #126edb;
     }
+  }
+}
+
+.browser-cell {
+  display: flex;
+  align-items: center;
+}
+
+.handle {
+  display: inline-block;
+  overflow: hidden;
+  width: 16px;
+  height: 16px;
+  margin-right: 0.3em;
+  padding: 0 4px;
+  cursor: move;
+  letter-spacing: 2px;
+  color: #aaaaaa;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 4px;
+
+  &:after {
+    content: '.. .. .. ..';
   }
 }
 
@@ -114,12 +116,12 @@ body {
   #browserList {
      > li {
       cursor: default;
-
-      &.sortable-ghost {
-        opacity: 0;
-      }
     }
   }
+}
+
+.sortable-ghost {
+  opacity: 0;
 }
 
 #picker {
@@ -136,10 +138,21 @@ body {
 
 .tab {
   display: none;
-  padding-bottom: 1rem;
+  padding: 1rem;
 
   &.is-active {
     display: block;
+  }
+}
+
+.browsers-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 0.5rem;
+    text-align: left;
   }
 }
 

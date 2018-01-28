@@ -35,7 +35,8 @@ class Window {
       document.body.scrollHeight,
       document.body.clientHeight
     )
-    this.window.setSize(400, height)
+    const width = this.window.getSize()[0]
+    this.window.setSize(width, height)
     return false
   }
 }

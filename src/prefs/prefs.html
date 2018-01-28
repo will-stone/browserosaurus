@@ -16,27 +16,26 @@
     <li class="tab-button">About</li>
   </ul>
 
-  <!-- <table style="width:100%">
-    <tr>
-      <th>Browsers</th>
-      <th>Lastname</th>
-      <th>Age</th>
-    </tr>
-    <tr>
-      <td>Jill</td>
-      <td>Smith</td>
-      <td>50</td>
-    </tr>
-    <tr>
-      <td>Eve</td>
-      <td>Jackson</td>
-      <td>94</td>
-    </tr>
-  </table> -->
+  <div class="tab is-active">
+    <table class="browsers-table">
+      <thead>
+        <tr>
+          <th>Browser</th>
+          <!-- <th>Default</th> -->
+          <th>Enabled</th>
+        </tr>
+      </thead>
+      <tbody id="browserList">
+        <tr>
+          <td>Loading...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <ul id="browserList" class="tab is-active">
+  <!-- <ul id="browserList" class="tab is-active">
     <li id="browsersLoading">Loading&hellip;</li>
-  </ul>
+  </ul> -->
 
   <div id="about" class="tab text-center">
     <p>

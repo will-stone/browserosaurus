@@ -110,7 +110,7 @@ function createTrayIcon() {
  */
 function createPrefsWindow() {
   prefsWindow = new BrowserWindow({
-    width: 400,
+    width: 500,
     height: 146,
     icon: `${__dirname}/images/icon/icon.png`,
     resizable: false,
