@@ -7,49 +7,15 @@
   <link rel="stylesheet" href="../main.scss">
 </head>
 
-<body id="prefs">
+<body>
 
-  <div id="titleBar">Preferences</div>
+  <div id="root"></div>
 
-  <ul class="navbar">
-    <li class="tab-button is-active">Browsers</li>
-    <li class="tab-button">About</li>
-  </ul>
-
-  <div class="tab is-active">
-    <table class="browsers-table">
-      <thead>
-        <tr>
-          <th>Browser</th>
-          <!-- <th>Default</th> -->
-          <th>Enabled</th>
-        </tr>
-      </thead>
-      <tbody id="browserList">
-        <tr>
-          <td>Loading...</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- <ul id="browserList" class="tab is-active">
-    <li id="browsersLoading">Loading&hellip;</li>
-  </ul> -->
-
-  <div id="about" class="tab text-center">
-    <p>
-      <img src="../images/icon/icon.png" height="100" width="100" alt="" />
-    </p>
-    <h1>Browserosaurus</h1>
-    <h2 id="browserosaurusVersion"></h2>
-    <p id="updateStatus">Checking for update...</p>
-  </div>
+  <script>
+    import './index.js'
+  </script>
 
 </body>
 
-<script>
-  import './prefsRenderer.js'
-</script>
 
 </html>

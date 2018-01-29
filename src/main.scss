@@ -83,35 +83,6 @@ body {
   font-weight: bold;
 }
 
-#titleBar {
-  height: 2rem;
-  -webkit-app-region: drag;
-  text-align: center;
-  line-height: 2rem;
-}
-
-.navbar {
-  display: flex;
-  justify-content: space-around;
-  height: 64px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  -webkit-app-region: drag;
-  border-bottom: 1px solid #111111;
-  line-height: 64px;
-
-  li {
-    cursor: default;
-    -webkit-app-region: no-drag;
-    opacity: 0.5;
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-}
-
 #prefs {
   #browserList {
      > li {
@@ -127,12 +98,6 @@ body {
 #picker {
   #browserList > li {
     cursor: pointer;
-  }
-}
-
-.tab-button {
-  &.is-active {
-    opacity: 1;
   }
 }
 
