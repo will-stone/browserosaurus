@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron'
 import React, { Fragment } from 'react'
 
 import TitleBar from './TitleBar'
@@ -15,7 +16,9 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    ipcRenderer.send('get-browsers')
+  }
 
   handleTabButtonClick = id => {
     this.setState({

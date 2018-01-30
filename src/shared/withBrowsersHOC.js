@@ -15,7 +15,7 @@ function withBrowsersHOC(WrappedComponent) {
        *
        * @param {array} browsers
        */
-      ipcRenderer.on('incomingBrowsers', (event, browsers) =>
+      ipcRenderer.on('browsers', (event, browsers) =>
         this.onReceiveBrowsers(browsers)
       )
     }
