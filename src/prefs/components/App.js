@@ -3,10 +3,9 @@ import React, { Fragment } from 'react'
 import TitleBar from './TitleBar'
 import NavBar from './NavBar'
 import Tab from './Tab'
-import BrowsersTable from './BrowsersTable'
-import About from './About'
 
-import withWindow from '../../shared/withWindow'
+import BrowsersTable from '../tabs/BrowsersTable'
+import About from '../tabs/About'
 
 class App extends React.Component {
   constructor() {
@@ -16,17 +15,12 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.props.updateWindowHeight()
-  }
+  componentDidMount() {}
 
   handleTabButtonClick = id => {
-    this.setState(
-      {
-        activeTabId: id
-      },
-      () => this.props.updateWindowHeight()
-    )
+    this.setState({
+      activeTabId: id
+    })
   }
 
   render() {
@@ -46,4 +40,4 @@ class App extends React.Component {
   }
 }
 
-export default withWindow(App)
+export default App

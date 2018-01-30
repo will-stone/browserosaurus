@@ -47,7 +47,7 @@ function createPickerWindow(callback) {
   pickerWindow.loadURL(`file://${__dirname}/picker/picker.html`)
 
   pickerWindow.on('close', e => {
-    if (wantToQuit == false) {
+    if (wantToQuit === false) {
       e.preventDefault()
       pickerWindow.hide()
     }
@@ -121,16 +121,14 @@ function createPrefsWindow() {
     minimizable: false,
     maximizable: false,
     titleBarStyle: 'hidden',
-    backgroundColor: '#21252b',
-    minimizable: false,
-    maximizable: false
+    backgroundColor: '#21252b'
   })
 
   prefsWindow.loadURL(`file://${__dirname}/prefs/prefs.html`)
 
   // allow window to be opened again
   prefsWindow.on('close', e => {
-    if (wantToQuit == false) {
+    if (wantToQuit === false) {
       e.preventDefault()
       prefsWindow.hide()
     }
@@ -267,6 +265,7 @@ app.on('ready', () => {
               return name
             }
           }
+          return null
         })
         .filter(x => x) // remove empties
 
