@@ -2,7 +2,7 @@ import { ipcRenderer } from 'electron'
 import React, { Fragment } from 'react'
 
 import About from './About'
-import BrowsersTable from './BrowsersTable'
+import Browsers from './Browsers'
 import NavBar from './NavBar'
 import Tab from './Tab'
 import TitleBar from './TitleBar'
@@ -58,7 +58,7 @@ class App extends React.Component {
         />
         <Tab
           active={activeTabId === 0}
-          component={BrowsersTable}
+          component={Browsers}
           browsers={browsers}
           toggleBrowser={this.toggleBrowser}
         />

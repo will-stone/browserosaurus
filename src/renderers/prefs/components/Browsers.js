@@ -5,7 +5,7 @@ import Checkbox from './Checkbox'
 import Th from './Th'
 import Td from './Td'
 
-class BrowsersTable extends React.Component {
+class Browsers extends React.Component {
   render() {
     const { browsers, toggleBrowser } = this.props
 
@@ -49,4 +49,4 @@ class BrowsersTable extends React.Component {
   }
 }
 
-export default BrowsersTable
+export default Browsers
