@@ -8,6 +8,8 @@ import Tab from './Tab'
 import BrowsersTable from '../tabs/BrowsersTable'
 import About from '../tabs/About'
 
+import withBrowsersHOC from '../../shared/withBrowsersHOC'
+
 class App extends React.Component {
   constructor() {
     super()
@@ -28,6 +30,7 @@ class App extends React.Component {
 
   render() {
     const { activeTabId } = this.state
+    const { browsers } = this.props
 
     return (
       <Fragment>
@@ -36,11 +39,15 @@ class App extends React.Component {
           onTabButtonClick={this.handleTabButtonClick}
           activeTabId={this.state.activeTabId}
         />
-        <Tab active={activeTabId === 0} component={BrowsersTable} />
+        <Tab
+          active={activeTabId === 0}
+          component={BrowsersTable}
+          browsers={browsers}
+        />
         <Tab active={activeTabId === 1} component={About} />
       </Fragment>
     )
   }
 }
 
-export default App
+export default withBrowsersHOC(App)

@@ -1,7 +1,7 @@
 import { css } from 'emotion'
 import React from 'react'
 
-const Tab = ({ active = false, component }) => {
+const Tab = ({ active = false, component, ...rest }) => {
   const Component = component
 
   return (
@@ -11,7 +11,7 @@ const Tab = ({ active = false, component }) => {
         padding: 1rem;
       `}
     >
-      {active && <Component />}
+      {active && <Component {...rest} />}
     </div>
   )
 }
