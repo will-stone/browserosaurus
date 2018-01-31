@@ -217,7 +217,7 @@ ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
   )
   browsers[browserIndex].enabled = enabled
   store.set('browsers', browsers)
-  sendBrowsersToRenderers(browsers)
+  event.sender.send('browsers', browsers)
 })
 
 /**
