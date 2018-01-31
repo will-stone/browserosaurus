@@ -1,11 +1,10 @@
 import electron from 'electron'
+
 /**
  * Update Window Height
  *
- * public method
  * Sets the window height to current scroll height
  */
-
 const updateWindowHeight = () => {
   const window = electron.remote.getCurrentWindow()
 

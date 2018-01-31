@@ -44,7 +44,7 @@ function createPickerWindow(callback) {
     backgroundColor: '#21252b'
   })
 
-  pickerWindow.loadURL(`file://${__dirname}/picker/picker.html`)
+  pickerWindow.loadURL(`file://${__dirname}/renderers/picker/picker.html`)
 
   pickerWindow.on('close', e => {
     if (wantToQuit === false) {
@@ -124,7 +124,7 @@ function createPrefsWindow() {
     backgroundColor: '#21252b'
   })
 
-  prefsWindow.loadURL(`file://${__dirname}/prefs/prefs.html`)
+  prefsWindow.loadURL(`file://${__dirname}/renderers/prefs/prefs.html`)
 
   // allow window to be opened again
   prefsWindow.on('close', e => {

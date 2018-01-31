@@ -1,14 +1,14 @@
 import { ipcRenderer } from 'electron'
 import React, { Fragment } from 'react'
 
-import TitleBar from './TitleBar'
+import About from './About'
+import BrowsersTable from './BrowsersTable'
 import NavBar from './NavBar'
 import Tab from './Tab'
-
-import BrowsersTable from '../tabs/BrowsersTable'
-import About from '../tabs/About'
+import TitleBar from './TitleBar'
 
 import withBrowsersHOC from '../../shared/withBrowsersHOC'
+import updateWindowHeight from '../../shared/updateWindowHeight'
 
 class App extends React.Component {
   constructor() {
@@ -20,12 +20,29 @@ class App extends React.Component {
 
   componentDidMount() {
     ipcRenderer.send('get-browsers')
+    updateWindowHeight()
+  }
+
+  componentDidUpdate() {
+    updateWindowHeight()
   }
 
   handleTabButtonClick = id => {
     this.setState({
       activeTabId: id
     })
+  }
+
+  /**
+   * Toggle browser
+   *
+   * Sends the toggle-browser event to main.js. This enable/disables the
+   * browser.
+   * @param {string} browserName
+   * @param {boolean} enabled
+   */
+  toggleBrowser(browserName, enabled) {
+    ipcRenderer.send('toggle-browser', { browserName, enabled })
   }
 
   render() {
@@ -43,6 +60,7 @@ class App extends React.Component {
           active={activeTabId === 0}
           component={BrowsersTable}
           browsers={browsers}
+          toggleBrowser={this.toggleBrowser}
         />
         <Tab active={activeTabId === 1} component={About} />
       </Fragment>
