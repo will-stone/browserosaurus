@@ -7,7 +7,7 @@ import Td from './Td'
 
 class Browsers extends React.Component {
   render() {
-    const { browsers, toggleBrowser } = this.props
+    const { browsers, onBrowserToggle } = this.props
 
     return (
       <table
@@ -31,7 +31,7 @@ class Browsers extends React.Component {
                   <Checkbox
                     checked={browser.enabled}
                     onChange={e => {
-                      toggleBrowser(browser.name, e.target.checked)
+                      onBrowserToggle(browser.name, e.target.checked)
                     }}
                   />
                 </Td>

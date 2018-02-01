@@ -1,11 +1,5 @@
 import { ipcRenderer } from 'electron'
-import React, { Fragment } from 'react'
-
-import About from './About'
-import Browsers from './Browsers'
-import NavBar from './NavBar'
-import Tab from './Tab'
-import TitleBar from './TitleBar'
+import React from 'react'
 
 import withBrowsersHOC from '../../shared/withBrowsersHOC'
 import updateWindowHeight from '../../shared/updateWindowHeight'
@@ -41,7 +35,7 @@ class App extends React.Component {
    * @param {string} browserName
    * @param {boolean} enabled
    */
-  toggleBrowser(browserName, enabled) {
+  handleBrowserToggle(browserName, enabled) {
     ipcRenderer.send('toggle-browser', { browserName, enabled })
   }
 
@@ -50,20 +44,12 @@ class App extends React.Component {
     const { browsers } = this.props
 
     return (
-      <Fragment>
-        <TitleBar>Preferences</TitleBar>
-        <NavBar
-          onTabButtonClick={this.handleTabButtonClick}
-          activeTabId={this.state.activeTabId}
-        />
-        <Tab
-          active={activeTabId === 0}
-          component={Browsers}
-          browsers={browsers}
-          toggleBrowser={this.toggleBrowser}
-        />
-        <Tab active={activeTabId === 1} component={About} />
-      </Fragment>
+      <App
+        browsers={browsers}
+        activeTabId={activeTabId}
+        onTabButtonClick={this.handleTabButtonClick}
+        onBrowserToggle={this.handleBrowserToggle}
+      />
     )
   }
 }
