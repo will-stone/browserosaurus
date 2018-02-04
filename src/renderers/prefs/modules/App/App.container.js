@@ -1,10 +1,12 @@
 import { ipcRenderer } from 'electron'
 import React from 'react'
 
-import withBrowsersHOC from '../../shared/withBrowsersHOC'
-import updateWindowHeight from '../../shared/updateWindowHeight'
+import withBrowsersHOC from '../../../shared/withBrowsersHOC'
+import updateWindowHeight from '../../../shared/updateWindowHeight'
 
-class App extends React.Component {
+import App from './App'
+
+class AppContainer extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -54,4 +56,4 @@ class App extends React.Component {
   }
 }
 
-export default withBrowsersHOC(App)
+export default withBrowsersHOC(AppContainer)

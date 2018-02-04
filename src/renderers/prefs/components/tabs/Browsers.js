@@ -1,9 +1,9 @@
 import { css } from 'emotion'
 import React from 'react'
 
-import Checkbox from './Checkbox'
-import Th from './Th'
-import Td from './Td'
+import Checkbox from '../Checkbox'
+import Th from '../Th'
+import Td from '../Td'
 
 class Browsers extends React.Component {
   render() {

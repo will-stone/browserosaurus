@@ -301,63 +301,63 @@ app.on('ready', () => {
 
   createTrayIcon()
   createPrefsWindow()
-  createPickerWindow(() => {
-    pickerWindow.once('ready-to-show', async () => {
-      if (global.URLToOpen) {
-        // if Browserosaurus was opened with a link, this will now be sent on to the picker window
-        pickerWindow.webContents.send('incomingURL', global.URLToOpen)
-        global.URLToOpen = null // not required any more
-      }
+  // createPickerWindow(() => {
+  //   pickerWindow.once('ready-to-show', async () => {
+  //     if (global.URLToOpen) {
+  //       // if Browserosaurus was opened with a link, this will now be sent on to the picker window
+  //       pickerWindow.webContents.send('incomingURL', global.URLToOpen)
+  //       global.URLToOpen = null // not required any more
+  //     }
 
-      // get all apps on system
-      const installedApps = await scanForApps()
+  //     // get all apps on system
+  //     const installedApps = await scanForApps()
 
-      // filter the apps to just the browsers on system
-      const installedBrowsers = Object.keys(whiteListedBrowsers)
-        .map(name => {
-          for (let i = 0; i < installedApps.length; i++) {
-            if (name === installedApps[i]) {
-              return name
-            }
-          }
-          return null
-        })
-        .filter(x => x) // remove empties
+  //     // filter the apps to just the browsers on system
+  //     const installedBrowsers = Object.keys(whiteListedBrowsers)
+  //       .map(name => {
+  //         for (let i = 0; i < installedApps.length; i++) {
+  //           if (name === installedApps[i]) {
+  //             return name
+  //           }
+  //         }
+  //         return null
+  //       })
+  //       .filter(x => x) // remove empties
 
-      // get browsers in store
-      const storedBrowsers = store.get('browsers')
+  //     // get browsers in store
+  //     const storedBrowsers = store.get('browsers')
 
-      // convert each installed browser string to object with keyboard shortcut, alias name, and enabled status details.
-      const installedBrowsersWithDetails = installedBrowsers.map(name => ({
-        name,
-        key: whiteListedBrowsers[name].key,
-        alias: whiteListedBrowsers[name].alias || null,
-        enabled: true
-      }))
+  //     // convert each installed browser string to object with keyboard shortcut, alias name, and enabled status details.
+  //     const installedBrowsersWithDetails = installedBrowsers.map(name => ({
+  //       name,
+  //       key: whiteListedBrowsers[name].key,
+  //       alias: whiteListedBrowsers[name].alias || null,
+  //       enabled: true
+  //     }))
 
-      // remove unistalled browsers from stored config
-      const storedBrowsersPruned = storedBrowsers
-        .map(browser => {
-          if (installedBrowsers.indexOf(browser.name) === -1) {
-            return null
-          }
-          return browser
-        })
-        .filter(x => x) // remove nulls
+  //     // remove unistalled browsers from stored config
+  //     const storedBrowsersPruned = storedBrowsers
+  //       .map(browser => {
+  //         if (installedBrowsers.indexOf(browser.name) === -1) {
+  //           return null
+  //         }
+  //         return browser
+  //       })
+  //       .filter(x => x) // remove nulls
 
-      // merge the stored with installed browsers, this will add new browsers where necessary, keeping the stored config if present.
-      const mergedBrowsers = unionBy(
-        storedBrowsersPruned,
-        installedBrowsersWithDetails,
-        'name'
-      )
+  //     // merge the stored with installed browsers, this will add new browsers where necessary, keeping the stored config if present.
+  //     const mergedBrowsers = unionBy(
+  //       storedBrowsersPruned,
+  //       installedBrowsersWithDetails,
+  //       'name'
+  //     )
 
-      sendBrowsersToRenderers(mergedBrowsers)
-      store.set('browsers', mergedBrowsers)
+  //     sendBrowsersToRenderers(mergedBrowsers)
+  //     store.set('browsers', mergedBrowsers)
 
-      appIsReady = true
-    })
-  })
+  //     appIsReady = true
+  //   })
+  // })
 })
 
 /**
