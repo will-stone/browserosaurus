@@ -179,12 +179,12 @@ function checkForUpdate() {
  * @param {array} browsers - array of browsers and their details.
  * @returns {null}
  */
-function sendBrowsersToRenderers(browsers) {
-  const enabledBrowsers = browsers.filter(browser => browser.enabled)
-  pickerWindow.webContents.send('incomingBrowsers', enabledBrowsers)
-  prefsWindow.webContents.send('incomingBrowsers', browsers)
-  return null
-}
+// function sendBrowsersToRenderers(browsers) {
+//   const enabledBrowsers = browsers.filter(browser => browser.enabled)
+//   pickerWindow.webContents.send('incomingBrowsers', enabledBrowsers)
+//   prefsWindow.webContents.send('incomingBrowsers', browsers)
+//   return null
+// }
 
 /**
  * Event: Check For Update

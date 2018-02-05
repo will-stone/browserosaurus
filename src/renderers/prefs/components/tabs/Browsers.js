@@ -8,33 +8,29 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 // import Td from '../Td'
 
 // a little function to help us with reordering the result
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list)
-  const [removed] = result.splice(startIndex, 1)
-  result.splice(endIndex, 0, removed)
+// const reorder = (list, startIndex, endIndex) => {
+//   const result = Array.from(list)
+//   const [removed] = result.splice(startIndex, 1)
+//   result.splice(endIndex, 0, removed)
 
-  return result
-}
-
-const grid = 8
+//   return result
+// }
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: 'none',
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
+  padding: '1rem',
+  margin: `0 0 0.5rem 0`,
 
   // change background colour if dragging
-  background: isDragging ? 'lightgreen' : 'grey',
+  background: isDragging ? '#11151B' : '#21252B',
 
   // styles we need to apply on draggables
   ...draggableStyle
 })
 
 const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? 'lightblue' : 'lightgrey',
-  padding: grid,
-  width: 250
+  // background: isDraggingOver ? 'lightblue' : 'lightgrey'
 })
 
 class Browsers extends React.Component {
@@ -106,13 +102,15 @@ class Browsers extends React.Component {
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          {...provided.dragHandleProps}
                           style={getItemStyle(
                             snapshot.isDragging,
                             provided.draggableProps.style
                           )}
                         >
-                          {item.name}
+                          <span {...provided.dragHandleProps}>
+                            &#8942;&#8942;
+                          </span>{' '}
+                          <span>{item.name}</span>
                         </div>
                         {provided.placeholder}
                       </div>
