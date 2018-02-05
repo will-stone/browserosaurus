@@ -50,6 +50,7 @@
     "opn": "^5.1.0",
     "pretty-checkbox": "^3.0.3",
     "react": "^16.2.0",
+    "react-beautiful-dnd": "^4.0.1",
     "react-dom": "^16.2.0",
     "semver": "^5.4.1",
     "sortablejs": "^1.7.0",

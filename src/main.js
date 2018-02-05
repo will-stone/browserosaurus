@@ -232,7 +232,8 @@ ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
 ipcMain.on('sort-browser', (event, { oldIndex, newIndex }) => {
   const browsers = arrayMove(store.get('browsers'), oldIndex, newIndex)
   store.set('browsers', browsers)
-  sendBrowsersToRenderers(browsers)
+  // sendBrowsersToRenderers(browsers)
+  event.sender.send('browsers', browsers)
 })
 
 let gettingBrowsers = false // prevents multple concurrent attempts to get browsers

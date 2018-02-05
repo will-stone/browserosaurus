@@ -1,50 +1,129 @@
-import { css } from 'emotion'
+import { ipcRenderer } from 'electron'
+// import { css } from 'emotion'
 import React from 'react'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
-import Checkbox from '../Checkbox'
-import Th from '../Th'
-import Td from '../Td'
+// import Checkbox from '../Checkbox'
+// import Th from '../Th'
+// import Td from '../Td'
+
+// a little function to help us with reordering the result
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list)
+  const [removed] = result.splice(startIndex, 1)
+  result.splice(endIndex, 0, removed)
+
+  return result
+}
+
+const grid = 8
+
+const getItemStyle = (isDragging, draggableStyle) => ({
+  // some basic styles to make the items look a bit nicer
+  userSelect: 'none',
+  padding: grid * 2,
+  margin: `0 0 ${grid}px 0`,
+
+  // change background colour if dragging
+  background: isDragging ? 'lightgreen' : 'grey',
+
+  // styles we need to apply on draggables
+  ...draggableStyle
+})
+
+const getListStyle = isDraggingOver => ({
+  background: isDraggingOver ? 'lightblue' : 'lightgrey',
+  padding: grid,
+  width: 250
+})
 
 class Browsers extends React.Component {
+  constructor(props) {
+    super(props)
+    // this.state = {
+    //   items: []
+    // }
+    this.onDragEnd = this.onDragEnd.bind(this)
+  }
+
+  // componentWillReceiveProps(nextProps) {
+  //   this.setState({
+  //     items: nextProps.browsers
+  //   })
+  // }
+
+  onDragEnd(result) {
+    // dropped outside the list
+    if (!result.destination) {
+      return
+    }
+
+    // const items = reorder(
+    //   this.state.items,
+    //   result.source.index,
+    //   result.destination.index
+    // )
+
+    // this.setState({
+    //   items
+    // })
+
+    this.sortBrowser(result.source.index, result.destination.index)
+  }
+
+  /**
+   * Sort Browser
+   *
+   * Sends the sort-browser event to main.js. This allows browsers to be
+   * reordered.
+   * @param {number} oldIndex index of browser being moved from.
+   * @param {number} newIndex index of place browser is being moved to.
+   */
+  sortBrowser(oldIndex, newIndex) {
+    ipcRenderer.send('sort-browser', { oldIndex, newIndex })
+  }
+
   render() {
-    const { browsers, onBrowserToggle } = this.props
+    // const { onBrowserToggle } = this.props
 
     return (
-      <table
-        className={css`
-          width: 100%;
-          border-collapse: collapse;
-        `}
-      >
-        <thead>
-          <tr>
-            <Th>Browser</Th>
-            <Th>Enabled</Th>
-          </tr>
-        </thead>
-        <tbody>
-          {browsers ? (
-            browsers.map(browser => (
-              <tr key={browser.name}>
-                <Td>{browser.alias || browser.name}</Td>
-                <Td>
-                  <Checkbox
-                    checked={browser.enabled}
-                    onChange={e => {
-                      onBrowserToggle(browser.name, e.target.checked)
-                    }}
-                  />
-                </Td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <Td>Loading...</Td>
-              <Td />
-            </tr>
+      <DragDropContext onDragEnd={this.onDragEnd}>
+        <Droppable droppableId="droppable">
+          {(provided, snapshot) => (
+            <div
+              ref={provided.innerRef}
+              style={getListStyle(snapshot.isDraggingOver)}
+            >
+              {this.props.browsers &&
+                this.props.browsers.map((item, index) => (
+                  <Draggable
+                    key={item.name}
+                    draggableId={item.name}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <div>
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style
+                          )}
+                        >
+                          {item.name}
+                        </div>
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+              {provided.placeholder}
+            </div>
           )}
-        </tbody>
-      </table>
+        </Droppable>
+      </DragDropContext>
     )
   }
 }
