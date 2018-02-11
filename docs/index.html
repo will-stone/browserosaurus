@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Browserosaurus</title>
+
+  <meta name="description" content="Browser prompter for macOS">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Passion+One">
+
+  <!-- Injected style from pages -->
+  <style>
+    body {
+      background-color: #00110f;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+      color: white;
+      padding: 3rem 1rem;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+      font-size: 19px;
+      text-align: center;
+    }
+
+    h1,
+    h2,
+    p {
+      margin: 0 0 2rem;
+    }
+
+    h1 {
+      font-weight: 100;
+      font-size: 3rem;
+      font-family: 'Passion One', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+      line-height: 1;
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 100;
+      line-height: 1;
+    }
+
+    a {
+      text-decoration: none;
+      color: #2fd566
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .button {
+      display: inline-block;
+      min-width: 120px;
+      margin: 0 0.5rem;
+      padding: 7px 12px;
+      text-decoration: none;
+      border: 1px solid #ffffff;
+      border-radius: 20px;
+      background: transparent;
+      font-weight: normal;
+    }
+
+    .button:hover {
+      border-color: #2fd566;
+      text-decoration: none;
+    }
+
+    main {
+      text-shadow: 0 7px 10px #000000;
+    }
+
+    .embed-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+      margin-bottom: 2rem;
+    }
+
+    .embed-container iframe,
+    .embed-container object,
+    .embed-container embed {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    footer {
+      border-top: 1px solid #2fd566;
+      margin-top: 2rem;
+      padding-top: 2rem;
+    }
+  </style>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?v=kPxjKNP4y0">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png?v=kPxjKNP4y0">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png?v=kPxjKNP4y0">
+  <link rel="manifest" href="favicon/site.webmanifest?v=kPxjKNP4y0">
+  <link rel="mask-icon" href="favicon/safari-pinned-tab.svg?v=kPxjKNP4y0" color="#00803c">
+  <link rel="shortcut icon" href="favicon/favicon.ico?v=kPxjKNP4y0">
+  <meta name="apple-mobile-web-app-title" content="Browserosaurus">
+  <meta name="application-name" content="Browserosaurus">
+  <meta name="msapplication-TileColor" content="#00803c">
+  <meta name="theme-color" content="#ffffff">
+</head>
+
+<body>
+
+  <main>
+    <p>
+      <img src="icon.png" alt="" width="150" height="150" />
+    </p>
+
+    <h1>Browserosaurus</h1>
+
+    <h2>A browser prompter for macOS</h2>
+
+    <div class="embed-container">
+      <iframe width="640" height="360" src="https://www.youtube-nocookie.com/embed/1CuqNgahWrI?rel=0&amp;showinfo=0&amp;vq=hd1080"
+        frameborder="0" allowfullscreen=""></iframe>
+    </div>
+
+    <p>
+      <a href="https://github.com/will-stone/browserosaurus/releases/latest" class="button">Download</a>
+      <a href="https://github.com/will-stone/browserosaurus" class="button">Source</a>
+    </p>
+
+    <p>
+      Browserosaurus is an open-source (MIT license), Electron-based app for macOS. It
+      works by setting itself as the default browser; any clicked links in non-browser
+      apps are now sent to Browserosaurus where it’ll present you with a menu of
+      all your installed browsers. You may now decide which browser you’d like to
+      continue opening the link with.
+    </p>
+  </main>
+
+  <footer>Created by
+    <a href="http://wstone.io/">Will Stone</a>
+  </footer>
+</body>
+
+</html>
