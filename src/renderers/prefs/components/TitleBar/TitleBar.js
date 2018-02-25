@@ -1,19 +1,10 @@
-import { css } from 'emotion'
-import React from 'react'
+import styled from 'styled-components'
 
-const TitleBar = ({ children }) => {
-  return (
-    <div
-      className={css`
-        height: 2rem;
-        -webkit-app-region: drag;
-        text-align: center;
-        line-height: 2rem;
-      `}
-    >
-      {children}
-    </div>
-  )
-}
+const TitleBar = styled.div`
+  height: 2rem;
+  -webkit-app-region: drag;
+  text-align: center;
+  line-height: 2rem;
+`
 
 export default TitleBar
