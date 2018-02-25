@@ -1,1 +1,1 @@
-export { default } from './BrowserList.container'
+export { default } from './BrowserList'

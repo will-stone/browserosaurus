@@ -59,6 +59,10 @@ function createPickerWindow() {
     pickerWindow.once('ready-to-show', () => {
       resolve()
     })
+
+    pickerWindow.once('unresponsive', () => {
+      reject()
+    })
   })
 }
 
@@ -137,6 +141,10 @@ function createPrefsWindow() {
 
     prefsWindow.once('ready-to-show', () => {
       resolve()
+    })
+
+    prefsWindow.once('unresponsive', () => {
+      reject()
     })
   })
 }
@@ -249,6 +257,8 @@ app.on('ready', async () => {
     createPrefsWindow(),
     createPickerWindow()
   ])
+
+  appIsReady = true
 
   if (global.URLToOpen) {
     // if Browserosaurus was opened with a link, this will now be sent on to the picker window

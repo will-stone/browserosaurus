@@ -1,9 +1,7 @@
 import { ipcRenderer, remote } from 'electron'
-import React, { Component } from 'react'
+import { Component } from 'react'
 
-import BrowserList from './BrowserList'
-
-class BrowserListContainer extends Component {
+class UrlListener extends Component {
   constructor() {
     super()
 
@@ -33,8 +31,8 @@ class BrowserListContainer extends Component {
   }
 
   render() {
-    return <BrowserList url={this.state.url} />
+    return this.props.children(this.state.url)
   }
 }
 
-export default BrowserListContainer
+export default UrlListener
