@@ -1,8 +1,6 @@
 import { ipcRenderer } from 'electron'
 import React from 'react'
 
-import updateWindowHeight from './updateWindowHeight'
-
 class WithBrowsers extends React.Component {
   constructor() {
     super()
@@ -32,14 +30,9 @@ class WithBrowsers extends React.Component {
     this.setState({ browsers })
   }
 
-  componentDidMount() {
-    ipcRenderer.send('get-browsers')
-    updateWindowHeight()
-  }
-
-  componentDidUpdate() {
-    updateWindowHeight()
-  }
+  // componentDidMount() {
+  //   ipcRenderer.send('get-browsers')
+  // }
 
   render() {
     return this.props.children(this.state.browsers)

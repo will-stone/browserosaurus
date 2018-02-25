@@ -26,40 +26,40 @@ const store = new Store({ defaults: { browsers: [] } })
  * @param {function} callback - function to run at the end of this one.
  * @returns {null}
  */
-function createPickerWindow(callback) {
-  pickerWindow = new BrowserWindow({
-    width: 400,
-    height: 64 + 48,
-    acceptFirstMouse: true,
-    alwaysOnTop: true,
-    icon: `${__dirname}/images/icon/icon.png`,
-    frame: false,
-    resizable: false,
-    movable: false,
-    show: false,
-    title: 'Browserosaurus',
-    hasShadow: true,
-    backgroundColor: '#21252b'
-  })
+function createPickerWindow() {
+  return new Promise((resolve, reject) => {
+    pickerWindow = new BrowserWindow({
+      width: 400,
+      height: 112,
+      acceptFirstMouse: true,
+      alwaysOnTop: true,
+      icon: `${__dirname}/images/icon/icon.png`,
+      frame: false,
+      resizable: false,
+      movable: false,
+      show: false,
+      title: 'Browserosaurus',
+      hasShadow: true,
+      backgroundColor: '#21252b'
+    })
 
-  pickerWindow.loadURL(`file://${__dirname}/renderers/picker/picker.html`)
+    pickerWindow.loadURL(`file://${__dirname}/renderers/picker/picker.html`)
 
-  pickerWindow.on('close', e => {
-    if (wantToQuit === false) {
-      e.preventDefault()
+    pickerWindow.on('close', e => {
+      if (wantToQuit === false) {
+        e.preventDefault()
+        pickerWindow.hide()
+      }
+    })
+
+    pickerWindow.on('blur', () => {
       pickerWindow.hide()
-    }
+    })
+
+    pickerWindow.once('ready-to-show', () => {
+      resolve()
+    })
   })
-
-  pickerWindow.on('blur', () => {
-    pickerWindow.hide()
-  })
-
-  if (callback) {
-    callback()
-  }
-
-  return null
 }
 
 /**
@@ -69,34 +69,36 @@ function createPickerWindow(callback) {
  * @returns {null}
  */
 function createTrayIcon() {
-  tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
-  tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
+  return new Promise((resolve, reject) => {
+    tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
+    tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
 
-  const contextMenu = Menu.buildFromTemplate([
-    {
-      label: 'Preferences',
-      click: function() {
-        if (!prefsWindow) {
-          createPrefsWindow()
-        } else {
-          // Bring to front
-          prefsWindow.center()
-          prefsWindow.show()
+    const contextMenu = Menu.buildFromTemplate([
+      {
+        label: 'Preferences',
+        click: function() {
+          if (!prefsWindow) {
+            createPrefsWindow()
+          } else {
+            // Bring to front
+            prefsWindow.center()
+            prefsWindow.show()
+          }
+        }
+      },
+      {
+        label: 'Quit',
+        click: function() {
+          wantToQuit = true
+          app.quit()
         }
       }
-    },
-    {
-      label: 'Quit',
-      click: function() {
-        wantToQuit = true
-        app.quit()
-      }
-    }
-  ])
-  tray.setToolTip('Browserosaurus')
-  tray.setContextMenu(contextMenu)
+    ])
+    tray.setToolTip('Browserosaurus')
+    tray.setContextMenu(contextMenu)
 
-  return null
+    resolve()
+  })
 }
 
 /**
@@ -107,32 +109,36 @@ function createTrayIcon() {
  * @returns {null}
  */
 function createPrefsWindow() {
-  prefsWindow = new BrowserWindow({
-    width: 500,
-    height: 146,
-    icon: `${__dirname}/images/icon/icon.png`,
-    resizable: false,
-    show: false,
-    alwaysOnTop: true,
-    frame: true,
-    hasShadow: true,
-    minimizable: false,
-    maximizable: false,
-    titleBarStyle: 'hidden',
-    backgroundColor: '#21252b'
+  return new Promise((resolve, reject) => {
+    prefsWindow = new BrowserWindow({
+      width: 500,
+      height: 146,
+      icon: `${__dirname}/images/icon/icon.png`,
+      resizable: false,
+      show: false,
+      alwaysOnTop: true,
+      frame: true,
+      hasShadow: true,
+      minimizable: false,
+      maximizable: false,
+      titleBarStyle: 'hidden',
+      backgroundColor: '#21252b'
+    })
+
+    prefsWindow.loadURL(`file://${__dirname}/renderers/prefs/prefs.html`)
+
+    // allow window to be opened again
+    prefsWindow.on('close', e => {
+      if (wantToQuit === false) {
+        e.preventDefault()
+        prefsWindow.hide()
+      }
+    })
+
+    prefsWindow.once('ready-to-show', () => {
+      resolve()
+    })
   })
-
-  prefsWindow.loadURL(`file://${__dirname}/renderers/prefs/prefs.html`)
-
-  // allow window to be opened again
-  prefsWindow.on('close', e => {
-    if (wantToQuit === false) {
-      e.preventDefault()
-      prefsWindow.hide()
-    }
-  })
-
-  return null
 }
 
 /**
@@ -169,59 +175,64 @@ ipcMain.on('sort-browser', (event, { oldIndex, newIndex }) => {
   event.sender.send('browsers', browsers)
 })
 
-let gettingBrowsers = false // prevents multple concurrent attempts to get browsers
+async function getBrowsers() {
+  // get all apps on system
+  const installedApps = await scanForApps()
 
-ipcMain.on('get-browsers', async event => {
-  if (!gettingBrowsers) {
-    gettingBrowsers = true
-    // get all apps on system
-    const installedApps = await scanForApps()
-
-    // filter the apps to just the browsers on system
-    const installedBrowsers = Object.keys(whiteListedBrowsers)
-      .map(name => {
-        for (let i = 0; i < installedApps.length; i++) {
-          if (name === installedApps[i]) {
-            return name
-          }
+  // filter the apps to just the browsers on system
+  const installedBrowsers = Object.keys(whiteListedBrowsers)
+    .map(name => {
+      for (let i = 0; i < installedApps.length; i++) {
+        if (name === installedApps[i]) {
+          return name
         }
+      }
+      return null
+    })
+    .filter(x => x) // remove empties
+
+  // get browsers in store
+  const storedBrowsers = store.get('browsers')
+
+  // convert each installed browser string to object with keyboard shortcut, alias name, and enabled status details.
+  const installedBrowsersWithDetails = installedBrowsers.map(name => ({
+    name,
+    key: whiteListedBrowsers[name].key,
+    alias: whiteListedBrowsers[name].alias || null,
+    enabled: true
+  }))
+
+  // remove unistalled browsers from stored config
+  const storedBrowsersPruned = storedBrowsers
+    .map(browser => {
+      if (installedBrowsers.indexOf(browser.name) === -1) {
         return null
-      })
-      .filter(x => x) // remove empties
+      }
+      return browser
+    })
+    .filter(x => x) // remove nulls
 
-    // get browsers in store
-    const storedBrowsers = store.get('browsers')
+  // merge the stored with installed browsers, this will add new browsers where necessary, keeping the stored config if present.
+  const mergedBrowsers = unionBy(
+    storedBrowsersPruned,
+    installedBrowsersWithDetails,
+    'name'
+  )
 
-    // convert each installed browser string to object with keyboard shortcut, alias name, and enabled status details.
-    const installedBrowsersWithDetails = installedBrowsers.map(name => ({
-      name,
-      key: whiteListedBrowsers[name].key,
-      alias: whiteListedBrowsers[name].alias || null,
-      enabled: true
-    }))
+  store.set('browsers', mergedBrowsers)
 
-    // remove unistalled browsers from stored config
-    const storedBrowsersPruned = storedBrowsers
-      .map(browser => {
-        if (installedBrowsers.indexOf(browser.name) === -1) {
-          return null
-        }
-        return browser
-      })
-      .filter(x => x) // remove nulls
+  return mergedBrowsers
+}
 
-    // merge the stored with installed browsers, this will add new browsers where necessary, keeping the stored config if present.
-    const mergedBrowsers = unionBy(
-      storedBrowsersPruned,
-      installedBrowsersWithDetails,
-      'name'
-    )
-
-    store.set('browsers', mergedBrowsers)
-
-    event.sender.send('browsers', mergedBrowsers)
-  }
-  gettingBrowsers = false
+/**
+ * Event: Get Browsers
+ *
+ * Listens for the get-browsers event, triggered by the renderers on load.
+ * Scans for browsers and sends them on to the browsers.
+ */
+ipcMain.on('get-browsers', async event => {
+  const browsers = await getBrowsers()
+  event.sender.send('browsers', browsers)
 })
 
 /**
@@ -229,12 +240,25 @@ ipcMain.on('get-browsers', async event => {
  *
  * Run once electron has loaded and the app is considered _ready for use_.
  */
-app.on('ready', () => {
+app.on('ready', async () => {
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
 
-  createTrayIcon()
-  createPrefsWindow()
+  await Promise.all([
+    createTrayIcon(),
+    createPrefsWindow(),
+    createPickerWindow()
+  ])
+
+  if (global.URLToOpen) {
+    // if Browserosaurus was opened with a link, this will now be sent on to the picker window
+    pickerWindow.webContents.send('incomingURL', global.URLToOpen)
+    global.URLToOpen = null // not required any more
+  }
+
+  const browsers = await getBrowsers()
+  pickerWindow.webContents.send('browsers', browsers)
+  prefsWindow.webContents.send('browsers', browsers)
 })
 
 /**
