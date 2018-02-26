@@ -15,6 +15,11 @@ import WithBrowsers from '../utils/WithBrowsers'
 import Browsers from './tabs/Browsers'
 import About from './tabs/About'
 
+// BluePrint
+// import '@blueprintjs/core/lib/css/blueprint.css'
+import { FocusStyleManager } from '@blueprintjs/core'
+FocusStyleManager.onlyShowFocusOnTabs()
+
 ReactDOM.render(
   <MemoryRouter initialEntries={['/browsers']} initialIndex={0}>
     <App>

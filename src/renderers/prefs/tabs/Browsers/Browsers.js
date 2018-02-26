@@ -1,32 +1,27 @@
+import { Button } from '@blueprintjs/core'
 import React, { Fragment } from 'react'
-
-import Button from '../../../components/Button'
 
 import BrowserList from '../../modules/BrowserList'
 
 import WindowHeightUpdater from '../../../utils/WindowHeightUpdater'
 
 const Browsers = ({ browsers, state, onRescan }) => {
-  if (state === 'pending') {
-    return (
-      <Fragment>
-        <WindowHeightUpdater />
-        <div style={{ textAlign: 'center', padding: '1rem' }}>
-          Looking for browsers...
-        </div>
-      </Fragment>
-    )
-  } else {
-    return (
-      <Fragment>
-        <WindowHeightUpdater />
-        <BrowserList browsers={browsers} />
-        <p style={{ textAlign: 'center' }}>
-          <Button onClick={onRescan}>Rescan for browsers</Button>
-        </p>
-      </Fragment>
-    )
-  }
+  return (
+    <Fragment>
+      <WindowHeightUpdater />
+
+      <BrowserList browsers={browsers} />
+
+      <p style={{ textAlign: 'center' }}>
+        <Button
+          onClick={onRescan}
+          text="Rescan for browsers"
+          loading={state === 'pending'}
+          className="pt-minimal"
+        />
+      </p>
+    </Fragment>
+  )
 }
 
 export default Browsers
