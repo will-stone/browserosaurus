@@ -61,6 +61,7 @@ function createPickerWindow() {
     })
 
     pickerWindow.once('unresponsive', () => {
+      console.log('unresponsive')
       reject()
     })
   })
@@ -74,9 +75,6 @@ function createPickerWindow() {
  */
 function createTrayIcon() {
   return new Promise((resolve, reject) => {
-    tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
-    tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
-
     const contextMenu = Menu.buildFromTemplate([
       {
         label: 'Preferences',
@@ -98,7 +96,13 @@ function createTrayIcon() {
         }
       }
     ])
+
+    tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
+
+    tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
+
     tray.setToolTip('Browserosaurus')
+
     tray.setContextMenu(contextMenu)
 
     resolve()
@@ -144,6 +148,7 @@ function createPrefsWindow() {
     })
 
     prefsWindow.once('unresponsive', () => {
+      console.log('unresponsive')
       reject()
     })
   })
@@ -183,6 +188,9 @@ ipcMain.on('sort-browser', (event, { oldIndex, newIndex }) => {
   event.sender.send('browsers', browsers)
 })
 
+/**
+ * Get Browsers
+ */
 async function getBrowsers() {
   // get all apps on system
   const installedApps = await scanForApps()
@@ -252,11 +260,7 @@ app.on('ready', async () => {
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
 
-  await Promise.all([
-    createTrayIcon(),
-    createPrefsWindow(),
-    createPickerWindow()
-  ])
+  await Promise.all([createPrefsWindow(), createPickerWindow()])
 
   appIsReady = true
 
@@ -269,6 +273,8 @@ app.on('ready', async () => {
   const browsers = await getBrowsers()
   pickerWindow.webContents.send('browsers', browsers)
   prefsWindow.webContents.send('browsers', browsers)
+
+  createTrayIcon() // create tray icon last as otherwise it loads before prefs window is ready and causes browsers to not be sent through.
 })
 
 /**

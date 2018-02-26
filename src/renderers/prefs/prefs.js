@@ -19,7 +19,7 @@ ReactDOM.render(
   <MemoryRouter initialEntries={['/browsers']} initialIndex={0}>
     <App>
       <WithBrowsers>
-        {browsers => (
+        {({ browsers, state }, onRescan) => (
           <Fragment>
             <TitleBar>Preferences</TitleBar>
 
@@ -32,7 +32,12 @@ ReactDOM.render(
               <Route
                 path="/browsers"
                 render={routeProps => (
-                  <Browsers {...routeProps} browsers={browsers} />
+                  <Browsers
+                    {...routeProps}
+                    browsers={browsers}
+                    state={state}
+                    onRescan={onRescan}
+                  />
                 )}
               />
               <Route path="/about" component={About} />

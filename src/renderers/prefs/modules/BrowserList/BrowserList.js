@@ -4,17 +4,14 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import BrowserLogoName from '../../../components/BrowserLogoName'
 import CheckBox from '../../../components/Checkbox'
 
-import WindowHeightUpdater from '../../../utils/WindowHeightUpdater'
-
 const BrowserList = ({ browsers, onBrowserToggle, onDragEnd }) => {
   return (
     <Fragment>
-      <WindowHeightUpdater />
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
             <div ref={provided.innerRef}>
-              {browsers ? (
+              {browsers &&
                 browsers.map((browser, index) => (
                   <Draggable
                     key={browser.name}
@@ -62,12 +59,7 @@ const BrowserList = ({ browsers, onBrowserToggle, onDragEnd }) => {
                       </div>
                     )}
                   </Draggable>
-                ))
-              ) : (
-                <div style={{ textAlign: 'center' }}>
-                  Looking for browsers...
-                </div>
-              )}
+                ))}
               {provided.placeholder}
             </div>
           )}

@@ -6,6 +6,7 @@ class WithBrowsers extends React.Component {
     super()
 
     this.state = {
+      state: 'fulfilled',
       browsers: null
     }
 
@@ -27,15 +28,25 @@ class WithBrowsers extends React.Component {
    * @param {array} browsers
    */
   _onReceiveBrowsers(browsers) {
-    this.setState({ browsers })
+    this.setState({ browsers, state: 'fulfilled' })
   }
 
-  // componentDidMount() {
-  //   ipcRenderer.send('get-browsers')
-  // }
+  handleRescan = () => {
+    this.setState(
+      {
+        state: 'pending'
+      },
+      () => {
+        ipcRenderer.send('get-browsers')
+      }
+    )
+  }
 
   render() {
-    return this.props.children(this.state.browsers)
+    return this.props.children(
+      { browsers: this.state.browsers, state: this.state.state },
+      this.handleRescan
+    )
   }
 }
 
