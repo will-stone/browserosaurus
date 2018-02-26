@@ -6,7 +6,7 @@ import WindowHeightUpdater from '../../../utils/WindowHeightUpdater'
 
 const About = () => {
   return (
-    <div style={{ textAlign: 'center', paddingBottom: '2rem' }}>
+    <div style={{ textAlign: 'center' }}>
       <WindowHeightUpdater />
       <p>
         <img

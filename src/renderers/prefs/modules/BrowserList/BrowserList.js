@@ -1,8 +1,8 @@
+import { Checkbox } from '@blueprintjs/core'
 import React, { Fragment } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 import BrowserLogoName from '../../../components/BrowserLogoName'
-import CheckBox from '../../../components/Checkbox'
 
 const BrowserList = ({ browsers, onBrowserToggle, onDragEnd }) => {
   return (
@@ -48,11 +48,12 @@ const BrowserList = ({ browsers, onBrowserToggle, onDragEnd }) => {
 
                           <BrowserLogoName name={browser.name} />
 
-                          <CheckBox
+                          <Checkbox
                             checked={browser.enabled}
                             onChange={() =>
                               onBrowserToggle(browser.name, !browser.enabled)
                             }
+                            className="pt-large"
                           />
                         </div>
                         {provided.placeholder}
