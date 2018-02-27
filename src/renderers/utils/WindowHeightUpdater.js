@@ -11,7 +11,7 @@ class WindowHeightUpdater extends React.Component {
         document.body.clientHeight
       )
       const width = window.getSize()[0]
-      window.setSize(width, height)
+      window.setSize(width, height, true) // animate
     }, 0)
 
     return false
