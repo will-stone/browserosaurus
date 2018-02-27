@@ -54,7 +54,13 @@ const BrowserList = ({ browsers, onBrowserToggle, onDragEnd }) => {
                               onBrowserToggle(browser.name, !browser.enabled)
                             }
                             className="pt-large"
+                            inline={true}
+                            style={{ marginBottom: 0 }}
                           />
+
+                          <kbd className="pt-key pt-modifier-key">
+                            {browser.key}
+                          </kbd>
                         </div>
                         {provided.placeholder}
                       </div>
