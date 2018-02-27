@@ -1,3 +1,4 @@
+import { remote } from 'electron'
 import React from 'react'
 
 import UpdateStatus from '../../modules/UpdateStatus'
@@ -15,6 +16,7 @@ const About = () => {
         />
       </p>
       <h1>Browserosaurus</h1>
+      <h3>v{remote.app.getVersion()}</h3>
       <p>
         <UpdateStatus />
       </p>
