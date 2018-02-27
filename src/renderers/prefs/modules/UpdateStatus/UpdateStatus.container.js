@@ -1,7 +1,9 @@
 import { remote } from 'electron'
 import fetch from 'node-fetch'
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import semver from 'semver'
+
+import WindowHeightUpdater from '../../../utils/WindowHeightUpdater'
 
 import UpdateStatus from './UpdateStatus'
 
@@ -56,7 +58,12 @@ class UpdateStatusContainer extends Component {
   }
 
   render() {
-    return <UpdateStatus status={this.state.status} />
+    return (
+      <Fragment>
+        <UpdateStatus status={this.state.status} />
+        <WindowHeightUpdater />
+      </Fragment>
+    )
   }
 }
 

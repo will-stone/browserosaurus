@@ -2,12 +2,9 @@ import React from 'react'
 
 import UpdateStatus from '../../modules/UpdateStatus'
 
-import WindowHeightUpdater from '../../../utils/WindowHeightUpdater'
-
 const About = () => {
   return (
     <div style={{ textAlign: 'center' }}>
-      <WindowHeightUpdater />
       <p>
         <img
           src="../../images/icon/icon.png"
