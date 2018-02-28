@@ -19,7 +19,7 @@ const BrowserList = ({ browsers, onBrowserToggle, onDragEnd }) => {
                     index={index}
                   >
                     {(provided, snapshot) => (
-                      <div>
+                      <div style={{ opacity: !browser.enabled && 0.5 }}>
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
