@@ -27,8 +27,13 @@ ReactDOM.render(
                 <Fragment>
                   {browsers
                     .filter(browser => browser.enabled)
-                    .map(browser => (
-                      <Link key={browser.name} browser={browser} url={url} />
+                    .map((browser, index) => (
+                      <Link
+                        key={browser.name}
+                        browser={browser}
+                        url={url}
+                        defaultBrowser={index === 0}
+                      />
                     ))}
                   <WindowHeightUpdater />
                 </Fragment>

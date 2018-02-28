@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 
 import BrowserLogoName from '../../../components/BrowserLogoName'
@@ -14,7 +14,7 @@ const Div = styled.div`
   }
 `
 
-const BrowserLink = ({ active, browser, onClick }) => {
+const BrowserLink = ({ active, browser, defaultBrowser, onClick }) => {
   return (
     <Div
       key={browser.name}
@@ -22,9 +22,21 @@ const BrowserLink = ({ active, browser, onClick }) => {
       className={active && 'is-active'}
     >
       <BrowserLogoName name={browser.name} />
-      <kbd className="pt-key pt-modifier-key" style={{ marginLeft: 'auto' }}>
-        {browser.key}
-      </kbd>
+
+      <span>
+        {defaultBrowser && (
+          <Fragment>
+            <kbd className="pt-key">enter</kbd>
+            <span style={{ margin: '0 0.5rem' }} className="pt-text-muted">
+              /
+            </span>
+          </Fragment>
+        )}
+
+        <kbd className="pt-key" style={{ marginLeft: 'auto' }}>
+          {browser.key}
+        </kbd>
+      </span>
     </Div>
   )
 }

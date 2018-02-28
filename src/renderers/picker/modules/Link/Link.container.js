@@ -11,23 +11,37 @@ class BrowserLinkContainer extends Component {
   }
 
   componentDidMount() {
-    mousetrap.bind(this.props.browser.key, () => {
-      this.setState({ active: true }, () => {
-        setTimeout(() => {
-          this.setState({
-            active: false
-          })
-          setTimeout(() => {
-            // extra timeout to prevent flash of ".is-active" on next open
-            this.openBrowser(this.props.browser.name)
-          }, 0)
-        }, 200)
-      })
-    })
+    mousetrap.bind(this.props.browser.key, () => this.hotKeyOpenBrowser())
+    this.setupDefault()
   }
 
   componentWillUnmount() {
     mousetrap.unbind(this.props.browser.key)
+  }
+
+  componentDidUpdate() {
+    this.setupDefault()
+  }
+
+  hotKeyOpenBrowser = () => {
+    this.setState({ active: true }, () => {
+      setTimeout(() => {
+        this.setState({
+          active: false
+        })
+        setTimeout(() => {
+          // extra timeout to prevent flash of ".is-active" on next open
+          this.openBrowser(this.props.browser.name)
+        }, 0)
+      }, 200)
+    })
+  }
+
+  setupDefault = () => {
+    if (this.props.defaultBrowser) {
+      mousetrap.unbind('enter')
+      mousetrap.bind('enter', () => this.hotKeyOpenBrowser())
+    }
   }
 
   /**
@@ -56,6 +70,7 @@ class BrowserLinkContainer extends Component {
         onClick={this.openBrowser}
         browser={this.props.browser}
         active={this.state.active}
+        defaultBrowser={this.props.defaultBrowser}
       />
     )
   }
