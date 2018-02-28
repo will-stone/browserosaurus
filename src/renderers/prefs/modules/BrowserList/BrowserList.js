@@ -10,7 +10,7 @@ const BrowserList = ({ browsers, onBrowserToggle, onDragEnd }) => {
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
-            <div ref={provided.innerRef}>
+            <div ref={provided.innerRef} style={{ marginBottom: '1rem' }}>
               {browsers &&
                 browsers.map((browser, index) => (
                   <Draggable
