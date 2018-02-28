@@ -1,4 +1,4 @@
-import { remote } from 'electron'
+import { remote, shell } from 'electron'
 import React from 'react'
 
 import UpdateStatus from '../../modules/UpdateStatus'
@@ -13,6 +13,9 @@ const About = () => {
           width="100"
           alt=""
           style={{ display: 'block', margin: '0 auto' }}
+          onClick={() =>
+            shell.openExternal('https://will-stone.github.io/browserosaurus/')
+          }
         />
       </p>
       <h1>Browserosaurus</h1>
