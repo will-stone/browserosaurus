@@ -4,4 +4,4 @@ node_modules
 
 out/
 
-src/renderers/style/main.css
+build/
