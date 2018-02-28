@@ -25,6 +25,7 @@ class UrlListener extends Component {
       },
       () => {
         const window = remote.getCurrentWindow()
+        window.center()
         window.show()
       }
     )

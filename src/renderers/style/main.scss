@@ -14,3 +14,8 @@ $blue5: $green5;
 
 @import 'node_modules/@blueprintjs/core/src/blueprint.scss';
 @import 'node_modules/@blueprintjs/icons/src/blueprint-icons.scss';
+
+* {
+  cursor: default !important;
+  user-select: none !important;
+}

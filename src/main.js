@@ -57,6 +57,7 @@ function createPickerWindow() {
     })
 
     pickerWindow.once('ready-to-show', () => {
+      // pickerWindow.webContents.openDevTools()
       resolve()
     })
 
@@ -170,7 +171,8 @@ ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
   )
   browsers[browserIndex].enabled = enabled
   store.set('browsers', browsers)
-  event.sender.send('browsers', browsers)
+  pickerWindow.webContents.send('browsers', browsers)
+  prefsWindow.webContents.send('browsers', browsers)
 })
 
 /**
@@ -185,7 +187,8 @@ ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
 ipcMain.on('sort-browser', (event, { oldIndex, newIndex }) => {
   const browsers = arrayMove(store.get('browsers'), oldIndex, newIndex)
   store.set('browsers', browsers)
-  event.sender.send('browsers', browsers)
+  pickerWindow.webContents.send('browsers', browsers)
+  prefsWindow.webContents.send('browsers', browsers)
 })
 
 /**
@@ -248,7 +251,9 @@ async function getBrowsers() {
  */
 ipcMain.on('get-browsers', async event => {
   const browsers = await getBrowsers()
-  event.sender.send('browsers', browsers)
+  // event.sender.send('browsers', browsers)
+  pickerWindow.webContents.send('browsers', browsers)
+  prefsWindow.webContents.send('browsers', browsers)
 })
 
 /**

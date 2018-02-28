@@ -6,8 +6,8 @@ class WithBrowsers extends React.Component {
     super()
 
     this.state = {
-      state: 'fulfilled',
-      browsers: null
+      state: 'idle',
+      browsers: []
     }
 
     /**

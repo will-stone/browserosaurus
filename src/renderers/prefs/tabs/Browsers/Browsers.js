@@ -18,6 +18,7 @@ const Browsers = ({ browsers, state, onRescan }) => {
           text="Rescan for browsers"
           loading={state === 'pending'}
           className="pt-minimal"
+          intent="primary"
         />
       </p>
     </Fragment>
