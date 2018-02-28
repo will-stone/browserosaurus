@@ -1,3 +1,4 @@
+import { Button } from '@blueprintjs/core'
 import { shell } from 'electron'
 import React from 'react'
 
@@ -14,15 +15,16 @@ const UpdateStatus = ({ status }) => {
 
     case 'updateAvailable':
       return (
-        <button
+        <Button
           onClick={() =>
             shell.openExternal(
               'https://github.com/will-stone/browserosaurus/releases/latest'
             )
           }
+          intent="primary"
         >
           Update Available
-        </button>
+        </Button>
       )
 
     default:
