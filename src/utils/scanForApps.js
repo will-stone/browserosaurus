@@ -1,6 +1,6 @@
 import { spawn } from 'child_process'
 import jp from 'jsonpath'
-import parser from 'xml2json'
+import { parseString } from 'xml2js'
 
 /**
  * Scan For Apps
@@ -24,12 +24,13 @@ function scanForApps() {
       reject(data)
     })
     sp.stdout.on('end', () => {
-      profile = parser.toJson(profile, { object: true })
-      const installedApps = jp.query(
-        profile,
-        'plist.array.dict.array[1].dict[*].string[0]'
-      )
-      fulfill(installedApps)
+      parseString(profile, function(err, result) {
+        const installedApps = jp.query(
+          result,
+          'plist.array[0].dict[0].array[1].dict[*].string[0]'
+        )
+        fulfill(installedApps)
+      })
     })
   })
 }
