@@ -7,28 +7,33 @@ Browserosaurus is an open-source (MIT license), Electron-based browser prompter 
 ## Development
 
 Get repo:
+
 ```
 git clone git@github.com:will-stone/browserosaurus.git
 ```
 
 Move to folder:
+
 ```
 cd browserosaurus
 ```
 
 Install dependencies:
+
 ```
 yarn install
 ```
 
 Run Browserosaurus in dev mode:
+
 ```
 yarn start
 ```
 
 Package and make installer:
+
 ```
-yarn make
+yarn run make
 ```
 
 ### Browser logos
