@@ -10,6 +10,7 @@ class AppContainer extends Component {
   _bindEscHide = () => {
     mousetrap.bind('esc', () => {
       setTimeout(() => {
+        // prevents a beep on escape
         remote.getCurrentWindow().hide()
       }, 0)
     })
