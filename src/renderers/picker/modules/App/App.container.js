@@ -9,7 +9,9 @@ class AppContainer extends Component {
 
   _bindEscHide = () => {
     mousetrap.bind('esc', () => {
-      remote.getCurrentWindow().hide()
+      setTimeout(() => {
+        remote.getCurrentWindow().hide()
+      }, 0)
     })
   }
 
