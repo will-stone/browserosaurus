@@ -2,9 +2,9 @@ import { Spinner, Text } from '@blueprintjs/core'
 import React, { Fragment } from 'react'
 import ReactDOM from 'react-dom'
 
-import EscapeToHide from './modules/EscapeToHide'
 import Link from './modules/Link'
 
+import EscapeToHide from '../utils/EscapeToHide'
 import UrlListener from '../utils/UrlListener'
 import WithBrowsers from '../utils/WithBrowsers'
 import WindowHeightUpdater from '../utils/WindowHeightUpdater'
