@@ -11,15 +11,17 @@ import WindowHeightUpdater from '../utils/WindowHeightUpdater'
 
 ReactDOM.render(
   <App>
-    <UrlListener>
-      {url => (
-        <Fragment>
-          <div style={{ padding: '1rem' }}>
-            <Text ellipsize={true}>{url}</Text>
-          </div>
-          <WithBrowsers>
-            {({ browsers, state }) => {
-              return state === 'idle' || state === 'pending' ? (
+    <WithBrowsers>
+      {({ browsers, state }) => (
+      <UrlListener
+        defaultBrowser={browsers.filter(browser => browser.enabled)[0] || null}
+      >
+        {url => (
+          <Fragment>
+            <div style={{ padding: '1rem' }}>
+              <Text ellipsize={true}>{url}</Text>
+            </div>
+              {(state === 'idle' || state === 'pending') ? (
                 <div style={{ textAlign: 'center' }}>
                   <Spinner intent="primary" className="pt-small" />
                 </div>
@@ -37,12 +39,12 @@ ReactDOM.render(
                     ))}
                   <WindowHeightUpdater />
                 </Fragment>
-              )
-            }}
-          </WithBrowsers>
-        </Fragment>
+              )}
+          </Fragment>
+        )}
+      </UrlListener>
       )}
-    </UrlListener>
+    </WithBrowsers>
   </App>,
   document.getElementById('picker-root')
 )
