@@ -2,7 +2,7 @@ import { Spinner, Text } from '@blueprintjs/core'
 import React, { Fragment } from 'react'
 import ReactDOM from 'react-dom'
 
-import App from './modules/App'
+import EscapeToHide from './modules/EscapeToHide'
 import Link from './modules/Link'
 
 import UrlListener from '../utils/UrlListener'
@@ -10,7 +10,7 @@ import WithBrowsers from '../utils/WithBrowsers'
 import WindowHeightUpdater from '../utils/WindowHeightUpdater'
 
 ReactDOM.render(
-  <App>
+  <EscapeToHide>
     <UrlListener>
       {url => (
         <Fragment>
@@ -43,6 +43,6 @@ ReactDOM.render(
         </Fragment>
       )}
     </UrlListener>
-  </App>,
+  </EscapeToHide>,
   document.getElementById('picker-root')
 )

@@ -2,7 +2,7 @@ import { remote } from 'electron'
 import mousetrap from 'mousetrap'
 import { Component } from 'react'
 
-class AppContainer extends Component {
+class EscapeToHideContainer extends Component {
   componentDidMount() {
     this._bindEscHide()
   }
@@ -21,4 +21,4 @@ class AppContainer extends Component {
   }
 }
 
-export default AppContainer
+export default EscapeToHideContainer
