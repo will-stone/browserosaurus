@@ -14,7 +14,7 @@ export default {
   Brave: { key: 'b' },
   Chromium: { key: 'c' },
   Firefox: { key: 'f' },
-  FirefoxDeveloperEdition: { alias: 'Firefox Developer Edition', key: 'd' },
+  'Firefox Developer Edition': { alias: 'Firefox Developer Edition', key: 'd' },
   FirefoxNightly: { alias: 'Nightly', key: 'n' },
   'Google Chrome': { key: 'g' },
   'Google Chrome Canary': { key: 'y' },
