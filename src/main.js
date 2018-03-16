@@ -1,5 +1,5 @@
 import arrayMove from 'array-move'
-import { app, BrowserWindow, Tray, Menu, ipcMain } from 'electron'
+import { app, BrowserWindow, Tray, Menu, ipcMain, screen } from 'electron'
 import Store from 'electron-store'
 import unionBy from 'lodash/unionBy'
 
@@ -57,7 +57,7 @@ function createPickerWindow() {
     })
 
     pickerWindow.once('ready-to-show', () => {
-      pickerWindow.webContents.openDevTools()
+      // pickerWindow.webContents.openDevTools()
       resolve()
     })
 
@@ -262,6 +262,38 @@ ipcMain.on('get-browsers', async event => {
  * Run once electron has loaded and the app is considered _ready for use_.
  */
 app.on('ready', async () => {
+  const displays = screen.getAllDisplays()
+
+  displays.forEach(display => {
+    console.log(display)
+
+    const win = new BrowserWindow({
+      frame: false,
+      alwaysOnTop: true
+    })
+
+    win.setPosition(display.workArea.x, display.workArea.y, false)
+
+    win.setSize(display.workArea.width, display.workArea.height, false)
+
+    win.setOpacity(0.4)
+
+    win.loadURL(`file://${__dirname}/renderers/blank.html`)
+
+    win.on('close', e => {
+      if (wantToQuit === false) {
+        e.preventDefault()
+        win.hide()
+      }
+    })
+
+    win.on('blur', () => {
+      win.hide()
+    })
+
+    win.show()
+  })
+
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
 
