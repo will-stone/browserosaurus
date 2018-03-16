@@ -1,4 +1,4 @@
-import { ipcRenderer, remote } from 'electron'
+import { ipcRenderer, remote, screen } from 'electron'
 import { Component } from 'react'
 
 class UrlListener extends Component {
@@ -24,9 +24,10 @@ class UrlListener extends Component {
         url
       },
       () => {
-        const window = remote.getCurrentWindow()
-        window.center()
-        window.show()
+        const win = remote.getCurrentWindow()
+        const { x, y } = screen.getCursorScreenPoint()
+        win.setPosition(x, y, false)
+        win.show()
       }
     )
   }

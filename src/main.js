@@ -57,7 +57,7 @@ function createPickerWindow() {
     })
 
     pickerWindow.once('ready-to-show', () => {
-      // pickerWindow.webContents.openDevTools()
+      pickerWindow.webContents.openDevTools()
       resolve()
     })
 
