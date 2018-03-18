@@ -9,6 +9,7 @@ import scanForApps from './utils/scanForApps'
 
 // Keep a global reference of the window objects, if you don't, the windows will
 // be closed automatically when the JavaScript object is garbage collected.
+let coverWindows = []
 let pickerWindow = null
 let prefsWindow = null
 let tray = null
@@ -155,6 +156,49 @@ function createPrefsWindow() {
   })
 }
 
+function createCovers() {
+  return new Promise((resolve, reject) => {
+    const displays = screen.getAllDisplays()
+
+    displays.forEach(display => {
+      const win = new BrowserWindow({
+        frame: false,
+        alwaysOnTop: true,
+        show: false
+      })
+
+      coverWindows.push(win)
+
+      win.setPosition(display.workArea.x, display.workArea.y, false)
+
+      win.setSize(display.workArea.width, display.workArea.height, false)
+
+      win.setOpacity(0.4)
+
+      win.loadURL(`file://${__dirname}/renderers/blank.html`)
+
+      win.on('close', e => {
+        if (wantToQuit === false) {
+          e.preventDefault()
+          win.hide()
+        }
+      })
+
+      win.once('ready-to-show', () => {
+        resolve()
+      })
+
+      win.on('blur', () => {
+        win.hide()
+      })
+    })
+  })
+}
+
+function showCovers() {
+  coverWindows.forEach(win => win.show())
+}
+
 /**
  * Event: Toggle Browser
  *
@@ -262,42 +306,10 @@ ipcMain.on('get-browsers', async event => {
  * Run once electron has loaded and the app is considered _ready for use_.
  */
 app.on('ready', async () => {
-  const displays = screen.getAllDisplays()
-
-  displays.forEach(display => {
-    console.log(display)
-
-    const win = new BrowserWindow({
-      frame: false,
-      alwaysOnTop: true
-    })
-
-    win.setPosition(display.workArea.x, display.workArea.y, false)
-
-    win.setSize(display.workArea.width, display.workArea.height, false)
-
-    win.setOpacity(0.4)
-
-    win.loadURL(`file://${__dirname}/renderers/blank.html`)
-
-    win.on('close', e => {
-      if (wantToQuit === false) {
-        e.preventDefault()
-        win.hide()
-      }
-    })
-
-    win.on('blur', () => {
-      win.hide()
-    })
-
-    win.show()
-  })
-
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
 
-  await Promise.all([createPrefsWindow(), createPickerWindow()])
+  await Promise.all([createPrefsWindow(), createPickerWindow(), createCovers()])
 
   appIsReady = true
 
@@ -305,6 +317,7 @@ app.on('ready', async () => {
     // if Browserosaurus was opened with a link, this will now be sent on to the picker window
     pickerWindow.webContents.send('incomingURL', global.URLToOpen)
     global.URLToOpen = null // not required any more
+    // showCovers()
   }
 
   const browsers = await getBrowsers()
@@ -325,6 +338,7 @@ app.on('open-url', (event, url) => {
   event.preventDefault()
   if (appIsReady) {
     pickerWindow.webContents.send('incomingURL', url)
+    showCovers()
   } else {
     // app not ready yet, this will be handled later in the createWindow callback
     global.URLToOpen = url
