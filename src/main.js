@@ -164,7 +164,8 @@ function createCovers() {
       const win = new BrowserWindow({
         frame: false,
         alwaysOnTop: true,
-        show: false
+        show: false,
+        backgroundColor: '#000000'
       })
 
       coverWindows.push(win)
@@ -175,7 +176,7 @@ function createCovers() {
 
       win.setOpacity(0.4)
 
-      win.loadURL(`file://${__dirname}/renderers/blank.html`)
+      win.loadURL(`file://${__dirname}/renderers/cover/cover.html`)
 
       win.on('close', e => {
         if (wantToQuit === false) {
@@ -188,9 +189,9 @@ function createCovers() {
         resolve()
       })
 
-      win.on('blur', () => {
-        win.hide()
-      })
+      // win.on('blur', () => {
+      //   win.hide()
+      // })
     })
   })
 }
@@ -317,7 +318,7 @@ app.on('ready', async () => {
     // if Browserosaurus was opened with a link, this will now be sent on to the picker window
     pickerWindow.webContents.send('incomingURL', global.URLToOpen)
     global.URLToOpen = null // not required any more
-    // showCovers()
+    showCovers()
   }
 
   const browsers = await getBrowsers()
