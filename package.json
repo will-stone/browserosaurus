@@ -6,9 +6,8 @@
   "homepage": "http://wstone.io/browserosaurus/",
   "main": "src/main.js",
   "scripts": {
+    "start": "ENV=DEV electron-forge start",
     "prettier": "prettier --config .prettierrc --write src/**/*.js",
-    "start":
-      "yarn run build-css && yarn watch-css & ENV=DEV electron-forge start",
     "package":
       "yarn run build-css && electron-forge package --platform=darwin --arch=x64",
     "make": "yarn run build-css && electron-forge make",

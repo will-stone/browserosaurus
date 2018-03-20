@@ -5,69 +5,19 @@ import unionBy from 'lodash/unionBy'
 
 import whiteListedBrowsers from './config/browsers'
 
-import scanForApps from './utils/scanForApps'
+import createPickerWindow from './main/createPicker'
+import emitter from './main/emitter'
+import scanForApps from './main/scanForApps'
 
 // Keep a global reference of the window objects, if you don't, the windows will
 // be closed automatically when the JavaScript object is garbage collected.
 let coverWindows = []
-let pickerWindow = null
 let prefsWindow = null
 let tray = null
 let appIsReady = false
-let wantToQuit = false
 
 // Start store and set browsers if first run
 const store = new Store({ defaults: { browsers: [] } })
-
-/**
- * Create Picker Window
- *
- * Creates the window that is used to display browser selection after clicking
- * a link.
- * @param {function} callback - function to run at the end of this one.
- * @returns {null}
- */
-function createPickerWindow() {
-  return new Promise((resolve, reject) => {
-    pickerWindow = new BrowserWindow({
-      width: 400,
-      height: 112,
-      acceptFirstMouse: true,
-      alwaysOnTop: true,
-      icon: `${__dirname}/images/icon/icon.png`,
-      frame: false,
-      resizable: false,
-      movable: false,
-      show: false,
-      title: 'Browserosaurus',
-      hasShadow: true,
-      backgroundColor: '#21252b'
-    })
-
-    pickerWindow.loadURL(`file://${__dirname}/renderers/picker/picker.html`)
-
-    pickerWindow.on('close', e => {
-      if (wantToQuit === false) {
-        e.preventDefault()
-        pickerWindow.hide()
-      }
-    })
-
-    pickerWindow.on('blur', () => {
-      pickerWindow.hide()
-    })
-
-    pickerWindow.once('ready-to-show', () => {
-      // pickerWindow.webContents.openDevTools()
-      resolve()
-    })
-
-    pickerWindow.once('unresponsive', () => {
-      console.log('unresponsive')
-      reject()
-    })
-  })
-}
 
 /**
  * Create Tray Icon
@@ -93,8 +43,7 @@ function createTrayIcon() {
       {
         label: 'Quit',
         click: function() {
-          wantToQuit = true
-          app.quit()
+          app.exit()
         }
       }
     ])
@@ -139,10 +88,8 @@ function createPrefsWindow() {
 
     // allow window to be opened again
     prefsWindow.on('close', e => {
-      if (wantToQuit === false) {
-        e.preventDefault()
-        prefsWindow.hide()
-      }
+      e.preventDefault()
+      prefsWindow.hide()
     })
 
     prefsWindow.once('ready-to-show', () => {
@@ -179,10 +126,8 @@ function createCovers() {
       win.loadURL(`file://${__dirname}/renderers/cover/cover.html`)
 
       win.on('close', e => {
-        if (wantToQuit === false) {
-          e.preventDefault()
-          win.hide()
-        }
+        e.preventDefault()
+        win.hide()
       })
 
       win.once('ready-to-show', () => {
@@ -216,7 +161,7 @@ ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
   )
   browsers[browserIndex].enabled = enabled
   store.set('browsers', browsers)
-  pickerWindow.webContents.send('browsers', browsers)
+  emitter.emit('sendBrowsers', browsers)
   prefsWindow.webContents.send('browsers', browsers)
 })
 
@@ -232,7 +177,7 @@ ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
 ipcMain.on('sort-browser', (event, { oldIndex, newIndex }) => {
   const browsers = arrayMove(store.get('browsers'), oldIndex, newIndex)
   store.set('browsers', browsers)
-  pickerWindow.webContents.send('browsers', browsers)
+  emitter.emit('sendBrowsers', browsers)
   prefsWindow.webContents.send('browsers', browsers)
 })
 
@@ -294,10 +239,9 @@ async function getBrowsers() {
  * Listens for the get-browsers event, triggered by the renderers on load.
  * Scans for browsers and sends them on to the browsers.
  */
-ipcMain.on('get-browsers', async event => {
+ipcMain.on('get-browsers', async () => {
   const browsers = await getBrowsers()
-  // event.sender.send('browsers', browsers)
-  pickerWindow.webContents.send('browsers', browsers)
+  emitter.emit('sendBrowsers', browsers)
   prefsWindow.webContents.send('browsers', browsers)
 })
 
@@ -316,13 +260,13 @@ app.on('ready', async () => {
 
   if (global.URLToOpen) {
     // if Browserosaurus was opened with a link, this will now be sent on to the picker window
-    pickerWindow.webContents.send('incomingURL', global.URLToOpen)
+    emitter.emit('incomingURL', global.URLToOpen)
     global.URLToOpen = null // not required any more
     showCovers()
   }
 
   const browsers = await getBrowsers()
-  pickerWindow.webContents.send('browsers', browsers)
+  emitter.emit('sendBrowsers', browsers)
   prefsWindow.webContents.send('browsers', browsers)
 
   createTrayIcon() // create tray icon last as otherwise it loads before prefs window is ready and causes browsers to not be sent through.
@@ -338,7 +282,7 @@ app.on('ready', async () => {
 app.on('open-url', (event, url) => {
   event.preventDefault()
   if (appIsReady) {
-    pickerWindow.webContents.send('incomingURL', url)
+    emitter.emit('incomingURL', url)
     showCovers()
   } else {
     // app not ready yet, this will be handled later in the createWindow callback
