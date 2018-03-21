@@ -1,149 +1,23 @@
 import arrayMove from 'array-move'
-import { app, BrowserWindow, Tray, Menu, ipcMain, screen } from 'electron'
+import { app, ipcMain } from 'electron'
 import Store from 'electron-store'
 import unionBy from 'lodash/unionBy'
 
 import whiteListedBrowsers from './config/browsers'
 
+// import createBackdrops from './main/createBackdrops'
 import createPickerWindow from './main/createPicker'
+import createPrefsWindow from './main/createPrefs'
+import createTrayIcon from './main/createTray'
 import emitter from './main/emitter'
 import scanForApps from './main/scanForApps'
 
 // Keep a global reference of the window objects, if you don't, the windows will
 // be closed automatically when the JavaScript object is garbage collected.
-let coverWindows = []
-let prefsWindow = null
-let tray = null
 let appIsReady = false
 
 // Start store and set browsers if first run
 const store = new Store({ defaults: { browsers: [] } })
-
-/**
- * Create Tray Icon
- *
- * Creates the menubar icon and menu items.
- * @returns {null}
- */
-function createTrayIcon() {
-  return new Promise((resolve, reject) => {
-    const contextMenu = Menu.buildFromTemplate([
-      {
-        label: 'Preferences',
-        click: function() {
-          if (!prefsWindow) {
-            createPrefsWindow()
-          } else {
-            // Bring to front
-            prefsWindow.center()
-            prefsWindow.show()
-          }
-        }
-      },
-      {
-        label: 'Quit',
-        click: function() {
-          app.exit()
-        }
-      }
-    ])
-
-    tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
-
-    tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
-
-    tray.setToolTip('Browserosaurus')
-
-    tray.setContextMenu(contextMenu)
-
-    resolve()
-  })
-}
-
-/**
- * Create Prefs Window
- *
- * Creates the window used to display the preferences, triggered from the
- * menubar icon.
- * @returns {null}
- */
-function createPrefsWindow() {
-  return new Promise((resolve, reject) => {
-    prefsWindow = new BrowserWindow({
-      width: 500,
-      height: 146,
-      icon: `${__dirname}/images/icon/icon.png`,
-      resizable: false,
-      show: false,
-      alwaysOnTop: true,
-      frame: true,
-      hasShadow: true,
-      minimizable: false,
-      maximizable: false,
-      titleBarStyle: 'hidden',
-      backgroundColor: '#21252b'
-    })
-
-    prefsWindow.loadURL(`file://${__dirname}/renderers/prefs/prefs.html`)
-
-    // allow window to be opened again
-    prefsWindow.on('close', e => {
-      e.preventDefault()
-      prefsWindow.hide()
-    })
-
-    prefsWindow.once('ready-to-show', () => {
-      resolve()
-    })
-
-    prefsWindow.once('unresponsive', () => {
-      console.log('unresponsive')
-      reject()
-    })
-  })
-}
-
-function createCovers() {
-  return new Promise((resolve, reject) => {
-    const displays = screen.getAllDisplays()
-
-    displays.forEach(display => {
-      const win = new BrowserWindow({
-        frame: false,
-        alwaysOnTop: true,
-        show: false,
-        backgroundColor: '#000000'
-      })
-
-      coverWindows.push(win)
-
-      win.setPosition(display.workArea.x, display.workArea.y, false)
-
-      win.setSize(display.workArea.width, display.workArea.height, false)
-
-      win.setOpacity(0.4)
-
-      win.loadURL(`file://${__dirname}/renderers/cover/cover.html`)
-
-      win.on('close', e => {
-        e.preventDefault()
-        win.hide()
-      })
-
-      win.once('ready-to-show', () => {
-        resolve()
-      })
-
-      // win.on('blur', () => {
-      //   win.hide()
-      // })
-    })
-  })
-}
-
-function showCovers() {
-  coverWindows.forEach(win => win.show())
-}
 
 /**
  * Event: Toggle Browser
@@ -162,7 +36,6 @@ ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
   browsers[browserIndex].enabled = enabled
   store.set('browsers', browsers)
   emitter.emit('sendBrowsers', browsers)
-  prefsWindow.webContents.send('browsers', browsers)
 })
 
 /**
@@ -178,7 +51,6 @@ ipcMain.on('sort-browser', (event, { oldIndex, newIndex }) => {
   const browsers = arrayMove(store.get('browsers'), oldIndex, newIndex)
   store.set('browsers', browsers)
   emitter.emit('sendBrowsers', browsers)
-  prefsWindow.webContents.send('browsers', browsers)
 })
 
 /**
@@ -242,7 +114,6 @@ async function getBrowsers() {
 ipcMain.on('get-browsers', async () => {
   const browsers = await getBrowsers()
   emitter.emit('sendBrowsers', browsers)
-  prefsWindow.webContents.send('browsers', browsers)
 })
 
 /**
@@ -254,7 +125,11 @@ app.on('ready', async () => {
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
 
-  await Promise.all([createPrefsWindow(), createPickerWindow(), createCovers()])
+  await Promise.all([
+    createPrefsWindow(),
+    createPickerWindow()
+    // createBackdrops()
+  ])
 
   appIsReady = true
 
@@ -262,12 +137,10 @@ app.on('ready', async () => {
     // if Browserosaurus was opened with a link, this will now be sent on to the picker window
     emitter.emit('incomingURL', global.URLToOpen)
     global.URLToOpen = null // not required any more
-    showCovers()
   }
 
   const browsers = await getBrowsers()
   emitter.emit('sendBrowsers', browsers)
-  prefsWindow.webContents.send('browsers', browsers)
 
   createTrayIcon() // create tray icon last as otherwise it loads before prefs window is ready and causes browsers to not be sent through.
 })
@@ -283,7 +156,6 @@ app.on('open-url', (event, url) => {
   event.preventDefault()
   if (appIsReady) {
     emitter.emit('incomingURL', url)
-    showCovers()
   } else {
     // app not ready yet, this will be handled later in the createWindow callback
     global.URLToOpen = url
