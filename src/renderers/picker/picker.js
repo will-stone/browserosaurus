@@ -20,8 +20,9 @@ ReactDOM.render(
           <WithBrowsers>
             {({ browsers, state }) => {
               return state === 'idle' || state === 'pending' ? (
-                <div style={{ textAlign: 'center' }}>
+                <div style={{ textAlign: 'center', paddingBottom: '1rem' }}>
                   <Spinner intent="primary" className="pt-small" />
+                  <WindowHeightUpdater />
                 </div>
               ) : (
                 <Fragment>

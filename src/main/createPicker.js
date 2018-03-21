@@ -16,7 +16,7 @@ function createPickerWindow() {
   return new Promise((resolve, reject) => {
     pickerWindow = new BrowserWindow({
       width: 400,
-      height: 112,
+      height: 50,
       acceptFirstMouse: true,
       alwaysOnTop: true,
       icon: `${__dirname}/../images/icon/icon.png`,

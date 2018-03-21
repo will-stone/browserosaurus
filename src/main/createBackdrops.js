@@ -13,7 +13,15 @@ function createBackdrops() {
         frame: false,
         alwaysOnTop: true,
         show: false,
-        transparent: true
+        transparent: true,
+        resizable: false,
+        movable: false,
+        minimizable: false,
+        maximizable: false,
+        closable: false,
+        focusable: false,
+        acceptFirstMouse: true,
+        hasShadow: false
       })
 
       coverWindows.push(win)

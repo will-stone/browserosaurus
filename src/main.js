@@ -5,8 +5,8 @@ import unionBy from 'lodash/unionBy'
 
 import whiteListedBrowsers from './config/browsers'
 
-// import createBackdrops from './main/createBackdrops'
 import createPickerWindow from './main/createPicker'
+// import createBackdrops from './main/createBackdrops'
 import createPrefsWindow from './main/createPrefs'
 import createTrayIcon from './main/createTray'
 import emitter from './main/emitter'
