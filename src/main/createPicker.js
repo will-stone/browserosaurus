@@ -26,7 +26,13 @@ function createPickerWindow() {
       show: false,
       title: 'Browserosaurus',
       hasShadow: true,
-      backgroundColor: '#21252b'
+      // backgroundColor: '#21252b',
+      vibrancy: 'dark',
+      minimizable: false,
+      maximizable: false,
+      closable: false,
+      fullscreenable: false,
+      transparent: true
     })
 
     pickerWindow.loadURL(`file://${__dirname}/../renderers/picker/picker.html`)
