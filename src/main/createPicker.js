@@ -1,6 +1,8 @@
 import { BrowserWindow } from 'electron'
 
-import emitter from './emitter'
+import { BROWSERS, URL } from '../config/events'
+
+import eventEmitter from './eventEmitter'
 
 let pickerWindow = null
 
@@ -56,12 +58,12 @@ function createPickerWindow() {
       reject()
     })
 
-    emitter.on('sendBrowsers', browsers => {
+    eventEmitter.on(BROWSERS, browsers => {
       pickerWindow.webContents.send('browsers', browsers)
     })
 
-    emitter.on('incomingURL', url => {
-      pickerWindow.webContents.send('incomingURL', url)
+    eventEmitter.on(URL, url => {
+      pickerWindow.webContents.send(URL, url)
     })
   })
 }

@@ -1,6 +1,8 @@
 import { ipcRenderer, remote, screen } from 'electron'
 import { Component } from 'react'
 
+import { URL } from '../../config/events'
+
 class UrlListener extends Component {
   constructor() {
     super()
@@ -15,7 +17,7 @@ class UrlListener extends Component {
      * @param {array} event
      * @param {array} url
      */
-    ipcRenderer.on('incomingURL', (event, url) => this._onReceiveURL(url))
+    ipcRenderer.on(URL, (event, url) => this._onReceiveURL(url))
   }
 
   _onReceiveURL = url => {

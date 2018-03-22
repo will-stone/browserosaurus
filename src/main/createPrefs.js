@@ -1,6 +1,8 @@
 import { BrowserWindow } from 'electron'
 
-import emitter from './emitter'
+import { BROWSERS, PREFS } from '../config/events'
+
+import eventEmitter from './eventEmitter'
 
 let prefsWindow = null
 
@@ -45,11 +47,11 @@ function createPrefsWindow() {
       reject()
     })
 
-    emitter.on('sendBrowsers', browsers => {
+    eventEmitter.on(BROWSERS, browsers => {
       prefsWindow.webContents.send('browsers', browsers)
     })
 
-    emitter.on('openPrefs', browsers => {
+    eventEmitter.on(PREFS, browsers => {
       // Bring to front
       prefsWindow.center()
       prefsWindow.show()

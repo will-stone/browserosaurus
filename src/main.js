@@ -4,12 +4,12 @@ import Store from 'electron-store'
 import unionBy from 'lodash/unionBy'
 
 import whiteListedBrowsers from './config/browsers'
+import { BROWSERS, URL } from './config/events'
 
 import createPickerWindow from './main/createPicker'
-// import createBackdrops from './main/createBackdrops'
 import createPrefsWindow from './main/createPrefs'
 import createTrayIcon from './main/createTray'
-import emitter from './main/emitter'
+import eventEmitter from './main/eventEmitter'
 import scanForApps from './main/scanForApps'
 
 // Keep a global reference of the window objects, if you don't, the windows will
@@ -35,7 +35,7 @@ ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
   )
   browsers[browserIndex].enabled = enabled
   store.set('browsers', browsers)
-  emitter.emit('sendBrowsers', browsers)
+  eventEmitter.emit(BROWSERS, browsers)
 })
 
 /**
@@ -50,7 +50,7 @@ ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
 ipcMain.on('sort-browser', (event, { oldIndex, newIndex }) => {
   const browsers = arrayMove(store.get('browsers'), oldIndex, newIndex)
   store.set('browsers', browsers)
-  emitter.emit('sendBrowsers', browsers)
+  eventEmitter.emit(BROWSERS, browsers)
 })
 
 /**
@@ -113,7 +113,7 @@ async function getBrowsers() {
  */
 ipcMain.on('get-browsers', async () => {
   const browsers = await getBrowsers()
-  emitter.emit('sendBrowsers', browsers)
+  eventEmitter.emit(BROWSERS, browsers)
 })
 
 /**
@@ -125,22 +125,18 @@ app.on('ready', async () => {
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
 
-  await Promise.all([
-    createPrefsWindow(),
-    createPickerWindow()
-    // createBackdrops()
-  ])
+  await Promise.all([createPrefsWindow(), createPickerWindow()])
 
   appIsReady = true
 
   if (global.URLToOpen) {
     // if Browserosaurus was opened with a link, this will now be sent on to the picker window
-    emitter.emit('incomingURL', global.URLToOpen)
+    eventEmitter.emit(URL, global.URLToOpen)
     global.URLToOpen = null // not required any more
   }
 
   const browsers = await getBrowsers()
-  emitter.emit('sendBrowsers', browsers)
+  eventEmitter.emit(BROWSERS, browsers)
 
   createTrayIcon() // create tray icon last as otherwise it loads before prefs window is ready and causes browsers to not be sent through.
 })
@@ -155,7 +151,7 @@ app.on('ready', async () => {
 app.on('open-url', (event, url) => {
   event.preventDefault()
   if (appIsReady) {
-    emitter.emit('incomingURL', url)
+    eventEmitter.emit(URL, url)
   } else {
     // app not ready yet, this will be handled later in the createWindow callback
     global.URLToOpen = url
