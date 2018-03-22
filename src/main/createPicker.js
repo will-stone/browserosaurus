@@ -27,7 +27,7 @@ function createPickerWindow() {
       title: 'Browserosaurus',
       hasShadow: true,
       // backgroundColor: '#21252b',
-      vibrancy: 'dark',
+      vibrancy: 'ultra-dark',
       minimizable: false,
       maximizable: false,
       closable: false,
