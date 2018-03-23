@@ -1,4 +1,5 @@
 import { remote } from 'electron'
+import { spawn } from 'child_process'
 import mousetrap from 'mousetrap'
 import opn from 'opn'
 import React, { Component } from 'react'
@@ -52,16 +53,19 @@ class BrowserLinkContainer extends Component {
    */
   openBrowser = appName => {
     const currentWindow = remote.getCurrentWindow()
-    opn(this.props.url, { app: appName, wait: false })
-      .then(() => currentWindow.hide())
-      .catch(() => {
-        alert(
-          `Oh no! An error just occurred, please report this as a GitHub issue. Opened URL was ${
-            this.props.url
-          }`
-        )
-        currentWindow.hide()
-      })
+    spawn('open', ['http://google.com/', '-a', 'Safari'])
+    currentWindow.hide()
+
+    // opn(this.props.url, { app: appName, wait: false })
+    //   .then(() => currentWindow.hide())
+    //   .catch(() => {
+    //     alert(
+    //       `Oh no! An error just occurred, please report this as a GitHub issue. Opened URL was ${
+    //         this.props.url
+    //       }`
+    //     )
+    //     currentWindow.hide()
+    //   })
   }
 
   render() {
