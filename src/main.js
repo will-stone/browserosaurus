@@ -92,7 +92,9 @@ async function getBrowsers() {
 
   store.set('browsers', merged)
 
-  return merged
+  eventEmitter.emit(BROWSERS, merged)
+
+  return true
 }
 
 /**
@@ -102,8 +104,7 @@ async function getBrowsers() {
  * Scans for browsers and sends them on to the browsers.
  */
 ipcMain.on('get-browsers', async () => {
-  const browsers = await getBrowsers()
-  eventEmitter.emit(BROWSERS, browsers)
+  await getBrowsers()
 })
 
 /**
@@ -125,8 +126,7 @@ app.on('ready', async () => {
     global.URLToOpen = null // not required any more
   }
 
-  const browsers = await getBrowsers()
-  eventEmitter.emit(BROWSERS, browsers)
+  await getBrowsers()
 
   createTrayIcon() // create tray icon last as otherwise it loads before prefs window is ready and causes browsers to not be sent through.
 })
