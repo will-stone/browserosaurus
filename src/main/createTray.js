@@ -1,6 +1,6 @@
 import { app, Tray, Menu } from 'electron'
 
-import { PREFS } from '../config/events'
+import { PREFS_OPEN } from '../config/events'
 
 import eventEmitter from './eventEmitter'
 
@@ -18,7 +18,7 @@ function createTrayIcon() {
       {
         label: 'Preferences',
         click: function() {
-          eventEmitter.emit(PREFS)
+          eventEmitter.emit(PREFS_OPEN)
         }
       },
       {

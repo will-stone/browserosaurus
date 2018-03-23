@@ -5,7 +5,13 @@ import unionBy from 'lodash/unionBy'
 import pick from 'lodash/pick'
 
 import whiteListedBrowsers from './config/browsers'
-import { BROWSERS, URL } from './config/events'
+import {
+  ACTIVITY_SORT,
+  ACTIVITY_TOGGLE,
+  BROWSERS_GET,
+  BROWSERS_SET,
+  URL_RECEIVED
+} from './config/events'
 
 import createPickerWindow from './main/createPicker'
 import createPrefsWindow from './main/createPrefs'
@@ -14,45 +20,41 @@ import eventEmitter from './main/eventEmitter'
 import scanForApps from './main/scanForApps'
 import valuesWithKey from './main/valuesWithKey'
 
-// Keep a global reference of the window objects, if you don't, the windows will
-// be closed automatically when the JavaScript object is garbage collected.
-let appIsReady = false
-
 // Start store and set browsers if first run
 const store = new Store({ defaults: { browsers: [] } })
 
 /**
  * Event: Toggle Browser
  *
- * Listens for the toggle-browser event, triggered from the prefs renderer and
+ * Listens for the ACTIVITY_TOGGLE event, triggered from the prefs renderer and
  * updates the enabled/disabled status of the checked/unchecked browser. Then
  * sends updated browsers array back to renderers.
  * @param {string} browserName
  * @param {boolean} enabled
  */
-ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
+ipcMain.on(ACTIVITY_TOGGLE, (event, { browserName, enabled }) => {
   const browsers = store.get('browsers')
   const browserIndex = browsers.findIndex(
     browser => browser.name === browserName
   )
   browsers[browserIndex].enabled = enabled
   store.set('browsers', browsers)
-  eventEmitter.emit(BROWSERS, browsers)
+  eventEmitter.emit(BROWSERS_SET, browsers)
 })
 
 /**
  * Event: Sort Browser
  *
- * Listens for the sort-browser event, triggered from the prefs renderer when a
+ * Listens for the ACTIVITY_SORT event, triggered from the prefs renderer when a
  * browser is dragged to a new position. Then sends updated browsers array back
  * to renderers.
  * @param {number} oldIndex - index of browser being moved from.
  * @param {number} newIndex - index of place browser is being moved to.
  */
-ipcMain.on('sort-browser', (event, { oldIndex, newIndex }) => {
+ipcMain.on(ACTIVITY_SORT, (event, { oldIndex, newIndex }) => {
   const browsers = arrayMove(store.get('browsers'), oldIndex, newIndex)
   store.set('browsers', browsers)
-  eventEmitter.emit(BROWSERS, browsers)
+  eventEmitter.emit(BROWSERS_SET, browsers)
 })
 
 /**
@@ -92,7 +94,7 @@ async function getBrowsers() {
 
   store.set('browsers', merged)
 
-  eventEmitter.emit(BROWSERS, merged)
+  eventEmitter.emit(BROWSERS_SET, merged)
 
   return true
 }
@@ -100,10 +102,10 @@ async function getBrowsers() {
 /**
  * Event: Get Browsers
  *
- * Listens for the get-browsers event, triggered by the renderers on load.
+ * Listens for the BROWSERS_GET event, triggered by the renderers on load.
  * Scans for browsers and sends them on to the browsers.
  */
-ipcMain.on('get-browsers', async () => {
+ipcMain.on(BROWSERS_GET, async () => {
   await getBrowsers()
 })
 
@@ -118,11 +120,11 @@ app.on('ready', async () => {
 
   await Promise.all([createPrefsWindow(), createPickerWindow()])
 
-  appIsReady = true
+  global.pickerReady = true
 
   if (global.URLToOpen) {
     // if Browserosaurus was opened with a link, this will now be sent on to the picker window
-    eventEmitter.emit(URL, global.URLToOpen)
+    eventEmitter.emit(URL_RECEIVED, global.URLToOpen)
     global.URLToOpen = null // not required any more
   }
 
@@ -140,8 +142,8 @@ app.on('ready', async () => {
  */
 app.on('open-url', (event, url) => {
   event.preventDefault()
-  if (appIsReady) {
-    eventEmitter.emit(URL, url)
+  if (global.pickerReady) {
+    eventEmitter.emit(URL_RECEIVED, url)
   } else {
     // app not ready yet, this will be handled later in the createWindow callback
     global.URLToOpen = url

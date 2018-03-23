@@ -1,6 +1,8 @@
 import { ipcRenderer } from 'electron'
 import React from 'react'
 
+import { BROWSERS_GET } from '../../config/events'
+
 class WithBrowsers extends React.Component {
   constructor() {
     super()
@@ -37,7 +39,7 @@ class WithBrowsers extends React.Component {
         state: 'pending'
       },
       () => {
-        ipcRenderer.send('get-browsers')
+        ipcRenderer.send(BROWSERS_GET)
       }
     )
   }
