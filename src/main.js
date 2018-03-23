@@ -2,18 +2,17 @@ import arrayMove from 'array-move'
 import { app, ipcMain } from 'electron'
 import Store from 'electron-store'
 import unionBy from 'lodash/unionBy'
-import intersectionBy from 'lodash/intersectionBy'
+import pick from 'lodash/pick'
 
 import whiteListedBrowsers from './config/browsers'
 import { BROWSERS, URL } from './config/events'
 
-import appsToInstalledBrowsers from './main/appsToInstalledBrowsers'
 import createPickerWindow from './main/createPicker'
 import createPrefsWindow from './main/createPrefs'
 import createTrayIcon from './main/createTray'
 import eventEmitter from './main/eventEmitter'
-import getBrowsersDetails from './main/getBrowsersDetails'
 import scanForApps from './main/scanForApps'
+import valuesWithKey from './main/valuesWithKey'
 
 // Keep a global reference of the window objects, if you don't, the windows will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -61,42 +60,39 @@ ipcMain.on('sort-browser', (event, { oldIndex, newIndex }) => {
  */
 async function getBrowsers() {
   // get all apps on system
+  // returns array of strings
   const installedApps = await scanForApps()
 
-  // filter the apps to just the browsers on system
-  // TODO change to lodash func?
-  const installedBrowsers = appsToInstalledBrowsers(
-    installedApps,
-    whiteListedBrowsers
-  )
-
   // get browsers in store
-  const storedBrowsers = store.get('browsers')
-
-  // convert each installed browser string to object with keyboard shortcut, alias name, and enabled status details.
-  // TODO change to lodash func?
-  const installedBrowsersWithDetails = getBrowsersDetails(
-    installedBrowsers,
-    whiteListedBrowsers
-  )
+  // returns array of objects
+  const stored = store.get('browsers')
 
   // remove unistalled browsers from stored config
-  const storedBrowsersPruned = intersectionBy(
-    storedBrowsers,
-    installedBrowsersWithDetails,
-    'name'
-  )
+  // returns array of objects
+  const prunedStore = stored.filter(app => installedApps.indexOf(app.name) > -1)
 
-  // merge the stored with installed browsers, this will add new browsers where necessary, keeping the stored config if present.
-  const mergedBrowsers = unionBy(
-    storedBrowsersPruned,
-    installedBrowsersWithDetails,
-    'name'
-  )
+  // filter the whitelisted browsers to just browsers on system
+  // returns object of objects
+  const allowed = pick(whiteListedBrowsers, installedApps)
 
-  store.set('browsers', mergedBrowsers)
+  // flattens the object, keeping the keys as name key on nested objects
+  // returns array of objects
+  const allowedArray = valuesWithKey(allowed, 'name')
 
-  return mergedBrowsers
+  // Adds 'enabled' key to each browser
+  // returns array of objects
+  const allowedArrayEnabled = allowedArray.map(obj => ({
+    ...obj,
+    enabled: true
+  }))
+
+  // merge the stored with installed apps, this will add new apps where necessary, keeping the stored config if present.
+  // returns array of objects
+  const merged = unionBy(prunedStore, allowedArrayEnabled, 'name')
+
+  store.set('browsers', merged)
+
+  return merged
 }
 
 /**
