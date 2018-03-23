@@ -2,14 +2,17 @@ import arrayMove from 'array-move'
 import { app, ipcMain } from 'electron'
 import Store from 'electron-store'
 import unionBy from 'lodash/unionBy'
+import intersectionBy from 'lodash/intersectionBy'
 
 import whiteListedBrowsers from './config/browsers'
 import { BROWSERS, URL } from './config/events'
 
+import appsToInstalledBrowsers from './main/appsToInstalledBrowsers'
 import createPickerWindow from './main/createPicker'
 import createPrefsWindow from './main/createPrefs'
 import createTrayIcon from './main/createTray'
 import eventEmitter from './main/eventEmitter'
+import getBrowsersDetails from './main/getBrowsersDetails'
 import scanForApps from './main/scanForApps'
 
 // Keep a global reference of the window objects, if you don't, the windows will
@@ -61,37 +64,28 @@ async function getBrowsers() {
   const installedApps = await scanForApps()
 
   // filter the apps to just the browsers on system
-  const installedBrowsers = Object.keys(whiteListedBrowsers)
-    .map(name => {
-      for (let i = 0; i < installedApps.length; i++) {
-        if (name === installedApps[i]) {
-          return name
-        }
-      }
-      return null
-    })
-    .filter(x => x) // remove empties
+  // TODO change to lodash func?
+  const installedBrowsers = appsToInstalledBrowsers(
+    installedApps,
+    whiteListedBrowsers
+  )
 
   // get browsers in store
   const storedBrowsers = store.get('browsers')
 
   // convert each installed browser string to object with keyboard shortcut, alias name, and enabled status details.
-  const installedBrowsersWithDetails = installedBrowsers.map(name => ({
-    name,
-    key: whiteListedBrowsers[name].key,
-    alias: whiteListedBrowsers[name].alias || null,
-    enabled: true
-  }))
+  // TODO change to lodash func?
+  const installedBrowsersWithDetails = getBrowsersDetails(
+    installedBrowsers,
+    whiteListedBrowsers
+  )
 
   // remove unistalled browsers from stored config
-  const storedBrowsersPruned = storedBrowsers
-    .map(browser => {
-      if (installedBrowsers.indexOf(browser.name) === -1) {
-        return null
-      }
-      return browser
-    })
-    .filter(x => x) // remove nulls
+  const storedBrowsersPruned = intersectionBy(
+    storedBrowsers,
+    installedBrowsersWithDetails,
+    'name'
+  )
 
   // merge the stored with installed browsers, this will add new browsers where necessary, keeping the stored config if present.
   const mergedBrowsers = unionBy(
