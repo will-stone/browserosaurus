@@ -71,7 +71,7 @@ const BrowserList = ({ browsers, onBrowserToggle, onDragEnd }) => {
                               </Fragment>
                             )}
 
-                            <kbd className="pt-key">{browser.key}</kbd>
+                            <kbd className="pt-key">{browser.hotKey}</kbd>
 
                             <Checkbox
                               checked={browser.enabled}

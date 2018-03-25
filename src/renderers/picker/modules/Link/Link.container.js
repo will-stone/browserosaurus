@@ -1,7 +1,6 @@
 import { remote } from 'electron'
 import { spawn } from 'child_process'
 import mousetrap from 'mousetrap'
-import opn from 'opn'
 import React, { Component } from 'react'
 
 import Link from './Link'
@@ -12,12 +11,12 @@ class BrowserLinkContainer extends Component {
   }
 
   componentDidMount() {
-    mousetrap.bind(this.props.browser.key, () => this.hotKeyOpenBrowser())
+    mousetrap.bind(this.props.browser.hotKey, () => this.hotKeyOpenBrowser())
     this.setupDefault()
   }
 
   componentWillUnmount() {
-    mousetrap.unbind(this.props.browser.key)
+    mousetrap.unbind(this.props.browser.hotKey)
   }
 
   componentDidUpdate() {
@@ -52,8 +51,9 @@ class BrowserLinkContainer extends Component {
    * @param {string} appName name of browser as recognised by macOS
    */
   openBrowser = appName => {
+    spawn('sh', ['-c', this.props.browser.cmd.replace('{URL}', this.props.url)])
+
     const currentWindow = remote.getCurrentWindow()
-    spawn('open', ['http://google.com/', '-a', 'Safari'])
     currentWindow.hide()
 
     // opn(this.props.url, { app: appName, wait: false })

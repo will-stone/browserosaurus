@@ -5,6 +5,7 @@ import unionBy from 'lodash/unionBy'
 import pick from 'lodash/pick'
 
 import whiteListedBrowsers from './config/browsers'
+import activities from './config/activities'
 import {
   ACTIVITY_SORT,
   ACTIVITY_TOGGLE,
@@ -62,39 +63,50 @@ ipcMain.on(ACTIVITY_SORT, (event, { oldIndex, newIndex }) => {
  */
 async function getBrowsers() {
   // get all apps on system
-  // returns array of strings
+  // returns object of {appName: "appName"}
   const installedApps = await scanForApps()
+
+  const installedActivities = activities.filter(activity => {
+    if (installedApps[activity.appId]) {
+      return true
+    } else if (!activity.appId) {
+      // always shown activity (does not depend on app presence)
+      return true
+    }
+    return false
+  })
 
   // get browsers in store
   // returns array of objects
-  const stored = store.get('browsers')
+  // const stored = store.get('browsers')
 
   // remove unistalled browsers from stored config
   // returns array of objects
-  const prunedStore = stored.filter(app => installedApps.indexOf(app.name) > -1)
+  // const prunedStore = stored.filter(app => installedApps.indexOf(app.name) > -1)
 
   // filter the whitelisted browsers to just browsers on system
   // returns object of objects
-  const allowed = pick(whiteListedBrowsers, installedApps)
+  // const allowed = pick(activities, installedApps)
+  // const allowed = pick(whiteListedBrowsers, installedApps)
 
   // flattens the object, keeping the keys as name key on nested objects
   // returns array of objects
-  const allowedArray = valuesWithKey(allowed, 'name')
+  // const allowedArray = valuesWithKey(allowed, 'name')
 
   // Adds 'enabled' key to each browser
   // returns array of objects
-  const allowedArrayEnabled = allowedArray.map(obj => ({
-    ...obj,
-    enabled: true
-  }))
+  // const allowedArrayEnabled = allowedArray.map(obj => ({
+  //   ...obj,
+  //   enabled: true
+  // }))
 
   // merge the stored with installed apps, this will add new apps where necessary, keeping the stored config if present.
   // returns array of objects
-  const merged = unionBy(prunedStore, allowedArrayEnabled, 'name')
+  // const merged = unionBy(prunedStore, allowedArrayEnabled, 'name')
 
-  store.set('browsers', merged)
+  // store.set('browsers', merged)
 
-  eventEmitter.emit(BROWSERS_SET, merged)
+  eventEmitter.emit(BROWSERS_SET, installedActivities)
 
   return true
 }

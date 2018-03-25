@@ -17,7 +17,7 @@ const Div = styled.div`
 const BrowserLink = ({ active, browser, defaultBrowser, onClick }) => {
   return (
     <Div
-      key={browser.name}
+      // key={browser.name}
       onClick={() => onClick(browser.name)}
       className={active && 'is-active'}
     >
@@ -34,7 +34,7 @@ const BrowserLink = ({ active, browser, defaultBrowser, onClick }) => {
         )}
 
         <kbd className="pt-key" style={{ marginLeft: 'auto' }}>
-          {browser.key}
+          {browser.hotKey}
         </kbd>
       </span>
     </Div>
