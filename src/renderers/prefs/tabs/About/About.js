@@ -18,8 +18,11 @@ const About = () => {
           }
         />
       </p>
+
       <h1>Browserosaurus</h1>
+
       <h3 style={{ marginBottom: '1rem' }}>v{remote.app.getVersion()}</h3>
+
       <p>
         <UpdateStatus />
       </p>

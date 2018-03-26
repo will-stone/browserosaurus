@@ -4,7 +4,7 @@ const BrowserLogo = ({ name }) => {
   return (
     <Fragment>
       <img
-        src={`../../images/browser-logos/${name}.png`}
+        src={`../../images/activity-icons/${name}.png`}
         alt=""
         style={{
           width: 32,

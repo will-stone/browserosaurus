@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 
-import BrowserLogoName from '../../../components/BrowserLogoName'
+import BrowserLogoName from '../../components/BrowserLogoName'
 
 const Div = styled.div`
   padding: 1rem 1rem 1rem 0;
@@ -14,7 +14,7 @@ const Div = styled.div`
   }
 `
 
-const BrowserLink = ({ active, browser, defaultBrowser, onClick }) => {
+const Activity = ({ active, browser, defaultBrowser, onClick }) => {
   return (
     <Div onClick={onClick} className={active && 'is-active'}>
       <BrowserLogoName name={browser.name} />
@@ -37,4 +37,4 @@ const BrowserLink = ({ active, browser, defaultBrowser, onClick }) => {
   )
 }
 
-export default BrowserLink
+export default Activity

@@ -1,7 +1,7 @@
 import arrayMove from 'array-move'
 import { app, ipcMain } from 'electron'
 import Store from 'electron-store'
-// import unionBy from 'lodash/unionBy'
+import unionBy from 'lodash/unionBy'
 // import pick from 'lodash/pick'
 
 // import whiteListedBrowsers from './config/browsers'
@@ -22,7 +22,7 @@ import scanForApps from './main/scanForApps'
 // import valuesWithKey from './main/valuesWithKey'
 
 // Start store and set browsers if first run
-const store = new Store({ defaults: { browsers: [] } })
+const store = new Store({ defaults: { activities: [] } })
 
 /**
  * Event: Toggle Browser
@@ -34,13 +34,13 @@ const store = new Store({ defaults: { browsers: [] } })
  * @param {boolean} enabled
  */
 ipcMain.on(ACTIVITY_TOGGLE, (event, { browserName, enabled }) => {
-  const browsers = store.get('browsers')
-  const browserIndex = browsers.findIndex(
+  const currentActivities = store.get('activities')
+  const activityIndex = currentActivities.findIndex(
     browser => browser.name === browserName
   )
-  browsers[browserIndex].enabled = enabled
-  // store.set('browsers', browsers)
-  eventEmitter.emit(BROWSERS_SET, browsers)
+  currentActivities[activityIndex].enabled = enabled
+  store.set('activities', currentActivities)
+  eventEmitter.emit(BROWSERS_SET, currentActivities)
 })
 
 /**
@@ -52,10 +52,11 @@ ipcMain.on(ACTIVITY_TOGGLE, (event, { browserName, enabled }) => {
  * @param {number} oldIndex - index of browser being moved from.
  * @param {number} newIndex - index of place browser is being moved to.
  */
+// FIXME: not currently working, locally saves but does not persist on restart. Something to do with merging logic below.
 ipcMain.on(ACTIVITY_SORT, (event, { oldIndex, newIndex }) => {
-  const browsers = arrayMove(store.get('browsers'), oldIndex, newIndex)
+  const newActivities = arrayMove(store.get('activities'), oldIndex, newIndex)
   // store.set('browsers', browsers)
-  eventEmitter.emit(BROWSERS_SET, browsers)
+  eventEmitter.emit(BROWSERS_SET, newActivities)
 })
 
 /**
@@ -82,30 +83,36 @@ async function getBrowsers() {
       enabled: true
     }))
 
-  // get browsers in store
+  // get activities in store
   // returns array of objects
-  // const stored = store.get('browsers')
+  const stored = store.get('activities')
 
-  // remove unistalled browsers from stored config
+  // remove unistalled activities from stored config
   // returns array of objects
-  // const prunedStore = stored.filter(app => installedApps.indexOf(app.name) > -1)
-
-  // filter the whitelisted browsers to just browsers on system
-  // returns object of objects
-  // const allowed = pick(activities, installedApps)
-  // const allowed = pick(whiteListedBrowsers, installedApps)
-
-  // flattens the object, keeping the keys as name key on nested objects
-  // returns array of objects
-  // const allowedArray = valuesWithKey(allowed, 'name')
+  const prunedStore = stored
+    .filter(activity => {
+      if (installedApps[activity.appId]) {
+        return true
+      } else if (!activity.appId) {
+        // always shown activity that does not depend on app presence
+        return true
+      }
+      return false
+    })
+    .map(activity => {
+      // resets cmd to config version, in case changed in config.
+      // TODO see if this can be optimised. Maybe config does need to be an object
+      const activityIndex = activities.findIndex(a => a.name === activity.name)
+      return { ...activity, cmd: activities[activityIndex].cmd }
+    })
 
   // merge the stored with installed apps, this will add new apps where necessary, keeping the stored config if present.
   // returns array of objects
-  // const merged = unionBy(prunedStore, allowedArrayEnabled, 'name')
+  const merged = unionBy(prunedStore, installedActivities, 'name')
 
-  // store.set('browsers', merged)
+  store.set('activities', merged)
 
-  eventEmitter.emit(BROWSERS_SET, installedActivities)
+  eventEmitter.emit(BROWSERS_SET, merged)
 
   return true
 }

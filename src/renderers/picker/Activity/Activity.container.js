@@ -3,9 +3,9 @@ import { spawn } from 'child_process'
 import mousetrap from 'mousetrap'
 import React, { Component } from 'react'
 
-import Link from './Link'
+import Activity from './Activity'
 
-class BrowserLinkContainer extends Component {
+class ActivityContainer extends Component {
   state = {
     active: false
   }
@@ -31,7 +31,7 @@ class BrowserLinkContainer extends Component {
         })
         setTimeout(() => {
           // extra timeout to prevent flash of ".is-active" on next open
-          this.openBrowser()
+          this.runActivity()
         }, 0)
       }, 200)
     })
@@ -45,11 +45,11 @@ class BrowserLinkContainer extends Component {
   }
 
   /**
-   * Open Browser
+   * Run Activity
    *
    * Tells the OS to open chosen browser with this.url.
    */
-  openBrowser = () => {
+  runActivity = () => {
     spawn('sh', ['-c', this.props.browser.cmd.replace('{URL}', this.props.url)])
 
     const currentWindow = remote.getCurrentWindow()
@@ -58,8 +58,8 @@ class BrowserLinkContainer extends Component {
 
   render() {
     return (
-      <Link
-        onClick={this.openBrowser}
+      <Activity
+        onClick={this.runActivity}
         browser={this.props.browser}
         active={this.state.active}
         defaultBrowser={this.props.defaultBrowser}
@@ -68,4 +68,4 @@ class BrowserLinkContainer extends Component {
   }
 }
 
-export default BrowserLinkContainer
+export default ActivityContainer

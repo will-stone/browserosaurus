@@ -2,7 +2,7 @@ import { Spinner, Text } from '@blueprintjs/core'
 import React, { Fragment } from 'react'
 import ReactDOM from 'react-dom'
 
-import Link from './modules/Link'
+import Activity from './Activity'
 
 import EscapeToHide from '../utils/EscapeToHide'
 import UrlListener from '../utils/UrlListener'
@@ -29,7 +29,7 @@ ReactDOM.render(
                   {browsers
                     .filter(browser => browser.enabled)
                     .map((browser, index) => (
-                      <Link
+                      <Activity
                         key={browser.name}
                         browser={browser}
                         url={url}
