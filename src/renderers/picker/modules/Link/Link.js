@@ -16,11 +16,7 @@ const Div = styled.div`
 
 const BrowserLink = ({ active, browser, defaultBrowser, onClick }) => {
   return (
-    <Div
-      // key={browser.name}
-      onClick={() => onClick(browser.name)}
-      className={active && 'is-active'}
-    >
+    <Div onClick={onClick} className={active && 'is-active'}>
       <BrowserLogoName name={browser.name} />
 
       <span>

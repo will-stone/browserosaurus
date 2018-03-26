@@ -31,7 +31,7 @@ class BrowserLinkContainer extends Component {
         })
         setTimeout(() => {
           // extra timeout to prevent flash of ".is-active" on next open
-          this.openBrowser(this.props.browser.name)
+          this.openBrowser()
         }, 0)
       }, 200)
     })
@@ -48,9 +48,8 @@ class BrowserLinkContainer extends Component {
    * Open Browser
    *
    * Tells the OS to open chosen browser with this.url.
-   * @param {string} appName name of browser as recognised by macOS
    */
-  openBrowser = appName => {
+  openBrowser = () => {
     spawn('sh', ['-c', this.props.browser.cmd.replace('{URL}', this.props.url)])
 
     const currentWindow = remote.getCurrentWindow()
