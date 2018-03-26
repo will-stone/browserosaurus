@@ -27,7 +27,7 @@ ReactDOM.render(
               ) : (
                 <Fragment>
                   {browsers
-                    // .filter(browser => browser.enabled)
+                    .filter(browser => browser.enabled)
                     .map((browser, index) => (
                       <Link
                         key={browser.name}

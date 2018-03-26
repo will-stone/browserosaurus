@@ -55,17 +55,6 @@ class BrowserLinkContainer extends Component {
 
     const currentWindow = remote.getCurrentWindow()
     currentWindow.hide()
-
-    // opn(this.props.url, { app: appName, wait: false })
-    //   .then(() => currentWindow.hide())
-    //   .catch(() => {
-    //     alert(
-    //       `Oh no! An error just occurred, please report this as a GitHub issue. Opened URL was ${
-    //         this.props.url
-    //       }`
-    //     )
-    //     currentWindow.hide()
-    //   })
   }
 
   render() {

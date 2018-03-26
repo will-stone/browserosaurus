@@ -39,7 +39,7 @@ function createPrefsWindow() {
     })
 
     prefsWindow.once('ready-to-show', () => {
-      prefsWindow.webContents.openDevTools()
+      // prefsWindow.webContents.openDevTools()
       resolve()
     })
 

@@ -1,10 +1,10 @@
 import arrayMove from 'array-move'
 import { app, ipcMain } from 'electron'
 import Store from 'electron-store'
-import unionBy from 'lodash/unionBy'
-import pick from 'lodash/pick'
+// import unionBy from 'lodash/unionBy'
+// import pick from 'lodash/pick'
 
-import whiteListedBrowsers from './config/browsers'
+// import whiteListedBrowsers from './config/browsers'
 import activities from './config/activities'
 import {
   ACTIVITY_SORT,
@@ -19,7 +19,7 @@ import createPrefsWindow from './main/createPrefs'
 import createTrayIcon from './main/createTray'
 import eventEmitter from './main/eventEmitter'
 import scanForApps from './main/scanForApps'
-import valuesWithKey from './main/valuesWithKey'
+// import valuesWithKey from './main/valuesWithKey'
 
 // Start store and set browsers if first run
 const store = new Store({ defaults: { browsers: [] } })
@@ -39,7 +39,7 @@ ipcMain.on(ACTIVITY_TOGGLE, (event, { browserName, enabled }) => {
     browser => browser.name === browserName
   )
   browsers[browserIndex].enabled = enabled
-  store.set('browsers', browsers)
+  // store.set('browsers', browsers)
   eventEmitter.emit(BROWSERS_SET, browsers)
 })
 
@@ -54,7 +54,7 @@ ipcMain.on(ACTIVITY_TOGGLE, (event, { browserName, enabled }) => {
  */
 ipcMain.on(ACTIVITY_SORT, (event, { oldIndex, newIndex }) => {
   const browsers = arrayMove(store.get('browsers'), oldIndex, newIndex)
-  store.set('browsers', browsers)
+  // store.set('browsers', browsers)
   eventEmitter.emit(BROWSERS_SET, browsers)
 })
 
@@ -66,15 +66,21 @@ async function getBrowsers() {
   // returns object of {appName: "appName"}
   const installedApps = await scanForApps()
 
-  const installedActivities = activities.filter(activity => {
-    if (installedApps[activity.appId]) {
-      return true
-    } else if (!activity.appId) {
-      // always shown activity (does not depend on app presence)
-      return true
-    }
-    return false
-  })
+  const installedActivities = activities
+    .filter(activity => {
+      if (installedApps[activity.appId]) {
+        return true
+      } else if (!activity.appId) {
+        // always shown activity that does not depend on app presence
+        return true
+      }
+      return false
+    })
+    // add enabled status
+    .map(obj => ({
+      ...obj,
+      enabled: true
+    }))
 
   // get browsers in store
   // returns array of objects
@@ -92,13 +98,6 @@ async function getBrowsers() {
   // flattens the object, keeping the keys as name key on nested objects
   // returns array of objects
   // const allowedArray = valuesWithKey(allowed, 'name')
-
-  // Adds 'enabled' key to each browser
-  // returns array of objects
-  // const allowedArrayEnabled = allowedArray.map(obj => ({
-  //   ...obj,
-  //   enabled: true
-  // }))
 
   // merge the stored with installed apps, this will add new apps where necessary, keeping the stored config if present.
   // returns array of objects
@@ -143,6 +142,11 @@ app.on('ready', async () => {
   await getBrowsers()
 
   createTrayIcon() // create tray icon last as otherwise it loads before prefs window is ready and causes browsers to not be sent through.
+})
+
+// App doesn't always close on ctrl-c in console, this fixes that
+app.on('before-quit', () => {
+  app.exit()
 })
 
 /**
