@@ -30,7 +30,7 @@ function createPrefsWindow() {
       backgroundColor: '#21252b'
     })
 
-    prefsWindow.loadURL(`file://${__dirname}/../renderers/prefs/prefs.html`)
+    prefsWindow.loadURL(`file://${__dirname}/../prefs/prefs.html`)
 
     // allow window to be opened again
     prefsWindow.on('close', e => {

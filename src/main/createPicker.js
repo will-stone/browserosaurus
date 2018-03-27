@@ -35,7 +35,7 @@ function createPickerWindow() {
       fullscreenable: false
     })
 
-    pickerWindow.loadURL(`file://${__dirname}/../renderers/picker/picker.html`)
+    pickerWindow.loadURL(`file://${__dirname}/../picker/picker.html`)
 
     pickerWindow.on('close', e => {
       e.preventDefault()

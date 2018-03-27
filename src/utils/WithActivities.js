@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron'
 import React from 'react'
 
-import { ACTIVITIES_GET } from '../../config/events'
+import { ACTIVITIES_GET } from '../config/events'
 
 class WithActivities extends React.Component {
   constructor() {

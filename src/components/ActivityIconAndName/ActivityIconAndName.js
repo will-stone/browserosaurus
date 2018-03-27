@@ -4,7 +4,7 @@ const ActivityIconAndName = ({ name }) => {
   return (
     <Fragment>
       <img
-        src={`../../images/activity-icons/${name}.png`}
+        src={`../images/activity-icons/${name}.png`}
         alt=""
         style={{
           width: 32,

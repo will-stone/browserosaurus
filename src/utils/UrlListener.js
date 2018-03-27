@@ -1,7 +1,7 @@
 import { ipcRenderer, remote, screen } from 'electron'
 import { Component } from 'react'
 
-import { URL_RECEIVED } from '../../config/events'
+import { URL_RECEIVED } from '../config/events'
 
 class UrlListener extends Component {
   constructor() {

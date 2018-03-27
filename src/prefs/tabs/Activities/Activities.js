@@ -15,7 +15,7 @@ const Activities = ({ activities, state, onRescan }) => {
       <p style={{ textAlign: 'center' }}>
         <Button
           onClick={onRescan}
-          text="Rescan installed apps"
+          text="Rescan apps"
           loading={state === 'pending'}
           className="pt-minimal"
           intent="primary"

@@ -12,9 +12,9 @@
       "yarn run build-css && electron-forge package --platform=darwin --arch=x64",
     "make": "yarn run build-css && electron-forge make",
     "build-css":
-      "node-sass-chokidar src/renderers/style -o build --importer=node_modules/node-sass-package-importer/dist/cli.js --output-style compressed",
+      "node-sass-chokidar src/style -o build --importer=node_modules/node-sass-package-importer/dist/cli.js --output-style compressed",
     "watch-css":
-      "node-sass-chokidar src/renderers/style -o build --importer=node_modules/node-sass-package-importer/dist/cli.js --output-style compressed --watch --recursive",
+      "node-sass-chokidar src/style -o build --importer=node_modules/node-sass-package-importer/dist/cli.js --output-style compressed --watch --recursive",
     "icns": "cd ./src/images/icon && ./png2icns.sh icon.png"
   },
   "repository": "https://github.com/will-stone/browserosaurus",
@@ -69,7 +69,7 @@
       "electronPackagerConfig": {
         "packageManager": "yarn",
         "icon": "src/images/icon/icon.icns",
-        "ignore": ["docs", "src/renderers/style"],
+        "ignore": ["docs", "src/style"],
         "protocols": [
           {
             "name": "HTTP link",
