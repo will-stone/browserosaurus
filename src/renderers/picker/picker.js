@@ -6,7 +6,7 @@ import Activity from './Activity'
 
 import EscapeToHide from '../utils/EscapeToHide'
 import UrlListener from '../utils/UrlListener'
-import WithBrowsers from '../utils/WithBrowsers'
+import WithActivities from '../utils/WithActivities'
 import WindowHeightUpdater from '../utils/WindowHeightUpdater'
 
 ReactDOM.render(
@@ -17,8 +17,8 @@ ReactDOM.render(
           <div style={{ padding: '1rem' }}>
             <Text ellipsize={true}>{url}</Text>
           </div>
-          <WithBrowsers>
-            {({ browsers, state }) => {
+          <WithActivities>
+            {({ activities, state }) => {
               return state === 'idle' || state === 'pending' ? (
                 <div style={{ textAlign: 'center', paddingBottom: '1rem' }}>
                   <Spinner intent="primary" className="pt-small" />
@@ -26,21 +26,21 @@ ReactDOM.render(
                 </div>
               ) : (
                 <Fragment>
-                  {browsers
-                    .filter(browser => browser.enabled)
-                    .map((browser, index) => (
+                  {activities
+                    .filter(activity => activity.enabled)
+                    .map((activity, index) => (
                       <Activity
-                        key={browser.name}
-                        browser={browser}
+                        key={activity.name}
+                        activity={activity}
                         url={url}
-                        defaultBrowser={index === 0}
+                        defaultActivity={index === 0}
                       />
                     ))}
                   <WindowHeightUpdater />
                 </Fragment>
               )
             }}
-          </WithBrowsers>
+          </WithActivities>
         </Fragment>
       )}
     </UrlListener>

@@ -12,7 +12,7 @@ class UrlListener extends Component {
     }
 
     /**
-     * Event: Receive browsers array from main
+     * Event: Receive URL from main
      *
      * @param {array} event
      * @param {array} url

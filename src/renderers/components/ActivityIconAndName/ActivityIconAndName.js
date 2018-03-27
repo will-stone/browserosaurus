@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-const BrowserLogo = ({ name }) => {
+const ActivityIconAndName = ({ name }) => {
   return (
     <Fragment>
       <img
@@ -19,4 +19,4 @@ const BrowserLogo = ({ name }) => {
   )
 }
 
-export default BrowserLogo
+export default ActivityIconAndName

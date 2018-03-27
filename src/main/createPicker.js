@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron'
 
-import { BROWSERS_SET, URL_RECEIVED } from '../config/events'
+import { ACTIVITIES_SET, URL_RECEIVED } from '../config/events'
 
 import eventEmitter from './eventEmitter'
 
@@ -9,7 +9,7 @@ let pickerWindow = null
 /**
  * Create Picker Window
  *
- * Creates the window that is used to display browser selection after clicking
+ * Creates the window that is used to display activity selection after clicking
  * a link.
  * @param {function} callback - function to run at the end of this one.
  * @returns {null}
@@ -56,8 +56,8 @@ function createPickerWindow() {
       reject()
     })
 
-    eventEmitter.on(BROWSERS_SET, browsers => {
-      pickerWindow.webContents.send('browsers', browsers)
+    eventEmitter.on(ACTIVITIES_SET, activities => {
+      pickerWindow.webContents.send('activities', activities)
     })
 
     eventEmitter.on(URL_RECEIVED, url => {

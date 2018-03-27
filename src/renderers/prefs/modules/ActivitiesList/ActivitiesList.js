@@ -2,34 +2,34 @@ import { Checkbox } from '@blueprintjs/core'
 import React, { Fragment } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
-import BrowserLogoName from '../../../components/BrowserLogoName'
+import ActivityIconAndName from '../../../components/ActivityIconAndName'
 
-const BrowserList = ({ browsers, onBrowserToggle, onDragEnd }) => {
+const ActivitiesList = ({ activities, onActivityToggle, onDragEnd }) => {
   return (
     <Fragment>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
             <div ref={provided.innerRef} style={{ marginBottom: '1rem' }}>
-              {browsers &&
-                browsers.map((browser, index) => {
-                  const enabledBrowsers = browsers.filter(
-                    browser => browser.enabled
-                  )
+              {activities &&
+                activities.map((activity, index) => {
+                  const enabledActivities = activities.filter(a => a.enabled)
 
-                  const defaultBrowserName =
-                    enabledBrowsers.length > 0 ? enabledBrowsers[0].name : null
+                  const defaultActivityName =
+                    enabledActivities.length > 0
+                      ? enabledActivities[0].name
+                      : null
 
                   return (
                     <Draggable
-                      key={browser.name}
-                      draggableId={browser.name}
+                      key={activity.name}
+                      draggableId={activity.name}
                       index={index}
                     >
                       {(provided, snapshot) => (
                         <div
                           style={{
-                            opacity: !browser.enabled && 0.5
+                            opacity: !activity.enabled && 0.5
                           }}
                         >
                           <div
@@ -57,9 +57,9 @@ const BrowserList = ({ browsers, onBrowserToggle, onDragEnd }) => {
                             >
                               &#8942;&#8942;
                             </span>
-                            <BrowserLogoName name={browser.name} />
+                            <ActivityIconAndName name={activity.name} />
 
-                            {browser.name === defaultBrowserName && (
+                            {activity.name === defaultActivityName && (
                               <Fragment>
                                 <kbd className="pt-key">enter</kbd>
                                 <span
@@ -71,12 +71,15 @@ const BrowserList = ({ browsers, onBrowserToggle, onDragEnd }) => {
                               </Fragment>
                             )}
 
-                            <kbd className="pt-key">{browser.hotKey}</kbd>
+                            <kbd className="pt-key">{activity.hotKey}</kbd>
 
                             <Checkbox
-                              checked={browser.enabled}
+                              checked={activity.enabled}
                               onChange={() =>
-                                onBrowserToggle(browser.name, !browser.enabled)
+                                onActivityToggle(
+                                  activity.name,
+                                  !activity.enabled
+                                )
                               }
                               className="pt-large"
                               inline={true}
@@ -98,4 +101,4 @@ const BrowserList = ({ browsers, onBrowserToggle, onDragEnd }) => {
   )
 }
 
-export default BrowserList
+export default ActivitiesList

@@ -2,15 +2,13 @@ import arrayMove from 'array-move'
 import { app, ipcMain } from 'electron'
 import Store from 'electron-store'
 import unionBy from 'lodash/unionBy'
-// import pick from 'lodash/pick'
 
-// import whiteListedBrowsers from './config/browsers'
 import activities from './config/activities'
 import {
   ACTIVITY_SORT,
   ACTIVITY_TOGGLE,
-  BROWSERS_GET,
-  BROWSERS_SET,
+  ACTIVITIES_GET,
+  ACTIVITIES_SET,
   URL_RECEIVED
 } from './config/events'
 
@@ -19,50 +17,48 @@ import createPrefsWindow from './main/createPrefs'
 import createTrayIcon from './main/createTray'
 import eventEmitter from './main/eventEmitter'
 import scanForApps from './main/scanForApps'
-// import valuesWithKey from './main/valuesWithKey'
 
-// Start store and set browsers if first run
+// Start store and set activities if first run
 const store = new Store({ defaults: { activities: [] } })
 
 /**
- * Event: Toggle Browser
+ * Event: Toggle Activity
  *
  * Listens for the ACTIVITY_TOGGLE event, triggered from the prefs renderer and
- * updates the enabled/disabled status of the checked/unchecked browser. Then
- * sends updated browsers array back to renderers.
- * @param {string} browserName
+ * updates the enabled/disabled status of the checked/unchecked activity. Then
+ * sends updated activities array back to renderers.
+ * @param {string} activityName
  * @param {boolean} enabled
  */
-ipcMain.on(ACTIVITY_TOGGLE, (event, { browserName, enabled }) => {
+ipcMain.on(ACTIVITY_TOGGLE, (event, { activityName, enabled }) => {
   const currentActivities = store.get('activities')
   const activityIndex = currentActivities.findIndex(
-    browser => browser.name === browserName
+    activity => activity.name === activityName
   )
   currentActivities[activityIndex].enabled = enabled
   store.set('activities', currentActivities)
-  eventEmitter.emit(BROWSERS_SET, currentActivities)
+  eventEmitter.emit(ACTIVITIES_SET, currentActivities)
 })
 
 /**
- * Event: Sort Browser
+ * Event: Sort Activity
  *
- * Listens for the ACTIVITY_SORT event, triggered from the prefs renderer when a
- * browser is dragged to a new position. Then sends updated browsers array back
- * to renderers.
- * @param {number} oldIndex - index of browser being moved from.
- * @param {number} newIndex - index of place browser is being moved to.
+ * Listens for the ACTIVITY_SORT event, triggered from the prefs renderer when
+ * an activity is dragged to a new position. Then sends updated activities
+ * array back to renderers.
+ * @param {number} oldIndex - index of activity being moved from.
+ * @param {number} newIndex - index of place activity is being moved to.
  */
-// FIXME: not currently working, locally saves but does not persist on restart. Something to do with merging logic below.
 ipcMain.on(ACTIVITY_SORT, (event, { oldIndex, newIndex }) => {
   const newActivities = arrayMove(store.get('activities'), oldIndex, newIndex)
-  // store.set('browsers', browsers)
-  eventEmitter.emit(BROWSERS_SET, newActivities)
+  store.set('activities', newActivities)
+  eventEmitter.emit(ACTIVITIES_SET, newActivities)
 })
 
 /**
- * Get Browsers
+ * Get Activities
  */
-async function getBrowsers() {
+async function getActivities() {
   // get all apps on system
   // returns object of {appName: "appName"}
   const installedApps = await scanForApps()
@@ -87,7 +83,7 @@ async function getBrowsers() {
   // returns array of objects
   const stored = store.get('activities')
 
-  // remove unistalled activities from stored config
+  // remove unistalled apps from stored config
   // returns array of objects
   const prunedStore = stored
     .filter(activity => {
@@ -101,9 +97,8 @@ async function getBrowsers() {
     })
     .map(activity => {
       // resets cmd to config version, in case changed in config.
-      // TODO see if this can be optimised. Maybe config does need to be an object
-      const activityIndex = activities.findIndex(a => a.name === activity.name)
-      return { ...activity, cmd: activities[activityIndex].cmd }
+      const index = activities.findIndex(a => a.name === activity.name)
+      return { ...activity, cmd: activities[index].cmd }
     })
 
   // merge the stored with installed apps, this will add new apps where necessary, keeping the stored config if present.
@@ -112,19 +107,19 @@ async function getBrowsers() {
 
   store.set('activities', merged)
 
-  eventEmitter.emit(BROWSERS_SET, merged)
+  eventEmitter.emit(ACTIVITIES_SET, merged)
 
   return true
 }
 
 /**
- * Event: Get Browsers
+ * Event: Get Activities
  *
- * Listens for the BROWSERS_GET event, triggered by the renderers on load.
- * Scans for browsers and sends them on to the browsers.
+ * Listens for the ACTIVITIES_GET event, triggered by the renderers on load.
+ * Scans for apps and sends them on to the renderers.
  */
-ipcMain.on(BROWSERS_GET, async () => {
-  await getBrowsers()
+ipcMain.on(ACTIVITIES_GET, async () => {
+  await getActivities()
 })
 
 /**
@@ -146,9 +141,9 @@ app.on('ready', async () => {
     global.URLToOpen = null // not required any more
   }
 
-  await getBrowsers()
+  await getActivities()
 
-  createTrayIcon() // create tray icon last as otherwise it loads before prefs window is ready and causes browsers to not be sent through.
+  createTrayIcon() // create tray icon last as otherwise it loads before prefs window is ready and causes activities to not be sent through.
 })
 
 // App doesn't always close on ctrl-c in console, this fixes that

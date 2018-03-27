@@ -11,19 +11,19 @@ class ActivityContainer extends Component {
   }
 
   componentDidMount() {
-    mousetrap.bind(this.props.browser.hotKey, () => this.hotKeyOpenBrowser())
+    mousetrap.bind(this.props.activity.hotKey, () => this.hotKeyOpenActivity())
     this.setupDefault()
   }
 
   componentWillUnmount() {
-    mousetrap.unbind(this.props.browser.hotKey)
+    mousetrap.unbind(this.props.activity.hotKey)
   }
 
   componentDidUpdate() {
     this.setupDefault()
   }
 
-  hotKeyOpenBrowser = () => {
+  hotKeyOpenActivity = () => {
     this.setState({ active: true }, () => {
       setTimeout(() => {
         this.setState({
@@ -38,19 +38,22 @@ class ActivityContainer extends Component {
   }
 
   setupDefault = () => {
-    if (this.props.defaultBrowser) {
+    if (this.props.defaultActivity) {
       mousetrap.unbind('enter')
-      mousetrap.bind('enter', () => this.hotKeyOpenBrowser())
+      mousetrap.bind('enter', () => this.hotKeyOpenActivity())
     }
   }
 
   /**
    * Run Activity
    *
-   * Tells the OS to open chosen browser with this.url.
+   * Tells the OS to open chosen activity with this.url.
    */
   runActivity = () => {
-    spawn('sh', ['-c', this.props.browser.cmd.replace('{URL}', this.props.url)])
+    spawn('sh', [
+      '-c',
+      this.props.activity.cmd.replace('{URL}', this.props.url)
+    ])
 
     const currentWindow = remote.getCurrentWindow()
     currentWindow.hide()
@@ -60,9 +63,9 @@ class ActivityContainer extends Component {
     return (
       <Activity
         onClick={this.runActivity}
-        browser={this.props.browser}
+        activity={this.props.activity}
         active={this.state.active}
-        defaultBrowser={this.props.defaultBrowser}
+        defaultActivity={this.props.defaultActivity}
       />
     )
   }

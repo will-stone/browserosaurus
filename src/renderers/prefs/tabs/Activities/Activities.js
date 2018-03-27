@@ -1,21 +1,21 @@
 import { Button } from '@blueprintjs/core'
 import React, { Fragment } from 'react'
 
-import BrowserList from '../../modules/BrowserList'
+import ActivitiesList from '../../modules/ActivitiesList'
 
 import WindowHeightUpdater from '../../../utils/WindowHeightUpdater'
 
-const Browsers = ({ browsers, state, onRescan }) => {
+const Activities = ({ activities, state, onRescan }) => {
   return (
     <Fragment>
       <WindowHeightUpdater />
 
-      <BrowserList browsers={browsers} />
+      <ActivitiesList activities={activities} />
 
       <p style={{ textAlign: 'center' }}>
         <Button
           onClick={onRescan}
-          text="Rescan for browsers"
+          text="Rescan installed apps"
           loading={state === 'pending'}
           className="pt-minimal"
           intent="primary"
@@ -25,4 +25,4 @@ const Browsers = ({ browsers, state, onRescan }) => {
   )
 }
 
-export default Browsers
+export default Activities

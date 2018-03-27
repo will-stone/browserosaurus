@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 
-import BrowserLogoName from '../../components/BrowserLogoName'
+import ActivityIconAndName from '../../components/ActivityIconAndName'
 
 const Div = styled.div`
   padding: 1rem 1rem 1rem 0;
@@ -14,13 +14,13 @@ const Div = styled.div`
   }
 `
 
-const Activity = ({ active, browser, defaultBrowser, onClick }) => {
+const Activity = ({ active, activity, defaultActivity, onClick }) => {
   return (
     <Div onClick={onClick} className={active && 'is-active'}>
-      <BrowserLogoName name={browser.name} />
+      <ActivityIconAndName name={activity.name} />
 
       <span>
-        {defaultBrowser && (
+        {defaultActivity && (
           <Fragment>
             <kbd className="pt-key">enter</kbd>
             <span style={{ margin: '0 0.5rem' }} className="pt-text-muted">
@@ -30,7 +30,7 @@ const Activity = ({ active, browser, defaultBrowser, onClick }) => {
         )}
 
         <kbd className="pt-key" style={{ marginLeft: 'auto' }}>
-          {browser.hotKey}
+          {activity.hotKey}
         </kbd>
       </span>
     </Div>

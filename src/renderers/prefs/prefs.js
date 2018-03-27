@@ -4,9 +4,9 @@ import ReactDOM from 'react-dom'
 
 import TitleBar from '../components/TitleBar'
 
-import WithBrowsers from '../utils/WithBrowsers'
+import WithActivities from '../utils/WithActivities'
 
-import Browsers from './tabs/Browsers'
+import Activities from './tabs/Activities'
 import About from './tabs/About'
 
 // BluePrint
@@ -14,8 +14,8 @@ import { FocusStyleManager } from '@blueprintjs/core'
 FocusStyleManager.onlyShowFocusOnTabs()
 
 ReactDOM.render(
-  <WithBrowsers>
-    {({ browsers, state }, onRescan) => (
+  <WithActivities>
+    {({ activities, state }, onRescan) => (
       <Fragment>
         <TitleBar>Preferences</TitleBar>
 
@@ -27,10 +27,14 @@ ReactDOM.render(
         >
           <Tabs.Expander />
           <Tab
-            id="browsers"
-            title="Browsers"
+            id="activities"
+            title="Activities"
             panel={
-              <Browsers browsers={browsers} state={state} onRescan={onRescan} />
+              <Activities
+                activities={activities}
+                state={state}
+                onRescan={onRescan}
+              />
             }
           />
           <Tabs.Expander />
@@ -39,6 +43,6 @@ ReactDOM.render(
         </Tabs>
       </Fragment>
     )}
-  </WithBrowsers>,
+  </WithActivities>,
   document.getElementById('prefs-root')
 )

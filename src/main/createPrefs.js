@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron'
 
-import { BROWSERS_SET, PREFS_OPEN } from '../config/events'
+import { ACTIVITIES_SET, PREFS_OPEN } from '../config/events'
 
 import eventEmitter from './eventEmitter'
 
@@ -48,11 +48,11 @@ function createPrefsWindow() {
       reject()
     })
 
-    eventEmitter.on(BROWSERS_SET, browsers => {
-      prefsWindow.webContents.send('browsers', browsers)
+    eventEmitter.on(ACTIVITIES_SET, activities => {
+      prefsWindow.webContents.send('activities', activities)
     })
 
-    eventEmitter.on(PREFS_OPEN, browsers => {
+    eventEmitter.on(PREFS_OPEN, () => {
       // Bring to front
       prefsWindow.center()
       prefsWindow.show()
