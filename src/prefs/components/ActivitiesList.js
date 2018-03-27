@@ -2,7 +2,7 @@ import { Checkbox } from '@blueprintjs/core'
 import React, { Fragment } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
-import ActivityIconAndName from '../../../components/ActivityIconAndName'
+import ActivityIconAndName from '../../components/ActivityIconAndName'
 
 const ActivitiesList = ({ activities, onActivityToggle, onDragEnd }) => {
   return (

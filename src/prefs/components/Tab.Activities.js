@@ -1,9 +1,9 @@
 import { Button } from '@blueprintjs/core'
 import React, { Fragment } from 'react'
 
-import ActivitiesList from '../../modules/ActivitiesList'
+import ActivitiesList from './ActivitiesList.container'
 
-import WindowHeightUpdater from '../../../utils/WindowHeightUpdater'
+import WindowHeightUpdater from '../../utils/WindowHeightUpdater'
 
 const Activities = ({ activities, state, onRescan }) => {
   return (

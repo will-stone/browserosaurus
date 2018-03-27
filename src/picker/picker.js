@@ -2,7 +2,7 @@ import { Spinner, Text } from '@blueprintjs/core'
 import React, { Fragment } from 'react'
 import ReactDOM from 'react-dom'
 
-import Activity from './Activity'
+import Activity from './components/Activity.container'
 
 import EscapeToHide from '../utils/EscapeToHide'
 import UrlListener from '../utils/UrlListener'

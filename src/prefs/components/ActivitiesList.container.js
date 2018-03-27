@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron'
 import React, { Component } from 'react'
 
-import { ACTIVITY_SORT, ACTIVITY_TOGGLE } from '../../../config/events'
+import { ACTIVITY_SORT, ACTIVITY_TOGGLE } from '../../config/events'
 
 import ActivitiesList from './ActivitiesList'
 

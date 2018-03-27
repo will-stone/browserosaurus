@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 import React, { Component, Fragment } from 'react'
 import semver from 'semver'
 
-import WindowHeightUpdater from '../../../utils/WindowHeightUpdater'
+import WindowHeightUpdater from '../../utils/WindowHeightUpdater'
 
 import UpdateStatus from './UpdateStatus'
 
