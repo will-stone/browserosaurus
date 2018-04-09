@@ -7,7 +7,7 @@ import Activity from './Activity'
 
 class ActivityContainer extends Component {
   state = {
-    active: false
+    active: false // used for styling when selecting an activity with a hot-key
   }
 
   componentDidMount() {
@@ -37,6 +37,12 @@ class ActivityContainer extends Component {
     })
   }
 
+  /**
+   * Setup default activity hot-key
+   *
+   * The default activity is the one at the top and always opens by hitting the
+   * enter key.
+   */
   setupDefault = () => {
     if (this.props.defaultActivity) {
       mousetrap.unbind('enter')
@@ -47,7 +53,7 @@ class ActivityContainer extends Component {
   /**
    * Run Activity
    *
-   * Tells the OS to open chosen activity with this.url.
+   * Tells the OS to open chosen activity with this.props.url.
    */
   runActivity = () => {
     spawn('sh', [

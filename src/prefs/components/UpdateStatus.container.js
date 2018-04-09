@@ -59,10 +59,10 @@ class UpdateStatusContainer extends Component {
 
   render() {
     return (
-      <Fragment>
+      <p>
         <UpdateStatus status={this.state.status} />
         <WindowHeightUpdater />
-      </Fragment>
+      </p>
     )
   }
 }

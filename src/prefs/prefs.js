@@ -26,6 +26,7 @@ ReactDOM.render(
           large={true}
         >
           <Tabs.Expander />
+
           <Tab
             id="activities"
             title="Activities"
@@ -37,8 +38,11 @@ ReactDOM.render(
               />
             }
           />
+
           <Tabs.Expander />
+
           <Tab id="about" title="About" panel={<About />} />
+
           <Tabs.Expander />
         </Tabs>
       </Fragment>

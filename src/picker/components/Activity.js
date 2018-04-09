@@ -1,39 +1,28 @@
-import React, { Fragment } from 'react'
+import { MenuItem } from '@blueprintjs/core'
+import React from 'react'
 import styled from 'styled-components'
+import ActivityIcon from '../../components/ActivityIcon'
+import Kbd from '../../components/Kbd'
 
-import ActivityIconAndName from '../../components/ActivityIconAndName'
-
-const Div = styled.div`
-  padding: 1rem 1rem 1rem 0;
-  display: flex;
+const StyledMenuItem = styled(MenuItem)`
+  padding: 1rem;
   align-items: center;
 
   &:hover,
   &.is-active {
-    background-color: #0d8050;
+    background-color: #0d8050 !important;
   }
 `
 
 const Activity = ({ active, activity, defaultActivity, onClick }) => {
   return (
-    <Div onClick={onClick} className={active && 'is-active'}>
-      <ActivityIconAndName name={activity.name} />
-
-      <span>
-        {defaultActivity && (
-          <Fragment>
-            <kbd className="pt-key">enter</kbd>
-            <span style={{ margin: '0 0.5rem' }} className="pt-text-muted">
-              /
-            </span>
-          </Fragment>
-        )}
-
-        <kbd className="pt-key" style={{ marginLeft: 'auto' }}>
-          {activity.hotKey}
-        </kbd>
-      </span>
-    </Div>
+    <StyledMenuItem
+      icon={<ActivityIcon name={activity.name} />}
+      text={activity.name}
+      onClick={onClick}
+      className={active && 'is-active'}
+      label={<Kbd isDefault={defaultActivity} hotKey={activity.hotKey} />}
+    />
   )
 }
 
