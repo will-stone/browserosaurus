@@ -1,9 +1,8 @@
 import { remote, shell } from 'electron'
 import React from 'react'
+import WindowHeightUpdater from '../../utils/WindowHeightUpdater'
 
-import UpdateStatus from './UpdateStatus.container'
-
-const About = () => {
+const About = ({ updateStatus }) => {
   return (
     <div style={{ textAlign: 'center' }}>
       <p>
@@ -23,7 +22,9 @@ const About = () => {
 
       <h3>v{remote.app.getVersion()}</h3>
 
-      <UpdateStatus />
+      <p>{updateStatus}</p>
+
+      <WindowHeightUpdater />
     </div>
   )
 }

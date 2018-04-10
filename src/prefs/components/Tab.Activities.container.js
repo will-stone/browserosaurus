@@ -1,11 +1,9 @@
 import { ipcRenderer } from 'electron'
 import React, { Component } from 'react'
-
 import { ACTIVITY_SORT, ACTIVITY_TOGGLE } from '../../config/events'
+import TabActivities from './Tab.Activities'
 
-import ActivitiesList from './ActivitiesList'
-
-class ActivitiesListContainer extends Component {
+class TabActivitiesContainer extends Component {
   /**
    * Toggle activity
    *
@@ -43,14 +41,17 @@ class ActivitiesListContainer extends Component {
   }
 
   render() {
+    const { activities, state, onRescan } = this.props
     return (
-      <ActivitiesList
-        {...this.props}
+      <TabActivities
+        activities={activities}
+        state={state}
         onActivityToggle={this.handleActivityToggle}
         onDragEnd={this.handleDragEnd}
+        onRescan={onRescan}
       />
     )
   }
 }
 
-export default ActivitiesListContainer
+export default TabActivitiesContainer

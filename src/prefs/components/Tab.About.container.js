@@ -1,15 +1,12 @@
-import { remote } from 'electron'
-import fetch from 'node-fetch'
-import React, { Component, Fragment } from 'react'
+import { Button } from '@blueprintjs/core'
+import { remote, shell } from 'electron'
+import React, { Component } from 'react'
 import semver from 'semver'
+import TabAbout from './Tab.About'
 
-import WindowHeightUpdater from '../../utils/WindowHeightUpdater'
-
-import UpdateStatus from './UpdateStatus'
-
-class UpdateStatusContainer extends Component {
+class TabAboutContainer extends Component {
   state = {
-    status: 'idle'
+    updateStatus: ''
   }
 
   /**
@@ -30,11 +27,22 @@ class UpdateStatusContainer extends Component {
           response.message &&
           response.message.startsWith('API rate limit exceeded')
         ) {
-          return 'limitExceeded'
+          return "API rate limit exceeded, please try again later or visit Browserosaurus's website to check for an update"
         } else if (semver.gt(response.tag_name, remote.app.getVersion())) {
-          return 'updateAvailable'
+          return (
+            <Button
+              onClick={() =>
+                shell.openExternal(
+                  'https://github.com/will-stone/browserosaurus/releases/latest'
+                )
+              }
+              intent="primary"
+            >
+              Update Available
+            </Button>
+          )
         } else {
-          return 'latestVersion'
+          return 'You have the latest version'
         }
       })
   }
@@ -42,12 +50,12 @@ class UpdateStatusContainer extends Component {
   handleUpdateCheck = () => {
     this.setState(
       {
-        status: 'checking'
+        updateStatus: 'Checking for update...'
       },
       async () => {
         const status = await this._checkForUpdate()
         this.setState({
-          status: status
+          updateStatus: status
         })
       }
     )
@@ -58,13 +66,10 @@ class UpdateStatusContainer extends Component {
   }
 
   render() {
-    return (
-      <p>
-        <UpdateStatus status={this.state.status} />
-        <WindowHeightUpdater />
-      </p>
-    )
+    const { updateStatus } = this.state
+
+    return <TabAbout updateStatus={updateStatus} />
   }
 }
 
-export default UpdateStatusContainer
+export default TabAboutContainer

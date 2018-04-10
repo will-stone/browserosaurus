@@ -6,8 +6,8 @@ import TitleBar from '../components/TitleBar'
 
 import WithActivities from '../utils/WithActivities'
 
-import Activities from './components/Tab.Activities'
-import About from './components/Tab.About'
+import Activities from './components/Tab.Activities.container'
+import About from './components/Tab.About.container'
 
 // BluePrint
 import { FocusStyleManager } from '@blueprintjs/core'
