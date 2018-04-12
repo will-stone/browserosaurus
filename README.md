@@ -24,6 +24,12 @@ Install dependencies:
 yarn install
 ```
 
+Build the CSS:
+
+```
+yarn build-css
+```
+
 Run Browserosaurus in dev mode:
 
 ```
