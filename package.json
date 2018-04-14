@@ -41,7 +41,7 @@
     "eslint-plugin-react": "^7.1.0",
     "node-sass-chokidar": "^0.0.3",
     "node-sass-package-importer": "^5.1.0",
-    "prettier": "^1.11.0"
+    "prettier": "^1.12.0"
   },
   "dependencies": {
     "@blueprintjs/core": "^2.0.0",
