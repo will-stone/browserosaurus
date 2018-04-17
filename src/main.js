@@ -119,7 +119,7 @@ async function getActivities() {
  * Scans for apps and sends them on to the renderers.
  */
 ipcMain.on(ACTIVITIES_GET, async () => {
-  await getActivities()
+  getActivities()
 })
 
 /**
@@ -141,7 +141,7 @@ app.on('ready', async () => {
     global.URLToOpen = null // not required any more
   }
 
-  await getActivities()
+  getActivities()
 
   createTrayIcon() // create tray icon last as otherwise it loads before prefs window is ready and causes activities to not be sent through.
 })

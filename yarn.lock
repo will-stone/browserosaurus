@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@blueprintjs/core@^2.0.0":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@blueprintjs/core/-/core-2.1.1.tgz#8e7178c7bd0faea53a0f9a25392215a1fe62d05e"
+"@blueprintjs/core@2.0.2":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/core/-/core-2.0.1.tgz#0b2cf9b477c8a0d102030a5de0465c1709eb99e7"
   dependencies:
-    "@blueprintjs/icons" "^2.1.1"
+    "@blueprintjs/icons" "^2.0.0"
     "@types/dom4" "^2.0.0"
     classnames "^2.2"
     dom4 "^2.0.1"
@@ -15,7 +15,7 @@
     react-popper "^0.8.2"
     tslib "^1.9.0"
 
-"@blueprintjs/icons@^2.1.1":
+"@blueprintjs/icons@^2.0.0":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@blueprintjs/icons/-/icons-2.1.1.tgz#426b0291baf198e0181ae8f49bb5c2bc0bb55e9f"
   dependencies:
