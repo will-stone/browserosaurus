@@ -118,7 +118,7 @@ async function getActivities() {
  * Listens for the ACTIVITIES_GET event, triggered by the renderers on load.
  * Scans for apps and sends them on to the renderers.
  */
-ipcMain.on(ACTIVITIES_GET, async () => {
+ipcMain.on(ACTIVITIES_GET, () => {
   getActivities()
 })
 
