@@ -1,4 +1,4 @@
-import { Menu, Spinner, Text } from '@blueprintjs/core'
+import { Spinner, Text } from '@blueprintjs/core'
 import React, { Fragment } from 'react'
 import ReactDOM from 'react-dom'
 import EscapeToHide from '../utils/EscapeToHide'
@@ -6,12 +6,6 @@ import UrlListener from '../utils/UrlListener'
 import WindowHeightUpdater from '../utils/WindowHeightUpdater'
 import WithActivities from '../utils/WithActivities'
 import Activity from './components/Activity.container'
-import styled from 'styled-components'
-
-const StyledMenu = styled(Menu)`
-  background-color: transparent !important;
-  padding: 0 !important;
-`
 
 ReactDOM.render(
   <EscapeToHide>
@@ -30,7 +24,7 @@ ReactDOM.render(
                 </div>
               ) : (
                 <Fragment>
-                  <StyledMenu>
+                  <div>
                     {activities
                       .filter(activity => activity.enabled)
                       .map((activity, index) => (
@@ -41,7 +35,7 @@ ReactDOM.render(
                           defaultActivity={index === 0}
                         />
                       ))}
-                  </StyledMenu>
+                  </div>
                   <WindowHeightUpdater />
                 </Fragment>
               )

@@ -1,15 +1,15 @@
 import React from 'react'
 import { string, object } from 'prop-types'
 
-const ActivityIcon = ({ name, style, ...rest }) => {
+const ActivityIcon = ({ large, name, style, ...rest }) => {
   return (
     <img
       src={`../images/activity-icons/${name}.png`}
       alt=""
       style={{
         ...style,
-        width: 32,
-        height: 32,
+        width: large ? 48 : 32,
+        height: large ? 48 : 32,
         verticalAlign: 'middle'
       }}
       {...rest}
