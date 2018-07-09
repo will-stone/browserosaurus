@@ -1,6 +1,6 @@
-import styled from 'styled-components'
+import styled from 'react-emotion'
 
-const TitleBar = styled.div`
+const TitleBar = styled('div')`
   height: 2rem;
   -webkit-app-region: drag;
   text-align: center;
