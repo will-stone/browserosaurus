@@ -1,259 +1,125 @@
 import arrayMove from 'array-move'
-import { app, BrowserWindow, Tray, Menu, ipcMain } from 'electron'
+import { app, ipcMain } from 'electron'
 import Store from 'electron-store'
 import unionBy from 'lodash/unionBy'
 
-import whiteListedBrowsers from './config/browsers'
+import activities from './config/activities'
+import {
+  ACTIVITY_SORT,
+  ACTIVITY_TOGGLE,
+  ACTIVITIES_GET,
+  ACTIVITIES_SET,
+  URL_RECEIVED
+} from './config/events'
 
-import scanForApps from './utils/scanForApps'
+import createPickerWindow from './main/createPicker'
+import createPrefsWindow from './main/createPrefs'
+import createTrayIcon from './main/createTray'
+import eventEmitter from './main/eventEmitter'
+import scanForApps from './main/scanForApps'
 
-// Keep a global reference of the window objects, if you don't, the windows will
-// be closed automatically when the JavaScript object is garbage collected.
-let pickerWindow = null
-let prefsWindow = null
-let tray = null
-let appIsReady = false
-let wantToQuit = false
-
-// Start store and set browsers if first run
-const store = new Store({ defaults: { browsers: [] } })
-
-/**
- * Create Picker Window
- *
- * Creates the window that is used to display browser selection after clicking
- * a link.
- * @param {function} callback - function to run at the end of this one.
- * @returns {null}
- */
-function createPickerWindow() {
-  return new Promise((resolve, reject) => {
-    pickerWindow = new BrowserWindow({
-      width: 400,
-      height: 112,
-      acceptFirstMouse: true,
-      alwaysOnTop: true,
-      icon: `${__dirname}/images/icon/icon.png`,
-      frame: false,
-      resizable: false,
-      movable: false,
-      show: false,
-      title: 'Browserosaurus',
-      hasShadow: true,
-      backgroundColor: '#21252b'
-    })
-
-    pickerWindow.loadURL(`file://${__dirname}/renderers/picker/picker.html`)
-
-    pickerWindow.on('close', e => {
-      if (wantToQuit === false) {
-        e.preventDefault()
-        pickerWindow.hide()
-      }
-    })
-
-    pickerWindow.on('blur', () => {
-      pickerWindow.hide()
-    })
-
-    pickerWindow.once('ready-to-show', () => {
-      // pickerWindow.webContents.openDevTools()
-      resolve()
-    })
-
-    pickerWindow.once('unresponsive', () => {
-      console.log('unresponsive')
-      reject()
-    })
-  })
-}
+// Start store and set activities if first run
+const store = new Store({ defaults: { activities: [] } })
 
 /**
- * Create Tray Icon
+ * Event: Toggle Activity
  *
- * Creates the menubar icon and menu items.
- * @returns {null}
- */
-function createTrayIcon() {
-  return new Promise((resolve, reject) => {
-    const contextMenu = Menu.buildFromTemplate([
-      {
-        label: 'Preferences',
-        click: function() {
-          if (!prefsWindow) {
-            createPrefsWindow()
-          } else {
-            // Bring to front
-            prefsWindow.center()
-            prefsWindow.show()
-          }
-        }
-      },
-      {
-        label: 'Quit',
-        click: function() {
-          wantToQuit = true
-          app.quit()
-        }
-      }
-    ])
-
-    tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
-
-    tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
-
-    tray.setToolTip('Browserosaurus')
-
-    tray.setContextMenu(contextMenu)
-
-    resolve()
-  })
-}
-
-/**
- * Create Prefs Window
- *
- * Creates the window used to display the preferences, triggered from the
- * menubar icon.
- * @returns {null}
- */
-function createPrefsWindow() {
-  return new Promise((resolve, reject) => {
-    prefsWindow = new BrowserWindow({
-      width: 500,
-      height: 146,
-      icon: `${__dirname}/images/icon/icon.png`,
-      resizable: false,
-      show: false,
-      alwaysOnTop: true,
-      frame: true,
-      hasShadow: true,
-      minimizable: false,
-      maximizable: false,
-      titleBarStyle: 'hidden',
-      backgroundColor: '#21252b'
-    })
-
-    prefsWindow.loadURL(`file://${__dirname}/renderers/prefs/prefs.html`)
-
-    // allow window to be opened again
-    prefsWindow.on('close', e => {
-      if (wantToQuit === false) {
-        e.preventDefault()
-        prefsWindow.hide()
-      }
-    })
-
-    prefsWindow.once('ready-to-show', () => {
-      resolve()
-    })
-
-    prefsWindow.once('unresponsive', () => {
-      console.log('unresponsive')
-      reject()
-    })
-  })
-}
-
-/**
- * Event: Toggle Browser
- *
- * Listens for the toggle-browser event, triggered from the prefs renderer and
- * updates the enabled/disabled status of the checked/unchecked browser. Then
- * sends updated browsers array back to renderers.
- * @param {string} browserName
+ * Listens for the ACTIVITY_TOGGLE event, triggered from the prefs renderer and
+ * updates the enabled/disabled status of the checked/unchecked activity. Then
+ * sends updated activities array back to renderers.
+ * @param {string} activityName
  * @param {boolean} enabled
  */
-ipcMain.on('toggle-browser', (event, { browserName, enabled }) => {
-  const browsers = store.get('browsers')
-  const browserIndex = browsers.findIndex(
-    browser => browser.name === browserName
+ipcMain.on(ACTIVITY_TOGGLE, (event, { activityName, enabled }) => {
+  const currentActivities = store.get('activities')
+  const activityIndex = currentActivities.findIndex(
+    activity => activity.name === activityName
   )
-  browsers[browserIndex].enabled = enabled
-  store.set('browsers', browsers)
-  pickerWindow.webContents.send('browsers', browsers)
-  prefsWindow.webContents.send('browsers', browsers)
+  currentActivities[activityIndex].enabled = enabled
+  store.set('activities', currentActivities)
+  eventEmitter.emit(ACTIVITIES_SET, currentActivities)
 })
 
 /**
- * Event: Sort Browser
+ * Event: Sort Activity
  *
- * Listens for the sort-browser event, triggered from the prefs renderer when a
- * browser is dragged to a new position. Then sends updated browsers array back
- * to renderers.
- * @param {number} oldIndex - index of browser being moved from.
- * @param {number} newIndex - index of place browser is being moved to.
+ * Listens for the ACTIVITY_SORT event, triggered from the prefs renderer when
+ * an activity is dragged to a new position. Then sends updated activities
+ * array back to renderers.
+ * @param {number} oldIndex - index of activity being moved from.
+ * @param {number} newIndex - index of place activity is being moved to.
  */
-ipcMain.on('sort-browser', (event, { oldIndex, newIndex }) => {
-  const browsers = arrayMove(store.get('browsers'), oldIndex, newIndex)
-  store.set('browsers', browsers)
-  pickerWindow.webContents.send('browsers', browsers)
-  prefsWindow.webContents.send('browsers', browsers)
+ipcMain.on(ACTIVITY_SORT, (event, { oldIndex, newIndex }) => {
+  const newActivities = arrayMove(store.get('activities'), oldIndex, newIndex)
+  store.set('activities', newActivities)
+  eventEmitter.emit(ACTIVITIES_SET, newActivities)
 })
 
 /**
- * Get Browsers
+ * Get Activities
  */
-async function getBrowsers() {
+async function getActivities() {
   // get all apps on system
+  // returns object of {appName: "appName"}
   const installedApps = await scanForApps()
 
-  // filter the apps to just the browsers on system
-  const installedBrowsers = Object.keys(whiteListedBrowsers)
-    .map(name => {
-      for (let i = 0; i < installedApps.length; i++) {
-        if (name === installedApps[i]) {
-          return name
-        }
+  const installedActivities = activities
+    .filter(activity => {
+      if (installedApps[activity.appId]) {
+        return true
+      } else if (!activity.appId) {
+        // always shown activity that does not depend on app presence
+        return true
       }
-      return null
+      return false
     })
-    .filter(x => x) // remove empties
+    // add enabled status
+    .map(obj => ({
+      ...obj,
+      enabled: true
+    }))
 
-  // get browsers in store
-  const storedBrowsers = store.get('browsers')
+  // get activities in store
+  // returns array of objects
+  const stored = store.get('activities')
 
-  // convert each installed browser string to object with keyboard shortcut, alias name, and enabled status details.
-  const installedBrowsersWithDetails = installedBrowsers.map(name => ({
-    name,
-    key: whiteListedBrowsers[name].key,
-    alias: whiteListedBrowsers[name].alias || null,
-    enabled: true
-  }))
-
-  // remove unistalled browsers from stored config
-  const storedBrowsersPruned = storedBrowsers
-    .map(browser => {
-      if (installedBrowsers.indexOf(browser.name) === -1) {
-        return null
+  // remove unistalled apps from stored config
+  // returns array of objects
+  const prunedStore = stored
+    .filter(activity => {
+      if (installedApps[activity.appId]) {
+        return true
+      } else if (!activity.appId) {
+        // always shown activity that does not depend on app presence
+        return true
       }
-      return browser
+      return false
     })
-    .filter(x => x) // remove nulls
+    .map(activity => {
+      // resets cmd to config version, in case changed in config.
+      const index = activities.findIndex(a => a.name === activity.name)
+      return { ...activity, cmd: activities[index].cmd }
+    })
 
-  // merge the stored with installed browsers, this will add new browsers where necessary, keeping the stored config if present.
-  const mergedBrowsers = unionBy(
-    storedBrowsersPruned,
-    installedBrowsersWithDetails,
-    'name'
-  )
+  // merge the stored with installed apps, this will add new apps where necessary, keeping the stored config if present.
+  // returns array of objects
+  const merged = unionBy(prunedStore, installedActivities, 'name')
 
-  store.set('browsers', mergedBrowsers)
+  store.set('activities', merged)
 
-  return mergedBrowsers
+  eventEmitter.emit(ACTIVITIES_SET, merged)
+
+  return true
 }
 
 /**
- * Event: Get Browsers
+ * Event: Get Activities
  *
- * Listens for the get-browsers event, triggered by the renderers on load.
- * Scans for browsers and sends them on to the browsers.
+ * Listens for the ACTIVITIES_GET event, triggered by the renderers on load.
+ * Scans for apps and sends them on to the renderers.
  */
-ipcMain.on('get-browsers', async event => {
-  const browsers = await getBrowsers()
-  // event.sender.send('browsers', browsers)
-  pickerWindow.webContents.send('browsers', browsers)
-  prefsWindow.webContents.send('browsers', browsers)
+ipcMain.on(ACTIVITIES_GET, () => {
+  getActivities()
 })
 
 /**
@@ -267,19 +133,22 @@ app.on('ready', async () => {
 
   await Promise.all([createPrefsWindow(), createPickerWindow()])
 
-  appIsReady = true
+  global.pickerReady = true
 
   if (global.URLToOpen) {
     // if Browserosaurus was opened with a link, this will now be sent on to the picker window
-    pickerWindow.webContents.send('incomingURL', global.URLToOpen)
+    eventEmitter.emit(URL_RECEIVED, global.URLToOpen)
     global.URLToOpen = null // not required any more
   }
 
-  const browsers = await getBrowsers()
-  pickerWindow.webContents.send('browsers', browsers)
-  prefsWindow.webContents.send('browsers', browsers)
+  getActivities()
 
-  createTrayIcon() // create tray icon last as otherwise it loads before prefs window is ready and causes browsers to not be sent through.
+  createTrayIcon() // create tray icon last as otherwise it loads before prefs window is ready and causes activities to not be sent through.
+})
+
+// App doesn't always close on ctrl-c in console, this fixes that
+app.on('before-quit', () => {
+  app.exit()
 })
 
 /**
@@ -291,8 +160,8 @@ app.on('ready', async () => {
  */
 app.on('open-url', (event, url) => {
   event.preventDefault()
-  if (appIsReady) {
-    pickerWindow.webContents.send('incomingURL', url)
+  if (global.pickerReady) {
+    eventEmitter.emit(URL_RECEIVED, url)
   } else {
     // app not ready yet, this will be handled later in the createWindow callback
     global.URLToOpen = url
