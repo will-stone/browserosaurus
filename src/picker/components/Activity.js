@@ -4,45 +4,58 @@ import styled, { css } from 'react-emotion'
 import ActivityIcon from '../../components/ActivityIcon'
 import Kbd from '../../components/Kbd'
 
-const StyledTile = styled('div')`
+const toolTipCSS = css`
   display: inline-block;
   width: calc(100% / 3);
-  text-align: center;
+`
 
-  &:hover,
+const StyledTile = styled('div')`
+  text-align: center;
+  padding: 1rem;
+
   &.is-active {
     background-color: #0d8050 !important;
   }
+
+  &:focus {
+    outline: 0;
+  }
 `
 
-const Activity = ({ active, activity, defaultActivity, onClick }) => {
+const Activity = ({
+  active,
+  activity,
+  defaultActivity,
+  onClick,
+  onMouseEnter,
+  onMouseLeave
+}) => {
   return (
-    <StyledTile onClick={onClick} className={active && 'is-active'}>
-      <Tooltip
-        content={activity.name}
-        position="bottom"
-        intent="primary"
-        rootElementTag="div"
-        className={css`
-          display: block;
-        `}
+    <Tooltip
+      autoFocus={false}
+      className={toolTipCSS}
+      content={activity.name}
+      intent="primary"
+      isOpen={active}
+      position="bottom"
+      rootElementTag="div"
+    >
+      <StyledTile
+        className={active && 'is-active'}
+        onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
       >
-        <div
-          className={css`
-            padding: 1rem;
-          `}
-        >
-          <ActivityIcon
-            name={activity.name}
-            style={{ marginBottom: '1rem' }}
-            large
-          />
-          <div>
-            <Kbd isDefault={defaultActivity} hotKey={activity.hotKey} />
-          </div>
+        <ActivityIcon
+          name={activity.name}
+          style={{ marginBottom: '1rem' }}
+          large
+        />
+        <div>
+          <Kbd isDefault={defaultActivity} hotKey={activity.hotKey} />
         </div>
-      </Tooltip>
-    </StyledTile>
+      </StyledTile>
+    </Tooltip>
   )
 }
 

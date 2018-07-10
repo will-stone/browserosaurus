@@ -26,13 +26,7 @@ class ActivityContainer extends Component {
   hotKeyOpenActivity = () => {
     this.setState({ active: true }, () => {
       setTimeout(() => {
-        this.setState({
-          active: false
-        })
-        setTimeout(() => {
-          // extra timeout to prevent flash of ".is-active" on next open
-          this.runActivity()
-        }, 0)
+        this.runActivity()
       }, 200)
     })
   }
@@ -61,17 +55,39 @@ class ActivityContainer extends Component {
       this.props.activity.cmd.replace('{URL}', this.props.url)
     ])
 
-    const currentWindow = remote.getCurrentWindow()
-    currentWindow.hide()
+    this.setState(
+      {
+        active: false
+      },
+      () => {
+        setTimeout(() => {
+          // TODO: timeout is hack to stop flash of "is-active" style on repopen.
+          // This probably won't be needed if we implement a fade-in/out effect
+          // for the window.
+          const currentWindow = remote.getCurrentWindow()
+          currentWindow.hide()
+        }, 100)
+      }
+    )
+  }
+
+  handleMouseEnter = () => {
+    this.setState({ active: true })
+  }
+
+  handleMouseLeave = () => {
+    this.setState({ active: false })
   }
 
   render() {
     return (
       <Activity
-        onClick={this.runActivity}
-        activity={this.props.activity}
         active={this.state.active}
+        activity={this.props.activity}
         defaultActivity={this.props.defaultActivity}
+        onClick={this.runActivity}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
       />
     )
   }
