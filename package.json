@@ -6,6 +6,7 @@
   "homepage": "http://wstone.io/browserosaurus/",
   "main": "src/main.js",
   "scripts": {
+    "docs": "http-server ./docs",
     "start": "ENV=DEV electron-forge start",
     "prettier": "prettier --config .prettierrc --write 'src/**/*.js'",
     "package":
@@ -49,6 +50,7 @@
     "electron-compile": "^6.4.2",
     "electron-store": "^1.3.0",
     "emotion": "^9.2.5",
+    "http-server": "^0.11.1",
     "jsonpath": "^0.2.11",
     "lodash": "^4.17.4",
     "mousetrap": "^1.6.1",
