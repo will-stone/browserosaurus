@@ -7,7 +7,7 @@
   "main": "src/main.js",
   "scripts": {
     "start": "ENV=DEV electron-forge start",
-    "prettier": "prettier --config .prettierrc --write src/**/*.js",
+    "prettier": "prettier --config .prettierrc --write 'src/**/*.js'",
     "package":
       "yarn run build-css && electron-forge package --platform=darwin --arch=x64",
     "make": "yarn run build-css && electron-forge make",
@@ -41,7 +41,7 @@
     "eslint-plugin-react": "^7.1.0",
     "node-sass-chokidar": "^0.0.3",
     "node-sass-package-importer": "^5.1.0",
-    "prettier": "^1.12.0"
+    "prettier": "^1.13.7"
   },
   "dependencies": {
     "@blueprintjs/core": "2.0.1",
