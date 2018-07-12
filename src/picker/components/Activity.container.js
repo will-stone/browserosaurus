@@ -1,4 +1,3 @@
-import { remote } from 'electron'
 import { spawn } from 'child_process'
 import mousetrap from 'mousetrap'
 import React, { Component } from 'react'
@@ -7,11 +6,11 @@ import Activity from './Activity'
 
 class ActivityContainer extends Component {
   state = {
-    active: false, // used for styling when selecting an activity with a hot-key
+    isActive: false, // used for styling when selecting an activity with a hot-key
   }
 
   componentDidMount() {
-    mousetrap.bind(this.props.activity.hotKey, () => this.hotKeyOpenActivity())
+    mousetrap.bind(this.props.activity.hotKey, this.hotKeyOpenActivity)
     this.setupDefault()
   }
 
@@ -24,8 +23,9 @@ class ActivityContainer extends Component {
   }
 
   hotKeyOpenActivity = () => {
-    this.setState({ active: true }, () => {
+    this.setState({ isActive: true }, () => {
       setTimeout(() => {
+        // timeout is to show the active state briefly before opening activity.
         this.runActivity()
       }, 200)
     })
@@ -50,41 +50,39 @@ class ActivityContainer extends Component {
    * Tells the OS to open chosen activity with this.props.url.
    */
   runActivity = () => {
-    spawn('sh', [
-      '-c',
-      this.props.activity.cmd.replace('{URL}', this.props.url),
-    ])
+    if (this.props.isAppVisible) {
+      spawn('sh', [
+        '-c',
+        this.props.activity.cmd.replace('{URL}', this.props.url),
+      ])
 
-    this.setState(
-      {
-        active: false,
-      },
-      () => {
-        setTimeout(() => {
-          // TODO: timeout is hack to stop flash of "is-active" style on repopen.
-          // This probably won't be needed if we implement a fade-in/out effect
-          // for the window.
-          const currentWindow = remote.getCurrentWindow()
-          currentWindow.hide()
-        }, 100)
-      }
-    )
+      this.props.onClick()
+
+      this.setState({ isActive: false })
+    }
   }
 
   handleMouseEnter = () => {
-    this.setState({ active: true })
+    if (this.props.isAppVisible) {
+      this.setState({ isActive: true })
+    }
   }
 
   handleMouseLeave = () => {
-    this.setState({ active: false })
+    this.setState({ isActive: false })
   }
 
   render() {
+    const { isAppVisible } = this.props
+    const { isActive } = this.state
+    const isTooltipOpen = isAppVisible && isActive
+
     return (
       <Activity
-        active={this.state.active}
         activity={this.props.activity}
         defaultActivity={this.props.defaultActivity}
+        isActive={isActive}
+        isTooltipOpen={isTooltipOpen}
         onClick={this.runActivity}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}

@@ -1,7 +1,7 @@
 {
   "name": "browserosaurus",
   "productName": "Browserosaurus",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "description": "The browser prompter for macOS",
   "homepage": "http://wstone.io/browserosaurus/",
   "main": "src/main.js",
@@ -54,16 +54,18 @@
     "jsonpath": "^0.2.11",
     "lodash": "^4.17.4",
     "mousetrap": "^1.6.1",
-    "node-fetch": "^1.7.3",
-    "opn": "^5.1.0",
     "prop-types": "^15.6.1",
-    "react": "^16.2.0",
+    "react": "^16.4.1",
     "react-beautiful-dnd": "^4.0.1",
-    "react-dom": "^16.2.0",
+    "react-dom": "^16.4.1",
     "react-emotion": "^9.2.5",
-    "react-transition-group": "^2.2.1",
+    "react-spring": "^5.4.0",
+    "react-transition-group": "^2.4.0",
     "semver": "^5.4.1",
     "xml2js": "^0.4.19"
+  },
+  "resolutions": {
+    "eslint-scope": "3.7.1"
   },
   "config": {
     "forge": {

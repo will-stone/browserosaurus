@@ -1,31 +1,14 @@
 import { Tooltip } from '@blueprintjs/core'
 import React from 'react'
-import styled, { css } from 'react-emotion'
+import { css } from 'emotion'
 import ActivityIcon from '../../components/ActivityIcon'
 import Kbd from '../../components/Kbd'
 
-const toolTipCSS = css`
-  display: inline-block;
-  width: calc(100% / 3);
-`
-
-const StyledTile = styled('div')`
-  text-align: center;
-  padding: 1rem;
-
-  &.is-active {
-    background-color: #0d8050 !important;
-  }
-
-  &:focus {
-    outline: 0;
-  }
-`
-
 const Activity = ({
-  active,
   activity,
   defaultActivity,
+  isActive,
+  isTooltipOpen,
   onClick,
   onMouseEnter,
   onMouseLeave,
@@ -33,15 +16,26 @@ const Activity = ({
   return (
     <Tooltip
       autoFocus={false}
-      className={toolTipCSS}
+      className={css`
+        display: inline-block;
+        width: calc(100% / 3);
+      `}
       content={activity.name}
       intent="primary"
-      isOpen={active}
+      isOpen={isTooltipOpen}
       position="bottom"
       rootElementTag="div"
     >
-      <StyledTile
-        className={active && 'is-active'}
+      <div
+        className={css`
+          background-color: ${isActive && '#0d8050'};
+          padding: 1rem;
+          text-align: center;
+
+          &:focus {
+            outline: 0;
+          }
+        `}
         onClick={onClick}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
@@ -54,7 +48,7 @@ const Activity = ({
         <div>
           <Kbd isDefault={defaultActivity} hotKey={activity.hotKey} />
         </div>
-      </StyledTile>
+      </div>
     </Tooltip>
   )
 }
