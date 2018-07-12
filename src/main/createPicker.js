@@ -1,7 +1,5 @@
 import { BrowserWindow } from 'electron'
-
-import { ACTIVITIES_SET, URL_RECEIVED } from '../config/events'
-
+import { ACTIVITIES_SET, PICKER_BLUR, URL_RECEIVED } from '../config/events'
 import eventEmitter from './eventEmitter'
 
 let pickerWindow = null
@@ -21,18 +19,18 @@ function createPickerWindow() {
       height: 50,
       acceptFirstMouse: true,
       alwaysOnTop: true,
-      icon: `${__dirname}/../images/icon/icon.png`,
+      closable: false,
       frame: false,
-      resizable: false,
+      fullscreenable: false,
+      hasShadow: false,
+      icon: `${__dirname}/../images/icon/icon.png`,
+      maximizable: false,
+      minimizable: false,
       movable: false,
+      resizable: false,
       show: false,
       title: 'Browserosaurus',
-      hasShadow: true,
-      backgroundColor: '#21252b',
-      minimizable: false,
-      maximizable: false,
-      closable: false,
-      fullscreenable: false,
+      transparent: true,
     })
 
     pickerWindow.loadURL(`file://${__dirname}/../picker/picker.html`)
@@ -43,7 +41,7 @@ function createPickerWindow() {
     })
 
     pickerWindow.on('blur', () => {
-      pickerWindow.hide()
+      pickerWindow.webContents.send(PICKER_BLUR)
     })
 
     pickerWindow.once('ready-to-show', () => {
