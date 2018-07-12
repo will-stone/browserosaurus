@@ -9,7 +9,7 @@ class WithActivities extends React.Component {
 
     this.state = {
       state: 'idle',
-      activities: []
+      activities: [],
     }
 
     /**
@@ -36,7 +36,7 @@ class WithActivities extends React.Component {
   handleRescan = () => {
     this.setState(
       {
-        state: 'pending'
+        state: 'pending',
       },
       () => {
         ipcRenderer.send(ACTIVITIES_GET)

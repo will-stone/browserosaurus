@@ -27,7 +27,7 @@ function createPrefsWindow() {
       minimizable: false,
       maximizable: false,
       titleBarStyle: 'hidden',
-      backgroundColor: '#21252b'
+      backgroundColor: '#21252b',
     })
 
     prefsWindow.loadURL(`file://${__dirname}/../prefs/prefs.html`)

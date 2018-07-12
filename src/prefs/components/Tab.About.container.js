@@ -6,7 +6,7 @@ import TabAbout from './Tab.About'
 
 class TabAboutContainer extends Component {
   state = {
-    updateStatus: ''
+    updateStatus: '',
   }
 
   /**
@@ -50,12 +50,12 @@ class TabAboutContainer extends Component {
   handleUpdateCheck = () => {
     this.setState(
       {
-        updateStatus: 'Checking for update...'
+        updateStatus: 'Checking for update...',
       },
       async () => {
         const status = await this._checkForUpdate()
         this.setState({
-          updateStatus: status
+          updateStatus: status,
         })
       }
     )

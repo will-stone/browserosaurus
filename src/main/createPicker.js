@@ -32,7 +32,7 @@ function createPickerWindow() {
       minimizable: false,
       maximizable: false,
       closable: false,
-      fullscreenable: false
+      fullscreenable: false,
     })
 
     pickerWindow.loadURL(`file://${__dirname}/../picker/picker.html`)

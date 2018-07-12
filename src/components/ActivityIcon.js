@@ -10,7 +10,7 @@ const ActivityIcon = ({ large, name, style, ...rest }) => {
         ...style,
         width: large ? 48 : 32,
         height: large ? 48 : 32,
-        verticalAlign: 'middle'
+        verticalAlign: 'middle',
       }}
       {...rest}
     />
@@ -19,7 +19,7 @@ const ActivityIcon = ({ large, name, style, ...rest }) => {
 
 ActivityIcon.propTypes = {
   name: string.isRequired,
-  style: object
+  style: object,
 }
 
 export default ActivityIcon

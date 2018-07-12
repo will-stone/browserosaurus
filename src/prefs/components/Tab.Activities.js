@@ -10,7 +10,7 @@ const TabActivities = ({
   state,
   onRescan,
   onDragEnd,
-  onActivityToggle
+  onActivityToggle,
 }) => {
   return (
     <Fragment>
@@ -38,7 +38,7 @@ const TabActivities = ({
                       {(provided, snapshot) => (
                         <div
                           style={{
-                            opacity: !activity.enabled && 0.5
+                            opacity: !activity.enabled && 0.5,
                           }}
                         >
                           <div
@@ -57,7 +57,7 @@ const TabActivities = ({
                                 : '#21252B',
 
                               // styles we need to apply on draggables
-                              ...provided.draggableProps.style
+                              ...provided.draggableProps.style,
                             }}
                           >
                             <span

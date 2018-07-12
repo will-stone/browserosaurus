@@ -28,7 +28,7 @@ const Activity = ({
   defaultActivity,
   onClick,
   onMouseEnter,
-  onMouseLeave
+  onMouseLeave,
 }) => {
   return (
     <Tooltip

@@ -9,7 +9,7 @@ import {
   ACTIVITY_TOGGLE,
   ACTIVITIES_GET,
   ACTIVITIES_SET,
-  URL_RECEIVED
+  URL_RECEIVED,
 } from './config/events'
 
 import createPickerWindow from './main/createPicker'
@@ -76,7 +76,7 @@ async function getActivities() {
     // add enabled status
     .map(obj => ({
       ...obj,
-      enabled: true
+      enabled: true,
     }))
 
   // get activities in store

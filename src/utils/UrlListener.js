@@ -8,7 +8,7 @@ class UrlListener extends Component {
     super()
 
     this.state = {
-      url: null
+      url: null,
     }
 
     /**
@@ -23,7 +23,7 @@ class UrlListener extends Component {
   _onReceiveURL = url => {
     this.setState(
       {
-        url
+        url,
       },
       () => {
         const win = remote.getCurrentWindow()

@@ -19,14 +19,14 @@ function createTrayIcon() {
         label: 'Preferences',
         click: function() {
           eventEmitter.emit(PREFS_OPEN)
-        }
+        },
       },
       {
         label: 'Quit',
         click: function() {
           app.exit()
-        }
-      }
+        },
+      },
     ])
 
     tray = new Tray(`${__dirname}/../images/icon/tray_iconTemplate.png`)

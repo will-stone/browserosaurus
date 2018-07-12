@@ -7,7 +7,7 @@ import Activity from './Activity'
 
 class ActivityContainer extends Component {
   state = {
-    active: false // used for styling when selecting an activity with a hot-key
+    active: false, // used for styling when selecting an activity with a hot-key
   }
 
   componentDidMount() {
@@ -52,12 +52,12 @@ class ActivityContainer extends Component {
   runActivity = () => {
     spawn('sh', [
       '-c',
-      this.props.activity.cmd.replace('{URL}', this.props.url)
+      this.props.activity.cmd.replace('{URL}', this.props.url),
     ])
 
     this.setState(
       {
-        active: false
+        active: false,
       },
       () => {
         setTimeout(() => {
