@@ -5,6 +5,7 @@ import mousetrap from 'mousetrap'
 import React, { Fragment } from 'react'
 import ReactDOM from 'react-dom'
 import { Spring } from 'react-spring'
+import Content from '../components/Content'
 import TitleBar from '../components/TitleBar'
 import { PICKER_BLUR, URL_RECEIVED } from '../config/events'
 import WindowHeightUpdater from '../utils/WindowHeightUpdater'
@@ -91,39 +92,41 @@ class Picker extends React.Component {
             <TitleBar>
               <Text ellipsize={true}>{url}</Text>
             </TitleBar>
-            <WithActivities>
-              {({ activities, state }) => {
-                return state === 'idle' || state === 'pending' ? (
-                  <div
-                    style={{
-                      textAlign: 'center',
-                      paddingBottom: '1rem',
-                    }}
-                  >
-                    <Spinner intent="primary" className="pt-small" />
-                    <WindowHeightUpdater />
-                  </div>
-                ) : (
-                  <Fragment>
-                    <div>
-                      {activities
-                        .filter(activity => activity.enabled)
-                        .map((activity, index) => (
-                          <Activity
-                            key={activity.name}
-                            activity={activity}
-                            defaultActivity={index === 0}
-                            onClick={this.handleActivityClick}
-                            isAppVisible={isVisible}
-                            url={url}
-                          />
-                        ))}
+            <Content>
+              <WithActivities>
+                {({ activities, state }) => {
+                  return state === 'idle' || state === 'pending' ? (
+                    <div
+                      style={{
+                        textAlign: 'center',
+                        paddingBottom: '1rem',
+                      }}
+                    >
+                      <Spinner intent="primary" className="bp3-small" />
+                      <WindowHeightUpdater />
                     </div>
-                    <WindowHeightUpdater />
-                  </Fragment>
-                )
-              }}
-            </WithActivities>
+                  ) : (
+                    <Fragment>
+                      <div>
+                        {activities
+                          .filter(activity => activity.enabled)
+                          .map((activity, index) => (
+                            <Activity
+                              key={activity.name}
+                              activity={activity}
+                              defaultActivity={index === 0}
+                              onClick={this.handleActivityClick}
+                              isAppVisible={isVisible}
+                              url={url}
+                            />
+                          ))}
+                      </div>
+                      <WindowHeightUpdater />
+                    </Fragment>
+                  )
+                }}
+              </WithActivities>
+            </Content>
           </div>
         )}
       </Spring>

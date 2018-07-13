@@ -18,13 +18,14 @@ const Activity = ({
       autoFocus={false}
       className={css`
         display: inline-block;
-        width: calc(100% / 3);
+        width: ${100 / 3}%;
       `}
       content={activity.name}
       intent="primary"
       isOpen={isTooltipOpen}
       position="bottom"
-      rootElementTag="div"
+      wrapperTagName="div"
+      targetTagName="div"
     >
       <div
         className={css`

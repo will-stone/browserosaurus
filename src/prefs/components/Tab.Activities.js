@@ -87,9 +87,9 @@ const TabActivities = ({
                                   !activity.enabled
                                 )
                               }
-                              className="pt-large"
-                              inline={true}
                               style={{ margin: '0 0 0 1rem' }}
+                              inline
+                              // large - TODO: put back when fixed https://github.com/palantir/blueprint/issues/2685
                             />
                           </div>
                           {provided.placeholder}
@@ -109,7 +109,7 @@ const TabActivities = ({
           onClick={onRescan}
           text="Rescan apps"
           loading={state === 'pending'}
-          className="pt-minimal"
+          className="bp3-minimal"
           intent="primary"
         />
       </p>

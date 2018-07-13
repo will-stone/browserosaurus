@@ -1,7 +1,7 @@
 {
   "name": "browserosaurus",
   "productName": "Browserosaurus",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "The browser prompter for macOS",
   "homepage": "http://wstone.io/browserosaurus/",
   "main": "src/main.js",
@@ -45,7 +45,7 @@
     "prettier": "^1.13.7"
   },
   "dependencies": {
-    "@blueprintjs/core": "2.0.1",
+    "@blueprintjs/core": "^3.0.1",
     "array-move": "^1.0.0",
     "electron-compile": "^6.4.2",
     "electron-store": "^1.3.0",
