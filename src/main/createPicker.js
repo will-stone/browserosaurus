@@ -31,6 +31,10 @@ function createPickerWindow() {
       show: false,
       title: 'Browserosaurus',
       transparent: true,
+      webPreferences: {
+        // Enable, among other things, the ResizeObserver
+        experimentalFeatures: true,
+      },
     })
 
     pickerWindow.loadURL(`file://${__dirname}/../picker/picker.html`)

@@ -1,6 +1,5 @@
 import { Button, Checkbox } from '@blueprintjs/core'
 import React, { Fragment } from 'react'
-import WindowHeightUpdater from '../../utils/WindowHeightUpdater'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import ActivityIcon from '../../components/ActivityIcon'
 import Kbd from '../../components/Kbd'
@@ -14,8 +13,6 @@ const TabActivities = ({
 }) => {
   return (
     <Fragment>
-      <WindowHeightUpdater />
-
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (

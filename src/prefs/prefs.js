@@ -1,8 +1,9 @@
 import { FocusStyleManager, Tab, Tabs } from '@blueprintjs/core'
-import React, { Fragment } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import Content from '../components/Content'
 import TitleBar from '../components/TitleBar'
+import Window from '../components/Window'
 import WithActivities from '../utils/WithActivities'
 import About from './components/Tab.About.container'
 import Activities from './components/Tab.Activities.container'
@@ -12,7 +13,7 @@ FocusStyleManager.onlyShowFocusOnTabs()
 ReactDOM.render(
   <WithActivities>
     {({ activities, state }, onRescan) => (
-      <Fragment>
+      <Window>
         <TitleBar>Preferences</TitleBar>
 
         <Content>
@@ -43,7 +44,7 @@ ReactDOM.render(
             <Tabs.Expander />
           </Tabs>
         </Content>
-      </Fragment>
+      </Window>
     )}
   </WithActivities>,
   document.getElementById('prefs-root')

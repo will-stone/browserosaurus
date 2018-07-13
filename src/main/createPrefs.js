@@ -1,7 +1,5 @@
 import { BrowserWindow } from 'electron'
-
 import { ACTIVITIES_SET, PREFS_OPEN } from '../config/events'
-
 import eventEmitter from './eventEmitter'
 
 let prefsWindow = null
@@ -18,16 +16,20 @@ function createPrefsWindow() {
     prefsWindow = new BrowserWindow({
       width: 500,
       height: 146,
+      alwaysOnTop: true,
+      frame: false,
+      hasShadow: true,
       icon: `${__dirname}/../images/icon/icon.png`,
+      maximizable: false,
+      minimizable: false,
       resizable: false,
       show: false,
-      alwaysOnTop: true,
-      frame: true,
-      hasShadow: true,
-      minimizable: false,
-      maximizable: false,
       titleBarStyle: 'hidden',
-      backgroundColor: '#21252b',
+      transparent: true,
+      webPreferences: {
+        // Enable, among other things, the ResizeObserver
+        experimentalFeatures: true,
+      },
     })
 
     prefsWindow.loadURL(`file://${__dirname}/../prefs/prefs.html`)

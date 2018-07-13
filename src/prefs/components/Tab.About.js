@@ -1,6 +1,5 @@
 import { remote, shell } from 'electron'
 import React from 'react'
-import WindowHeightUpdater from '../../utils/WindowHeightUpdater'
 
 const About = ({ updateStatus }) => {
   return (
@@ -23,8 +22,6 @@ const About = ({ updateStatus }) => {
       <h3>v{remote.app.getVersion()}</h3>
 
       <p>{updateStatus}</p>
-
-      <WindowHeightUpdater />
     </div>
   )
 }
