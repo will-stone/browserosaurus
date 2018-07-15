@@ -4,48 +4,28 @@ import ReactDOM from 'react-dom'
 import Content from '../components/Content'
 import TitleBar from '../components/TitleBar'
 import Window from '../components/Window'
-import WithActivities from '../utils/WithActivities'
 import About from './components/Tab.About.container'
-import Activities from './components/Tab.Activities.container'
+import Activities from './components/Tab.Activities'
 
 FocusStyleManager.onlyShowFocusOnTabs()
 
 ReactDOM.render(
-  <WithActivities>
-    {({ activities, state }, onRescan) => (
-      <Window>
-        <TitleBar>Preferences</TitleBar>
+  <Window>
+    <TitleBar>Preferences</TitleBar>
 
-        <Content>
-          <Tabs
-            id="tabs"
-            animate={true}
-            renderActiveTabPanelOnly={true}
-            large={true}
-          >
-            <Tabs.Expander />
+    <Content>
+      <Tabs id="tabs" animate={true} large={true}>
+        <Tabs.Expander />
 
-            <Tab
-              id="activities"
-              title="Activities"
-              panel={
-                <Activities
-                  activities={activities}
-                  state={state}
-                  onRescan={onRescan}
-                />
-              }
-            />
+        <Tab id="activities" title="Activities" panel={<Activities />} />
 
-            <Tabs.Expander />
+        <Tabs.Expander />
 
-            <Tab id="about" title="About" panel={<About />} />
+        <Tab id="about" title="About" panel={<About />} />
 
-            <Tabs.Expander />
-          </Tabs>
-        </Content>
-      </Window>
-    )}
-  </WithActivities>,
+        <Tabs.Expander />
+      </Tabs>
+    </Content>
+  </Window>,
   document.getElementById('prefs-root')
 )
