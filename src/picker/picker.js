@@ -75,7 +75,7 @@ class Picker extends React.Component {
     return (
       <Spring
         to={{
-          opacity: isVisible ? 1 : 0,
+          opacity: isVisible ? 1.5 : 0,
           transform: `scale(${isVisible ? 1 : 0})`,
           transformOrigin: '0 0',
         }}
