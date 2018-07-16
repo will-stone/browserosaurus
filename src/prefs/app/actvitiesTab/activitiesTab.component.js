@@ -1,11 +1,11 @@
 import { Button, Checkbox } from '@blueprintjs/core'
 import React, { Fragment } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
-import ActivityIcon from '../../components/ActivityIcon'
-import Kbd from '../../components/Kbd'
-import WithActivities from '../../utils/WithActivities'
+import ActivityIcon from '../../../components/ActivityIcon'
+import Kbd from '../../../components/Kbd'
+import WithActivities from '../../../utils/WithActivities'
 
-const TabActivities = () => {
+const ActivitiesTabComponent = () => {
   return (
     <WithActivities>
       {({ activities, state }, { onRescan, onDragEnd, onActivityToggle }) => (
@@ -110,4 +110,4 @@ const TabActivities = () => {
   )
 }
 
-export default TabActivities
+export default ActivitiesTabComponent

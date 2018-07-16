@@ -1,7 +1,7 @@
 import { remote, shell } from 'electron'
 import React from 'react'
 
-const About = ({ updateStatus }) => {
+const AboutTabComponent = ({ updateStatus }) => {
   return (
     <div style={{ textAlign: 'center' }}>
       <p>
@@ -26,4 +26,4 @@ const About = ({ updateStatus }) => {
   )
 }
 
-export default About
+export default AboutTabComponent

@@ -2,7 +2,7 @@ import { spawn } from 'child_process'
 import mousetrap from 'mousetrap'
 import React, { Component } from 'react'
 
-import Activity from './Activity'
+import Activity from './activity.component'
 
 class ActivityContainer extends Component {
   state = {

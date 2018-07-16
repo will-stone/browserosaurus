@@ -1,10 +1,10 @@
 import { Tooltip } from '@blueprintjs/core'
 import React from 'react'
 import { css } from 'emotion'
-import ActivityIcon from '../../components/ActivityIcon'
-import Kbd from '../../components/Kbd'
+import ActivityIcon from '../../../components/ActivityIcon'
+import Kbd from '../../../components/Kbd'
 
-const Activity = ({
+const ActivityComponent = ({
   activity,
   defaultActivity,
   isActive,
@@ -54,4 +54,4 @@ const Activity = ({
   )
 }
 
-export default Activity
+export default ActivityComponent

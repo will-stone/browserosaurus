@@ -37,7 +37,7 @@ function createPickerWindow() {
       },
     })
 
-    pickerWindow.loadURL(`file://${__dirname}/../picker/picker.html`)
+    pickerWindow.loadURL(`file://${__dirname}/../picker/index.html`)
 
     pickerWindow.on('close', e => {
       e.preventDefault()

@@ -2,9 +2,9 @@ import { Button } from '@blueprintjs/core'
 import { remote, shell } from 'electron'
 import React, { Component } from 'react'
 import semver from 'semver'
-import TabAbout from './Tab.About'
+import AboutTab from './aboutTab.component'
 
-class TabAboutContainer extends Component {
+class AboutTabContainer extends Component {
   state = {
     updateStatus: '',
   }
@@ -68,8 +68,8 @@ class TabAboutContainer extends Component {
   render() {
     const { updateStatus } = this.state
 
-    return <TabAbout updateStatus={updateStatus} />
+    return <AboutTab updateStatus={updateStatus} />
   }
 }
 
-export default TabAboutContainer
+export default AboutTabContainer

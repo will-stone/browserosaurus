@@ -32,7 +32,7 @@ function createPrefsWindow() {
       },
     })
 
-    prefsWindow.loadURL(`file://${__dirname}/../prefs/prefs.html`)
+    prefsWindow.loadURL(`file://${__dirname}/../prefs/index.html`)
 
     // allow window to be opened again
     prefsWindow.on('close', e => {
