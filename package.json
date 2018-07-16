@@ -8,28 +8,31 @@
   "scripts": {
     "docs": "http-server ./docs",
     "start": "ENV=DEV electron-forge start",
+    "test": "jest",
     "prettier": "prettier --config .prettierrc --write 'src/**/*.js'",
-    "package":
-      "yarn run build-css && electron-forge package --platform=darwin --arch=x64",
+    "package": "yarn run build-css && electron-forge package --platform=darwin --arch=x64",
     "make": "yarn run build-css && electron-forge make",
-    "build-css":
-      "node-sass-chokidar src/style -o build --importer=node_modules/node-sass-package-importer/dist/cli.js --output-style compressed",
-    "watch-css":
-      "node-sass-chokidar src/style -o build --importer=node_modules/node-sass-package-importer/dist/cli.js --output-style compressed --watch --recursive",
+    "build-css": "node-sass-chokidar src/style -o build --importer=node_modules/node-sass-package-importer/dist/cli.js --output-style compressed",
+    "watch-css": "node-sass-chokidar src/style -o build --importer=node_modules/node-sass-package-importer/dist/cli.js --output-style compressed --watch --recursive",
     "icns": "cd ./src/images/icon && ./png2icns.sh icon.png"
   },
   "repository": "https://github.com/will-stone/browserosaurus",
   "bugs": {
     "url": "https://github.com/will-stone/browserosaurus/issues"
   },
-  "keywords": ["Electron", "Browser chooser"],
+  "keywords": [
+    "Electron",
+    "Browser chooser"
+  ],
   "author": "Will Stone",
   "license": "MIT",
   "devDependencies": {
     "babel-eslint": "^7.2.3",
+    "babel-jest": "^23.4.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.5.1",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "electron-forge": "^5.1.1",
@@ -40,9 +43,12 @@
     "eslint-plugin-import": "^2.6.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
+    "jest": "^23.4.1",
     "node-sass-chokidar": "^0.0.3",
     "node-sass-package-importer": "^5.1.0",
-    "prettier": "^1.13.7"
+    "prettier": "^1.13.7",
+    "react-test-renderer": "^16.4.1",
+    "react-testing-library": "^4.1.2"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.0.1",
@@ -70,20 +76,30 @@
   "config": {
     "forge": {
       "make_targets": {
-        "darwin": ["dmg"]
+        "darwin": [
+          "dmg"
+        ]
       },
       "electronPackagerConfig": {
         "packageManager": "yarn",
         "icon": "src/images/icon/icon.icns",
-        "ignore": ["docs", "src/style"],
+        "ignore": [
+          "docs",
+          "src/style"
+        ],
         "protocols": [
           {
             "name": "HTTP link",
-            "schemes": ["http", "https"]
+            "schemes": [
+              "http",
+              "https"
+            ]
           },
           {
             "name": "File",
-            "schemes": ["file"]
+            "schemes": [
+              "file"
+            ]
           }
         ]
       }
