@@ -5,7 +5,7 @@ const ActivityIcon = ({ large, name, style, ...rest }) => {
   return (
     <img
       src={`../images/activity-icons/${name}.png`}
-      alt=""
+      alt="activity"
       style={{
         ...style,
         width: large ? 48 : 32,
