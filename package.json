@@ -48,7 +48,8 @@
     "node-sass-package-importer": "^5.1.0",
     "prettier": "^1.13.7",
     "react-test-renderer": "^16.4.1",
-    "react-testing-library": "^4.1.2"
+    "react-testing-library": "^4.1.2",
+    "resize-observer-polyfill": "^1.5.0"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.0.1",
