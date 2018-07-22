@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-testing-library'
-import Activity from './activity.component'
+import Activity from '../activity.component'
 
 describe('Activity', () => {
   const props = {

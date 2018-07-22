@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - "10"
 script:
-  - yarn test
+  - yarn run test
 cache:
   directories:
     - "node_modules"
