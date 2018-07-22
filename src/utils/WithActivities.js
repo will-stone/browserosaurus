@@ -27,6 +27,10 @@ class WithActivities extends React.Component {
     )
   }
 
+  componentWillUnmount() {
+    ipcRenderer.removeAllListeners('activities')
+  }
+
   /**
    * On Receive Activities
    *

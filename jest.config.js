@@ -1,11 +1,4 @@
-const ResizeObserver = require('resize-observer-polyfill')
-
 module.exports = {
-  globals: {
-    ResizeObserver,
-  },
-  moduleNameMapper: {
-    electron: '<rootDir>/mocks/electron.js',
-  },
+  setupTestFrameworkScriptFile: '<rootDir>/jest.setup.js',
   testPathIgnorePatterns: ['/build/', '/docs/', '/out/'],
 }

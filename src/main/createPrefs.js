@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron'
 import { ACTIVITIES_SET, PREFS_OPEN } from '../config/events'
-import eventEmitter from './eventEmitter'
+import eventEmitter from '../utils/eventEmitter'
 
 let prefsWindow = null
 

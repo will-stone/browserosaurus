@@ -35,6 +35,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "electron-forge": "^5.1.1",
+    "electron-ipc-mock": "^0.0.3",
     "electron-prebuilt-compile": "1.8.2",
     "eslint": "^4.1.1",
     "eslint-config-react-app": "^2.1.0",
@@ -47,8 +48,7 @@
     "node-sass-package-importer": "^5.1.0",
     "prettier": "^1.13.7",
     "react-test-renderer": "^16.4.1",
-    "react-testing-library": "^4.1.2",
-    "resize-observer-polyfill": "^1.5.0"
+    "react-testing-library": "^4.1.2"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.0.1",
