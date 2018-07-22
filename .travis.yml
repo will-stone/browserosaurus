@@ -1,10 +1,15 @@
 language: node_js
 script:
   - yarn run test
+  - yarn run package
 cache:
   yarn: true
   directories:
     - "node_modules"
+    - $HOME/.cache/electron
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.7.0
   - export PATH="$HOME/.yarn/bin:$PATH"
+os:
+- osx
+osx_image: xcode9.4
