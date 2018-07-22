@@ -1,8 +1,6 @@
-import { app, Tray, Menu } from 'electron'
-
+import { app, Menu, Tray } from 'electron'
 import { PREFS_OPEN } from '../config/events'
-
-import eventEmitter from './eventEmitter'
+import eventEmitter from '../utils/eventEmitter'
 
 let tray = null
 

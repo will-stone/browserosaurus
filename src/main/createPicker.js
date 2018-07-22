@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron'
 import { ACTIVITIES_SET, PICKER_BLUR, URL_RECEIVED } from '../config/events'
-import eventEmitter from './eventEmitter'
+import eventEmitter from '../utils/eventEmitter'
 
 let pickerWindow = null
 

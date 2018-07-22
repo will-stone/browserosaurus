@@ -2,21 +2,19 @@ import arrayMove from 'array-move'
 import { app, ipcMain } from 'electron'
 import Store from 'electron-store'
 import unionBy from 'lodash/unionBy'
-
 import activities from './config/activities'
 import {
-  ACTIVITY_SORT,
-  ACTIVITY_TOGGLE,
   ACTIVITIES_GET,
   ACTIVITIES_SET,
+  ACTIVITY_SORT,
+  ACTIVITY_TOGGLE,
   URL_RECEIVED,
 } from './config/events'
-
 import createPickerWindow from './main/createPicker'
 import createPrefsWindow from './main/createPrefs'
 import createTrayIcon from './main/createTray'
-import eventEmitter from './main/eventEmitter'
 import scanForApps from './main/scanForApps'
+import eventEmitter from './utils/eventEmitter'
 
 // Start store and set activities if first run
 const store = new Store({ defaults: { activities: [] } })

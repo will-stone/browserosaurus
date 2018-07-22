@@ -1,13 +1,14 @@
 {
   "name": "browserosaurus",
   "productName": "Browserosaurus",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "description": "The browser prompter for macOS",
   "homepage": "http://wstone.io/browserosaurus/",
   "main": "src/main.js",
   "scripts": {
     "docs": "http-server ./docs",
     "start": "ENV=DEV electron-forge start",
+    "test": "jest",
     "prettier": "prettier --config .prettierrc --write 'src/**/*.js'",
     "package":
       "yarn run build-css && electron-forge package --platform=darwin --arch=x64",
@@ -27,12 +28,14 @@
   "license": "MIT",
   "devDependencies": {
     "babel-eslint": "^7.2.3",
+    "babel-jest": "^23.4.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.5.1",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "electron-forge": "^5.1.1",
+    "electron-ipc-mock": "^0.0.3",
     "electron-prebuilt-compile": "1.8.2",
     "eslint": "^4.1.1",
     "eslint-config-react-app": "^2.1.0",
@@ -40,9 +43,12 @@
     "eslint-plugin-import": "^2.6.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
+    "jest": "^23.4.1",
     "node-sass-chokidar": "^0.0.3",
     "node-sass-package-importer": "^5.1.0",
-    "prettier": "^1.13.7"
+    "prettier": "^1.13.7",
+    "react-test-renderer": "^16.4.1",
+    "react-testing-library": "^4.1.2"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.0.1",
