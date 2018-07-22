@@ -4,3 +4,6 @@ node_js:
 script:
   - yarn test
   - yarn run package
+cache:
+  directories:
+    - "node_modules"
