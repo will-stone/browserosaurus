@@ -1,4 +1,8 @@
 module.exports = {
   setupTestFrameworkScriptFile: '<rootDir>/jest.setup.js',
-  testPathIgnorePatterns: ['/build/', '/docs/', '/out/'],
+  testPathIgnorePatterns: [
+    '<rootDir>/build/',
+    '<rootDir>/docs/',
+    '<rootDir>/out/',
+  ],
 }
