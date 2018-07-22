@@ -3,4 +3,4 @@ node_js:
   - "10"
 script:
   - yarn test
-  - yarm run package
+  - yarn run package
