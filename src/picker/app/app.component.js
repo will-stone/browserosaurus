@@ -19,6 +19,7 @@ class AppComponent extends React.Component {
           transformOrigin: '0 0',
         }}
         onRest={onSpringRest}
+        config={{ tension: 180, friction: 10, overshootClamping: true }}
       >
         {styles => (
           <Window style={styles}>
