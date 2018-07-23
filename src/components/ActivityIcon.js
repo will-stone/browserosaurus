@@ -1,5 +1,4 @@
 import React from 'react'
-import { string, object } from 'prop-types'
 
 const ActivityIcon = ({ large, name, style, ...rest }) => {
   return (
@@ -15,11 +14,6 @@ const ActivityIcon = ({ large, name, style, ...rest }) => {
       {...rest}
     />
   )
-}
-
-ActivityIcon.propTypes = {
-  name: string.isRequired,
-  style: object,
 }
 
 export default ActivityIcon
