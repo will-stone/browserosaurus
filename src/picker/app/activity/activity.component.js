@@ -32,6 +32,7 @@ const ActivityComponent = ({
           background-color: ${isActive && '#0d8050'};
           padding: 1rem;
           text-align: center;
+          border-radius: 0.5rem;
 
           &:focus {
             outline: 0;
