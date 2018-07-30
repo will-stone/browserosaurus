@@ -99,7 +99,8 @@ async function getActivities() {
       return { ...activity, cmd: activities[index].cmd }
     })
 
-  // merge the stored with installed apps, this will add new apps where necessary, keeping the stored config if present.
+  // merge the stored with installed apps, this will add new apps where
+  // necessary, keeping the stored config if present.
   // returns array of objects
   const merged = unionBy(prunedStore, installedActivities, 'name')
 
@@ -134,14 +135,17 @@ app.on('ready', async () => {
   global.pickerReady = true
 
   if (global.URLToOpen) {
-    // if Browserosaurus was opened with a link, this will now be sent on to the picker window
+    // if Browserosaurus was opened with a link, this will now be sent on to the
+    // picker window.
     eventEmitter.emit(URL_RECEIVED, global.URLToOpen)
     global.URLToOpen = null // not required any more
   }
 
   getActivities()
 
-  createTrayIcon() // create tray icon last as otherwise it loads before prefs window is ready and causes activities to not be sent through.
+  // create tray icon last as otherwise it loads before prefs window is ready
+  // and causes activities to not be sent through.
+  createTrayIcon()
 })
 
 // App doesn't always close on ctrl-c in console, this fixes that
