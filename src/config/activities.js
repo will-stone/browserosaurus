@@ -71,7 +71,6 @@ export default [
     cmd: 'open "{URL}" -a Opera',
   },
   {
-    appId: 'Safari',
     name: 'Safari',
     hotKey: 's',
     cmd: 'open "{URL}" -a Safari',
