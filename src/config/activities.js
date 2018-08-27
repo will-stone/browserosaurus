@@ -76,6 +76,11 @@ export default [
     cmd: 'open "{URL}" -a Safari',
   },
   {
+    name: 'Safari Technology Preview',
+    hotKey: 'p',
+    cmd: 'open "{URL}" -a "Safari Technology Preview"',
+  },
+  {
     appId: 'TorBrowser',
     name: 'TorBrowser',
     hotKey: 't',

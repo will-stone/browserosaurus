@@ -1,7 +1,7 @@
 {
   "name": "browserosaurus",
   "productName": "Browserosaurus",
-  "version": "4.2.7",
+  "version": "4.3.0",
   "description": "The browser prompter for macOS",
   "homepage": "http://wstone.io/browserosaurus/",
   "main": "src/main.js",
