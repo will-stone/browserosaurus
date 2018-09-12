@@ -11,6 +11,12 @@ export default [
     cmd: 'open "{URL}" -a Brave',
   },
   {
+    appId: 'Brave-Browser-Dev',
+    name: 'Brave Dev',
+    hotKey: 'r',
+    cmd: 'open "{URL}" -a Brave-Browser-Dev',
+  },
+  {
     appId: 'Chromium',
     name: 'Chromium',
     hotKey: 'c',
