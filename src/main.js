@@ -87,9 +87,6 @@ async function getActivities() {
     .filter(activity => {
       if (installedApps[activity.appId]) {
         return true
-      } else if (!activity.appId) {
-        // always shown activity that does not depend on app presence
-        return true
       }
       return false
     })

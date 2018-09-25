@@ -82,6 +82,7 @@ export default [
     cmd: 'open "{URL}" -a Safari',
   },
   {
+    appId: 'Safari Technology Preview',
     name: 'Safari Technology Preview',
     hotKey: 'p',
     cmd: 'open "{URL}" -a "Safari Technology Preview"',
