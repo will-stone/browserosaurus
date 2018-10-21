@@ -5,12 +5,6 @@
 
 export default [
   {
-    appId: 'Brave',
-    name: 'Brave',
-    hotKey: 'z',
-    cmd: 'open "{URL}" -a Brave',
-  },
-  {
     appId: 'Brave-Browser-Dev',
     name: 'Brave Dev',
     hotKey: 'r',
