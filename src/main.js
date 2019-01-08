@@ -61,16 +61,18 @@ async function getActivities() {
   // returns object of {appName: "appName"}
   const installedApps = await scanForApps()
 
+  const isActivityAvailable = activity => {
+    if (installedApps[activity.appId]) {
+      return true
+    } else if (!activity.appId) {
+      // always shown activity that does not depend on app presence
+      return true
+    }
+    return false
+  }
+
   const installedActivities = activities
-    .filter(activity => {
-      if (installedApps[activity.appId]) {
-        return true
-      } else if (!activity.appId) {
-        // always shown activity that does not depend on app presence
-        return true
-      }
-      return false
-    })
+    .filter(isActivityAvailable)
     // add enabled status
     .map(obj => ({
       ...obj,
@@ -84,12 +86,7 @@ async function getActivities() {
   // remove unistalled apps from stored config
   // returns array of objects
   const prunedStore = stored
-    .filter(activity => {
-      if (installedApps[activity.appId]) {
-        return true
-      }
-      return false
-    })
+    .filter(isActivityAvailable)
     .map(activity => {
       // resets cmd to config version, in case changed in config.
       const index = activities.findIndex(a => a.name === activity.name)
