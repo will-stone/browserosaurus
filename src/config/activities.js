@@ -5,16 +5,16 @@
 
 export default [
   {
-    appId: 'Brave',
-    name: 'Brave',
-    hotKey: 'b',
-    cmd: 'open "{URL}" -a Brave',
-  },
-  {
     appId: 'Brave-Browser-Dev',
     name: 'Brave Dev',
     hotKey: 'r',
     cmd: 'open "{URL}" -a Brave-Browser-Dev',
+  },
+  {
+    appId: 'Brave Browser',
+    name: 'Brave Browser',
+    hotKey: 'b',
+    cmd: 'open "{URL}" -a "Brave Browser"',
   },
   {
     appId: 'Chromium',
