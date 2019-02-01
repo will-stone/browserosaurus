@@ -18,23 +18,16 @@ class AboutTabContainer extends Component {
    * message is URL to latest release, else message is string to be displayed.
    */
   _checkForUpdate = () => {
-    return fetch(
-      'https://api.github.com/repos/will-stone/browserosaurus/releases/latest'
-    )
+    return fetch('https://api.github.com/repos/will-stone/browserosaurus/releases/latest')
       .then(response => response.json())
       .then(response => {
-        if (
-          response.message &&
-          response.message.startsWith('API rate limit exceeded')
-        ) {
+        if (response.message && response.message.startsWith('API rate limit exceeded')) {
           return "API rate limit exceeded, please try again later or visit Browserosaurus's website to check for an update"
         } else if (semver.gt(response.tag_name, remote.app.getVersion())) {
           return (
             <Button
               onClick={() =>
-                shell.openExternal(
-                  'https://github.com/will-stone/browserosaurus/releases/latest'
-                )
+                shell.openExternal('https://github.com/will-stone/browserosaurus/releases/latest')
               }
               intent="primary"
             >
@@ -57,7 +50,7 @@ class AboutTabContainer extends Component {
         this.setState({
           updateStatus: status,
         })
-      }
+      },
     )
   }
 

@@ -1,11 +1,7 @@
 import arrayMove from 'array-move'
 import { ipcRenderer } from 'electron'
 import React from 'react'
-import {
-  ACTIVITIES_GET,
-  ACTIVITY_SORT,
-  ACTIVITY_TOGGLE,
-} from '../config/events'
+import { ACTIVITIES_GET, ACTIVITY_SORT, ACTIVITY_TOGGLE } from '../config/events'
 
 class WithActivities extends React.Component {
   constructor() {
@@ -22,9 +18,7 @@ class WithActivities extends React.Component {
      * @param {} _ - not used
      * @param {array} activities
      */
-    ipcRenderer.on('activities', (_, activities) =>
-      this._onReceiveActivities(activities)
-    )
+    ipcRenderer.on('activities', (_, activities) => this._onReceiveActivities(activities))
   }
 
   componentWillUnmount() {
@@ -48,7 +42,7 @@ class WithActivities extends React.Component {
       },
       () => {
         ipcRenderer.send(ACTIVITIES_GET)
-      }
+      },
     )
   }
 
@@ -64,7 +58,7 @@ class WithActivities extends React.Component {
     const newActivities = arrayMove(
       this.state.activities,
       result.source.index,
-      result.destination.index
+      result.destination.index,
     )
 
     this.setState({
@@ -96,7 +90,7 @@ class WithActivities extends React.Component {
         onRescan: this.handleRescan,
         onDragEnd: this.handleDragEnd,
         onActivityToggle: this.handleActivityToggle,
-      }
+      },
     )
   }
 }

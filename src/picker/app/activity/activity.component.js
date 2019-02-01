@@ -42,11 +42,7 @@ const ActivityComponent = ({
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
-        <ActivityIcon
-          name={activity.name}
-          style={{ marginBottom: '1rem' }}
-          large
-        />
+        <ActivityIcon name={activity.name} style={{ marginBottom: '1rem' }} large />
         <div>
           <Kbd isDefault={defaultActivity} hotKey={activity.hotKey} />
         </div>

@@ -30,9 +30,7 @@ const store = new Store({ defaults: { activities: [] } })
  */
 ipcMain.on(ACTIVITY_TOGGLE, (event, { activityName, enabled }) => {
   const currentActivities = store.get('activities')
-  const activityIndex = currentActivities.findIndex(
-    activity => activity.name === activityName
-  )
+  const activityIndex = currentActivities.findIndex(activity => activity.name === activityName)
   currentActivities[activityIndex].enabled = enabled
   store.set('activities', currentActivities)
   eventEmitter.emit(ACTIVITIES_SET, currentActivities)
@@ -85,13 +83,11 @@ async function getActivities() {
 
   // remove unistalled apps from stored config
   // returns array of objects
-  const prunedStore = stored
-    .filter(isActivityAvailable)
-    .map(activity => {
-      // resets cmd to config version, in case changed in config.
-      const index = activities.findIndex(a => a.name === activity.name)
-      return { ...activity, cmd: activities[index].cmd }
-    })
+  const prunedStore = stored.filter(isActivityAvailable).map(activity => {
+    // resets cmd to config version, in case changed in config.
+    const index = activities.findIndex(a => a.name === activity.name)
+    return { ...activity, cmd: activities[index].cmd }
+  })
 
   // merge the stored with installed apps, this will add new apps where
   // necessary, keeping the stored config if present.

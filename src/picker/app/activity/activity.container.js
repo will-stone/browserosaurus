@@ -51,10 +51,7 @@ class ActivityContainer extends Component {
    */
   runActivity = () => {
     if (this.props.isAppVisible) {
-      spawn('sh', [
-        '-c',
-        this.props.activity.cmd.replace('{URL}', this.props.url),
-      ])
+      spawn('sh', ['-c', this.props.activity.cmd.replace('{URL}', this.props.url)])
 
       this.props.onClick()
 

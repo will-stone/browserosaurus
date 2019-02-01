@@ -11,9 +11,7 @@ const AboutTabComponent = ({ updateStatus }) => {
           width="100"
           alt=""
           style={{ display: 'block', margin: '0 auto' }}
-          onClick={() =>
-            shell.openExternal('https://will-stone.github.io/browserosaurus/')
-          }
+          onClick={() => shell.openExternal('https://will-stone.github.io/browserosaurus/')}
         />
       </p>
 

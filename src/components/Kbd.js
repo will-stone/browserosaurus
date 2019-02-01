@@ -5,8 +5,7 @@ const Kbd = ({ isDefault, hotKey }) => {
     <span style={{ marginLeft: 'auto' }}>
       {isDefault && (
         <Fragment>
-          <kbd className="bp3-key">enter</kbd>{' '}
-          <span className="bp3-text-muted">/</span>{' '}
+          <kbd className="bp3-key">enter</kbd> <span className="bp3-text-muted">/</span>{' '}
         </Fragment>
       )}
 
