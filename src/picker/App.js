@@ -2,8 +2,6 @@ import { Button, Spinner, Text } from '@blueprintjs/core'
 import React from 'react'
 import { Spring } from 'react-spring'
 import Activity from './Activity'
-import Content from './Content'
-import TitleBar from './TitleBar'
 import Window from './Window'
 
 const AppComponent = ({
@@ -30,10 +28,10 @@ const AppComponent = ({
   >
     {styles => (
       <Window style={styles}>
-        <TitleBar>
+        <div style={{ textAlign: 'center', fontSize: '1.2rem', padding: '1rem 1rem 0 1rem' }}>
           <Text ellipsize={true}>{url}</Text>
-        </TitleBar>
-        <Content>
+        </div>
+        <div style={{ padding: '1rem' }}>
           <React.Fragment>
             {state === 'idle' || state === 'pending' ? (
               <div
@@ -72,7 +70,7 @@ const AppComponent = ({
               />
             </div>
           </React.Fragment>
-        </Content>
+        </div>
       </Window>
     )}
   </Spring>

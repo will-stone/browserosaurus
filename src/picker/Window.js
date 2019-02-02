@@ -1,8 +1,7 @@
 import { remote } from 'electron'
-import { css } from 'emotion'
-import React, { Component } from 'react'
+import React from 'react'
 
-class Window extends Component {
+class Window extends React.Component {
   ref = React.createRef()
 
   componentDidMount() {
@@ -17,16 +16,10 @@ class Window extends Component {
   }
 
   render() {
-    const { children, ...rest } = this.props
+    const { children, style, ...rest } = this.props
 
     return (
-      <div
-        ref={this.ref}
-        className={css`
-          background-color: #21252b;
-        `}
-        {...rest}
-      >
+      <div ref={this.ref} style={{ backgroundColor: '#21252b', ...style }} {...rest}>
         {children}
       </div>
     )
