@@ -12,7 +12,7 @@ let pickerWindow = null
  * @param {function} callback - function to run at the end of this one.
  * @returns {null}
  */
-function createPickerWindow() {
+function createPickerWindow(activities) {
   return new Promise((resolve, reject) => {
     pickerWindow = new BrowserWindow({
       width: 400,
@@ -50,6 +50,7 @@ function createPickerWindow() {
 
     pickerWindow.once('ready-to-show', () => {
       // pickerWindow.webContents.openDevTools()
+      pickerWindow.webContents.send('activities', activities)
       resolve()
     })
 

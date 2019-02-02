@@ -83,6 +83,7 @@ class ActivityContainer extends Component {
         onClick={this.runActivity}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
+        large={this.props.large}
       />
     )
   }

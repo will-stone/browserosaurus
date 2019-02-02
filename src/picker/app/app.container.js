@@ -1,3 +1,4 @@
+import { spawn } from 'child_process'
 import { ipcRenderer, remote, screen } from 'electron'
 import mousetrap from 'mousetrap'
 import React from 'react'
@@ -24,7 +25,7 @@ class AppContainer extends React.Component {
     /**
      * Event: Click outside picker window closes it
      */
-    ipcRenderer.on(PICKER_BLUR, () => this.hideApp())
+    ipcRenderer.on(PICKER_BLUR, this.hideApp)
   }
 
   componentDidMount() {
@@ -32,6 +33,9 @@ class AppContainer extends React.Component {
     mousetrap.bind('esc', () => {
       this.hideApp()
     })
+
+    // Space to copy to clipboard
+    mousetrap.bind('space', this.handleCopyToClipboard)
   }
 
   showApp = () => {
@@ -62,6 +66,13 @@ class AppContainer extends React.Component {
     }
   }
 
+  handleCopyToClipboard = () => {
+    if (this.state.isVisible) {
+      spawn('sh', ['-c', `echo "${this.state.url}" | pbcopy`])
+      this.hideApp()
+    }
+  }
+
   render() {
     const { isVisible, url } = this.state
 
@@ -69,6 +80,7 @@ class AppContainer extends React.Component {
       <App
         isVisible={isVisible}
         onActivityClick={this.handleActivityClick}
+        onCopyToClipboard={this.handleCopyToClipboard}
         onSpringRest={this.handleSpringRest}
         url={url}
       />

@@ -99,9 +99,4 @@ export default [
     hotKey: 'v',
     cmd: 'open "{URL}" -a Vivaldi',
   },
-  {
-    name: 'Copy To Clipboard',
-    hotKey: 'space',
-    cmd: 'echo "{URL}" | pbcopy',
-  },
 ]

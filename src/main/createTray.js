@@ -1,5 +1,5 @@
 import { app, Menu, Tray } from 'electron'
-import { PREFS_OPEN } from '../config/events'
+import { ACTIVITIES_GET, SET_FAVOURITE } from '../config/events'
 import eventEmitter from '../utils/eventEmitter'
 
 let tray = null
@@ -8,16 +8,29 @@ let tray = null
  * Create Tray Icon
  *
  * Creates the menubar icon and menu items.
- * @returns {null}
+ * @returns {undefined}
  */
-function createTrayIcon() {
+function createTrayIcon(activities, favourite) {
   return new Promise((resolve, reject) => {
     const contextMenu = Menu.buildFromTemplate([
       {
-        label: 'Preferences',
+        label: 'Rescan For Browsers',
         click: function() {
-          eventEmitter.emit(PREFS_OPEN)
+          eventEmitter.emit(ACTIVITIES_GET)
         },
+      },
+      {
+        label: 'Favourite',
+        submenu: Menu.buildFromTemplate(
+          activities.map(activity => ({
+            label: activity.name,
+            type: 'radio',
+            checked: activity.name === favourite,
+            click: function() {
+              eventEmitter.emit(SET_FAVOURITE, activity.name)
+            },
+          })),
+        ),
       },
       {
         label: 'Quit',

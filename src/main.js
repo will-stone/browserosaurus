@@ -1,55 +1,14 @@
-import arrayMove from 'array-move'
 import { app, ipcMain } from 'electron'
 import Store from 'electron-store'
-import unionBy from 'lodash/unionBy'
 import activities from './config/activities'
-import {
-  ACTIVITIES_GET,
-  ACTIVITIES_SET,
-  ACTIVITY_SORT,
-  ACTIVITY_TOGGLE,
-  URL_RECEIVED,
-} from './config/events'
+import { ACTIVITIES_GET, ACTIVITIES_SET, URL_RECEIVED, SET_FAVOURITE } from './config/events'
 import createPickerWindow from './main/createPicker'
-import createPrefsWindow from './main/createPrefs'
 import createTrayIcon from './main/createTray'
-import scanForApps from './main/scanForApps'
+import scanForApps from './utils/scanForApps'
 import eventEmitter from './utils/eventEmitter'
 
 // Start store and set activities if first run
-const store = new Store({ defaults: { activities: [] } })
-
-/**
- * Event: Toggle Activity
- *
- * Listens for the ACTIVITY_TOGGLE event, triggered from the prefs renderer and
- * updates the enabled/disabled status of the checked/unchecked activity. Then
- * sends updated activities array back to renderers.
- * @param {string} activityName
- * @param {boolean} enabled
- */
-ipcMain.on(ACTIVITY_TOGGLE, (event, { activityName, enabled }) => {
-  const currentActivities = store.get('activities')
-  const activityIndex = currentActivities.findIndex(activity => activity.name === activityName)
-  currentActivities[activityIndex].enabled = enabled
-  store.set('activities', currentActivities)
-  eventEmitter.emit(ACTIVITIES_SET, currentActivities)
-})
-
-/**
- * Event: Sort Activity
- *
- * Listens for the ACTIVITY_SORT event, triggered from the prefs renderer when
- * an activity is dragged to a new position. Then sends updated activities
- * array back to renderers.
- * @param {number} oldIndex - index of activity being moved from.
- * @param {number} newIndex - index of place activity is being moved to.
- */
-ipcMain.on(ACTIVITY_SORT, (event, { oldIndex, newIndex }) => {
-  const newActivities = arrayMove(store.get('activities'), oldIndex, newIndex)
-  store.set('activities', newActivities)
-  eventEmitter.emit(ACTIVITIES_SET, newActivities)
-})
+const store = new Store({ defaults: { favourite: undefined } })
 
 /**
  * Get Activities
@@ -63,42 +22,17 @@ async function getActivities() {
     if (installedApps[activity.appId]) {
       return true
     } else if (!activity.appId) {
-      // always shown activity that does not depend on app presence
+      // always show activity that does not depend on app presence
       return true
     }
     return false
   }
 
-  const installedActivities = activities
-    .filter(isActivityAvailable)
-    // add enabled status
-    .map(obj => ({
-      ...obj,
-      enabled: true,
-    }))
+  const installedActivities = activities.filter(isActivityAvailable)
 
-  // get activities in store
-  // returns array of objects
-  const stored = store.get('activities')
+  eventEmitter.emit(ACTIVITIES_SET, installedActivities)
 
-  // remove unistalled apps from stored config
-  // returns array of objects
-  const prunedStore = stored.filter(isActivityAvailable).map(activity => {
-    // resets cmd to config version, in case changed in config.
-    const index = activities.findIndex(a => a.name === activity.name)
-    return { ...activity, cmd: activities[index].cmd }
-  })
-
-  // merge the stored with installed apps, this will add new apps where
-  // necessary, keeping the stored config if present.
-  // returns array of objects
-  const merged = unionBy(prunedStore, installedActivities, 'name')
-
-  store.set('activities', merged)
-
-  eventEmitter.emit(ACTIVITIES_SET, merged)
-
-  return true
+  return installedActivities
 }
 
 /**
@@ -111,6 +45,14 @@ ipcMain.on(ACTIVITIES_GET, () => {
   getActivities()
 })
 
+eventEmitter.on(ACTIVITIES_GET, () => {
+  getActivities()
+})
+
+eventEmitter.on(SET_FAVOURITE, browserName => {
+  store.set('favourite', browserName)
+})
+
 /**
  * Event: App Ready
  *
@@ -120,7 +62,12 @@ app.on('ready', async () => {
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
 
-  await Promise.all([createPrefsWindow(), createPickerWindow()])
+  const activities = await getActivities()
+
+  await Promise.all([
+    createPickerWindow(activities),
+    createTrayIcon(activities, store.get('favourite')),
+  ])
 
   global.pickerReady = true
 
@@ -130,12 +77,6 @@ app.on('ready', async () => {
     eventEmitter.emit(URL_RECEIVED, global.URLToOpen)
     global.URLToOpen = null // not required any more
   }
-
-  getActivities()
-
-  // create tray icon last as otherwise it loads before prefs window is ready
-  // and causes activities to not be sent through.
-  createTrayIcon()
 })
 
 // App doesn't always close on ctrl-c in console, this fixes that

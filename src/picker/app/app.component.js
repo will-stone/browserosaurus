@@ -1,4 +1,4 @@
-import { Spinner, Text } from '@blueprintjs/core'
+import { Spinner, Text, Button } from '@blueprintjs/core'
 import React from 'react'
 import { Spring } from 'react-spring'
 import Content from '../../components/Content'
@@ -9,7 +9,7 @@ import Activity from './activity/activity.container'
 
 class AppComponent extends React.Component {
   render() {
-    const { isVisible, onActivityClick, onSpringRest, url } = this.props
+    const { isVisible, onActivityClick, onCopyToClipboard, onSpringRest, url } = this.props
 
     return (
       <Spring
@@ -27,22 +27,16 @@ class AppComponent extends React.Component {
               <Text ellipsize={true}>{url}</Text>
             </TitleBar>
             <Content>
-              <WithActivities>
-                {({ activities, state }) => {
-                  return state === 'idle' || state === 'pending' ? (
-                    <div
-                      style={{
-                        textAlign: 'center',
-                        paddingBottom: '1rem',
-                      }}
-                    >
-                      <Spinner intent="primary" className="bp3-small" />
-                    </div>
-                  ) : (
-                    <div>
-                      {activities
-                        .filter(activity => activity.enabled)
-                        .map((activity, index) => (
+              <React.Fragment>
+                <WithActivities>
+                  {({ activities, state }) => {
+                    return state === 'idle' || state === 'pending' ? (
+                      <div style={{ textAlign: 'center', paddingBottom: '1rem' }}>
+                        <Spinner intent="primary" className="bp3-small" />
+                      </div>
+                    ) : (
+                      <div style={{ paddingBottom: '1rem' }}>
+                        {activities.map((activity, index) => (
                           <Activity
                             key={activity.name}
                             activity={activity}
@@ -52,10 +46,21 @@ class AppComponent extends React.Component {
                             url={url}
                           />
                         ))}
-                    </div>
-                  )
-                }}
-              </WithActivities>
+                      </div>
+                    )
+                  }}
+                </WithActivities>
+                <div>
+                  <Button
+                    icon="clipboard"
+                    text="Copy To Clipboard"
+                    intent="primary"
+                    fill
+                    minimal
+                    onClick={onCopyToClipboard}
+                  />
+                </div>
+              </React.Fragment>
             </Content>
           </Window>
         )}
