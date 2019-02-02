@@ -1,6 +1,6 @@
 import { app, Menu, Tray } from 'electron'
-import { ACTIVITIES_GET, SET_FAVOURITE } from '../config/events'
-import eventEmitter from '../utils/eventEmitter'
+import { ACTIVITIES_GET, SET_FAVOURITE } from './config/events'
+import eventEmitter from './utils/eventEmitter'
 
 let tray = null
 
@@ -8,7 +8,6 @@ let tray = null
  * Create Tray Icon
  *
  * Creates the menubar icon and menu items.
- * @returns {undefined}
  */
 function createTrayIcon(activities) {
   return new Promise((resolve, reject) => {
@@ -46,9 +45,9 @@ function createTrayIcon(activities) {
       },
     ])
 
-    tray = new Tray(`${__dirname}/../images/icon/tray_iconTemplate.png`)
+    tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
 
-    tray.setPressedImage(`${__dirname}/../images/icon/tray_iconHighlight.png`)
+    tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
 
     tray.setToolTip('Browserosaurus')
 

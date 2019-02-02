@@ -1,7 +1,7 @@
 import { remote } from 'electron'
 import React from 'react'
 import { render, wait, waitForElement } from 'react-testing-library'
-import App from './App.component'
+import App from '../App'
 
 const activities = [
   {
@@ -19,6 +19,7 @@ const activities = [
 
 describe('Picker App', () => {
   const props = {
+    activities,
     isVisible: true,
     url: 'https://will-stone.github.io/browserosaurus/',
   }

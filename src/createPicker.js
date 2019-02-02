@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron'
-import { ACTIVITIES_SET, PICKER_BLUR, URL_RECEIVED, ACTIVITIES_UPDATED } from '../config/events'
-import eventEmitter from '../utils/eventEmitter'
+import { ACTIVITIES_SET, ACTIVITIES_UPDATED, PICKER_BLUR, URL_RECEIVED } from './config/events'
+import eventEmitter from './utils/eventEmitter'
 
 let pickerWindow = null
 
@@ -19,18 +19,19 @@ function createPickerWindow(openingActivities) {
       height: 50,
       acceptFirstMouse: true,
       alwaysOnTop: true,
-      closable: false,
       frame: false,
-      fullscreenable: false,
       hasShadow: false,
-      icon: `${__dirname}/../images/icon/icon.png`,
+      icon: `${__dirname}/images/icon/icon.png`,
+      closable: false,
       maximizable: false,
       minimizable: false,
+      fullscreenable: false,
       movable: false,
       resizable: false,
       show: false,
       title: 'Browserosaurus',
       transparent: true,
+      titleBarStyle: 'hidden',
       webPreferences: {
         // Enable, among other things, the ResizeObserver
         experimentalFeatures: true,
@@ -38,7 +39,7 @@ function createPickerWindow(openingActivities) {
       },
     })
 
-    pickerWindow.loadURL(`file://${__dirname}/../picker/index.html`)
+    pickerWindow.loadURL(`file://${__dirname}/picker/index.html`)
 
     pickerWindow.on('close', e => {
       e.preventDefault()

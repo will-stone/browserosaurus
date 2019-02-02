@@ -74,7 +74,14 @@
       "electronPackagerConfig": {
         "packageManager": "yarn",
         "icon": "src/images/icon/icon.icns",
-        "ignore": ["docs", "src/style"],
+        "ignore": [
+          "docs",
+          "src/style",
+          "__mocks__",
+          "node_modules",
+          "StartBrowserosaurus.app",
+          "StartBrowserosaurus.scpt"
+        ],
         "protocols": [
           {
             "name": "HTTP link",
