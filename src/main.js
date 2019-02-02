@@ -28,7 +28,12 @@ async function getActivities() {
     return false
   }
 
-  const installedActivities = activities.filter(isActivityAvailable)
+  const mapFavourite = activity => ({
+    ...activity,
+    favourite: store.get('favourite') === activity.name,
+  })
+
+  const installedActivities = activities.filter(isActivityAvailable).map(mapFavourite)
 
   eventEmitter.emit(ACTIVITIES_SET, installedActivities)
 
@@ -51,6 +56,7 @@ eventEmitter.on(ACTIVITIES_GET, () => {
 
 eventEmitter.on(SET_FAVOURITE, browserName => {
   store.set('favourite', browserName)
+  getActivities()
 })
 
 /**
@@ -64,10 +70,7 @@ app.on('ready', async () => {
 
   const activities = await getActivities()
 
-  await Promise.all([
-    createPickerWindow(activities),
-    createTrayIcon(activities, store.get('favourite')),
-  ])
+  await Promise.all([createPickerWindow(activities), createTrayIcon(activities)])
 
   global.pickerReady = true
 

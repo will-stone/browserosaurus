@@ -1,7 +1,7 @@
 import { remote } from 'electron'
 import React from 'react'
 import { render, wait, waitForElement } from 'react-testing-library'
-import App from './app.component'
+import App from './App.component'
 
 const activities = [
   {

@@ -10,7 +10,7 @@ let tray = null
  * Creates the menubar icon and menu items.
  * @returns {undefined}
  */
-function createTrayIcon(activities, favourite) {
+function createTrayIcon(activities) {
   return new Promise((resolve, reject) => {
     const contextMenu = Menu.buildFromTemplate([
       {
@@ -25,7 +25,7 @@ function createTrayIcon(activities, favourite) {
           activities.map(activity => ({
             label: activity.name,
             type: 'radio',
-            checked: activity.name === favourite,
+            checked: activity.favourite,
             click: function() {
               eventEmitter.emit(SET_FAVOURITE, activity.name)
             },

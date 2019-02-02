@@ -1,5 +1,5 @@
 import { BrowserWindow } from 'electron'
-import { ACTIVITIES_SET, PICKER_BLUR, URL_RECEIVED } from '../config/events'
+import { ACTIVITIES_SET, PICKER_BLUR, URL_RECEIVED, ACTIVITIES_UPDATED } from '../config/events'
 import eventEmitter from '../utils/eventEmitter'
 
 let pickerWindow = null
@@ -12,7 +12,7 @@ let pickerWindow = null
  * @param {function} callback - function to run at the end of this one.
  * @returns {null}
  */
-function createPickerWindow(activities) {
+function createPickerWindow(openingActivities) {
   return new Promise((resolve, reject) => {
     pickerWindow = new BrowserWindow({
       width: 400,
@@ -34,6 +34,7 @@ function createPickerWindow(activities) {
       webPreferences: {
         // Enable, among other things, the ResizeObserver
         experimentalFeatures: true,
+        nodeIntegration: true,
       },
     })
 
@@ -50,7 +51,7 @@ function createPickerWindow(activities) {
 
     pickerWindow.once('ready-to-show', () => {
       // pickerWindow.webContents.openDevTools()
-      pickerWindow.webContents.send('activities', activities)
+      pickerWindow.webContents.send(ACTIVITIES_UPDATED, openingActivities)
       resolve()
     })
 
@@ -60,7 +61,7 @@ function createPickerWindow(activities) {
     })
 
     eventEmitter.on(ACTIVITIES_SET, activities => {
-      pickerWindow.webContents.send('activities', activities)
+      pickerWindow.webContents.send(ACTIVITIES_UPDATED, activities)
     })
 
     eventEmitter.on(URL_RECEIVED, url => {
