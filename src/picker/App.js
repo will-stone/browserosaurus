@@ -59,16 +59,14 @@ const AppComponent = ({
                   ))}
               </div>
             )}
-            <div>
-              <Button
-                icon="clipboard"
-                text="Copy To Clipboard"
-                intent="primary"
-                fill
-                minimal
-                onClick={onCopyToClipboard}
-              />
-            </div>
+            <Button
+              icon="clipboard"
+              text="Copy To Clipboard"
+              intent="primary"
+              fill
+              minimal
+              onClick={onCopyToClipboard}
+            />
           </React.Fragment>
         </div>
       </Window>
