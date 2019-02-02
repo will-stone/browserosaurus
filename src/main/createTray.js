@@ -33,6 +33,12 @@ function createTrayIcon(activities) {
         ),
       },
       {
+        label: 'About',
+        click: function() {
+          app.showAboutPanel()
+        },
+      },
+      {
         label: 'Quit',
         click: function() {
           app.exit()
