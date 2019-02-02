@@ -12,10 +12,8 @@
     "prettier": "prettier --config .prettierrc --write 'src/**/*.js'",
     "package": "yarn run build-css && electron-forge package --platform=darwin --arch=x64",
     "make": "yarn run build-css && electron-forge make",
-    "build-css":
-      "node-sass-chokidar src/style -o build --importer=node_modules/node-sass-package-importer/dist/cli.js --output-style compressed",
-    "watch-css":
-      "node-sass-chokidar src/style -o build --importer=node_modules/node-sass-package-importer/dist/cli.js --output-style compressed --watch --recursive",
+    "build-css": "node-sass-chokidar src/style -o build --importer=node_modules/node-sass-package-importer/dist/cli.js --output-style compressed",
+    "watch-css": "node-sass-chokidar src/style -o build --importer=node_modules/node-sass-package-importer/dist/cli.js --output-style compressed --watch --recursive",
     "icns": "cd ./src/images/icon && ./png2icns.sh icon.png"
   },
   "repository": "https://github.com/will-stone/browserosaurus",
@@ -33,8 +31,8 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "electron-forge": "^5.1.1",
-    "electron-prebuilt-compile": "1.8.2",
+    "electron-forge": "^5.2.4",
+    "electron-prebuilt-compile": "4.0.0",
     "eslint": "^4.1.1",
     "eslint-config-react-app": "^2.1.0",
     "eslint-plugin-flowtype": "^2.34.1",
@@ -52,7 +50,7 @@
   "dependencies": {
     "@blueprintjs/core": "^3.0.1",
     "array-move": "^1.0.0",
-    "electron-compile": "^6.4.2",
+    "electron-compile": "^6.4.4",
     "electron-store": "^1.3.0",
     "emotion": "^9.2.5",
     "jsonpath": "^0.2.11",
