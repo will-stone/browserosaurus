@@ -1,10 +1,10 @@
 import { Button, Spinner, Text } from '@blueprintjs/core'
 import React from 'react'
 import { Spring } from 'react-spring'
-import Content from '../components/Content'
-import TitleBar from '../components/TitleBar'
-import Window from '../components/Window'
 import Activity from './Activity'
+import Content from './Content'
+import TitleBar from './TitleBar'
+import Window from './Window'
 
 const AppComponent = ({
   activities,
