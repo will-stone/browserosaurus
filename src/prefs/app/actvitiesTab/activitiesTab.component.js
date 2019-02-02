@@ -31,7 +31,7 @@ const ActivitiesTabComponent = () => {
                                 opacity: !activity.enabled && 0.5,
                                 // some basic styles to make the items look a bit nicer
                                 userSelect: 'none',
-                                padding: '1rem',
+                                padding: '0.5rem 1rem',
                                 display: 'flex',
                                 alignItems: 'center',
 
