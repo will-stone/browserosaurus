@@ -3,7 +3,7 @@ import { ipcRenderer, remote, screen } from 'electron'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
 import { ACTIVITIES_UPDATED, PICKER_BLUR, URL_RECEIVED } from '../config/events'
-import { IActivity } from '../model'
+import { EAppState, IActivity } from '../model'
 import App from './App'
 
 class AppContainer extends React.Component<
@@ -11,7 +11,7 @@ class AppContainer extends React.Component<
   {
     activities: IActivity[]
     isVisible: boolean
-    state: 'idle' | 'pending' | 'fulfilled'
+    state: EAppState
     url: string | null
   }
 > {
@@ -21,7 +21,7 @@ class AppContainer extends React.Component<
     this.state = {
       activities: [],
       isVisible: false,
-      state: 'idle',
+      state: EAppState.IDLE,
       url: null,
     }
 
@@ -51,7 +51,7 @@ class AppContainer extends React.Component<
     mousetrap.reset()
     this.setupCommonHotkeys()
     this.setupHotkeys(activities)
-    this.setState({ activities, state: 'fulfilled' })
+    this.setState({ activities, state: EAppState.FULFILLED })
   }
 
   public handleReceiveURL = (_: unknown, url: string) => this.setState({ url }, this.showApp)

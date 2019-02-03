@@ -15,8 +15,7 @@ describe('picker/Activity', () => {
 
   it('should render the icon with correct alt and src', () => {
     const { getByAltText } = render(<Activity {...props} />)
-    getByAltText('Firefox')
-    // const icon = getByAltText('Firefox')
-    // expect(icon.attributes).toBe(`../images/activity-icons/${props.activity.name}.png`)
+    const icon = getByAltText('Firefox')
+    expect(icon).toHaveAttribute('src', `../images/activity-icons/${props.activity.name}.png`)
   })
 })

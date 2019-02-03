@@ -1,7 +1,7 @@
 import { Button, Spinner, Text } from '@blueprintjs/core'
 import * as React from 'react'
-import { Spring } from 'react-spring'
-import { IActivity } from '../model'
+import { config, Spring } from 'react-spring'
+import { EAppState, IActivity } from '../model'
 import Activity from './Activity'
 import Window from './Window'
 
@@ -19,7 +19,7 @@ const AppComponent = ({
   onActivityClick: (act: IActivity) => void
   onCopyToClipboard: () => void
   onWindowAnimationEnd: () => void
-  state: 'idle' | 'pending' | 'fulfilled'
+  state: EAppState
   url: string | null
 }) => (
   <Spring
@@ -29,11 +29,7 @@ const AppComponent = ({
       transformOrigin: '0 0',
     }}
     onRest={onWindowAnimationEnd}
-    config={{
-      clamp: false,
-      friction: 20,
-      tension: 180,
-    }}
+    config={config.stiff}
   >
     {styles => (
       <Window style={styles}>
@@ -42,7 +38,7 @@ const AppComponent = ({
         </div>
         <div style={{ padding: '1rem' }}>
           <React.Fragment>
-            {state === 'idle' || state === 'pending' ? (
+            {state === EAppState.IDLE || state === EAppState.PENDING ? (
               <div
                 style={{
                   marginBottom: '1rem',

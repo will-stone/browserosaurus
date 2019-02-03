@@ -1,0 +1,15 @@
+{
+  "presets": [
+    [
+      "@babel/env",
+      {
+        "targets": {
+          "chrome": 59
+        }
+      }
+    ],
+    "@babel/react",
+    "@babel/typescript"
+  ],
+  "plugins": ["@babel/plugin-proposal-class-properties"]
+}

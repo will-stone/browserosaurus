@@ -1,51 +1,45 @@
-// import { remote } from 'electron'
-// import * as React from 'react'
-// import { render, wait, waitForElement } from 'react-testing-library'
-// import App from '../App'
+import * as React from 'react'
+import { render, waitForElement } from 'react-testing-library'
+import { EAppState, IActivity } from '../../model'
+import App from '../App'
 
-// const activities = [
-//   {
-//     appId: 'Firefox',
-//     cmd: 'open "{URL}" -a Firefox',
-//     hotKey: 'f',
-//     name: 'Firefox',
-//   },
-//   {
-//     cmd: 'echo "{URL}" | pbcopy',
-//     hotKey: 'space',
-//     name: 'Copy To Clipboard',
-//   },
-// ]
+const activities: IActivity[] = [
+  {
+    appId: 'Firefox',
+    cmd: 'open "{URL}" -a Firefox',
+    hotKey: 'f',
+    name: 'Firefox',
+  },
+]
 
 describe('Picker App', () => {
-  // const props = {
-  //   activities,
-  //   isVisible: true,
-  //   url: 'https://will-stone.github.io/browserosaurus/',
-  // }
+  const props = {
+    activities,
+    isVisible: true,
+    onActivityClick: jest.fn(),
+    onCopyToClipboard: jest.fn(),
+    onWindowAnimationEnd: jest.fn(),
+    state: EAppState.IDLE,
+    url: 'https://will-stone.github.io/browserosaurus/',
+  }
 
   it('should pass', () => {
     expect(true).toBeTruthy()
   })
 
-  // it('renders the URL', () => {
-  //   const { queryByText } = render(<App {...props} />)
-  //   const url = queryByText(props.url)
-  //   expect(url.innerHTML).toBe(props.url)
-  // })
+  it('renders the URL', () => {
+    const { getByText } = render(<App {...props} />)
+    getByText(props.url)
+  })
 
-  // it('renders the loading spinner', async () => {
-  //   const { container } = render(<App {...props} />)
-  //   await waitForElement(() => container.querySelector('.bp3-spinner'))
-  // })
+  it('renders the loading spinner', async () => {
+    const { container } = render(<App {...props} />)
+    await waitForElement(() => container.querySelector('.bp3-spinner'))
+  })
 
-  // it('renders the activities list', async () => {
-  //   const { getAllByAltText } = render(<App {...props} />)
-  //   const browserWindow = new remote.BrowserWindow()
-  //   browserWindow.webContents.send('activities', activities)
-  //   await wait(() => {
-  //     const icons = getAllByAltText('activity')
-  //     return expect(icons).toHaveLength(2)
-  //   })
-  // })
+  it('renders the activities list', async () => {
+    const { state, ...restProps } = props
+    const { getByAltText } = render(<App state={EAppState.FULFILLED} {...restProps} />)
+    getByAltText('Firefox')
+  })
 })
