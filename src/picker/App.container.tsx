@@ -4,6 +4,7 @@ import * as mousetrap from 'mousetrap'
 import * as React from 'react'
 import { ACTIVITIES_UPDATED, PICKER_BLUR, URL_RECEIVED } from '../config/events'
 import { EAppState, IActivity } from '../model'
+import { copyToClipboard } from '../utils/copyToClipboard'
 import App from './App'
 
 class AppContainer extends React.Component<
@@ -84,8 +85,8 @@ class AppContainer extends React.Component<
   }
 
   public handleCopyToClipboard = () => {
-    if (this.state.isVisible) {
-      spawn('sh', ['-c', `echo "${this.state.url}" | pbcopy`])
+    if (this.state.isVisible && this.state.url) {
+      copyToClipboard(this.state.url)
       this.shrinkWindow()
     }
   }

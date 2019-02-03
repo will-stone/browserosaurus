@@ -12,6 +12,7 @@
     "docs": "http-server ./docs",
     "start": "ENV=DEV electron-forge start",
     "test": "jest",
+    "test:watch": "jest --watch",
     "lint": "tslint --project tsconfig.json --type-check --force",
     "prettier": "prettier --config .prettierrc --write 'src/**/*.js'",
     "package": "yarn run build-css && electron-forge package --platform=darwin --arch=x64",
@@ -24,10 +25,7 @@
   "bugs": {
     "url": "https://github.com/will-stone/browserosaurus/issues"
   },
-  "keywords": [
-    "Electron",
-    "Browser chooser"
-  ],
+  "keywords": ["Electron", "Browser chooser"],
   "author": "Will Stone",
   "license": "MIT",
   "devDependencies": {
@@ -77,9 +75,7 @@
   "config": {
     "forge": {
       "make_targets": {
-        "darwin": [
-          "dmg"
-        ]
+        "darwin": ["dmg"]
       },
       "electronPackagerConfig": {
         "packageManager": "yarn",
@@ -95,16 +91,11 @@
         "protocols": [
           {
             "name": "HTTP link",
-            "schemes": [
-              "http",
-              "https"
-            ]
+            "schemes": ["http", "https"]
           },
           {
             "name": "File",
-            "schemes": [
-              "file"
-            ]
+            "schemes": ["file"]
           }
         ]
       }
