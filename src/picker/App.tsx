@@ -1,6 +1,6 @@
 import { Button, Spinner, Text } from '@blueprintjs/core'
 import * as React from 'react'
-import { config, Spring } from 'react-spring'
+import { Spring } from 'react-spring'
 import { EAppState, IActivity } from '../model'
 import Activity from './Activity'
 import Window from './Window'
@@ -24,12 +24,12 @@ const AppComponent = ({
 }) => (
   <Spring
     to={{
-      opacity: isVisible ? 1.5 : 0,
+      opacity: isVisible ? 1 : 0,
       transform: `scale(${isVisible ? 1 : 0})`,
       transformOrigin: '0 0',
     }}
     onRest={onWindowAnimationEnd}
-    config={config.stiff}
+    config={{ tension: 2000, friction: 100 }}
   >
     {styles => (
       <Window style={styles}>
