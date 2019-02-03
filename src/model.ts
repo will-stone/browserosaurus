@@ -3,7 +3,7 @@ export interface IActivity {
   name: string
   hotKey: string
   cmd: string
-  favourite?: boolean
+  fav?: boolean
 }
 
 export enum EAppState {

@@ -26,7 +26,7 @@ const ActivityComponent = ({ activity, onClick }: { activity: IActivity; onClick
           style={{ position: 'relative', padding: '1rem' }}
           onClick={onClick}
         >
-          {activity.favourite && (
+          {activity.fav && (
             <Tag
               intent="primary"
               style={{ position: 'absolute', top: 5, left: 5, textAlign: 'center' }}

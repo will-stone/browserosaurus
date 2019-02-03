@@ -54,7 +54,7 @@ const AppComponent = ({
                 }}
               >
                 {activities
-                  .sort((a, b) => (a.favourite ? -1 : b.favourite ? 1 : 0))
+                  .sort((a, b) => (a.fav ? -1 : b.fav ? 1 : 0))
                   .map(activity => (
                     <Activity
                       key={activity.name}

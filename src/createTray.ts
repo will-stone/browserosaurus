@@ -1,5 +1,5 @@
 import { app, Menu, MenuItemConstructorOptions, Tray } from 'electron'
-import { ACTIVITIES_GET, SET_FAVOURITE } from './config/events'
+import { ACTIVITIES_GET, SET_FAV } from './config/events'
 import { IActivity } from './model'
 import eventEmitter from './utils/eventEmitter'
 
@@ -22,11 +22,11 @@ function createTrayIcon(activities: IActivity[]) {
       {
         label: 'Favourite',
         submenu: Menu.buildFromTemplate(activities.map(activity => ({
-          checked: activity.favourite,
+          checked: activity.fav,
           label: activity.name,
           type: 'radio',
           click() {
-            eventEmitter.emit(SET_FAVOURITE, activity.name)
+            eventEmitter.emit(SET_FAV, activity.name)
           },
         })) as MenuItemConstructorOptions[]),
       },

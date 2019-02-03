@@ -1,7 +1,7 @@
 import { app, ipcMain } from 'electron'
 import Store = require('electron-store')
 import activities from './config/activities'
-import { ACTIVITIES_GET, ACTIVITIES_SET, SET_FAVOURITE, URL_RECEIVED } from './config/events'
+import { ACTIVITIES_GET, ACTIVITIES_SET, SET_FAV, URL_RECEIVED } from './config/events'
 import createPickerWindow from './createPicker'
 import createTrayIcon from './createTray'
 import { IActivity } from './model'
@@ -9,7 +9,7 @@ import eventEmitter from './utils/eventEmitter'
 import scanForApps from './utils/scanForApps'
 
 // Start store and set activities if first run
-const store = new Store({ defaults: { favourite: undefined } })
+const store = new Store({ defaults: { fav: undefined } })
 
 let pickerReady = false
 let urlToOpen: string | undefined
@@ -32,12 +32,12 @@ const getActivities = async (): Promise<IActivity[]> => {
     return false
   }
 
-  const mapFavourite = (activity: IActivity) => ({
+  const mapFav = (activity: IActivity) => ({
     ...activity,
-    favourite: store.get('favourite') === activity.name,
+    fav: store.get('fav') === activity.name,
   })
 
-  const installedActivities = activities.filter(isActivityAvailable).map(mapFavourite)
+  const installedActivities = activities.filter(isActivityAvailable).map(mapFav)
 
   eventEmitter.emit(ACTIVITIES_SET, installedActivities)
 
@@ -58,8 +58,8 @@ eventEmitter.on(ACTIVITIES_GET, () => {
   getActivities()
 })
 
-eventEmitter.on(SET_FAVOURITE, (browserName: string) => {
-  store.set('favourite', browserName)
+eventEmitter.on(SET_FAV, (browserName: string) => {
+  store.set('fav', browserName)
   getActivities()
 })
 

@@ -42,7 +42,7 @@ class AppContainer extends React.Component<
 
   public setupHotkeys = (activities: IActivity[]) =>
     activities.forEach(activity => {
-      if (activity.favourite) {
+      if (activity.fav) {
         mousetrap.bind('enter', () => this.handleRunActivity(activity))
       }
       mousetrap.bind(activity.hotKey, () => this.handleRunActivity(activity))
