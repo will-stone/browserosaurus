@@ -1,10 +1,10 @@
 import { remote } from 'electron'
-import React from 'react'
+import * as React from 'react'
 
 class Window extends React.Component {
-  ref = React.createRef()
+  public ref = React.createRef<HTMLDivElement>()
 
-  componentDidMount() {
+  public componentDidMount() {
     const observer = new ResizeObserver(entries => {
       entries.forEach(entry => {
         const width = Math.floor(entry.contentRect.width)
@@ -15,7 +15,7 @@ class Window extends React.Component {
     observer.observe(this.ref.current)
   }
 
-  render() {
+  public render() {
     const { children, style, ...rest } = this.props
 
     return (

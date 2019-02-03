@@ -1,8 +1,9 @@
 import { BrowserWindow } from 'electron'
 import { ACTIVITIES_SET, ACTIVITIES_UPDATED, PICKER_BLUR, URL_RECEIVED } from './config/events'
+import { IActivity } from './model'
 import eventEmitter from './utils/eventEmitter'
 
-let pickerWindow = null
+let pickerWindow: BrowserWindow | null = null
 
 /**
  * Create Picker Window
@@ -12,61 +13,70 @@ let pickerWindow = null
  * @param {function} callback - function to run at the end of this one.
  * @returns {null}
  */
-function createPickerWindow(openingActivities) {
+function createPickerWindow(openingActivities: IActivity[]) {
   return new Promise((resolve, reject) => {
     pickerWindow = new BrowserWindow({
-      width: 400,
-      height: 50,
       acceptFirstMouse: true,
       alwaysOnTop: true,
-      frame: false,
-      hasShadow: false,
-      icon: `${__dirname}/images/icon/icon.png`,
       closable: false,
+      frame: false,
+      fullscreenable: false,
+      hasShadow: false,
+      height: 50,
+      icon: `${__dirname}/images/icon/icon.png`,
       maximizable: false,
       minimizable: false,
-      fullscreenable: false,
       movable: false,
       resizable: false,
       show: false,
       title: 'Browserosaurus',
+      titleBarStyle: 'customButtonsOnHover',
       transparent: true,
-      titleBarStyle: 'hidden',
       webPreferences: {
         // Enable, among other things, the ResizeObserver
         experimentalFeatures: true,
         nodeIntegration: true,
       },
+      width: 400,
     })
 
     pickerWindow.loadURL(`file://${__dirname}/picker/index.html`)
 
     pickerWindow.on('close', e => {
       e.preventDefault()
-      pickerWindow.hide()
+      if (pickerWindow) {
+        pickerWindow.hide()
+      }
     })
 
     pickerWindow.on('blur', () => {
-      pickerWindow.webContents.send(PICKER_BLUR)
+      if (pickerWindow) {
+        pickerWindow.webContents.send(PICKER_BLUR)
+      }
     })
 
     pickerWindow.once('ready-to-show', () => {
-      // pickerWindow.webContents.openDevTools()
-      pickerWindow.webContents.send(ACTIVITIES_UPDATED, openingActivities)
-      resolve()
+      if (pickerWindow) {
+        // pickerWindow.webContents.openDevTools()
+        pickerWindow.webContents.send(ACTIVITIES_UPDATED, openingActivities)
+        resolve()
+      }
     })
 
     pickerWindow.once('unresponsive', () => {
-      console.log('unresponsive')
       reject()
     })
 
-    eventEmitter.on(ACTIVITIES_SET, activities => {
-      pickerWindow.webContents.send(ACTIVITIES_UPDATED, activities)
+    eventEmitter.on(ACTIVITIES_SET, (activities: IActivity[]) => {
+      if (pickerWindow) {
+        pickerWindow.webContents.send(ACTIVITIES_UPDATED, activities)
+      }
     })
 
-    eventEmitter.on(URL_RECEIVED, url => {
-      pickerWindow.webContents.send(URL_RECEIVED, url)
+    eventEmitter.on(URL_RECEIVED, (url: string) => {
+      if (pickerWindow) {
+        pickerWindow.webContents.send(URL_RECEIVED, url)
+      }
     })
   })
 }

@@ -1,8 +1,7 @@
-import uniq from 'lodash/uniq'
-import keyBy from 'lodash/keyBy'
 import { spawn } from 'child_process'
-import jp from 'jsonpath'
-import { parseString } from 'xml2js'
+import * as jp from 'jsonpath'
+import { keyBy, uniq } from 'lodash'
+import * as xml2js from 'xml2js'
 
 /**
  * Scan For Apps
@@ -22,11 +21,10 @@ function scanForApps() {
       profile += data
     })
     sp.stderr.on('data', data => {
-      console.log(`stderr: ${data}`)
       reject(data)
     })
     sp.stdout.on('end', () => {
-      parseString(profile, function(err, result) {
+      xml2js.parseString(profile, (_, result) => {
         const installedApps = jp.query(result, 'plist.array[0].dict[0].array[1].dict[*].string[0]')
 
         const unique = uniq(installedApps)

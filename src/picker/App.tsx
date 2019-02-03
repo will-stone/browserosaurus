@@ -1,6 +1,7 @@
 import { Button, Spinner, Text } from '@blueprintjs/core'
-import React from 'react'
+import * as React from 'react'
 import { Spring } from 'react-spring'
+import { IActivity } from '../model'
 import Activity from './Activity'
 import Window from './Window'
 
@@ -12,6 +13,14 @@ const AppComponent = ({
   onWindowAnimationEnd,
   state,
   url,
+}: {
+  activities: IActivity[]
+  isVisible: boolean
+  onActivityClick: (act: IActivity) => void
+  onCopyToClipboard: () => void
+  onWindowAnimationEnd: () => void
+  state: 'idle' | 'pending' | 'fulfilled'
+  url: string | null
 }) => (
   <Spring
     to={{
@@ -21,9 +30,9 @@ const AppComponent = ({
     }}
     onRest={onWindowAnimationEnd}
     config={{
-      tension: 180,
       friction: 10,
       overshootClamping: true,
+      tension: 180,
     }}
   >
     {styles => (
@@ -36,8 +45,8 @@ const AppComponent = ({
             {state === 'idle' || state === 'pending' ? (
               <div
                 style={{
-                  textAlign: 'center',
                   marginBottom: '1rem',
+                  textAlign: 'center',
                 }}
               >
                 <Spinner intent="primary" className="bp3-small" />
@@ -49,7 +58,7 @@ const AppComponent = ({
                 }}
               >
                 {activities
-                  .sort((a, b) => (a.fovourite ? -1 : b.favourite ? 1 : 0))
+                  .sort((a, b) => (a.favourite ? -1 : b.favourite ? 1 : 0))
                   .map(activity => (
                     <Activity
                       key={activity.name}

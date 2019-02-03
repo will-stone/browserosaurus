@@ -1,36 +1,45 @@
 import { spawn } from 'child_process'
 import { ipcRenderer, remote, screen } from 'electron'
-import mousetrap from 'mousetrap'
-import React from 'react'
+import * as mousetrap from 'mousetrap'
+import * as React from 'react'
 import { ACTIVITIES_UPDATED, PICKER_BLUR, URL_RECEIVED } from '../config/events'
+import { IActivity } from '../model'
 import App from './App'
 
-class AppContainer extends React.Component {
-  constructor() {
-    super()
+class AppContainer extends React.Component<
+  {},
+  {
+    activities: IActivity[]
+    isVisible: boolean
+    state: 'idle' | 'pending' | 'fulfilled'
+    url: string | null
+  }
+> {
+  constructor(props: {}) {
+    super(props)
 
     this.state = {
-      isVisible: false,
-      url: null,
       activities: [],
+      isVisible: false,
       state: 'idle',
+      url: null,
     }
 
-    ipcRenderer.on(URL_RECEIVED, this._handleReceiveURL)
-    ipcRenderer.on(PICKER_BLUR, this._shrinkWindow)
-    ipcRenderer.on(ACTIVITIES_UPDATED, this._handleReceiveActivities)
+    ipcRenderer.on(URL_RECEIVED, this.handleReceiveURL)
+    ipcRenderer.on(PICKER_BLUR, this.shrinkWindow)
+    ipcRenderer.on(ACTIVITIES_UPDATED, this.handleReceiveActivities)
   }
 
-  componentDidMount() {
-    this._setupCommonHotkeys()
+  public componentDidMount() {
+    this.setupCommonHotkeys()
   }
 
-  _setupCommonHotkeys = () => {
-    mousetrap.bind('esc', this._shrinkWindow)
+  public setupCommonHotkeys = () => {
+    mousetrap.bind('esc', this.shrinkWindow)
     mousetrap.bind('space', this.handleCopyToClipboard)
   }
 
-  _setupHotkeys = activities =>
+  public setupHotkeys = (activities: IActivity[]) =>
     activities.forEach(activity => {
       if (activity.favourite) {
         mousetrap.bind('enter', () => this.handleRunActivity(activity))
@@ -38,16 +47,16 @@ class AppContainer extends React.Component {
       mousetrap.bind(activity.hotKey, () => this.handleRunActivity(activity))
     })
 
-  _handleReceiveActivities = (_, activities) => {
+  public handleReceiveActivities = (_: unknown, activities: IActivity[]) => {
     mousetrap.reset()
-    this._setupCommonHotkeys()
-    this._setupHotkeys(activities)
+    this.setupCommonHotkeys()
+    this.setupHotkeys(activities)
     this.setState({ activities, state: 'fulfilled' })
   }
 
-  _handleReceiveURL = (_, url) => this.setState({ url }, this._showApp)
+  public handleReceiveURL = (_: unknown, url: string) => this.setState({ url }, this.showApp)
 
-  _showApp = () => {
+  public showApp = () => {
     const win = remote.getCurrentWindow()
     const { x: mouseX, y: mouseY } = screen.getCursorScreenPoint()
     win.setPosition(mouseX, mouseY, false)
@@ -56,32 +65,32 @@ class AppContainer extends React.Component {
     this.setState({ isVisible: true })
   }
 
-  _shrinkWindow = () => {
+  public shrinkWindow = () => {
     remote.getCurrentWindow().setIgnoreMouseEvents(true) // allows click through during closing animation
     this.setState({ isVisible: false })
   }
 
-  handleRunActivity = activity => {
-    if (this.state.isVisible) {
+  public handleRunActivity = (activity: IActivity) => {
+    if (this.state.isVisible && this.state.url) {
       spawn('sh', ['-c', activity.cmd.replace('{URL}', this.state.url)])
-      this._shrinkWindow()
+      this.shrinkWindow()
     }
   }
 
-  handleWindowAnimationEnd = () => {
+  public handleWindowAnimationEnd = () => {
     if (!this.state.isVisible) {
       remote.getCurrentWindow().hide()
     }
   }
 
-  handleCopyToClipboard = () => {
+  public handleCopyToClipboard = () => {
     if (this.state.isVisible) {
       spawn('sh', ['-c', `echo "${this.state.url}" | pbcopy`])
-      this._shrinkWindow()
+      this.shrinkWindow()
     }
   }
 
-  render() {
+  public render() {
     return (
       <App
         activities={this.state.activities}

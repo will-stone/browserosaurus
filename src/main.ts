@@ -1,24 +1,28 @@
 import { app, ipcMain } from 'electron'
-import Store from 'electron-store'
+import Store = require('electron-store')
 import activities from './config/activities'
-import { ACTIVITIES_GET, ACTIVITIES_SET, URL_RECEIVED, SET_FAVOURITE } from './config/events'
+import { ACTIVITIES_GET, ACTIVITIES_SET, SET_FAVOURITE, URL_RECEIVED } from './config/events'
 import createPickerWindow from './createPicker'
 import createTrayIcon from './createTray'
-import scanForApps from './utils/scanForApps'
+import { IActivity } from './model'
 import eventEmitter from './utils/eventEmitter'
+import scanForApps from './utils/scanForApps'
 
 // Start store and set activities if first run
 const store = new Store({ defaults: { favourite: undefined } })
 
+let pickerReady = false
+let urlToOpen: string | undefined
+
 /**
  * Get Activities
  */
-async function getActivities() {
+const getActivities = async (): Promise<IActivity[]> => {
   // get all apps on system
   // returns object of {appName: "appName"}
   const installedApps = await scanForApps()
 
-  const isActivityAvailable = activity => {
+  const isActivityAvailable = (activity: IActivity) => {
     if (installedApps[activity.appId]) {
       return true
     } else if (!activity.appId) {
@@ -28,7 +32,7 @@ async function getActivities() {
     return false
   }
 
-  const mapFavourite = activity => ({
+  const mapFavourite = (activity: IActivity) => ({
     ...activity,
     favourite: store.get('favourite') === activity.name,
   })
@@ -54,7 +58,7 @@ eventEmitter.on(ACTIVITIES_GET, () => {
   getActivities()
 })
 
-eventEmitter.on(SET_FAVOURITE, browserName => {
+eventEmitter.on(SET_FAVOURITE, (browserName: string) => {
   store.set('favourite', browserName)
   getActivities()
 })
@@ -68,17 +72,17 @@ app.on('ready', async () => {
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
 
-  const activities = await getActivities()
+  const acts = await getActivities()
 
-  await Promise.all([createPickerWindow(activities), createTrayIcon(activities)])
+  await Promise.all([createPickerWindow(acts), createTrayIcon(acts)])
 
-  global.pickerReady = true
+  pickerReady = true
 
-  if (global.URLToOpen) {
+  if (urlToOpen) {
     // if Browserosaurus was opened with a link, this will now be sent on to the
     // picker window.
-    eventEmitter.emit(URL_RECEIVED, global.URLToOpen)
-    global.URLToOpen = null // not required any more
+    eventEmitter.emit(URL_RECEIVED, urlToOpen)
+    urlToOpen = undefined // not required any more
   }
 })
 
@@ -96,11 +100,11 @@ app.on('before-quit', () => {
  */
 app.on('open-url', (event, url) => {
   event.preventDefault()
-  if (global.pickerReady) {
+  if (pickerReady) {
     eventEmitter.emit(URL_RECEIVED, url)
   } else {
     // app not ready yet, this will be handled later in the createWindow callback
-    global.URLToOpen = url
+    urlToOpen = url
   }
 })
 

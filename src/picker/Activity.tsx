@@ -1,14 +1,15 @@
 import { Button, Tag, Tooltip } from '@blueprintjs/core'
-import React from 'react'
+import * as React from 'react'
+import { IActivity } from '../model'
 
-const ActivityComponent = ({ activity, onClick }) => {
+const ActivityComponent = ({ activity, onClick }: { activity: IActivity; onClick: () => void }) => {
   return (
     <div
       style={{
-        width: '20%',
+        alignItems: 'center',
         display: 'inline-flex',
         justifyContent: 'center',
-        alignItems: 'center',
+        width: '20%',
       }}
     >
       <Tooltip
@@ -37,9 +38,9 @@ const ActivityComponent = ({ activity, onClick }) => {
             src={`../images/activity-icons/${activity.name}.png`}
             alt={activity.name}
             style={{
-              width: 40,
-              height: 40,
               display: 'block',
+              height: 40,
+              width: 40,
             }}
           />
           <Tag minimal style={{ position: 'absolute', right: 5, bottom: 5, textAlign: 'center' }}>

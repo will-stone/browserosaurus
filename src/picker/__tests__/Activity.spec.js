@@ -2,15 +2,18 @@ import React from 'react'
 import { render } from 'react-testing-library'
 import Activity from '../Activity'
 
-describe('Activity', () => {
+describe('picker/Activity', () => {
+  const onClickSpy = jest.fn()
+
   const props = {
     activity: {
       name: 'Firefox',
       hotKey: 'f',
     },
+    onClick: onClickSpy,
   }
 
-  it('renders the icon with correct alt and src', () => {
+  it('should render the icon with correct alt and src', () => {
     const { getByAltText } = render(<Activity {...props} />)
     const icon = getByAltText('Firefox')
     expect(icon.alt).toBe('Firefox')
