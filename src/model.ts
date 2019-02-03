@@ -1,5 +1,5 @@
 export interface IActivity {
-  appId: string
+  appId?: string
   name: string
   hotKey: string
   cmd: string

@@ -23,7 +23,7 @@ const getActivities = async (): Promise<IActivity[]> => {
   const installedApps = await scanForApps()
 
   const isActivityAvailable = (activity: IActivity) => {
-    if (installedApps[activity.appId]) {
+    if (activity.appId && installedApps[activity.appId]) {
       return true
     } else if (!activity.appId) {
       // always show activity that does not depend on app presence

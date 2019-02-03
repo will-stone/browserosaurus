@@ -30,8 +30,8 @@ const AppComponent = ({
     }}
     onRest={onWindowAnimationEnd}
     config={{
-      friction: 10,
-      overshootClamping: true,
+      clamp: false,
+      friction: 20,
       tension: 180,
     }}
   >

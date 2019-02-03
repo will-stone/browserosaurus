@@ -1,12 +1,14 @@
 import { remote } from 'electron'
 import * as React from 'react'
 
-class Window extends React.Component {
+declare var ResizeObserver: any
+
+class Window extends React.Component<{ style: React.CSSProperties }> {
   public ref = React.createRef<HTMLDivElement>()
 
   public componentDidMount() {
-    const observer = new ResizeObserver(entries => {
-      entries.forEach(entry => {
+    const observer = new ResizeObserver((entries: any) => {
+      entries.forEach((entry: any) => {
         const width = Math.floor(entry.contentRect.width)
         const height = Math.floor(entry.contentRect.height)
         remote.getCurrentWindow().setSize(width, height, false) // do not animate

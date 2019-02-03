@@ -1,102 +1,101 @@
-/**
- * Activities
- *
- */
+import { IActivity } from '../model'
 
-export default [
+const activities: IActivity[] = [
   {
     appId: 'Brave-Browser-Dev',
-    name: 'Brave Dev',
-    hotKey: 'r',
     cmd: 'open "{URL}" -a Brave-Browser-Dev',
+    hotKey: 'r',
+    name: 'Brave Dev',
   },
   {
     appId: 'Brave Browser',
-    name: 'Brave Browser',
-    hotKey: 'b',
     cmd: 'open "{URL}" -a "Brave Browser"',
+    hotKey: 'b',
+    name: 'Brave Browser',
   },
   {
     appId: 'Chromium',
-    name: 'Chromium',
-    hotKey: 'c',
     cmd: 'open "{URL}" -a Chromium',
+    hotKey: 'c',
+    name: 'Chromium',
   },
   {
     appId: 'Firefox',
-    name: 'Firefox',
-    hotKey: 'f',
     cmd: 'open "{URL}" -a Firefox',
+    hotKey: 'f',
+    name: 'Firefox',
   },
   {
     appId: 'Firefox Developer Edition',
-    name: 'Firefox Developer Edition',
-    hotKey: 'd',
     cmd: 'open "{URL}" -a "Firefox Developer Edition"',
+    hotKey: 'd',
+    name: 'Firefox Developer Edition',
   },
   {
     appId: 'Firefox Nightly',
-    name: 'Firefox Nightly',
-    hotKey: 'n',
     cmd: 'open "{URL}" -a "Firefox Nightly"',
+    hotKey: 'n',
+    name: 'Firefox Nightly',
   },
   {
     appId: 'Google Chrome',
-    name: 'Google Chrome',
-    hotKey: 'g',
     cmd: 'open "{URL}" -a "Google Chrome"',
+    hotKey: 'g',
+    name: 'Google Chrome',
   },
   {
     appId: 'Google Chrome Canary',
-    name: 'Google Chrome Canary',
-    hotKey: 'y',
     cmd: 'open "{URL}" -a "Google Chrome Canary"',
+    hotKey: 'y',
+    name: 'Google Chrome Canary',
   },
   {
     appId: 'Iridium',
-    name: 'Iridium',
-    hotKey: 'i',
     cmd: 'open "{URL}" -a Iridium',
+    hotKey: 'i',
+    name: 'Iridium',
   },
   {
     appId: 'Maxthon',
-    name: 'Maxthon',
-    hotKey: 'm',
     cmd: 'open "{URL}" -a Maxthon',
+    hotKey: 'm',
+    name: 'Maxthon',
   },
   {
     appId: 'Min',
-    name: 'Min',
-    hotKey: '-',
     cmd: 'open "{URL}" -a Min',
+    hotKey: '-',
+    name: 'Min',
   },
   {
     appId: 'Opera',
-    name: 'Opera',
-    hotKey: 'o',
     cmd: 'open "{URL}" -a Opera',
+    hotKey: 'o',
+    name: 'Opera',
   },
   {
-    name: 'Safari',
-    hotKey: 's',
     cmd: 'open "{URL}" -a Safari',
+    hotKey: 's',
+    name: 'Safari',
   },
   {
     appId: 'Safari Technology Preview',
-    name: 'Safari Technology Preview',
-    hotKey: 'p',
     cmd: 'open "{URL}" -a "Safari Technology Preview"',
+    hotKey: 'p',
+    name: 'Safari Technology Preview',
   },
   {
     appId: 'TorBrowser',
-    name: 'TorBrowser',
-    hotKey: 't',
     cmd: 'open "{URL}" -a TorBrowser',
+    hotKey: 't',
+    name: 'TorBrowser',
   },
   {
     appId: 'Vivaldi',
-    name: 'Vivaldi',
-    hotKey: 'v',
     cmd: 'open "{URL}" -a Vivaldi',
+    hotKey: 'v',
+    name: 'Vivaldi',
   },
 ]
+
+export default activities
