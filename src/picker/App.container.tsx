@@ -1,10 +1,10 @@
-import { spawn } from 'child_process'
 import { ipcRenderer, remote, screen } from 'electron'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
 import { ACTIVITIES_UPDATED, PICKER_BLUR, URL_RECEIVED } from '../config/events'
 import { EAppState, IActivity } from '../model'
 import { copyToClipboard } from '../utils/copyToClipboard'
+import { runCommand } from '../utils/runCommand'
 import App from './App'
 
 class AppContainer extends React.Component<
@@ -73,7 +73,7 @@ class AppContainer extends React.Component<
 
   public handleRunActivity = (activity: IActivity) => {
     if (this.state.isVisible && this.state.url) {
-      spawn('sh', ['-c', activity.cmd.replace('{URL}', this.state.url)])
+      runCommand(activity.cmd.replace('{URL}', this.state.url))
       this.shrinkWindow()
     }
   }
