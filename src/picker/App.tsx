@@ -33,7 +33,7 @@ const AppComponent = ({
   >
     {styles => (
       <Window style={styles}>
-        <div style={{ textAlign: 'center', fontSize: '1.2rem', padding: '1rem 1rem 0 1rem' }}>
+        <div style={{ textAlign: 'center', padding: '1rem 1rem 0 1rem' }}>
           <Text ellipsize={true}>{url}</Text>
         </div>
         <div style={{ padding: '1rem' }}>

@@ -21,7 +21,46 @@ class Window extends React.Component<{ style: React.CSSProperties }> {
     const { children, style, ...rest } = this.props
 
     return (
-      <div ref={this.ref} style={{ backgroundColor: '#21252b', ...style }} {...rest}>
+      <div
+        ref={this.ref}
+        style={{ background: 'linear-gradient(to bottom, #3a8044 0%, #1a4040 100%)', ...style }}
+        {...rest}
+      >
+        <div
+          style={{
+            backgroundImage: 'url(../images/skin.png)',
+            backgroundSize: 'cover',
+            bottom: 0,
+            left: 0,
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            zIndex: -1,
+          }}
+        />
+        <div
+          style={{
+            background: 'black',
+            bottom: 0,
+            left: 0,
+            opacity: 0.8,
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            zIndex: -1,
+          }}
+        />
+        <div
+          style={{
+            border: '5px solid black',
+            bottom: 0,
+            left: 0,
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            zIndex: -1,
+          }}
+        />
         {children}
       </div>
     )
