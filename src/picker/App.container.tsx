@@ -59,8 +59,11 @@ class AppContainer extends React.Component<
 
   public showApp = () => {
     const win = remote.getCurrentWindow()
-    const { x: mouseX, y: mouseY } = screen.getCursorScreenPoint()
-    win.setPosition(mouseX, mouseY, false)
+    const {
+      size: { width: screenWidth, height: screenHeight },
+    } = screen.getDisplayNearestPoint(screen.getCursorScreenPoint())
+    win.setSize(screenWidth, screenHeight, false)
+    win.setPosition(0, 0, false)
     win.show()
     win.setIgnoreMouseEvents(false)
     this.setState({ isVisible: true })
@@ -98,6 +101,7 @@ class AppContainer extends React.Component<
         isVisible={this.state.isVisible}
         onActivityClick={this.handleRunActivity}
         onCopyToClipboard={this.handleCopyToClipboard}
+        onWindowClick={this.shrinkWindow}
         onWindowAnimationEnd={this.handleWindowAnimationEnd}
         state={this.state.state}
         url={this.state.url}

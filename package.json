@@ -25,7 +25,10 @@
   "bugs": {
     "url": "https://github.com/will-stone/browserosaurus/issues"
   },
-  "keywords": ["Electron", "Browser chooser"],
+  "keywords": [
+    "Electron",
+    "Browser chooser"
+  ],
   "author": "Will Stone",
   "license": "MIT",
   "devDependencies": {
@@ -42,6 +45,7 @@
     "@types/mousetrap": "^1.6.1",
     "@types/react": "^16.4.6",
     "@types/react-dom": "^16.0.6",
+    "@types/styled-components": "^4.1.11",
     "@types/xml2js": "^0.4.3",
     "babel-jest": "^23.0.0",
     "electron-forge": "^5.2.4",
@@ -69,13 +73,16 @@
     "react-spring": "^7.2.10",
     "react-transition-group": "^2.4.0",
     "semver": "^5.4.1",
+    "styled-components": "^4.1.3",
     "tslib": "^1.4.0",
     "xml2js": "^0.4.19"
   },
   "config": {
     "forge": {
       "make_targets": {
-        "darwin": ["dmg"]
+        "darwin": [
+          "dmg"
+        ]
       },
       "electronPackagerConfig": {
         "packageManager": "yarn",
@@ -91,11 +98,16 @@
         "protocols": [
           {
             "name": "HTTP link",
-            "schemes": ["http", "https"]
+            "schemes": [
+              "http",
+              "https"
+            ]
           },
           {
             "name": "File",
-            "schemes": ["file"]
+            "schemes": [
+              "file"
+            ]
           }
         ]
       }
