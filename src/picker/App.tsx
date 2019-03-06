@@ -1,27 +1,27 @@
 import * as React from 'react'
-import { Spring } from 'react-spring'
+import { config, Spring } from 'react-spring'
 import styled from 'styled-components'
 import { EAppState, IActivity } from '../model'
 
 const Window = styled.div`
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
   width: 100%;
-  padding: 4vh;
+  padding: 100px;
 `
 
 const Url = styled.div`
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.8);
   border-radius: 20px;
   color: #fafafa;
-  font-size: 3vh;
+  font-size: 20px;
   line-height: 1.5;
-  margin-bottom: 4vh;
-  padding: 1vh 4vh;
+  margin-bottom: 30px;
+  padding: 20px 30px;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
@@ -40,19 +40,36 @@ const ActivityButton = styled.button`
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 1rem;
+  padding: 30px;
   background: transparent;
   border: none;
   opacity: 0.5;
   transition: opacity 300ms linear;
   text-align: center;
+  flex-shrink: 0;
+  position: relative;
 
   &:hover {
     opacity: 1;
   }
+
+  &:focus {
+    outline: none;
+  }
 `
 
-const AppComponent = ({
+const Key = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  text-align: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 400;
+`
+
+const App = ({
   activities,
   isVisible,
   onActivityClick,
@@ -71,7 +88,7 @@ const AppComponent = ({
   state: EAppState
   url: string | null
 }) => (
-  <Spring to={{ opacity: isVisible ? 1 : 0 }} onRest={onWindowAnimationEnd}>
+  <Spring to={{ opacity: isVisible ? 1 : 0 }} onRest={onWindowAnimationEnd} config={config.stiff}>
     {windowSpringStyles => (
       <Window style={windowSpringStyles} onClick={onWindowClick}>
         <Url>
@@ -82,7 +99,7 @@ const AppComponent = ({
           {state === EAppState.IDLE || state === EAppState.PENDING ? (
             <div style={{ textAlign: 'center' }}>Loading...</div>
           ) : (
-            <div style={{ marginBottom: '1rem', textAlign: 'center' }}>
+            <div style={{ textAlign: 'center' }}>
               {activities
                 .sort((a, b) => (a.fav ? -1 : b.fav ? 1 : 0))
                 .map(activity => (
@@ -92,6 +109,7 @@ const AppComponent = ({
                       transform: `scale(${isVisible ? 1 : 0})`,
                       transformOrigin: 'center center',
                     }}
+                    config={config.wobbly}
                   >
                     {activitySpringStyles => (
                       <ActivityButton
@@ -102,9 +120,10 @@ const AppComponent = ({
                         style={{
                           ...activitySpringStyles,
                           display: activity.fav ? 'block' : 'inline-flex',
-                          marginLeft: activity.fav ? 'auto' : '7.5%',
-                          marginRight: activity.fav ? 'auto' : '7.5%',
-                          width: activity.fav ? '20%' : '10%',
+                          height: activity.fav ? '200px' : '150px',
+                          marginLeft: activity.fav ? 'auto' : '30px',
+                          marginRight: activity.fav ? 'auto' : '30px',
+                          width: activity.fav ? '200px' : '150px',
                         }}
                       >
                         <img
@@ -115,6 +134,7 @@ const AppComponent = ({
                             width: '100%',
                           }}
                         />
+                        <Key>{activity.hotKey}</Key>
                       </ActivityButton>
                     )}
                   </Spring>
@@ -127,4 +147,4 @@ const AppComponent = ({
   </Spring>
 )
 
-export default AppComponent
+export default App
