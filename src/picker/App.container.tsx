@@ -58,12 +58,10 @@ class AppContainer extends React.Component<
   public handleReceiveURL = (_: unknown, url: string) => this.setState({ url }, this.showApp)
 
   public showApp = () => {
+    const display = screen.getDisplayNearestPoint(screen.getCursorScreenPoint())
     const win = remote.getCurrentWindow()
-    const {
-      size: { width: screenWidth, height: screenHeight },
-    } = screen.getDisplayNearestPoint(screen.getCursorScreenPoint())
-    win.setSize(screenWidth, screenHeight, false)
-    win.setPosition(0, 0, false)
+    win.setPosition(display.bounds.x, 0, false)
+    win.setSize(display.size.width, display.size.height, false)
     win.show()
     win.setIgnoreMouseEvents(false)
     this.setState({ isVisible: true })
