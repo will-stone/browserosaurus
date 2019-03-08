@@ -32,6 +32,10 @@ const CopyButton = styled.button`
   background-color: transparent;
   border: none;
   color: white;
+  
+  &:focus {
+    outline: none;
+  }
 `
 
 const ActivityButton = styled.button`
