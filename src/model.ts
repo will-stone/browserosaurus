@@ -1,4 +1,4 @@
-export interface IActivity {
+export interface Activity {
   appId?: string
   name: string
   hotKey: string

@@ -1,6 +1,6 @@
 import { app, Menu, MenuItemConstructorOptions, Tray } from 'electron'
 import { ACTIVITIES_GET, SET_FAV } from './config/events'
-import { IActivity } from './model'
+import { Activity } from './model'
 import eventEmitter from './utils/eventEmitter'
 
 let tray = null
@@ -10,7 +10,7 @@ let tray = null
  *
  * Creates the menubar icon and menu items.
  */
-function createTrayIcon(activities: IActivity[]) {
+function createTrayIcon(activities: Activity[]) {
   return new Promise(resolve => {
     const contextMenu = Menu.buildFromTemplate([
       {

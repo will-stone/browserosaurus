@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { config, Spring } from 'react-spring'
 import styled from 'styled-components'
-import { EAppState, IActivity } from '../model'
+import { EAppState, Activity } from '../model'
 
 const Window = styled.div`
   background-color: rgba(0, 0, 0, 0.8);
@@ -15,12 +15,10 @@ const Window = styled.div`
 `
 
 const Url = styled.div`
-  background-color: rgba(0, 0, 0, 0.8);
-  border-radius: 20px;
   color: #fafafa;
   font-size: 20px;
   line-height: 1.5;
-  margin-bottom: 30px;
+  margin-top: 30px;
   padding: 20px 30px;
   text-align: center;
   white-space: nowrap;
@@ -79,9 +77,9 @@ const App = ({
   state,
   url,
 }: {
-  activities: IActivity[]
+  activities: Activity[]
   isVisible: boolean
-  onActivityClick: (act: IActivity) => void
+  onActivityClick: (act: Activity) => void
   onCopyToClipboard: () => void
   onWindowAnimationEnd: () => void
   onWindowClick: () => void
@@ -91,10 +89,6 @@ const App = ({
   <Spring to={{ opacity: isVisible ? 1 : 0 }} onRest={onWindowAnimationEnd} config={config.stiff}>
     {windowSpringStyles => (
       <Window style={windowSpringStyles} onClick={onWindowClick}>
-        <Url>
-          {url}
-          <CopyButton onClick={onCopyToClipboard}>Copy To Clipboard</CopyButton>
-        </Url>
         <div>
           {state === EAppState.IDLE || state === EAppState.PENDING ? (
             <div style={{ textAlign: 'center' }}>Loading...</div>
@@ -142,6 +136,8 @@ const App = ({
             </div>
           )}
         </div>
+        <Url>{url}</Url>
+        <CopyButton onClick={onCopyToClipboard}>Copy To Clipboard</CopyButton>
       </Window>
     )}
   </Spring>

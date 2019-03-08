@@ -1,6 +1,6 @@
-import { IActivity } from '../model'
+import { Activity } from '../model'
 
-const activities: IActivity[] = [
+const activities: Activity[] = [
   {
     appId: 'Brave-Browser-Dev',
     cmd: 'open "{URL}" -a Brave-Browser-Dev',

@@ -4,7 +4,7 @@ import activities from './config/activities'
 import { ACTIVITIES_GET, ACTIVITIES_SET, SET_FAV, URL_RECEIVED } from './config/events'
 import createPickerWindow from './main.createPicker'
 import createTrayIcon from './main.createTray'
-import { IActivity } from './model'
+import { Activity } from './model'
 import eventEmitter from './utils/eventEmitter'
 import scanForApps from './utils/scanForApps'
 
@@ -17,12 +17,12 @@ let urlToOpen: string | undefined
 /**
  * Get Activities
  */
-const getActivities = async (): Promise<IActivity[]> => {
+const getActivities = async (): Promise<Activity[]> => {
   // get all apps on system
   // returns object of {appName: "appName"}
   const installedApps = await scanForApps()
 
-  const isActivityAvailable = (activity: IActivity) => {
+  const isActivityAvailable = (activity: Activity) => {
     if (activity.appId && installedApps[activity.appId]) {
       return true
     } else if (!activity.appId) {
@@ -32,7 +32,7 @@ const getActivities = async (): Promise<IActivity[]> => {
     return false
   }
 
-  const mapFav = (activity: IActivity) => ({
+  const mapFav = (activity: Activity) => ({
     ...activity,
     fav: store.get('fav') === activity.name,
   })

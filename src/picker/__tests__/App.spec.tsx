@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { render, waitForElement } from 'react-testing-library'
-import { EAppState, IActivity } from '../../model'
+import { EAppState, Activity } from '../../model'
 import App from '../App'
 
-const activities: IActivity[] = [
+const activities: Activity[] = [
   {
     appId: 'Firefox',
     cmd: 'open "{URL}" -a Firefox',

@@ -2,7 +2,7 @@ import { ipcRenderer, remote, screen } from 'electron'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
 import { ACTIVITIES_UPDATED, PICKER_BLUR, URL_RECEIVED } from '../config/events'
-import { EAppState, IActivity } from '../model'
+import { EAppState, Activity } from '../model'
 import { copyToClipboard } from '../utils/copyToClipboard'
 import { runCommand } from '../utils/runCommand'
 import App from './App'
@@ -10,7 +10,7 @@ import App from './App'
 class AppContainer extends React.Component<
   {},
   {
-    activities: IActivity[]
+    activities: Activity[]
     isVisible: boolean
     state: EAppState
     url: string | null
@@ -40,7 +40,7 @@ class AppContainer extends React.Component<
     mousetrap.bind('space', this.handleCopyToClipboard)
   }
 
-  public setupHotkeys = (activities: IActivity[]) =>
+  public setupHotkeys = (activities: Activity[]) =>
     activities.forEach(activity => {
       if (activity.fav) {
         mousetrap.bind('enter', () => this.handleRunActivity(activity))
@@ -48,7 +48,7 @@ class AppContainer extends React.Component<
       mousetrap.bind(activity.hotKey, () => this.handleRunActivity(activity))
     })
 
-  public handleReceiveActivities = (_: unknown, activities: IActivity[]) => {
+  public handleReceiveActivities = (_: unknown, activities: Activity[]) => {
     mousetrap.reset()
     this.setupCommonHotkeys()
     this.setupHotkeys(activities)
@@ -72,7 +72,7 @@ class AppContainer extends React.Component<
     this.setState({ isVisible: false })
   }
 
-  public handleRunActivity = (activity: IActivity) => {
+  public handleRunActivity = (activity: Activity) => {
     if (this.state.isVisible && this.state.url) {
       runCommand(activity.cmd.replace('{URL}', this.state.url))
       this.shrinkWindow()

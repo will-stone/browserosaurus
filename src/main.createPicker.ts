@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron'
 import { ACTIVITIES_SET, ACTIVITIES_UPDATED, PICKER_BLUR, URL_RECEIVED } from './config/events'
-import { IActivity } from './model'
+import { Activity } from './model'
 import eventEmitter from './utils/eventEmitter'
 
 let pickerWindow: BrowserWindow | null = null
@@ -13,7 +13,7 @@ let pickerWindow: BrowserWindow | null = null
  * @param {function} callback - function to run at the end of this one.
  * @returns {null}
  */
-function createPickerWindow(openingActivities: IActivity[]) {
+function createPickerWindow(openingActivities: Activity[]) {
   return new Promise((resolve, reject) => {
     pickerWindow = new BrowserWindow({
       acceptFirstMouse: true,
@@ -34,6 +34,7 @@ function createPickerWindow(openingActivities: IActivity[]) {
       transparent: true,
       webPreferences: {
         // Enable, among other things, the ResizeObserver
+        // TODO: is this needed any more?
         experimentalFeatures: true,
         nodeIntegration: true,
       },
@@ -67,7 +68,7 @@ function createPickerWindow(openingActivities: IActivity[]) {
       reject()
     })
 
-    eventEmitter.on(ACTIVITIES_SET, (activities: IActivity[]) => {
+    eventEmitter.on(ACTIVITIES_SET, (activities: Activity[]) => {
       if (pickerWindow) {
         pickerWindow.webContents.send(ACTIVITIES_UPDATED, activities)
       }
