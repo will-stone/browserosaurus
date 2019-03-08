@@ -1,75 +1,11 @@
 import * as React from 'react'
 import { config, Spring } from 'react-spring'
-import styled from 'styled-components'
-import { EAppState, Activity } from '../model'
-
-const Window = styled.div`
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  padding: 100px;
-`
-
-const Url = styled.div`
-  color: #fafafa;
-  font-size: 20px;
-  line-height: 1.5;
-  margin-top: 30px;
-  padding: 20px 30px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
-  font-family: sans-serif;
-`
-
-const CopyButton = styled.button`
-  background-color: transparent;
-  border: none;
-  color: white;
-
-  &:focus {
-    outline: none;
-  }
-`
-
-const ActivityButton = styled.button`
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  padding: 30px;
-  background: transparent;
-  border: none;
-  opacity: 0.5;
-  transition: opacity 300ms linear;
-  text-align: center;
-  flex-shrink: 0;
-  position: relative;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  &:focus {
-    outline: none;
-  }
-`
-
-const Key = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  text-align: center;
-  color: white;
-  font-size: 18px;
-  font-weight: 400;
-`
+import { Activity, EAppState } from '../model'
+import { ActivityButton } from './styledComponents/ActivityButton'
+import { CopyButton } from './styledComponents/CopyButton'
+import { Key } from './styledComponents/Key'
+import { Url } from './styledComponents/Url'
+import { Window } from './styledComponents/Window'
 
 const App = ({
   activities,
@@ -89,11 +25,11 @@ const App = ({
   onWindowClick: () => void
   state: EAppState
   url: string | null
-}) => (
-  <Spring to={{ opacity: isVisible ? 1 : 0 }} onRest={onWindowAnimationEnd} config={config.stiff}>
-    {windowSpringStyles => (
-      <Window style={windowSpringStyles} onClick={onWindowClick}>
-        <div>
+}) => {
+  return (
+    <Spring to={{ opacity: isVisible ? 1 : 0 }} onRest={onWindowAnimationEnd} config={config.stiff}>
+      {windowSpringStyles => (
+        <Window style={windowSpringStyles} onClick={onWindowClick}>
           {state === EAppState.IDLE || state === EAppState.PENDING ? (
             <div style={{ textAlign: 'center' }}>Loading...</div>
           ) : (
@@ -139,12 +75,12 @@ const App = ({
                 ))}
             </div>
           )}
-        </div>
-        <Url>{url}</Url>
-        <CopyButton onClick={onCopyToClipboard}>Copy To Clipboard</CopyButton>
-      </Window>
-    )}
-  </Spring>
-)
+          <Url>{url}</Url>
+          <CopyButton onClick={onCopyToClipboard}>Copy To Clipboard</CopyButton>
+        </Window>
+      )}
+    </Spring>
+  )
+}
 
 export default App
