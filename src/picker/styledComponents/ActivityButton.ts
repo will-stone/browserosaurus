@@ -1,6 +1,7 @@
 import styled from 'styled-components'
+import { animated } from 'react-spring/web.cjs'
 
-export const ActivityButton = styled.button`
+export const ActivityButton = styled(animated.button)`
   align-items: center;
   justify-content: center;
   position: relative;
