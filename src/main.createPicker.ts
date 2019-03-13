@@ -1,9 +1,9 @@
 import { BrowserWindow, screen } from 'electron'
-import { ACTIVITIES_SET, ACTIVITIES_UPDATED, PICKER_BLUR, URL_RECEIVED } from './config/events'
+import { ACTIVITIES_SET, PICKER_BLUR, URL_RECEIVED, FAV_SET } from './config/events'
 import { Activity } from './model'
 import eventEmitter from './utils/eventEmitter'
 
-let pickerWindow: BrowserWindow | null = null
+let pickerWindow: BrowserWindow
 
 /**
  * Create Picker Window
@@ -13,7 +13,7 @@ let pickerWindow: BrowserWindow | null = null
  * @param {function} callback - function to run at the end of this one.
  * @returns {null}
  */
-function createPickerWindow(openingActivities: Activity[]) {
+function createPickerWindow() {
   return new Promise((resolve, reject) => {
     pickerWindow = new BrowserWindow({
       acceptFirstMouse: true,
@@ -45,44 +45,29 @@ function createPickerWindow(openingActivities: Activity[]) {
 
     pickerWindow.on('close', e => {
       e.preventDefault()
-      if (pickerWindow) {
-        pickerWindow.hide()
-      }
+      pickerWindow.hide()
     })
 
-    pickerWindow.on('blur', () => {
-      if (pickerWindow) {
-        pickerWindow.webContents.send(PICKER_BLUR)
-      }
-    })
+    pickerWindow.on('blur', () => pickerWindow.webContents.send(PICKER_BLUR))
 
-    pickerWindow.once('ready-to-show', () => {
-      if (pickerWindow) {
-        // pickerWindow.webContents.openDevTools()
-        pickerWindow.webContents.send(ACTIVITIES_UPDATED, openingActivities)
-        resolve()
-      }
-    })
+    pickerWindow.once('ready-to-show', resolve)
+    // pickerWindow.webContents.openDevTools()
 
-    pickerWindow.once('unresponsive', () => {
-      reject()
-    })
+    pickerWindow.once('unresponsive', reject)
 
-    eventEmitter.on(ACTIVITIES_SET, (activities: Activity[]) => {
-      if (pickerWindow) {
-        pickerWindow.webContents.send(ACTIVITIES_UPDATED, activities)
-      }
-    })
+    eventEmitter.on(ACTIVITIES_SET, (activities: Activity[]) =>
+      pickerWindow.webContents.send(ACTIVITIES_SET, activities),
+    )
+
+    eventEmitter.on(FAV_SET, (fav: string) => pickerWindow.webContents.send(FAV_SET, fav))
 
     eventEmitter.on(URL_RECEIVED, (url: string) => {
-      if (pickerWindow) {
-        const display = screen.getDisplayNearestPoint(screen.getCursorScreenPoint())
-        pickerWindow.setPosition(display.bounds.x, 0, false)
-        pickerWindow.setSize(display.size.width, display.size.height, false)
-        pickerWindow.show()
-        pickerWindow.setIgnoreMouseEvents(false)
-        pickerWindow.webContents.send(URL_RECEIVED, url)
-      }
+      const display = screen.getDisplayNearestPoint(screen.getCursorScreenPoint())
+      pickerWindow.setPosition(display.bounds.x, 0, false)
+      pickerWindow.setSize(display.size.width, display.size.height, false)
+      pickerWindow.show()
+      pickerWindow.setIgnoreMouseEvents(false)
+      pickerWindow.webContents.send(URL_RECEIVED, url)
     })
   })
 }

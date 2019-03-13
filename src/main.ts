@@ -1,13 +1,19 @@
 import { app, ipcMain } from 'electron'
-import Store = require('electron-store')
 import activities from './config/activities'
-import { ACTIVITIES_GET, ACTIVITIES_SET, SET_FAV, URL_RECEIVED } from './config/events'
+import {
+  ACTIVITIES_GET,
+  ACTIVITIES_SET,
+  ACTIVITY_RUN,
+  FAV_SET,
+  URL_RECEIVED,
+  FAV_GET,
+} from './config/events'
 import createPickerWindow from './main.createPicker'
 import createTrayIcon from './main.createTray'
-import { Activity } from './model'
 import eventEmitter from './utils/eventEmitter'
-import scanForApps from './utils/scanForApps'
+import { getInstalledActivities } from './utils/getInstalledActivities'
 import { runCommand } from './utils/runCommand'
+import Store = require('electron-store')
 
 // Start store and set activities if first run
 const store = new Store({ defaults: { fav: undefined } })
@@ -15,78 +21,48 @@ const store = new Store({ defaults: { fav: undefined } })
 let pickerReady = false
 let urlToOpen: string | undefined
 
-/**
- * Get Activities
- */
-const getActivities = async (): Promise<Activity[]> => {
-  // get all apps on system
-  // returns object of {appName: "appName"}
-  const installedApps = await scanForApps()
-
-  const isActivityAvailable = (activity: Activity) => {
-    if (activity.appId && installedApps[activity.appId]) {
-      return true
-    } else if (!activity.appId) {
-      // always show activity that does not depend on app presence
-      return true
-    }
-    return false
-  }
-
-  const mapFav = (activity: Activity) => ({
-    ...activity,
-    fav: store.get('fav') === activity.name,
-  })
-
-  const installedActivities = activities.filter(isActivityAvailable).map(mapFav)
-
-  eventEmitter.emit(ACTIVITIES_SET, installedActivities)
-
-  return installedActivities
-}
-
-/**
- * Event: Get Activities
- *
- * Listens for the ACTIVITIES_GET event, triggered by the renderers on load.
- * Scans for apps and sends them on to the renderers.
- */
-eventEmitter.on(ACTIVITIES_GET, () => {
-  getActivities()
+ipcMain.on(ACTIVITIES_GET, () => {
+  eventEmitter.emit(ACTIVITIES_GET)
 })
 
-eventEmitter.on(SET_FAV, (browserName: string) => {
+eventEmitter.on(ACTIVITIES_GET, async () => {
+  const acts = await getInstalledActivities()
+  eventEmitter.emit(ACTIVITIES_SET, acts)
+})
+
+ipcMain.on(FAV_GET, () => {
+  eventEmitter.emit(FAV_GET)
+})
+
+eventEmitter.on(FAV_GET, () => {
+  eventEmitter.emit(FAV_SET, store.get('fav'))
+})
+
+eventEmitter.on(FAV_SET, async (browserName: string) => {
   store.set('fav', browserName)
-  getActivities()
+  // const acts = await getInstalledActivities()
+  // eventEmitter.emit(ACTIVITIES_SET, acts)
 })
 
-ipcMain.on('run-act', (_: Event, arg: { name: string; url: string }) => {
+ipcMain.on(ACTIVITY_RUN, (_: Event, arg: { name: string; url: string }) => {
   const activity = activities.find(act => act.name === arg.name)
   activity && runCommand(activity.cmd.replace('{URL}', arg.url))
-  // event.sender.send('asynchronous-reply', 'pong')
 })
 
-/**
- * Event: App Ready
- *
- * Run once electron has loaded and the app is considered _ready for use_.
- */
-app.on('ready', async () => {
+app.on('ready', () => {
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
 
-  const acts = await getActivities()
+  createPickerWindow().then(() => {
+    pickerReady = true
+    if (urlToOpen) {
+      // if Browserosaurus was opened with a link, this will now be sent on to the picker window.
+      eventEmitter.emit(URL_RECEIVED, urlToOpen)
+      urlToOpen = undefined // not required any more
+    }
+  })
 
-  await Promise.all([createPickerWindow(acts), createTrayIcon(acts)])
-
-  pickerReady = true
-
-  if (urlToOpen) {
-    // if Browserosaurus was opened with a link, this will now be sent on to the
-    // picker window.
-    eventEmitter.emit(URL_RECEIVED, urlToOpen)
-    urlToOpen = undefined // not required any more
-  }
+  getInstalledActivities().then(acts => createTrayIcon(acts))
 })
 
 // App doesn't always close on ctrl-c in console, this fixes that
@@ -94,13 +70,6 @@ app.on('before-quit', () => {
   app.exit()
 })
 
-/**
- * Event: Open URL
- *
- * When a URL is sent to Browserosaurus (as it is default browser), send it to
- * the picker.
- * @param {string} url
- */
 app.on('open-url', (event, url) => {
   event.preventDefault()
   if (pickerReady) {
@@ -111,5 +80,4 @@ app.on('open-url', (event, url) => {
   }
 })
 
-// Hide dock icon. Also prevents Browserosaurus from appearing in cmd-tab.
-app.dock.hide()
+app.dock.hide() // Also prevents Browserosaurus from appearing in cmd-tab.

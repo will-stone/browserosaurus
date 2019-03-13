@@ -1,5 +1,5 @@
 import { app, Menu, MenuItemConstructorOptions, Tray } from 'electron'
-import { ACTIVITIES_GET, SET_FAV } from './config/events'
+import { ACTIVITIES_GET, FAV_SET } from './config/events'
 import { Activity } from './model'
 import eventEmitter from './utils/eventEmitter'
 
@@ -26,7 +26,7 @@ function createTrayIcon(activities: Activity[]) {
           label: activity.name,
           type: 'radio',
           click() {
-            eventEmitter.emit(SET_FAV, activity.name)
+            eventEmitter.emit(FAV_SET, activity.name)
           },
         })) as MenuItemConstructorOptions[]),
       },

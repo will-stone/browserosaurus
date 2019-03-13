@@ -1,7 +1,15 @@
 import { ipcRenderer, remote } from 'electron'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
-import { ACTIVITIES_UPDATED, PICKER_BLUR, URL_RECEIVED } from '../config/events'
+import {
+  ACTIVITIES_GET,
+  ACTIVITIES_SET,
+  PICKER_BLUR,
+  ACTIVITY_RUN,
+  URL_RECEIVED,
+  FAV_GET,
+  FAV_SET,
+} from '../config/events'
 import { Activity, EAppState } from '../model'
 import { copyToClipboard } from '../utils/copyToClipboard'
 import App from './App'
@@ -13,6 +21,7 @@ class AppContainer extends React.Component<
     isVisible: boolean
     state: EAppState
     url: string | null
+    fav: string | null
   }
 > {
   constructor(props: {}) {
@@ -23,14 +32,18 @@ class AppContainer extends React.Component<
       isVisible: false,
       state: EAppState.IDLE,
       url: null,
+      fav: null,
     }
 
     ipcRenderer.on(URL_RECEIVED, this.handleReceiveURL)
     ipcRenderer.on(PICKER_BLUR, this.shrinkWindow)
-    ipcRenderer.on(ACTIVITIES_UPDATED, this.handleReceiveActivities)
+    ipcRenderer.on(ACTIVITIES_SET, this.handleReceiveActivities)
+    ipcRenderer.on(FAV_SET, this.handleReceiveFav)
   }
 
   public componentDidMount() {
+    ipcRenderer.send(FAV_GET)
+    ipcRenderer.send(ACTIVITIES_GET)
     this.setupCommonHotkeys()
   }
 
@@ -41,18 +54,22 @@ class AppContainer extends React.Component<
 
   public setupHotkeys = (activities: Activity[]) =>
     activities.forEach(activity => {
-      if (activity.fav) {
-        mousetrap.bind('enter', () => this.handleRunActivity(activity))
-      }
-      mousetrap.bind(activity.hotKey, () => this.handleRunActivity(activity))
+      mousetrap.bind(activity.hotKey, () => this.handleRunActivity(activity.name))
     })
+
+  public setupFavHotkey = (fav: string) =>
+    mousetrap.bind('enter', () => this.handleRunActivity(fav))
 
   public handleReceiveActivities = (_: unknown, activities: Activity[]) => {
     mousetrap.reset()
     this.setupCommonHotkeys()
     this.setupHotkeys(activities)
+    this.state.fav && this.setupFavHotkey(this.state.fav)
     this.setState({ activities, state: EAppState.FULFILLED })
   }
+
+  public handleReceiveFav = (_: unknown, fav: string) =>
+    this.setState({ fav }, () => this.setupFavHotkey(fav))
 
   public handleReceiveURL = (_: unknown, url: string) => this.setState({ url, isVisible: true })
 
@@ -61,9 +78,9 @@ class AppContainer extends React.Component<
     this.setState({ isVisible: false })
   }
 
-  public handleRunActivity = (activity: Activity) => {
+  public handleRunActivity = (activityName: string) => {
     if (this.state.isVisible && this.state.url) {
-      ipcRenderer.send('run-act', { name: activity.name, url: this.state.url })
+      ipcRenderer.send(ACTIVITY_RUN, { name: activityName, url: this.state.url })
       this.shrinkWindow()
     }
   }
@@ -84,6 +101,7 @@ class AppContainer extends React.Component<
   public render() {
     return (
       <App
+        fav={this.state.fav}
         activities={this.state.activities}
         isVisible={this.state.isVisible}
         onActivityClick={this.handleRunActivity}

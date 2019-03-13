@@ -2,16 +2,17 @@ import { spawn } from 'child_process'
 import * as jp from 'jsonpath'
 import { keyBy, uniq } from 'lodash'
 import * as xml2js from 'xml2js'
+import activities from '../config/activities'
+import { Activity } from '../model'
 
 /**
  * Scan For Apps
  *
  * Scans the system for all installed apps.
- * @returns {promise} - returns array of app names (Strings) if resolved, and
- * string if rejected.
+ * @returns array of app names (Strings) if resolved, and string if rejected.
  */
-function scanForApps() {
-  return new Promise((resolve, reject) => {
+const scanForApps = () =>
+  new Promise((resolve, reject) => {
     const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
 
     let profile = ''
@@ -36,6 +37,24 @@ function scanForApps() {
       })
     })
   })
-}
 
-export default scanForApps
+/**
+ * Installed Apps
+ *
+ * Uses the scan function above to return the whitelisted apps that are installed
+ */
+export const getInstalledActivities = async () => {
+  const installedApps = await scanForApps()
+
+  const installedActivities = activities.filter((activity: Activity) => {
+    if (activity.appId && installedApps[activity.appId]) {
+      return true
+    } else if (!activity.appId) {
+      // always show activity that does not depend on app presence
+      return true
+    }
+    return false
+  })
+
+  return installedActivities
+}

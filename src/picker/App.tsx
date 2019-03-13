@@ -16,15 +16,17 @@ const App = ({
   onWindowClick,
   state,
   url,
+  fav,
 }: {
   activities: Activity[]
   isVisible: boolean
-  onActivityClick: (act: Activity) => void
+  onActivityClick: (actName: string) => void
   onCopyToClipboard: () => void
   onWindowAnimationEnd: () => void
   onWindowClick: () => void
   state: EAppState
   url: string | null
+  fav: string | null
 }) => {
   const windowSpringStyles = useSpring({
     opacity: isVisible ? 1 : 0,
@@ -43,21 +45,21 @@ const App = ({
       ) : (
         <div style={{ textAlign: 'center' }}>
           {activities
-            .sort((a, b) => (a.fav ? -1 : b.fav ? 1 : 0))
+            .sort((a, b) => (a.name === fav ? -1 : b.name === fav ? 1 : 0))
             .map(activity => (
               <ActivityButton
                 key={activity.name}
                 onClick={e => {
                   e.stopPropagation()
-                  onActivityClick(activity)
+                  onActivityClick(activity.name)
                 }}
                 style={{
                   ...activitySpringStyles,
-                  display: activity.fav ? 'block' : 'inline-flex',
-                  height: activity.fav ? '200px' : '150px',
-                  marginLeft: activity.fav ? 'auto' : '30px',
-                  marginRight: activity.fav ? 'auto' : '30px',
-                  width: activity.fav ? '200px' : '150px',
+                  display: activity.name === fav ? 'block' : 'inline-flex',
+                  height: activity.name === fav ? '200px' : '150px',
+                  marginLeft: activity.name === fav ? 'auto' : '30px',
+                  marginRight: activity.name === fav ? 'auto' : '30px',
+                  width: activity.name === fav ? '200px' : '150px',
                 }}
               >
                 <img
