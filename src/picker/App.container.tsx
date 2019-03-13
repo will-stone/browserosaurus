@@ -4,7 +4,6 @@ import * as React from 'react'
 import { ACTIVITIES_UPDATED, PICKER_BLUR, URL_RECEIVED } from '../config/events'
 import { Activity, EAppState } from '../model'
 import { copyToClipboard } from '../utils/copyToClipboard'
-import { runCommand } from '../utils/runCommand'
 import App from './App'
 
 class AppContainer extends React.Component<
@@ -64,7 +63,7 @@ class AppContainer extends React.Component<
 
   public handleRunActivity = (activity: Activity) => {
     if (this.state.isVisible && this.state.url) {
-      runCommand(activity.cmd.replace('{URL}', this.state.url))
+      ipcRenderer.send('run-act', { name: activity.name, url: this.state.url })
       this.shrinkWindow()
     }
   }

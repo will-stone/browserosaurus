@@ -7,6 +7,7 @@ import createTrayIcon from './main.createTray'
 import { Activity } from './model'
 import eventEmitter from './utils/eventEmitter'
 import scanForApps from './utils/scanForApps'
+import { runCommand } from './utils/runCommand'
 
 // Start store and set activities if first run
 const store = new Store({ defaults: { fav: undefined } })
@@ -50,10 +51,6 @@ const getActivities = async (): Promise<Activity[]> => {
  * Listens for the ACTIVITIES_GET event, triggered by the renderers on load.
  * Scans for apps and sends them on to the renderers.
  */
-ipcMain.on(ACTIVITIES_GET, () => {
-  getActivities()
-})
-
 eventEmitter.on(ACTIVITIES_GET, () => {
   getActivities()
 })
@@ -61,6 +58,12 @@ eventEmitter.on(ACTIVITIES_GET, () => {
 eventEmitter.on(SET_FAV, (browserName: string) => {
   store.set('fav', browserName)
   getActivities()
+})
+
+ipcMain.on('run-act', (_: Event, arg: { name: string; url: string }) => {
+  const activity = activities.find(act => act.name === arg.name)
+  activity && runCommand(activity.cmd.replace('{URL}', arg.url))
+  // event.sender.send('asynchronous-reply', 'pong')
 })
 
 /**
