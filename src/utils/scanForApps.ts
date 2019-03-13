@@ -11,7 +11,7 @@ import * as xml2js from 'xml2js'
  * string if rejected.
  */
 function scanForApps() {
-  return new Promise((fulfill, reject) => {
+  return new Promise((resolve, reject) => {
     const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
 
     let profile = ''
@@ -32,7 +32,7 @@ function scanForApps() {
         const toObject = keyBy(unique)
         // returns object of {appName: "appName"} for quicker lookup
 
-        fulfill(toObject)
+        resolve(toObject)
       })
     })
   })
