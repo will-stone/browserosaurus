@@ -1,4 +1,4 @@
-import { BrowserWindow } from 'electron'
+import { BrowserWindow, screen } from 'electron'
 import { ACTIVITIES_SET, ACTIVITIES_UPDATED, PICKER_BLUR, URL_RECEIVED } from './config/events'
 import { Activity } from './model'
 import eventEmitter from './utils/eventEmitter'
@@ -76,6 +76,11 @@ function createPickerWindow(openingActivities: Activity[]) {
 
     eventEmitter.on(URL_RECEIVED, (url: string) => {
       if (pickerWindow) {
+        const display = screen.getDisplayNearestPoint(screen.getCursorScreenPoint())
+        pickerWindow.setPosition(display.bounds.x, 0, false)
+        pickerWindow.setSize(display.size.width, display.size.height, false)
+        pickerWindow.show()
+        pickerWindow.setIgnoreMouseEvents(false)
         pickerWindow.webContents.send(URL_RECEIVED, url)
       }
     })

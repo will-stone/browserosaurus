@@ -1,8 +1,8 @@
-import { ipcRenderer, remote, screen } from 'electron'
+import { ipcRenderer, remote } from 'electron'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
 import { ACTIVITIES_UPDATED, PICKER_BLUR, URL_RECEIVED } from '../config/events'
-import { EAppState, Activity } from '../model'
+import { Activity, EAppState } from '../model'
 import { copyToClipboard } from '../utils/copyToClipboard'
 import { runCommand } from '../utils/runCommand'
 import App from './App'
@@ -55,17 +55,7 @@ class AppContainer extends React.Component<
     this.setState({ activities, state: EAppState.FULFILLED })
   }
 
-  public handleReceiveURL = (_: unknown, url: string) => this.setState({ url }, this.showApp)
-
-  public showApp = () => {
-    const display = screen.getDisplayNearestPoint(screen.getCursorScreenPoint())
-    const win = remote.getCurrentWindow()
-    win.setPosition(display.bounds.x, 0, false)
-    win.setSize(display.size.width, display.size.height, false)
-    win.show()
-    win.setIgnoreMouseEvents(false)
-    this.setState({ isVisible: true })
-  }
+  public handleReceiveURL = (_: unknown, url: string) => this.setState({ url, isVisible: true })
 
   public shrinkWindow = () => {
     remote.getCurrentWindow().setIgnoreMouseEvents(true) // allows click through during closing animation
