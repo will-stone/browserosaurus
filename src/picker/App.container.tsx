@@ -1,7 +1,14 @@
 import { ipcRenderer, remote } from 'electron'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
-import { ACTIVITIES_SET, ACTIVITY_RUN, PICKER_BLUR, URL_RECEIVED, FAV_SET } from '../config/events'
+import {
+  ACTIVITIES_SET,
+  ACTIVITY_RUN,
+  FAV_SET,
+  PICKER_BLUR,
+  URL_RECEIVED,
+  WINDOW_HIDE,
+} from '../config/events'
 import { Activity, EAppState } from '../model'
 import { copyToClipboard } from '../utils/copyToClipboard'
 import App from './App'
@@ -27,38 +34,30 @@ class AppContainer extends React.Component<
       fav: null,
     }
 
-    ipcRenderer.on(URL_RECEIVED, this.handleReceiveURL)
+    ipcRenderer.on(URL_RECEIVED, this.onReceiveURL)
     ipcRenderer.on(PICKER_BLUR, this.shrinkWindow)
-    ipcRenderer.on(ACTIVITIES_SET, this.handleReceiveActivities)
-    ipcRenderer.on(FAV_SET, this.handleReceiveFav)
+    ipcRenderer.on(ACTIVITIES_SET, this.onReceiveActivities)
+    ipcRenderer.on(FAV_SET, this.onReceiveFav)
   }
 
   componentDidMount() {
-    this.setupCommonHotkeys()
-  }
-
-  setupCommonHotkeys = () => {
+    // setup common hotkeys
     mousetrap.bind('esc', this.shrinkWindow)
     mousetrap.bind('space', this.handleCopyToClipboard)
   }
 
-  setupHotkeys = (activities: Activity[]) =>
+  onReceiveActivities = (_: unknown, activities: Activity[]) => {
+    // setup hotkeys
     activities.forEach(activity => {
       mousetrap.bind(activity.hotKey, () => this.handleRunActivity(activity.name))
     })
-
-  setupFavHotkey = (fav: string) => mousetrap.bind('enter', () => this.handleRunActivity(fav))
-
-  handleReceiveActivities = (_: unknown, activities: Activity[]) => {
-    this.setupCommonHotkeys()
-    this.setupHotkeys(activities)
     this.setState({ activities, state: EAppState.FULFILLED })
   }
 
-  handleReceiveFav = (_: unknown, fav: string) =>
-    this.setState({ fav }, () => this.setupFavHotkey(fav))
+  onReceiveFav = (_: unknown, fav: string) =>
+    this.setState({ fav }, () => mousetrap.bind('enter', () => this.handleRunActivity(fav)))
 
-  handleReceiveURL = (_: unknown, url: string) => this.setState({ url, isVisible: true })
+  onReceiveURL = (_: unknown, url: string) => this.setState({ url, isVisible: true })
 
   shrinkWindow = () => {
     remote.getCurrentWindow().setIgnoreMouseEvents(true) // allows click through during closing animation
@@ -72,11 +71,7 @@ class AppContainer extends React.Component<
     }
   }
 
-  handleWindowAnimationEnd = () => {
-    if (!this.state.isVisible) {
-      remote.getCurrentWindow().hide()
-    }
-  }
+  handleWindowAnimationEnd = () => !this.state.isVisible && ipcRenderer.send(WINDOW_HIDE)
 
   handleCopyToClipboard = () => {
     if (this.state.isVisible && this.state.url) {

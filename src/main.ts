@@ -1,6 +1,6 @@
 import { app, ipcMain, Menu, MenuItemConstructorOptions, Tray } from 'electron'
 import { activities } from './config/activities'
-import { ACTIVITIES_SET, ACTIVITY_RUN, FAV_SET, URL_RECEIVED } from './config/events'
+import { ACTIVITIES_SET, ACTIVITY_RUN, FAV_SET, URL_RECEIVED, WINDOW_HIDE } from './config/events'
 import { createPickerWindow } from './main.createPicker'
 import { eventEmitter } from './utils/eventEmitter'
 import { getInstalledActivities } from './utils/getInstalledActivities'
@@ -20,6 +20,8 @@ ipcMain.on(ACTIVITY_RUN, (_: Event, arg: { name: string; url: string }) => {
   const activity = activities.find(act => act.name === arg.name)
   activity && runCommand(activity.cmd.replace('{URL}', arg.url))
 })
+
+ipcMain.on(WINDOW_HIDE, () => eventEmitter.emit(WINDOW_HIDE))
 
 app.on('ready', async () => {
   // Prompt to set as default browser

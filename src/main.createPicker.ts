@@ -1,5 +1,5 @@
 import { BrowserWindow, screen } from 'electron'
-import { ACTIVITIES_SET, PICKER_BLUR, URL_RECEIVED, FAV_SET } from './config/events'
+import { ACTIVITIES_SET, PICKER_BLUR, URL_RECEIVED, FAV_SET, WINDOW_HIDE } from './config/events'
 import { Activity } from './model'
 import { eventEmitter } from './utils/eventEmitter'
 
@@ -59,6 +59,8 @@ export const createPickerWindow = () =>
     eventEmitter.on(FAV_SET, (browserName: string) =>
       pickerWindow.webContents.send(FAV_SET, browserName),
     )
+
+    eventEmitter.on(WINDOW_HIDE, () => pickerWindow.hide())
 
     eventEmitter.on(URL_RECEIVED, (url: string) => {
       const display = screen.getDisplayNearestPoint(screen.getCursorScreenPoint())
