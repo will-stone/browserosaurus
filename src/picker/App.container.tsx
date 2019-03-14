@@ -33,24 +33,23 @@ class AppContainer extends React.Component<
     ipcRenderer.on(FAV_SET, this.handleReceiveFav)
   }
 
-  public componentDidMount() {
+  componentDidMount() {
     this.setupCommonHotkeys()
   }
 
-  public setupCommonHotkeys = () => {
+  setupCommonHotkeys = () => {
     mousetrap.bind('esc', this.shrinkWindow)
     mousetrap.bind('space', this.handleCopyToClipboard)
   }
 
-  public setupHotkeys = (activities: Activity[]) =>
+  setupHotkeys = (activities: Activity[]) =>
     activities.forEach(activity => {
       mousetrap.bind(activity.hotKey, () => this.handleRunActivity(activity.name))
     })
 
-  public setupFavHotkey = (fav: string) =>
-    mousetrap.bind('enter', () => this.handleRunActivity(fav))
+  setupFavHotkey = (fav: string) => mousetrap.bind('enter', () => this.handleRunActivity(fav))
 
-  public handleReceiveActivities = (_: unknown, activities: Activity[]) => {
+  handleReceiveActivities = (_: unknown, activities: Activity[]) => {
     mousetrap.reset()
     this.setupCommonHotkeys()
     this.setupHotkeys(activities)
@@ -58,37 +57,37 @@ class AppContainer extends React.Component<
     this.setState({ activities, state: EAppState.FULFILLED })
   }
 
-  public handleReceiveFav = (_: unknown, fav: string) =>
+  handleReceiveFav = (_: unknown, fav: string) =>
     this.setState({ fav }, () => this.setupFavHotkey(fav))
 
-  public handleReceiveURL = (_: unknown, url: string) => this.setState({ url, isVisible: true })
+  handleReceiveURL = (_: unknown, url: string) => this.setState({ url, isVisible: true })
 
-  public shrinkWindow = () => {
+  shrinkWindow = () => {
     remote.getCurrentWindow().setIgnoreMouseEvents(true) // allows click through during closing animation
     this.setState({ isVisible: false })
   }
 
-  public handleRunActivity = (activityName: string) => {
+  handleRunActivity = (activityName: string) => {
     if (this.state.isVisible && this.state.url) {
       ipcRenderer.send(ACTIVITY_RUN, { name: activityName, url: this.state.url })
       this.shrinkWindow()
     }
   }
 
-  public handleWindowAnimationEnd = () => {
+  handleWindowAnimationEnd = () => {
     if (!this.state.isVisible) {
       remote.getCurrentWindow().hide()
     }
   }
 
-  public handleCopyToClipboard = () => {
+  handleCopyToClipboard = () => {
     if (this.state.isVisible && this.state.url) {
       copyToClipboard(this.state.url)
       this.shrinkWindow()
     }
   }
 
-  public render() {
+  render() {
     return (
       <App
         fav={this.state.fav}
