@@ -10,7 +10,6 @@ import Store = require('electron-store')
 // Start store and set activities if first run
 const store = new Store({ defaults: { fav: undefined } })
 
-let pickerReady = false
 let urlToOpen: string | undefined
 
 // Store new favourite
@@ -49,8 +48,6 @@ app.on('ready', async () => {
 
   await createPickerWindow()
 
-  pickerReady = true
-
   const acts = await getInstalledActivities()
 
   // update fav-chooser with activity list
@@ -82,7 +79,7 @@ app.on('before-quit', () => {
 
 app.on('open-url', (event, url) => {
   event.preventDefault()
-  if (pickerReady) {
+  if (app.isReady()) {
     eventEmitter.emit(URL_RECEIVED, url)
   } else {
     // app not ready yet, this will be handled later in the createWindow callback
