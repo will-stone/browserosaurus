@@ -50,10 +50,8 @@ class AppContainer extends React.Component<
   setupFavHotkey = (fav: string) => mousetrap.bind('enter', () => this.handleRunActivity(fav))
 
   handleReceiveActivities = (_: unknown, activities: Activity[]) => {
-    mousetrap.reset()
     this.setupCommonHotkeys()
     this.setupHotkeys(activities)
-    this.state.fav && this.setupFavHotkey(this.state.fav)
     this.setState({ activities, state: EAppState.FULFILLED })
   }
 
