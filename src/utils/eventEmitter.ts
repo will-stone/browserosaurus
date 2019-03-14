@@ -1,5 +1,3 @@
 import * as EventEmitter from 'events'
 
-const eventEmitter = new EventEmitter()
-
-export default eventEmitter
+export const eventEmitter = new EventEmitter()

@@ -2,7 +2,7 @@ import { spawn } from 'child_process'
 import * as jp from 'jsonpath'
 import { keyBy, uniq } from 'lodash'
 import * as xml2js from 'xml2js'
-import activities from '../config/activities'
+import { activities } from '../config/activities'
 import { Activity } from '../model'
 
 /**

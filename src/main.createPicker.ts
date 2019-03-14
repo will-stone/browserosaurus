@@ -1,20 +1,17 @@
 import { BrowserWindow, screen } from 'electron'
 import { ACTIVITIES_SET, PICKER_BLUR, URL_RECEIVED, FAV_SET } from './config/events'
 import { Activity } from './model'
-import eventEmitter from './utils/eventEmitter'
+import { eventEmitter } from './utils/eventEmitter'
 
 let pickerWindow: BrowserWindow
 
 /**
  * Create Picker Window
  *
- * Creates the window that is used to display activity selection after clicking
- * a link.
- * @param {function} callback - function to run at the end of this one.
- * @returns {null}
+ * Creates the window that is used to display activity selection after clicking a link.
  */
-function createPickerWindow() {
-  return new Promise((resolve, reject) => {
+export const createPickerWindow = () =>
+  new Promise((resolve, reject) => {
     pickerWindow = new BrowserWindow({
       acceptFirstMouse: true,
       alwaysOnTop: true,
@@ -59,7 +56,9 @@ function createPickerWindow() {
       pickerWindow.webContents.send(ACTIVITIES_SET, activities),
     )
 
-    eventEmitter.on(FAV_SET, (fav: string) => pickerWindow.webContents.send(FAV_SET, fav))
+    eventEmitter.on(FAV_SET, (browserName: string) =>
+      pickerWindow.webContents.send(FAV_SET, browserName),
+    )
 
     eventEmitter.on(URL_RECEIVED, (url: string) => {
       const display = screen.getDisplayNearestPoint(screen.getCursorScreenPoint())
@@ -70,6 +69,3 @@ function createPickerWindow() {
       pickerWindow.webContents.send(URL_RECEIVED, url)
     })
   })
-}
-
-export default createPickerWindow

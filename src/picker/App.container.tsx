@@ -1,15 +1,7 @@
 import { ipcRenderer, remote } from 'electron'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
-import {
-  ACTIVITIES_GET,
-  ACTIVITIES_SET,
-  PICKER_BLUR,
-  ACTIVITY_RUN,
-  URL_RECEIVED,
-  FAV_GET,
-  FAV_SET,
-} from '../config/events'
+import { ACTIVITIES_SET, ACTIVITY_RUN, PICKER_BLUR, URL_RECEIVED, FAV_SET } from '../config/events'
 import { Activity, EAppState } from '../model'
 import { copyToClipboard } from '../utils/copyToClipboard'
 import App from './App'
@@ -42,8 +34,6 @@ class AppContainer extends React.Component<
   }
 
   public componentDidMount() {
-    ipcRenderer.send(FAV_GET)
-    ipcRenderer.send(ACTIVITIES_GET)
     this.setupCommonHotkeys()
   }
 

@@ -1,6 +1,6 @@
 import { Activity } from '../model'
 
-const activities: Activity[] = [
+export const activities: Activity[] = [
   {
     appId: 'Brave-Browser-Dev',
     cmd: 'open "{URL}" -a Brave-Browser-Dev',
@@ -97,5 +97,3 @@ const activities: Activity[] = [
     name: 'Vivaldi',
   },
 ]
-
-export default activities
