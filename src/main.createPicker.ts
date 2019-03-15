@@ -3,7 +3,7 @@ import { ACTIVITIES_SET, PICKER_BLUR, URL_RECEIVED, FAV_SET, WINDOW_HIDE } from 
 import { Activity } from './model'
 import { eventEmitter } from './utils/eventEmitter'
 
-let pickerWindow: BrowserWindow
+let pickerWindow: BrowserWindow // Prevents garbage collection
 
 /**
  * Create Picker Window
