@@ -46,6 +46,13 @@ class AppContainer extends React.Component<
     mousetrap.bind('space', this.handleCopyToClipboard)
   }
 
+  componentWillUnmount() {
+    ipcRenderer.removeAllListeners(URL_RECEIVED)
+    ipcRenderer.removeAllListeners(PICKER_BLUR)
+    ipcRenderer.removeAllListeners(ACTIVITIES_SET)
+    ipcRenderer.removeAllListeners(FAV_SET)
+  }
+
   onReceiveActivities = (_: unknown, activities: Activity[]) => {
     // setup hotkeys
     activities.forEach(activity => {

@@ -13,7 +13,7 @@
     "start": "ENV=DEV electron-forge start",
     "test": "jest",
     "test:watch": "jest --watch",
-    "lint": "tslint --project tsconfig.json --type-check --force",
+    "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx",
     "package": "electron-forge package --platform=darwin --arch=x64",
     "make": "electron-forge make",
     "icns": "cd ./src/images/icon && ./png2icns.sh icon.png"
