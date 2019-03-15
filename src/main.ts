@@ -10,7 +10,8 @@ import Store = require('electron-store')
 // Start store and set activities if first run
 const store = new Store({ defaults: { fav: undefined } })
 
-let urlToOpen: string | undefined
+let urlToOpen: string | undefined // if started via clicking link
+let tray = null // prevents garbage collection
 
 // Store new favourite
 eventEmitter.on(FAV_SET, async (browserName: string) => store.set('fav', browserName))
@@ -29,7 +30,7 @@ app.on('ready', async () => {
 
   const fav = store.get('fav')
 
-  const tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
+  tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
   tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
   tray.setToolTip('Browserosaurus')
   const contextMenu: MenuItemConstructorOptions[] = [
