@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { render, waitForElement } from 'react-testing-library'
-import { EAppState, Activity } from '../../model'
+import { render } from 'react-testing-library'
+import { Activity, EAppState } from '../../model'
 import App from '../App'
 
 const activities: Activity[] = [
@@ -19,27 +19,31 @@ describe('Picker App', () => {
     onActivityClick: jest.fn(),
     onCopyToClipboard: jest.fn(),
     onWindowAnimationEnd: jest.fn(),
+    onWindowClick: jest.fn(),
     state: EAppState.IDLE,
     url: 'https://will-stone.github.io/browserosaurus/',
+    fav: 'Firefox',
   }
-
-  it('should pass', () => {
-    expect(true).toBeTruthy()
-  })
 
   it('renders the URL', () => {
     const { getByText } = render(<App {...props} />)
     getByText(props.url)
   })
 
-  it('renders the loading spinner', async () => {
-    const { container } = render(<App {...props} />)
-    await waitForElement(() => container.querySelector('.bp3-spinner'))
+  it('renders the loading text', () => {
+    const { getByText } = render(<App {...props} />)
+    getByText('Loading...')
   })
 
-  it('renders the activities list', async () => {
-    const { state, ...restProps } = props
+  it('renders the activities list', () => {
+    const { state, ...restProps } = props // eslint-disable-line @typescript-eslint/no-unused-vars
     const { getByAltText } = render(<App state={EAppState.FULFILLED} {...restProps} />)
     getByAltText('Firefox')
+  })
+
+  it('renders the hotkey', () => {
+    const { state, ...restProps } = props // eslint-disable-line @typescript-eslint/no-unused-vars
+    const { getByText } = render(<App state={EAppState.FULFILLED} {...restProps} />)
+    getByText('f')
   })
 })

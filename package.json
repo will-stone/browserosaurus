@@ -22,10 +22,7 @@
   "bugs": {
     "url": "https://github.com/will-stone/browserosaurus/issues"
   },
-  "keywords": [
-    "Electron",
-    "Browser chooser"
-  ],
+  "keywords": ["Electron", "Browser chooser"],
   "author": "Will Stone",
   "license": "MIT",
   "devDependencies": {
@@ -79,9 +76,7 @@
   "config": {
     "forge": {
       "make_targets": {
-        "darwin": [
-          "dmg"
-        ]
+        "darwin": ["dmg"]
       },
       "electronPackagerConfig": {
         "packageManager": "yarn",
@@ -97,19 +92,31 @@
         "protocols": [
           {
             "name": "HTTP link",
-            "schemes": [
-              "http",
-              "https"
-            ]
+            "schemes": ["http", "https"]
           },
           {
             "name": "File",
-            "schemes": [
-              "file"
-            ]
+            "schemes": ["file"]
           }
         ]
       }
     }
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "react-testing-library/cleanup-after-each",
+      "jest-dom/extend-expect"
+    ],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/build/",
+      "<rootDir>/docs/",
+      "<rootDir>/out/"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/build/",
+      "<rootDir>/docs/",
+      "<rootDir>/out/"
+    ]
   }
 }
