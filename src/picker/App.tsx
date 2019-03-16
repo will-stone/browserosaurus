@@ -61,6 +61,7 @@ const App = ({
                   marginRight: activity.name === fav ? 'auto' : '30px',
                   width: activity.name === fav ? '200px' : '150px',
                 }}
+                role="button"
               >
                 <img
                   src={`../images/activity-icons/${activity.name}.png`}
