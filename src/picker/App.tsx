@@ -12,17 +12,7 @@ import {
   ActivityImg,
 } from './StyledComponents'
 
-const App = ({
-  activities,
-  isVisible,
-  onActivityClick,
-  onCopyToClipboard,
-  onWindowAnimationEnd,
-  onWindowClick,
-  state,
-  url,
-  fav,
-}: {
+interface Props {
   activities: Activity[]
   isVisible: boolean
   onActivityClick: (actName: string) => void
@@ -32,6 +22,18 @@ const App = ({
   state: EAppState
   url: string | null
   fav: string | null
+}
+
+const App: React.FC<Props> = ({
+  activities,
+  isVisible,
+  onActivityClick,
+  onCopyToClipboard,
+  onWindowAnimationEnd,
+  onWindowClick,
+  state,
+  url,
+  fav,
 }) => {
   const windowSpringStyles = useSpring({
     opacity: isVisible ? 1 : 0,
