@@ -41,7 +41,7 @@ const App = ({
   return (
     <Window style={windowSpringStyles} onClick={onWindowClick}>
       {state === EAppState.IDLE || state === EAppState.PENDING ? (
-        <div style={{ textAlign: 'center' }}>Loading...</div>
+        <div style={{ textAlign: 'center', color: 'white' }}>Loading...</div>
       ) : (
         <div style={{ textAlign: 'center' }}>
           {activities
