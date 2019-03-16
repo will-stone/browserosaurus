@@ -52,10 +52,15 @@ export const createPickerWindow = () =>
       pickerWindow.hide()
     })
 
-    pickerWindow.on('blur', () => pickerWindow.webContents.send(PICKER_BLUR))
+    pickerWindow.on('blur', () => {
+      pickerWindow.setIgnoreMouseEvents(true)
+      pickerWindow.webContents.send(PICKER_BLUR)
+    })
 
-    pickerWindow.once('ready-to-show', resolve)
-    // pickerWindow.webContents.openDevTools()
+    pickerWindow.once('ready-to-show', () => {
+      // pickerWindow.webContents.openDevTools()
+      resolve()
+    })
 
     pickerWindow.once('unresponsive', reject)
 

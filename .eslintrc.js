@@ -19,7 +19,7 @@ module.exports = {
     es6: true,
     'jest/globals': true, // Allows "it", "describe" etc.
   },
-  plugins: ['@typescript-eslint', 'react', 'jest'], // provides extra rules.
+  plugins: ['@typescript-eslint', 'react', 'jest', 'react-hooks'], // provides extra rules.
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -43,5 +43,7 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off', // Allows functional components, should be fixed soon: https://github.com/typescript-eslint/typescript-eslint/issues/149
     '@typescript-eslint/explicit-member-accessibility': 'off', // Allows not having to set public/private on class properties.
     'no-var': 'error', // Must use const or let.
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
   },
 }

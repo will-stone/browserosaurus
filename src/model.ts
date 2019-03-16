@@ -5,9 +5,3 @@ export interface Activity {
   cmd: string
   fav?: boolean
 }
-
-export enum EAppState {
-  IDLE = 'IDLE',
-  PENDING = 'PENDING',
-  FULFILLED = 'FULFILLED',
-}

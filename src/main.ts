@@ -21,6 +21,7 @@ let urlToOpen: string | undefined // if started via clicking link
 let tray = null // prevents garbage collection
 
 ipcMain.on(ACTIVITY_RUN, (_: Event, arg: { name: string; url: string }) => {
+  eventEmitter.emit(MOUSE_EVENTS_IGNORE)
   const activity = activities.find(act => act.name === arg.name)
   activity && runCommand(activity.cmd.replace('{URL}', arg.url))
 })
