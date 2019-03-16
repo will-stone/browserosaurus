@@ -1,11 +1,16 @@
 import * as React from 'react'
 import { config, useSpring } from 'react-spring/web.cjs'
 import { Activity, EAppState } from '../model'
-import { ActivityButton } from './styledComponents/ActivityButton'
-import { CopyButton } from './styledComponents/CopyButton'
-import { Key } from './styledComponents/Key'
-import { Url } from './styledComponents/Url'
-import { Window } from './styledComponents/Window'
+import {
+  ActivityButton,
+  CopyButton,
+  Key,
+  Url,
+  Window,
+  LoadingText,
+  ActivitiesWrapper,
+  ActivityImg,
+} from './StyledComponents'
 
 const App = ({
   activities,
@@ -41,9 +46,9 @@ const App = ({
   return (
     <Window style={windowSpringStyles} onClick={onWindowClick}>
       {state === EAppState.IDLE || state === EAppState.PENDING ? (
-        <div style={{ textAlign: 'center', color: 'white' }}>Loading...</div>
+        <LoadingText>Loading...</LoadingText>
       ) : (
-        <div style={{ textAlign: 'center' }}>
+        <ActivitiesWrapper>
           {activities
             .sort((a, b) => (a.name === fav ? -1 : b.name === fav ? 1 : 0))
             .map(activity => (
@@ -53,28 +58,18 @@ const App = ({
                   e.stopPropagation()
                   onActivityClick(activity.name)
                 }}
-                style={{
-                  ...activitySpringStyles,
-                  display: activity.name === fav ? 'block' : 'inline-flex',
-                  height: activity.name === fav ? '200px' : '150px',
-                  marginLeft: activity.name === fav ? 'auto' : '30px',
-                  marginRight: activity.name === fav ? 'auto' : '30px',
-                  width: activity.name === fav ? '200px' : '150px',
-                }}
+                fav={activity.name === fav ? 'fav' : undefined}
+                style={activitySpringStyles}
                 role="button"
               >
-                <img
+                <ActivityImg
                   src={`../images/activity-icons/${activity.name}.png`}
                   alt={activity.name}
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                  }}
                 />
                 <Key>{activity.hotKey}</Key>
               </ActivityButton>
             ))}
-        </div>
+        </ActivitiesWrapper>
       )}
       <Url>{url}</Url>
       <CopyButton onClick={onCopyToClipboard}>Copy To Clipboard</CopyButton>

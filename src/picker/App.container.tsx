@@ -1,4 +1,4 @@
-import { ipcRenderer, remote } from 'electron'
+import { ipcRenderer } from 'electron'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
 import {
@@ -66,10 +66,7 @@ class AppContainer extends React.Component<
 
   onReceiveURL = (_: unknown, url: string) => this.setState({ url, isVisible: true })
 
-  shrinkWindow = () => {
-    remote.getCurrentWindow().setIgnoreMouseEvents(true) // allows click through during closing animation
-    this.setState({ isVisible: false })
-  }
+  shrinkWindow = () => this.setState({ isVisible: false })
 
   handleRunActivity = (activityName: string) => {
     if (this.state.isVisible && this.state.url) {

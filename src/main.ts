@@ -1,6 +1,13 @@
 import { app, ipcMain, Menu, MenuItemConstructorOptions, Tray } from 'electron'
 import { activities } from './config/activities'
-import { ACTIVITIES_SET, ACTIVITY_RUN, FAV_SET, URL_RECEIVED, WINDOW_HIDE } from './config/events'
+import {
+  ACTIVITIES_SET,
+  ACTIVITY_RUN,
+  FAV_SET,
+  URL_RECEIVED,
+  WINDOW_HIDE,
+  MOUSE_EVENTS_IGNORE,
+} from './config/events'
 import { createPickerWindow } from './main.createPicker'
 import { eventEmitter } from './utils/eventEmitter'
 import { getInstalledActivities } from './utils/getInstalledActivities'
@@ -13,15 +20,11 @@ const store = new Store({ defaults: { fav: undefined } })
 let urlToOpen: string | undefined // if started via clicking link
 let tray = null // prevents garbage collection
 
-// Store new favourite
-eventEmitter.on(FAV_SET, async (browserName: string) => store.set('fav', browserName))
-
-// Receive the event from picket to run activity command
 ipcMain.on(ACTIVITY_RUN, (_: Event, arg: { name: string; url: string }) => {
   const activity = activities.find(act => act.name === arg.name)
   activity && runCommand(activity.cmd.replace('{URL}', arg.url))
 })
-
+ipcMain.on(MOUSE_EVENTS_IGNORE, () => eventEmitter.emit(MOUSE_EVENTS_IGNORE))
 ipcMain.on(WINDOW_HIDE, () => eventEmitter.emit(WINDOW_HIDE))
 
 app.on('ready', async () => {
@@ -58,7 +61,10 @@ app.on('ready', async () => {
     checked: act.name === fav,
     label: act.name,
     type: 'radio',
-    click: () => eventEmitter.emit(FAV_SET, act.name),
+    click: () => {
+      store.set('fav', act.name)
+      eventEmitter.emit(FAV_SET, act.name)
+    },
   })) as MenuItemConstructorOptions[])
 
   // reapply tray menu

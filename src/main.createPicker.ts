@@ -1,5 +1,12 @@
 import { BrowserWindow, screen } from 'electron'
-import { ACTIVITIES_SET, PICKER_BLUR, URL_RECEIVED, FAV_SET, WINDOW_HIDE } from './config/events'
+import {
+  ACTIVITIES_SET,
+  PICKER_BLUR,
+  URL_RECEIVED,
+  FAV_SET,
+  WINDOW_HIDE,
+  MOUSE_EVENTS_IGNORE,
+} from './config/events'
 import { Activity } from './model'
 import { eventEmitter } from './utils/eventEmitter'
 
@@ -59,6 +66,9 @@ export const createPickerWindow = () =>
     eventEmitter.on(FAV_SET, (browserName: string) =>
       pickerWindow.webContents.send(FAV_SET, browserName),
     )
+
+    // allows click through during closing animation
+    eventEmitter.on(MOUSE_EVENTS_IGNORE, () => pickerWindow.setIgnoreMouseEvents(true))
 
     eventEmitter.on(WINDOW_HIDE, () => pickerWindow.hide())
 
