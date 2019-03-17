@@ -1,15 +1,24 @@
-import { app, ipcMain, Menu, MenuItemConstructorOptions, Tray } from 'electron'
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  Menu,
+  MenuItemConstructorOptions,
+  screen,
+  Tray,
+} from 'electron'
 import { activities } from './config/activities'
 import {
   ACTIVITIES_SET,
   ACTIVITY_RUN,
+  COPY_TO_CLIPBOARD,
   FAV_SET,
+  PICKER_BLUR,
   URL_RECEIVED,
-  WINDOW_HIDE,
-  MOUSE_EVENTS_IGNORE,
+  WINDOW_HIDE_END,
+  WINDOW_HIDE_START,
 } from './config/events'
-import { createPickerWindow } from './main.createPicker'
-import { eventEmitter } from './utils/eventEmitter'
+import { copyToClipboard } from './utils/copyToClipboard'
 import { getInstalledActivities } from './utils/getInstalledActivities'
 import { runCommand } from './utils/runCommand'
 import Store = require('electron-store')
@@ -19,13 +28,78 @@ const store = new Store({ defaults: { fav: undefined } })
 
 let urlToOpen: string | undefined // if started via clicking link
 let tray = null // prevents garbage collection
+let pickerWindow: BrowserWindow // Prevents garbage collection
 
-ipcMain.on(ACTIVITY_RUN, (_: Event, arg: { name: string; url: string }) => {
-  eventEmitter.emit(MOUSE_EVENTS_IGNORE)
-  const activity = activities.find(act => act.name === arg.name)
-  activity && runCommand(activity.cmd.replace('{URL}', arg.url))
+const createPickerWindow = () =>
+  new Promise((resolve, reject) => {
+    pickerWindow = new BrowserWindow({
+      acceptFirstMouse: true,
+      alwaysOnTop: true,
+      closable: false,
+      frame: false,
+      fullscreenable: false,
+      hasShadow: false,
+      height: 50,
+      icon: `${__dirname}/images/icon/icon.png`,
+      maximizable: false,
+      minimizable: false,
+      movable: false,
+      resizable: false,
+      show: false,
+      title: 'Browserosaurus',
+      titleBarStyle: 'customButtonsOnHover',
+      transparent: true,
+      width: 400,
+    })
+
+    pickerWindow.loadURL(`file://${__dirname}/picker/index.html`)
+
+    pickerWindow.on('close', e => {
+      e.preventDefault()
+      pickerWindow.hide()
+    })
+
+    pickerWindow.on('blur', () => {
+      pickerWindow.setIgnoreMouseEvents(true)
+      pickerWindow.webContents.send(PICKER_BLUR)
+    })
+
+    pickerWindow.once('ready-to-show', () => {
+      // pickerWindow.webContents.openDevTools()
+      resolve()
+    })
+
+    pickerWindow.once('unresponsive', reject)
+  })
+
+const urlRecevied = (url: string) => {
+  const display = screen.getDisplayNearestPoint(screen.getCursorScreenPoint())
+  pickerWindow.setPosition(display.bounds.x, 0, false)
+  pickerWindow.setSize(display.size.width, display.size.height, false)
+  pickerWindow.show()
+  pickerWindow.setIgnoreMouseEvents(false)
+  pickerWindow.webContents.send(URL_RECEIVED, url)
+}
+
+ipcMain.on(ACTIVITY_RUN, (_: Event, name: string) => {
+  pickerWindow.setIgnoreMouseEvents(true)
+  const activity = activities.find(act => act.name === name)
+  activity && urlToOpen && runCommand(activity.cmd.replace('{URL}', urlToOpen))
+  urlToOpen = undefined
 })
-ipcMain.on(WINDOW_HIDE, () => eventEmitter.emit(WINDOW_HIDE))
+
+ipcMain.on(WINDOW_HIDE_START, () => {
+  urlToOpen = undefined
+})
+
+ipcMain.on(WINDOW_HIDE_END, () => {
+  !urlToOpen && pickerWindow.hide()
+})
+
+ipcMain.on(COPY_TO_CLIPBOARD, () => {
+  urlToOpen && copyToClipboard(urlToOpen)
+  urlToOpen = undefined
+})
 
 app.on('ready', async () => {
   // Prompt to set as default browser
@@ -63,7 +137,7 @@ app.on('ready', async () => {
     type: 'radio',
     click: () => {
       store.set('fav', act.name)
-      eventEmitter.emit(FAV_SET, act.name)
+      pickerWindow.webContents.send(FAV_SET, act.name)
     },
   })) as MenuItemConstructorOptions[])
 
@@ -71,13 +145,12 @@ app.on('ready', async () => {
   tray.setContextMenu(Menu.buildFromTemplate(contextMenu))
 
   // Send activities and fav down to picker
-  eventEmitter.emit(ACTIVITIES_SET, acts)
-  eventEmitter.emit(FAV_SET, fav)
+  pickerWindow.webContents.send(ACTIVITIES_SET, acts)
+  pickerWindow.webContents.send(FAV_SET, fav)
 
   if (urlToOpen) {
     // if Browserosaurus was opened with a link, this will now be sent on to the picker window.
-    eventEmitter.emit(URL_RECEIVED, urlToOpen)
-    urlToOpen = undefined // not required any more
+    urlRecevied(urlToOpen)
   }
 })
 
@@ -88,11 +161,9 @@ app.on('before-quit', () => {
 
 app.on('open-url', (event, url) => {
   event.preventDefault()
+  urlToOpen = url
   if (app.isReady()) {
-    eventEmitter.emit(URL_RECEIVED, url)
-  } else {
-    // app not ready yet, this will be handled later in the createWindow callback
-    urlToOpen = url
+    urlRecevied(urlToOpen)
   }
 })
 

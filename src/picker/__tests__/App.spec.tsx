@@ -1,10 +1,15 @@
 import * as electron from 'electron'
 import * as React from 'react'
 import { render, fireEvent, wait, within, act } from 'react-testing-library'
-import { ACTIVITIES_SET, URL_RECEIVED, ACTIVITY_RUN, FAV_SET } from '../../config/events'
+import {
+  ACTIVITIES_SET,
+  URL_RECEIVED,
+  ACTIVITY_RUN,
+  FAV_SET,
+  COPY_TO_CLIPBOARD,
+} from '../../config/events'
 import { Activity } from '../../model'
 import App from '../App'
-import { copyToClipboard } from '../../utils/copyToClipboard'
 
 jest.mock('../../utils/copyToClipboard')
 
@@ -77,10 +82,7 @@ describe('App', () => {
     act(() => {
       fireEvent.click(getByAltText('Firefox'))
     })
-    expect(electron.ipcRenderer.send).toBeCalledWith(ACTIVITY_RUN, {
-      name: 'Firefox',
-      url: 'test url',
-    })
+    expect(electron.ipcRenderer.send).toBeCalledWith(ACTIVITY_RUN, 'Firefox')
     // window hides
     await wait(() => expect(container.firstChild).not.toBeVisible())
   })
@@ -96,7 +98,7 @@ describe('App', () => {
     act(() => {
       fireEvent.click(getByText('Copy To Clipboard'))
     })
-    expect(copyToClipboard).toHaveBeenCalledWith('test url')
+    expect(electron.ipcRenderer.send).toHaveBeenCalledWith(COPY_TO_CLIPBOARD)
     // window hides
     await wait(() => expect(container.firstChild).not.toBeVisible())
   })
