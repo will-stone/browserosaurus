@@ -36,12 +36,6 @@ export const createPickerWindow = () =>
       title: 'Browserosaurus',
       titleBarStyle: 'customButtonsOnHover',
       transparent: true,
-      webPreferences: {
-        // Enable, among other things, the ResizeObserver
-        // TODO: is this needed any more?
-        experimentalFeatures: true,
-        nodeIntegration: true,
-      },
       width: 400,
     })
 

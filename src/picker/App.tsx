@@ -31,12 +31,14 @@ const ARunActivity = a('RUN_ACTIVITY', {} as { name: string })
 const AFavSet = a(FAV_SET, {} as { name: string })
 const ACopyToClipboard = a('COPY_TO_CLIPBOARD')
 const AActivitiesSet = a(ACTIVITIES_SET, {} as { activities: Activity[] })
+const AWindowHide = a(WINDOW_HIDE)
 type AUrlReceived = ReturnType<typeof AUrlReceived>
 type APickerBlur = ReturnType<typeof APickerBlur>
 type ARunActivity = ReturnType<typeof ARunActivity>
 type AFavSet = ReturnType<typeof AFavSet>
 type ACopyToClipboard = ReturnType<typeof ACopyToClipboard>
 type AActivitiesSet = ReturnType<typeof AActivitiesSet>
+type AWindowHide = ReturnType<typeof AWindowHide>
 
 interface State {
   url: string | null
@@ -50,7 +52,14 @@ const initialState: State = { url: null, isVisible: false, activities: [], fav: 
 const reducer = produce(
   (
     state: State,
-    action: AUrlReceived | APickerBlur | ARunActivity | AFavSet | ACopyToClipboard | AActivitiesSet,
+    action:
+      | AUrlReceived
+      | APickerBlur
+      | ARunActivity
+      | AFavSet
+      | ACopyToClipboard
+      | AActivitiesSet
+      | AWindowHide,
   ) => {
     switch (action.type) {
       case AActivitiesSet.TYPE:
@@ -76,6 +85,10 @@ const reducer = produce(
         state.isVisible = false
         return
       }
+      case AWindowHide.TYPE: {
+        if (!state.isVisible) ipcRenderer.send(WINDOW_HIDE)
+        return
+      }
     }
   },
 )
@@ -90,9 +103,9 @@ const App: React.FC = () => {
       e.preventDefault() // stops space from opening previously selected act
       dispatch(ACopyToClipboard())
     })
-    ipcRenderer.on(URL_RECEIVED, (_: unknown, receivedUrl: string) =>
-      dispatch(AUrlReceived({ url: receivedUrl })),
-    )
+    ipcRenderer.on(URL_RECEIVED, (_: unknown, receivedUrl: string) => {
+      dispatch(AUrlReceived({ url: receivedUrl }))
+    })
     ipcRenderer.on(FAV_SET, (_: unknown, receivedFav: string) => {
       dispatch(AFavSet({ name: receivedFav }))
       mousetrap.bind('enter', () => dispatch(ARunActivity({ name: receivedFav })))
@@ -116,7 +129,7 @@ const App: React.FC = () => {
   const windowSpringStyles = useSpring({
     opacity: state.isVisible ? 1 : 0,
     config: config.stiff,
-    onRest: () => !state.isVisible && ipcRenderer.send(WINDOW_HIDE),
+    onRest: () => dispatch(AWindowHide()),
   })
 
   const activitySpringStyles = useSpring({
