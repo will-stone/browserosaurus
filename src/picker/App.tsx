@@ -86,7 +86,10 @@ const App: React.FC = () => {
   // Se-up event listeners
   React.useEffect(() => {
     mousetrap.bind('esc', () => dispatch(APickerBlur()))
-    mousetrap.bind('space', () => dispatch(ACopyToClipboard()))
+    mousetrap.bind('space', e => {
+      e.preventDefault() // stops space from opening previously selected act
+      dispatch(ACopyToClipboard())
+    })
     ipcRenderer.on(URL_RECEIVED, (_: unknown, receivedUrl: string) =>
       dispatch(AUrlReceived({ url: receivedUrl })),
     )
