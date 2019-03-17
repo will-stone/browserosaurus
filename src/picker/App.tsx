@@ -1,16 +1,18 @@
+import a from '@artossystems/a'
 import { ipcRenderer } from 'electron'
+import produce from 'immer'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
 import { config, useSpring } from 'react-spring/web.cjs'
 import {
   ACTIVITIES_SET,
   ACTIVITY_RUN,
+  COPY_TO_CLIPBOARD,
+  FAV_SET,
   PICKER_BLUR,
   URL_RECEIVED,
-  FAV_SET,
-  WINDOW_HIDE_START,
-  WINDOW_HIDE_END,
-  COPY_TO_CLIPBOARD,
+  URL_RESET,
+  WINDOW_HIDE,
 } from '../config/events'
 import { Activity } from '../model'
 import {
@@ -23,8 +25,6 @@ import {
   Url,
   Window,
 } from './StyledComponents'
-import a from '@artossystems/a'
-import produce from 'immer'
 
 const AUrlReceived = a(URL_RECEIVED, {} as { url: string })
 const APickerBlur = a(PICKER_BLUR)
@@ -70,7 +70,7 @@ const App: React.FC = () => {
   // Se-up event listeners
   React.useEffect(() => {
     mousetrap.bind('esc', () => {
-      ipcRenderer.send(WINDOW_HIDE_START)
+      ipcRenderer.send(URL_RESET)
       dispatch(APickerBlur())
     })
     mousetrap.bind('space', e => {
@@ -89,7 +89,7 @@ const App: React.FC = () => {
       })
     })
     ipcRenderer.on(PICKER_BLUR, () => {
-      ipcRenderer.send(WINDOW_HIDE_START)
+      ipcRenderer.send(URL_RESET)
       dispatch(APickerBlur())
     })
     ipcRenderer.on(ACTIVITIES_SET, (_: unknown, receivedActivities: Activity[]) => {
@@ -113,7 +113,7 @@ const App: React.FC = () => {
   const windowSpringStyles = useSpring({
     opacity: state.isVisible ? 1 : 0,
     config: config.stiff,
-    onRest: () => ipcRenderer.send(WINDOW_HIDE_END),
+    onRest: () => ipcRenderer.send(WINDOW_HIDE),
   })
 
   const activitySpringStyles = useSpring({
@@ -126,7 +126,7 @@ const App: React.FC = () => {
     <Window
       style={windowSpringStyles}
       onClick={() => {
-        ipcRenderer.send(WINDOW_HIDE_START)
+        ipcRenderer.send(URL_RESET)
         dispatch(APickerBlur())
       }}
     >

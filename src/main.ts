@@ -15,8 +15,8 @@ import {
   FAV_SET,
   PICKER_BLUR,
   URL_RECEIVED,
-  WINDOW_HIDE_END,
-  WINDOW_HIDE_START,
+  URL_RESET,
+  WINDOW_HIDE,
 } from './config/events'
 import { copyToClipboard } from './utils/copyToClipboard'
 import { getInstalledActivities } from './utils/getInstalledActivities'
@@ -88,11 +88,11 @@ ipcMain.on(ACTIVITY_RUN, (_: Event, name: string) => {
   urlToOpen = undefined
 })
 
-ipcMain.on(WINDOW_HIDE_START, () => {
+ipcMain.on(URL_RESET, () => {
   urlToOpen = undefined
 })
 
-ipcMain.on(WINDOW_HIDE_END, () => {
+ipcMain.on(WINDOW_HIDE, () => {
   !urlToOpen && pickerWindow.hide()
 })
 
