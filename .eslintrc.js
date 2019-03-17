@@ -45,5 +45,6 @@ module.exports = {
     'no-var': 'error', // Must use const or let.
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    '@typescript-eslint/no-object-literal-type-assertion': 'off' // allows 'a' payloads
   },
 }
