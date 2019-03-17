@@ -5142,6 +5142,11 @@ image-size@^0.5.0, image-size@~0.5.0:
   resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.5.5.tgz#09dfd4ab9d20e29eb1c3e80b8990378df9e3cb9c"
   integrity sha1-Cd/Uq50g4p6xw+gLiZA3jfnjy5w=
 
+immer@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-2.1.3.tgz#56e2eeffc4eff5d15111a878041177cadcfc6f75"
+  integrity sha512-rlXI8sYY22/ykqFodL37W1/syMhYDVVEsui5HWrQezgmavV6f8oDbN2fKBH6XZkjH5qz9hapbpmgDPYOufJsfg==
+
 import-fresh@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/import-fresh/-/import-fresh-3.0.0.tgz#a3d897f420cab0e671236897f75bc14b4885c390"

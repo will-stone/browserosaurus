@@ -23,6 +23,7 @@ import {
 } from './StyledComponents'
 import { copyToClipboard } from '../utils/copyToClipboard'
 import a from '@artossystems/a'
+import produce from 'immer'
 
 const AUrlReceived = a(URL_RECEIVED, {} as { url: string })
 const APickerBlur = a(PICKER_BLUR)
@@ -46,50 +47,38 @@ interface State {
 
 const initialState: State = { url: null, isVisible: false, activities: [], fav: null }
 
-const reducer = (
-  state: State,
-  action: AUrlReceived | APickerBlur | ARunActivity | AFavSet | ACopyToClipboard | AActivitiesSet,
-) => {
-  switch (action.type) {
-    case AActivitiesSet.TYPE:
-      return {
-        ...state,
-        activities: action.activities,
+const reducer = produce(
+  (
+    state: State,
+    action: AUrlReceived | APickerBlur | ARunActivity | AFavSet | ACopyToClipboard | AActivitiesSet,
+  ) => {
+    switch (action.type) {
+      case AActivitiesSet.TYPE:
+        state.activities = action.activities
+        return
+      case AUrlReceived.TYPE:
+        state.url = action.url
+        state.isVisible = true
+        return
+      case APickerBlur.TYPE:
+        state.isVisible = false
+        return
+      case ARunActivity.TYPE: {
+        ipcRenderer.send(ACTIVITY_RUN, { name: action.name, url: state.url })
+        state.isVisible = false
+        return
       }
-    case AUrlReceived.TYPE:
-      return {
-        ...state,
-        url: action.url,
-        isVisible: true,
-      }
-    case APickerBlur.TYPE:
-      return {
-        ...state,
-        isVisible: false,
-      }
-    case ARunActivity.TYPE: {
-      ipcRenderer.send(ACTIVITY_RUN, { name: action.name, url: state.url })
-      return {
-        ...state,
-        isVisible: false,
-      }
-    }
-    case AFavSet.TYPE:
-      return {
-        ...state,
-        fav: action.name,
-      }
-    case ACopyToClipboard.TYPE: {
-      state.url && copyToClipboard(state.url)
-      return {
-        ...state,
-        isVisible: false,
+      case AFavSet.TYPE:
+        state.fav = action.name
+        return
+      case ACopyToClipboard.TYPE: {
+        state.url && copyToClipboard(state.url)
+        state.isVisible = false
+        return
       }
     }
-    default:
-      return state
-  }
-}
+  },
+)
 
 const App: React.FC = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState)

@@ -25,7 +25,6 @@ ipcMain.on(ACTIVITY_RUN, (_: Event, arg: { name: string; url: string }) => {
   const activity = activities.find(act => act.name === arg.name)
   activity && runCommand(activity.cmd.replace('{URL}', arg.url))
 })
-ipcMain.on(MOUSE_EVENTS_IGNORE, () => eventEmitter.emit(MOUSE_EVENTS_IGNORE))
 ipcMain.on(WINDOW_HIDE, () => eventEmitter.emit(WINDOW_HIDE))
 
 app.on('ready', async () => {
