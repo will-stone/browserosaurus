@@ -89,6 +89,7 @@ ipcMain.on(ACTIVITY_RUN, (_: Event, name: string) => {
 })
 
 ipcMain.on(URL_RESET, () => {
+  pickerWindow.setIgnoreMouseEvents(true)
   urlToOpen = undefined
 })
 
@@ -97,6 +98,7 @@ ipcMain.on(WINDOW_HIDE, () => {
 })
 
 ipcMain.on(COPY_TO_CLIPBOARD, () => {
+  pickerWindow.setIgnoreMouseEvents(true)
   urlToOpen && copyToClipboard(urlToOpen)
   urlToOpen = undefined
 })
