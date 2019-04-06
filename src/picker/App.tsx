@@ -42,10 +42,18 @@ interface State {
   fav: string | null
 }
 
-const initialState: State = { url: null, isVisible: false, activities: [], fav: null }
+const initialState: State = {
+  url: null,
+  isVisible: false,
+  activities: [],
+  fav: null,
+}
 
 const reducer = produce(
-  (state: State, action: AUrlReceived | APickerBlur | AFavSet | AActivitiesSet) => {
+  (
+    state: State,
+    action: AUrlReceived | APickerBlur | AFavSet | AActivitiesSet,
+  ) => {
     switch (action.type) {
       case AActivitiesSet.TYPE:
         state.activities = action.activities
@@ -92,16 +100,19 @@ const App: React.FC = () => {
       ipcRenderer.send(URL_RESET)
       dispatch(APickerBlur())
     })
-    ipcRenderer.on(ACTIVITIES_SET, (_: unknown, receivedActivities: Activity[]) => {
-      // setup hotkeys
-      receivedActivities.forEach(act => {
-        mousetrap.bind(act.hotKey, () => {
-          ipcRenderer.send(ACTIVITY_RUN, act.name)
-          dispatch(APickerBlur())
+    ipcRenderer.on(
+      ACTIVITIES_SET,
+      (_: unknown, receivedActivities: Activity[]) => {
+        // setup hotkeys
+        receivedActivities.forEach(act => {
+          mousetrap.bind(act.hotKey, () => {
+            ipcRenderer.send(ACTIVITY_RUN, act.name)
+            dispatch(APickerBlur())
+          })
         })
-      })
-      dispatch(AActivitiesSet({ activities: receivedActivities }))
-    })
+        dispatch(AActivitiesSet({ activities: receivedActivities }))
+      },
+    )
     return function cleanup() {
       ipcRenderer.removeAllListeners(URL_RECEIVED)
       ipcRenderer.removeAllListeners(FAV_SET)
@@ -135,7 +146,9 @@ const App: React.FC = () => {
       ) : (
         <ActivitiesWrapper>
           {state.activities
-            .sort((a, b) => (a.name === state.fav ? -1 : b.name === state.fav ? 1 : 0))
+            .sort((a, b) =>
+              a.name === state.fav ? -1 : b.name === state.fav ? 1 : 0,
+            )
             .map(activity => (
               <ActivityButton
                 key={activity.name}

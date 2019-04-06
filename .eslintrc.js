@@ -36,7 +36,7 @@ module.exports = {
         semi: false,
         singleQuote: true,
         trailingComma: 'all',
-        printWidth: 100,
+        printWidth: 80,
       },
     ],
     'react/prop-types': 'off', // Disable prop-types as TS is used for type checking.

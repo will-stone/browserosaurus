@@ -21,7 +21,9 @@ export const ActivitiesWrapper = styled.div`
   text-align: center;
 `
 
-export const ActivityButton = styled(animated.button)<{ fav: 'fav' | undefined }>`
+export const ActivityButton = styled(animated.button)<{
+  fav: 'fav' | undefined
+}>`
   display: ${props => (props.fav === 'fav' ? 'block' : 'inline-flex')};
   height: ${props => (props.fav === 'fav' ? '200px' : '150px')};
   width: ${props => (props.fav === 'fav' ? '200px' : '150px')};

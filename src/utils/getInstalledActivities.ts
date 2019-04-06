@@ -26,7 +26,10 @@ const scanForApps = () =>
     })
     sp.stdout.on('end', () => {
       xml2js.parseString(profile, (_, result) => {
-        const installedApps = jp.query(result, 'plist.array[0].dict[0].array[1].dict[*].string[0]')
+        const installedApps = jp.query(
+          result,
+          'plist.array[0].dict[0].array[1].dict[*].string[0]',
+        )
 
         const unique = uniq(installedApps)
 
