@@ -13,10 +13,8 @@ import {
   ACTIVITY_RUN,
   COPY_TO_CLIPBOARD,
   FAV_SET,
-  PICKER_BLUR,
   URL_RECEIVED,
   URL_RESET,
-  WINDOW_HIDE,
 } from './config/events'
 import { copyToClipboard } from './utils/copyToClipboard'
 import { getInstalledActivities } from './utils/getInstalledActivities'
@@ -59,10 +57,7 @@ const createPickerWindow = () =>
       pickerWindow.hide()
     })
 
-    pickerWindow.on('blur', () => {
-      pickerWindow.setIgnoreMouseEvents(true)
-      pickerWindow.webContents.send(PICKER_BLUR)
-    })
+    pickerWindow.on('blur', () => pickerWindow.hide())
 
     pickerWindow.once('ready-to-show', () => {
       // pickerWindow.webContents.openDevTools()
@@ -77,30 +72,25 @@ const urlRecevied = (url: string) => {
   pickerWindow.setPosition(display.bounds.x, 0, false)
   pickerWindow.setSize(display.size.width, display.size.height, false)
   pickerWindow.show()
-  pickerWindow.setIgnoreMouseEvents(false)
   pickerWindow.webContents.send(URL_RECEIVED, url)
 }
 
 ipcMain.on(ACTIVITY_RUN, (_: Event, name: string) => {
-  pickerWindow.setIgnoreMouseEvents(true)
   const activity = activities.find(act => act.name === name)
   activity && urlToOpen && runCommand(activity.cmd.replace('{URL}', urlToOpen))
   urlToOpen = undefined
+  pickerWindow.hide()
 })
 
 ipcMain.on(URL_RESET, () => {
-  pickerWindow.setIgnoreMouseEvents(true)
   urlToOpen = undefined
-})
-
-ipcMain.on(WINDOW_HIDE, () => {
-  !urlToOpen && pickerWindow.hide()
+  pickerWindow.hide()
 })
 
 ipcMain.on(COPY_TO_CLIPBOARD, () => {
-  pickerWindow.setIgnoreMouseEvents(true)
   urlToOpen && copyToClipboard(urlToOpen)
   urlToOpen = undefined
+  pickerWindow.hide()
 })
 
 app.on('ready', async () => {

@@ -1,8 +1,7 @@
 import styled from 'styled-components'
-import { animated } from 'react-spring/web.cjs'
 
-export const Window = styled(animated.div)`
-  background-color: rgba(0, 0, 0, 0.8);
+export const Window = styled.div`
+  background-color: rgba(0, 0, 0, 0.9);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,7 +20,7 @@ export const ActivitiesWrapper = styled.div`
   text-align: center;
 `
 
-export const ActivityButton = styled(animated.button)<{
+export const ActivityButton = styled.button<{
   fav: 'fav' | undefined
 }>`
   display: ${props => (props.fav === 'fav' ? 'block' : 'inline-flex')};
