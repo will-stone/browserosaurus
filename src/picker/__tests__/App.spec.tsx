@@ -1,12 +1,13 @@
 import * as electron from 'electron'
 import * as React from 'react'
-import { render, fireEvent, wait, within, act } from 'react-testing-library'
+import { render, fireEvent, within, act } from 'react-testing-library'
 import {
   ACTIVITIES_SET,
   URL_RECEIVED,
   ACTIVITY_RUN,
   FAV_SET,
   COPY_TO_CLIPBOARD,
+  URL_RESET,
 } from '../../config/events'
 import { Activity } from '../../model'
 import App from '../App'
@@ -28,20 +29,6 @@ const activities: Activity[] = [
 ]
 
 describe('App', () => {
-  it('should hide the window by default', () => {
-    const { container } = render(<App />)
-    expect(container.firstChild).not.toBeVisible()
-  })
-
-  it('should open the window when a URL is received', async () => {
-    const { container } = render(<App />)
-    const win = new electron.remote.BrowserWindow()
-    act(() => {
-      win.webContents.send(URL_RECEIVED, 'test url')
-    })
-    await wait(() => expect(container.firstChild).toBeVisible())
-  })
-
   it('should display the loading text before activities received', () => {
     const { getByText } = render(<App />)
     getByText('Loading...')
@@ -57,7 +44,9 @@ describe('App', () => {
   })
 
   it('should display the received activities', () => {
-    const { getByAltText, getByText, queryByAltText } = render(<App />)
+    const { getByAltText, getByText, queryByAltText, queryByText } = render(
+      <App />,
+    )
     expect(queryByAltText('Firefox')).not.toBeInTheDocument()
     expect(queryByAltText('Safari')).not.toBeInTheDocument()
     const win = new electron.remote.BrowserWindow()
@@ -68,65 +57,54 @@ describe('App', () => {
     getByText('f')
     getByAltText('Safari')
     getByText('s')
+
+    expect(queryByText('Loading...')).toBeFalsy()
   })
 
-  it('should run activity and close the window on activity click', async () => {
-    const { getByAltText, container } = render(<App />)
+  it('should run activity on activity click', () => {
+    const { getByAltText } = render(<App />)
     const win = new electron.remote.BrowserWindow()
     act(() => {
       win.webContents.send(ACTIVITIES_SET, activities)
       win.webContents.send(URL_RECEIVED, 'test url')
     })
-    // window shows
-    await wait(() => expect(container.firstChild).toBeVisible())
     act(() => {
       fireEvent.click(getByAltText('Firefox'))
     })
     expect(electron.ipcRenderer.send).toBeCalledWith(ACTIVITY_RUN, 'Firefox')
-    // window hides
-    await wait(() => expect(container.firstChild).not.toBeVisible())
   })
 
-  it('should copy url and close the window on copy-to-clipboard click', async () => {
-    const { getByText, container } = render(<App />)
+  it('should copy url on copy-to-clipboard click', () => {
+    const { getByText } = render(<App />)
     const win = new electron.remote.BrowserWindow()
     act(() => {
       win.webContents.send(URL_RECEIVED, 'test url')
     })
-    // window shows
-    await wait(() => expect(container.firstChild).toBeVisible())
     act(() => {
       fireEvent.click(getByText('Copy To Clipboard'))
     })
     expect(electron.ipcRenderer.send).toHaveBeenCalledWith(COPY_TO_CLIPBOARD)
-    // window hides
-    await wait(() => expect(container.firstChild).not.toBeVisible())
   })
 
-  it('should close the window on background click', async () => {
+  it('should URL_RESET on background click', () => {
     const { container } = render(<App />)
-    expect(container.firstChild).not.toBeVisible()
     const win = new electron.remote.BrowserWindow()
     act(() => {
       win.webContents.send(URL_RECEIVED, 'test url')
     })
-    // window shows
-    await wait(() => expect(container.firstChild).toBeVisible())
     act(() => {
       fireEvent.click(container.firstChild as Element)
     })
-    // window hides
-    await wait(() => expect(container.firstChild).not.toBeVisible())
+    expect(electron.ipcRenderer.send).toHaveBeenCalledWith(URL_RESET)
   })
 
-  it('should set browser as favourite', async () => {
-    const { queryAllByRole, container } = render(<App />)
+  it('should set browser as favourite', () => {
+    const { queryAllByRole } = render(<App />)
     const win = new electron.remote.BrowserWindow()
     act(() => {
       win.webContents.send(ACTIVITIES_SET, activities)
       win.webContents.send(URL_RECEIVED, 'test url')
     })
-    await wait(() => expect(container.firstChild).toBeVisible())
     // Check current order
     within(queryAllByRole('button')[0]).getByAltText('Firefox')
     within(queryAllByRole('button')[1]).getByAltText('Safari')
