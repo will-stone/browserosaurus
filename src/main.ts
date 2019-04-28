@@ -34,9 +34,9 @@ const createPickerWindow = () =>
       acceptFirstMouse: true,
       alwaysOnTop: true,
       closable: false,
-      frame: false,
+      frame: true,
       fullscreenable: false,
-      hasShadow: false,
+      hasShadow: true,
       height: 50,
       icon: `${__dirname}/images/icon/icon.png`,
       maximizable: false,
@@ -69,8 +69,12 @@ const createPickerWindow = () =>
 
 const urlRecevied = (url: string) => {
   const display = screen.getDisplayNearestPoint(screen.getCursorScreenPoint())
-  pickerWindow.setPosition(display.bounds.x, 0, false)
-  pickerWindow.setSize(display.size.width, display.size.height, false)
+  pickerWindow.setPosition(display.bounds.x + 50, 50, false)
+  pickerWindow.setSize(
+    display.size.width - 100,
+    display.size.height - 100,
+    false,
+  )
   pickerWindow.show()
   pickerWindow.webContents.send(URL_RECEIVED, url)
 }
