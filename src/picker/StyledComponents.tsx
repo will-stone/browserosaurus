@@ -1,15 +1,21 @@
 import styled from 'styled-components'
 
 export const Window = styled.div`
-  background-color: rgba(0, 0, 0, 0.9);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   height: 100%;
   width: 100%;
-  padding: 100px;
+`
+
+export const WindowInner = styled.div`
+  background-color: rgba(0, 0, 0, 0.9);
+  height: 180px;
+  width: 80%;
+  padding: 20px;
   border-radius: 20px;
+  text-align: center;
 `
 
 export const LoadingText = styled.div`
@@ -17,20 +23,13 @@ export const LoadingText = styled.div`
   color: white;
 `
 
-export const ActivitiesWrapper = styled.div`
-  text-align: center;
-`
+const favAB = (a: string, b: string) => (props: { fav?: boolean }) =>
+  props.fav ? a : b
 
-export const ActivityButton = styled.button<{ fav: 'fav' | undefined }>`
-  display: ${props => (props.fav === 'fav' ? 'block' : 'inline-flex')};
-  height: ${props => (props.fav === 'fav' ? '200px' : '150px')};
-  width: ${props => (props.fav === 'fav' ? '200px' : '150px')};
-  margin-left: ${props => (props.fav === 'fav' ? 'auto' : '30px')};
-  margin-right: ${props => (props.fav === 'fav' ? 'auto' : '30px')};
+export const ActivityButton = styled.button<{ fav?: boolean }>`
+  width: ${favAB('140px', '70px')};
   align-items: center;
   justify-content: center;
-  position: relative;
-  padding: 30px;
   background: transparent;
   border: none;
   opacity: 0.5;
@@ -51,17 +50,23 @@ export const ActivityButton = styled.button<{ fav: 'fav' | undefined }>`
 export const ActivityImg = styled.img`
   display: block;
   width: 100%;
+  padding: 5px;
 `
 
 export const Key = styled.div`
   position: absolute;
-  bottom: 0;
+  bottom: -15px;
   right: 0;
   left: 0;
   text-align: center;
   color: white;
-  font-size: 18px;
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
   font-weight: 400;
+  padding: 1px;
+  margin-left: auto;
+  margin-right: auto;
 `
 
 export const CopyButton = styled.button`
@@ -75,10 +80,10 @@ export const CopyButton = styled.button`
 `
 
 export const Url = styled.div`
+  background-color: rgba(0, 0, 0, 0.9);
   color: #fafafa;
   font-size: 20px;
   line-height: 1.5;
-  margin-top: 30px;
   padding: 20px 30px;
   text-align: center;
   white-space: nowrap;
@@ -86,4 +91,5 @@ export const Url = styled.div`
   text-overflow: ellipsis;
   width: 100%;
   font-family: sans-serif;
+  border-radius: 20px;
 `

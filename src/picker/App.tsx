@@ -13,7 +13,6 @@ import {
 } from '../config/events'
 import { Activity } from '../model'
 import {
-  ActivitiesWrapper,
   ActivityButton,
   ActivityImg,
   CopyButton,
@@ -21,6 +20,7 @@ import {
   LoadingText,
   Url,
   Window,
+  WindowInner,
 } from './StyledComponents'
 
 const AUrlReceived = a(URL_RECEIVED, {} as { url: string })
@@ -94,39 +94,109 @@ const App: React.FC = () => {
     }
   }, [])
 
+  const favActivities = state.activities.filter(act => act.name === state.fav)
+  const notFavActivities = state.activities.filter(
+    act => act.name !== state.fav,
+  )
+  const leftActivities = notFavActivities.filter(
+    (_, i) => i < notFavActivities.length / 2,
+  )
+  const rightActivities = notFavActivities.filter(
+    (_, i) => i >= notFavActivities.length / 2,
+  )
+
   return (
     <Window onClick={() => ipcRenderer.send(URL_RESET)}>
-      {state.activities.length === 0 ? (
-        <LoadingText>Loading...</LoadingText>
-      ) : (
-        <ActivitiesWrapper>
-          {state.activities
-            .sort((a, b) =>
-              a.name === state.fav ? -1 : b.name === state.fav ? 1 : 0,
-            )
-            .map(activity => (
-              <ActivityButton
-                key={activity.name}
-                onClick={e => {
-                  e.stopPropagation()
-                  ipcRenderer.send(ACTIVITY_RUN, activity.name)
-                }}
-                fav={activity.name === state.fav ? 'fav' : undefined}
-                role="button"
-              >
-                <ActivityImg
-                  src={`../images/activity-icons/${activity.name}.png`}
-                  alt={activity.name}
-                />
-                <Key>{activity.hotKey}</Key>
-              </ActivityButton>
-            ))}
-        </ActivitiesWrapper>
-      )}
-      <Url>{state.url}</Url>
-      <CopyButton onClick={() => ipcRenderer.send(COPY_TO_CLIPBOARD)}>
-        Copy To Clipboard
-      </CopyButton>
+      <WindowInner>
+        {state.activities.length === 0 ? (
+          <LoadingText>Loading...</LoadingText>
+        ) : (
+          <div style={{ display: 'flex' }}>
+            <div
+              style={{
+                display: 'flex',
+                flex: 1,
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+              }}
+            >
+              {leftActivities.map(activity => (
+                <ActivityButton
+                  key={activity.name}
+                  onClick={e => {
+                    e.stopPropagation()
+                    ipcRenderer.send(ACTIVITY_RUN, activity.name)
+                  }}
+                  role="button"
+                >
+                  <ActivityImg
+                    src={`../images/activity-icons/${activity.name}.png`}
+                    alt={activity.name}
+                  />
+                  <Key>{activity.hotKey}</Key>
+                </ActivityButton>
+              ))}
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              {favActivities.map(activity => (
+                <ActivityButton
+                  key={activity.name}
+                  onClick={e => {
+                    e.stopPropagation()
+                    ipcRenderer.send(ACTIVITY_RUN, activity.name)
+                  }}
+                  role="button"
+                  fav
+                >
+                  <ActivityImg
+                    src={`../images/activity-icons/${activity.name}.png`}
+                    alt={activity.name}
+                  />
+                  <Key>{activity.hotKey}</Key>
+                </ActivityButton>
+              ))}
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flex: 1,
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+              }}
+            >
+              {rightActivities.map(activity => (
+                <ActivityButton
+                  key={activity.name}
+                  onClick={e => {
+                    e.stopPropagation()
+                    ipcRenderer.send(ACTIVITY_RUN, activity.name)
+                  }}
+                  role="button"
+                >
+                  <ActivityImg
+                    src={`../images/activity-icons/${activity.name}.png`}
+                    alt={activity.name}
+                  />
+                  <Key>{activity.hotKey}</Key>
+                </ActivityButton>
+              ))}
+            </div>
+          </div>
+        )}
+      </WindowInner>
+      <div>
+        <Url>{state.url}</Url>
+        <CopyButton onClick={() => ipcRenderer.send(COPY_TO_CLIPBOARD)}>
+          Copy To Clipboard
+        </CopyButton>
+      </div>
     </Window>
   )
 }

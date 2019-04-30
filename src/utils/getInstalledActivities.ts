@@ -49,15 +49,17 @@ const scanForApps = () =>
 export const getInstalledActivities = async () => {
   const installedApps = await scanForApps()
 
-  const installedActivities = activities.filter((activity: Activity) => {
-    if (activity.appId && installedApps[activity.appId]) {
-      return true
-    } else if (!activity.appId) {
-      // always show activity that does not depend on app presence
-      return true
-    }
-    return false
-  })
+  const installedActivities = activities
+    .filter((activity: Activity) => {
+      if (activity.appId && installedApps[activity.appId]) {
+        return true
+      } else if (!activity.appId) {
+        // always show activity that does not depend on app presence
+        return true
+      }
+      return false
+    })
+    .sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
 
   return installedActivities
 }

@@ -69,14 +69,10 @@ const createPickerWindow = () =>
 
 const urlRecevied = (url: string) => {
   const display = screen.getDisplayNearestPoint(screen.getCursorScreenPoint())
-  pickerWindow.setPosition(display.bounds.x + 50, 50, false)
-  pickerWindow.setSize(
-    display.size.width - 100,
-    display.size.height - 100,
-    false,
-  )
-  pickerWindow.show()
+  pickerWindow.setPosition(display.bounds.x, 0, false)
+  pickerWindow.setSize(display.size.width, display.size.height, false)
   pickerWindow.webContents.send(URL_RECEIVED, url)
+  pickerWindow.show()
 }
 
 ipcMain.on(ACTIVITY_RUN, (_: Event, name: string) => {
