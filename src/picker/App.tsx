@@ -142,25 +142,45 @@ const App: React.FC = () => {
           )}
         </Reference>
         {state.isVisible && mousePos.x !== 0 && (
-          <Popper placement="left">
+          <Popper
+            placement="bottom"
+            modifiers={{ offset: { enabled: true, offset: '0,-40' } }}
+          >
             {({ ref, style, placement }) => (
               <div
                 ref={ref}
                 style={{
                   ...style,
-                  width: 100,
-                  height: 100,
-                  backgroundColor: 'red',
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
                 }}
                 data-placement={placement}
               >
-                Popper element
-                {/* <div ref={arrowProps.ref} style={arrowProps.style} /> */}
+                {favActivities.map(activity => (
+                  <ActivityButton
+                    key={activity.name}
+                    onClick={e => {
+                      e.stopPropagation()
+                      dispatch(AHide())
+                      setTimeout(
+                        () => ipcRenderer.send(ACTIVITY_RUN, activity.name),
+                        50,
+                      )
+                    }}
+                    role="button"
+                    fav
+                  >
+                    <ActivityImg
+                      src={`../images/activity-icons/${activity.name}.png`}
+                      alt={activity.name}
+                    />
+                    <Key>{activity.hotKey}</Key>
+                  </ActivityButton>
+                ))}
               </div>
             )}
           </Popper>
         )}
-        <WindowInner>
+        {/* <WindowInner>
           {state.activities.length === 0 ? (
             <LoadingText>Loading...</LoadingText>
           ) : (
@@ -255,8 +275,8 @@ const App: React.FC = () => {
               </div>
             </div>
           )}
-        </WindowInner>
-        <div>
+        </WindowInner> */}
+        {/* <div>
           <Url>{state.url}</Url>
           <CopyButton
             onClick={() => {
@@ -266,7 +286,7 @@ const App: React.FC = () => {
           >
             Copy To Clipboard
           </CopyButton>
-        </div>
+        </div> */}
       </Window>
     </Manager>
   )

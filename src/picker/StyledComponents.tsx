@@ -7,6 +7,7 @@ export const Window = styled.div`
   justify-content: space-evenly;
   height: 100%;
   width: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
 `
 
 export const WindowInner = styled.div`

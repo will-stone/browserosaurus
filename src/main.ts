@@ -34,6 +34,7 @@ const createPickerWindow = () =>
       acceptFirstMouse: true,
       alwaysOnTop: true,
       closable: false,
+      enableLargerThanScreen: true,
       frame: true,
       fullscreenable: false,
       hasShadow: true,
