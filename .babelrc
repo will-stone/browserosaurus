@@ -4,12 +4,10 @@
       "@babel/env",
       {
         "targets": {
-          "chrome": 59
+          "chrome": 69
         }
       }
     ],
-    "@babel/react",
     "@babel/typescript"
-  ],
-  "plugins": ["@babel/plugin-proposal-class-properties"]
+  ]
 }

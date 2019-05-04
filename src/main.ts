@@ -92,7 +92,8 @@ ipcMain.on('CLOSE_WINDOW', () => {
   pickerWindow.hide()
 })
 
-ipcMain.on('LOG', (_: Event, msg: any) => {
+ipcMain.on('LOG', (_: Event, msg: string) => {
+  // eslint-disable-next-line no-console
   console.log(msg)
 })
 

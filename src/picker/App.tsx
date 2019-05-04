@@ -43,6 +43,8 @@ interface State {
   y: number
 }
 
+type Actions = AUrlReceived | AFavSet | AActivitiesSet | AHide | AShow
+
 const initialState: State = {
   isVisible: false,
   url: null,
@@ -52,36 +54,34 @@ const initialState: State = {
   y: 0,
 }
 
-const reducer = produce(
-  (
-    state: State,
-    action: AUrlReceived | AFavSet | AActivitiesSet | AHide | AShow,
-  ) => {
-    switch (action.type) {
-      case AActivitiesSet.TYPE:
-        state.activities = action.activities
-        return
-      case AUrlReceived.TYPE:
-        state.url = action.url
-        return
-      case AFavSet.TYPE:
-        state.fav = action.name
-        return
-      case AHide.TYPE:
-        state.isVisible = false
-        ipcRenderer.send('CLOSE_WINDOW')
-        return
-      case AShow.TYPE:
-        state.x = action.x
-        state.y = action.y
-        state.isVisible = true
-        return
-    }
-  },
-)
+const reducer = produce((state: State, action: Actions) => {
+  switch (action.type) {
+    case AActivitiesSet.TYPE:
+      state.activities = action.activities
+      return
+    case AUrlReceived.TYPE:
+      state.url = action.url
+      return
+    case AFavSet.TYPE:
+      state.fav = action.name
+      return
+    case AHide.TYPE:
+      state.isVisible = false
+      ipcRenderer.send('CLOSE_WINDOW')
+      return
+    case AShow.TYPE:
+      state.x = action.x
+      state.y = action.y
+      state.isVisible = true
+      return
+  }
+})
 
 const App: React.FC = () => {
-  const [state, dispatch] = React.useReducer(reducer, initialState)
+  const [state, dispatch] = React.useReducer<React.Reducer<State, Actions>>(
+    reducer,
+    initialState,
+  )
 
   // Se-up event listeners
   React.useEffect(() => {
@@ -148,19 +148,7 @@ const App: React.FC = () => {
   const onMouseEnter = React.useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       if (!state.isVisible) {
-        ipcRenderer.send(
-          'LOG',
-          JSON.stringify(
-            {
-              innerWidth: window.innerWidth,
-              innerHeight: window.innerHeight,
-              x: e.clientX,
-              y: e.clientY,
-            },
-            null,
-            2,
-          ),
-        )
+        ipcRenderer.send('LOG', process.versions.electron)
         dispatch(AShow({ x: e.clientX, y: e.clientY }))
       }
     },
