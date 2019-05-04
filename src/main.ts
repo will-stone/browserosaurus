@@ -14,6 +14,8 @@ import {
   COPY_TO_CLIPBOARD,
   FAV_SET,
   URL_RECEIVED,
+  CLOSE_WINDOW,
+  WINDOW_BLUR,
 } from './config/events'
 import { copyToClipboard } from './utils/copyToClipboard'
 import { getInstalledActivities } from './utils/getInstalledActivities'
@@ -24,6 +26,7 @@ import * as Store from 'electron-store'
 const store = new Store()
 
 let urlToOpen: string | undefined // if started via clicking link
+let appReady: boolean // if started via clicking link
 let tray = null // prevents garbage collection
 let pickerWindow: BrowserWindow // Prevents garbage collection
 
@@ -54,11 +57,11 @@ const createPickerWindow = () =>
 
     pickerWindow.on('close', e => {
       e.preventDefault()
-      pickerWindow.webContents.send('WINDOW_BLUR')
+      pickerWindow.webContents.send(WINDOW_BLUR)
     })
 
     pickerWindow.on('blur', () => {
-      pickerWindow.webContents.send('WINDOW_BLUR')
+      pickerWindow.webContents.send(WINDOW_BLUR)
     })
 
     pickerWindow.once('ready-to-show', () => {
@@ -80,14 +83,14 @@ const urlRecevied = (url: string) => {
 ipcMain.on(ACTIVITY_RUN, (_: Event, name: string) => {
   const activity = activities.find(act => act.name === name)
   activity && urlToOpen && runCommand(activity.cmd.replace('{URL}', urlToOpen))
-  pickerWindow.webContents.send('WINDOW_BLUR')
+  pickerWindow.webContents.send(WINDOW_BLUR)
 })
 
 ipcMain.on(COPY_TO_CLIPBOARD, () => {
   urlToOpen && copyToClipboard(urlToOpen)
 })
 
-ipcMain.on('CLOSE_WINDOW', () => {
+ipcMain.on(CLOSE_WINDOW, () => {
   urlToOpen = undefined
   pickerWindow.hide()
 })
@@ -148,6 +151,7 @@ app.on('ready', async () => {
     // if Browserosaurus was opened with a link, this will now be sent on to the picker window.
     urlRecevied(urlToOpen)
   }
+  appReady = true
 })
 
 // App doesn't always close on ctrl-c in console, this fixes that
@@ -158,7 +162,7 @@ app.on('before-quit', () => {
 app.on('open-url', (event, url) => {
   event.preventDefault()
   urlToOpen = url
-  if (app.isReady()) {
+  if (appReady) {
     urlRecevied(urlToOpen)
   }
 })

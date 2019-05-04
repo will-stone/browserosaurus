@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { animated } from 'react-spring/web.cjs'
 
 export const Window = styled.div`
   display: flex;
@@ -10,7 +11,7 @@ export const Window = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
 `
 
-export const PickerWindow = styled.div`
+export const PickerWindow = styled(animated.div)`
   position: absolute;
   background-color: rgba(0, 0, 0, 0.9);
   box-shadow: 0 2px 6px 0 hsla(0, 0, 0, 0.2);
@@ -27,7 +28,6 @@ const favAB = (a: string, b: string) => (props: { fav?: boolean }) =>
   props.fav ? a : b
 
 export const ActivityButton = styled.button<{ fav?: boolean }>`
-  float: left;
   width: ${favAB('200px', '100px')};
   height: ${favAB('200px', '100px')};
   display: flex;
@@ -87,12 +87,16 @@ export const Url = styled.div`
   font-size: 20px;
   line-height: 1.5;
   text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   height: 40px;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0 20px;
+
+  > span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `

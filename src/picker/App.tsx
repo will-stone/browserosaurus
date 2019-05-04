@@ -3,24 +3,24 @@ import { ipcRenderer } from 'electron'
 import produce from 'immer'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
+import { animated, config, useSpring } from 'react-spring/web.cjs'
 import {
   ACTIVITIES_SET,
   ACTIVITY_RUN,
   COPY_TO_CLIPBOARD,
   FAV_SET,
   URL_RECEIVED,
+  CLOSE_WINDOW,
+  WINDOW_BLUR,
 } from '../config/events'
 import { Activity } from '../model'
 import {
   ActivityButton,
   ActivityImg,
-  // CopyButton,
   Key,
-  // LoadingText,
+  PickerWindow,
   Url,
   Window,
-  PickerWindow,
-  // WindowInner,
 } from './StyledComponents'
 
 const AShow = a('SHOW', {} as { x: number; y: number })
@@ -67,7 +67,7 @@ const reducer = produce((state: State, action: Actions) => {
       return
     case AHide.TYPE:
       state.isVisible = false
-      ipcRenderer.send('CLOSE_WINDOW')
+      setTimeout(() => ipcRenderer.send(CLOSE_WINDOW), 150)
       return
     case AShow.TYPE:
       state.x = action.x
@@ -82,6 +82,11 @@ const App: React.FC = () => {
     reducer,
     initialState,
   )
+
+  const fadeStyles = useSpring({
+    opacity: state.isVisible ? 1 : 0,
+    config: { ...config.stiff, duration: 100, clamp: true },
+  })
 
   // Se-up event listeners
   React.useEffect(() => {
@@ -102,7 +107,7 @@ const App: React.FC = () => {
     /**
      * Events from main process
      */
-    ipcRenderer.on('WINDOW_BLUR', () => dispatch(AHide()))
+    ipcRenderer.on(WINDOW_BLUR, () => dispatch(AHide()))
 
     ipcRenderer.on(URL_RECEIVED, (_: unknown, url: string) => {
       dispatch(AUrlReceived({ url }))
@@ -127,7 +132,7 @@ const App: React.FC = () => {
     )
 
     return function cleanup() {
-      ipcRenderer.removeAllListeners('WINDOW_BLUR')
+      ipcRenderer.removeAllListeners(WINDOW_BLUR)
       ipcRenderer.removeAllListeners(URL_RECEIVED)
       ipcRenderer.removeAllListeners(FAV_SET)
       ipcRenderer.removeAllListeners(ACTIVITIES_SET)
@@ -164,61 +169,66 @@ const App: React.FC = () => {
 
   return (
     <Window onClick={() => dispatch(AHide())} onMouseEnter={onMouseEnter}>
-      {state.isVisible && (
-        <React.Fragment>
-          <Url>{state.url}</Url>
-          <PickerWindow style={{ top, left, width, height }}>
-            {favActivity && (
+      <React.Fragment>
+        <Url
+          onClick={() => {
+            ipcRenderer.send(COPY_TO_CLIPBOARD)
+            dispatch(AHide())
+          }}
+        >
+          <animated.span style={fadeStyles}>
+            {state.activities.length ? state.url : 'Loading...'}
+          </animated.span>
+        </Url>
+        <PickerWindow
+          style={{
+            ...fadeStyles,
+            top,
+            left,
+            width,
+            height,
+          }}
+        >
+          {favActivity && (
+            <ActivityButton
+              onClick={e => {
+                e.stopPropagation()
+                ipcRenderer.send(ACTIVITY_RUN, favActivity.name)
+              }}
+              role="button"
+              style={{ float: isAtRight ? 'right' : 'left' }}
+              fav
+            >
+              <ActivityImg
+                src={`../images/activity-icons/${favActivity.name}.png`}
+                alt={favActivity.name}
+              />
+              <Key>{favActivity.hotKey}</Key>
+            </ActivityButton>
+          )}
+          <div>
+            {notFavActivities.map(activity => (
               <ActivityButton
+                key={activity.name}
                 onClick={e => {
                   e.stopPropagation()
-                  ipcRenderer.send(ACTIVITY_RUN, favActivity.name)
+                  ipcRenderer.send(ACTIVITY_RUN, activity.name)
                 }}
                 role="button"
-                fav
+                style={{ float: isAtRight ? 'right' : 'left' }}
               >
                 <ActivityImg
-                  src={`../images/activity-icons/${favActivity.name}.png`}
-                  alt={favActivity.name}
+                  src={`../images/activity-icons/${activity.name}.png`}
+                  alt={activity.name}
                 />
-                <Key>{favActivity.hotKey}</Key>
+                <Key>{activity.hotKey}</Key>
               </ActivityButton>
-            )}
-            <div>
-              {notFavActivities.map(activity => (
-                <ActivityButton
-                  key={activity.name}
-                  onClick={e => {
-                    e.stopPropagation()
-                    ipcRenderer.send(ACTIVITY_RUN, activity.name)
-                  }}
-                  role="button"
-                >
-                  <ActivityImg
-                    src={`../images/activity-icons/${activity.name}.png`}
-                    alt={activity.name}
-                  />
-                  <Key>{activity.hotKey}</Key>
-                </ActivityButton>
-              ))}
-            </div>
-          </PickerWindow>
-        </React.Fragment>
-      )}
+            ))}
+          </div>
+        </PickerWindow>
+      </React.Fragment>
     </Window>
   )
 }
 
 export default App
-
-/* <div>
-  <Url>{state.url}</Url>
-  <CopyButton
-    onClick={() => {
-      dispatch(AHide())
-      setTimeout(() => ipcRenderer.send(COPY_TO_CLIPBOARD), 50)
-    }}
-  >
-    Copy To Clipboard
-  </CopyButton>
-</div> */
