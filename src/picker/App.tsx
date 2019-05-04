@@ -169,62 +169,60 @@ const App: React.FC = () => {
 
   return (
     <Window onClick={() => dispatch(AHide())} onMouseEnter={onMouseEnter}>
-      <React.Fragment>
-        <Url
-          onClick={() => {
-            ipcRenderer.send(COPY_TO_CLIPBOARD)
-            dispatch(AHide())
-          }}
-        >
-          <animated.span style={fadeStyles}>{state.url}</animated.span>
-        </Url>
-        <PickerWindow
-          style={{
-            ...fadeStyles,
-            top,
-            left,
-            width,
-            height,
-          }}
-        >
-          {favActivity && (
+      <Url
+        onClick={() => {
+          ipcRenderer.send(COPY_TO_CLIPBOARD)
+          dispatch(AHide())
+        }}
+      >
+        <animated.span style={fadeStyles}>{state.url}</animated.span>
+      </Url>
+      <PickerWindow
+        style={{
+          ...fadeStyles,
+          top,
+          left,
+          width,
+          height,
+        }}
+      >
+        {favActivity && (
+          <ActivityButton
+            onClick={e => {
+              e.stopPropagation()
+              ipcRenderer.send(ACTIVITY_RUN, favActivity.name)
+            }}
+            role="button"
+            style={{ float: isAtRight ? 'right' : 'left' }}
+            fav
+          >
+            <ActivityImg
+              src={`../images/activity-icons/${favActivity.name}.png`}
+              alt={favActivity.name}
+            />
+            <Key>{favActivity.hotKey}</Key>
+          </ActivityButton>
+        )}
+        <div>
+          {notFavActivities.map(activity => (
             <ActivityButton
+              key={activity.name}
               onClick={e => {
                 e.stopPropagation()
-                ipcRenderer.send(ACTIVITY_RUN, favActivity.name)
+                ipcRenderer.send(ACTIVITY_RUN, activity.name)
               }}
               role="button"
               style={{ float: isAtRight ? 'right' : 'left' }}
-              fav
             >
               <ActivityImg
-                src={`../images/activity-icons/${favActivity.name}.png`}
-                alt={favActivity.name}
+                src={`../images/activity-icons/${activity.name}.png`}
+                alt={activity.name}
               />
-              <Key>{favActivity.hotKey}</Key>
+              <Key>{activity.hotKey}</Key>
             </ActivityButton>
-          )}
-          <div>
-            {notFavActivities.map(activity => (
-              <ActivityButton
-                key={activity.name}
-                onClick={e => {
-                  e.stopPropagation()
-                  ipcRenderer.send(ACTIVITY_RUN, activity.name)
-                }}
-                role="button"
-                style={{ float: isAtRight ? 'right' : 'left' }}
-              >
-                <ActivityImg
-                  src={`../images/activity-icons/${activity.name}.png`}
-                  alt={activity.name}
-                />
-                <Key>{activity.hotKey}</Key>
-              </ActivityButton>
-            ))}
-          </div>
-        </PickerWindow>
-      </React.Fragment>
+          ))}
+        </div>
+      </PickerWindow>
     </Window>
   )
 }
