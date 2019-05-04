@@ -176,9 +176,7 @@ const App: React.FC = () => {
             dispatch(AHide())
           }}
         >
-          <animated.span style={fadeStyles}>
-            {state.activities.length ? state.url : 'Loading...'}
-          </animated.span>
+          <animated.span style={fadeStyles}>{state.url}</animated.span>
         </Url>
         <PickerWindow
           style={{
