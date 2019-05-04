@@ -13,10 +13,9 @@ export const Window = styled.div`
 export const PickerWindow = styled.div`
   position: absolute;
   background-color: rgba(0, 0, 0, 0.9);
-  padding: 0 5px 5px;
-  max-width: 370px;
   box-shadow: 0 2px 6px 0 hsla(0, 0, 0, 0.2);
   border-radius: 5px;
+  overflow: hidden;
 `
 
 export const LoadingText = styled.div`
@@ -29,8 +28,10 @@ const favAB = (a: string, b: string) => (props: { fav?: boolean }) =>
 
 export const ActivityButton = styled.button<{ fav?: boolean }>`
   float: left;
-  width: ${favAB('180px', '90px')};
+  width: ${favAB('200px', '100px')};
   height: ${favAB('200px', '100px')};
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background: transparent;
@@ -38,13 +39,12 @@ export const ActivityButton = styled.button<{ fav?: boolean }>`
   opacity: 0.8;
   transition: opacity 300ms linear;
   text-align: center;
-  flex-shrink: 0;
   position: relative;
-  padding: ${favAB('40px', '20px')};
   cursor: pointer;
 
   &:hover {
     opacity: 1;
+    background-color: #0080ff;
   }
 
   &:focus {
@@ -54,8 +54,7 @@ export const ActivityButton = styled.button<{ fav?: boolean }>`
 
 export const ActivityImg = styled.img`
   display: block;
-  width: 100%;
-  padding: 5px;
+  width: 60%;
 `
 
 export const Key = styled.div`

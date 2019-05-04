@@ -148,20 +148,26 @@ const App: React.FC = () => {
     [state.isVisible],
   )
 
-  const pickerHeight = 150
-  const isAtBottom = state.y > window.innerHeight - pickerHeight
-  const top = isAtBottom ? state.y - pickerHeight : state.y
+  const height =
+    (favActivity ? 1 : 0) * 200 +
+    (notFavActivities.length > 0
+      ? (Math.ceil(notFavActivities.length / 4) - 1) * 100
+      : 0)
+  const isAtBottom = state.y > window.innerHeight - height
+  const top = isAtBottom ? state.y - height : state.y
 
-  const pickerWidth = 150
-  const isAtRight = state.x > window.innerWidth - pickerWidth
-  const left = isAtRight ? state.x - pickerWidth : state.x
+  const width =
+    (favActivity ? 1 : 0) * 200 +
+    (notFavActivities.length > 2 ? 2 : notFavActivities.length) * 100
+  const isAtRight = state.x > window.innerWidth - width
+  const left = isAtRight ? state.x - width - 1 : state.x + 1
 
   return (
     <Window onClick={() => dispatch(AHide())} onMouseEnter={onMouseEnter}>
       {state.isVisible && (
         <React.Fragment>
           <Url>{state.url}</Url>
-          <PickerWindow style={{ top, left }}>
+          <PickerWindow style={{ top, left, width, height }}>
             {favActivity && (
               <ActivityButton
                 onClick={e => {
