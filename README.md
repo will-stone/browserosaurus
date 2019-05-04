@@ -4,6 +4,8 @@ Browserosaurus is an open-source (MIT license), Electron-based browser prompter 
 
 ## Development
 
+Ensure you are running the correct version of Node. The repo includes an `.nvmrc` file that includes the version number I use.
+
 Get repo:
 
 ```
