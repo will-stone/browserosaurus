@@ -14,7 +14,6 @@ import {
   COPY_TO_CLIPBOARD,
   FAV_SET,
   URL_RECEIVED,
-  URL_RESET,
 } from './config/events'
 import { copyToClipboard } from './utils/copyToClipboard'
 import { getInstalledActivities } from './utils/getInstalledActivities'
@@ -35,7 +34,7 @@ const createPickerWindow = () =>
       alwaysOnTop: true,
       closable: false,
       enableLargerThanScreen: true,
-      frame: true,
+      frame: false,
       fullscreenable: false,
       hasShadow: true,
       height: 50,
@@ -55,10 +54,12 @@ const createPickerWindow = () =>
 
     pickerWindow.on('close', e => {
       e.preventDefault()
-      pickerWindow.hide()
+      pickerWindow.webContents.send('WINDOW_BLUR')
     })
 
-    pickerWindow.on('blur', () => pickerWindow.hide())
+    pickerWindow.on('blur', () => {
+      pickerWindow.webContents.send('WINDOW_BLUR')
+    })
 
     pickerWindow.once('ready-to-show', () => {
       // pickerWindow.webContents.openDevTools()
@@ -70,8 +71,8 @@ const createPickerWindow = () =>
 
 const urlRecevied = (url: string) => {
   const display = screen.getDisplayNearestPoint(screen.getCursorScreenPoint())
-  pickerWindow.setPosition(display.bounds.x, 0, false)
-  pickerWindow.setSize(display.size.width, display.size.height, false)
+  pickerWindow.setPosition(display.workArea.x, display.workArea.y, false)
+  pickerWindow.setSize(display.workArea.width, display.workArea.height, false)
   pickerWindow.webContents.send(URL_RECEIVED, url)
   pickerWindow.show()
 }
@@ -79,19 +80,20 @@ const urlRecevied = (url: string) => {
 ipcMain.on(ACTIVITY_RUN, (_: Event, name: string) => {
   const activity = activities.find(act => act.name === name)
   activity && urlToOpen && runCommand(activity.cmd.replace('{URL}', urlToOpen))
-  urlToOpen = undefined
-  pickerWindow.hide()
-})
-
-ipcMain.on(URL_RESET, () => {
-  urlToOpen = undefined
-  pickerWindow.hide()
+  pickerWindow.webContents.send('WINDOW_BLUR')
 })
 
 ipcMain.on(COPY_TO_CLIPBOARD, () => {
   urlToOpen && copyToClipboard(urlToOpen)
+})
+
+ipcMain.on('CLOSE_WINDOW', () => {
   urlToOpen = undefined
   pickerWindow.hide()
+})
+
+ipcMain.on('LOG', (_: Event, msg: any) => {
+  console.log(msg)
 })
 
 app.on('ready', async () => {

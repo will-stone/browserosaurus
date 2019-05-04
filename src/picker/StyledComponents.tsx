@@ -19,6 +19,12 @@ export const WindowInner = styled.div`
   text-align: center;
 `
 
+export const PickerWindow = styled.div`
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 5px;
+`
+
 export const LoadingText = styled.div`
   text-align: center;
   color: white;
@@ -38,6 +44,7 @@ export const ActivityButton = styled.button<{ fav?: boolean }>`
   text-align: center;
   flex-shrink: 0;
   position: relative;
+  cursor: pointer;
 
   &:hover {
     opacity: 1;
@@ -81,16 +88,23 @@ export const CopyButton = styled.button`
 `
 
 export const Url = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   background-color: rgba(0, 0, 0, 0.9);
   color: #fafafa;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
   font-size: 20px;
   line-height: 1.5;
-  padding: 20px 30px;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  height: 40px;
   width: 100%;
-  font-family: sans-serif;
-  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `

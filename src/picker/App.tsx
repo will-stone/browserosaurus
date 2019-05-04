@@ -3,31 +3,32 @@ import { ipcRenderer } from 'electron'
 import produce from 'immer'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
-import { Manager, Reference, Popper } from 'react-popper'
 import {
   ACTIVITIES_SET,
   ACTIVITY_RUN,
   COPY_TO_CLIPBOARD,
   FAV_SET,
   URL_RECEIVED,
-  URL_RESET,
 } from '../config/events'
 import { Activity } from '../model'
 import {
   ActivityButton,
   ActivityImg,
-  CopyButton,
+  // CopyButton,
   Key,
-  LoadingText,
+  // LoadingText,
   Url,
   Window,
-  WindowInner,
+  PickerWindow,
+  // WindowInner,
 } from './StyledComponents'
 
+const AShow = a('SHOW', {} as { x: number; y: number })
 const AHide = a('HIDE')
 const AUrlReceived = a(URL_RECEIVED, {} as { url: string })
 const AFavSet = a(FAV_SET, {} as { name: string })
 const AActivitiesSet = a(ACTIVITIES_SET, {} as { activities: Activity[] })
+type AShow = ReturnType<typeof AShow>
 type AHide = ReturnType<typeof AHide>
 type AUrlReceived = ReturnType<typeof AUrlReceived>
 type AFavSet = ReturnType<typeof AFavSet>
@@ -38,6 +39,8 @@ interface State {
   url: string | null
   activities: Activity[]
   fav: string | null
+  x: number
+  y: number
 }
 
 const initialState: State = {
@@ -45,16 +48,20 @@ const initialState: State = {
   url: null,
   activities: [],
   fav: null,
+  x: 0,
+  y: 0,
 }
 
 const reducer = produce(
-  (state: State, action: AUrlReceived | AFavSet | AActivitiesSet | AHide) => {
+  (
+    state: State,
+    action: AUrlReceived | AFavSet | AActivitiesSet | AHide | AShow,
+  ) => {
     switch (action.type) {
       case AActivitiesSet.TYPE:
         state.activities = action.activities
         return
       case AUrlReceived.TYPE:
-        state.isVisible = true
         state.url = action.url
         return
       case AFavSet.TYPE:
@@ -62,6 +69,12 @@ const reducer = produce(
         return
       case AHide.TYPE:
         state.isVisible = false
+        ipcRenderer.send('CLOSE_WINDOW')
+        return
+      case AShow.TYPE:
+        state.x = action.x
+        state.y = action.y
+        state.isVisible = true
         return
     }
   },
@@ -69,25 +82,37 @@ const reducer = produce(
 
 const App: React.FC = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState)
-  const [mousePos, setMousePos] = React.useState<{ x: number; y: number }>({
-    x: 0,
-    y: 0,
-  })
 
   // Se-up event listeners
   React.useEffect(() => {
-    mousetrap.bind('esc', () => ipcRenderer.send(URL_RESET))
+    /**
+     * Global keyboard shortcuts
+     */
+    mousetrap.bind('esc', e => {
+      e.preventDefault()
+      dispatch(AHide())
+    })
+
     mousetrap.bind('space', e => {
       e.preventDefault() // stops space from opening previously selected act
       ipcRenderer.send(COPY_TO_CLIPBOARD)
+      dispatch(AHide())
     })
-    ipcRenderer.on(URL_RECEIVED, (_: unknown, receivedUrl: string) => {
-      dispatch(AUrlReceived({ url: receivedUrl }))
+
+    /**
+     * Events from main process
+     */
+    ipcRenderer.on('WINDOW_BLUR', () => dispatch(AHide()))
+
+    ipcRenderer.on(URL_RECEIVED, (_: unknown, url: string) => {
+      dispatch(AUrlReceived({ url }))
     })
-    ipcRenderer.on(FAV_SET, (_: unknown, receivedFav: string) => {
-      dispatch(AFavSet({ name: receivedFav }))
-      mousetrap.bind('enter', () => ipcRenderer.send(ACTIVITY_RUN, receivedFav))
+
+    ipcRenderer.on(FAV_SET, (_: unknown, name: string) => {
+      dispatch(AFavSet({ name }))
+      mousetrap.bind('enter', () => ipcRenderer.send(ACTIVITY_RUN, name))
     })
+
     ipcRenderer.on(
       ACTIVITIES_SET,
       (_: unknown, receivedActivities: Activity[]) => {
@@ -100,7 +125,9 @@ const App: React.FC = () => {
         dispatch(AActivitiesSet({ activities: receivedActivities }))
       },
     )
+
     return function cleanup() {
+      ipcRenderer.removeAllListeners('WINDOW_BLUR')
       ipcRenderer.removeAllListeners(URL_RECEIVED)
       ipcRenderer.removeAllListeners(FAV_SET)
       ipcRenderer.removeAllListeners(ACTIVITIES_SET)
@@ -108,79 +135,79 @@ const App: React.FC = () => {
   }, [])
 
   const favActivities = state.activities.filter(act => act.name === state.fav)
-  const notFavActivities = state.activities.filter(
-    act => act.name !== state.fav,
-  )
-  const leftActivities = notFavActivities.filter(
-    (_, i) => i < notFavActivities.length / 2,
-  )
-  const rightActivities = notFavActivities.filter(
-    (_, i) => i >= notFavActivities.length / 2,
+  // const notFavActivities = state.activities.filter(
+  //   act => act.name !== state.fav,
+  // )
+  // const leftActivities = notFavActivities.filter(
+  //   (_, i) => i < notFavActivities.length / 2,
+  // )
+  // const rightActivities = notFavActivities.filter(
+  //   (_, i) => i >= notFavActivities.length / 2,
+  // )
+
+  const onMouseEnter = React.useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      if (!state.isVisible) {
+        ipcRenderer.send(
+          'LOG',
+          JSON.stringify(
+            {
+              innerWidth: window.innerWidth,
+              innerHeight: window.innerHeight,
+              x: e.clientX,
+              y: e.clientY,
+            },
+            null,
+            2,
+          ),
+        )
+        dispatch(AShow({ x: e.clientX, y: e.clientY }))
+      }
+    },
+    [state.isVisible],
   )
 
+  const pickerHeight = 150
+  const isAtBottom = state.y > window.innerHeight - pickerHeight
+  const top = isAtBottom ? state.y - pickerHeight : state.y
+
+  const pickerWidth = 150
+  const isAtRight = state.x > window.innerWidth - pickerWidth
+  const left = isAtRight ? state.x - pickerWidth : state.x
+
   return (
-    <Manager>
-      <Window
-        onClick={() => {
-          dispatch(AHide())
-          setTimeout(() => ipcRenderer.send(URL_RESET), 50)
-        }}
-        onMouseEnter={e => setMousePos({ x: e.clientX, y: e.clientY })}
-      >
-        <Reference>
-          {({ ref }) => (
-            <div
-              ref={ref}
-              style={{
-                position: 'absolute',
-                top: mousePos.y,
-                left: mousePos.x,
-                width: 0,
-                height: 0,
-              }}
-            />
-          )}
-        </Reference>
-        {state.isVisible && mousePos.x !== 0 && (
-          <Popper
-            placement="bottom"
-            modifiers={{ offset: { enabled: true, offset: '0,-40' } }}
-          >
-            {({ ref, style, placement }) => (
-              <div
-                ref={ref}
-                style={{
-                  ...style,
-                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    <Window onClick={() => dispatch(AHide())} onMouseEnter={onMouseEnter}>
+      {state.isVisible && (
+        <React.Fragment>
+          <Url>{state.url}</Url>
+          <PickerWindow style={{ top, left }}>
+            {favActivities.map(activity => (
+              <ActivityButton
+                key={activity.name}
+                onClick={e => {
+                  e.stopPropagation()
+                  ipcRenderer.send(ACTIVITY_RUN, activity.name)
                 }}
-                data-placement={placement}
+                role="button"
+                fav
               >
-                {favActivities.map(activity => (
-                  <ActivityButton
-                    key={activity.name}
-                    onClick={e => {
-                      e.stopPropagation()
-                      dispatch(AHide())
-                      setTimeout(
-                        () => ipcRenderer.send(ACTIVITY_RUN, activity.name),
-                        50,
-                      )
-                    }}
-                    role="button"
-                    fav
-                  >
-                    <ActivityImg
-                      src={`../images/activity-icons/${activity.name}.png`}
-                      alt={activity.name}
-                    />
-                    <Key>{activity.hotKey}</Key>
-                  </ActivityButton>
-                ))}
-              </div>
-            )}
-          </Popper>
-        )}
-        {/* <WindowInner>
+                <ActivityImg
+                  src={`../images/activity-icons/${activity.name}.png`}
+                  alt={activity.name}
+                />
+                <Key>{activity.hotKey}</Key>
+              </ActivityButton>
+            ))}
+          </PickerWindow>
+        </React.Fragment>
+      )}
+    </Window>
+  )
+}
+
+export default App
+
+/* <WindowInner>
           {state.activities.length === 0 ? (
             <LoadingText>Loading...</LoadingText>
           ) : (
@@ -275,8 +302,9 @@ const App: React.FC = () => {
               </div>
             </div>
           )}
-        </WindowInner> */}
-        {/* <div>
+        </WindowInner> */
+
+/* <div>
           <Url>{state.url}</Url>
           <CopyButton
             onClick={() => {
@@ -286,10 +314,4 @@ const App: React.FC = () => {
           >
             Copy To Clipboard
           </CopyButton>
-        </div> */}
-      </Window>
-    </Manager>
-  )
-}
-
-export default App
+        </div> */
