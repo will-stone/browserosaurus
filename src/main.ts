@@ -18,10 +18,10 @@ import {
 import { copyToClipboard } from './utils/copyToClipboard'
 import { getInstalledActivities } from './utils/getInstalledActivities'
 import { runCommand } from './utils/runCommand'
-import Store = require('electron-store')
+import * as Store from 'electron-store'
 
 // Start store and set activities if first run
-const store = new Store({ defaults: { fav: undefined } })
+const store = new Store()
 
 let urlToOpen: string | undefined // if started via clicking link
 let tray = null // prevents garbage collection
