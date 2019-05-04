@@ -10,19 +10,13 @@ export const Window = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
 `
 
-export const WindowInner = styled.div`
-  background-color: rgba(0, 0, 0, 0.9);
-  height: 180px;
-  width: 80%;
-  padding: 20px;
-  border-radius: 20px;
-  text-align: center;
-`
-
 export const PickerWindow = styled.div`
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 0 5px 5px;
+  max-width: 370px;
+  box-shadow: 0 2px 6px 0 hsla(0, 0, 0, 0.2);
+  border-radius: 5px;
 `
 
 export const LoadingText = styled.div`
@@ -34,16 +28,19 @@ const favAB = (a: string, b: string) => (props: { fav?: boolean }) =>
   props.fav ? a : b
 
 export const ActivityButton = styled.button<{ fav?: boolean }>`
-  width: ${favAB('140px', '70px')};
+  float: left;
+  width: ${favAB('180px', '90px')};
+  height: ${favAB('200px', '100px')};
   align-items: center;
   justify-content: center;
   background: transparent;
   border: none;
-  opacity: 0.5;
+  opacity: 0.8;
   transition: opacity 300ms linear;
   text-align: center;
   flex-shrink: 0;
   position: relative;
+  padding: ${favAB('40px', '20px')};
   cursor: pointer;
 
   &:hover {
@@ -62,19 +59,11 @@ export const ActivityImg = styled.img`
 `
 
 export const Key = styled.div`
-  position: absolute;
-  bottom: -15px;
-  right: 0;
-  left: 0;
   text-align: center;
   color: white;
-  width: 20px;
-  height: 20px;
   font-size: 16px;
   font-weight: 400;
   padding: 1px;
-  margin-left: auto;
-  margin-right: auto;
 `
 
 export const CopyButton = styled.button`
@@ -92,8 +81,8 @@ export const Url = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.9);
-  color: #fafafa;
+  background-color: #0080ff;
+  color: white;
   font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
   font-size: 20px;

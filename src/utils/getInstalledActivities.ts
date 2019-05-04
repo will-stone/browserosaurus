@@ -11,7 +11,7 @@ import { Activity } from '../model'
  * Scans the system for all installed apps.
  * @returns array of app names (Strings) if resolved, and string if rejected.
  */
-const scanForApps = () =>
+const scanForApps = (): Promise<{}> =>
   new Promise((resolve, reject) => {
     const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
 

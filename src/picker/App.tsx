@@ -134,21 +134,14 @@ const App: React.FC = () => {
     }
   }, [])
 
-  const favActivities = state.activities.filter(act => act.name === state.fav)
-  // const notFavActivities = state.activities.filter(
-  //   act => act.name !== state.fav,
-  // )
-  // const leftActivities = notFavActivities.filter(
-  //   (_, i) => i < notFavActivities.length / 2,
-  // )
-  // const rightActivities = notFavActivities.filter(
-  //   (_, i) => i >= notFavActivities.length / 2,
-  // )
+  const favActivity = state.activities.find(act => act.name === state.fav)
+  const notFavActivities = state.activities.filter(
+    act => act.name !== state.fav,
+  )
 
   const onMouseEnter = React.useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       if (!state.isVisible) {
-        ipcRenderer.send('LOG', process.versions.electron)
         dispatch(AShow({ x: e.clientX, y: e.clientY }))
       }
     },
@@ -169,23 +162,40 @@ const App: React.FC = () => {
         <React.Fragment>
           <Url>{state.url}</Url>
           <PickerWindow style={{ top, left }}>
-            {favActivities.map(activity => (
+            {favActivity && (
               <ActivityButton
-                key={activity.name}
                 onClick={e => {
                   e.stopPropagation()
-                  ipcRenderer.send(ACTIVITY_RUN, activity.name)
+                  ipcRenderer.send(ACTIVITY_RUN, favActivity.name)
                 }}
                 role="button"
                 fav
               >
                 <ActivityImg
-                  src={`../images/activity-icons/${activity.name}.png`}
-                  alt={activity.name}
+                  src={`../images/activity-icons/${favActivity.name}.png`}
+                  alt={favActivity.name}
                 />
-                <Key>{activity.hotKey}</Key>
+                <Key>{favActivity.hotKey}</Key>
               </ActivityButton>
-            ))}
+            )}
+            <div>
+              {notFavActivities.map(activity => (
+                <ActivityButton
+                  key={activity.name}
+                  onClick={e => {
+                    e.stopPropagation()
+                    ipcRenderer.send(ACTIVITY_RUN, activity.name)
+                  }}
+                  role="button"
+                >
+                  <ActivityImg
+                    src={`../images/activity-icons/${activity.name}.png`}
+                    alt={activity.name}
+                  />
+                  <Key>{activity.hotKey}</Key>
+                </ActivityButton>
+              ))}
+            </div>
           </PickerWindow>
         </React.Fragment>
       )}
@@ -195,111 +205,14 @@ const App: React.FC = () => {
 
 export default App
 
-/* <WindowInner>
-          {state.activities.length === 0 ? (
-            <LoadingText>Loading...</LoadingText>
-          ) : (
-            <div style={{ display: 'flex' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  flex: 1,
-                  justifyContent: 'flex-end',
-                  alignItems: 'center',
-                }}
-              >
-                {leftActivities.map(activity => (
-                  <ActivityButton
-                    key={activity.name}
-                    onClick={e => {
-                      e.stopPropagation()
-                      dispatch(AHide())
-                      setTimeout(
-                        () => ipcRenderer.send(ACTIVITY_RUN, activity.name),
-                        50,
-                      )
-                    }}
-                    role="button"
-                  >
-                    <ActivityImg
-                      src={`../images/activity-icons/${activity.name}.png`}
-                      alt={activity.name}
-                    />
-                    <Key>{activity.hotKey}</Key>
-                  </ActivityButton>
-                ))}
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                {favActivities.map(activity => (
-                  <ActivityButton
-                    key={activity.name}
-                    onClick={e => {
-                      e.stopPropagation()
-                      dispatch(AHide())
-                      setTimeout(
-                        () => ipcRenderer.send(ACTIVITY_RUN, activity.name),
-                        50,
-                      )
-                    }}
-                    role="button"
-                    fav
-                  >
-                    <ActivityImg
-                      src={`../images/activity-icons/${activity.name}.png`}
-                      alt={activity.name}
-                    />
-                    <Key>{activity.hotKey}</Key>
-                  </ActivityButton>
-                ))}
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  flex: 1,
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                }}
-              >
-                {rightActivities.map(activity => (
-                  <ActivityButton
-                    key={activity.name}
-                    onClick={e => {
-                      e.stopPropagation()
-                      dispatch(AHide())
-                      setTimeout(
-                        () => ipcRenderer.send(ACTIVITY_RUN, activity.name),
-                        50,
-                      )
-                    }}
-                    role="button"
-                  >
-                    <ActivityImg
-                      src={`../images/activity-icons/${activity.name}.png`}
-                      alt={activity.name}
-                    />
-                    <Key>{activity.hotKey}</Key>
-                  </ActivityButton>
-                ))}
-              </div>
-            </div>
-          )}
-        </WindowInner> */
-
 /* <div>
-          <Url>{state.url}</Url>
-          <CopyButton
-            onClick={() => {
-              dispatch(AHide())
-              setTimeout(() => ipcRenderer.send(COPY_TO_CLIPBOARD), 50)
-            }}
-          >
-            Copy To Clipboard
-          </CopyButton>
-        </div> */
+  <Url>{state.url}</Url>
+  <CopyButton
+    onClick={() => {
+      dispatch(AHide())
+      setTimeout(() => ipcRenderer.send(COPY_TO_CLIPBOARD), 50)
+    }}
+  >
+    Copy To Clipboard
+  </CopyButton>
+</div> */
