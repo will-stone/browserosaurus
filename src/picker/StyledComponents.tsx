@@ -12,6 +12,34 @@ export const Window = styled.div`
   width: 100%;
 `
 
+export const Url = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: ${primaryColor};
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
+  color: white;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  font-size: 20px;
+  line-height: 1.5;
+  text-align: center;
+  height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  cursor: copy;
+
+  > span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`
+
 export const PickerWindow = styled(animated.div)`
   position: absolute;
   background-color: #232323;
@@ -35,7 +63,7 @@ export const ActivityButton = styled.button<{ fav?: boolean }>`
   transition: opacity 300ms linear;
   text-align: center;
   position: relative;
-  cursor: pointer;
+  cursor: default;
   color: white;
 
   &:hover {
@@ -57,31 +85,4 @@ export const Key = styled.div`
   font-size: 16px;
   font-weight: 400;
   padding: 1px;
-`
-
-export const Url = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: ${primaryColor};
-  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
-  color: white;
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, sans-serif;
-  font-size: 20px;
-  line-height: 1.5;
-  text-align: center;
-  height: 40px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 20px;
-
-  > span {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 `
