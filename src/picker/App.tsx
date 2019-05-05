@@ -154,7 +154,7 @@ const App: React.FC = () => {
   )
 
   const height =
-    (favActivity ? 1 : 0) * 200 +
+    (favActivity ? 200 : 100) +
     (notFavActivities.length > 0
       ? (Math.ceil(notFavActivities.length / 4) - 1) * 100
       : 0)
@@ -162,8 +162,13 @@ const App: React.FC = () => {
   const top = isAtBottom ? state.y - height : state.y
 
   const width =
-    (favActivity ? 1 : 0) * 200 +
-    (notFavActivities.length > 2 ? 2 : notFavActivities.length) * 100
+    (favActivity ? 200 : 0) +
+    (!favActivity && notFavActivities.length >= 3
+      ? 3
+      : notFavActivities.length >= 2
+      ? 2
+      : notFavActivities.length) *
+      100
   const isAtRight = state.x > window.innerWidth - width
   const left = isAtRight ? state.x - width - 1 : state.x + 1
 

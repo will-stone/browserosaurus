@@ -130,15 +130,26 @@ app.on('ready', async () => {
   const acts = await getInstalledActivities()
 
   // update fav-chooser with activity list
-  contextMenu[0].submenu = Menu.buildFromTemplate(acts.map(act => ({
-    checked: act.name === fav,
-    label: act.name,
-    type: 'radio',
-    click: () => {
-      store.set('fav', act.name)
-      pickerWindow.webContents.send(FAV_SET, act.name)
+  contextMenu[0].submenu = Menu.buildFromTemplate([
+    {
+      checked: fav === null,
+      label: 'No Favourite',
+      type: 'radio',
+      click: () => {
+        store.set('fav', null)
+        pickerWindow.webContents.send(FAV_SET, null)
+      },
     },
-  })) as MenuItemConstructorOptions[])
+    ...(acts.map(act => ({
+      checked: act.name === fav,
+      label: act.name,
+      type: 'radio',
+      click: () => {
+        store.set('fav', act.name)
+        pickerWindow.webContents.send(FAV_SET, act.name)
+      },
+    })) as MenuItemConstructorOptions[]),
+  ])
 
   // reapply tray menu
   tray.setContextMenu(Menu.buildFromTemplate(contextMenu))
