@@ -174,9 +174,16 @@ const App: React.FC = () => {
   const left = isAtRight ? state.x - width - 1 : state.x + 1
 
   return (
-    <Window onClick={() => dispatch(AHide())} onMouseEnter={onMouseEnter}>
+    <Window
+      onClick={e => {
+        e.preventDefault()
+        dispatch(AHide())
+      }}
+      onMouseEnter={onMouseEnter}
+    >
       <Url
-        onClick={() => {
+        onClick={e => {
+          e.stopPropagation()
           ipcRenderer.send(COPY_TO_CLIPBOARD)
           dispatch(AHide())
         }}

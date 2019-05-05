@@ -23,7 +23,10 @@
   "bugs": {
     "url": "https://github.com/will-stone/browserosaurus/issues"
   },
-  "keywords": ["Electron", "Browser chooser"],
+  "keywords": [
+    "Electron",
+    "Browser chooser"
+  ],
   "author": "Will Stone",
   "license": "MIT",
   "prettier": "@will-stone/prettier-config",
@@ -32,6 +35,7 @@
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
+    "@types/execa": "^0.9.0",
     "@types/jest": "^24.0.12",
     "@types/jsonpath": "^0.2.0",
     "@types/lodash": "^4.14.123",
@@ -62,6 +66,7 @@
     "@artossystems/a": "^3.1.0",
     "electron-compile": "^6.4.4",
     "electron-store": "^3.2.0",
+    "execa": "^1.0.0",
     "immer": "^2.0.0",
     "jsonpath": "^1.0.1",
     "lodash": "^4.17.11",
@@ -76,7 +81,9 @@
   "config": {
     "forge": {
       "make_targets": {
-        "darwin": ["dmg"]
+        "darwin": [
+          "dmg"
+        ]
       },
       "electronPackagerConfig": {
         "packageManager": "yarn",
@@ -93,11 +100,16 @@
         "protocols": [
           {
             "name": "HTTP link",
-            "schemes": ["http", "https"]
+            "schemes": [
+              "http",
+              "https"
+            ]
           },
           {
             "name": "File",
-            "schemes": ["file"]
+            "schemes": [
+              "file"
+            ]
           }
         ]
       }
@@ -108,7 +120,10 @@
       "react-testing-library/cleanup-after-each",
       "jest-dom/extend-expect"
     ],
-    "modulePathIgnorePatterns": ["<rootDir>/docs/", "<rootDir>/out/"],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/docs/",
+      "<rootDir>/out/"
+    ],
     "testPathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/docs/",

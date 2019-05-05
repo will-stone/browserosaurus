@@ -1,3 +1,3 @@
-import { spawn } from 'child_process'
+import * as execa from 'execa'
 
-export const runCommand = (str: string) => spawn('sh', ['-c', str])
+export const runCommand = (str: string) => execa.stdout('sh', ['-c', str])
