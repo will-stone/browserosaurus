@@ -1,155 +1,214 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Browserosaurus</title>
 
-  <title>Browserosaurus</title>
+    <meta name="description" content="Browser prompter for macOS" />
 
-  <meta name="description" content="Browser prompter for macOS">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Passion+One"
+    />
 
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Passion+One">
+    <!-- Injected style from pages -->
+    <style>
+      * {
+        box-sizing: border-box;
+      }
 
-  <!-- Injected style from pages -->
-  <style>
-    body {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 3rem 1rem;
-      text-align: center;
-      color: white;
-      background-color: #0C0C0D;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-      font-size: 19px;
-      line-height: 1.6;
-    }
+      body {
+        padding: 0;
+        margin: 0;
+        text-align: center;
+        color: #363636;
+        background-color: #fafafa;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+          sans-serif;
+        font-size: 19px;
+        line-height: 1.6;
+      }
 
-    h1 {
-      font-family: 'Passion One', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-      font-size: 3rem;
-      font-weight: 100;
-      line-height: 1;
-      margin: 0 0 2rem;
-    }
+      main {
+        padding: 1rem;
+        max-width: 700px;
+        margin: 0 auto;
+      }
 
-    h2 {
-      font-size: 2rem;
-      font-weight: 100;
-      line-height: 1;
-      margin: 0;
-    }
+      h1 {
+        font-family: 'Passion One', -apple-system, BlinkMacSystemFont,
+          'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans',
+          'Droid Sans', 'Helvetica Neue', sans-serif;
+        font-size: 3rem;
+        font-weight: 100;
+        line-height: 1;
+        margin: 0 0 2rem;
+      }
 
-    p {
-      margin: 0 0 2rem;
-    }
+      h2 {
+        font-size: 2rem;
+        font-weight: 100;
+        line-height: 1;
+        margin: 0;
+      }
 
-    a {
-      text-decoration: none;
-      color: #2fd566;
-    }
+      p {
+        margin: 0 0 2rem;
+      }
 
-    a:hover {
-      text-decoration: underline;
-    }
+      a {
+        text-decoration: none;
+        color: #0080ff;
+      }
 
-    .button {
-      display: inline-block;
-      min-width: 120px;
-      margin: 0 0.5rem;
-      padding: 7px 12px;
-      text-decoration: none;
-      border: 1px solid #ffffff;
-      border-radius: 20px;
-      background: transparent;
-      font-weight: normal;
-    }
+      a:hover {
+        text-decoration: underline;
+      }
 
-    .button:hover {
-      text-decoration: none;
-      border-color: #2fd566;
-    }
+      .button {
+        display: inline-block;
+        min-width: 120px;
+        margin: 0 0.5rem 0.5rem;
+        padding: 7px 12px;
+        text-decoration: none;
+        border: 1px solid #363636;
+        border-radius: 20px;
+        background: transparent;
+        font-weight: normal;
+      }
 
-    main {
-      text-shadow: 0 7px 10px #000000;
-    }
+      .button:hover {
+        text-decoration: none;
+        border-color: #0080ff;
+      }
 
-    .embed-container {
-      position: relative;
-      overflow: hidden;
-      max-width: 100%;
-      height: 0;
-      margin-bottom: 2rem;
-      padding-bottom: 56.25%;
-    }
+      .url {
+        background-color: #0080ff;
+        box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
+        color: white;
+        font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI',
+          Roboto, 'Helvetica Neue', Arial, sans-serif;
+        font-size: 20px;
+        font-weight: 300;
+        line-height: 1.5;
+        text-align: center;
+        height: 40px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 20px;
+      }
 
-    .embed-container iframe,
-    .embed-container object,
-    .embed-container embed {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
+      footer {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        border-top: 1px solid #0080ff;
+      }
 
-    footer {
-      margin-top: 2rem;
-      padding-top: 2rem;
-      border-top: 1px solid #2fd566;
-    }
-  </style>
+      .shadowed {
+        filter: url(#drop-shadow);
+      }
+    </style>
 
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?v=kPxjKNP4y0">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png?v=kPxjKNP4y0">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png?v=kPxjKNP4y0">
-  <link rel="manifest" href="favicon/site.webmanifest?v=kPxjKNP4y0">
-  <link rel="mask-icon" href="favicon/safari-pinned-tab.svg?v=kPxjKNP4y0" color="#00803c">
-  <link rel="shortcut icon" href="favicon/favicon.ico?v=kPxjKNP4y0">
-  <meta name="apple-mobile-web-app-title" content="Browserosaurus">
-  <meta name="application-name" content="Browserosaurus">
-  <meta name="msapplication-TileColor" content="#00803c">
-  <meta name="theme-color" content="#ffffff">
-</head>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="favicon/apple-touch-icon.png?v=kPxjKNP4y0"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicon/favicon-32x32.png?v=kPxjKNP4y0"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicon/favicon-16x16.png?v=kPxjKNP4y0"
+    />
+    <link rel="manifest" href="favicon/site.webmanifest?v=kPxjKNP4y0" />
+    <link
+      rel="mask-icon"
+      href="favicon/safari-pinned-tab.svg?v=kPxjKNP4y0"
+      color="#00803c"
+    />
+    <link rel="shortcut icon" href="favicon/favicon.ico?v=kPxjKNP4y0" />
+    <meta name="apple-mobile-web-app-title" content="Browserosaurus" />
+    <meta name="application-name" content="Browserosaurus" />
+    <meta name="msapplication-TileColor" content="#00803c" />
+    <meta name="theme-color" content="#ffffff" />
+  </head>
 
-<body>
+  <body>
+    <!-- <header>
+      <div class="url">https://browserosaurus.com</div>
+    </header> -->
 
-  <main>
-    <p>
-      <img src="icon.png" alt="" width="150" height="150" />
-    </p>
+    <svg height="0" xmlns="http://www.w3.org/2000/svg">
+      <filter id="drop-shadow">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="0" />
+        <feOffset dx="0" dy="0" result="offsetblur" />
+        <feFlood flood-color="rgba(0,0,0,0.55)" />
+        <feComposite in2="offsetblur" operator="in" />
+        <feMerge>
+          <feMergeNode />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </svg>
 
-    <h1>Browserosaurus</h1>
+    <main>
+      <div>
+        <img src="icon2.png" alt="" width="200" height="200" class="shadowed" />
+      </div>
 
-    <h2>A browser prompter for macOS</h2>
+      <h1>Browserosaurus</h1>
 
-    <div>
-      <img src="screenshot.png" alt="" style="width: 100%; max-width: 400px;" />
-    </div>
+      <h2>A browser prompter for macOS</h2>
 
-    <!-- <div class="embed-container">
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/d1goC6SGI5E" frameborder="0" allow="autoplay; encrypted-media"
-        allowfullscreen></iframe>
-    </div> -->
+      <div>
+        <img
+          src="screenshot.png"
+          alt=""
+          style="width: 100%; max-width: 500px;"
+        />
+      </div>
 
-    <p>
-      <a href="https://github.com/will-stone/browserosaurus/releases/download/v4.5.0/Browserosaurus-4.5.0.dmg" class="button">Download
-        v4.5.0</a>
-      <a href="https://github.com/will-stone/browserosaurus" class="button">Source</a>
-      <a href="https://github.com/will-stone/browserosaurus/issues" class="button">Issue?</a>
-    </p>
+      <p>
+        <a
+          href="https://github.com/will-stone/browserosaurus/releases/download/v4.5.0/Browserosaurus-4.5.0.dmg"
+          class="button"
+          >Download v4.5.0</a
+        >
+        <a href="https://github.com/will-stone/browserosaurus" class="button"
+          >Source</a
+        >
+        <a
+          href="https://github.com/will-stone/browserosaurus/issues"
+          class="button"
+          >Issue?</a
+        >
+      </p>
 
-    <p>
-      Browserosaurus is an open-source (MIT license), Electron-based app for macOS. It works by setting itself as the default browser;
-      any clicked links in non-browser apps are now sent to Browserosaurus where it’ll present you with a menu of all your
-      installed browsers. You may now decide which browser you’d like to continue opening the link with.
-    </p>
-  </main>
+      <p>
+        Browserosaurus is an open-source (MIT license), Electron-based app for
+        macOS. It works by setting itself as the default browser; any clicked
+        links in non-browser apps are now sent to Browserosaurus where it’ll
+        present you with a menu of all your installed browsers. You may now
+        decide which browser you’d like to continue opening the link with.
+      </p>
+    </main>
 
-  <footer>Created by
-    <a href="http://wstone.io/">Will Stone</a>
-  </footer>
-</body>
-
+    <footer>
+      Created by
+      <a href="http://wstone.io/">Will Stone</a>
+    </footer>
+  </body>
 </html>
