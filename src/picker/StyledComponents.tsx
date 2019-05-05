@@ -10,13 +10,12 @@ export const Window = styled.div`
   justify-content: space-evenly;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
 `
 
 export const PickerWindow = styled(animated.div)`
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.9);
-  box-shadow: 0 2px 6px 0 hsla(0, 0, 0, 0.2);
+  background-color: #232323;
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
   border-radius: 5px;
   overflow: hidden;
 `
@@ -66,6 +65,7 @@ export const Url = styled.div`
   left: 0;
   right: 0;
   background-color: ${primaryColor};
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
   color: white;
   font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;

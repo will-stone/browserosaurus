@@ -39,7 +39,7 @@ const createPickerWindow = () =>
       enableLargerThanScreen: true,
       frame: false,
       fullscreenable: false,
-      hasShadow: true,
+      hasShadow: false,
       height: 50,
       icon: `${__dirname}/images/icon/icon.png`,
       maximizable: false,
