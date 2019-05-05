@@ -181,6 +181,10 @@ const App: React.FC = () => {
           dispatch(AHide())
         }}
       >
+        {/* TODO: add styles to URL
+        - bold domain
+        - (unlocked) padlock for http(s) status
+      */}
         <animated.span style={fadeStyles}>{state.url}</animated.span>
       </Url>
       <PickerWindow
