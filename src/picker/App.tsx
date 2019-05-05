@@ -153,6 +153,7 @@ const App: React.FC = () => {
     [state.isVisible],
   )
 
+  // TODO: move the styles logic to StyledComponents
   const height =
     (favActivity ? 200 : 100) +
     (notFavActivities.length > 0
