@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import { animated } from 'react-spring/web.cjs'
 
+const primaryColor = '#0080ff'
+
 export const Window = styled.div`
   display: flex;
   flex-direction: column;
@@ -19,11 +21,6 @@ export const PickerWindow = styled(animated.div)`
   overflow: hidden;
 `
 
-export const LoadingText = styled.div`
-  text-align: center;
-  color: white;
-`
-
 const favAB = (a: string, b: string) => (props: { fav?: boolean }) =>
   props.fav ? a : b
 
@@ -36,15 +33,14 @@ export const ActivityButton = styled.button<{ fav?: boolean }>`
   justify-content: center;
   background: transparent;
   border: none;
-  opacity: 0.8;
   transition: opacity 300ms linear;
   text-align: center;
   position: relative;
   cursor: pointer;
+  color: white;
 
   &:hover {
-    opacity: 1;
-    background-color: #0080ff;
+    background-color: ${primaryColor};
   }
 
   &:focus {
@@ -59,20 +55,9 @@ export const ActivityImg = styled.img`
 
 export const Key = styled.div`
   text-align: center;
-  color: white;
   font-size: 16px;
   font-weight: 400;
   padding: 1px;
-`
-
-export const CopyButton = styled.button`
-  background-color: transparent;
-  border: none;
-  color: white;
-
-  &:focus {
-    outline: none;
-  }
 `
 
 export const Url = styled.div`
@@ -80,7 +65,7 @@ export const Url = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  background-color: #0080ff;
+  background-color: ${primaryColor};
   color: white;
   font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
