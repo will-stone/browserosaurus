@@ -180,6 +180,10 @@ const App: React.FC = () => {
       <PickerWindow
         style={{
           ...fadeStyles,
+          transform:
+            (isAtRight && isAtBottom) || isAtBottom
+              ? 'rotate(180deg)'
+              : 'rotate(0deg)',
           top,
           left,
           width,
@@ -193,7 +197,16 @@ const App: React.FC = () => {
               ipcRenderer.send(ACTIVITY_RUN, favActivity.name)
             }}
             role="button"
-            style={{ float: isAtRight ? 'right' : 'left' }}
+            style={{
+              float:
+                (isAtRight && !isAtBottom) || (isAtBottom && !isAtRight)
+                  ? 'right'
+                  : 'left',
+              transform:
+                (isAtRight && isAtBottom) || isAtBottom
+                  ? 'rotate(180deg)'
+                  : 'rotate(0deg)',
+            }}
             fav
           >
             <ActivityImg
@@ -212,7 +225,16 @@ const App: React.FC = () => {
                 ipcRenderer.send(ACTIVITY_RUN, activity.name)
               }}
               role="button"
-              style={{ float: isAtRight ? 'right' : 'left' }}
+              style={{
+                float:
+                  (isAtRight && !isAtBottom) || (isAtBottom && !isAtRight)
+                    ? 'right'
+                    : 'left',
+                transform:
+                  (isAtRight && isAtBottom) || isAtBottom
+                    ? 'rotate(180deg)'
+                    : 'rotate(0deg)',
+              }}
             >
               <ActivityImg
                 src={`../images/activity-icons/${activity.name}.png`}
