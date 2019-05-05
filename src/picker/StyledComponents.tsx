@@ -40,6 +40,10 @@ export const Url = styled.div`
   }
 `
 
+export const Hostname = styled.span`
+  font-weight: bold;
+`
+
 export const PickerWindow = styled(animated.div)`
   position: absolute;
   background-color: #232323;

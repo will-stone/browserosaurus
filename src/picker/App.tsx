@@ -21,7 +21,9 @@ import {
   PickerWindow,
   Url,
   Window,
+  Hostname,
 } from './StyledComponents'
+import * as url from 'url'
 
 const AShow = a('SHOW', {} as { x: number; y: number })
 const AHide = a('HIDE')
@@ -153,7 +155,6 @@ const App: React.FC = () => {
     [state.isVisible],
   )
 
-  // TODO: move the styles logic to StyledComponents
   const height =
     (favActivity ? 200 : 100) +
     (notFavActivities.length > 0
@@ -173,6 +174,8 @@ const App: React.FC = () => {
   const isAtRight = state.x > window.innerWidth - width
   const left = isAtRight ? state.x - width - 1 : state.x + 1
 
+  const u = url.parse(state.url || '')
+
   return (
     <Window
       onClick={e => {
@@ -188,11 +191,30 @@ const App: React.FC = () => {
           dispatch(AHide())
         }}
       >
-        {/* TODO: add styles to URL
-        - bold domain
-        - (unlocked) padlock for http(s) status
-      */}
-        <animated.span style={fadeStyles}>{state.url}</animated.span>
+        <animated.span style={fadeStyles}>
+          <span>
+            {u.protocol && u.protocol.includes('s') && (
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"
+                style={{ height: '14px', marginRight: '10px', opacity: 0.7 }}
+              >
+                <path
+                  fill="currentColor"
+                  d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zM264 392c0 22.1-17.9 40-40 40s-40-17.9-40-40v-48c0-22.1 17.9-40 40-40s40 17.9 40 40v48zm32-168H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"
+                />
+              </svg>
+            )}
+          </span>
+          <Hostname>{u.hostname}</Hostname>
+          <span style={{ opacity: 0.7 }}>{u.port && ':' + u.port}</span>
+          <span style={{ opacity: 0.7 }}>{u.pathname}</span>
+          <span style={{ opacity: 0.7 }}>{u.search}</span>
+          <span style={{ opacity: 0.7 }}>{u.hash}</span>
+        </animated.span>
       </Url>
       <PickerWindow
         style={{
