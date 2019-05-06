@@ -23,10 +23,7 @@
   "bugs": {
     "url": "https://github.com/will-stone/browserosaurus/issues"
   },
-  "keywords": [
-    "Electron",
-    "Browser chooser"
-  ],
+  "keywords": ["Electron", "Browser chooser"],
   "author": "Will Stone",
   "license": "MIT",
   "prettier": "@will-stone/prettier-config",
@@ -81,9 +78,7 @@
   "config": {
     "forge": {
       "make_targets": {
-        "darwin": [
-          "dmg"
-        ]
+        "darwin": ["dmg"]
       },
       "electronPackagerConfig": {
         "osxSign": true,
@@ -102,16 +97,11 @@
         "protocols": [
           {
             "name": "HTTP link",
-            "schemes": [
-              "http",
-              "https"
-            ]
+            "schemes": ["http", "https"]
           },
           {
             "name": "File",
-            "schemes": [
-              "file"
-            ]
+            "schemes": ["file"]
           }
         ]
       }
@@ -122,10 +112,7 @@
       "react-testing-library/cleanup-after-each",
       "jest-dom/extend-expect"
     ],
-    "modulePathIgnorePatterns": [
-      "<rootDir>/docs/",
-      "<rootDir>/out/"
-    ],
+    "modulePathIgnorePatterns": ["<rootDir>/docs/", "<rootDir>/out/"],
     "testPathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/docs/",
