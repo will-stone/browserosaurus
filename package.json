@@ -86,15 +86,7 @@
         "appCategoryType": "public.app-category.developer-tools",
         "packageManager": "yarn",
         "icon": "src/images/icon/icon.icns",
-        "ignore": [
-          "docs",
-          "__mocks__",
-          "@types",
-          ".vscode",
-          "node_modules",
-          "StartBrowserosaurus.app",
-          "StartBrowserosaurus.scpt"
-        ],
+        "ignore": ["docs", "__mocks__", "@types", ".vscode", "node_modules"],
         "protocols": [
           {
             "name": "HTTP link",
