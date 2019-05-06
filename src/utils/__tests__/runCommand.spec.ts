@@ -1,11 +1,11 @@
-import { spawn } from 'child_process'
 import { runCommand } from '../runCommand'
+import * as execa from 'execa'
 
-jest.mock('child_process')
+jest.mock('execa')
 
 describe('utils/runCommand', () => {
   it('should run string command', () => {
     runCommand('a command -g')
-    expect(spawn).toHaveBeenCalledWith('sh', ['-c', 'a command -g'])
+    expect(execa.stdout).toHaveBeenCalledWith('sh', ['-c', 'a command -g'])
   })
 })

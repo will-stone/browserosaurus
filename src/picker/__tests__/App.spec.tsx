@@ -29,14 +29,15 @@ const activities: Activity[] = [
 ]
 
 describe('App', () => {
+  // TODO: make sure url is split out into parts and host is bold
   it('should display the received URL', () => {
     const { container, getByText } = render(<App />)
     const win = new electron.remote.BrowserWindow()
     act(() => {
-      win.webContents.send(URL_RECEIVED, 'test url')
+      win.webContents.send(URL_RECEIVED, 'example.com')
       fireEvent.mouseEnter(container.firstChild as Element)
     })
-    getByText('test url')
+    getByText('example.com')
   })
 
   it('should display the received activities', () => {
@@ -62,7 +63,7 @@ describe('App', () => {
     act(() => {
       win.webContents.send(ACTIVITIES_SET, activities)
       win.webContents.send(FAV_SET, 'Firefox')
-      win.webContents.send(URL_RECEIVED, 'test url')
+      win.webContents.send(URL_RECEIVED, 'example.com')
       fireEvent.mouseEnter(container.firstChild as Element)
     })
     act(() => {
@@ -75,10 +76,10 @@ describe('App', () => {
     const { getByText } = render(<App />)
     const win = new electron.remote.BrowserWindow()
     act(() => {
-      win.webContents.send(URL_RECEIVED, 'test url')
+      win.webContents.send(URL_RECEIVED, 'example.com')
     })
     act(() => {
-      fireEvent.click(getByText('test url'))
+      fireEvent.click(getByText('example.com'))
     })
     expect(electron.ipcRenderer.send).toHaveBeenCalledWith(COPY_TO_CLIPBOARD)
   })
@@ -98,7 +99,7 @@ describe('App', () => {
     const win = new electron.remote.BrowserWindow()
     act(() => {
       win.webContents.send(ACTIVITIES_SET, activities)
-      win.webContents.send(URL_RECEIVED, 'test url')
+      win.webContents.send(URL_RECEIVED, 'example.com')
       fireEvent.mouseEnter(container.firstChild as Element)
     })
     // Check current order
