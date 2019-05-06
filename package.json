@@ -86,6 +86,7 @@
         ]
       },
       "electronPackagerConfig": {
+        "osxSign": true,
         "appCategoryType": "public.app-category.developer-tools",
         "packageManager": "yarn",
         "icon": "src/images/icon/icon.icns",
