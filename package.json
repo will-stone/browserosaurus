@@ -81,6 +81,7 @@
         "darwin": ["dmg"]
       },
       "electronPackagerConfig": {
+        "asar": true,
         "osxSign": true,
         "appCategoryType": "public.app-category.developer-tools",
         "packageManager": "yarn",
