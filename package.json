@@ -6,7 +6,7 @@
     "node": ">=10.4.1"
   },
   "description": "The browser prompter for macOS",
-  "homepage": "http://wstone.io/browserosaurus/",
+  "homepage": "https://browserosaurus.com/",
   "main": "src/main.ts",
   "scripts": {
     "docs": "http-server ./docs",
