@@ -1,28 +1,34 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Browserosaurus</title>
 
-<head>
-  <meta charset="UTF-8">
-  <title>Browserosaurus</title>
-  <link rel="stylesheet" href="../../build/main.css">
+    <style>
+      * {
+        user-select: none !important;
+        box-sizing: border-box;
+      }
 
-  <style>
-    body {
-      background-color: transparent;
-      margin: 0;
-      overflow: hidden;
-    }
-  </style>
-</head>
+      body {
+        background-color: transparent;
+        margin: 0;
+        overflow: hidden;
+      }
 
-<body class="bp3-dark bp3-ui-text-large" style="background-color: transparent;">
+      html,
+      body,
+      #picker-root {
+        height: 100%;
+      }
+    </style>
+  </head>
 
-  <div id="picker-root"></div>
+  <body>
+    <div id="picker-root"></div>
 
-  <script>
-    import './index.js'
-  </script>
-
-</body>
-
+    <script>
+      require('./index.tsx')
+    </script>
+  </body>
 </html>

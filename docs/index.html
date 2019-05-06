@@ -1,155 +1,267 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Browserosaurus</title>
 
-  <title>Browserosaurus</title>
+    <meta name="description" content="The browser prompter for macOS" />
 
-  <meta name="description" content="Browser prompter for macOS">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
 
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Passion+One">
+    <style>
+      body {
+        color: #363636;
+        background-color: #f8f9fa;
+        font-size: 19px;
+        line-height: 1.6;
+      }
 
-  <!-- Injected style from pages -->
-  <style>
-    body {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 3rem 1rem;
-      text-align: center;
-      color: white;
-      background-color: #00110f;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-      font-size: 19px;
-      line-height: 1.6;
-    }
+      .shadowed {
+        filter: url(#drop-shadow);
+      }
 
-    h1,
-    h2,
-    p {
-      margin: 0 0 2rem;
-    }
+      /* RTS */
+      @media (max-width: 1200px) {
+        legend {
+          font-size: calc(1.275rem + 0.3vw);
+        }
+        h1,
+        .h1 {
+          font-size: calc(1.375rem + 1.5vw);
+        }
+        h2,
+        .h2 {
+          font-size: calc(1.325rem + 0.9vw);
+        }
+        h3,
+        .h3 {
+          font-size: calc(1.3rem + 0.6vw);
+        }
+        h4,
+        .h4 {
+          font-size: calc(1.275rem + 0.3vw);
+        }
+        .display-1 {
+          font-size: calc(1.725rem + 5.7vw);
+        }
+        .display-2 {
+          font-size: calc(1.675rem + 5.1vw);
+        }
+        .display-3 {
+          font-size: calc(1.575rem + 3.9vw);
+        }
+        .display-4 {
+          font-size: calc(1.475rem + 2.7vw);
+        }
+        .close {
+          font-size: calc(1.275rem + 0.3vw);
+        }
+      }
+    </style>
 
-    h1 {
-      font-family: 'Passion One', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-      font-size: 3rem;
-      font-weight: 100;
-      line-height: 1;
-    }
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="favicon/apple-touch-icon.png?v=dLJ7k3R606"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicon/favicon-32x32.png?v=dLJ7k3R606"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicon/favicon-16x16.png?v=dLJ7k3R606"
+    />
+    <link rel="manifest" href="favicon/site.webmanifest?v=dLJ7k3R606" />
+    <link
+      rel="mask-icon"
+      href="favicon/safari-pinned-tab.svg?v=dLJ7k3R606"
+      color="#011d41"
+    />
+    <link rel="shortcut icon" href="favicon/favicon.ico?v=dLJ7k3R606" />
+    <meta name="apple-mobile-web-app-title" content="Browserosaurus" />
+    <meta name="application-name" content="Browserosaurus" />
+    <meta name="msapplication-TileColor" content="#2b5797" />
+    <meta
+      name="msapplication-config"
+      content="favicon/browserconfig.xml?v=dLJ7k3R606"
+    />
+    <meta name="theme-color" content="#ffffff" />
+  </head>
 
-    h2 {
-      font-size: 2rem;
-      font-weight: 100;
-      line-height: 1;
-    }
+  <body>
+    <nav class="navbar navbar-light bg-light">
+      <div class="container justify-content-center justify-content-sm-between">
+        <a class="navbar-brand mr-0 mr-auto-sm" href="/">
+          <img src="icon.png" alt="logo" width="100" height="100" />
+          <span class="d-none d-sm-inline">Browserosaurus</span>
+        </a>
+        <script
+          type="text/javascript"
+          src="https://ko-fi.com/widgets/widget_2.js"
+        ></script>
+        <script type="text/javascript">
+          kofiwidget2.init('Support Me on Ko-fi', '#1BAAE2', 'Z8Z7V0KF')
+          kofiwidget2.draw()
+        </script>
+      </div>
+    </nav>
 
-    a {
-      text-decoration: none;
-      color: #2fd566;
-    }
+    <main>
+      <div class="container text-center">
+        <h2 class="display-4">The browser prompter for macOS</h2>
+        <p>
+          <img
+            src="screenshot.png"
+            alt="Screenshot"
+            style="width: 100%; max-width: 500px;"
+          />
+        </p>
+      </div>
 
-    a:hover {
-      text-decoration: underline;
-    }
+      <div class="bg-white">
+        <div class="container pt-5">
+          <div class="row">
+            <div class="col-md-4 text-center mb-5">
+              <p>
+                <img src="./picker.svg" alt="Blue Bar" height="50" />
+              </p>
+              <h2>Multi-Default</h2>
+              <p class="lead">
+                After clicking a link, use the picker to choose the correct
+                browser for the job.
+              </p>
+            </div>
+            <div class="col-md-4 text-center mb-5">
+              <p>
+                <img src="./picker_with_fav.svg" alt="Blue Bar" height="50" />
+              </p>
+              <h2>Favourite</h2>
+              <p class="lead">
+                Keep your usual browser closest to the mouse and at double the
+                size.
+              </p>
+            </div>
+            <div class="col-md-4 text-center mb-5">
+              <p
+                style="height: 50px"
+                class="d-flex justify-content-center align-items-center"
+              >
+                <img src="./bluebar.svg" alt="Blue Bar" height="30" />
+              </p>
+              <h2>The Blue Bar</h2>
+              <p class="lead">
+                Make sure the website you are about to open is the one you are
+                expecting.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    .button {
-      display: inline-block;
-      min-width: 120px;
-      margin: 0 0.5rem;
-      padding: 7px 12px;
-      text-decoration: none;
-      border: 1px solid #ffffff;
-      border-radius: 20px;
-      background: transparent;
-      font-weight: normal;
-    }
+      <div class="container text-center py-5">
+        <h2 class="display-4 mb-4">See it in action</h2>
+        <div
+          class="embed-responsive embed-responsive-16by9 col-md-6 offset-md-3"
+        >
+          <iframe
+            class="embed-responsive-item"
+            src="https://www.youtube.com/embed/u5Y7tPdKolQ?rel=0"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
 
-    .button:hover {
-      text-decoration: none;
-      border-color: #2fd566;
-    }
+      <div class="bg-white py-5">
+        <div class="container">
+          <blockquote class="blockquote col-md-8 offset-md-2 mb-5">
+            <p class="mb-0 text-justify">
+              Browserosaurus is FREE but creating it wasn't. Before downloading,
+              please consider
+              <a href="https://ko-fi.com/Z8Z7V0KF">a small donation</a>. Doing
+              so will help me cover the cost of development.
+            </p>
+            <footer class="blockquote-footer">
+              Thank you 😘
+            </footer>
+          </blockquote>
 
-    main {
-      text-shadow: 0 7px 10px #000000;
-    }
+          <div class="text-center">
+            <a class="btn btn-primary btn-lg" href="https://github.com/will-stone/browserosaurus/releases/download/v5.0.0/Browserosaurus-5.0.0.dmg">
+              Download Browserosaurus v5 for Mac
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
 
-    .embed-container {
-      position: relative;
-      overflow: hidden;
-      max-width: 100%;
-      height: 0;
-      margin-bottom: 2rem;
-      padding-bottom: 56.25%;
-    }
-
-    .embed-container iframe,
-    .embed-container object,
-    .embed-container embed {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    footer {
-      margin-top: 2rem;
-      padding-top: 2rem;
-      border-top: 1px solid #2fd566;
-    }
-  </style>
-
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?v=kPxjKNP4y0">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png?v=kPxjKNP4y0">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png?v=kPxjKNP4y0">
-  <link rel="manifest" href="favicon/site.webmanifest?v=kPxjKNP4y0">
-  <link rel="mask-icon" href="favicon/safari-pinned-tab.svg?v=kPxjKNP4y0" color="#00803c">
-  <link rel="shortcut icon" href="favicon/favicon.ico?v=kPxjKNP4y0">
-  <meta name="apple-mobile-web-app-title" content="Browserosaurus">
-  <meta name="application-name" content="Browserosaurus">
-  <meta name="msapplication-TileColor" content="#00803c">
-  <meta name="theme-color" content="#ffffff">
-</head>
-
-<body>
-
-  <main>
-    <p>
-      <img src="icon.png" alt="" width="150" height="150" />
-    </p>
-
-    <h1>Browserosaurus</h1>
-
-    <h2>A browser prompter for macOS</h2>
-
-    <p>
-      <img src="screenshot.png" alt="" style="width: 100%; max-width: 400px;" />
-    </p>
-
-    <!-- <div class="embed-container">
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/d1goC6SGI5E" frameborder="0" allow="autoplay; encrypted-media"
-        allowfullscreen></iframe>
-    </div> -->
-
-    <p>
-      <a href="https://github.com/will-stone/browserosaurus/releases/download/v4.5.0/Browserosaurus-4.5.0.dmg" class="button">Download
-        v4.5.0</a>
-      <a href="https://github.com/will-stone/browserosaurus" class="button">Source</a>
-      <a href="https://github.com/will-stone/browserosaurus/issues" class="button">Issue?</a>
-    </p>
-
-    <p>
-      Browserosaurus is an open-source (MIT license), Electron-based app for macOS. It works by setting itself as the default browser;
-      any clicked links in non-browser apps are now sent to Browserosaurus where it’ll present you with a menu of all your
-      installed browsers. You may now decide which browser you’d like to continue opening the link with.
-    </p>
-  </main>
-
-  <footer>Created by
-    <a href="http://wstone.io/">Will Stone</a>
-  </footer>
-</body>
-
+    <footer class="bg-dark py-5 text-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md">
+            <img
+              src="icon_no_shadow.png"
+              alt="logo"
+              width="100"
+              height="100"
+              class="mb-2"
+            />
+            <h5 class="mb-5 text-muted">Browserosaurus</h5>
+          </div>
+          <div class="col-12 col-md mb-3">
+            <h5>Open Source</h5>
+            <ul class="list-unstyled text-small">
+              <li>
+                <a
+                  class="text-muted"
+                  href="https://github.com/will-stone/browserosaurus"
+                  >Github Repo</a
+                >
+              </li>
+              <li>
+                <a
+                  class="text-muted"
+                  href="https://github.com/will-stone/browserosaurus/issues"
+                  >Log Issue</a
+                >
+              </li>
+              <li>
+                <a
+                  class="text-muted"
+                  href="https://github.com/will-stone/browserosaurus/pulls"
+                  >Submit PR</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-12 col-md mb-3">
+            <h5>About</h5>
+            <p class="text-muted">
+              Made with ❤️ by
+              <a href="https://wstone.io" class="text-white d-inline-block">Will Stone</a>
+            </p>
+            <script type="text/javascript">
+              kofiwidget2.init('Support Me on Ko-fi', '#1BAAE2', 'Z8Z7V0KF')
+              kofiwidget2.draw()
+            </script>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>
