@@ -1,7 +1,7 @@
 {
   "name": "browserosaurus",
   "productName": "Browserosaurus",
-  "version": "5.2.1",
+  "version": "5.2.3",
   "engines": {
     "node": ">=10.4.1"
   },
@@ -82,9 +82,10 @@
         "name": "browserosaurus"
       },
       "make_targets": {
-        "darwin": ["dmg"]
+        "darwin": ["dmg", "zip"]
       },
       "electronPackagerConfig": {
+        "appBundleId": "com.browserosaurus",
         "asar": true,
         "osxSign": true,
         "appCategoryType": "public.app-category.developer-tools",

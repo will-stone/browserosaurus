@@ -26,7 +26,9 @@ import { runCommand } from './utils/runCommand'
 import * as Store from 'electron-store'
 
 // Autp update
-require('update-electron-app')()
+require('update-electron-app')({
+  repo: 'will-stone/browserosaurus',
+})
 
 // Start store and set activities if first run
 const store = new Store()
