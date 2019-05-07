@@ -16,6 +16,9 @@ import {
   URL_RECEIVED,
   CLOSE_WINDOW,
   WINDOW_BLUR,
+  LOG,
+  MOUSE_THROUGH_ENABLE,
+  MOUSE_THROUGH_DISABLE,
 } from './config/events'
 import { copyToClipboard } from './utils/copyToClipboard'
 import { getInstalledActivities } from './utils/getInstalledActivities'
@@ -95,9 +98,17 @@ ipcMain.on(CLOSE_WINDOW, () => {
   pickerWindow.hide()
 })
 
-ipcMain.on('LOG', (_: Event, msg: string) => {
+ipcMain.on(LOG, (_: Event, msg: string) => {
   // eslint-disable-next-line no-console
   console.log(msg)
+})
+
+ipcMain.on(MOUSE_THROUGH_ENABLE, () => {
+  pickerWindow.setIgnoreMouseEvents(true, { forward: true })
+})
+
+ipcMain.on(MOUSE_THROUGH_DISABLE, () => {
+  pickerWindow.setIgnoreMouseEvents(false)
 })
 
 app.on('ready', async () => {

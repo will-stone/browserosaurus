@@ -4,32 +4,36 @@ import produce from 'immer'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
 import { animated, config, useSpring } from 'react-spring/web.cjs'
+import * as url from 'url'
 import {
   ACTIVITIES_SET,
   ACTIVITY_RUN,
+  CLOSE_WINDOW,
   COPY_TO_CLIPBOARD,
   FAV_SET,
+  MOUSE_THROUGH_DISABLE,
+  MOUSE_THROUGH_ENABLE,
   URL_RECEIVED,
-  CLOSE_WINDOW,
   WINDOW_BLUR,
 } from '../config/events'
 import { Activity } from '../model'
 import {
   ActivityButton,
   ActivityImg,
+  Hostname,
   Key,
   PickerWindow,
   Url,
   Window,
-  Hostname,
 } from './StyledComponents'
-import * as url from 'url'
 
+const ASetMouseTarget = a('MOUSE/SET_TARGET', {} as { target?: string })
 const AShow = a('SHOW', {} as { x: number; y: number })
 const AHide = a('HIDE')
 const AUrlReceived = a(URL_RECEIVED, {} as { url: string })
 const AFavSet = a(FAV_SET, {} as { name: string })
 const AActivitiesSet = a(ACTIVITIES_SET, {} as { activities: Activity[] })
+type ASetMouseTarget = ReturnType<typeof ASetMouseTarget>
 type AShow = ReturnType<typeof AShow>
 type AHide = ReturnType<typeof AHide>
 type AUrlReceived = ReturnType<typeof AUrlReceived>
@@ -43,9 +47,16 @@ interface State {
   fav: string | null
   x: number
   y: number
+  mouseTarget?: string
 }
 
-type Actions = AUrlReceived | AFavSet | AActivitiesSet | AHide | AShow
+type Actions =
+  | AUrlReceived
+  | AFavSet
+  | AActivitiesSet
+  | AHide
+  | AShow
+  | ASetMouseTarget
 
 const initialState: State = {
   isVisible: false,
@@ -75,6 +86,9 @@ const reducer = produce((state: State, action: Actions) => {
       state.x = action.x
       state.y = action.y
       state.isVisible = true
+      return
+    case ASetMouseTarget.TYPE:
+      state.mouseTarget = action.target
       return
   }
 })
@@ -152,8 +166,24 @@ const App: React.FC = () => {
         dispatch(AShow({ x: e.clientX, y: e.clientY }))
       }
     },
-    [state.isVisible],
+    [dispatch, state.isVisible],
   )
+
+  const onMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    dispatch(ASetMouseTarget({ target: (e.target as Element).id }))
+  }
+
+  /**
+   * Allows clicking through the window so that the window underneath gets
+   * full focus.
+   */
+  React.useEffect(() => {
+    if (state.mouseTarget === 'window') {
+      ipcRenderer.send(MOUSE_THROUGH_ENABLE)
+    } else {
+      ipcRenderer.send(MOUSE_THROUGH_DISABLE)
+    }
+  }, [state.mouseTarget])
 
   const height =
     (favActivity ? 200 : 100) +
@@ -182,7 +212,9 @@ const App: React.FC = () => {
         e.preventDefault()
         dispatch(AHide())
       }}
+      id="window"
       onMouseEnter={onMouseEnter}
+      onMouseMove={onMouseMove}
     >
       <Url
         onClick={e => {
