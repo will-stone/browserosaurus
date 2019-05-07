@@ -49,6 +49,7 @@ body,
   padding: 0 20px;
   cursor: copy;
 
+  will-change: transform, opacity;
   opacity: 0;
   transform: scaleY(0);
   transform-origin: center top;
@@ -86,6 +87,7 @@ body,
   border-radius: 5px;
   overflow: hidden;
 
+  will-change: transform, opacity;
   opacity: 0;
   transform: scale(0);
   transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
