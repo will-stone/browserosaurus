@@ -113,9 +113,11 @@ describe('App', () => {
     within(acts[0]).getByAltText('Safari')
     within(acts[1]).getByAltText('Firefox')
     // Fav is bigger:
-    expect(acts[0]).toHaveStyle('height: 200px')
-    expect(acts[0]).toHaveStyle('width: 200px')
-    expect(acts[1]).toHaveStyle('height: 100px')
-    expect(acts[1]).toHaveStyle('width: 100px')
+    wait(() => {
+      expect(acts[0]).toHaveStyle('height: 200px')
+      expect(acts[0]).toHaveStyle('width: 200px')
+      expect(acts[1]).toHaveStyle('height: 100px')
+      expect(acts[1]).toHaveStyle('width: 100px')
+    })
   })
 })

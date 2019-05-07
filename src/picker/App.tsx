@@ -75,7 +75,7 @@ const reducer = produce((state: State, action: Actions) => {
       return
     case AHide.TYPE:
       state.isVisible = false
-      setTimeout(() => ipcRenderer.send(CLOSE_WINDOW), 150)
+      setTimeout(() => ipcRenderer.send(CLOSE_WINDOW), 250)
       return
     case AShow.TYPE:
       state.x = action.x
@@ -216,14 +216,24 @@ const App: React.FC = () => {
     [height, isAtBottom, isAtRight, state.x, state.y, width],
   )
 
+  const transformOrigin = useMemo(
+    () => `${isAtRight ? 'right' : 'left'} ${isAtBottom ? 'bottom' : 'top'}`,
+    [isAtBottom, isAtRight],
+  )
+
   const u = useMemo(() => url.parse(state.url || ''), [state.url])
 
-  const faderClassName = useMemo(
-    () => 'fader' + (state.isVisible ? ' fader--in' : ''),
+  const urlClassName = useMemo(
+    () => 'url' + (state.isVisible ? ' url--isVisible' : ''),
     [state.isVisible],
   )
 
-  const pickerWindowTransform = useMemo(
+  const pickerWindowClassName = useMemo(
+    () => 'pickerWindow' + (state.isVisible ? ' pickerWindow--isVisible' : ''),
+    [state.isVisible],
+  )
+
+  const pickerWindowInnerTransform = useMemo(
     () =>
       (isAtRight && isAtBottom) || isAtBottom
         ? 'rotate(180deg)'
@@ -259,14 +269,14 @@ const App: React.FC = () => {
       onMouseMove={onMouseMove}
     >
       <div
-        className="url"
+        className={urlClassName}
         onClick={e => {
           e.stopPropagation()
           ipcRenderer.send(COPY_TO_CLIPBOARD)
           dispatch(AHide())
         }}
       >
-        <span className={faderClassName}>
+        <span>
           <span>
             {u.protocol && u.protocol.includes('s') && (
               <svg
@@ -292,44 +302,25 @@ const App: React.FC = () => {
         </span>
       </div>
       <div
-        className={'pickerWindow ' + faderClassName}
+        className={pickerWindowClassName}
         style={{
-          transform: pickerWindowTransform,
           top,
           left,
           width,
           height,
+          transformOrigin,
         }}
       >
-        {favActivity && (
-          <button
-            className="activity activity--isFav"
-            onClick={e => {
-              e.stopPropagation()
-              ipcRenderer.send(ACTIVITY_RUN, favActivity.name)
-            }}
-            role="button"
-            style={{
-              float: activityFloat,
-              transform: activityTransform,
-            }}
-          >
-            <img
-              className="activity__img"
-              src={`../images/activity-icons/${favActivity.name}.png`}
-              alt={favActivity.name}
-            />
-            <div className="key">{favActivity.hotKey}</div>
-          </button>
-        )}
-        <div>
-          {notFavActivities.map(activity => (
+        <div
+          className="pickerWindow__inner"
+          style={{ transform: pickerWindowInnerTransform }}
+        >
+          {favActivity && (
             <button
-              className="activity"
-              key={activity.name}
+              className="activity activity--isFav"
               onClick={e => {
                 e.stopPropagation()
-                ipcRenderer.send(ACTIVITY_RUN, activity.name)
+                ipcRenderer.send(ACTIVITY_RUN, favActivity.name)
               }}
               role="button"
               style={{
@@ -339,12 +330,36 @@ const App: React.FC = () => {
             >
               <img
                 className="activity__img"
-                src={`../images/activity-icons/${activity.name}.png`}
-                alt={activity.name}
+                src={`../images/activity-icons/${favActivity.name}.png`}
+                alt={favActivity.name}
               />
-              <div className="key">{activity.hotKey}</div>
+              <div className="key">{favActivity.hotKey}</div>
             </button>
-          ))}
+          )}
+          <div>
+            {notFavActivities.map(activity => (
+              <button
+                className="activity"
+                key={activity.name}
+                onClick={e => {
+                  e.stopPropagation()
+                  ipcRenderer.send(ACTIVITY_RUN, activity.name)
+                }}
+                role="button"
+                style={{
+                  float: activityFloat,
+                  transform: activityTransform,
+                }}
+              >
+                <img
+                  className="activity__img"
+                  src={`../images/activity-icons/${activity.name}.png`}
+                  alt={activity.name}
+                />
+                <div className="key">{activity.hotKey}</div>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>

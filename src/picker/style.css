@@ -48,6 +48,16 @@ body,
   align-items: center;
   padding: 0 20px;
   cursor: copy;
+
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: center top;
+  transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
+}
+
+.url--isVisible {
+  opacity: 1;
+  transform: scaleY(1);
 }
 
 .url > span {
@@ -74,6 +84,22 @@ body,
   background-color: #232323;
   box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
   border-radius: 5px;
+  overflow: hidden;
+
+  opacity: 0;
+  transform: scale(0);
+  transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
+}
+
+.pickerWindow--isVisible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.pickerWindow__inner {
+  position: relative;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
 }
 
@@ -117,11 +143,3 @@ body,
   padding: 1px;
 }
 
-.fader {
-  opacity: 0;
-  transition: opacity 100ms linear;
-}
-
-.fader--in {
-  opacity: 1;
-}
