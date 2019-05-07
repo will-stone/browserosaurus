@@ -86,7 +86,14 @@
         "appCategoryType": "public.app-category.developer-tools",
         "packageManager": "yarn",
         "icon": "src/images/icon/icon.icns",
-        "ignore": ["docs", "__mocks__", "@types", ".vscode", "node_modules"],
+        "ignore": [
+          "docs",
+          "__mocks__",
+          "@types",
+          ".vscode",
+          "node_modules",
+          "designs"
+        ],
         "protocols": [
           {
             "name": "HTTP link",
