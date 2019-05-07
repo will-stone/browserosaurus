@@ -86,7 +86,6 @@ body,
   justify-content: center;
   background: transparent;
   border: none;
-  transition: opacity 300ms linear;
   text-align: center;
   position: relative;
   cursor: default;
@@ -116,4 +115,13 @@ body,
   font-size: 16px;
   font-weight: 400;
   padding: 1px;
+}
+
+.fader {
+  opacity: 0;
+  transition: opacity 100ms linear;
+}
+
+.fader--in {
+  opacity: 1;
 }

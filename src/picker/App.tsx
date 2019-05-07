@@ -3,7 +3,6 @@ import { ipcRenderer } from 'electron'
 import produce from 'immer'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
-import { animated, config, useSpring } from 'react-spring/web.cjs'
 import * as url from 'url'
 import {
   ACTIVITIES_SET,
@@ -18,6 +17,11 @@ import {
 } from '../config/events'
 import { Activity } from '../model'
 
+const { useMemo, useEffect, useCallback, useReducer } = React
+
+/**
+ * ACTIONS
+ */
 const ASetMouseTarget = a('MOUSE/SET_TARGET', {} as { target?: string })
 const AShow = a('SHOW', {} as { x: number; y: number })
 const AHide = a('HIDE')
@@ -31,6 +35,14 @@ type AUrlReceived = ReturnType<typeof AUrlReceived>
 type AFavSet = ReturnType<typeof AFavSet>
 type AActivitiesSet = ReturnType<typeof AActivitiesSet>
 
+type Actions =
+  | AUrlReceived
+  | AFavSet
+  | AActivitiesSet
+  | AHide
+  | AShow
+  | ASetMouseTarget
+
 interface State {
   isVisible: boolean
   url: string | null
@@ -40,14 +52,6 @@ interface State {
   y: number
   mouseTarget?: string
 }
-
-type Actions =
-  | AUrlReceived
-  | AFavSet
-  | AActivitiesSet
-  | AHide
-  | AShow
-  | ASetMouseTarget
 
 const initialState: State = {
   isVisible: false,
@@ -85,18 +89,13 @@ const reducer = produce((state: State, action: Actions) => {
 })
 
 const App: React.FC = () => {
-  const [state, dispatch] = React.useReducer<React.Reducer<State, Actions>>(
+  const [state, dispatch] = useReducer<React.Reducer<State, Actions>>(
     reducer,
     initialState,
   )
 
-  const fadeStyles = useSpring({
-    opacity: state.isVisible ? 1 : 0,
-    config: { ...config.stiff, duration: 100, clamp: true },
-  })
-
   // Se-up event listeners
-  React.useEffect(() => {
+  useEffect(() => {
     /**
      * Global keyboard shortcuts
      */
@@ -146,12 +145,17 @@ const App: React.FC = () => {
     }
   }, [])
 
-  const favActivity = state.activities.find(act => act.name === state.fav)
-  const notFavActivities = state.activities.filter(
-    act => act.name !== state.fav,
+  const favActivity = useMemo(
+    () => state.activities.find(act => act.name === state.fav),
+    [state.activities, state.fav],
   )
 
-  const onMouseEnter = React.useCallback(
+  const notFavActivities = useMemo(
+    () => state.activities.filter(act => act.name !== state.fav),
+    [state.activities, state.fav],
+  )
+
+  const onMouseEnter = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       if (!state.isVisible) {
         dispatch(AShow({ x: e.clientX, y: e.clientY }))
@@ -160,15 +164,18 @@ const App: React.FC = () => {
     [dispatch, state.isVisible],
   )
 
-  const onMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    dispatch(ASetMouseTarget({ target: (e.target as Element).id }))
-  }
+  const onMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      dispatch(ASetMouseTarget({ target: (e.target as Element).id }))
+    },
+    [dispatch],
+  )
 
   /**
    * Allows clicking through the window so that the window underneath gets
    * full focus.
    */
-  React.useEffect(() => {
+  useEffect(() => {
     if (state.mouseTarget === 'window') {
       ipcRenderer.send(MOUSE_THROUGH_ENABLE)
     } else {
@@ -176,26 +183,69 @@ const App: React.FC = () => {
     }
   }, [state.mouseTarget])
 
-  const height =
-    (favActivity ? 200 : 100) +
-    (notFavActivities.length > 0
-      ? (Math.ceil(notFavActivities.length / 4) - 1) * 100
-      : 0)
-  const isAtBottom = state.y > window.innerHeight - height
-  const top = isAtBottom ? state.y - height : state.y
+  const [width, height] = useMemo(
+    () => [
+      (favActivity ? 200 : 0) +
+        (!favActivity && notFavActivities.length >= 3
+          ? 3
+          : notFavActivities.length >= 2
+          ? 2
+          : notFavActivities.length) *
+          100,
+      (favActivity ? 200 : 100) +
+        (notFavActivities.length > 0
+          ? (Math.ceil(notFavActivities.length / 4) - 1) * 100
+          : 0),
+    ],
+    [favActivity, notFavActivities.length],
+  )
 
-  const width =
-    (favActivity ? 200 : 0) +
-    (!favActivity && notFavActivities.length >= 3
-      ? 3
-      : notFavActivities.length >= 2
-      ? 2
-      : notFavActivities.length) *
-      100
-  const isAtRight = state.x > window.innerWidth - width
-  const left = isAtRight ? state.x - width - 1 : state.x + 1
+  const [isAtRight, isAtBottom] = useMemo(
+    () => [
+      state.x > window.innerWidth - width,
+      state.y > window.innerHeight - height,
+    ],
+    [height, state.x, state.y, width],
+  )
 
-  const u = url.parse(state.url || '')
+  const [left, top] = useMemo(
+    () => [
+      isAtRight ? state.x - width - 1 : state.x + 1,
+      isAtBottom ? state.y - height : state.y,
+    ],
+    [height, isAtBottom, isAtRight, state.x, state.y, width],
+  )
+
+  const u = useMemo(() => url.parse(state.url || ''), [state.url])
+
+  const faderClassName = useMemo(
+    () => 'fader' + (state.isVisible ? ' fader--in' : ''),
+    [state.isVisible],
+  )
+
+  const pickerWindowTransform = useMemo(
+    () =>
+      (isAtRight && isAtBottom) || isAtBottom
+        ? 'rotate(180deg)'
+        : 'rotate(0deg)',
+    [isAtBottom, isAtRight],
+  )
+
+  const activityFloat = useMemo(
+    () =>
+      (isAtRight && !isAtBottom) || (isAtBottom && !isAtRight)
+        ? 'right'
+        : 'left',
+    [isAtBottom, isAtRight],
+  )
+
+  const activityTransform = useMemo(
+    () =>
+      (isAtRight && isAtBottom) || isAtBottom
+        ? 'rotate(180deg)'
+        : 'rotate(0deg)',
+    [isAtBottom, isAtRight],
+  )
 
   return (
     <div
@@ -216,7 +266,7 @@ const App: React.FC = () => {
           dispatch(AHide())
         }}
       >
-        <animated.span style={fadeStyles}>
+        <span className={faderClassName}>
           <span>
             {u.protocol && u.protocol.includes('s') && (
               <svg
@@ -239,16 +289,12 @@ const App: React.FC = () => {
           <span>{u.pathname}</span>
           <span>{u.search}</span>
           <span>{u.hash}</span>
-        </animated.span>
+        </span>
       </div>
-      <animated.div
-        className="pickerWindow"
+      <div
+        className={'pickerWindow ' + faderClassName}
         style={{
-          ...fadeStyles,
-          transform:
-            (isAtRight && isAtBottom) || isAtBottom
-              ? 'rotate(180deg)'
-              : 'rotate(0deg)',
+          transform: pickerWindowTransform,
           top,
           left,
           width,
@@ -264,14 +310,8 @@ const App: React.FC = () => {
             }}
             role="button"
             style={{
-              float:
-                (isAtRight && !isAtBottom) || (isAtBottom && !isAtRight)
-                  ? 'right'
-                  : 'left',
-              transform:
-                (isAtRight && isAtBottom) || isAtBottom
-                  ? 'rotate(180deg)'
-                  : 'rotate(0deg)',
+              float: activityFloat,
+              transform: activityTransform,
             }}
           >
             <img
@@ -293,14 +333,8 @@ const App: React.FC = () => {
               }}
               role="button"
               style={{
-                float:
-                  (isAtRight && !isAtBottom) || (isAtBottom && !isAtRight)
-                    ? 'right'
-                    : 'left',
-                transform:
-                  (isAtRight && isAtBottom) || isAtBottom
-                    ? 'rotate(180deg)'
-                    : 'rotate(0deg)',
+                float: activityFloat,
+                transform: activityTransform,
               }}
             >
               <img
@@ -312,7 +346,7 @@ const App: React.FC = () => {
             </button>
           ))}
         </div>
-      </animated.div>
+      </div>
     </div>
   )
 }
