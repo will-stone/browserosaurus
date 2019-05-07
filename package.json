@@ -1,7 +1,7 @@
 {
   "name": "browserosaurus",
   "productName": "Browserosaurus",
-  "version": "5.1.1",
+  "version": "5.2.0",
   "engines": {
     "node": ">=10.4.1"
   },
@@ -17,16 +17,15 @@
     "typecheck": "tsc --noEmit --skipLibCheck",
     "package": "electron-forge package --platform=darwin --arch=x64",
     "make": "electron-forge make",
-    "icns": "cd ./src/images/icon && ./png2icns.sh icon.png"
+    "release": "export $(cat .env | xargs) && electron-forge publish",
+    "icns": "cd ./src/images/icon && ./png2icns.sh icon.png",
+    "env": "export $(cat .env | xargs) && env"
   },
   "repository": "https://github.com/will-stone/browserosaurus",
   "bugs": {
     "url": "https://github.com/will-stone/browserosaurus/issues"
   },
-  "keywords": [
-    "Electron",
-    "Browser chooser"
-  ],
+  "keywords": ["Electron", "Browser chooser"],
   "author": "Will Stone",
   "license": "MIT",
   "prettier": "@will-stone/prettier-config",
@@ -73,14 +72,17 @@
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "tslib": "^1.9.3",
+    "update-electron-app": "^1.3.0",
     "xml2js": "^0.4.19"
   },
   "config": {
     "forge": {
+      "github_repository": {
+        "owner": "will-stone",
+        "name": "browserosaurus"
+      },
       "make_targets": {
-        "darwin": [
-          "dmg"
-        ]
+        "darwin": ["dmg"]
       },
       "electronPackagerConfig": {
         "asar": true,
@@ -99,16 +101,11 @@
         "protocols": [
           {
             "name": "HTTP link",
-            "schemes": [
-              "http",
-              "https"
-            ]
+            "schemes": ["http", "https"]
           },
           {
             "name": "File",
-            "schemes": [
-              "file"
-            ]
+            "schemes": ["file"]
           }
         ]
       }
@@ -119,10 +116,7 @@
       "react-testing-library/cleanup-after-each",
       "jest-dom/extend-expect"
     ],
-    "modulePathIgnorePatterns": [
-      "<rootDir>/docs/",
-      "<rootDir>/out/"
-    ],
+    "modulePathIgnorePatterns": ["<rootDir>/docs/", "<rootDir>/out/"],
     "testPathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/docs/",

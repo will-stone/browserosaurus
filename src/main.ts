@@ -25,6 +25,9 @@ import { getInstalledActivities } from './utils/getInstalledActivities'
 import { runCommand } from './utils/runCommand'
 import * as Store from 'electron-store'
 
+// Autp update
+require('update-electron-app')()
+
 // Start store and set activities if first run
 const store = new Store()
 
