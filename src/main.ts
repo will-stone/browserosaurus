@@ -53,6 +53,9 @@ const createPickerWindow = () =>
       title: 'Browserosaurus',
       titleBarStyle: 'customButtonsOnHover',
       transparent: true,
+      webPreferences: {
+        nodeIntegration: true,
+      },
       width: 400,
     })
 

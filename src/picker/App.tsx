@@ -17,15 +17,6 @@ import {
   WINDOW_BLUR,
 } from '../config/events'
 import { Activity } from '../model'
-import {
-  ActivityButton,
-  ActivityImg,
-  Hostname,
-  Key,
-  PickerWindow,
-  Url,
-  Window,
-} from './StyledComponents'
 
 const ASetMouseTarget = a('MOUSE/SET_TARGET', {} as { target?: string })
 const AShow = a('SHOW', {} as { x: number; y: number })
@@ -207,7 +198,8 @@ const App: React.FC = () => {
   const u = url.parse(state.url || '')
 
   return (
-    <Window
+    <div
+      className="window"
       onClick={e => {
         e.preventDefault()
         dispatch(AHide())
@@ -216,7 +208,8 @@ const App: React.FC = () => {
       onMouseEnter={onMouseEnter}
       onMouseMove={onMouseMove}
     >
-      <Url
+      <div
+        className="url"
         onClick={e => {
           e.stopPropagation()
           ipcRenderer.send(COPY_TO_CLIPBOARD)
@@ -227,12 +220,12 @@ const App: React.FC = () => {
           <span>
             {u.protocol && u.protocol.includes('s') && (
               <svg
+                className="url__lockIcon"
                 aria-hidden="true"
                 focusable="false"
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"
-                style={{ height: '14px', marginRight: '10px', opacity: 0.7 }}
               >
                 <path
                   fill="currentColor"
@@ -241,14 +234,15 @@ const App: React.FC = () => {
               </svg>
             )}
           </span>
-          <Hostname>{u.hostname}</Hostname>
-          <span style={{ opacity: 0.7 }}>{u.port && ':' + u.port}</span>
-          <span style={{ opacity: 0.7 }}>{u.pathname}</span>
-          <span style={{ opacity: 0.7 }}>{u.search}</span>
-          <span style={{ opacity: 0.7 }}>{u.hash}</span>
+          <span className="url__hostname">{u.hostname}</span>
+          <span>{u.port && ':' + u.port}</span>
+          <span>{u.pathname}</span>
+          <span>{u.search}</span>
+          <span>{u.hash}</span>
         </animated.span>
-      </Url>
-      <PickerWindow
+      </div>
+      <animated.div
+        className="pickerWindow"
         style={{
           ...fadeStyles,
           transform:
@@ -262,7 +256,8 @@ const App: React.FC = () => {
         }}
       >
         {favActivity && (
-          <ActivityButton
+          <button
+            className="activity activity--isFav"
             onClick={e => {
               e.stopPropagation()
               ipcRenderer.send(ACTIVITY_RUN, favActivity.name)
@@ -278,18 +273,19 @@ const App: React.FC = () => {
                   ? 'rotate(180deg)'
                   : 'rotate(0deg)',
             }}
-            fav
           >
-            <ActivityImg
+            <img
+              className="activity__img"
               src={`../images/activity-icons/${favActivity.name}.png`}
               alt={favActivity.name}
             />
-            <Key>{favActivity.hotKey}</Key>
-          </ActivityButton>
+            <div className="key">{favActivity.hotKey}</div>
+          </button>
         )}
         <div>
           {notFavActivities.map(activity => (
-            <ActivityButton
+            <button
+              className="activity"
               key={activity.name}
               onClick={e => {
                 e.stopPropagation()
@@ -307,16 +303,17 @@ const App: React.FC = () => {
                     : 'rotate(0deg)',
               }}
             >
-              <ActivityImg
+              <img
+                className="activity__img"
                 src={`../images/activity-icons/${activity.name}.png`}
                 alt={activity.name}
               />
-              <Key>{activity.hotKey}</Key>
-            </ActivityButton>
+              <div className="key">{activity.hotKey}</div>
+            </button>
           ))}
         </div>
-      </PickerWindow>
-    </Window>
+      </animated.div>
+    </div>
   )
 }
 
