@@ -183,22 +183,18 @@ const App: React.FC = () => {
     }
   }, [state.mouseTarget])
 
-  const [width, height] = useMemo(
-    () => [
-      (favActivity ? 200 : 0) +
-        (!favActivity && notFavActivities.length >= 3
-          ? 3
-          : notFavActivities.length >= 2
-          ? 2
-          : notFavActivities.length) *
-          100,
-      (favActivity ? 200 : 100) +
-        (notFavActivities.length > 0
-          ? (Math.ceil(notFavActivities.length / 4) - 1) * 100
-          : 0),
-    ],
-    [favActivity, notFavActivities.length],
-  )
+  const [width, height] = useMemo(() => {
+    const hasFavouriteSet = !!favActivity
+    if (hasFavouriteSet) {
+      const width = 200 + Math.min(notFavActivities.length, 2) * 100
+      const height = 200 + (Math.ceil(notFavActivities.length / 4) - 1) * 100
+      return [width, height]
+    }
+
+    const width = Math.min(notFavActivities.length, 3) * 100
+    const height = Math.ceil(notFavActivities.length / 3) * 100
+    return [width, height]
+  }, [favActivity, notFavActivities.length])
 
   const [isAtRight, isAtBottom] = useMemo(
     () => [
@@ -310,6 +306,7 @@ const App: React.FC = () => {
           height,
           transformOrigin,
         }}
+        data-testid="picker-window"
       >
         <div
           className="pickerWindow__inner"

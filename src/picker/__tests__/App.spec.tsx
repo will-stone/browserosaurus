@@ -1,32 +1,24 @@
 import * as electron from 'electron'
 import * as React from 'react'
-import { act, fireEvent, render, within, wait } from 'react-testing-library'
+import { act, fireEvent, render, wait, within } from 'react-testing-library'
 import {
   ACTIVITIES_SET,
   ACTIVITY_RUN,
-  URL_RECEIVED,
-  FAV_SET,
   CLOSE_WINDOW,
   COPY_TO_CLIPBOARD,
+  FAV_SET,
+  URL_RECEIVED,
 } from '../../config/events'
-import { Activity } from '../../model'
 import App from '../App'
+import {
+  activities2,
+  activities4,
+  activities7,
+  activities9,
+  activities5,
+} from '../__fixtures__/activities'
 
 jest.mock('../../utils/copyToClipboard')
-
-const activities: Activity[] = [
-  {
-    appId: 'Firefox',
-    cmd: 'open "{URL}" -a Firefox',
-    hotKey: 'f',
-    name: 'Firefox',
-  },
-  {
-    cmd: 'open "{URL}" -a Safari',
-    hotKey: 's',
-    name: 'Safari',
-  },
-]
 
 describe('App', () => {
   // TODO: make sure url is split out into parts and host is bold
@@ -48,7 +40,7 @@ describe('App', () => {
     expect(queryByAltText('Safari')).not.toBeInTheDocument()
     const win = new electron.remote.BrowserWindow()
     act(() => {
-      win.webContents.send(ACTIVITIES_SET, activities)
+      win.webContents.send(ACTIVITIES_SET, activities2)
       fireEvent.mouseEnter(container.firstChild as Element)
     })
     getByAltText('Firefox')
@@ -57,11 +49,21 @@ describe('App', () => {
     getByText('s')
   })
 
+  it('should show picker window on mouse enter', () => {
+    const { container, getByTestId } = render(<App />)
+    const win = new electron.remote.BrowserWindow()
+    act(() => {
+      win.webContents.send(ACTIVITIES_SET, activities2)
+      fireEvent.mouseEnter(container.firstChild as Element)
+    })
+    expect(getByTestId('picker-window')).toBeVisible()
+  })
+
   it('should run favourite activity on activity click', () => {
     const { getByAltText, container } = render(<App />)
     const win = new electron.remote.BrowserWindow()
     act(() => {
-      win.webContents.send(ACTIVITIES_SET, activities)
+      win.webContents.send(ACTIVITIES_SET, activities2)
       win.webContents.send(FAV_SET, 'Firefox')
       win.webContents.send(URL_RECEIVED, 'example.com')
       fireEvent.mouseEnter(container.firstChild as Element)
@@ -98,7 +100,7 @@ describe('App', () => {
     const { container, queryAllByRole } = render(<App />)
     const win = new electron.remote.BrowserWindow()
     act(() => {
-      win.webContents.send(ACTIVITIES_SET, activities)
+      win.webContents.send(ACTIVITIES_SET, activities2)
       win.webContents.send(URL_RECEIVED, 'example.com')
       fireEvent.mouseEnter(container.firstChild as Element)
     })
@@ -118,6 +120,137 @@ describe('App', () => {
       expect(acts[0]).toHaveStyle('width: 200px')
       expect(acts[1]).toHaveStyle('height: 100px')
       expect(acts[1]).toHaveStyle('width: 100px')
+    })
+  })
+
+  describe('Picker Window', () => {
+    describe('without a favourite', () => {
+      it('should size correctly for 2 activities', () => {
+        const { getByTestId } = render(<App />)
+        const win = new electron.remote.BrowserWindow()
+        act(() => {
+          win.webContents.send(ACTIVITIES_SET, activities2)
+        })
+        expect(getByTestId('picker-window')).toHaveStyle(`
+          width: 200px;
+          height: 100px;
+        `)
+      })
+
+      it('should size correctly for 4 activities', () => {
+        const { getByTestId } = render(<App />)
+        const win = new electron.remote.BrowserWindow()
+        act(() => {
+          win.webContents.send(ACTIVITIES_SET, activities4)
+        })
+        expect(getByTestId('picker-window')).toHaveStyle(`
+          width: 300px;
+          height: 200px;
+        `)
+      })
+
+      it('should size correctly for 5 activities', () => {
+        const { getByTestId } = render(<App />)
+        const win = new electron.remote.BrowserWindow()
+        act(() => {
+          win.webContents.send(ACTIVITIES_SET, activities5)
+        })
+        expect(getByTestId('picker-window')).toHaveStyle(`
+          width: 300px;
+          height: 200px;
+        `)
+      })
+
+      it('should size correctly for 7 activities', () => {
+        const { getByTestId } = render(<App />)
+        const win = new electron.remote.BrowserWindow()
+        act(() => {
+          win.webContents.send(ACTIVITIES_SET, activities7)
+        })
+        expect(getByTestId('picker-window')).toHaveStyle(`
+          width: 300px;
+          height: 300px;
+        `)
+      })
+
+      it('should size correctly for 9 activities', () => {
+        const { getByTestId } = render(<App />)
+        const win = new electron.remote.BrowserWindow()
+        act(() => {
+          win.webContents.send(ACTIVITIES_SET, activities9)
+        })
+        expect(getByTestId('picker-window')).toHaveStyle(`
+          width: 300px;
+          height: 300px;
+        `)
+      })
+    })
+
+    describe('with a favourite', () => {
+      it('should size correctly for 2 activities', () => {
+        const { getByTestId } = render(<App />)
+        const win = new electron.remote.BrowserWindow()
+        act(() => {
+          win.webContents.send(ACTIVITIES_SET, activities2)
+          win.webContents.send(FAV_SET, 'Firefox')
+        })
+        expect(getByTestId('picker-window')).toHaveStyle(`
+          width: 300px;
+          height: 200px;
+        `)
+      })
+
+      it('should size correctly for 4 activities', () => {
+        const { getByTestId } = render(<App />)
+        const win = new electron.remote.BrowserWindow()
+        act(() => {
+          win.webContents.send(ACTIVITIES_SET, activities4)
+          win.webContents.send(FAV_SET, 'Firefox')
+        })
+        expect(getByTestId('picker-window')).toHaveStyle(`
+          width: 400px;
+          height: 200px;
+        `)
+      })
+
+      it('should size correctly for 5 activities', () => {
+        const { getByTestId } = render(<App />)
+        const win = new electron.remote.BrowserWindow()
+        act(() => {
+          win.webContents.send(ACTIVITIES_SET, activities5)
+          win.webContents.send(FAV_SET, 'Firefox')
+        })
+        expect(getByTestId('picker-window')).toHaveStyle(`
+          width: 400px;
+          height: 200px;
+        `)
+      })
+
+      it('should size correctly for 7 activities', () => {
+        const { getByTestId } = render(<App />)
+        const win = new electron.remote.BrowserWindow()
+        act(() => {
+          win.webContents.send(ACTIVITIES_SET, activities7)
+          win.webContents.send(FAV_SET, 'Firefox')
+        })
+        expect(getByTestId('picker-window')).toHaveStyle(`
+          width: 400px;
+          height: 300px;
+        `)
+      })
+
+      it('should size correctly for 9 activities', () => {
+        const { getByTestId } = render(<App />)
+        const win = new electron.remote.BrowserWindow()
+        act(() => {
+          win.webContents.send(ACTIVITIES_SET, activities9)
+          win.webContents.send(FAV_SET, 'Firefox')
+        })
+        expect(getByTestId('picker-window')).toHaveStyle(`
+          width: 400px;
+          height: 300px;
+        `)
+      })
     })
   })
 })
