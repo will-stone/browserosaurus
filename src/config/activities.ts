@@ -20,6 +20,11 @@ export const activities: Activity[] = [
     name: 'Chromium',
   },
   {
+    cmd: 'echo "{URL}" | pbcopy',
+    hotKey: 'space',
+    name: 'Copy To Clipboard',
+  },
+  {
     appId: 'Firefox',
     cmd: 'open "{URL}" -a Firefox',
     hotKey: 'f',

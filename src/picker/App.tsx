@@ -104,12 +104,6 @@ const App: React.FC = () => {
       dispatch(AHide())
     })
 
-    mousetrap.bind('space', e => {
-      e.preventDefault() // stops space from opening previously selected act
-      ipcRenderer.send(COPY_TO_CLIPBOARD)
-      dispatch(AHide())
-    })
-
     /**
      * Events from main process
      */
@@ -330,7 +324,7 @@ const App: React.FC = () => {
                 src={`../images/activity-icons/${favActivity.name}.png`}
                 alt={favActivity.name}
               />
-              <div className="key">{favActivity.hotKey}</div>
+              <div className="activity__key">{favActivity.hotKey} / enter</div>
             </button>
           )}
           <div>
@@ -353,7 +347,7 @@ const App: React.FC = () => {
                   src={`../images/activity-icons/${activity.name}.png`}
                   alt={activity.name}
                 />
-                <div className="key">{activity.hotKey}</div>
+                <div className="activity__key">{activity.hotKey}</div>
               </button>
             ))}
           </div>
