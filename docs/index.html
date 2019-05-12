@@ -210,7 +210,9 @@
           </p>
 
           <div class="text-center">
-            <div class="text-info small">Remember to set Browserosaurus as your default browser</div>
+            <div class="text-info small">
+              Remember to set Browserosaurus as your default browser
+            </div>
             <img
               src="default_browser.png"
               alt="default browser"
@@ -244,11 +246,22 @@
               Browserosaurus menubar icon.
             </p>
             <h6 class="text-info">
+              The picker window was very slow to display.
+            </h6>
+            <p>
+              The app needs to be running in the background for the picker
+              window to show immediately. You can confirm Browserosaurus is
+              running by looking for the "B" icon in the menubar. If you have
+              not set Browserosaurus to load on startup, it can take a few
+              seconds until it is available. Each subsequently clicked link will
+              open the picker window promptly, like normal.
+            </p>
+            <h6 class="text-info">
               I'm clicking links in my browser but Browserosaurus does not show.
             </h6>
             <p>
               Only links clicked <strong>outside</strong> of browsers will open
-              Browserosaurus.
+              Browserosaurus. This is by design.
             </p>
           </div>
           <div class="col-md-6">
@@ -264,14 +277,28 @@
             <p>
               Nope. The only outgoing call Browserosaurus makes is to check for
               an update. The only persistent piece of user information saved to
-              disk is which favourite activity you've selected.
+              disk is which favourite activity you have selected.
             </p>
             <h6 class="text-info">
-              I have a browser that's not included in the list.
+              I installed or removed a browser but I'm not seeing this updated
+              in the picker window.
             </h6>
             <p>
-              Browserosaurus operates on a whitelist basis. If you'd like a
-              browser added, please
+              Browserosaurus checks for installed browsers when it is loaded.
+              Please click the "B" icon in the menubar, and select "Quit". Start
+              Browserosaurus again and you will see the changes.
+            </p>
+            <h6 class="text-info">
+              I have a browser that's not shown in the picker window, even after
+              restarting Browserosaurus.
+            </h6>
+            <p>
+              Browserosaurus operates on a
+              <a
+                href="https://github.com/will-stone/browserosaurus/blob/master/src/config/activities.ts"
+                >whitelist</a
+              >
+              basis. If you would like a browser added, please
               <a href="https://github.com/will-stone/browserosaurus/issues"
                 >raise an issue</a
               >.
