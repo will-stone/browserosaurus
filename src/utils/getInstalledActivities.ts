@@ -12,7 +12,7 @@ import { Activity } from '../model'
  * @returns array of app names (Strings) if resolved, and string if rejected.
  */
 const scanForApps = (): Promise<{}> =>
-  new Promise((resolve, reject) => {
+  new Promise(resolve => {
     const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType'])
 
     let profile = ''
