@@ -21,9 +21,6 @@ const scanForApps = (): Promise<{}> =>
     sp.stdout.on('data', data => {
       profile += data
     })
-    sp.stderr.on('data', data => {
-      reject(data)
-    })
     sp.stdout.on('end', () => {
       xml2js.parseString(profile, (_, result) => {
         const installedApps = jp.query(
