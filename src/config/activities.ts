@@ -90,10 +90,10 @@ export const activities: Activity[] = [
     name: 'Safari Technology Preview',
   },
   {
-    appId: 'TorBrowser',
-    cmd: 'open "{URL}" -a TorBrowser',
+    appId: 'Tor Browser',
+    cmd: 'open "{URL}" -a "Tor Browser"',
     hotKey: 't',
-    name: 'TorBrowser',
+    name: 'Tor Browser',
   },
   {
     appId: 'Vivaldi',
