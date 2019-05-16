@@ -66,10 +66,10 @@ const createPickerWindow = () =>
 
     pickerWindow.loadURL(`file://${__dirname}/picker/index.html`)
 
-    pickerWindow.on('close', e => {
-      e.preventDefault()
-      pickerWindow.webContents.send(WINDOW_BLUR)
-    })
+    // pickerWindow.on('close', e => {
+    //   e.preventDefault()
+    //   pickerWindow.webContents.send(WINDOW_BLUR)
+    // })
 
     pickerWindow.on('blur', () => {
       pickerWindow.webContents.send(WINDOW_BLUR)
