@@ -25,7 +25,7 @@ import { getInstalledActivities } from './utils/getInstalledActivities'
 import { runCommand } from './utils/runCommand'
 import * as Store from 'electron-store'
 
-// Autp update
+// Auto update
 require('update-electron-app')({
   repo: 'will-stone/browserosaurus',
 })
