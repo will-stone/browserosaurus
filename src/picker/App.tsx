@@ -115,7 +115,14 @@ const App: React.FC = () => {
 
     ipcRenderer.on(FAV_SET, (_: unknown, name: string) => {
       dispatch(AFavSet({ name }))
-      mousetrap.bind('enter', () => ipcRenderer.send(ACTIVITY_RUN, name))
+      mousetrap.bind('enter', e => {
+        // When a browser has been selected with the mouse, it gets (invisible) focus.
+        // This means when enter is pressed next, it will activate the focused activity AND fire
+        // this key binding, causing two identical tabs to open in the selected browser.
+        // This fixes that.
+        e.preventDefault()
+        ipcRenderer.send(ACTIVITY_RUN, name)
+      })
     })
 
     ipcRenderer.on(
