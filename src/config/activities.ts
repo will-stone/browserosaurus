@@ -73,6 +73,12 @@ export const activities: Activity[] = [
     name: 'Min',
   },
   {
+    appId: 'Microsoft Edge Dev',
+    cmd: 'open "{URL}" -a "Microsoft Edge Dev"',
+    hotKey: 'e',
+    name: 'Microsoft Edge Dev',
+  },
+  {
     appId: 'Opera',
     cmd: 'open "{URL}" -a Opera',
     hotKey: 'o',
