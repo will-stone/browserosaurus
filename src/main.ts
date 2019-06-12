@@ -103,7 +103,7 @@ ipcMain.on(COPY_TO_CLIPBOARD, () => {
 
 ipcMain.on(CLOSE_WINDOW, () => {
   urlToOpen = undefined
-  pickerWindow.hide()
+  app.hide()
 })
 
 ipcMain.on(LOG, (_: Event, msg: string) => {
