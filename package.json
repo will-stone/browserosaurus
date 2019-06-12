@@ -1,7 +1,7 @@
 {
   "name": "browserosaurus",
   "productName": "Browserosaurus",
-  "version": "5.5.0",
+  "version": "5.5.1",
   "engines": {
     "node": ">=10.4.1"
   },
