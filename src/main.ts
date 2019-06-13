@@ -134,12 +134,18 @@ app.on('ready', async () => {
       submenu: [{ label: 'Loading...' }],
     },
     {
-      label: 'About',
-      click: app.showAboutPanel,
+      type: 'separator',
     },
     {
       label: 'Quit',
-      click: app.exit,
+      click: () => app.exit(),
+    },
+    {
+      type: 'separator',
+    },
+    {
+      label: 'v' + app.getVersion(),
+      enabled: false,
     },
   ]
   tray.setContextMenu(Menu.buildFromTemplate(contextMenu))
