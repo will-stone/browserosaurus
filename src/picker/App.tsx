@@ -75,7 +75,7 @@ const reducer = produce((state: State, action: Actions) => {
       return
     case AHide.TYPE:
       state.isVisible = false
-      setTimeout(() => ipcRenderer.send(CLOSE_WINDOW), 250)
+      setTimeout(() => ipcRenderer.send(CLOSE_WINDOW), 200)
       return
     case AShow.TYPE:
       state.x = action.x
