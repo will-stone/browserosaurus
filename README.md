@@ -31,7 +31,7 @@ cd browserosaurus
 Install dependencies:
 
 ```
-yarn install
+yarn
 ```
 
 Run Browserosaurus in dev mode:
@@ -40,10 +40,12 @@ Run Browserosaurus in dev mode:
 yarn start
 ```
 
-Package and make installer:
+Prepare for publishing:
 
 ```
-yarn run make
+yarn package
+yarn notarize
+yarn make
 ```
 
 ### Browser logos

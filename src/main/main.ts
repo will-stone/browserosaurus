@@ -7,23 +7,23 @@ import {
   screen,
   Tray,
 } from 'electron'
-import { activities } from './config/activities'
+import * as Store from 'electron-store'
+import { activities } from '../config/activities'
 import {
   ACTIVITIES_SET,
   ACTIVITY_RUN,
+  CLOSE_WINDOW,
   COPY_TO_CLIPBOARD,
   FAV_SET,
-  URL_RECEIVED,
-  CLOSE_WINDOW,
-  WINDOW_BLUR,
   LOG,
-  MOUSE_THROUGH_ENABLE,
   MOUSE_THROUGH_DISABLE,
-} from './config/events'
-import { copyToClipboard } from './utils/copyToClipboard'
-import { getInstalledActivities } from './utils/getInstalledActivities'
-import { runCommand } from './utils/runCommand'
-import * as Store from 'electron-store'
+  MOUSE_THROUGH_ENABLE,
+  URL_RECEIVED,
+  WINDOW_BLUR,
+} from '../config/events'
+import { copyToClipboard } from '../utils/copyToClipboard'
+import { getInstalledActivities } from '../utils/getInstalledActivities'
+import { runCommand } from '../utils/runCommand'
 
 // Auto update
 require('update-electron-app')({
@@ -49,7 +49,7 @@ const createPickerWindow = () =>
       fullscreenable: false,
       hasShadow: false,
       height: 50,
-      icon: `${__dirname}/images/icon/icon.png`,
+      icon: `${__dirname}/static/icon/icon.png`,
       maximizable: false,
       minimizable: false,
       movable: false,
@@ -60,11 +60,16 @@ const createPickerWindow = () =>
       transparent: true,
       webPreferences: {
         nodeIntegration: true,
+        // @ts-ignore
+        // eslint-disable-next-line no-undef
+        preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       },
       width: 400,
     })
 
-    pickerWindow.loadURL(`file://${__dirname}/picker/index.html`)
+    // @ts-ignore
+    // eslint-disable-next-line no-undef
+    pickerWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
     pickerWindow.on('close', e => {
       e.preventDefault()
@@ -84,16 +89,20 @@ const createPickerWindow = () =>
   })
 
 const urlRecevied = (url: string) => {
-  const display = screen.getDisplayNearestPoint(screen.getCursorScreenPoint())
-  pickerWindow.setPosition(display.workArea.x, display.workArea.y, false)
-  pickerWindow.setSize(display.workArea.width, display.workArea.height, false)
+  const {
+    workArea: { x, y, width, height },
+  } = screen.getDisplayNearestPoint(screen.getCursorScreenPoint())
+  pickerWindow.setPosition(x, y, false)
+  pickerWindow.setSize(width, height, false)
   pickerWindow.webContents.send(URL_RECEIVED, url)
   pickerWindow.show()
 }
 
 ipcMain.on(ACTIVITY_RUN, (_: Event, name: string) => {
   const activity = activities.find(act => act.name === name)
-  activity && urlToOpen && runCommand(activity.cmd.replace('{URL}', urlToOpen))
+  if (activity && urlToOpen) {
+    runCommand(activity.cmd.replace('{URL}', urlToOpen))
+  }
   pickerWindow.webContents.send(WINDOW_BLUR)
 })
 
@@ -103,9 +112,16 @@ ipcMain.on(COPY_TO_CLIPBOARD, () => {
 
 ipcMain.on(CLOSE_WINDOW, () => {
   urlToOpen = undefined
+  pickerWindow.hide()
   app.hide()
 })
 
+/**
+ * LOG
+ *
+ * Utility listener used for debugging.
+ * Allows sending a string to the main process.
+ */
 ipcMain.on(LOG, (_: Event, msg: string) => {
   // eslint-disable-next-line no-console
   console.log(msg)
@@ -125,8 +141,8 @@ app.on('ready', async () => {
 
   const fav = store.get('fav')
 
-  tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
-  tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
+  tray = new Tray(`${__dirname}/static/icon/tray_iconTemplate.png`)
+  tray.setPressedImage(`${__dirname}/static/icon/tray_iconHighlight.png`)
   tray.setToolTip('Browserosaurus')
   const contextMenu: MenuItemConstructorOptions[] = [
     {
