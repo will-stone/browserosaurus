@@ -4,4 +4,5 @@ export interface Activity {
   hotKey: string
   cmd: string
   fav?: boolean
+  logo: string
 }

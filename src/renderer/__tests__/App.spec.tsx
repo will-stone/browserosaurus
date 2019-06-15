@@ -1,6 +1,6 @@
 import * as electron from 'electron'
 import * as React from 'react'
-import { act, fireEvent, render, wait, within } from 'react-testing-library'
+import { act, fireEvent, render, wait, within } from '@testing-library/react'
 import {
   ACTIVITIES_SET,
   ACTIVITY_RUN,
