@@ -11,7 +11,7 @@ interface Props extends FontWeightProps, OpacityProps {
 }
 
 export const Text = styled.span<Props>`
-  white-space: ${props => (props.ellipsize ? 'nowrap' : 'normal')};
+  white-space: ${props => (props.ellipsize ? 'nowrap' : 'inherit')};
   overflow: ${props => (props.ellipsize ? 'hidden' : 'visible')};
   text-overflow: ${props => (props.ellipsize ? 'ellipsis' : 'clip')};
 
