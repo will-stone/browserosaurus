@@ -130,10 +130,12 @@ const App: React.FC = () => {
     ipcRenderer.on(ACTIVITIES_SET, (_: unknown, activities: Activity[]) => {
       // setup hotkeys
       activities.forEach(act => {
-        mousetrap.bind(act.hotKey, e => {
-          e.preventDefault()
-          ipcRenderer.send(ACTIVITY_RUN, act.name)
-        })
+        if (act.hotKey) {
+          mousetrap.bind(act.hotKey, e => {
+            e.preventDefault()
+            ipcRenderer.send(ACTIVITY_RUN, act.name)
+          })
+        }
       })
       dispatch(AActivitiesSet({ activities }))
     })

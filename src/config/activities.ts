@@ -17,12 +17,12 @@ import safari from 'browser-logos/src/safari/safari_256x256.png'
 import safariTechnologyPreview from 'browser-logos/src/safari-technology-preview/safari-technology-preview_256x256.png'
 import tor from 'browser-logos/src/tor/tor_256x256.png'
 import vivaldi from 'browser-logos/src/vivaldi/vivaldi_256x256.png'
+import yandex from 'browser-logos/src/yandex/yandex_256x256.png'
 
 export const activities: Activity[] = [
   {
     appId: 'Brave-Browser-Dev',
     cmd: 'open "{URL}" -a Brave-Browser-Dev',
-    hotKey: 'r',
     name: 'Brave Dev',
     logo: braveDev,
   },
@@ -56,14 +56,12 @@ export const activities: Activity[] = [
   {
     appId: 'Firefox Developer Edition',
     cmd: 'open "{URL}" -a "Firefox Developer Edition"',
-    hotKey: 'd',
     name: 'Firefox Developer Edition',
     logo: firefoxDevEdition,
   },
   {
     appId: 'Firefox Nightly',
     cmd: 'open "{URL}" -a "Firefox Nightly"',
-    hotKey: 'n',
     name: 'Firefox Nightly',
     logo: firefoxNightly,
   },
@@ -77,7 +75,6 @@ export const activities: Activity[] = [
   {
     appId: 'Google Chrome Canary',
     cmd: 'open "{URL}" -a "Google Chrome Canary"',
-    hotKey: 'y',
     name: 'Google Chrome Canary',
     logo: googleChromeCanary,
   },
@@ -125,7 +122,6 @@ export const activities: Activity[] = [
   {
     appId: 'Safari Technology Preview',
     cmd: 'open "{URL}" -a "Safari Technology Preview"',
-    hotKey: 'p',
     name: 'Safari Technology Preview',
     logo: safariTechnologyPreview,
   },
@@ -142,5 +138,12 @@ export const activities: Activity[] = [
     hotKey: 'v',
     name: 'Vivaldi',
     logo: vivaldi,
+  },
+  {
+    appId: 'Yandex',
+    cmd: 'open "{URL}" -a Yandex',
+    hotKey: 'y',
+    name: 'Yandex',
+    logo: yandex,
   },
 ]

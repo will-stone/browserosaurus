@@ -115,7 +115,9 @@ export const Picker: React.FC<Props> = ({
             transform={activityTransform}
           >
             <ActivityImg src={favActivity.logo} alt={favActivity.name} />
-            <ActivityKey>{favActivity.hotKey} / enter</ActivityKey>
+            <ActivityKey>
+              {favActivity.hotKey && favActivity.hotKey + ' / '}enter
+            </ActivityKey>
           </ActivityButton>
         )}
         <div>
@@ -130,7 +132,7 @@ export const Picker: React.FC<Props> = ({
               transform={activityTransform}
             >
               <ActivityImg src={activity.logo} alt={activity.name} />
-              <ActivityKey>{activity.hotKey}</ActivityKey>
+              {activity.hotKey && <ActivityKey>{activity.hotKey}</ActivityKey>}
             </ActivityButton>
           ))}
         </div>
