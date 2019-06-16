@@ -18,6 +18,7 @@ import { Activity } from '../model'
 import { Window } from './atoms/Window'
 import { Bluebar } from './features/Bluebar'
 import { Picker } from './features/Picker'
+import { logger } from '../utils/logger'
 
 const { useEffect, useCallback, useReducer } = React
 
@@ -138,6 +139,9 @@ const App: React.FC = () => {
         }
       })
       dispatch(AActivitiesSet({ activities }))
+
+      mousetrap.bind('alt', () => logger('keyup'), 'keyup')
+      mousetrap.bind('alt', () => logger('keydown'), 'keydown')
     })
 
     return function cleanup() {

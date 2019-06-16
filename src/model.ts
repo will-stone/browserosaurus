@@ -3,6 +3,7 @@ export interface Activity {
   name: string
   hotKey?: string
   cmd: string
+  optCmd?: string
   fav?: boolean
   logo: string
 }

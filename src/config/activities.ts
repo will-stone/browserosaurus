@@ -49,6 +49,7 @@ export const activities: Activity[] = [
   {
     appId: 'Firefox',
     cmd: 'open "{URL}" -a Firefox',
+    optCmd: 'open "{URL} -a Firefox -g',
     hotKey: 'f',
     name: 'Firefox',
     logo: firefox,
