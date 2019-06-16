@@ -25,11 +25,7 @@
   "bugs": {
     "url": "https://github.com/will-stone/browserosaurus/issues"
   },
-  "keywords": [
-    "macOS",
-    "Electron",
-    "Browser chooser"
-  ],
+  "keywords": ["macOS", "Electron", "Browser chooser"],
   "author": "Will Stone",
   "license": "MIT",
   "config": {
@@ -49,25 +45,18 @@
         "protocols": [
           {
             "name": "HTTP link",
-            "schemes": [
-              "http",
-              "https"
-            ]
+            "schemes": ["http", "https"]
           },
           {
             "name": "File",
-            "schemes": [
-              "file"
-            ]
+            "schemes": ["file"]
           }
         ]
       },
       "makers": [
         {
           "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
+          "platforms": ["darwin"]
         },
         {
           "name": "@electron-forge/maker-dmg",
@@ -168,10 +157,10 @@
       "@testing-library/react/cleanup-after-each",
       "jest-dom/extend-expect"
     ],
-    "modulePathIgnorePatterns": [
-      "<rootDir>/docs/",
-      "<rootDir>/out/"
-    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js"
+    },
+    "modulePathIgnorePatterns": ["<rootDir>/docs/", "<rootDir>/out/"],
     "testPathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/docs/",
