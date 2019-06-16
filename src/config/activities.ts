@@ -3,6 +3,7 @@ import braveDev from 'browser-logos/src/brave-dev/brave-dev_256x256.png'
 import brave from 'browser-logos/src/brave/brave_256x256.png'
 import copyToClipboard from './copy-to-clipboard.png'
 import chromium from 'browser-logos/src/chromium/chromium_256x256.png'
+import edgeDev from 'browser-logos/src/edge-dev/edge-dev_256x256.png'
 import firefox from 'browser-logos/src/firefox/firefox_256x256.png'
 import firefoxDevEdition from 'browser-logos/src/firefox-developer-edition/firefox-developer-edition_256x256.png'
 import firefoxNightly from 'browser-logos/src/firefox-nightly/firefox-nightly_256x256.png'
@@ -93,6 +94,13 @@ export const activities: Activity[] = [
     hotKey: 'm',
     name: 'Maxthon',
     logo: maxthon,
+  },
+  {
+    appId: 'Microsoft Edge Dev',
+    cmd: 'open "{URL}" -a "Microsoft Edge Dev"',
+    hotKey: 'e',
+    name: 'Microsoft Edge Dev',
+    logo: edgeDev,
   },
   {
     appId: 'Min',
