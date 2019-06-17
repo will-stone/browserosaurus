@@ -1,23 +1,23 @@
 import { Activity } from '../model'
-import braveDev from 'browser-logos/src/brave-dev/brave-dev_256x256.png'
-import brave from 'browser-logos/src/brave/brave_256x256.png'
+import brave from '@browser-logos/brave/brave.svg'
+import braveDev from '@browser-logos/brave-dev/brave-dev.svg'
+import chrome from '@browser-logos/chrome/chrome.svg'
+import chromeCanary from '@browser-logos/chrome-canary/chrome-canary.svg'
+import chromium from '@browser-logos/chromium/chromium_256x256.png'
 import copyToClipboard from './copy-to-clipboard.png'
-import chromium from 'browser-logos/src/chromium/chromium_256x256.png'
-import edgeDev from 'browser-logos/src/edge-dev/edge-dev_256x256.png'
-import firefox from 'browser-logos/src/firefox/firefox_256x256.png'
-import firefoxDevEdition from 'browser-logos/src/firefox-developer-edition/firefox-developer-edition_256x256.png'
-import firefoxNightly from 'browser-logos/src/firefox-nightly/firefox-nightly_256x256.png'
-import googleChrome from 'browser-logos/src/chrome/chrome_256x256.png'
-import googleChromeCanary from 'browser-logos/src/chrome-canary/chrome-canary_256x256.png'
-import iridium from 'browser-logos/src/iridium/iridium_256x256.png'
-import maxthon from 'browser-logos/src/maxthon/maxthon_256x256.png'
-import min from 'browser-logos/src/min/min_256x256.png'
-import opera from 'browser-logos/src/opera/opera_256x256.png'
-import safari from 'browser-logos/src/safari/safari_256x256.png'
-import safariTechnologyPreview from 'browser-logos/src/safari-technology-preview/safari-technology-preview_256x256.png'
-import tor from 'browser-logos/src/tor/tor_256x256.png'
-import vivaldi from 'browser-logos/src/vivaldi/vivaldi_256x256.png'
-import yandex from 'browser-logos/src/yandex/yandex_256x256.png'
+import edgeDev from '@browser-logos/edge-dev/edge-dev.svg'
+import firefox from '@browser-logos/firefox/firefox.svg'
+import firefoxDevEdition from '@browser-logos/firefox-developer-edition/firefox-developer-edition.svg'
+import firefoxNightly from '@browser-logos/firefox-nightly/firefox-nightly.svg'
+import iridium from '@browser-logos/iridium/iridium.svg'
+import maxthon from '@browser-logos/maxthon/maxthon_256x256.png'
+import min from './min_256x256.png'
+import opera from '@browser-logos/opera/opera.svg'
+import safari from '@browser-logos/safari/safari_256x256.png'
+import safariTechnologyPreview from '@browser-logos/safari-technology-preview/safari-technology-preview_256x256.png'
+import tor from '@browser-logos/tor/tor_256x256.png'
+import vivaldi from '@browser-logos/vivaldi/vivaldi.svg'
+import yandex from '@browser-logos/yandex/yandex_256x256.png'
 
 export const activities: Activity[] = [
   {
@@ -70,13 +70,13 @@ export const activities: Activity[] = [
     cmd: 'open "{URL}" -a "Google Chrome"',
     hotKey: 'g',
     name: 'Google Chrome',
-    logo: googleChrome,
+    logo: chrome,
   },
   {
     appId: 'Google Chrome Canary',
     cmd: 'open "{URL}" -a "Google Chrome Canary"',
     name: 'Google Chrome Canary',
-    logo: googleChromeCanary,
+    logo: chromeCanary,
   },
   {
     appId: 'Iridium',

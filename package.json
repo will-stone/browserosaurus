@@ -25,7 +25,11 @@
   "bugs": {
     "url": "https://github.com/will-stone/browserosaurus/issues"
   },
-  "keywords": ["macOS", "Electron", "Browser chooser"],
+  "keywords": [
+    "macOS",
+    "Electron",
+    "Browser chooser"
+  ],
   "author": "Will Stone",
   "license": "MIT",
   "config": {
@@ -45,18 +49,25 @@
         "protocols": [
           {
             "name": "HTTP link",
-            "schemes": ["http", "https"]
+            "schemes": [
+              "http",
+              "https"
+            ]
           },
           {
             "name": "File",
-            "schemes": ["file"]
+            "schemes": [
+              "file"
+            ]
           }
         ]
       },
       "makers": [
         {
           "name": "@electron-forge/maker-zip",
-          "platforms": ["darwin"]
+          "platforms": [
+            "darwin"
+          ]
         },
         {
           "name": "@electron-forge/maker-dmg",
@@ -87,6 +98,23 @@
   },
   "dependencies": {
     "@artossystems/a": "^3.1.0",
+    "@browser-logos/brave": "^3.0.4",
+    "@browser-logos/brave-dev": "^1.0.2",
+    "@browser-logos/chrome": "^1.0.11",
+    "@browser-logos/chrome-canary": "^1.1.3",
+    "@browser-logos/chromium": "^1.0.4",
+    "@browser-logos/edge-dev": "^1.0.4",
+    "@browser-logos/firefox": "^2.0.5",
+    "@browser-logos/firefox-developer-edition": "^2.1.7",
+    "@browser-logos/firefox-nightly": "^2.1.6",
+    "@browser-logos/iridium": "^2.0.4",
+    "@browser-logos/maxthon": "^1.0.0",
+    "@browser-logos/opera": "^1.1.5",
+    "@browser-logos/safari": "^1.0.4",
+    "@browser-logos/safari-technology-preview": "^1.0.5",
+    "@browser-logos/tor": "^1.0.4",
+    "@browser-logos/vivaldi": "^2.1.3",
+    "@browser-logos/yandex": "^1.0.4",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^3.2.0",
     "execa": "^1.0.0",
@@ -129,7 +157,6 @@
     "@typescript-eslint/parser": "^1.10.2",
     "@will-stone/prettier-config": "^1.0.0",
     "babel-loader": "^8.0.6",
-    "browser-logos": "alrra/browser-logos#52.0.0",
     "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^2.1.1",
     "electron": "5.0.2",
@@ -160,7 +187,10 @@
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js"
     },
-    "modulePathIgnorePatterns": ["<rootDir>/docs/", "<rootDir>/out/"],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/docs/",
+      "<rootDir>/out/"
+    ],
     "testPathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/docs/",
