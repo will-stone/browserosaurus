@@ -24,15 +24,21 @@ const { useEffect, useCallback, useReducer } = React
 /**
  * ACTIONS
  */
-const ASetMouseTarget = a('MOUSE/SET_TARGET', {} as { target?: string })
-const AShow = a('SHOW', {} as { x: number; y: number })
-const AHide = a('HIDE')
+const AMouseMove = a('MOUSE/MOVE', {} as { target?: string })
+const AMouseEnter = a('MOUSE/ENTER', {} as { x: number; y: number })
+const AEscapeKey = a('ESCAPE_KEY')
+const ABlurWindow = a('WINDOW/BLUR')
+const AClickWindow = a('WINDOW/CLICK')
+const AClickBluebar = a('BLUEBAR/CLICK')
 const AUrlReceived = a(URL_RECEIVED, {} as { url: string })
 const AFavSet = a(FAV_SET, {} as { name: string })
 const AActivitiesSet = a(ACTIVITIES_SET, {} as { activities: Activity[] })
-type ASetMouseTarget = ReturnType<typeof ASetMouseTarget>
-type AShow = ReturnType<typeof AShow>
-type AHide = ReturnType<typeof AHide>
+type AMouseMove = ReturnType<typeof AMouseMove>
+type AMouseEnter = ReturnType<typeof AMouseEnter>
+type AEscapeKey = ReturnType<typeof AEscapeKey>
+type ABlurWindow = ReturnType<typeof ABlurWindow>
+type AClickWindow = ReturnType<typeof AClickWindow>
+type AClickBluebar = ReturnType<typeof AClickBluebar>
 type AUrlReceived = ReturnType<typeof AUrlReceived>
 type AFavSet = ReturnType<typeof AFavSet>
 type AActivitiesSet = ReturnType<typeof AActivitiesSet>
@@ -41,9 +47,12 @@ type Actions =
   | AUrlReceived
   | AFavSet
   | AActivitiesSet
-  | AHide
-  | AShow
-  | ASetMouseTarget
+  | AMouseEnter
+  | AMouseMove
+  | AEscapeKey
+  | ABlurWindow
+  | AClickWindow
+  | AClickBluebar
 
 interface State {
   isVisible: boolean
@@ -75,16 +84,25 @@ const reducer = produce((state: State, action: Actions) => {
     case AFavSet.TYPE:
       state.fav = action.name
       return
-    case AHide.TYPE:
+    case AClickBluebar.TYPE:
+      state.isVisible = false
+      ipcRenderer.send(COPY_TO_CLIPBOARD)
+      setTimeout(() => ipcRenderer.send(CLOSE_WINDOW), 200)
+      return
+    case AEscapeKey.TYPE:
+    case ABlurWindow.TYPE:
+    case AClickWindow.TYPE:
       state.isVisible = false
       setTimeout(() => ipcRenderer.send(CLOSE_WINDOW), 200)
       return
-    case AShow.TYPE:
-      state.x = action.x
-      state.y = action.y
-      state.isVisible = true
+    case AMouseEnter.TYPE:
+      if (!state.isVisible) {
+        state.x = action.x
+        state.y = action.y
+        state.isVisible = true
+      }
       return
-    case ASetMouseTarget.TYPE:
+    case AMouseMove.TYPE:
       state.mouseTarget = action.target
       return
   }
@@ -103,13 +121,13 @@ const App: React.FC = () => {
      */
     mousetrap.bind('esc', e => {
       e.preventDefault()
-      dispatch(AHide())
+      dispatch(AEscapeKey())
     })
 
     /**
      * Events from main process
      */
-    ipcRenderer.on(WINDOW_BLUR, () => dispatch(AHide()))
+    ipcRenderer.on(WINDOW_BLUR, () => dispatch(ABlurWindow()))
 
     ipcRenderer.on(URL_RECEIVED, (_: unknown, url: string) => {
       dispatch(AUrlReceived({ url }))
@@ -149,18 +167,14 @@ const App: React.FC = () => {
   }, [dispatch])
 
   const onMouseEnter = useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      if (!state.isVisible) {
-        dispatch(AShow({ x: e.clientX, y: e.clientY }))
-      }
-    },
-    [dispatch, state.isVisible],
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+      dispatch(AMouseEnter({ x: e.clientX, y: e.clientY })),
+    [dispatch],
   )
 
   const onMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      dispatch(ASetMouseTarget({ target: (e.target as Element).id }))
-    },
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+      dispatch(AMouseMove({ target: (e.target as Element).id })),
     [dispatch],
   )
 
@@ -180,7 +194,7 @@ const App: React.FC = () => {
     <Window
       onClick={e => {
         e.preventDefault()
-        dispatch(AHide())
+        dispatch(AClickWindow())
       }}
       id="window"
       onMouseEnter={onMouseEnter}
@@ -190,8 +204,7 @@ const App: React.FC = () => {
         isVisible={state.isVisible}
         onClick={e => {
           e.stopPropagation()
-          ipcRenderer.send(COPY_TO_CLIPBOARD)
-          dispatch(AHide())
+          dispatch(AClickBluebar())
         }}
         url={state.url}
       />
