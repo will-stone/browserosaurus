@@ -1,91 +1,54 @@
+import { ipcRenderer } from 'electron'
 import * as React from 'react'
-import { Card } from '../atoms/Card'
-import { Div } from '../atoms/Div'
+import { ACTIVITY_RUN } from '../../config/events'
 import { ActivityButton } from '../atoms/ActivityButton'
 import { ActivityImg } from '../atoms/ActivityImg'
 import { ActivityKey } from '../atoms/ActivityKey'
-import { Activity } from '../../model'
-import { ACTIVITY_RUN } from '../../config/events'
-import { ipcRenderer } from 'electron'
-
-const { useMemo } = React
+import { Card } from '../atoms/Card'
+import { Div } from '../atoms/Div'
+import { useActivities } from '../hooks/useActivities'
+import { logos } from '../../config/activities'
 
 interface Props {
-  activities: Activity[]
-  fav: string | null
   x: number
   y: number
   isVisible: boolean
 }
 
-export const Picker: React.FC<Props> = ({
-  activities,
-  fav,
-  x,
-  y,
-  isVisible,
-}) => {
-  const favActivity = useMemo(() => activities.find(act => act.name === fav), [
-    activities,
-    fav,
-  ])
+export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
+  const [activities, favActivity] = useActivities()
+  const numOfActs = Object.keys(activities).length
 
-  const notFavActivities = useMemo(
-    () => activities.filter(act => act.name !== fav),
-    [activities, fav],
-  )
+  const width = favActivity
+    ? 200 + Math.min(numOfActs, 2) * 100
+    : Math.min(numOfActs, 3) * 100
 
-  const [width, height] = useMemo(() => {
-    const hasFavouriteSet = !!favActivity
-    if (hasFavouriteSet) {
-      const width = 200 + Math.min(notFavActivities.length, 2) * 100
-      const height = 200 + (Math.ceil(notFavActivities.length / 4) - 1) * 100
-      return [width, height]
-    }
+  const height = favActivity
+    ? 200 + (Math.ceil(numOfActs / 4) - 1) * 100
+    : Math.ceil(numOfActs / 3) * 100
 
-    const width = Math.min(notFavActivities.length, 3) * 100
-    const height = Math.ceil(notFavActivities.length / 3) * 100
-    return [width, height]
-  }, [favActivity, notFavActivities.length])
+  const [isAtRight, isAtBottom] = [
+    x > window.innerWidth - width,
+    y > window.innerHeight - height,
+  ]
 
-  const [isAtRight, isAtBottom] = useMemo(
-    () => [x > window.innerWidth - width, y > window.innerHeight - height],
-    [height, x, y, width],
-  )
+  const [left, top] = [
+    isAtRight ? x - width - 1 : x + 1,
+    isAtBottom ? y - height : y,
+  ]
 
-  const [left, top] = useMemo(
-    () => [isAtRight ? x - width - 1 : x + 1, isAtBottom ? y - height : y],
-    [height, isAtBottom, isAtRight, x, y, width],
-  )
+  const transformOrigin = `${isAtRight ? 'right' : 'left'} ${
+    isAtBottom ? 'bottom' : 'top'
+  }`
 
-  const transformOrigin = useMemo(
-    () => `${isAtRight ? 'right' : 'left'} ${isAtBottom ? 'bottom' : 'top'}`,
-    [isAtBottom, isAtRight],
-  )
+  const pickerWindowInnerTransform =
+    (isAtRight && isAtBottom) || isAtBottom ? 'rotate(180deg)' : 'rotate(0deg)'
 
-  const pickerWindowInnerTransform = useMemo(
-    () =>
-      (isAtRight && isAtBottom) || isAtBottom
-        ? 'rotate(180deg)'
-        : 'rotate(0deg)',
-    [isAtBottom, isAtRight],
-  )
+  const activityFloat =
+    (isAtRight && !isAtBottom) || (isAtBottom && !isAtRight) ? 'right' : 'left'
 
-  const activityFloat = useMemo(
-    () =>
-      (isAtRight && !isAtBottom) || (isAtBottom && !isAtRight)
-        ? 'right'
-        : 'left',
-    [isAtBottom, isAtRight],
-  )
-
-  const activityTransform = useMemo(
-    () =>
-      (isAtRight && isAtBottom) || isAtBottom
-        ? 'rotate(180deg)'
-        : 'rotate(0deg)',
-    [isAtBottom, isAtRight],
-  )
+  const activityTransform =
+    (isAtRight && isAtBottom) || isAtBottom ? 'rotate(180deg)' : 'rotate(0deg)'
 
   return (
     <Card
@@ -114,27 +77,31 @@ export const Picker: React.FC<Props> = ({
             float={activityFloat}
             transform={activityTransform}
           >
-            <ActivityImg src={favActivity.logo} alt={favActivity.name} />
+            <ActivityImg src={logos[favActivity.name]} alt={favActivity.name} />
             <ActivityKey>
-              {favActivity.hotKey && favActivity.hotKey + ' / '}enter
+              {favActivity.hotKey && favActivity.hotKey + ' / '}
+              enter
             </ActivityKey>
           </ActivityButton>
         )}
         <div>
-          {notFavActivities.map(activity => (
-            <ActivityButton
-              key={activity.name}
-              onClick={e => {
-                e.stopPropagation()
-                ipcRenderer.send(ACTIVITY_RUN, activity.name)
-              }}
-              float={activityFloat}
-              transform={activityTransform}
-            >
-              <ActivityImg src={activity.logo} alt={activity.name} />
-              {activity.hotKey && <ActivityKey>{activity.hotKey}</ActivityKey>}
-            </ActivityButton>
-          ))}
+          {Object.keys(activities).map(name => {
+            const act = activities[name]
+            return (
+              <ActivityButton
+                key={name}
+                onClick={e => {
+                  e.stopPropagation()
+                  ipcRenderer.send(ACTIVITY_RUN, name)
+                }}
+                float={activityFloat}
+                transform={activityTransform}
+              >
+                <ActivityImg src={act.logo} alt={name} />
+                {act.hotKey && <ActivityKey>{act.hotKey}</ActivityKey>}
+              </ActivityButton>
+            )
+          })}
         </div>
       </Div>
     </Card>

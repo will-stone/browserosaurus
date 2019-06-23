@@ -2,8 +2,7 @@ import { spawn } from 'child_process'
 import * as jp from 'jsonpath'
 import { keyBy, uniq } from 'lodash'
 import * as xml2js from 'xml2js'
-import { activities } from '../config/activities'
-import { Activity } from '../model'
+import { activities, Activities } from '../config/activities'
 
 /**
  * Scan For Apps
@@ -46,33 +45,46 @@ const scanForApps = (): Promise<{}> =>
 export const getInstalledActivities = async () => {
   const installedApps = await scanForApps()
 
-  const installedActivities = activities
-    .filter((activity: Activity) => {
-      if (activity.appId && installedApps[activity.appId]) {
-        return true
-      } else if (!activity.appId) {
+  const installedActivities = Object.keys(activities).reduce(
+    (acc, cur) => {
+      if (installedApps[cur]) {
+        acc[cur] = activities[cur]
+      } else if (!activities[cur].appId) {
         // always show activity that does not depend on app presence
-        return true
+        acc[cur] = activities[cur]
       }
-      return false
-    })
-    // Sort by name
-    .sort((a, b) => {
-      // Everything is less than "Copy Top Clipboard"
-      if (a.name === 'Copy To Clipboard') {
-        return 1 // a is greater than b
-      }
-      if (b.name === 'Copy To Clipboard') {
-        return -1 // b is greater than a
-      }
-      if (a.name > b.name) {
-        return 1
-      }
-      if (b.name > a.name) {
-        return -1
-      }
-      return 0
-    })
+      return acc
+    },
+    {} as Activities,
+  )
+
+  // const installedActivities = activities
+  //   .filter((activity: Activity) => {
+  //     if (activity.appId && installedApps[activity.appId]) {
+  //       return true
+  //     } else if (!activity.appId) {
+  //       // always show activity that does not depend on app presence
+  //       return true
+  //     }
+  //     return false
+  //   })
+  //   // Sort by name
+  //   .sort((a, b) => {
+  //     // Everything is less than "Copy Top Clipboard"
+  //     if (a.name === 'Copy To Clipboard') {
+  //       return 1 // a is greater than b
+  //     }
+  //     if (b.name === 'Copy To Clipboard') {
+  //       return -1 // b is greater than a
+  //     }
+  //     if (a.name > b.name) {
+  //       return 1
+  //     }
+  //     if (b.name > a.name) {
+  //       return -1
+  //     }
+  //     return 0
+  //   })
 
   return installedActivities
 }

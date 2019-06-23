@@ -8,7 +8,7 @@ import {
   Tray,
 } from 'electron'
 import * as Store from 'electron-store'
-import { activities } from '../config/activities'
+import { activities, WhiteListedActivityNames } from '../config/activities'
 import {
   ACTIVITIES_SET,
   ACTIVITY_RUN,
@@ -98,8 +98,8 @@ const urlRecevied = (url: string) => {
   pickerWindow.show()
 }
 
-ipcMain.on(ACTIVITY_RUN, (_: Event, name: string) => {
-  const activity = activities.find(act => act.name === name)
+ipcMain.on(ACTIVITY_RUN, (_: Event, name: WhiteListedActivityNames) => {
+  const activity = activities[name]
   if (activity && urlToOpen) {
     runCommand(activity.cmd.replace('{URL}', urlToOpen))
   }
@@ -181,13 +181,13 @@ app.on('ready', async () => {
         pickerWindow.webContents.send(FAV_SET, null)
       },
     },
-    ...(acts.map(act => ({
-      checked: act.name === fav,
-      label: act.name,
+    ...(Object.keys(acts).map(actName => ({
+      checked: actName === fav,
+      label: actName,
       type: 'radio',
       click: () => {
-        store.set('fav', act.name)
-        pickerWindow.webContents.send(FAV_SET, act.name)
+        store.set('fav', actName)
+        pickerWindow.webContents.send(FAV_SET, actName)
       },
     })) as MenuItemConstructorOptions[]),
   ])

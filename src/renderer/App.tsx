@@ -4,17 +4,13 @@ import produce from 'immer'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
 import {
-  ACTIVITIES_SET,
-  ACTIVITY_RUN,
   CLOSE_WINDOW,
   COPY_TO_CLIPBOARD,
-  FAV_SET,
   MOUSE_THROUGH_DISABLE,
   MOUSE_THROUGH_ENABLE,
   URL_RECEIVED,
   WINDOW_BLUR,
 } from '../config/events'
-import { Activity } from '../model'
 import { Window } from './atoms/Window'
 import { Bluebar } from './features/Bluebar'
 import { Picker } from './features/Picker'
@@ -31,8 +27,6 @@ const ABlurWindow = a('WINDOW/BLUR')
 const AClickWindow = a('WINDOW/CLICK')
 const AClickBluebar = a('BLUEBAR/CLICK')
 const AUrlReceived = a(URL_RECEIVED, {} as { url: string })
-const AFavSet = a(FAV_SET, {} as { name: string })
-const AActivitiesSet = a(ACTIVITIES_SET, {} as { activities: Activity[] })
 type AMouseMove = ReturnType<typeof AMouseMove>
 type AMouseEnter = ReturnType<typeof AMouseEnter>
 type AEscapeKey = ReturnType<typeof AEscapeKey>
@@ -40,13 +34,9 @@ type ABlurWindow = ReturnType<typeof ABlurWindow>
 type AClickWindow = ReturnType<typeof AClickWindow>
 type AClickBluebar = ReturnType<typeof AClickBluebar>
 type AUrlReceived = ReturnType<typeof AUrlReceived>
-type AFavSet = ReturnType<typeof AFavSet>
-type AActivitiesSet = ReturnType<typeof AActivitiesSet>
 
 type Actions =
   | AUrlReceived
-  | AFavSet
-  | AActivitiesSet
   | AMouseEnter
   | AMouseMove
   | AEscapeKey
@@ -57,8 +47,6 @@ type Actions =
 interface State {
   isVisible: boolean
   url: string | null
-  activities: Activity[]
-  fav: string | null
   x: number
   y: number
   mouseTarget?: string
@@ -67,22 +55,14 @@ interface State {
 const initialState: State = {
   isVisible: false,
   url: null,
-  activities: [],
-  fav: null,
   x: 0,
   y: 0,
 }
 
 const reducer = produce((state: State, action: Actions) => {
   switch (action.type) {
-    case AActivitiesSet.TYPE:
-      state.activities = action.activities
-      return
     case AUrlReceived.TYPE:
       state.url = action.url
-      return
-    case AFavSet.TYPE:
-      state.fav = action.name
       return
     case AClickBluebar.TYPE:
       state.isVisible = false
@@ -133,36 +113,9 @@ const App: React.FC = () => {
       dispatch(AUrlReceived({ url }))
     })
 
-    ipcRenderer.on(FAV_SET, (_: unknown, name: string) => {
-      dispatch(AFavSet({ name }))
-      mousetrap.bind('enter', e => {
-        // When a browser has been selected with the mouse, it gets (invisible) focus.
-        // This means when enter is pressed next, it will activate the focused activity AND fire
-        // this key binding, causing two identical tabs to open in the selected browser.
-        // This fixes that.
-        e.preventDefault()
-        ipcRenderer.send(ACTIVITY_RUN, name)
-      })
-    })
-
-    ipcRenderer.on(ACTIVITIES_SET, (_: unknown, activities: Activity[]) => {
-      // setup hotkeys
-      activities.forEach(act => {
-        if (act.hotKey) {
-          mousetrap.bind(act.hotKey, e => {
-            e.preventDefault()
-            ipcRenderer.send(ACTIVITY_RUN, act.name)
-          })
-        }
-      })
-      dispatch(AActivitiesSet({ activities }))
-    })
-
     return function cleanup() {
       ipcRenderer.removeAllListeners(WINDOW_BLUR)
       ipcRenderer.removeAllListeners(URL_RECEIVED)
-      ipcRenderer.removeAllListeners(FAV_SET)
-      ipcRenderer.removeAllListeners(ACTIVITIES_SET)
     }
   }, [dispatch])
 
@@ -209,13 +162,7 @@ const App: React.FC = () => {
         url={state.url}
       />
 
-      <Picker
-        activities={state.activities}
-        fav={state.fav}
-        x={state.x}
-        y={state.y}
-        isVisible={state.isVisible}
-      />
+      <Picker x={state.x} y={state.y} isVisible={state.isVisible} />
     </Window>
   )
 }

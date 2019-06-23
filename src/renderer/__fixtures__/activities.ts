@@ -1,209 +1,173 @@
-import braveDev from 'browser-logos/src/brave-dev/brave-dev_256x256.png'
-import brave from 'browser-logos/src/brave/brave_256x256.png'
-import googleChrome from 'browser-logos/src/chrome/chrome_256x256.png'
-import chromium from 'browser-logos/src/chromium/chromium_256x256.png'
-import firefoxDevEdition from 'browser-logos/src/firefox-developer-edition/firefox-developer-edition_256x256.png'
-import firefoxNightly from 'browser-logos/src/firefox-nightly/firefox-nightly_256x256.png'
-import firefox from 'browser-logos/src/firefox/firefox_256x256.png'
-import opera from 'browser-logos/src/opera/opera_256x256.png'
-import safari from 'browser-logos/src/safari/safari_256x256.png'
-import { Activity } from '../../model'
+import { Activities } from '../../config/activities'
 
-export const activities2: Activity[] = [
-  {
+export const activities2: Activities = {
+  Firefox: {
+    name: 'Firefox',
     appId: 'Firefox',
     cmd: 'open "{URL}" -a Firefox',
     hotKey: 'f',
-    name: 'Firefox',
-    logo: firefox,
   },
-  {
+  Safari: {
+    name: 'Safari',
     cmd: 'open "{URL}" -a Safari',
     hotKey: 's',
-    name: 'Safari',
-    logo: safari,
   },
-]
+}
 
-export const activities4: Activity[] = [
-  {
+export const activities4: Activities = {
+  Firefox: {
+    name: 'Firefox',
     appId: 'Firefox',
     cmd: 'open "{URL}" -a Firefox',
     hotKey: 'f',
-    name: 'Firefox',
-    logo: firefox,
   },
-  {
+  Safari: {
+    name: 'Safari',
     cmd: 'open "{URL}" -a Safari',
     hotKey: 's',
-    name: 'Safari',
-    logo: safari,
   },
-  {
+  'Google Chrome': {
+    name: 'Google Chrome',
     appId: 'Google Chrome',
     cmd: 'open "{URL}" -a "Google Chrome"',
     hotKey: 'g',
-    name: 'Google Chrome',
-    logo: googleChrome,
   },
-  {
+  Opera: {
+    name: 'Opera',
     appId: 'Opera',
     cmd: 'open "{URL}" -a Opera',
     hotKey: 'o',
-    name: 'Opera',
-    logo: opera,
   },
-]
+}
 
-export const activities5: Activity[] = [
-  {
+export const activities5: Activities = {
+  'Brave Dev': {
+    name: 'Brave Dev',
     appId: 'Brave-Browser-Dev',
     cmd: 'open "{URL}" -a Brave-Browser-Dev',
     hotKey: 'r',
-    name: 'Brave Dev',
-    logo: braveDev,
   },
-  {
+  'Brave Browser': {
+    name: 'Brave Browser',
     appId: 'Brave Browser',
     cmd: 'open "{URL}" -a "Brave Browser"',
     hotKey: 'b',
-    name: 'Brave Browser',
-    logo: brave,
   },
-  {
+  Chromium: {
+    name: 'Chromium',
     appId: 'Chromium',
     cmd: 'open "{URL}" -a Chromium',
     hotKey: 'c',
-    name: 'Chromium',
-    logo: chromium,
   },
-  {
+  Firefox: {
+    name: 'Firefox',
     appId: 'Firefox',
     cmd: 'open "{URL}" -a Firefox',
     hotKey: 'f',
-    name: 'Firefox',
-    logo: firefox,
   },
-  {
+  Safari: {
+    name: 'Safari',
     cmd: 'open "{URL}" -a Safari',
     hotKey: 's',
-    name: 'Safari',
-    logo: safari,
   },
-]
+}
 
-export const activities7: Activity[] = [
-  {
+export const activities7: Activities = {
+  'Brave Dev': {
+    name: 'Brave Dev',
     appId: 'Brave-Browser-Dev',
     cmd: 'open "{URL}" -a Brave-Browser-Dev',
     hotKey: 'r',
-    name: 'Brave Dev',
-    logo: braveDev,
   },
-  {
+  'Brave Browser': {
+    name: 'Brave Browser',
     appId: 'Brave Browser',
     cmd: 'open "{URL}" -a "Brave Browser"',
     hotKey: 'b',
-    name: 'Brave Browser',
-    logo: brave,
   },
-  {
+  Chromium: {
+    name: 'Chromium',
     appId: 'Chromium',
     cmd: 'open "{URL}" -a Chromium',
     hotKey: 'c',
-    name: 'Chromium',
-    logo: chromium,
   },
-  {
+  Firefox: {
+    name: 'Firefox',
     appId: 'Firefox',
     cmd: 'open "{URL}" -a Firefox',
     hotKey: 'f',
-    name: 'Firefox',
-    logo: firefox,
   },
-  {
+  Safari: {
+    name: 'Safari',
     cmd: 'open "{URL}" -a Safari',
     hotKey: 's',
-    name: 'Safari',
-    logo: safari,
   },
-  {
+  'Google Chrome': {
+    name: 'Google Chrome',
     appId: 'Google Chrome',
     cmd: 'open "{URL}" -a "Google Chrome"',
     hotKey: 'g',
-    name: 'Google Chrome',
-    logo: googleChrome,
   },
-  {
+  Opera: {
+    name: 'Opera',
     appId: 'Opera',
     cmd: 'open "{URL}" -a Opera',
     hotKey: 'o',
-    name: 'Opera',
-    logo: opera,
   },
-]
+}
 
-export const activities9: Activity[] = [
-  {
+export const activities9: Activities = {
+  'Brave Dev': {
+    name: 'Brave Dev',
     appId: 'Brave-Browser-Dev',
     cmd: 'open "{URL}" -a Brave-Browser-Dev',
     hotKey: 'r',
-    name: 'Brave Dev',
-    logo: braveDev,
   },
-  {
+  'Brave Browser': {
+    name: 'Brave Browser',
     appId: 'Brave Browser',
     cmd: 'open "{URL}" -a "Brave Browser"',
     hotKey: 'b',
-    name: 'Brave Browser',
-    logo: brave,
   },
-  {
+  Chromium: {
+    name: 'Chromium',
     appId: 'Chromium',
     cmd: 'open "{URL}" -a Chromium',
     hotKey: 'c',
-    name: 'Chromium',
-    logo: chromium,
   },
-  {
+  Firefox: {
+    name: 'Firefox',
     appId: 'Firefox',
     cmd: 'open "{URL}" -a Firefox',
     hotKey: 'f',
-    name: 'Firefox',
-    logo: firefox,
   },
-  {
+  'Firefox Developer Edition': {
+    name: 'Firefox Developer Edition',
     appId: 'Firefox Developer Edition',
     cmd: 'open "{URL}" -a "Firefox Developer Edition"',
     hotKey: 'd',
-    name: 'Firefox Developer Edition',
-    logo: firefoxDevEdition,
   },
-  {
+  'Firefox Nightly': {
+    name: 'Firefox Nightly',
     appId: 'Firefox Nightly',
     cmd: 'open "{URL}" -a "Firefox Nightly"',
     hotKey: 'n',
-    name: 'Firefox Nightly',
-    logo: firefoxNightly,
   },
-  {
+  Safari: {
+    name: 'Safari',
     cmd: 'open "{URL}" -a Safari',
     hotKey: 's',
-    name: 'Safari',
-    logo: safari,
   },
-  {
+  'Google Chrome': {
+    name: 'Google Chrome',
     appId: 'Google Chrome',
     cmd: 'open "{URL}" -a "Google Chrome"',
     hotKey: 'g',
-    name: 'Google Chrome',
-    logo: googleChrome,
   },
-  {
+  Opera: {
+    name: 'Opera',
     appId: 'Opera',
     cmd: 'open "{URL}" -a Opera',
     hotKey: 'o',
-    name: 'Opera',
-    logo: opera,
   },
-]
+}
