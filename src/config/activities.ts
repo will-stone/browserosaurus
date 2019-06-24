@@ -18,15 +18,16 @@ import yandex from '@browser-logos/yandex/yandex_256x256.png'
 import copyToClipboard from './copy-to-clipboard.png'
 import min from './min_256x256.png'
 
-export interface Activity<Name = WhiteListedActivityNames> {
+export interface Activity<Name = ActivityName> {
   name: Name
   appId?: string
   hotKey?: string
   cmd: string
   fav?: boolean
+  logo: string
 }
 
-export type WhiteListedActivityNames =
+export type ActivityName =
   | 'Brave Dev'
   | 'Brave Browser'
   | 'Chromium'
@@ -47,136 +48,133 @@ export type WhiteListedActivityNames =
   | 'Yandex'
   | 'Copy To Clipboard'
 
-export const logos: { [key in WhiteListedActivityNames]: string } = {
-  'Brave Dev': braveDev,
-  'Brave Browser': brave,
-  Chromium: chromium,
-  Firefox: firefox,
-  'Firefox Developer Edition': firefoxDevEdition,
-  'Firefox Nightly': firefoxNightly,
-  'Google Chrome': chrome,
-  'Google Chrome Canary': chromeCanary,
-  Iridium: iridium,
-  Maxthon: maxthon,
-  'Microsoft Edge Dev': edgeDev,
-  Min: min,
-  Opera: opera,
-  Safari: safari,
-  'Safari Technology Preview': safariTechnologyPreview,
-  'Tor Browser': tor,
-  Vivaldi: vivaldi,
-  Yandex: yandex,
-  'Copy To Clipboard': copyToClipboard,
-}
-
-export type Activities = { [key in WhiteListedActivityNames]?: Activity<key> }
+export type Activities = { [key in ActivityName]: Activity<key> }
 
 export const activities: Activities = {
   'Brave Dev': {
     name: 'Brave Dev',
     appId: 'Brave-Browser-Dev',
     cmd: 'open "{URL}" -a Brave-Browser-Dev',
+    logo: braveDev,
   },
   'Brave Browser': {
     name: 'Brave Browser',
     appId: 'Brave Browser',
     cmd: 'open "{URL}" -a "Brave Browser"',
     hotKey: 'b',
+    logo: brave,
   },
   Chromium: {
     name: 'Chromium',
     appId: 'Chromium',
     cmd: 'open "{URL}" -a Chromium',
     hotKey: 'c',
+    logo: chromium,
   },
   Firefox: {
     name: 'Firefox',
     appId: 'Firefox',
     cmd: 'open "{URL}" -a Firefox',
     hotKey: 'f',
+    logo: firefox,
   },
   'Firefox Developer Edition': {
     name: 'Firefox Developer Edition',
     appId: 'Firefox Developer Edition',
     cmd: 'open "{URL}" -a "Firefox Developer Edition"',
+    logo: firefoxDevEdition,
   },
   'Firefox Nightly': {
     name: 'Firefox Nightly',
     appId: 'Firefox Nightly',
     cmd: 'open "{URL}" -a "Firefox Nightly"',
+    logo: firefoxNightly,
   },
   'Google Chrome': {
     name: 'Google Chrome',
     appId: 'Google Chrome',
     cmd: 'open "{URL}" -a "Google Chrome"',
     hotKey: 'g',
+    logo: chrome,
   },
   'Google Chrome Canary': {
     name: 'Google Chrome Canary',
     appId: 'Google Chrome Canary',
     cmd: 'open "{URL}" -a "Google Chrome Canary"',
+    logo: chromeCanary,
   },
   Iridium: {
     name: 'Iridium',
     appId: 'Iridium',
     cmd: 'open "{URL}" -a Iridium',
     hotKey: 'i',
+    logo: iridium,
   },
   Maxthon: {
     name: 'Maxthon',
     appId: 'Maxthon',
     cmd: 'open "{URL}" -a Maxthon',
     hotKey: 'm',
+    logo: maxthon,
   },
   'Microsoft Edge Dev': {
     name: 'Microsoft Edge Dev',
     appId: 'Microsoft Edge Dev',
     cmd: 'open "{URL}" -a "Microsoft Edge Dev"',
     hotKey: 'e',
+    logo: edgeDev,
   },
   Min: {
     name: 'Min',
     appId: 'Min',
     cmd: 'open "{URL}" -a Min',
     hotKey: '-',
+    logo: min,
   },
   Opera: {
     name: 'Opera',
     appId: 'Opera',
     cmd: 'open "{URL}" -a Opera',
     hotKey: 'o',
+    logo: opera,
   },
   Safari: {
     name: 'Safari',
     cmd: 'open "{URL}" -a Safari',
     hotKey: 's',
+    logo: safari,
   },
   'Safari Technology Preview': {
     name: 'Safari Technology Preview',
     appId: 'Safari Technology Preview',
     cmd: 'open "{URL}" -a "Safari Technology Preview"',
+    logo: safariTechnologyPreview,
   },
   'Tor Browser': {
     name: 'Tor Browser',
     appId: 'Tor Browser',
     cmd: 'open "{URL}" -a "Tor Browser"',
     hotKey: 't',
+    logo: tor,
   },
   Vivaldi: {
     name: 'Vivaldi',
     appId: 'Vivaldi',
     cmd: 'open "{URL}" -a Vivaldi',
     hotKey: 'v',
+    logo: vivaldi,
   },
   Yandex: {
     name: 'Yandex',
     appId: 'Yandex',
     cmd: 'open "{URL}" -a Yandex',
     hotKey: 'y',
+    logo: yandex,
   },
   'Copy To Clipboard': {
     name: 'Copy To Clipboard',
     cmd: 'echo "{URL}" | pbcopy',
     hotKey: 'space',
+    logo: copyToClipboard,
   },
 }

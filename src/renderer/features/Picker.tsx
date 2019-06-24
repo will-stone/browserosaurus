@@ -7,7 +7,7 @@ import { ActivityKey } from '../atoms/ActivityKey'
 import { Card } from '../atoms/Card'
 import { Div } from '../atoms/Div'
 import { useActivities } from '../hooks/useActivities'
-import { logos } from '../../config/activities'
+import { activities } from '../../config/activities'
 
 interface Props {
   x: number
@@ -16,16 +16,17 @@ interface Props {
 }
 
 export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
-  const [activities, favActivity] = useActivities()
-  const numOfActs = Object.keys(activities).length
+  const [activityNames, favName] = useActivities()
 
-  const width = favActivity
-    ? 200 + Math.min(numOfActs, 2) * 100
-    : Math.min(numOfActs, 3) * 100
+  const numOfNonFavActs = activityNames.length
 
-  const height = favActivity
-    ? 200 + (Math.ceil(numOfActs / 4) - 1) * 100
-    : Math.ceil(numOfActs / 3) * 100
+  const width = favName
+    ? 200 + Math.min(numOfNonFavActs, 2) * 100
+    : Math.min(numOfNonFavActs, 3) * 100
+
+  const height = favName
+    ? 200 + (Math.ceil(numOfNonFavActs / 4) - 1) * 100
+    : Math.ceil(numOfNonFavActs / 3) * 100
 
   const [isAtRight, isAtBottom] = [
     x > window.innerWidth - width,
@@ -67,42 +68,40 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
         width="100%"
         transform={pickerWindowInnerTransform}
       >
-        {favActivity && (
+        {favName && (
           <ActivityButton
             onClick={e => {
               e.stopPropagation()
-              ipcRenderer.send(ACTIVITY_RUN, favActivity.name)
+              ipcRenderer.send(ACTIVITY_RUN, favName)
             }}
             size={200}
             float={activityFloat}
             transform={activityTransform}
           >
-            <ActivityImg src={logos[favActivity.name]} alt={favActivity.name} />
+            <ActivityImg src={activities[favName].logo} alt={favName} />
             <ActivityKey>
-              {favActivity.hotKey && favActivity.hotKey + ' / '}
+              {activities[favName].hotKey && activities[favName].hotKey + ' / '}
               enter
             </ActivityKey>
           </ActivityButton>
         )}
-        <div>
-          {Object.keys(activities).map(name => {
-            const act = activities[name]
-            return (
-              <ActivityButton
-                key={name}
-                onClick={e => {
-                  e.stopPropagation()
-                  ipcRenderer.send(ACTIVITY_RUN, name)
-                }}
-                float={activityFloat}
-                transform={activityTransform}
-              >
-                <ActivityImg src={act.logo} alt={name} />
-                {act.hotKey && <ActivityKey>{act.hotKey}</ActivityKey>}
-              </ActivityButton>
-            )
-          })}
-        </div>
+        {activityNames.map(name => {
+          const act = activities[name]
+          return (
+            <ActivityButton
+              key={name}
+              onClick={e => {
+                e.stopPropagation()
+                ipcRenderer.send(ACTIVITY_RUN, name)
+              }}
+              float={activityFloat}
+              transform={activityTransform}
+            >
+              <ActivityImg src={act.logo} alt={name} />
+              {act.hotKey && <ActivityKey>{act.hotKey}</ActivityKey>}
+            </ActivityButton>
+          )
+        })}
       </Div>
     </Card>
   )

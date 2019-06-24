@@ -1,15 +1,15 @@
 import { ipcRenderer } from 'electron'
 import * as mousetrap from 'mousetrap'
 import { useEffect, useState } from 'react'
-import { Activities, Activity } from '../../config/activities'
+import { activities, ActivityName } from '../../config/activities'
 import { ACTIVITIES_SET, ACTIVITY_RUN, FAV_SET } from '../../config/events'
 
-export const useActivities = (): [Activities | {}, Activity | undefined] => {
-  const [activities, setActivities] = useState<Activities | {}>({})
-  const [favName, setFavName] = useState<string>('')
+export const useActivities = (): [ActivityName[], ActivityName | undefined] => {
+  const [activityNames, setActivityNames] = useState<ActivityName[]>([])
+  const [favName, setFavName] = useState<ActivityName | undefined>(undefined)
 
   useEffect(() => {
-    ipcRenderer.on(FAV_SET, (_: unknown, name: string) => {
+    ipcRenderer.on(FAV_SET, (_: unknown, name: ActivityName) => {
       setFavName(name)
       mousetrap.bind('enter', e => {
         // When a browser has been selected with the mouse, it gets (invisible) focus.
@@ -29,10 +29,10 @@ export const useActivities = (): [Activities | {}, Activity | undefined] => {
   useEffect(() => {
     ipcRenderer.on(
       ACTIVITIES_SET,
-      (_: unknown, installedActivities: Activities) => {
+      (_: unknown, installedActivityNames: ActivityName[]) => {
         // setup hotkeys
-        Object.keys(installedActivities).forEach(actName => {
-          const act = installedActivities[actName]
+        installedActivityNames.forEach(actName => {
+          const act = activities[actName]
           if (act && act.hotKey) {
             mousetrap.bind(act.hotKey, e => {
               e.preventDefault()
@@ -40,7 +40,7 @@ export const useActivities = (): [Activities | {}, Activity | undefined] => {
             })
           }
         })
-        setActivities(installedActivities)
+        setActivityNames(installedActivityNames)
       },
     )
 
@@ -49,13 +49,5 @@ export const useActivities = (): [Activities | {}, Activity | undefined] => {
     }
   }, [])
 
-  const activitiesWithoutFav = Object.keys(activities).reduce(
-    (acc, cur) => {
-      if (cur !== favName) acc[cur] = activities[cur]
-      return acc
-    },
-    {} as Activities,
-  )
-
-  return [activitiesWithoutFav, activities[favName]]
+  return [activityNames.filter(name => name !== favName), favName]
 }
