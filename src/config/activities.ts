@@ -27,26 +27,29 @@ export interface Activity<Name = ActivityName> {
   logo: string
 }
 
-export type ActivityName =
-  | 'Brave Dev'
-  | 'Brave Browser'
-  | 'Chromium'
-  | 'Firefox'
-  | 'Firefox Developer Edition'
-  | 'Firefox Nightly'
-  | 'Google Chrome'
-  | 'Google Chrome Canary'
-  | 'Iridium'
-  | 'Maxthon'
-  | 'Microsoft Edge Dev'
-  | 'Min'
-  | 'Opera'
-  | 'Safari'
-  | 'Safari Technology Preview'
-  | 'Tor Browser'
-  | 'Vivaldi'
-  | 'Yandex'
-  | 'Copy To Clipboard'
+export const activityNames = [
+  'Brave Dev',
+  'Brave Browser',
+  'Chromium',
+  'Firefox',
+  'Firefox Developer Edition',
+  'Firefox Nightly',
+  'Google Chrome',
+  'Google Chrome Canary',
+  'Iridium',
+  'Maxthon',
+  'Microsoft Edge Dev',
+  'Min',
+  'Opera',
+  'Safari',
+  'Safari Technology Preview',
+  'Tor Browser',
+  'Vivaldi',
+  'Yandex',
+  'Copy To Clipboard',
+] as const
+
+export type ActivityName = typeof activityNames[number]
 
 export type Activities = { [key in ActivityName]: Activity<key> }
 
