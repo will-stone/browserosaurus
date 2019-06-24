@@ -6,7 +6,7 @@ import { ACTIVITIES_SET, ACTIVITY_RUN, FAV_SET } from '../../config/events'
 
 export const useActivities = (): [ActivityName[], ActivityName | undefined] => {
   const [activityNames, setActivityNames] = useState<ActivityName[]>([])
-  const [favName, setFavName] = useState<ActivityName | undefined>(undefined)
+  const [favName, setFavName] = useState<ActivityName>()
 
   useEffect(() => {
     ipcRenderer.on(FAV_SET, (_: unknown, name: ActivityName) => {
