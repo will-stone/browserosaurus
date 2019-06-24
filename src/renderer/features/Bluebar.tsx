@@ -1,18 +1,16 @@
 import * as React from 'react'
-import { Topbar } from '../atoms/Topbar'
-import { Text } from '../atoms/Text'
 import { LockIcon } from '../atoms/LockIcon'
-import * as Url from 'url'
+import { Text } from '../atoms/Text'
+import { Topbar } from '../atoms/Topbar'
+import { useUrl } from '../hooks/useUrl'
 
 interface Props {
   isVisible: boolean
   onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
-  url: string | null
 }
 
-export const Bluebar: React.FC<Props> = ({ isVisible, onClick, url }) => {
-  // TODO: should this parsing go in the main process?
-  const u = React.useMemo(() => Url.parse(url || ''), [url])
+export const Bluebar: React.FC<Props> = ({ isVisible, onClick }) => {
+  const u = useUrl()
 
   return (
     <Topbar

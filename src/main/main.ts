@@ -8,7 +8,7 @@ import {
   Tray,
 } from 'electron'
 import * as Store from 'electron-store'
-import { activities } from '../config/activities'
+import { activities, ActivityName } from '../config/activities'
 import {
   ACTIVITIES_SET,
   ACTIVITY_RUN,
@@ -98,8 +98,8 @@ const urlRecevied = (url: string) => {
   pickerWindow.show()
 }
 
-ipcMain.on(ACTIVITY_RUN, (_: Event, name: string) => {
-  const activity = activities.find(act => act.name === name)
+ipcMain.on(ACTIVITY_RUN, (_: Event, name: ActivityName) => {
+  const activity = activities[name]
   if (activity && urlToOpen) {
     runCommand(activity.cmd.replace('{URL}', urlToOpen))
   }
@@ -168,7 +168,7 @@ app.on('ready', async () => {
 
   await createPickerWindow()
 
-  const acts = await getInstalledActivities()
+  const actNames = await getInstalledActivities()
 
   // update fav-chooser with activity list
   contextMenu[0].submenu = Menu.buildFromTemplate([
@@ -181,13 +181,13 @@ app.on('ready', async () => {
         pickerWindow.webContents.send(FAV_SET, null)
       },
     },
-    ...(acts.map(act => ({
-      checked: act.name === fav,
-      label: act.name,
+    ...(actNames.map(actName => ({
+      checked: actName === fav,
+      label: actName,
       type: 'radio',
       click: () => {
-        store.set('fav', act.name)
-        pickerWindow.webContents.send(FAV_SET, act.name)
+        store.set('fav', actName)
+        pickerWindow.webContents.send(FAV_SET, actName)
       },
     })) as MenuItemConstructorOptions[]),
   ])
@@ -196,7 +196,7 @@ app.on('ready', async () => {
   tray.setContextMenu(Menu.buildFromTemplate(contextMenu))
 
   // Send activities and fav down to picker
-  pickerWindow.webContents.send(ACTIVITIES_SET, acts)
+  pickerWindow.webContents.send(ACTIVITIES_SET, actNames)
   pickerWindow.webContents.send(FAV_SET, fav)
 
   if (urlToOpen) {

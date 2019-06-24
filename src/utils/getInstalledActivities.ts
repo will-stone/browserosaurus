@@ -2,8 +2,7 @@ import { spawn } from 'child_process'
 import * as jp from 'jsonpath'
 import { keyBy, uniq } from 'lodash'
 import * as xml2js from 'xml2js'
-import { activities } from '../config/activities'
-import { Activity } from '../model'
+import { activities, ActivityName, activityNames } from '../config/activities'
 
 /**
  * Scan For Apps
@@ -43,11 +42,12 @@ const scanForApps = (): Promise<{}> =>
  *
  * Uses the scan function above to return the whitelisted apps that are installed
  */
-export const getInstalledActivities = async () => {
+export const getInstalledActivities = async (): Promise<ActivityName[]> => {
   const installedApps = await scanForApps()
 
-  const installedActivities = activities
-    .filter((activity: Activity) => {
+  const installedActivityNames = (Object.keys(activities) as ActivityName[])
+    .filter(name => {
+      const activity = activities[name]
       if (activity.appId && installedApps[activity.appId]) {
         return true
       } else if (!activity.appId) {
@@ -56,23 +56,8 @@ export const getInstalledActivities = async () => {
       }
       return false
     })
-    // Sort by name
-    .sort((a, b) => {
-      // Everything is less than "Copy Top Clipboard"
-      if (a.name === 'Copy To Clipboard') {
-        return 1 // a is greater than b
-      }
-      if (b.name === 'Copy To Clipboard') {
-        return -1 // b is greater than a
-      }
-      if (a.name > b.name) {
-        return 1
-      }
-      if (b.name > a.name) {
-        return -1
-      }
-      return 0
-    })
+    // Sort by order of activityNames
+    .sort((a, b) => activityNames.indexOf(a) - activityNames.indexOf(b))
 
-  return installedActivities
+  return installedActivityNames
 }
