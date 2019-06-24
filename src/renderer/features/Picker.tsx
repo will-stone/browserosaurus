@@ -19,14 +19,12 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
   const [activityNames, favName] = useActivities()
 
   const numOfNonFavActs = activityNames.length
+  const fAdjust = favName ? 1 : 0
 
-  const width = favName
-    ? 200 + Math.min(numOfNonFavActs, 2) * 100
-    : Math.min(numOfNonFavActs, 3) * 100
+  const width = 200 * fAdjust + Math.min(numOfNonFavActs, 3 - fAdjust) * 100
 
-  const height = favName
-    ? 200 + (Math.ceil(numOfNonFavActs / 4) - 1) * 100
-    : Math.ceil(numOfNonFavActs / 3) * 100
+  const height =
+    200 * fAdjust + (Math.ceil(numOfNonFavActs / (3 + fAdjust)) - fAdjust) * 100
 
   const [isAtRight, isAtBottom] = [
     x > window.innerWidth - width,
