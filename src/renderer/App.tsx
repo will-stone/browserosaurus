@@ -8,7 +8,6 @@ import {
   COPY_TO_CLIPBOARD,
   MOUSE_THROUGH_DISABLE,
   MOUSE_THROUGH_ENABLE,
-  URL_RECEIVED,
   WINDOW_BLUR,
 } from '../config/events'
 import { Window } from './atoms/Window'
@@ -26,17 +25,14 @@ const AEscapeKey = a('ESCAPE_KEY')
 const ABlurWindow = a('WINDOW/BLUR')
 const AClickWindow = a('WINDOW/CLICK')
 const AClickBluebar = a('BLUEBAR/CLICK')
-const AUrlReceived = a(URL_RECEIVED, {} as { url: string })
 type AMouseMove = ReturnType<typeof AMouseMove>
 type AMouseEnter = ReturnType<typeof AMouseEnter>
 type AEscapeKey = ReturnType<typeof AEscapeKey>
 type ABlurWindow = ReturnType<typeof ABlurWindow>
 type AClickWindow = ReturnType<typeof AClickWindow>
 type AClickBluebar = ReturnType<typeof AClickBluebar>
-type AUrlReceived = ReturnType<typeof AUrlReceived>
 
 type Actions =
-  | AUrlReceived
   | AMouseEnter
   | AMouseMove
   | AEscapeKey
@@ -46,7 +42,6 @@ type Actions =
 
 interface State {
   isVisible: boolean
-  url: string | null
   x: number
   y: number
   mouseTarget?: string
@@ -54,16 +49,12 @@ interface State {
 
 const initialState: State = {
   isVisible: false,
-  url: null,
   x: 0,
   y: 0,
 }
 
 const reducer = produce((state: State, action: Actions) => {
   switch (action.type) {
-    case AUrlReceived.TYPE:
-      state.url = action.url
-      return
     case AClickBluebar.TYPE:
       state.isVisible = false
       ipcRenderer.send(COPY_TO_CLIPBOARD)
@@ -109,15 +100,10 @@ const App: React.FC = () => {
      */
     ipcRenderer.on(WINDOW_BLUR, () => dispatch(ABlurWindow()))
 
-    ipcRenderer.on(URL_RECEIVED, (_: unknown, url: string) => {
-      dispatch(AUrlReceived({ url }))
-    })
-
     return function cleanup() {
       ipcRenderer.removeAllListeners(WINDOW_BLUR)
-      ipcRenderer.removeAllListeners(URL_RECEIVED)
     }
-  }, [dispatch])
+  }, [])
 
   const onMouseEnter = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
@@ -159,9 +145,7 @@ const App: React.FC = () => {
           e.stopPropagation()
           dispatch(AClickBluebar())
         }}
-        url={state.url}
       />
-
       <Picker x={state.x} y={state.y} isVisible={state.isVisible} />
     </Window>
   )
