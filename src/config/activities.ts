@@ -23,6 +23,7 @@ export interface Activity<Name = ActivityName> {
   appId?: string
   hotKey?: string
   cmd: string
+  optCmd?: string
   fav?: boolean
   logo: string
 }
@@ -78,7 +79,7 @@ export const activities: Activities = {
     name: 'Firefox',
     appId: 'Firefox',
     cmd: 'open "{URL}" -a Firefox',
-    optCmd: 'open "{URL} -a Firefox -g',
+    optCmd: 'open "{URL}" -a Firefox -g',
     hotKey: 'f',
     logo: firefox,
   },
@@ -132,6 +133,7 @@ export const activities: Activities = {
     name: 'Min',
     appId: 'Min',
     cmd: 'open "{URL}" -a Min',
+    optCmd: 'open "{URL}" -a Min -g',
     hotKey: '-',
     logo: min,
   },
@@ -139,12 +141,14 @@ export const activities: Activities = {
     name: 'Opera',
     appId: 'Opera',
     cmd: 'open "{URL}" -a Opera',
+    optCmd: 'open "{URL}" -a Opera -g',
     hotKey: 'o',
     logo: opera,
   },
   Safari: {
     name: 'Safari',
     cmd: 'open "{URL}" -a Safari',
+    optCmd: 'open "{URL}" -a Safari -g',
     hotKey: 's',
     logo: safari,
   },

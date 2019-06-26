@@ -20,6 +20,7 @@ import {
   MOUSE_THROUGH_ENABLE,
   URL_RECEIVED,
   WINDOW_BLUR,
+  OPT_TOGGLE,
 } from '../config/events'
 import { copyToClipboard } from '../utils/copyToClipboard'
 import { getInstalledActivities } from '../utils/getInstalledActivities'
@@ -37,6 +38,7 @@ let urlToOpen: string | undefined // if started via clicking link
 let appReady: boolean // if started via clicking link
 let tray = null // prevents garbage collection
 let pickerWindow: BrowserWindow // Prevents garbage collection
+let isOptHeld = false
 
 const createPickerWindow = () =>
   new Promise((resolve, reject) => {
@@ -100,8 +102,12 @@ const urlRecevied = (url: string) => {
 
 ipcMain.on(ACTIVITY_RUN, (_: Event, name: ActivityName) => {
   const activity = activities[name]
-  if (activity && urlToOpen) {
-    runCommand(activity.cmd.replace('{URL}', urlToOpen))
+  if (urlToOpen) {
+    if (isOptHeld && activity.optCmd) {
+      runCommand(activity.optCmd.replace('{URL}', urlToOpen))
+    } else {
+      runCommand(activity.cmd.replace('{URL}', urlToOpen))
+    }
   }
   pickerWindow.webContents.send(WINDOW_BLUR)
 })
@@ -114,6 +120,10 @@ ipcMain.on(CLOSE_WINDOW, () => {
   urlToOpen = undefined
   pickerWindow.hide()
   app.hide()
+})
+
+ipcMain.on(OPT_TOGGLE, (_: Event, toggle: boolean) => {
+  isOptHeld = toggle
 })
 
 /**
