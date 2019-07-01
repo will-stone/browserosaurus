@@ -160,6 +160,7 @@ export const activities: Activities = {
     name: 'Tor Browser',
     appId: 'Tor Browser',
     cmd: 'open "{URL}" -a "Tor Browser"',
+    optCmd: 'open "{URL}" -a "Tor Browser" -g',
     hotKey: 't',
     logo: tor,
   },
