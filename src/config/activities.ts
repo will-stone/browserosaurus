@@ -10,6 +10,7 @@ import firefox from '@browser-logos/firefox/firefox.svg'
 import iridium from '@browser-logos/iridium/iridium.svg'
 import maxthon from '@browser-logos/maxthon/maxthon_256x256.png'
 import opera from '@browser-logos/opera/opera.svg'
+import polypane from '@browser-logos/polypane/polypane.svg'
 import safariTechnologyPreview from '@browser-logos/safari-technology-preview/safari-technology-preview_256x256.png'
 import safari from '@browser-logos/safari/safari_256x256.png'
 import tor from '@browser-logos/tor/tor_256x256.png'
@@ -41,6 +42,7 @@ export const activityNames = [
   'Microsoft Edge Dev',
   'Min',
   'Opera',
+  'Polypane',
   'Safari',
   'Safari Technology Preview',
   'Tor Browser',
@@ -140,6 +142,13 @@ export const activities: Activities = {
     cmd: 'open "{URL}" -a Opera',
     hotKey: 'o',
     logo: opera,
+  },
+  Polypane: {
+    name: 'Polypane',
+    appId: 'Polypane',
+    cmd: 'open "{URL}" -a Polypane',
+    hotKey: 'p',
+    logo: polypane,
   },
   Safari: {
     name: 'Safari',
