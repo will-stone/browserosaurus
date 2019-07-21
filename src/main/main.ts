@@ -108,7 +108,6 @@ ipcMain.on(ACTIVITY_RUN, (_: Event, name: ActivityName) => {
     } else {
       runCommand(activity.cmd.replace('{URL}', urlToOpen))
     }
-    isOptHeld = false
   }
   pickerWindow.webContents.send(WINDOW_BLUR)
 })
@@ -118,6 +117,7 @@ ipcMain.on(COPY_TO_CLIPBOARD, () => {
 })
 
 ipcMain.on(CLOSE_WINDOW, () => {
+  isOptHeld = false
   urlToOpen = undefined
   pickerWindow.hide()
   app.hide()
