@@ -45,19 +45,17 @@ const scanForApps = (): Promise<{}> =>
 export const getInstalledActivities = async (): Promise<ActivityName[]> => {
   const installedApps = await scanForApps()
 
-  const installedActivityNames = (Object.keys(activities) as ActivityName[])
-    .filter(name => {
-      const activity = activities[name]
-      if (activity.appId && installedApps[activity.appId]) {
-        return true
-      } else if (!activity.appId) {
-        // always show activity that does not depend on app presence
-        return true
-      }
-      return false
-    })
-    // Sort by order of activityNames
-    .sort((a, b) => activityNames.indexOf(a) - activityNames.indexOf(b))
+  const installedActivityNames = activityNames.filter(name => {
+    const activity = activities[name]
+    const actShouldAlwaysShow = !activity.appId
+    const actIsInstalled = !!(activity.appId && installedApps[activity.appId])
+    if (actShouldAlwaysShow || actIsInstalled) return true
+    return false
+  })
 
-  return installedActivityNames
+  const orderedActivityNames = installedActivityNames.sort(
+    (a, b) => activityNames.indexOf(a) - activityNames.indexOf(b),
+  )
+
+  return orderedActivityNames
 }
