@@ -8,6 +8,7 @@ import { Card } from '../atoms/Card'
 import { Div } from '../atoms/Div'
 import { useActivities } from '../hooks/useActivities'
 import { activities } from '../../config/activities'
+import { useOpt } from '../hooks/useOpt'
 
 interface Props {
   x: number
@@ -17,6 +18,7 @@ interface Props {
 
 export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
   const [activityNames, favName] = useActivities()
+  const isOptHeld = useOpt()
 
   const numOfNonFavActs = activityNames.length
   const fAdjust = favName ? 1 : 0
@@ -70,11 +72,14 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
           <ActivityButton
             onClick={e => {
               e.stopPropagation()
-              ipcRenderer.send(ACTIVITY_RUN, favName)
+              if ((isOptHeld && activities[favName].optCmd) || !isOptHeld) {
+                ipcRenderer.send(ACTIVITY_RUN, favName)
+              }
             }}
             size={200}
             float={activityFloat}
             transform={activityTransform}
+            opacity={isOptHeld && !activities[favName].optCmd ? 0.5 : 1}
           >
             <ActivityImg src={activities[favName].logo} alt={favName} />
             <ActivityKey>
@@ -90,10 +95,13 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
               key={name}
               onClick={e => {
                 e.stopPropagation()
-                ipcRenderer.send(ACTIVITY_RUN, name)
+                if ((isOptHeld && act.optCmd) || !isOptHeld) {
+                  ipcRenderer.send(ACTIVITY_RUN, name)
+                }
               }}
               float={activityFloat}
               transform={activityTransform}
+              opacity={isOptHeld && !act.optCmd ? 0.5 : 1}
             >
               <ActivityImg src={act.logo} alt={name} />
               {act.hotKey && <ActivityKey>{act.hotKey}</ActivityKey>}

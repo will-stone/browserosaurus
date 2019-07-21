@@ -1,12 +1,13 @@
 import styled from 'styled-components'
-import { size, SizeProps } from 'styled-system'
+import { size, SizeProps, opacity, OpacityProps } from 'styled-system'
 
-interface Props extends SizeProps {
+interface Props extends SizeProps, OpacityProps {
   float: string
   transform: string
 }
 
 export const ActivityButton = styled.button<Props>`
+  ${opacity}
   ${size}
   display: flex;
   flex-direction: column;
@@ -20,6 +21,7 @@ export const ActivityButton = styled.button<Props>`
   color: white;
   float: ${props => props.float};
   transform: ${props => props.transform};
+  transition: opacity 200ms ease-in-out;
 
   &:hover {
     background-color: #0080ff;

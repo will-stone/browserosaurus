@@ -23,6 +23,7 @@ export interface Activity<Name = ActivityName> {
   appId?: string
   hotKey?: string
   cmd: string
+  optCmd?: string
   fav?: boolean
   logo: string
 }
@@ -78,6 +79,7 @@ export const activities: Activities = {
     name: 'Firefox',
     appId: 'Firefox',
     cmd: 'open "{URL}" -a Firefox',
+    optCmd: 'open "{URL}" -a Firefox -g',
     hotKey: 'f',
     logo: firefox,
   },
@@ -144,6 +146,7 @@ export const activities: Activities = {
   Safari: {
     name: 'Safari',
     cmd: 'open "{URL}" -a Safari',
+    optCmd: 'open "{URL}" -a Safari -g',
     hotKey: 's',
     logo: safari,
   },
@@ -157,6 +160,7 @@ export const activities: Activities = {
     name: 'Tor Browser',
     appId: 'Tor Browser',
     cmd: 'open "{URL}" -a "Tor Browser"',
+    optCmd: 'open "{URL}" -a "Tor Browser" -g',
     hotKey: 't',
     logo: tor,
   },
