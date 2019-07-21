@@ -145,7 +145,7 @@
     "@testing-library/react": "^8.0.1",
     "@types/jest": "^24.0.13",
     "@types/jsonpath": "^0.2.0",
-    "@types/lodash": "^4.14.133",
+    "@types/lodash": "^4.14.136",
     "@types/mousetrap": "^1.6.2",
     "@types/node": "^12.0.4",
     "@types/react": "^16.8.19",
