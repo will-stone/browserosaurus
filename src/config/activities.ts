@@ -16,6 +16,7 @@ import tor from '@browser-logos/tor/tor_256x256.png'
 import vivaldi from '@browser-logos/vivaldi/vivaldi.svg'
 import yandex from '@browser-logos/yandex/yandex_256x256.png'
 import copyToClipboard from './copy-to-clipboard.png'
+import polypane from './polypane_256x256.png'
 import min from './min_256x256.png'
 
 export interface Activity<Name = ActivityName> {
@@ -42,6 +43,7 @@ export const activityNames = [
   'Microsoft Edge Dev',
   'Min',
   'Opera',
+  'Polypane',
   'Safari',
   'Safari Technology Preview',
   'Tor Browser',
@@ -142,6 +144,13 @@ export const activities: Activities = {
     cmd: 'open "{URL}" -a Opera',
     hotKey: 'o',
     logo: opera,
+  },
+  Polypane: {
+    name: 'Polypane',
+    appId: 'Polypane',
+    cmd: 'open "{URL}" -a Polypane',
+    hotKey: 'p',
+    logo: polypane,
   },
   Safari: {
     name: 'Safari',
