@@ -108,6 +108,7 @@ ipcMain.on(ACTIVITY_RUN, (_: Event, name: ActivityName) => {
     } else {
       runCommand(activity.cmd.replace('{URL}', urlToOpen))
     }
+    isOptHeld = false
   }
   pickerWindow.webContents.send(WINDOW_BLUR)
 })
