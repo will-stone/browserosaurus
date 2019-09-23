@@ -776,6 +776,11 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/opera/-/opera-1.1.5.tgz#b015dea571ab8fc1d4b0f119588fca0a3a075aa9"
   integrity sha512-AqqaJVeAddZp+FrrX7yxYAad4sDDdrnD9Wc4FcjLxxLkT+f6IPX98K3XxDLTcIP/0uIpzsGaQ9JKyBpIssBzeA==
 
+"@browser-logos/qutebrowser@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@browser-logos/qutebrowser/-/qutebrowser-1.0.1.tgz#42a373d74134edcf946e8fcd52f5bf51f5025053"
+  integrity sha512-BD7VRDlMj0Z/H25tvnAMEZnblvBcij5/lx2/LsLmXSiFHoolaKKtYTy6DgYrn+jFogCj9o5KV5j6loy2MGFZ0Q==
+
 "@browser-logos/safari-technology-preview@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@browser-logos/safari-technology-preview/-/safari-technology-preview-1.0.5.tgz#af64fdf2041bf75ee2f00b8014499f108ecdd2f1"

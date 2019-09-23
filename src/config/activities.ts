@@ -11,6 +11,7 @@ import firefox from '@browser-logos/firefox/firefox.svg'
 import iridium from '@browser-logos/iridium/iridium.svg'
 import maxthon from '@browser-logos/maxthon/maxthon_256x256.png'
 import opera from '@browser-logos/opera/opera.svg'
+import qutebrowser from '@browser-logos/qutebrowser/qutebrowser.svg'
 import safariTechnologyPreview from '@browser-logos/safari-technology-preview/safari-technology-preview_256x256.png'
 import safari from '@browser-logos/safari/safari_256x256.png'
 import tor from '@browser-logos/tor/tor_256x256.png'
@@ -46,6 +47,7 @@ export const activityNames = [
   'Min',
   'Opera',
   'Polypane',
+  'qutebrowser',
   'Safari',
   'Safari Technology Preview',
   'Tor Browser',
@@ -159,6 +161,13 @@ export const activities: Activities = {
     cmd: 'open "{URL}" -a Polypane',
     hotKey: 'p',
     logo: polypane,
+  },
+  qutebrowser: {
+    name: 'qutebrowser',
+    appId: 'qutebrowser',
+    cmd: 'open "{URL}" -a qutebrowser',
+    hotKey: 'q',
+    logo: qutebrowser,
   },
   Safari: {
     name: 'Safari',
