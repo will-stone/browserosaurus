@@ -19,7 +19,8 @@
     "notarize": "export $(cat .env | xargs) && ts-node ./scripts/notarize.ts",
     "make": "electron-forge make --skip-package",
     "icns": "cd ./src/images/icon && ./scripts/png2icns.sh icon.png",
-    "env": "export $(cat .env | xargs) && env"
+    "env": "export $(cat .env | xargs) && env",
+    "list-apps": "ts-node ./scripts/listAllApps"
   },
   "repository": "https://github.com/will-stone/browserosaurus",
   "bugs": {
