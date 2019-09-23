@@ -1,3 +1,4 @@
+import braveBeta from '@browser-logos/brave-beta/brave-beta.svg'
 import braveDev from '@browser-logos/brave-dev/brave-dev.svg'
 import brave from '@browser-logos/brave/brave.svg'
 import chromeCanary from '@browser-logos/chrome-canary/chrome-canary.svg'
@@ -16,8 +17,8 @@ import tor from '@browser-logos/tor/tor_256x256.png'
 import vivaldi from '@browser-logos/vivaldi/vivaldi.svg'
 import yandex from '@browser-logos/yandex/yandex_256x256.png'
 import copyToClipboard from './copy-to-clipboard.png'
-import polypane from './polypane_256x256.png'
 import min from './min_256x256.png'
+import polypane from './polypane_256x256.png'
 
 export interface Activity<Name = ActivityName> {
   name: Name
@@ -32,6 +33,7 @@ export interface Activity<Name = ActivityName> {
 export const activityNames = [
   'Brave Dev',
   'Brave Browser',
+  'Brave Browser Beta',
   'Chromium',
   'Firefox',
   'Firefox Developer Edition',
@@ -69,6 +71,12 @@ export const activities: Activities = {
     cmd: 'open "{URL}" -a "Brave Browser"',
     hotKey: 'b',
     logo: brave,
+  },
+  'Brave Browser Beta': {
+    name: 'Brave Browser Beta',
+    appId: 'Brave Browser Beta',
+    cmd: 'open "{URL}" -a "Brave Browser Beta"',
+    logo: braveBeta,
   },
   Chromium: {
     name: 'Chromium',

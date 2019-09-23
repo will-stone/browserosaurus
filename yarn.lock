@@ -711,6 +711,11 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
+"@browser-logos/brave-beta@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@browser-logos/brave-beta/-/brave-beta-1.0.7.tgz#1f489a44ad4bd80fbef27dcd53be84896f50bf11"
+  integrity sha512-ypzl+slLgCivx78161EpZWsZJ1pNaAo1t2wo9ivwRUolyRBmzaTBWVoyfypthDMCOO+koXQXIA6H63He38beww==
+
 "@browser-logos/brave-dev@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@browser-logos/brave-dev/-/brave-dev-1.0.2.tgz#8cdcc1d83bdcd1eac759c3e74fd5354f27993f5f"
