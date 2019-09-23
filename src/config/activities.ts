@@ -31,9 +31,9 @@ export interface Activity<Name = ActivityName> {
 }
 
 export const activityNames = [
+  'Brave',
+  'Brave Beta',
   'Brave Dev',
-  'Brave Browser',
-  'Brave Browser Beta',
   'Chromium',
   'Firefox',
   'Firefox Developer Edition',
@@ -59,24 +59,24 @@ export type ActivityName = typeof activityNames[number]
 export type Activities = { [key in ActivityName]: Activity<key> }
 
 export const activities: Activities = {
-  'Brave Dev': {
-    name: 'Brave Dev',
-    appId: 'Brave-Browser-Dev',
-    cmd: 'open "{URL}" -a Brave-Browser-Dev',
-    logo: braveDev,
-  },
-  'Brave Browser': {
-    name: 'Brave Browser',
+  Brave: {
+    name: 'Brave',
     appId: 'Brave Browser',
     cmd: 'open "{URL}" -a "Brave Browser"',
     hotKey: 'b',
     logo: brave,
   },
-  'Brave Browser Beta': {
-    name: 'Brave Browser Beta',
+  'Brave Beta': {
+    name: 'Brave Beta',
     appId: 'Brave Browser Beta',
     cmd: 'open "{URL}" -a "Brave Browser Beta"',
     logo: braveBeta,
+  },
+  'Brave Dev': {
+    name: 'Brave Dev',
+    appId: 'Brave Browser Dev',
+    cmd: 'open "{URL}" -a "Brave Browser Dev"',
+    logo: braveDev,
   },
   Chromium: {
     name: 'Chromium',
