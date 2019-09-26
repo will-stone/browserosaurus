@@ -20,6 +20,8 @@ import yandex from '@browser-logos/yandex/yandex_256x256.png'
 import copyToClipboard from './copy-to-clipboard.png'
 import min from './min_256x256.png'
 import polypane from './polypane_256x256.png'
+import edgeCan from '@browser-logos/edge-canary/edge-canary_256x256.png'
+import edgeBeta from '@browser-logos/edge-beta/edge-beta_256x256.png'
 
 export interface Activity<Name = ActivityName> {
   name: Name
@@ -44,6 +46,8 @@ export const activityNames = [
   'Iridium',
   'Maxthon',
   'Microsoft Edge Dev',
+  'Microsoft Edge Canary'
+  'Microsoft Edge Beta'
   'Min',
   'Opera',
   'Polypane',
@@ -141,6 +145,20 @@ export const activities: Activities = {
     hotKey: 'e',
     logo: edgeDev,
   },
+  'Microsoft Edge Canary':{
+    name: 'Microsoft Edge Canary'
+    appId: 'Microsoft Edge Canary'
+    cmd: 'open "{URL}" -a "Microsoft Edge Canary"',
+    logo: edgeCan,
+
+  },
+  'Microsoft Edge Beta':{
+    name: 'Microsoft Edge Beta'
+    appId: 'Microsoft Edge Beta'
+    cmd: 'open "{URL}" -a "Microsoft Edge Beta"',
+    logo: edgeBeta,
+  },
+
   Min: {
     name: 'Min',
     appId: 'Min',
