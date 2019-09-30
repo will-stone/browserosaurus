@@ -110,7 +110,7 @@ export const activities: Activities = {
   'Google Chrome': {
     name: 'Google Chrome',
     appId: 'Google Chrome',
-    cmd: 'open "{URL}" -a "Google Chrome"',
+    cmd: 'open "{URL}" -a "Google Chrome" -b "com.google.Chrome"',
     hotKey: 'g',
     logo: chrome,
   },
