@@ -11,7 +11,7 @@ export const activities4: ActivityName[] = [
 
 export const activities5: ActivityName[] = [
   'Brave Dev',
-  'Brave Browser',
+  'Brave',
   'Chromium',
   'Firefox',
   'Safari',
@@ -19,7 +19,7 @@ export const activities5: ActivityName[] = [
 
 export const activities7: ActivityName[] = [
   'Brave Dev',
-  'Brave Browser',
+  'Brave',
   'Chromium',
   'Firefox',
   'Safari',
@@ -29,7 +29,7 @@ export const activities7: ActivityName[] = [
 
 export const activities9: ActivityName[] = [
   'Brave Dev',
-  'Brave Browser',
+  'Brave',
   'Chromium',
   'Firefox',
   'Firefox Developer Edition',
