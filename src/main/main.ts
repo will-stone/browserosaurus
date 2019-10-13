@@ -121,6 +121,7 @@ ipcMain.on(CLOSE_WINDOW, () => {
   urlToOpen = undefined
   pickerWindow.hide()
   app.hide()
+  app.dock.hide()
 })
 
 ipcMain.on(OPT_TOGGLE, (_: Event, toggle: boolean) => {
