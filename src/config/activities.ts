@@ -206,7 +206,7 @@ export const activities: Activities = {
   },
   'Copy To Clipboard': {
     name: 'Copy To Clipboard',
-    cmd: 'echo "{URL}" | pbcopy',
+    cmd: 'echo "{URL}" | tr -d \'\n\' | pbcopy',
     hotKey: 'space',
     logo: copyToClipboard,
   },
