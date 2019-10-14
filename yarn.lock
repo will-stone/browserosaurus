@@ -711,100 +711,100 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@browser-logos/brave-beta@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@browser-logos/brave-beta/-/brave-beta-1.0.7.tgz#1f489a44ad4bd80fbef27dcd53be84896f50bf11"
-  integrity sha512-ypzl+slLgCivx78161EpZWsZJ1pNaAo1t2wo9ivwRUolyRBmzaTBWVoyfypthDMCOO+koXQXIA6H63He38beww==
+"@browser-logos/brave-beta@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@browser-logos/brave-beta/-/brave-beta-1.0.8.tgz#a8d55bb2f586f444d0f893c740658b6c403d7042"
+  integrity sha512-gDU8vi4ot1e97guZV9lW6Uo+b7XXLyvp1Eh4+c7YQLxZjMrcXjtnYdmMNStRkNXY7J0ybGaL9mgSlcn0b3SQ6Q==
 
-"@browser-logos/brave-dev@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@browser-logos/brave-dev/-/brave-dev-1.0.2.tgz#8cdcc1d83bdcd1eac759c3e74fd5354f27993f5f"
-  integrity sha512-XDiX8HlfgDDkgjy8qMxSJwM9acmGGzIvOQz+45oU6KU8ORB6WBCaS2M4r2hBltUgEmfhidw9Gy9ImrudGX9UJQ==
+"@browser-logos/brave-dev@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@browser-logos/brave-dev/-/brave-dev-1.0.8.tgz#f82c301e35f27ac6b94ccb76137516b79b8c0809"
+  integrity sha512-Wpyqhme3Tq9ft1E4xj78uXOA5cFfeIi2hDvEH76dPAkVYXzXLQAguyh5D+vOPk7GMxJnJb3PTHrcxWRvDR1jKw==
 
-"@browser-logos/brave@^3.0.4":
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/@browser-logos/brave/-/brave-3.0.4.tgz#d4e8223598817307b254cd55817a3fefded6cdef"
-  integrity sha512-hdC7YonbaIHEMTDqqZlGBEOul7zPskzaL1hDpTjV8/oTr0qt9Foxh/miz6nQxeNjcQR8kxiYZbpm5DLZNzzGpQ==
+"@browser-logos/brave@^3.0.10":
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/@browser-logos/brave/-/brave-3.0.10.tgz#78e3cc7d7b154f68d11d46e71e37aa1077716222"
+  integrity sha512-OJjR3AGrbkHj+i9DIcsuIbS/cAA/YTWXgCceDWalL7ow5ygUCg+Sy04qP4BchEobbkrEOMKvsApCw0UvKtJPwQ==
 
-"@browser-logos/chrome-canary@^1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@browser-logos/chrome-canary/-/chrome-canary-1.1.3.tgz#05f5d5a89e775c08ef16b6c1d5c4990c70301a7c"
-  integrity sha512-RWUPjH0h48Pc0/JNFOteL002V4GuZlYl+k8vk39L95lsbkqXQSVTupowfWBUrpppGjLp9qzMd19VWozLw24RAA==
+"@browser-logos/chrome-canary@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@browser-logos/chrome-canary/-/chrome-canary-1.1.7.tgz#eef021e8e62d1dcf245f65ee7a66a9d011e5f7b7"
+  integrity sha512-Jge5R8QsU7Bli7Aw/JQHVzKU3nPhOKaNMIywfK68+PYz46VHFpo3C7K0bqvaBXBMpt94Q3rsydAtb1B7MteOEA==
 
-"@browser-logos/chrome@^1.0.11":
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/@browser-logos/chrome/-/chrome-1.0.11.tgz#cb1823381bdd87ae8b5100f0a49e5762fd17b542"
-  integrity sha512-twa9p3HcgY/izmwPZHp01UeFBotJgpKokIfwEndkPDwiKuTqn3z3KoajH/AbZVJBx6EKHkAqNqUEcrD99oNTfw==
+"@browser-logos/chrome@^1.0.15":
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/@browser-logos/chrome/-/chrome-1.0.15.tgz#a735769f74f981ad2296f74a129f772d3d89c5a6"
+  integrity sha512-dZZLHC8MmZBgyQ6v4Rrh+1S3bpjI9RVjLmrKJAr8lOM+Ws1hHto4y3/lFvVSdP2ht6P01FLSWUT1EzyyxXCOEA==
 
-"@browser-logos/chromium@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@browser-logos/chromium/-/chromium-1.0.4.tgz#06059eea7f35b3ec49976b321caeb1d2140c5bed"
-  integrity sha512-YaTP0v+J480Jm2moDqMyWdfhM3F2ETue4hrYnKeHljIAYsn4tgd2HH33QEvM9XC9cyzzH5WKXsEWpXCXe+IrdA==
+"@browser-logos/chromium@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@browser-logos/chromium/-/chromium-1.0.6.tgz#45b48ee82ef23ecb395a9deb507e51dc4e84fbb3"
+  integrity sha512-9v3O7ELzilnxmmV2H0LpdM7cqsIL2omnTtsdts/bTIECjomSfSg427GQsj18YChcTpKg7jdv/MpF1DvxuSh8cA==
 
-"@browser-logos/edge-dev@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@browser-logos/edge-dev/-/edge-dev-1.0.4.tgz#2f67a87409e06a6a59337df41717b94880952bd6"
-  integrity sha512-xGZ6YwGUgRZ9XJKk56YEr1PqewWOA9z8ZDFZL6dQZbjkzfNgk6mQEa0wCIZGiBXqVziZsKHgmwDWozP7TlcYKQ==
+"@browser-logos/edge-dev@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@browser-logos/edge-dev/-/edge-dev-1.0.9.tgz#010b6b786fc507b63cc70df1cb2bab5b4fdff5e7"
+  integrity sha512-nG46OcHueaHYEGMMT2KdRdpYEQDTLvZ2WrniVBcejdm2FUwtWYjRwhik18n/X891/HjXpwnxS3V7C067GlFWUg==
 
-"@browser-logos/firefox-developer-edition@^2.1.7":
-  version "2.1.7"
-  resolved "https://registry.yarnpkg.com/@browser-logos/firefox-developer-edition/-/firefox-developer-edition-2.1.7.tgz#a69610664bda11f3b0ee658de368b8d796237f6b"
-  integrity sha512-wJmYmv1EyfA1qVfZkpaMCQPPOjC+cU026aNzGj+43EhJUtxvyR1+UYwvMwl31Esikxul3rkShsklJtwDVu3HTQ==
+"@browser-logos/firefox-developer-edition@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@browser-logos/firefox-developer-edition/-/firefox-developer-edition-3.0.2.tgz#b2fc5cb6c74480cb78bd30be123e7031fb037945"
+  integrity sha512-UL3v8X39T5FOTRMwwj4XR7wC5hgBTY72a7BhsDQ7yn0zs65HU/+fuyGfzHUISqb7keEKS2A4qmCYEdk8Eo/oYg==
 
-"@browser-logos/firefox-nightly@^2.1.6":
-  version "2.1.6"
-  resolved "https://registry.yarnpkg.com/@browser-logos/firefox-nightly/-/firefox-nightly-2.1.6.tgz#a61486988c0e5e62afa174d1e2a35a5d5268fc8b"
-  integrity sha512-Z8Owj5hv9Ey9sRJhkX7tZwPPOGnMlTAKvH96xRigYdIfp7LXcX5Ff9Q/asEU2IfdAY94sUppECy3H+Yb4KSLfQ==
+"@browser-logos/firefox-nightly@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@browser-logos/firefox-nightly/-/firefox-nightly-3.0.2.tgz#5daabc50d30004f824bc0df11dbcab79c51186c0"
+  integrity sha512-OeOaXbW4s2uMvSlKwLUZ50qXQpWctrWwJVlLmkwLttY/rMVCo8qteezo+6b8pr5A4k/hYTuTLti692EehdydEw==
 
-"@browser-logos/firefox@^2.0.5":
+"@browser-logos/firefox@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@browser-logos/firefox/-/firefox-3.0.3.tgz#1b74a70ce9b98e1ec2ebc5a4b28043519a51dda3"
+  integrity sha512-GRFo7GTVtnDjeMHV+1pa5lGrJOegi2pD3BwF8A/mDgqL9MsKO97qsF8m3lkyTOuxxzXFz4WKxxXxs7ph0COkxA==
+
+"@browser-logos/iridium@^2.0.5":
   version "2.0.5"
-  resolved "https://registry.yarnpkg.com/@browser-logos/firefox/-/firefox-2.0.5.tgz#42fb5e6fa012135a8462aea3b7b413bdb138a12c"
-  integrity sha512-KBVVAhOXDN37wSpuIwER5smu5+x0hd3GctTIVvGqZWoKC5jj1XYFMSnba22LGE1hyXc2AYnF0arvArYgfjYirQ==
+  resolved "https://registry.yarnpkg.com/@browser-logos/iridium/-/iridium-2.0.5.tgz#ccd2b3614d65f04cb0bcf32de2f18a32bcfd03ef"
+  integrity sha512-x9q/z4DHYFSNUpjQt0z51ead2GWzwEn6GH2A2+KUtYkAVgm7l+0sLzncIArznSNq3k+eWcnoSMNOz6pRhOU/ZA==
 
-"@browser-logos/iridium@^2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@browser-logos/iridium/-/iridium-2.0.4.tgz#5a347407f28fedf9c45330147e4daf47f3293509"
-  integrity sha512-weZdswYeGeqg5hen5iykuIpIrVW71dzUhkINw8LvqJ8sMGOr2jYqqEYHMJCVVKMav8uRKgKDVAX3z00CGbwMBA==
+"@browser-logos/maxthon@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@browser-logos/maxthon/-/maxthon-1.0.3.tgz#3d1bc181c0c56977ee7a4794c128c01ec9722210"
+  integrity sha512-fZIgdH/wiE/bxWMALYaIU3JvhyOCiYp/E/v3XmQwPMjIptNsk2QmedTj68AeM0dYZmj7DEpZd4JjCZuozMaEew==
 
-"@browser-logos/maxthon@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@browser-logos/maxthon/-/maxthon-1.0.0.tgz#ca4046ff06ced559160f5bc42e09718606cfd363"
-  integrity sha512-lPJNtr8uTpW1d+0Jl2cHJ32HsrBp2WWT1sQnIperoo3Fxe5eBWHGvfxMMR8xCbBeBZbBaP/omP1bIY03rAdSEQ==
+"@browser-logos/opera@^1.1.8":
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/@browser-logos/opera/-/opera-1.1.8.tgz#f2650de537cd97ef52d646d6a8073a77858fc4b1"
+  integrity sha512-Chl2v1LOVkv/v1zMxXwFDRBD2qbZajcAaHDj/Czdjq+sqQt/rYAGViM80vwU3K5H9NqzXlwWtDcpbEI2V9DLqg==
 
-"@browser-logos/opera@^1.1.5":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@browser-logos/opera/-/opera-1.1.5.tgz#b015dea571ab8fc1d4b0f119588fca0a3a075aa9"
-  integrity sha512-AqqaJVeAddZp+FrrX7yxYAad4sDDdrnD9Wc4FcjLxxLkT+f6IPX98K3XxDLTcIP/0uIpzsGaQ9JKyBpIssBzeA==
+"@browser-logos/qutebrowser@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@browser-logos/qutebrowser/-/qutebrowser-1.0.2.tgz#2490ee4c3ee4cd49084ff1941209029e7631fdbc"
+  integrity sha512-LMi7/RAZRjnZDK8UizFmkenGcbZnsid7Y+ntmCL2/PrwsS+v+gRJtJFTgvBzeAm6j1BQulb0fXyJqge5mJvXpw==
 
-"@browser-logos/qutebrowser@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@browser-logos/qutebrowser/-/qutebrowser-1.0.1.tgz#42a373d74134edcf946e8fcd52f5bf51f5025053"
-  integrity sha512-BD7VRDlMj0Z/H25tvnAMEZnblvBcij5/lx2/LsLmXSiFHoolaKKtYTy6DgYrn+jFogCj9o5KV5j6loy2MGFZ0Q==
+"@browser-logos/safari-technology-preview@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@browser-logos/safari-technology-preview/-/safari-technology-preview-1.0.7.tgz#463b3fee44a1a3c4af8848ff72ea83d0c7dd7435"
+  integrity sha512-pVjuALWmGpdoqzUTKocHetSw5901h84Dg5Z5tzvMyo3q8NSxLeDy5Gp8R7zJ05fK9HnfmUIArwdb8DB+2e7rsg==
 
-"@browser-logos/safari-technology-preview@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@browser-logos/safari-technology-preview/-/safari-technology-preview-1.0.5.tgz#af64fdf2041bf75ee2f00b8014499f108ecdd2f1"
-  integrity sha512-tj91maCDluEg88bKEqVIGSPQcj/8tGVhgrzOUfMqkqzsZP+E5lDK597EMuMbOyLCVZiUMX4SgHPwbgvC1OuIxw==
+"@browser-logos/safari@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@browser-logos/safari/-/safari-1.0.6.tgz#dc26a73d8213213c21d221c9d1e6bdaa9d3b07f1"
+  integrity sha512-g+UivEwvenuhlvYCSzTVxeradJItZN6Pg54uMI1l647xuIGF2QFNKWrpGbcAkGc4485IbO50bPsqdUT4KN/6dA==
 
-"@browser-logos/safari@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@browser-logos/safari/-/safari-1.0.4.tgz#f537434c0f6ba23369a2c418d26516d5c05b3319"
-  integrity sha512-5Ry2iBG31ytldKzrbrdxGWnZR0U7c7dxEUG1UiXcF4oYo068pPt+CjYp1q0kl0nkVFDV/uDYL/4VCfen67zd8Q==
+"@browser-logos/tor@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@browser-logos/tor/-/tor-2.0.2.tgz#9d2b42afd1d9e048f49cc739e8dad04a6e243f08"
+  integrity sha512-XGkwfqKMmlAucJwkD6H3OIR9WOAtQxW+/Pzh+VmxLIt01krplR8pjrslpOv+QY5Ty4mkxOkjyJ2uOtp55w91LQ==
 
-"@browser-logos/tor@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@browser-logos/tor/-/tor-1.0.4.tgz#d13087ee3a9a521500678e37f3ef82ed58fcdb6d"
-  integrity sha512-m90cTRx4A/r5FmsBl1rTrDpu2hyF6zcbmaW6hn86LJUWPEs0vmF9R8amUo8dErHrzizjCokFtqFUU3UDu1/4DQ==
+"@browser-logos/vivaldi@^2.1.7":
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/@browser-logos/vivaldi/-/vivaldi-2.1.7.tgz#3348dc1fd68fa967fd9c82dff92a6892fc1d37fb"
+  integrity sha512-KTRKnb2dy2aN66esry9No3nvXTmYwubIpDC4ccnImRv5ZecKOZr62e3B8zoGNeMs8T8CsxZWuuVhXkrhsA9bRg==
 
-"@browser-logos/vivaldi@^2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@browser-logos/vivaldi/-/vivaldi-2.1.3.tgz#07932611a0db871d397d26de7f1605d71582c734"
-  integrity sha512-K7tPM78XVfnr7O7DpJLZEkaN7iI+8w6t2KmEVt+a+KhID+du5v/fxlBSCUixSr/fSFV4HHXHkzHwL5vmF+6MRQ==
-
-"@browser-logos/yandex@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@browser-logos/yandex/-/yandex-1.0.4.tgz#8d5cbee4ada9ade51a6816f9136dfd8752639bc8"
-  integrity sha512-I0vQs7d+t8jq/wqWlmd/ilRk1n6q7EtHVIOGa4QhJWsUIJijq8a5mJX2Kn/dRGQXGjE/kpkyFocihWxVx71Gag==
+"@browser-logos/yandex@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@browser-logos/yandex/-/yandex-1.0.6.tgz#28e5e6ff71e768f6ad1dac09208f492f20309765"
+  integrity sha512-qeIZbQ+lk/krhir+opXJMWlgtDrRzk1e8mDdwKuGCJ1k6JdBCdi9C1Z9fY4dWDIQlpZwTnyGKEA3QT0WIoiS9g==
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.3"
