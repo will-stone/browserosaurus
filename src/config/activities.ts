@@ -63,7 +63,7 @@ export type Activities = { [key in ActivityName]: Activity<key> }
 export const activities: Activities = {
   Brave: {
     name: 'Brave',
-    appId: 'Brave Browser',
+    appId: 'Brave',
     cmd: 'open "{URL}" -a "Brave Browser"',
     hotKey: 'b',
     logo: brave,
