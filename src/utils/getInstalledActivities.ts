@@ -12,9 +12,12 @@ export const getInstalledActivities = async (): Promise<ActivityName[]> => {
   const installedActivityNames = activityNames.filter(name => {
     const activity = activities[name]
     const actShouldAlwaysShow = !activity.appId
-    const actIsInstalled = !!(activity.appId && installedApps[activity.appId])
-    if (actShouldAlwaysShow || actIsInstalled) return true
-    return false
+    const actIsInstalled =
+      activity.appId &&
+      installedApps &&
+      installedApps.find(app => app === activity.appId)
+
+    return actShouldAlwaysShow || actIsInstalled
   })
 
   const orderedActivityNames = installedActivityNames.sort(
