@@ -157,8 +157,8 @@ export const activities: Activities = {
   },
   Polypane: {
     name: 'Polypane',
-    appId: 'Polypane',
-    cmd: 'open "{URL}" -a Polypane',
+    appId: 'com.firstversionist.polypane',
+    cmd: 'open "{URL}" -b com.firstversionist.polypane',
     hotKey: 'p',
     logo: polypane,
   },
