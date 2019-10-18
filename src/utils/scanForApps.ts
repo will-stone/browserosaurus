@@ -13,8 +13,12 @@ export const scanForApps = (): Promise<string[] | ''> =>
   new Promise(resolve => {
     const body = async (): Promise<string[] | ''> => {
       try {
+        const { stdout: kMDItemKind } = await execP(
+          'mdls -name kMDItemKind -raw /Applications/Safari.app',
+        )
+
         const { stdout: mdfind } = await execP(
-          'mdfind -onlyin /Applications kMDItemKind=Application',
+          `mdfind -onlyin /Applications kMDItemKind=${kMDItemKind}`,
         )
 
         const paths = mdfind.trimRight().split('\n')
