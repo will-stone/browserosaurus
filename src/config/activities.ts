@@ -4,7 +4,7 @@ import brave from '@browser-logos/brave/brave.svg'
 import chromeCanary from '@browser-logos/chrome-canary/chrome-canary.svg'
 import chrome from '@browser-logos/chrome/chrome.svg'
 import chromium from '@browser-logos/chromium/chromium_256x256.png'
-import edgeBeta from '@browser-logos/edge-dev/edge-beta.svg'
+import edgeBeta from '@browser-logos/edge-beta/edge-beta.svg'
 import edgeDev from '@browser-logos/edge-dev/edge-dev.svg'
 import firefoxDevEdition from '@browser-logos/firefox-developer-edition/firefox-developer-edition.svg'
 import firefoxNightly from '@browser-logos/firefox-nightly/firefox-nightly.svg'
@@ -141,7 +141,7 @@ export const activities: Activities = {
     appId: 'com.microsoft.edgemac.Beta',
     cmd: 'open "{URL}" -b com.microsoft.edgemac.Beta',
     hotKey: 'e',
-    logo: edgeDev,
+    logo: edgeBeta,
   },
   'Microsoft Edge Dev': {
     name: 'Microsoft Edge Dev',
