@@ -31,6 +31,7 @@ import { runCommand } from '../utils/runCommand'
 if (process.env.APPLE_ID) {
   require('update-electron-app')({
     repo: 'will-stone/browserosaurus',
+    notifyUser: false,
   })
 }
 
