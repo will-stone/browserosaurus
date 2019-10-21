@@ -746,6 +746,11 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/edge-beta/-/edge-beta-1.0.11.tgz#417d2d57bf60ee5163f6a3dfd3ddad0a89c8bb84"
   integrity sha512-oRs89WdXfOpIXE59hRhfct5QvBcWItu1EcfeIy5eoVjpiJSfVa8PgXNreOz7VLViwZWth8vqfYkWA5Llner2ig==
 
+"@browser-logos/edge-canary@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@browser-logos/edge-canary/-/edge-canary-1.0.9.tgz#f6729a0d0ba525e1734cd8ef5429506c2b023912"
+  integrity sha512-sSPEaswbS+Op+bTIsAICVrnxvmLkPvvrZHhTE62gkEzQc9lZMLSTK+Uf3KqI62RcDI03d1NDhZ1uFvY6h6fCUQ==
+
 "@browser-logos/edge-dev@^1.0.9":
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/@browser-logos/edge-dev/-/edge-dev-1.0.9.tgz#010b6b786fc507b63cc70df1cb2bab5b4fdff5e7"
