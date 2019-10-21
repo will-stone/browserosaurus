@@ -27,12 +27,9 @@ import { getInstalledActivities } from '../utils/getInstalledActivities'
 import { runCommand } from '../utils/runCommand'
 
 // Auto update
-// disables if no apple developer id for signing app
-if (process.env.APPLE_ID) {
-  require('update-electron-app')({
-    repo: 'will-stone/browserosaurus',
-  })
-}
+require('update-electron-app')({
+  repo: 'will-stone/browserosaurus',
+})
 
 // Start store and set activities if first run
 const store = new Store()
