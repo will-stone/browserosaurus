@@ -46,6 +46,7 @@ export const activityNames = [
   'Iridium',
   'Maxthon',
   'Microsoft Edge Beta',
+  'Microsoft Edge Canary',
   'Microsoft Edge Dev',
   'Min',
   'Opera',
