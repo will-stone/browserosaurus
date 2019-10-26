@@ -1,7 +1,7 @@
 {
   "name": "browserosaurus",
   "productName": "Browserosaurus",
-  "version": "6.5.1",
+  "version": "6.6.1",
   "engines": {
     "node": ">=10.4.1"
   },
@@ -15,7 +15,7 @@
     "test:watch": "jest --watch",
     "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx",
     "typecheck": "tsc --noEmit --skipLibCheck",
-    "package": "export $(cat .env | xargs) && electron-forge package --platform=darwin --arch=x64",
+    "package": "electron-forge package --platform=darwin --arch=x64",
     "notarize": "export $(cat .env | xargs) && ts-node ./scripts/notarize.ts",
     "make": "electron-forge make --skip-package",
     "icns": "cd ./src/images/icon && ./scripts/png2icns.sh icon.png",
@@ -105,6 +105,8 @@
     "@browser-logos/chrome": "^1.0.15",
     "@browser-logos/chrome-canary": "^1.1.7",
     "@browser-logos/chromium": "^1.0.6",
+    "@browser-logos/edge-beta": "^1.0.11",
+    "@browser-logos/edge-canary": "^1.0.9",
     "@browser-logos/edge-dev": "^1.0.9",
     "@browser-logos/firefox": "^3.0.3",
     "@browser-logos/firefox-developer-edition": "^3.0.2",

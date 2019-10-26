@@ -11,14 +11,16 @@ export const useActivities = (): [ActivityName[], ActivityName | undefined] => {
   useEffect(() => {
     ipcRenderer.on(FAV_SET, (_: unknown, name: ActivityName) => {
       setFavName(name)
-      mousetrap.bind(['enter', 'option+enter'], e => {
-        // When a browser has been selected with the mouse, it gets (invisible) focus.
-        // This means when enter is pressed next, it will activate the focused activity AND fire
-        // this key binding, causing two identical tabs to open in the selected browser.
-        // This fixes that.
-        e.preventDefault()
-        ipcRenderer.send(ACTIVITY_RUN, name)
-      })
+      mousetrap.unbind(['enter', 'option+enter'])
+      name &&
+        mousetrap.bind(['enter', 'option+enter'], e => {
+          // When a browser has been selected with the mouse, it gets (invisible) focus.
+          // This means when enter is pressed next, it will activate the focused activity AND fire
+          // this key binding, causing two identical tabs to open in the selected browser.
+          // This fixes that.
+          e.preventDefault()
+          ipcRenderer.send(ACTIVITY_RUN, name)
+        })
     })
 
     return function cleanup() {

@@ -4,6 +4,8 @@ import brave from '@browser-logos/brave/brave.svg'
 import chromeCanary from '@browser-logos/chrome-canary/chrome-canary.svg'
 import chrome from '@browser-logos/chrome/chrome.svg'
 import chromium from '@browser-logos/chromium/chromium_256x256.png'
+import edgeBeta from '@browser-logos/edge-beta/edge-beta.svg'
+import edgeCanary from '@browser-logos/edge-canary/edge-canary.svg'
 import edgeDev from '@browser-logos/edge-dev/edge-dev.svg'
 import firefoxDevEdition from '@browser-logos/firefox-developer-edition/firefox-developer-edition.svg'
 import firefoxNightly from '@browser-logos/firefox-nightly/firefox-nightly.svg'
@@ -43,6 +45,8 @@ export const activityNames = [
   'Google Chrome Canary',
   'Iridium',
   'Maxthon',
+  'Microsoft Edge Beta',
+  'Microsoft Edge Canary',
   'Microsoft Edge Dev',
   'Min',
   'Opera',
@@ -134,11 +138,23 @@ export const activities: Activities = {
     hotKey: 'm',
     logo: maxthon,
   },
+  'Microsoft Edge Beta': {
+    name: 'Microsoft Edge Beta',
+    appId: 'com.microsoft.edgemac.Beta',
+    cmd: 'open "{URL}" -b com.microsoft.edgemac.Beta',
+    hotKey: 'e',
+    logo: edgeBeta,
+  },
+  'Microsoft Edge Canary': {
+    name: 'Microsoft Edge Canary',
+    appId: 'com.microsoft.edgemac.Canary',
+    cmd: 'open "{URL}" -b com.microsoft.edgemac.Canary',
+    logo: edgeCanary,
+  },
   'Microsoft Edge Dev': {
     name: 'Microsoft Edge Dev',
     appId: 'com.microsoft.edgemac.Dev',
     cmd: 'open "{URL}" -b com.microsoft.edgemac.Dev',
-    hotKey: 'e',
     logo: edgeDev,
   },
   Min: {
