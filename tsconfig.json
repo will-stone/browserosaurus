@@ -17,7 +17,9 @@
     "sourceMap": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "target": "es2015"
+    "target": "es2015",
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "formatCodeOptions": {
     "indentSize": 2,
