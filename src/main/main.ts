@@ -1,13 +1,17 @@
 import {
   app,
+  autoUpdater,
   BrowserWindow,
+  dialog,
   ipcMain,
   Menu,
   MenuItemConstructorOptions,
   screen,
   Tray,
 } from 'electron'
-import * as Store from 'electron-store'
+import isDev from 'electron-is-dev'
+import Store from 'electron-store'
+import pkg from '../../package.json'
 import { activities, ActivityName } from '../config/activities'
 import {
   ACTIVITIES_SET,
@@ -18,18 +22,13 @@ import {
   LOG,
   MOUSE_THROUGH_DISABLE,
   MOUSE_THROUGH_ENABLE,
+  OPT_TOGGLE,
   URL_RECEIVED,
   WINDOW_BLUR,
-  OPT_TOGGLE,
 } from '../config/events'
 import { copyToClipboard } from '../utils/copyToClipboard'
 import { getInstalledActivities } from '../utils/getInstalledActivities'
 import { runCommand } from '../utils/runCommand'
-
-// Auto update
-require('update-electron-app')({
-  repo: 'will-stone/browserosaurus',
-})
 
 // Start store and set activities if first run
 const store = new Store()
@@ -39,6 +38,51 @@ let appReady: boolean // if started via clicking link
 let tray = null // prevents garbage collection
 let pickerWindow: BrowserWindow // Prevents garbage collection
 let isOptHeld = false
+
+function initUpdater() {
+  const feedURL = `https://update.electronjs.org/will-stone/browserosaurus/darwin-x64/${app.getVersion()}`
+
+  const requestHeaders = {
+    'User-Agent': `${pkg.name}/${pkg.version} (darwin: x64)`,
+  }
+
+  autoUpdater.setFeedURL({ url: feedURL, headers: requestHeaders })
+
+  autoUpdater.on('checking-for-update', () => {})
+
+  autoUpdater.on('update-available', () => {})
+
+  autoUpdater.on('update-not-available', () => {})
+
+  autoUpdater.on('update-downloaded', (_, __, releaseName) => {
+    const dialogOpts = {
+      type: 'info',
+      buttons: ['Restart', 'Later'],
+      title: 'Application Update',
+      message: releaseName,
+      detail:
+        'A new version has been downloaded. Restart the application to apply the updates.',
+    }
+
+    dialog.showMessageBox(dialogOpts, response => {
+      if (response === 0) {
+        autoUpdater.quitAndInstall()
+      }
+    })
+  })
+
+  autoUpdater.on('before-quit-for-update', () => {
+    // All windows must be closed before an update can be applied using "restart".
+    pickerWindow.destroy()
+  })
+
+  // check for updates right away and keep checking later
+  const TEN_MINS = 600000
+  autoUpdater.checkForUpdates()
+  setInterval(() => {
+    autoUpdater.checkForUpdates()
+  }, TEN_MINS)
+}
 
 const createPickerWindow = () =>
   new Promise((resolve, reject) => {
@@ -215,6 +259,11 @@ app.on('ready', async () => {
     // if Browserosaurus was opened with a link, this will now be sent on to the picker window.
     urlRecevied(urlToOpen)
   }
+
+  if (!isDev) {
+    initUpdater()
+  }
+
   appReady = true
 })
 
