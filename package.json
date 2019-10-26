@@ -1,7 +1,7 @@
 {
   "name": "browserosaurus",
   "productName": "Browserosaurus",
-  "version": "6.5.0",
+  "version": "6.5.2",
   "engines": {
     "node": ">=10.4.1"
   },
@@ -15,7 +15,7 @@
     "test:watch": "jest --watch",
     "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx",
     "typecheck": "tsc --noEmit --skipLibCheck",
-    "package": "export $(cat .env | xargs) && electron-forge package --platform=darwin --arch=x64",
+    "package": "electron-forge package --platform=darwin --arch=x64",
     "notarize": "export $(cat .env | xargs) && ts-node ./scripts/notarize.ts",
     "make": "electron-forge make --skip-package",
     "icns": "cd ./src/images/icon && ./scripts/png2icns.sh icon.png",
