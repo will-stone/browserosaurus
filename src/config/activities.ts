@@ -149,14 +149,12 @@ export const activities: Activities = {
     name: 'Microsoft Edge Canary',
     appId: 'com.microsoft.edgemac.Canary',
     cmd: 'open "{URL}" -b com.microsoft.edgemac.Canary',
-    hotKey: 'e',
     logo: edgeCanary,
   },
   'Microsoft Edge Dev': {
     name: 'Microsoft Edge Dev',
     appId: 'com.microsoft.edgemac.Dev',
     cmd: 'open "{URL}" -b com.microsoft.edgemac.Dev',
-    hotKey: 'e',
     logo: edgeDev,
   },
   Min: {
