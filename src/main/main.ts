@@ -126,6 +126,7 @@ ipcMain.on(ACTIVITY_RUN, (_: Event, name: ActivityName) => {
 
 ipcMain.on(COPY_TO_CLIPBOARD, () => {
   urlToOpen && copyToClipboard(urlToOpen)
+  pickerWindow.webContents.send(WINDOW_BLUR)
 })
 
 ipcMain.on(CLOSE_WINDOW, () => {

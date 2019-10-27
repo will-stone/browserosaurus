@@ -58,7 +58,6 @@ const reducer = produce((state: State, action: Actions) => {
     case AClickBluebar.TYPE:
       state.isVisible = false
       ipcRenderer.send(COPY_TO_CLIPBOARD)
-      setTimeout(() => ipcRenderer.send(CLOSE_WINDOW), 200)
       return
     case AEscapeKey.TYPE:
     case ABlurWindow.TYPE:

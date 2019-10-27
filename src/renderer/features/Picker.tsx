@@ -9,6 +9,7 @@ import { Div } from '../atoms/Div'
 import { useActivities } from '../hooks/useActivities'
 import { activities } from '../../config/activities'
 import { useOpt } from '../hooks/useOpt'
+import { CopyToClipboardButton } from './CopyToClipboardButton'
 
 const rowsAndCols = (num: number) => {
   const sqrt = Math.sqrt(num)
@@ -101,20 +102,7 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
             </ActivityButton>
           )
         })}
-        <div
-          style={{
-            width: '100%',
-            height: '40px',
-            transform: pickerWindowInnerTransform,
-            position: 'relative',
-            color: 'white',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          Copy to Clipboard <ActivityKey>SPACE</ActivityKey>
-        </div>
+        <CopyToClipboardButton transform={pickerWindowInnerTransform} />
       </Div>
     </Card>
   )

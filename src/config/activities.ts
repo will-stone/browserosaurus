@@ -19,7 +19,6 @@ import safari from '@browser-logos/safari/safari_256x256.png'
 import tor from '@browser-logos/tor/tor_256x256.png'
 import vivaldi from '@browser-logos/vivaldi/vivaldi.svg'
 import yandex from '@browser-logos/yandex/yandex_256x256.png'
-import copyToClipboard from './copy-to-clipboard.png'
 import min from './min_256x256.png'
 import polypane from './polypane_256x256.png'
 
@@ -57,7 +56,6 @@ export const activityNames = [
   'Tor Browser',
   'Vivaldi',
   'Yandex',
-  'Copy To Clipboard',
 ] as const
 
 export type ActivityName = typeof activityNames[number]
@@ -220,11 +218,5 @@ export const activities: Activities = {
     cmd: 'open "{URL}" -b ru.yandex.desktop.yandex-browser',
     hotKey: 'y',
     logo: yandex,
-  },
-  'Copy To Clipboard': {
-    name: 'Copy To Clipboard',
-    cmd: 'echo "{URL}" | tr -d \'\n\' | pbcopy',
-    hotKey: 'space',
-    logo: copyToClipboard,
   },
 }

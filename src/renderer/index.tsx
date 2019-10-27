@@ -13,6 +13,15 @@ const GlobalStyle = createGlobalStyle`
     background-color: transparent;
     margin: 0;
     overflow: hidden;
+    font-family: 
+      -apple-system,
+      system-ui,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Roboto,
+      'Helvetica Neue',
+      Arial,
+      sans-serif;
   }
 
   html,

@@ -13,8 +13,6 @@ export const Topbar = styled.div<Props>`
   background-color: #0080ff;
   box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
   color: white;
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, sans-serif;
   font-size: 20px;
   line-height: 1.5;
   text-align: center;
