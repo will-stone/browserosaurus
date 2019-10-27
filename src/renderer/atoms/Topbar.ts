@@ -21,7 +21,6 @@ export const Topbar = styled.div<Props>`
   height: 40px;
   width: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
   padding: 0 20px;
   cursor: copy;
