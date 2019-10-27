@@ -2,7 +2,6 @@ import {
   app,
   autoUpdater,
   BrowserWindow,
-  dialog,
   ipcMain,
   Menu,
   MenuItemConstructorOptions,
