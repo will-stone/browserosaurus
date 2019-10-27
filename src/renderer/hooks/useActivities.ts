@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react'
 import { activities, ActivityName } from '../../config/activities'
 import { ACTIVITIES_SET, ACTIVITY_RUN, FAV_SET } from '../../config/events'
 
-export const useActivities = (): [ActivityName[], ActivityName | undefined] => {
+export const useActivities = (): ActivityName[] => {
   const [activityNames, setActivityNames] = useState<ActivityName[]>([])
-  const [favName, setFavName] = useState<ActivityName>()
+  const [favName, setFavName] = useState<ActivityName>('Safari')
 
   useEffect(() => {
     ipcRenderer.on(FAV_SET, (_: unknown, name: ActivityName) => {
@@ -51,5 +51,5 @@ export const useActivities = (): [ActivityName[], ActivityName | undefined] => {
     }
   }, [])
 
-  return [activityNames.filter(name => name !== favName), favName]
+  return [favName, ...activityNames.filter(name => name !== favName)]
 }

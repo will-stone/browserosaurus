@@ -10,6 +10,14 @@ import { useActivities } from '../hooks/useActivities'
 import { activities } from '../../config/activities'
 import { useOpt } from '../hooks/useOpt'
 
+const rowsAndCols = (num: number) => {
+  const sqrt = Math.sqrt(num)
+  const ceil = Math.ceil(sqrt)
+  const floor = Math.floor(sqrt)
+  const ceilByFloor = ceil * floor
+  return ceilByFloor < num ? [ceil, ceil] : [floor, ceil]
+}
+
 interface Props {
   x: number
   y: number
@@ -17,16 +25,14 @@ interface Props {
 }
 
 export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
-  const [activityNames, favName] = useActivities()
+  const activityNames = useActivities()
   const isOptHeld = useOpt()
 
-  const numOfNonFavActs = activityNames.length
-  const fAdjust = favName ? 1 : 0
+  const [rows, cols] = rowsAndCols(activityNames.length)
 
-  const width = 200 * fAdjust + Math.min(numOfNonFavActs, 3 - fAdjust) * 100
+  const width = cols * 100
 
-  const height =
-    200 * fAdjust + (Math.ceil(numOfNonFavActs / (3 + fAdjust)) - fAdjust) * 100
+  const height = rows * 100 + 40
 
   const [isAtRight, isAtBottom] = [
     x > window.innerWidth - width,
@@ -68,28 +74,15 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
         width="100%"
         transform={pickerWindowInnerTransform}
       >
-        {favName && (
-          <ActivityButton
-            onClick={e => {
-              e.stopPropagation()
-              if ((isOptHeld && activities[favName].optCmd) || !isOptHeld) {
-                ipcRenderer.send(ACTIVITY_RUN, favName)
-              }
-            }}
-            size={200}
-            float={activityFloat}
-            transform={activityTransform}
-            opacity={isOptHeld && !activities[favName].optCmd ? 0.5 : 1}
-          >
-            <ActivityImg src={activities[favName].logo} alt={favName} />
-            <ActivityKey>
-              {activities[favName].hotKey && activities[favName].hotKey + ' / '}
-              enter
-            </ActivityKey>
-          </ActivityButton>
-        )}
-        {activityNames.map(name => {
+        {activityNames.map((name, i) => {
           const act = activities[name]
+          const isFav = i === 0
+          const actKey =
+            isFav && act.hotKey
+              ? `${act.hotKey} / enter`
+              : isFav
+              ? 'enter'
+              : act.hotKey || undefined
           return (
             <ActivityButton
               key={name}
@@ -104,10 +97,24 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
               opacity={isOptHeld && !act.optCmd ? 0.5 : 1}
             >
               <ActivityImg src={act.logo} alt={name} />
-              {act.hotKey && <ActivityKey>{act.hotKey}</ActivityKey>}
+              {actKey && <ActivityKey>{actKey}</ActivityKey>}
             </ActivityButton>
           )
         })}
+        <div
+          style={{
+            width: '100%',
+            height: '40px',
+            transform: pickerWindowInnerTransform,
+            position: 'relative',
+            color: 'white',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          Copy to Clipboard <ActivityKey>SPACE</ActivityKey>
+        </div>
       </Div>
     </Card>
   )
