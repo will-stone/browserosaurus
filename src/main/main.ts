@@ -28,6 +28,20 @@ import {
 import { copyToClipboard } from '../utils/copyToClipboard'
 import { getInstalledActivities } from '../utils/getInstalledActivities'
 import { runCommand } from '../utils/runCommand'
+import fs from 'fs'
+import os from 'os'
+
+// Config file
+const dotBrowserosaurus: { ignored: string[] } = { ignored: [] }
+try {
+  const homedir = os.homedir()
+  const file = fs.readFileSync(`${homedir}/.browserosaurus.json`, 'utf8')
+  dotBrowserosaurus.ignored = JSON.parse(file).ignored
+} catch (err) {
+  if (err.code !== 'ENOENT') {
+    throw err
+  }
+}
 
 // Start store and set activities if first run
 const store = new Store()
@@ -178,7 +192,9 @@ app.on('ready', async () => {
 
   await createPickerWindow()
 
-  const actNames = await getInstalledActivities()
+  const actNames = (await getInstalledActivities()).filter(
+    a => !dotBrowserosaurus.ignored.includes(a),
+  )
 
   // update fav-chooser with activity list
   contextMenu[0].submenu = Menu.buildFromTemplate([
