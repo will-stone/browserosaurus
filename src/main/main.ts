@@ -163,7 +163,7 @@ app.on('ready', async () => {
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
 
-  const fav = store.get('fav')
+  const fav = store.get('fav') || 'Safari'
 
   tray = new Tray(`${__dirname}/static/icon/tray_iconTemplate.png`)
   tray.setPressedImage(`${__dirname}/static/icon/tray_iconHighlight.png`)
@@ -198,15 +198,6 @@ app.on('ready', async () => {
 
   // update fav-chooser with activity list
   contextMenu[0].submenu = Menu.buildFromTemplate([
-    {
-      checked: fav === null,
-      label: 'No Favourite',
-      type: 'radio',
-      click: () => {
-        store.set('fav', null)
-        pickerWindow.webContents.send(FAV_SET, null)
-      },
-    },
     ...(actNames.map(actName => ({
       checked: actName === fav,
       label: actName,
