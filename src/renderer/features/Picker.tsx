@@ -80,9 +80,9 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
           const isFav = i === 0
           const actKey =
             isFav && act.hotKey
-              ? `${act.hotKey} / enter`
+              ? `${act.hotKey} / space`
               : isFav
-              ? 'enter'
+              ? 'space'
               : act.hotKey || undefined
           return (
             <ActivityButton

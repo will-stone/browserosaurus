@@ -9,7 +9,7 @@ interface Props {
 
 export const CopyToClipboardButton: React.FC<Props> = ({ transform }) => {
   React.useEffect(() => {
-    mousetrap.bind(['space'], e => {
+    mousetrap.bind(['command+c'], e => {
       e.preventDefault()
       ipcRenderer.send(COPY_TO_CLIPBOARD)
     })
@@ -31,7 +31,18 @@ export const CopyToClipboardButton: React.FC<Props> = ({ transform }) => {
       }}
       onClick={() => ipcRenderer.send(COPY_TO_CLIPBOARD)}
     >
-      Press SPACE to copy to clipboard
+      Copy to Clipboard{' '}
+      <span
+        style={{
+          padding: '1px 5px',
+          fontSize: '11px',
+          borderRadius: '5px',
+          textTransform: 'uppercase',
+          backgroundColor: '#0b0b0b',
+        }}
+      >
+        ⌘+C
+      </span>
     </div>
   )
 }
