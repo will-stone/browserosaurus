@@ -12,6 +12,9 @@ import { useOpt } from '../hooks/useOpt'
 import { CopyToClipboardButton } from './CopyToClipboardButton'
 
 const rowsAndCols = (num: number) => {
+  if (num <= 5) {
+    return [1, num]
+  }
   const sqrt = Math.sqrt(num)
   const ceil = Math.ceil(sqrt)
   const floor = Math.floor(sqrt)
@@ -33,7 +36,7 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
 
   const width = cols * 100
 
-  const height = rows * 100 + 40
+  const height = rows * 100 + 50
 
   const [isAtRight, isAtBottom] = [
     x > window.innerWidth - width,
