@@ -1,3 +1,5 @@
+import './CopyToClipboardButton.css'
+
 import { ipcRenderer } from 'electron'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
@@ -17,21 +19,11 @@ export const CopyToClipboardButton: React.FC<Props> = ({ transform }) => {
 
   return (
     <div
-      style={{
-        width: '100%',
-        height: '40px',
-        transform,
-        position: 'relative',
-        color: 'white',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#0e0e0e',
-        opacity: 0.4,
-      }}
+      className="CopyToClipboardButton"
+      style={{ transform }}
       onClick={() => ipcRenderer.send(COPY_TO_CLIPBOARD)}
     >
-      Copy to Clipboard{' '}
+      <span style={{ marginBottom: '4px' }}>Copy to Clipboard</span>
       <span
         style={{
           padding: '1px 5px',
