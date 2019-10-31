@@ -107,6 +107,7 @@
     "husky": "^3.0.9",
     "jest": "^24.8.0",
     "jest-dom": "^3.4.0",
+    "mini-css-extract-plugin": "^0.8.0",
     "node-loader": "^0.6.0",
     "prettier": "^1.18.2",
     "prettier-plugin-package": "^0.3.1",

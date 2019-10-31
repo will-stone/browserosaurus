@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
 module.exports = [
   {
     test: /\.(js|jsx|ts|tsx)$/,
@@ -23,7 +26,7 @@ module.exports = [
     use: 'url-loader',
   },
   {
-    test: /\.css$/i,
-    use: ['style-loader', 'css-loader'],
+    test: /\.css$/,
+    use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader'],
   },
 ]
