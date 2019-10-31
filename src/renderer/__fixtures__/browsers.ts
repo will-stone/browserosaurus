@@ -1,15 +1,15 @@
-import { ActivityName } from '../../config/activities'
+import { BrowserName } from '../../config/browsers'
 
-export const activities2: ActivityName[] = ['Firefox', 'Safari']
+export const browsers2: BrowserName[] = ['Firefox', 'Safari']
 
-export const activities4: ActivityName[] = [
+export const browsers4: BrowserName[] = [
   'Firefox',
   'Safari',
   'Google Chrome',
   'Opera',
 ]
 
-export const activities5: ActivityName[] = [
+export const browsers5: BrowserName[] = [
   'Brave Dev',
   'Brave',
   'Chromium',
@@ -17,7 +17,7 @@ export const activities5: ActivityName[] = [
   'Safari',
 ]
 
-export const activities7: ActivityName[] = [
+export const browsers7: BrowserName[] = [
   'Brave Dev',
   'Brave',
   'Chromium',
@@ -27,7 +27,7 @@ export const activities7: ActivityName[] = [
   'Opera',
 ]
 
-export const activities9: ActivityName[] = [
+export const browsers9: BrowserName[] = [
   'Brave Dev',
   'Brave',
   'Chromium',

@@ -4,9 +4,9 @@ import cc from 'classcat'
 import { ipcRenderer } from 'electron'
 import * as React from 'react'
 
-import { activities } from '../../config/activities'
-import { ACTIVITY_RUN } from '../../config/events'
-import { useActivities } from '../hooks/useActivities'
+import { browsers } from '../../config/browsers'
+import { BROWSER_RUN } from '../../config/events'
+import { useBrowsers } from '../hooks/useBrowsers'
 import { useOpt } from '../hooks/useOpt'
 import { CopyToClipboardButton } from './CopyToClipboardButton'
 
@@ -28,10 +28,10 @@ interface Props {
 }
 
 export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
-  const activityNames = useActivities()
+  const browserNames = useBrowsers()
   const isOptHeld = useOpt()
 
-  const [rows, cols] = numberOfRowsAndCols(activityNames.length)
+  const [rows, cols] = numberOfRowsAndCols(browserNames.length)
 
   // Picker dimensions
   const width = cols * 100
@@ -61,7 +61,7 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
     (isAtRight && isAtBottom) || isAtBottom ? 'rotate(180deg)' : 'rotate(0deg)'
 
   // X-orientation
-  const activityFloat =
+  const browserFloat =
     (isAtRight && !isAtBottom) || (isAtBottom && !isAtRight) ? 'right' : 'left'
 
   return (
@@ -71,36 +71,42 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
       data-testid="picker-window"
     >
       <div className="Picker__inner" style={{ transform: rotateAll }}>
-        {activityNames.map((name, i) => {
-          const act = activities[name]
+        {browserNames.map((name, i) => {
+          const browser = browsers[name]
           const isFav = i === 0
-          const actKey =
-            isFav && act.hotKey
-              ? `${act.hotKey} / space`
+          const browserKey =
+            isFav && browser.hotKey
+              ? `${browser.hotKey} / space`
               : isFav
               ? 'space'
-              : act.hotKey || undefined
+              : browser.hotKey || undefined
           return (
             <button
               key={name}
               className={cc([
                 'Picker__browser-btn',
-                { 'Picker__browser-btn--no-opt': isOptHeld && !act.optCmd },
+                { 'Picker__browser-btn--no-opt': isOptHeld && !browser.optCmd },
               ])}
               role="button"
               onClick={e => {
                 e.stopPropagation()
-                if ((isOptHeld && act.optCmd) || !isOptHeld) {
-                  ipcRenderer.send(ACTIVITY_RUN, name)
+                if ((isOptHeld && browser.optCmd) || !isOptHeld) {
+                  ipcRenderer.send(BROWSER_RUN, name)
                 }
               }}
               style={{
-                float: activityFloat,
+                float: browserFloat,
                 transform: rotateOffset,
               }}
             >
-              <img className="Picker__browser-img" src={act.logo} alt={name} />
-              {actKey && <div className="Picker__browser-key">{actKey}</div>}
+              <img
+                className="Picker__browser-img"
+                src={browser.logo}
+                alt={name}
+              />
+              {browserKey && (
+                <div className="Picker__browser-key">{browserKey}</div>
+              )}
             </button>
           )
         })}

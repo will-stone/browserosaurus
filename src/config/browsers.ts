@@ -23,7 +23,7 @@ import yandex from '@browser-logos/yandex/yandex_256x256.png'
 import min from './min_256x256.png'
 import polypane from './polypane_256x256.png'
 
-export interface Activity<Name = ActivityName> {
+export interface Browser<Name = BrowserName> {
   name: Name
   appId?: string
   hotKey?: string
@@ -33,7 +33,7 @@ export interface Activity<Name = ActivityName> {
   logo: string
 }
 
-export const activityNames = [
+export const browserNames = [
   'Brave',
   'Brave Beta',
   'Brave Dev',
@@ -59,11 +59,11 @@ export const activityNames = [
   'Yandex',
 ] as const
 
-export type ActivityName = typeof activityNames[number]
+export type BrowserName = typeof browserNames[number]
 
-export type Activities = { [key in ActivityName]: Activity<key> }
+export type Browsers = { [key in BrowserName]: Browser<key> }
 
-export const activities: Activities = {
+export const browsers: Browsers = {
   Brave: {
     name: 'Brave',
     appId: 'com.brave.Browser',

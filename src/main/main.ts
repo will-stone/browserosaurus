@@ -14,10 +14,10 @@ import fs from 'fs'
 import os from 'os'
 
 import pkg from '../../package.json'
-import { activities, ActivityName } from '../config/activities'
+import { BrowserName, browsers } from '../config/browsers'
 import {
-  ACTIVITIES_SET,
-  ACTIVITY_RUN,
+  BROWSER_RUN,
+  BROWSERS_SET,
   CLOSE_WINDOW,
   COPY_TO_CLIPBOARD,
   FAV_SET,
@@ -29,7 +29,7 @@ import {
   WINDOW_BLUR,
 } from '../config/events'
 import { copyToClipboard } from '../utils/copyToClipboard'
-import { getInstalledActivities } from '../utils/getInstalledActivities'
+import { getInstalledBrowsers } from '../utils/getInstalledBrowsers'
 import { runCommand } from '../utils/runCommand'
 
 // Config file
@@ -44,7 +44,7 @@ try {
   }
 }
 
-// Start store and set activities if first run
+// Start store and set browsers if first run
 const store = new Store()
 
 let urlToOpen: string | undefined // if started via clicking link
@@ -113,13 +113,13 @@ const urlRecevied = (url: string) => {
   pickerWindow.show()
 }
 
-ipcMain.on(ACTIVITY_RUN, (_: Event, name: ActivityName) => {
-  const activity = activities[name]
+ipcMain.on(BROWSER_RUN, (_: Event, name: BrowserName) => {
+  const browser = browsers[name]
   if (urlToOpen) {
-    if (isOptHeld && activity.optCmd) {
-      runCommand(activity.optCmd.replace('{URL}', urlToOpen))
+    if (isOptHeld && browser.optCmd) {
+      runCommand(browser.optCmd.replace('{URL}', urlToOpen))
     } else {
-      runCommand(activity.cmd.replace('{URL}', urlToOpen))
+      runCommand(browser.cmd.replace('{URL}', urlToOpen))
     }
   }
   pickerWindow.webContents.send(WINDOW_BLUR)
@@ -204,19 +204,19 @@ app.on('ready', async () => {
 
   await createPickerWindow()
 
-  const actNames = (await getInstalledActivities()).filter(
+  const browserNames = (await getInstalledBrowsers()).filter(
     a => !dotBrowserosaurus.ignored.includes(a),
   )
 
-  // update fav-chooser with activity list
+  // update fav-chooser with browser list
   contextMenu[0].submenu = Menu.buildFromTemplate([
-    ...(actNames.map(actName => ({
-      checked: actName === fav,
-      label: actName,
+    ...(browserNames.map(browserName => ({
+      checked: browserName === fav,
+      label: browserName,
       type: 'radio',
       click: () => {
-        store.set('fav', actName)
-        pickerWindow.webContents.send(FAV_SET, actName)
+        store.set('fav', browserName)
+        pickerWindow.webContents.send(FAV_SET, browserName)
       },
     })) as MenuItemConstructorOptions[]),
   ])
@@ -224,8 +224,8 @@ app.on('ready', async () => {
   // reapply tray menu
   tray.setContextMenu(Menu.buildFromTemplate(contextMenu))
 
-  // Send activities and fav down to picker
-  pickerWindow.webContents.send(ACTIVITIES_SET, actNames)
+  // Send browsers and fav down to picker
+  pickerWindow.webContents.send(BROWSERS_SET, browserNames)
   pickerWindow.webContents.send(FAV_SET, fav)
 
   if (urlToOpen) {

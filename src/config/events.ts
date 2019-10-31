@@ -1,5 +1,5 @@
-export const ACTIVITIES_SET = 'ACTIVITIES_SET'
-export const ACTIVITY_RUN = 'ACTIVITY_RUN'
+export const BROWSERS_SET = 'BROWSERS_SET'
+export const BROWSER_RUN = 'BROWSER_RUN'
 export const CLOSE_WINDOW = 'CLOSE_WINDOW'
 export const COPY_TO_CLIPBOARD = 'COPY_TO_CLIPBOARD'
 export const FAV_SET = 'FAV_SET'
