@@ -122,7 +122,7 @@ describe('App', () => {
       })
       expect(getByTestId('picker-window')).toHaveStyle(`
           width: 200px;
-          height: 140px;
+          height: 150px;
         `)
     })
 
@@ -133,8 +133,8 @@ describe('App', () => {
         win.webContents.send(BROWSERS_SET, browsers4)
       })
       expect(getByTestId('picker-window')).toHaveStyle(`
-          width: 200px;
-          height: 240px;
+          width: 400px;
+          height: 150px;
         `)
     })
 
@@ -146,7 +146,7 @@ describe('App', () => {
       })
       expect(getByTestId('picker-window')).toHaveStyle(`
           width: 300px;
-          height: 240px;
+          height: 250px;
         `)
     })
 
@@ -158,7 +158,7 @@ describe('App', () => {
       })
       expect(getByTestId('picker-window')).toHaveStyle(`
           width: 300px;
-          height: 340px;
+          height: 350px;
         `)
     })
 
@@ -170,7 +170,7 @@ describe('App', () => {
       })
       expect(getByTestId('picker-window')).toHaveStyle(`
           width: 300px;
-          height: 340px;
+          height: 350px;
         `)
     })
   })
