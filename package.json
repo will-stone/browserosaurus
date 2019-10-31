@@ -102,6 +102,7 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.13.0",
     "eslint-plugin-react-hooks": "^1.6.0",
+    "eslint-plugin-simple-import-sort": "^4.0.0",
     "http-server": "^0.11.1",
     "husky": "^3.0.9",
     "jest": "^24.8.0",

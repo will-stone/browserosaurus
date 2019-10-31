@@ -1,3 +1,5 @@
+import './Picker.css'
+
 import { ipcRenderer } from 'electron'
 import * as React from 'react'
 import { ACTIVITY_RUN } from '../../config/events'
@@ -12,7 +14,7 @@ import { useOpt } from '../hooks/useOpt'
 import { CopyToClipboardButton } from './CopyToClipboardButton'
 
 const rowsAndCols = (num: number) => {
-  if (num <= 5) {
+  if (num <= 4) {
     return [1, num]
   }
   const sqrt = Math.sqrt(num)
