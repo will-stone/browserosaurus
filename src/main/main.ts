@@ -261,6 +261,11 @@ app.on('ready', async () => {
       pickerWindow.destroy()
     })
 
+    autoUpdater.on('error', err => {
+      // eslint-disable-next-line no-console
+      console.log('updater error', err)
+    })
+
     // check for updates right away and keep checking later
     const TEN_MINS = 600000
     autoUpdater.checkForUpdates()
