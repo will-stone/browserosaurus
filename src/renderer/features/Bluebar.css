@@ -1,11 +1,4 @@
-import styled from 'styled-components'
-import { opacity, OpacityProps } from 'styled-system'
-
-interface Props extends OpacityProps {
-  transform?: string
-}
-
-export const Topbar = styled.div<Props>`
+.Bluebar {
   position: absolute;
   top: 0;
   left: 0;
@@ -22,11 +15,32 @@ export const Topbar = styled.div<Props>`
   align-items: center;
   padding: 0 20px;
   cursor: copy;
-
   will-change: transform, opacity;
-  transform: ${props => props.transform || 'none'};
+  transform: none;
   transform-origin: center top;
   transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
+}
 
-  ${opacity}
-`
+.Bluebar__url {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.Bluebar__protocol {
+  opacity: 0.7;
+}
+
+.Bluebar__protocolIcon{
+  height: 14px;
+  margin-right: 10px;
+}
+
+.Bluebar__hostname {
+  font-weight: bold;
+}
+
+.Bluebar__urlPart {
+  opacity: 0.7;
+}

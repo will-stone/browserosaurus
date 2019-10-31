@@ -1,3 +1,5 @@
+import './App.css'
+
 import a from '@artossystems/a'
 import { ipcRenderer } from 'electron'
 import produce from 'immer'
@@ -11,7 +13,6 @@ import {
   MOUSE_THROUGH_ENABLE,
   WINDOW_BLUR,
 } from '../config/events'
-import { Window } from './atoms/Window'
 import { Bluebar } from './features/Bluebar'
 import { Picker } from './features/Picker'
 
@@ -57,7 +58,6 @@ const initialState: State = {
 const reducer = produce((state: State, action: Actions) => {
   switch (action.type) {
     case AClickBluebar.TYPE:
-      state.isVisible = false
       ipcRenderer.send(COPY_TO_CLIPBOARD)
       return
     case AEscapeKey.TYPE:
@@ -130,7 +130,8 @@ const App: React.FC = () => {
   }, [state.mouseTarget])
 
   return (
-    <Window
+    <div
+      className="App"
       onClick={e => {
         e.preventDefault()
         dispatch(AClickWindow())
@@ -147,7 +148,7 @@ const App: React.FC = () => {
         }}
       />
       <Picker x={state.x} y={state.y} isVisible={state.isVisible} />
-    </Window>
+    </div>
   )
 }
 
