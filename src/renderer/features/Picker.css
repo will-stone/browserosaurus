@@ -1,0 +1,62 @@
+.Picker {
+  position: absolute;
+  background-color: #232323;
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
+  border-radius: 5px;
+  overflow: hidden;
+  will-change: transform, opacity;
+  transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
+  transform: scale(0);
+  opacity: 0;
+}
+
+.Picker__inner {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.Picker__browser-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  text-align: center;
+  position: relative;
+  cursor: default;
+  color: white;
+  transition: opacity 200ms ease-in-out;
+  height: 100px;
+  width: 100px;
+  opacity: 0.8;
+}
+
+.Picker__browser-btn:hover {
+  background-color: #0080ff;
+}
+
+.Picker__browser-btn:focus {
+  outline: none;
+}
+
+.Picker__browser-img {
+  display: block;
+  width: 60%;
+  margin-bottom: 5px;
+}
+
+.Picker__browser-key {
+  background-color: #0e0e0e;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 400;
+  padding: 1px 5px;
+  opacity: 0.4;
+  border-radius: 5px;
+  text-transform: uppercase;
+  position: absolute;
+  bottom: 8px;
+}

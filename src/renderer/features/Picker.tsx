@@ -5,16 +5,11 @@ import * as React from 'react'
 
 import { activities } from '../../config/activities'
 import { ACTIVITY_RUN } from '../../config/events'
-import { ActivityButton } from '../atoms/ActivityButton'
-import { ActivityImg } from '../atoms/ActivityImg'
-import { ActivityKey } from '../atoms/ActivityKey'
-import { Card } from '../atoms/Card'
-import { Div } from '../atoms/Div'
 import { useActivities } from '../hooks/useActivities'
 import { useOpt } from '../hooks/useOpt'
 import { CopyToClipboardButton } from './CopyToClipboardButton'
 
-const rowsAndCols = (num: number) => {
+const numberOfRowsAndCols = (num: number) => {
   if (num <= 4) {
     return [1, num]
   }
@@ -35,52 +30,46 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
   const activityNames = useActivities()
   const isOptHeld = useOpt()
 
-  const [rows, cols] = rowsAndCols(activityNames.length)
+  const [rows, cols] = numberOfRowsAndCols(activityNames.length)
 
+  // Picker dimensions
   const width = cols * 100
-
   const height = rows * 100 + 50
 
+  // Picker releative-to-mouse placement
   const [isAtRight, isAtBottom] = [
     x > window.innerWidth - width,
     y > window.innerHeight - height,
   ]
 
+  // Picker's inline styles
   const [left, top] = [
     isAtRight ? x - width - 1 : x + 1,
     isAtBottom ? y - height : y,
   ]
-
   const transformOrigin = `${isAtRight ? 'right' : 'left'} ${
     isAtBottom ? 'bottom' : 'top'
   }`
+  const opacity = isVisible ? 1 : 0
+  const transform = `scale(${isVisible ? 1 : 0})`
 
-  const pickerWindowInnerTransform =
+  // Y-Orientation
+  const rotateAll =
+    (isAtRight && isAtBottom) || isAtBottom ? 'rotate(180deg)' : 'rotate(0deg)'
+  const rotateOffset =
     (isAtRight && isAtBottom) || isAtBottom ? 'rotate(180deg)' : 'rotate(0deg)'
 
+  // X-orientation
   const activityFloat =
     (isAtRight && !isAtBottom) || (isAtBottom && !isAtRight) ? 'right' : 'left'
 
-  const activityTransform =
-    (isAtRight && isAtBottom) || isAtBottom ? 'rotate(180deg)' : 'rotate(0deg)'
-
   return (
-    <Card
-      top={top}
-      left={left}
-      width={width}
-      height={height}
-      transformOrigin={transformOrigin}
-      transform={`scale(${isVisible ? 1 : 0})`}
-      opacity={isVisible ? 1 : 0}
+    <div
+      className="Picker"
+      style={{ top, left, width, height, transformOrigin, transform, opacity }}
       data-testid="picker-window"
     >
-      <Div
-        position="relative"
-        height="100%"
-        width="100%"
-        transform={pickerWindowInnerTransform}
-      >
+      <div className="Picker__inner" style={{ transform: rotateAll }}>
         {activityNames.map((name, i) => {
           const act = activities[name]
           const isFav = i === 0
@@ -91,25 +80,29 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
               ? 'space'
               : act.hotKey || undefined
           return (
-            <ActivityButton
+            <button
               key={name}
+              className="Picker__browser-btn"
+              role="button"
               onClick={e => {
                 e.stopPropagation()
                 if ((isOptHeld && act.optCmd) || !isOptHeld) {
                   ipcRenderer.send(ACTIVITY_RUN, name)
                 }
               }}
-              float={activityFloat}
-              transform={activityTransform}
-              opacity={isOptHeld && !act.optCmd ? 0.5 : 1}
+              style={{
+                float: activityFloat,
+                transform: rotateOffset,
+                opacity: isOptHeld && !act.optCmd ? 0.5 : 1,
+              }}
             >
-              <ActivityImg src={act.logo} alt={name} />
-              {actKey && <ActivityKey>{actKey}</ActivityKey>}
-            </ActivityButton>
+              <img className="Picker__browser-img" src={act.logo} alt={name} />
+              {actKey && <div className="Picker__browser-key">{actKey}</div>}
+            </button>
           )
         })}
-        <CopyToClipboardButton transform={pickerWindowInnerTransform} />
-      </Div>
-    </Card>
+        <CopyToClipboardButton transform={rotateAll} />
+      </div>
+    </div>
   )
 }
