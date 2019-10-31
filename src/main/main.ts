@@ -148,10 +148,20 @@ ipcMain.on(OPT_TOGGLE, (_: Event, toggle: boolean) => {
  * Utility listener used for debugging.
  * Allows sending a string to the main process.
  */
-ipcMain.on(LOG, (_: Event, msg: string) => {
-  // eslint-disable-next-line no-console
-  console.log(msg)
-})
+ipcMain.on(
+  LOG,
+  (
+    _: Event,
+    {
+      errorName,
+      errorMessage,
+      errorInfo,
+    }: { errorName: string; errorMessage: string; errorInfo: object },
+  ) => {
+    // eslint-disable-next-line no-console
+    console.log(errorName, errorMessage, errorInfo)
+  },
+)
 
 ipcMain.on(MOUSE_THROUGH_ENABLE, () => {
   pickerWindow.setIgnoreMouseEvents(true, { forward: true })

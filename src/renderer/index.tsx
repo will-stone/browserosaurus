@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom'
 import { createGlobalStyle } from 'styled-components'
 
 import App from './App'
+import { ErrorBoundary } from './ErrorBoundary'
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -33,9 +34,9 @@ const GlobalStyle = createGlobalStyle`
 `
 
 ReactDOM.render(
-  <>
+  <ErrorBoundary>
     <GlobalStyle />
     <App />
-  </>,
+  </ErrorBoundary>,
   document.getElementById('picker-root'),
 )
