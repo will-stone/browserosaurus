@@ -1,5 +1,6 @@
 import './Picker.css'
 
+import cc from 'classcat'
 import { ipcRenderer } from 'electron'
 import * as React from 'react'
 
@@ -82,7 +83,10 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
           return (
             <button
               key={name}
-              className="Picker__browser-btn"
+              className={cc([
+                'Picker__browser-btn',
+                { 'Picker__browser-btn--no-opt': isOptHeld && !act.optCmd },
+              ])}
               role="button"
               onClick={e => {
                 e.stopPropagation()
@@ -93,7 +97,6 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
               style={{
                 float: activityFloat,
                 transform: rotateOffset,
-                opacity: isOptHeld && !act.optCmd ? 0.5 : 1,
               }}
             >
               <img className="Picker__browser-img" src={act.logo} alt={name} />

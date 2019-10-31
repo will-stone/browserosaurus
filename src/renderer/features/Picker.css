@@ -31,15 +31,19 @@
   transition: opacity 200ms ease-in-out;
   height: 100px;
   width: 100px;
-  opacity: 0.8;
+  opacity: 0.7;
 }
 
 .Picker__browser-btn:hover {
-  background-color: #0080ff;
+  opacity: 1;
 }
 
 .Picker__browser-btn:focus {
   outline: none;
+}
+
+.Picker__browser-btn--no-opt {
+  opacity: 0.3;
 }
 
 .Picker__browser-img {
