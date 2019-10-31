@@ -10,6 +10,9 @@ import {
 } from 'electron'
 import isDev from 'electron-is-dev'
 import Store from 'electron-store'
+import fs from 'fs'
+import os from 'os'
+
 import pkg from '../../package.json'
 import { activities, ActivityName } from '../config/activities'
 import {
@@ -28,8 +31,6 @@ import {
 import { copyToClipboard } from '../utils/copyToClipboard'
 import { getInstalledActivities } from '../utils/getInstalledActivities'
 import { runCommand } from '../utils/runCommand'
-import fs from 'fs'
-import os from 'os'
 
 // Config file
 const dotBrowserosaurus: { ignored: string[] } = { ignored: [] }

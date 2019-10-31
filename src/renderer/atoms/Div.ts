@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 import {
+  height,
+  HeightProps,
   position,
   PositionProps,
-  WidthProps,
-  HeightProps,
   width,
-  height,
+  WidthProps,
 } from 'styled-system'
 
 interface Props extends PositionProps, WidthProps, HeightProps {

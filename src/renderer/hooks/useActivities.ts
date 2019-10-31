@@ -1,6 +1,7 @@
 import { ipcRenderer } from 'electron'
 import * as mousetrap from 'mousetrap'
 import { useEffect, useState } from 'react'
+
 import { activities, ActivityName } from '../../config/activities'
 import { ACTIVITIES_SET, ACTIVITY_RUN, FAV_SET } from '../../config/events'
 

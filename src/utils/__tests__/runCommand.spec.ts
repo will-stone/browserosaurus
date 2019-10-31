@@ -1,5 +1,6 @@
-import { runCommand } from '../runCommand'
 import * as execa from 'execa'
+
+import { runCommand } from '../runCommand'
 
 jest.mock('execa')
 

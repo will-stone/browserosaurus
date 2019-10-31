@@ -1,6 +1,7 @@
 import { ipcRenderer } from 'electron'
 import { useEffect, useState } from 'react'
 import * as Url from 'url'
+
 import { URL_RECEIVED } from '../../config/events'
 
 export const useUrl = (): Url.UrlWithStringQuery => {

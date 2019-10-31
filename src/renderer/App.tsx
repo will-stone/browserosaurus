@@ -3,6 +3,7 @@ import { ipcRenderer } from 'electron'
 import produce from 'immer'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
+
 import {
   CLOSE_WINDOW,
   COPY_TO_CLIPBOARD,

@@ -3,6 +3,7 @@ import './CopyToClipboardButton.css'
 import { ipcRenderer } from 'electron'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
+
 import { COPY_TO_CLIPBOARD } from '../../config/events'
 
 interface Props {

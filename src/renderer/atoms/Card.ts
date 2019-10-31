@@ -4,12 +4,12 @@ import {
   HeightProps,
   left,
   LeftProps,
+  opacity,
+  OpacityProps,
   top,
   TopProps,
   width,
   WidthProps,
-  opacity,
-  OpacityProps,
 } from 'styled-system'
 
 interface Props

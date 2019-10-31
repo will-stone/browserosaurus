@@ -19,6 +19,7 @@ import safari from '@browser-logos/safari/safari_256x256.png'
 import tor from '@browser-logos/tor/tor_256x256.png'
 import vivaldi from '@browser-logos/vivaldi/vivaldi.svg'
 import yandex from '@browser-logos/yandex/yandex_256x256.png'
+
 import min from './min_256x256.png'
 import polypane from './polypane_256x256.png'
 

@@ -20,7 +20,13 @@ module.exports = {
     es6: true,
     'jest/globals': true, // Allows "it", "describe" etc.
   },
-  plugins: ['@typescript-eslint', 'react', 'jest', 'react-hooks'], // provides extra rules.
+  plugins: [
+    '@typescript-eslint',
+    'react',
+    'jest',
+    'react-hooks',
+    'simple-import-sort',
+  ], // provides extra rules.
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -37,5 +43,6 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     '@typescript-eslint/no-object-literal-type-assertion': 'off', // allows 'a' payloads
+    'simple-import-sort/sort': 'error',
   },
 }

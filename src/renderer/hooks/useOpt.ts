@@ -1,6 +1,7 @@
+import { ipcRenderer } from 'electron'
 import * as mousetrap from 'mousetrap'
 import { useEffect, useState } from 'react'
-import { ipcRenderer } from 'electron'
+
 import { OPT_TOGGLE, WINDOW_BLUR } from '../../config/events'
 
 export const useOpt = (): boolean => {

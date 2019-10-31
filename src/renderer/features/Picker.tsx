@@ -2,6 +2,8 @@ import './Picker.css'
 
 import { ipcRenderer } from 'electron'
 import * as React from 'react'
+
+import { activities } from '../../config/activities'
 import { ACTIVITY_RUN } from '../../config/events'
 import { ActivityButton } from '../atoms/ActivityButton'
 import { ActivityImg } from '../atoms/ActivityImg'
@@ -9,7 +11,6 @@ import { ActivityKey } from '../atoms/ActivityKey'
 import { Card } from '../atoms/Card'
 import { Div } from '../atoms/Div'
 import { useActivities } from '../hooks/useActivities'
-import { activities } from '../../config/activities'
 import { useOpt } from '../hooks/useOpt'
 import { CopyToClipboardButton } from './CopyToClipboardButton'
 

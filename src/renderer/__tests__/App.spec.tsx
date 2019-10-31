@@ -1,6 +1,14 @@
+import { act, fireEvent, render, wait, within } from '@testing-library/react'
 import * as electron from 'electron'
 import * as React from 'react'
-import { act, fireEvent, render, wait, within } from '@testing-library/react'
+
+import {
+  activities2,
+  activities4,
+  activities5,
+  activities7,
+  activities9,
+} from '../__fixtures__/activities'
 import {
   ACTIVITIES_SET,
   ACTIVITY_RUN,
@@ -10,13 +18,6 @@ import {
   URL_RECEIVED,
 } from '../../config/events'
 import App from '../App'
-import {
-  activities2,
-  activities4,
-  activities7,
-  activities9,
-  activities5,
-} from '../__fixtures__/activities'
 
 jest.mock('../../utils/copyToClipboard')
 

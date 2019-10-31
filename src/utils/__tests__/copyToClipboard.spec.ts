@@ -1,4 +1,5 @@
 import { spawn } from 'child_process'
+
 import { copyToClipboard } from '../copyToClipboard'
 
 jest.mock('child_process')

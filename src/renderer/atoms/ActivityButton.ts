@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { size, SizeProps, opacity, OpacityProps } from 'styled-system'
+import { opacity, OpacityProps, size, SizeProps } from 'styled-system'
 
 interface Props extends SizeProps, OpacityProps {
   float: string

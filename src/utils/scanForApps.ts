@@ -1,5 +1,5 @@
-import { promisify } from 'util'
 import { exec } from 'child_process'
+import { promisify } from 'util'
 
 const execP = promisify(exec)
 

@@ -1,4 +1,5 @@
 import * as React from 'react'
+
 import { LockIcon } from '../atoms/LockIcon'
 import { Text } from '../atoms/Text'
 import { Topbar } from '../atoms/Topbar'
