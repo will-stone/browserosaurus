@@ -42,7 +42,8 @@
   outline: none;
 }
 
-.Picker__browser-btn--no-opt {
+.Picker__browser-btn--no-opt,
+.Picker__browser-btn--no-opt:hover {
   opacity: 0.3;
 }
 
