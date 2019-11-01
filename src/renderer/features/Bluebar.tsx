@@ -1,19 +1,22 @@
 import './Bluebar.css'
 
+import { ipcRenderer } from 'electron'
 import * as React from 'react'
 
+import { COPY_TO_CLIPBOARD } from '../../config/events'
 import { useUrl } from '../hooks/useUrl'
 
 interface Props {
   isVisible: boolean
-  onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
-export const Bluebar: React.FC<Props> = ({ isVisible, onClick }) => {
+export const Bluebar: React.FC<Props> = ({ isVisible }) => {
   const u = useUrl()
 
   const transform = isVisible ? 'scaleY(1)' : 'scaleY(0)'
   const opacity = isVisible ? 1 : 0
+
+  const onClick = () => ipcRenderer.send(COPY_TO_CLIPBOARD)
 
   return (
     <div className="Bluebar" style={{ transform, opacity }} onClick={onClick}>

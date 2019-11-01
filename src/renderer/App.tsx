@@ -8,7 +8,6 @@ import * as React from 'react'
 
 import {
   CLOSE_WINDOW,
-  COPY_TO_CLIPBOARD,
   MOUSE_THROUGH_DISABLE,
   MOUSE_THROUGH_ENABLE,
   WINDOW_BLUR,
@@ -26,13 +25,11 @@ const AMouseEnter = a('MOUSE/ENTER', {} as { x: number; y: number })
 const AEscapeKey = a('ESCAPE_KEY')
 const ABlurWindow = a('WINDOW/BLUR')
 const AClickWindow = a('WINDOW/CLICK')
-const AClickBluebar = a('BLUEBAR/CLICK')
 type AMouseMove = ReturnType<typeof AMouseMove>
 type AMouseEnter = ReturnType<typeof AMouseEnter>
 type AEscapeKey = ReturnType<typeof AEscapeKey>
 type ABlurWindow = ReturnType<typeof ABlurWindow>
 type AClickWindow = ReturnType<typeof AClickWindow>
-type AClickBluebar = ReturnType<typeof AClickBluebar>
 
 type Actions =
   | AMouseEnter
@@ -40,7 +37,6 @@ type Actions =
   | AEscapeKey
   | ABlurWindow
   | AClickWindow
-  | AClickBluebar
 
 interface State {
   isVisible: boolean
@@ -57,9 +53,6 @@ const initialState: State = {
 
 const reducer = produce((state: State, action: Actions) => {
   switch (action.type) {
-    case AClickBluebar.TYPE:
-      ipcRenderer.send(COPY_TO_CLIPBOARD)
-      return
     case AEscapeKey.TYPE:
     case ABlurWindow.TYPE:
     case AClickWindow.TYPE:
@@ -132,21 +125,12 @@ const App: React.FC = () => {
   return (
     <div
       className="App"
-      onClick={e => {
-        e.preventDefault()
-        dispatch(AClickWindow())
-      }}
+      onClick={() => dispatch(AClickWindow())}
       id="window"
       onMouseEnter={onMouseEnter}
       onMouseMove={onMouseMove}
     >
-      <Bluebar
-        isVisible={state.isVisible}
-        onClick={e => {
-          e.stopPropagation()
-          dispatch(AClickBluebar())
-        }}
-      />
+      <Bluebar isVisible={state.isVisible} />
       <Picker x={state.x} y={state.y} isVisible={state.isVisible} />
     </div>
   )
