@@ -1,0 +1,25 @@
+* {
+  user-select: none !important;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: transparent;
+  margin: 0;
+  overflow: hidden;
+  font-family: 
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
+}
+
+html,
+body,
+#picker-root {
+  height: 100%;
+}
