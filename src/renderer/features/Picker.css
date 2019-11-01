@@ -1,6 +1,6 @@
 .Picker {
   position: absolute;
-  background-color: #232323;
+  background-color: #1A202C;
   box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
   border-radius: 5px;
   overflow: hidden;
@@ -27,16 +27,17 @@
   text-align: center;
   position: relative;
   cursor: default;
-  color: white;
-  transition: opacity 200ms ease-in-out;
+  color: #f7fafc;
   height: 100px;
   width: 100px;
-  opacity: 0.7;
+  opacity: 1;
+  transition: opacity 200ms ease-in-out, filter 200ms ease-in-out,
+    -webkit-filter 200ms ease-in-out;
 }
 
-.Picker__browser-btn:hover {
+/* .Picker__browser-btn:hover {
   opacity: 1;
-}
+} */
 
 .Picker__browser-btn:focus {
   outline: none;
@@ -50,18 +51,30 @@
 .Picker__browser-img {
   display: block;
   width: 60%;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.Picker__browser-btn:not(.Picker__browser-btn--no-opt):hover
+  .Picker__browser-img {
+  -webkit-filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.7));
+  filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.7));
 }
 
 .Picker__browser-key {
-  background-color: #0e0e0e;
+  background-color: #2D3748;
   text-align: center;
   font-size: 11px;
   font-weight: 400;
   padding: 1px 5px;
-  opacity: 0.4;
   border-radius: 5px;
   text-transform: uppercase;
   position: absolute;
   bottom: 8px;
+  color: #e2e8f0;
+  opacity: 0.4;
+}
+
+.Picker__browser-btn:not(.Picker__browser-btn--no-opt):hover
+  .Picker__browser-key {
+  opacity: 1;
 }

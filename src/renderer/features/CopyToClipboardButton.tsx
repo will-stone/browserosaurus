@@ -24,18 +24,8 @@ export const CopyToClipboardButton: React.FC<Props> = ({ transform }) => {
       style={{ transform }}
       onClick={() => ipcRenderer.send(COPY_TO_CLIPBOARD)}
     >
-      <span style={{ marginBottom: '4px' }}>Copy to Clipboard</span>
-      <span
-        style={{
-          padding: '1px 5px',
-          fontSize: '11px',
-          borderRadius: '5px',
-          textTransform: 'uppercase',
-          backgroundColor: '#0b0b0b',
-        }}
-      >
-        ⌘+C
-      </span>
+      <span className="CopyToClipboardButton__text">Copy to Clipboard</span>
+      <span className="CopyToClipboardButton__hotkey">⌘+C</span>
     </div>
   )
 }
