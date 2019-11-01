@@ -1,1 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg width="100%" height="100%" viewBox="0 0 1000 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect x="0" y="0" width="1000" height="200" style="fill:#0080ff;"/><path d="M206.311,94.219l-4.336,0l0,-13.009c0,-15.14 -12.322,-27.462 -27.462,-27.462c-15.14,0 -27.462,12.322 -27.462,27.462l0,13.009l-4.336,0c-4.788,0 -8.672,3.884 -8.672,8.672l0,34.688c0,4.788 3.884,8.673 8.672,8.673l63.596,0c4.788,0 8.672,-3.885 8.672,-8.673l0,-34.688c0,-4.788 -3.884,-8.672 -8.672,-8.672Zm-24.571,30.352c0,3.993 -3.234,7.227 -7.227,7.227c-3.993,0 -7.227,-3.234 -7.227,-7.227l0,-8.672c0,-3.993 3.234,-7.227 7.227,-7.227c3.993,0 7.227,3.234 7.227,7.227l0,8.672Zm5.781,-30.352l-26.016,0l0,-13.009c0,-7.172 5.835,-13.008 13.008,-13.008c7.172,0 13.008,5.836 13.008,13.008l0,13.009Z" style="fill:#fff;fill-opacity:0.701961;fill-rule:nonzero;"/><g transform="matrix(1.10611,0,0,1.10611,-13.2779,-41.991)"><text x="248.001px" y="156px" style="font-family:'HelveticaNeue', 'Helvetica Neue';font-size:72px;fill:#fff;">lor<tspan x="327.993px 366.657px " y="156px 156px ">em</tspan>.com</text><text x="589.497px" y="156px" style="font-family:'HelveticaNeue', 'Helvetica Neue';font-size:72px;fill:#fff;fill-opacity:0.698039;">/ipsum</text></g></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1000 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <rect x="0" y="0" width="1000" height="200" style="fill:rgb(43,108,176);"/>
+    <path d="M206.311,94.219L201.975,94.219L201.975,81.21C201.975,66.07 189.653,53.748 174.513,53.748C159.373,53.748 147.051,66.07 147.051,81.21L147.051,94.219L142.715,94.219C137.927,94.219 134.043,98.103 134.043,102.891L134.043,137.579C134.043,142.367 137.927,146.252 142.715,146.252L206.311,146.252C211.099,146.252 214.983,142.367 214.983,137.579L214.983,102.891C214.983,98.103 211.099,94.219 206.311,94.219ZM181.74,124.571C181.74,128.564 178.506,131.798 174.513,131.798C170.52,131.798 167.286,128.564 167.286,124.571L167.286,115.899C167.286,111.906 170.52,108.672 174.513,108.672C178.506,108.672 181.74,111.906 181.74,115.899L181.74,124.571ZM187.521,94.219L161.505,94.219L161.505,81.21C161.505,74.038 167.34,68.202 174.513,68.202C181.685,68.202 187.521,74.038 187.521,81.21L187.521,94.219Z" style="fill:rgb(144,205,244);fill-rule:nonzero;"/>
+    <g transform="matrix(1.10611,0,0,1.10611,-13.2779,-41.991)">
+        <g>
+            <g transform="matrix(1,0,0,1,248.001,156)">
+                <text x="0px" y="0px" style="font-family:'HelveticaNeue', 'Helvetica Neue';font-size:72px;fill:rgb(235,248,255);">lor</text>
+            </g>
+            <g transform="matrix(1,0,0,1,327.993,156)">
+                <text x="0px" y="0px" style="font-family:'HelveticaNeue', 'Helvetica Neue';font-size:72px;fill:rgb(235,248,255);">em.com</text>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,589.497,156)">
+            <text x="0px" y="0px" style="font-family:'HelveticaNeue', 'Helvetica Neue';font-size:72px;fill:rgb(144,205,244);">/ipsum</text>
+        </g>
+    </g>
+</svg>

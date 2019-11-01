@@ -3,9 +3,8 @@
   top: 0;
   left: 0;
   right: 0;
-  background-color: #0080ff;
+  background-color: #2B6CB0;
   box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
-  color: white;
   font-size: 20px;
   line-height: 1.5;
   text-align: center;
@@ -29,7 +28,7 @@
 
 
 .Bluebar__protocol {
-  opacity: 0.7;
+  color: #90CDF4;
 }
 
 .Bluebar__protocolIcon{
@@ -39,8 +38,9 @@
 
 .Bluebar__hostname {
   font-weight: bold;
+  color: #EBF8FF;
 }
 
 .Bluebar__urlPart {
-  opacity: 0.7;
+  color: #90CDF4;
 }
