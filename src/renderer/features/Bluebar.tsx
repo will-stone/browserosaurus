@@ -14,12 +14,11 @@ export const Bluebar: React.FC<Props> = ({ isVisible }) => {
   const u = useUrl()
 
   const transform = isVisible ? 'scaleY(1)' : 'scaleY(0)'
-  const opacity = isVisible ? 1 : 0
 
   const onClick = () => ipcRenderer.send(COPY_TO_CLIPBOARD)
 
   return (
-    <div className="Bluebar" style={{ transform, opacity }} onClick={onClick}>
+    <div className="Bluebar" style={{ transform }} onClick={onClick}>
       <span className="Bluebar__url">
         <span className="Bluebar__protocol">
           {u.protocol && u.protocol.includes('s') && (

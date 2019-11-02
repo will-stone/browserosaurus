@@ -51,7 +51,6 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
   const transformOrigin = `${isAtRight ? 'right' : 'left'} ${
     isAtBottom ? 'bottom' : 'top'
   }`
-  const opacity = isVisible ? 1 : 0
   const transform = `scale(${isVisible ? 1 : 0})`
 
   // Y-Orientation
@@ -67,7 +66,7 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
   return (
     <div
       className="Picker"
-      style={{ top, left, width, height, transformOrigin, transform, opacity }}
+      style={{ top, left, width, height, transformOrigin, transform }}
       data-testid="picker-window"
     >
       <div className="Picker__inner" style={{ transform: rotateAll }}>

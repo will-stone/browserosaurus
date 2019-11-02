@@ -1,6 +1,7 @@
 import './App.css'
 
 import a from '@artossystems/a'
+import cc from 'classcat'
 import { ipcRenderer } from 'electron'
 import produce from 'immer'
 import * as mousetrap from 'mousetrap'
@@ -124,7 +125,7 @@ const App: React.FC = () => {
 
   return (
     <div
-      className="App"
+      className={cc(['App', { 'App--visible': state.isVisible }])}
       onClick={() => dispatch(AClickWindow())}
       id="window"
       onMouseEnter={onMouseEnter}

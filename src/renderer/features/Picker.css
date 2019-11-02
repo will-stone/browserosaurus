@@ -4,10 +4,9 @@
   box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
   border-radius: 5px;
   overflow: hidden;
-  will-change: transform, opacity;
-  transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
+  will-change: transform;
+  transition: transform 200ms ease-in-out;
   transform: scale(0);
-  opacity: 0;
 }
 
 .Picker__inner {
@@ -56,8 +55,8 @@
 
 .Picker__browser-btn:not(.Picker__browser-btn--no-opt):hover
   .Picker__browser-img {
-  -webkit-filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.7));
-  filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.7));
+  -webkit-filter: drop-shadow(0px 0px 5px #e2e8f0);
+  filter: drop-shadow(0px 0px 5px #e2e8f0);
 }
 
 .Picker__browser-key {

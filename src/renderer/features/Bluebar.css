@@ -14,10 +14,10 @@
   align-items: center;
   padding: 0 20px;
   cursor: copy;
-  will-change: transform, opacity;
+  will-change: transform;
   transform: none;
   transform-origin: center top;
-  transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
 }
 
 .Bluebar__url {
