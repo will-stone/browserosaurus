@@ -1,6 +1,6 @@
 {
   "name": "browserosaurus",
-  "version": "7.1.0",
+  "version": "8.0.1",
   "description": "The browser prompter for macOS",
   "license": "MIT",
   "repository": "https://github.com/will-stone/browserosaurus",
@@ -94,7 +94,7 @@
     "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^3.2.0",
     "electron": "5.0.2",
-    "electron-notarize": "^0.1.1",
+    "electron-notarize": "^0.2.1",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-jest": "^22.6.4",
