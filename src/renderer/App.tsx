@@ -1,9 +1,7 @@
 import './App.css'
 
-import a from '@artossystems/a'
 import cc from 'classcat'
 import { ipcRenderer } from 'electron'
-import produce from 'immer'
 import * as mousetrap from 'mousetrap'
 import * as React from 'react'
 
@@ -16,68 +14,17 @@ import {
 import { Bluebar } from './features/Bluebar'
 import { Picker } from './features/Picker'
 
-const { useEffect, useCallback, useReducer } = React
-
-/**
- * ACTIONS
- */
-const AMouseMove = a('MOUSE/MOVE', {} as { target?: string })
-const AMouseEnter = a('MOUSE/ENTER', {} as { x: number; y: number })
-const AEscapeKey = a('ESCAPE_KEY')
-const ABlurWindow = a('WINDOW/BLUR')
-const AClickWindow = a('WINDOW/CLICK')
-type AMouseMove = ReturnType<typeof AMouseMove>
-type AMouseEnter = ReturnType<typeof AMouseEnter>
-type AEscapeKey = ReturnType<typeof AEscapeKey>
-type ABlurWindow = ReturnType<typeof ABlurWindow>
-type AClickWindow = ReturnType<typeof AClickWindow>
-
-type Actions =
-  | AMouseEnter
-  | AMouseMove
-  | AEscapeKey
-  | ABlurWindow
-  | AClickWindow
-
-interface State {
-  isVisible: boolean
-  x: number
-  y: number
-  mouseTarget?: string
-}
-
-const initialState: State = {
-  isVisible: false,
-  x: 0,
-  y: 0,
-}
-
-const reducer = produce((state: State, action: Actions) => {
-  switch (action.type) {
-    case AEscapeKey.TYPE:
-    case ABlurWindow.TYPE:
-    case AClickWindow.TYPE:
-      state.isVisible = false
-      setTimeout(() => ipcRenderer.send(CLOSE_WINDOW), 200)
-      return
-    case AMouseEnter.TYPE:
-      if (!state.isVisible) {
-        state.x = action.x
-        state.y = action.y
-        state.isVisible = true
-      }
-      return
-    case AMouseMove.TYPE:
-      state.mouseTarget = action.target
-      return
-  }
-})
+const { useEffect, useCallback, useState } = React
 
 const App: React.FC = () => {
-  const [state, dispatch] = useReducer<React.Reducer<State, Actions>>(
-    reducer,
-    initialState,
-  )
+  const [pickerPosition, setPickerPosition] = useState<[number, number]>([0, 0])
+  const [isVisible, setIsVisible] = useState<boolean>(false)
+  const [mouseTarget, setMouseTarget] = useState<string>()
+
+  const handleCloseWindow = useCallback(() => {
+    setIsVisible(false)
+    setTimeout(() => ipcRenderer.send(CLOSE_WINDOW), 200)
+  }, [])
 
   // Set-up event listeners
   useEffect(() => {
@@ -86,29 +33,33 @@ const App: React.FC = () => {
      */
     mousetrap.bind('esc', e => {
       e.preventDefault()
-      dispatch(AEscapeKey())
+      handleCloseWindow()
     })
 
     /**
      * Events from main process
      */
-    ipcRenderer.on(WINDOW_BLUR, () => dispatch(ABlurWindow()))
+    ipcRenderer.on(WINDOW_BLUR, handleCloseWindow)
 
     return function cleanup() {
       ipcRenderer.removeAllListeners(WINDOW_BLUR)
     }
-  }, [])
+  }, [handleCloseWindow])
 
   const onMouseEnter = useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
-      dispatch(AMouseEnter({ x: e.clientX, y: e.clientY })),
-    [dispatch],
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      if (!isVisible) {
+        setPickerPosition([e.clientX, e.clientY])
+        setIsVisible(true)
+      }
+    },
+    [isVisible],
   )
 
   const onMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
-      dispatch(AMouseMove({ target: (e.target as Element).id })),
-    [dispatch],
+      setMouseTarget((e.target as Element).id),
+    [],
   )
 
   /**
@@ -116,23 +67,27 @@ const App: React.FC = () => {
    * full focus.
    */
   useEffect(() => {
-    if (state.mouseTarget === 'window') {
+    if (mouseTarget === 'window') {
       ipcRenderer.send(MOUSE_THROUGH_ENABLE)
     } else {
       ipcRenderer.send(MOUSE_THROUGH_DISABLE)
     }
-  }, [state.mouseTarget])
+  }, [mouseTarget])
 
   return (
     <div
-      className={cc(['App', { 'App--visible': state.isVisible }])}
-      onClick={() => dispatch(AClickWindow())}
+      className={cc(['App', { 'App--visible': isVisible }])}
+      onClick={handleCloseWindow}
       id="window"
       onMouseEnter={onMouseEnter}
       onMouseMove={onMouseMove}
     >
-      <Bluebar isVisible={state.isVisible} />
-      <Picker x={state.x} y={state.y} isVisible={state.isVisible} />
+      <Bluebar isVisible={isVisible} />
+      <Picker
+        x={pickerPosition[0]}
+        y={pickerPosition[1]}
+        isVisible={isVisible}
+      />
     </div>
   )
 }

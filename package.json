@@ -34,7 +34,6 @@
     "Browser chooser"
   ],
   "dependencies": {
-    "@artossystems/a": "^3.1.0",
     "@browser-logos/brave": "^3.0.10",
     "@browser-logos/brave-beta": "^1.0.8",
     "@browser-logos/brave-dev": "^1.0.8",
@@ -61,7 +60,6 @@
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^3.2.0",
     "execa": "^1.0.0",
-    "immer": "^3.1.2",
     "mousetrap": "^1.6.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
@@ -94,7 +92,7 @@
     "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^3.2.0",
     "electron": "5.0.2",
-    "electron-notarize": "^0.2.1",
+    "electron-notarize": "^0.2.0",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-jest": "^22.6.4",
