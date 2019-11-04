@@ -4,6 +4,7 @@ import cc from 'classcat'
 import { ipcRenderer } from 'electron'
 import * as React from 'react'
 
+import { browserLogos } from '../../config/browserLogos'
 import { browsers } from '../../config/browsers'
 import { BROWSER_RUN } from '../../config/events'
 import { useBrowsers } from '../hooks/useBrowsers'
@@ -100,7 +101,7 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
             >
               <img
                 className="Picker__browser-img"
-                src={browser.logo}
+                src={browserLogos[name]}
                 alt={name}
               />
               {browserKey && (

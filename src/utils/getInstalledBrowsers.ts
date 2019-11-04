@@ -1,28 +1,31 @@
+import { exec } from 'child_process'
+import { promisify } from 'util'
+
 import { BrowserName, browserNames, browsers } from '../config/browsers'
-import { scanForApps } from './scanForApps'
+
+const execP = promisify(exec)
 
 /**
- * Installed Apps
+ * Installed Browsers
  *
- * Uses the scan function above to return the whitelisted apps that are installed
+ * Finds installed whitelisted browsers.
  */
 export const getInstalledBrowsers = async (): Promise<BrowserName[]> => {
-  const installedApps = await scanForApps()
-
-  const installedBrowserNames = browserNames.filter(name => {
-    const browser = browsers[name]
-    const browserShouldAlwaysShow = !browser.appId
-    const browserIsInstalled =
-      browser.appId &&
-      installedApps &&
-      installedApps.find(app => app === browser.appId)
-
-    return browserShouldAlwaysShow || browserIsInstalled
+  const installedBrowserNames = (await Promise.all(
+    browserNames.map(async name => {
+      const browser = browsers[name]
+      const { stdout: appPath } = await execP(
+        `mdfind kMDItemCFBundleIdentifier = "${browser.appId}"`,
+      )
+      if (!appPath) {
+        return
+      }
+      return name
+    }),
+  )).filter((name): name is BrowserName => {
+    if (name === undefined) return false
+    return true
   })
 
-  const orderedBrowserNames = installedBrowserNames.sort(
-    (a, b) => browserNames.indexOf(a) - browserNames.indexOf(b),
-  )
-
-  return orderedBrowserNames
+  return installedBrowserNames
 }
