@@ -50,6 +50,8 @@ yarn make
 
 ### Browser logos
 
+The browser logos are provided by an excellent project by
+[Cătălin Mariș](https://github.com/alrra):
 https://github.com/alrra/browser-logos
 
 ### Make icon.icns
