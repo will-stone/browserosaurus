@@ -18,7 +18,7 @@
     "env": "export $(cat .env | xargs) && env",
     "icns": "cd ./src/images/icon && ./scripts/png2icns.sh icon.png",
     "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx",
-    "list-apps": "ts-node ./scripts/listAllApps",
+    "list-browsers": "ts-node ./scripts/listInstalledBrowsers",
     "make": "electron-forge make --skip-package",
     "notarize": "export $(cat .env | xargs) && ts-node ./scripts/notarize.ts",
     "package": "electron-forge package --platform=darwin --arch=x64",

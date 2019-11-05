@@ -1,28 +1,31 @@
+import { exec } from 'child_process'
+import { promisify } from 'util'
+
 import { BrowserName, browserNames, browsers } from '../config/browsers'
-import { scanForApps } from './scanForApps'
+
+const execP = promisify(exec)
 
 /**
- * Installed Apps
- *
- * Uses the scan function above to return the whitelisted apps that are installed
+ * Asynchronously filters an array.
+ * Used this SO answer for inspiration: https://stackoverflow.com/a/53508547
  */
-export const getInstalledBrowsers = async (): Promise<BrowserName[]> => {
-  const installedApps = await scanForApps()
-
-  const installedBrowserNames = browserNames.filter(name => {
-    const browser = browsers[name]
-    const browserShouldAlwaysShow = !browser.appId
-    const browserIsInstalled =
-      browser.appId &&
-      installedApps &&
-      installedApps.find(app => app === browser.appId)
-
-    return browserShouldAlwaysShow || browserIsInstalled
-  })
-
-  const orderedBrowserNames = installedBrowserNames.sort(
-    (a, b) => browserNames.indexOf(a) - browserNames.indexOf(b),
-  )
-
-  return orderedBrowserNames
+async function filterAsync<T>(
+  array: readonly T[],
+  filterFn: (value: T, index: number, array: readonly T[]) => Promise<boolean>,
+): Promise<T[]> {
+  const filterMap = await Promise.all(array.map(filterFn))
+  return array.filter((_, index) => filterMap[index])
 }
+
+/**
+ * Finds installed whitelisted browsers.
+ */
+export const getInstalledBrowsers = (): Promise<BrowserName[]> =>
+  // TODO: make this pure.
+  filterAsync(browserNames, async (name: BrowserName) => {
+    const { appId } = browsers[name]
+    const { stdout: appPath } = await execP(
+      `mdfind kMDItemCFBundleIdentifier = "${appId}"`,
+    )
+    return !!appPath
+  })
