@@ -6,26 +6,26 @@ import { BrowserName, browserNames, browsers } from '../config/browsers'
 const execP = promisify(exec)
 
 /**
- * Installed Browsers
- *
+ * Asynchronously filters an array.
+ * Used this SO answer for inspiration: https://stackoverflow.com/a/53508547
+ */
+async function filterAsync<T>(
+  array: readonly T[],
+  filterFn: (value: T, index: number, array: readonly T[]) => Promise<boolean>,
+): Promise<T[]> {
+  const filterMap = await Promise.all(array.map(filterFn))
+  return array.filter((_, index) => filterMap[index])
+}
+
+/**
  * Finds installed whitelisted browsers.
  */
-export const getInstalledBrowsers = async (): Promise<BrowserName[]> => {
-  const installedBrowserNames = (await Promise.all(
-    browserNames.map(async name => {
-      const browser = browsers[name]
-      const { stdout: appPath } = await execP(
-        `mdfind kMDItemCFBundleIdentifier = "${browser.appId}"`,
-      )
-      if (!appPath) {
-        return
-      }
-      return name
-    }),
-  )).filter((name): name is BrowserName => {
-    if (name === undefined) return false
-    return true
+export const getInstalledBrowsers = (): Promise<BrowserName[]> =>
+  // TODO: make this pure.
+  filterAsync(browserNames, async (name: BrowserName) => {
+    const { appId } = browsers[name]
+    const { stdout: appPath } = await execP(
+      `mdfind kMDItemCFBundleIdentifier = "${appId}"`,
+    )
+    return !!appPath
   })
-
-  return installedBrowserNames
-}
