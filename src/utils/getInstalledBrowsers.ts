@@ -25,7 +25,7 @@ export const getInstalledBrowsers = (): Promise<BrowserName[]> =>
   filterAsync(browserNames, async (name: BrowserName) => {
     const { appId } = browsers[name]
     const { stdout: appPath } = await execP(
-      `mdfind kMDItemCFBundleIdentifier = "${appId}"`,
+      `mdfind 'kMDItemContentType == "com.apple.application-bundle" && kMDItemCFBundleIdentifier == "${appId}"'`,
     )
     return !!appPath
   })
