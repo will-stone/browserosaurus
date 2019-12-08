@@ -11,7 +11,7 @@ import { useBrowsers } from '../hooks/useBrowsers'
 import { useOpt } from '../hooks/useOpt'
 import { CopyToClipboardButton } from './CopyToClipboardButton'
 
-const numberOfRowsAndCols = (num: number) => {
+const numberOfRowsAndCols = (num: number): [number, number] => {
   if (num <= 4) {
     return [1, num]
   }
@@ -74,20 +74,19 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
         {browserNames.map((name, i) => {
           const browser = browsers[name]
           const isFav = i === 0
-          const browserKey =
-            isFav && browser.hotKey
-              ? `${browser.hotKey} / space`
-              : isFav
-              ? 'space'
-              : browser.hotKey || undefined
+
+          let browserKey = browser.hotKey || ''
+          if (isFav && browser.hotKey) browserKey += ' / '
+          if (isFav) browserKey += 'space'
+
           return (
             <button
               key={name}
+              type="button"
               className={cc([
                 'Picker__browser-btn',
                 { 'Picker__browser-btn--no-opt': isOptHeld && !browser.optCmd },
               ])}
-              role="button"
               onClick={e => {
                 e.stopPropagation()
                 if ((isOptHeld && browser.optCmd) || !isOptHeld) {

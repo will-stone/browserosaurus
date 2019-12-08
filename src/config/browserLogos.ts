@@ -44,7 +44,7 @@ export const browserLogos: Browsers = {
   Min: min,
   Opera: opera,
   Polypane: polypane,
-  qutebrowser: qutebrowser,
+  qutebrowser,
   Safari: safari,
   'Safari Technology Preview': safariTechnologyPreview,
   'Tor Browser': tor,

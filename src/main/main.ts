@@ -75,6 +75,7 @@ const createPickerWindow = () =>
       transparent: true,
       webPreferences: {
         nodeIntegration: true,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore
         // eslint-disable-next-line no-undef
         preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
@@ -82,6 +83,7 @@ const createPickerWindow = () =>
       width: 400,
     })
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     // eslint-disable-next-line no-undef
     pickerWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
@@ -126,7 +128,7 @@ ipcMain.on(BROWSER_RUN, (_: Event, name: BrowserName) => {
 })
 
 ipcMain.on(COPY_TO_CLIPBOARD, () => {
-  urlToOpen && copyToClipboard(urlToOpen)
+  if (urlToOpen) copyToClipboard(urlToOpen)
   pickerWindow.webContents.send(WINDOW_BLUR)
 })
 
@@ -196,7 +198,7 @@ app.on('ready', async () => {
       type: 'separator',
     },
     {
-      label: 'v' + app.getVersion(),
+      label: `v${app.getVersion()}`,
       enabled: false,
     },
   ]

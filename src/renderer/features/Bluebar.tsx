@@ -15,10 +15,15 @@ export const Bluebar: React.FC<Props> = ({ isVisible }) => {
 
   const transform = isVisible ? 'scaleY(1)' : 'scaleY(0)'
 
-  const onClick = () => ipcRenderer.send(COPY_TO_CLIPBOARD)
+  const onClick = (): void => ipcRenderer.send(COPY_TO_CLIPBOARD)
 
   return (
-    <div className="Bluebar" style={{ transform }} onClick={onClick}>
+    <button
+      type="button"
+      className="Bluebar"
+      style={{ transform }}
+      onClick={onClick}
+    >
       <span className="Bluebar__url">
         <span className="Bluebar__protocol">
           {u.protocol && u.protocol.includes('s') && (
@@ -38,11 +43,11 @@ export const Bluebar: React.FC<Props> = ({ isVisible }) => {
           )}
         </span>
         <span className="Bluebar__hostname">{u.hostname}</span>
-        <span className="Bluebar__urlPart">{u.port && ':' + u.port}</span>
+        <span className="Bluebar__urlPart">{u.port && `:${u.port}`}</span>
         <span className="Bluebar__urlPart">{u.pathname}</span>
         <span className="Bluebar__urlPart">{u.search}</span>
         <span className="Bluebar__urlPart">{u.hash}</span>
       </span>
-    </div>
+    </button>
   )
 }

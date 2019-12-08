@@ -13,7 +13,7 @@ export const useBrowsers = (): BrowserName[] => {
     ipcRenderer.on(FAV_SET, (_: unknown, name: BrowserName) => {
       setFavName(name)
       mousetrap.unbind(['enter', 'option+enter', 'space', 'option+space'])
-      name &&
+      if (name) {
         mousetrap.bind(
           ['enter', 'option+enter', 'space', 'option+space'],
           e => {
@@ -25,6 +25,7 @@ export const useBrowsers = (): BrowserName[] => {
             ipcRenderer.send(BROWSER_RUN, name)
           },
         )
+      }
     })
 
     return function cleanup() {
@@ -40,7 +41,7 @@ export const useBrowsers = (): BrowserName[] => {
         installedBrowserNames.forEach(browserName => {
           const browser = browsers[browserName]
           if (browser && browser.hotKey) {
-            mousetrap.bind([browser.hotKey, 'option+' + browser.hotKey], e => {
+            mousetrap.bind([browser.hotKey, `option+${browser.hotKey}`], e => {
               e.preventDefault()
               ipcRenderer.send(BROWSER_RUN, browserName)
             })

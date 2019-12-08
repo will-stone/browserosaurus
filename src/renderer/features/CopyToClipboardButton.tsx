@@ -19,13 +19,14 @@ export const CopyToClipboardButton: React.FC<Props> = ({ transform }) => {
   }, [])
 
   return (
-    <div
+    <button
+      type="button"
       className="CopyToClipboardButton"
       style={{ transform }}
       onClick={() => ipcRenderer.send(COPY_TO_CLIPBOARD)}
     >
       <span className="CopyToClipboardButton__text">Copy to Clipboard</span>
       <span className="CopyToClipboardButton__hotkey">⌘+C</span>
-    </div>
+    </button>
   )
 }
