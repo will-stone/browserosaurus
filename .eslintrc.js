@@ -18,6 +18,7 @@ module.exports = {
      * Formatting
      */
     'prettier/prettier': 'error',
+    'spaced-comment': ["error", "always", { "markers": ["/"] }],
     /**
      * Import
      */
