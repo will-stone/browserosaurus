@@ -1,14 +1,6 @@
 module.exports = {
   parser: '@typescript-eslint/parser', // Specifies the ESLint parser to use TS.
 
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-    ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features.
-    sourceType: 'module', // Allows for the use of imports.
-  },
-
   extends: [
     'airbnb', // Standard eslint rules.
     'airbnb/hooks', // react hooks
@@ -18,13 +10,6 @@ module.exports = {
     'prettier/@typescript-eslint', // Disables ESLint rules that might conflict with prettier.
     'plugin:prettier/recommended', // Runs prettier as an ESLint rule.
   ],
-
-  // env: {
-  //   browser: true,
-  //   node: true,
-  //   es6: true,
-  //   jest: true, // Allows "it", "describe" etc.
-  // },
 
   plugins: ['simple-import-sort'],
 
