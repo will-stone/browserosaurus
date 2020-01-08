@@ -10,5 +10,5 @@ ReactDOM.render(
   <ErrorBoundary>
     <App />
   </ErrorBoundary>,
-  document.getElementById('picker-root'),
+  document.querySelector('#picker-root'),
 )

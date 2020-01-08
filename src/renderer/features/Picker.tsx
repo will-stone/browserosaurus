@@ -12,7 +12,8 @@ import { useOpt } from '../hooks/useOpt'
 import { CopyToClipboardButton } from './CopyToClipboardButton'
 
 const numberOfRowsAndCols = (num: number): [number, number] => {
-  if (num <= 4) {
+  const breakpoint = 4
+  if (num <= breakpoint) {
     return [1, num]
   }
   const sqrt = Math.sqrt(num)
@@ -35,8 +36,10 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
   const [rows, cols] = numberOfRowsAndCols(browserNames.length)
 
   // Picker dimensions
-  const width = cols * 100
-  const height = rows * 100 + 50
+  const tileWidth = 100
+  const copyBarHeight = 50
+  const width = cols * tileWidth
+  const height = rows * tileWidth + copyBarHeight
 
   // Picker releative-to-mouse placement
   const [isAtRight, isAtBottom] = [
@@ -67,41 +70,45 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
   return (
     <div
       className="Picker"
-      style={{ top, left, width, height, transformOrigin, transform }}
       data-testid="picker-window"
+      style={{ top, left, width, height, transformOrigin, transform }}
     >
       <div className="Picker__inner" style={{ transform: rotateAll }}>
-        {browserNames.map((name, i) => {
+        {browserNames.map((name, index) => {
           const browser = browsers[name]
-          const isFav = i === 0
+          const isFav = index === 0
 
           let browserKey = browser.hotKey || ''
           if (isFav && browser.hotKey) browserKey += ' / '
           if (isFav) browserKey += 'space'
 
+          const onBrowserClick = (
+            evt: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+          ) => {
+            evt.stopPropagation()
+            if ((isOptHeld && browser.optCmd) || !isOptHeld) {
+              ipcRenderer.send(BROWSER_RUN, name)
+            }
+          }
+
           return (
             <button
-              key={name}
-              type="button"
               className={cc([
                 'Picker__browser-btn',
                 { 'Picker__browser-btn--no-opt': isOptHeld && !browser.optCmd },
               ])}
-              onClick={e => {
-                e.stopPropagation()
-                if ((isOptHeld && browser.optCmd) || !isOptHeld) {
-                  ipcRenderer.send(BROWSER_RUN, name)
-                }
-              }}
+              key={name}
+              onClick={onBrowserClick}
               style={{
                 float: browserFloat,
                 transform: rotateOffset,
               }}
+              type="button"
             >
               <img
+                alt={name}
                 className="Picker__browser-img"
                 src={browserLogos[name]}
-                alt={name}
               />
               {browserKey && (
                 <div className="Picker__browser-key">{browserKey}</div>

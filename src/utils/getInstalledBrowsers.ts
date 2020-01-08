@@ -27,5 +27,5 @@ export const getInstalledBrowsers = (): Promise<BrowserName[]> =>
     const { stdout: appPath } = await execP(
       `mdfind 'kMDItemContentType == "com.apple.application-bundle" && kMDItemCFBundleIdentifier == "${appId}"'`,
     )
-    return !!appPath
+    return Boolean(appPath)
   })

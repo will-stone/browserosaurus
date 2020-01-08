@@ -38,20 +38,22 @@ try {
   const homedir = os.homedir()
   const file = fs.readFileSync(`${homedir}/.browserosaurus.json`, 'utf8')
   dotBrowserosaurus.ignored = JSON.parse(file).ignored
-} catch (err) {
-  if (err.code !== 'ENOENT') {
-    throw err
+} catch (error) {
+  if (error.code !== 'ENOENT') {
+    throw error
   }
 }
 
 // Start store and set browsers if first run
 const store = new Store()
 
-let urlToOpen: string | undefined // if started via clicking link
-let appReady: boolean // if started via clicking link
-let tray: Tray // prevents garbage collection
-let pickerWindow: BrowserWindow // Prevents garbage collection
+let urlToOpen: string | null = null
+let appReady: boolean
 let isOptHeld = false
+
+// Prevents garbage collection:
+let tray: Tray
+let pickerWindow: BrowserWindow
 
 const createPickerWindow = () =>
   new Promise((resolve, reject) => {
@@ -88,8 +90,8 @@ const createPickerWindow = () =>
     // eslint-disable-next-line no-undef
     pickerWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
-    pickerWindow.on('close', e => {
-      e.preventDefault()
+    pickerWindow.on('close', evt => {
+      evt.preventDefault()
       pickerWindow.webContents.send(WINDOW_BLUR)
     })
 
@@ -134,7 +136,7 @@ ipcMain.on(COPY_TO_CLIPBOARD, () => {
 
 ipcMain.on(CLOSE_WINDOW, () => {
   isOptHeld = false
-  urlToOpen = undefined
+  urlToOpen = null
   pickerWindow.hide()
   app.hide()
   app.dock.hide()
@@ -179,13 +181,27 @@ app.on('ready', async () => {
 
   const fav = store.get('fav') || 'Safari'
 
+  const browserNames = (await getInstalledBrowsers()).filter(
+    name => !dotBrowserosaurus.ignored.includes(name),
+  )
+
   tray = new Tray(`${__dirname}/static/icon/tray_iconTemplate.png`)
   tray.setPressedImage(`${__dirname}/static/icon/tray_iconHighlight.png`)
   tray.setToolTip('Browserosaurus')
   const contextMenu: MenuItemConstructorOptions[] = [
     {
       label: 'Favourite',
-      submenu: [{ label: 'Loading...' }],
+      submenu: Menu.buildFromTemplate([
+        ...(browserNames.map(browserName => ({
+          checked: browserName === fav,
+          label: browserName,
+          type: 'radio',
+          click: () => {
+            store.set('fav', browserName)
+            pickerWindow.webContents.send(FAV_SET, browserName)
+          },
+        })) as MenuItemConstructorOptions[]),
+      ]),
     },
     {
       type: 'separator',
@@ -205,26 +221,6 @@ app.on('ready', async () => {
   tray.setContextMenu(Menu.buildFromTemplate(contextMenu))
 
   await createPickerWindow()
-
-  const browserNames = (await getInstalledBrowsers()).filter(
-    a => !dotBrowserosaurus.ignored.includes(a),
-  )
-
-  // update fav-chooser with browser list
-  contextMenu[0].submenu = Menu.buildFromTemplate([
-    ...(browserNames.map(browserName => ({
-      checked: browserName === fav,
-      label: browserName,
-      type: 'radio',
-      click: () => {
-        store.set('fav', browserName)
-        pickerWindow.webContents.send(FAV_SET, browserName)
-      },
-    })) as MenuItemConstructorOptions[]),
-  ])
-
-  // reapply tray menu
-  tray.setContextMenu(Menu.buildFromTemplate(contextMenu))
 
   // Send browsers and fav down to picker
   pickerWindow.webContents.send(BROWSERS_SET, browserNames)
@@ -292,4 +288,5 @@ app.on('open-url', (event, url) => {
   }
 })
 
-app.dock.hide() // Also prevents Browserosaurus from appearing in cmd-tab.
+// Also prevents Browserosaurus from appearing in cmd-tab.
+app.dock.hide()

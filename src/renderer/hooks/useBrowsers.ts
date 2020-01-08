@@ -16,12 +16,12 @@ export const useBrowsers = (): BrowserName[] => {
       if (name) {
         mousetrap.bind(
           ['enter', 'option+enter', 'space', 'option+space'],
-          e => {
+          evt => {
             // When a browser has been selected with the mouse, it gets (invisible) focus.
             // This means when enter is pressed next, it will activate the focused browser AND fire
             // this key binding, causing two identical tabs to open in the selected browser.
             // This fixes that.
-            e.preventDefault()
+            evt.preventDefault()
             ipcRenderer.send(BROWSER_RUN, name)
           },
         )
@@ -41,10 +41,13 @@ export const useBrowsers = (): BrowserName[] => {
         installedBrowserNames.forEach(browserName => {
           const browser = browsers[browserName]
           if (browser && browser.hotKey) {
-            mousetrap.bind([browser.hotKey, `option+${browser.hotKey}`], e => {
-              e.preventDefault()
-              ipcRenderer.send(BROWSER_RUN, browserName)
-            })
+            mousetrap.bind(
+              [browser.hotKey, `option+${browser.hotKey}`],
+              evt => {
+                evt.preventDefault()
+                ipcRenderer.send(BROWSER_RUN, browserName)
+              },
+            )
           }
         })
         setBrowserNames(installedBrowserNames)
