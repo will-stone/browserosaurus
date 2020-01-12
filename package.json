@@ -17,7 +17,7 @@
     "docs": "http-server ./docs",
     "env": "export $(cat .env | xargs) && env",
     "icns": "cd ./src/images/icon && ./scripts/png2icns.sh icon.png",
-    "lint": "eslint . --ignore-path .gitignore --ext ts,tsx",
+    "lint": "ws-scripts lint",
     "list-browsers": "ts-node ./scripts/listInstalledBrowsers",
     "make": "electron-forge make --skip-package",
     "notarize": "export $(cat .env | xargs) && ts-node ./scripts/notarize.ts",
@@ -88,34 +88,19 @@
     "@types/react-dom": "^16.8.4",
     "@types/styled-components": "^4.1.16",
     "@types/styled-system": "^4.2.1",
-    "@typescript-eslint/eslint-plugin": "^2.10.0",
-    "@typescript-eslint/parser": "^2.10.0",
-    "@will-stone/prettier-config": "^1.0.0",
     "babel-loader": "^8.0.6",
     "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^3.2.0",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.9.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jest": "^23.3.0",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-react": "^7.17.0",
-    "eslint-plugin-react-hooks": "^2.3.0",
-    "eslint-plugin-simple-import-sort": "^5.0.0",
-    "eslint-plugin-unicorn": "^15.0.1",
     "http-server": "^0.11.1",
-    "husky": "^3.0.9",
     "jest": "^24.8.0",
     "mini-css-extract-plugin": "^0.8.0",
     "node-loader": "^0.6.0",
-    "prettier": "^1.19.1",
-    "prettier-plugin-package": "^0.3.1",
     "style-loader": "^1.0.0",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.1",
     "url-loader": "^2.0.0",
-    "webpack": "^4.40.2"
+    "webpack": "^4.40.2",
+    "ws-scripts": "^1.0.0"
   },
   "config": {
     "forge": {
@@ -183,7 +168,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn pretty-package && git add package.json"
+      "pre-commit": "ws-scripts pre-commit"
     }
   },
   "jest": {
@@ -205,6 +190,11 @@
       "<rootDir>/out/"
     ]
   },
-  "prettier": "@will-stone/prettier-config",
+  "prettier": "./node_modules/@will-stone/scripts/dist/config/prettierrc",
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/@will-stone/scripts/dist/config/eslintrc.js"
+    ]
+  },
   "productName": "Browserosaurus"
 }
