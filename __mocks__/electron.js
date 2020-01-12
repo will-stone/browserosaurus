@@ -1,5 +1,3 @@
-/* eslint-disable object-shorthand */
-/* eslint-disable func-names */
 const EventEmitter = require('events')
 
 const eventEmitter = new EventEmitter()
@@ -27,7 +25,7 @@ module.exports = {
         },
       }
     },
-    getCurrentWindow: function() {
+    getCurrentWindow() {
       return {
         setIgnoreMouseEvents: jest.fn(),
       }
