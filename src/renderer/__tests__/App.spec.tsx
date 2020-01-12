@@ -83,34 +83,35 @@ describe('App', () => {
     expect(electron.ipcRenderer.send).toHaveBeenCalledWith(COPY_TO_CLIPBOARD)
   })
 
-  it('should CLOSE_WINDOW on background click', () => {
+  it('should CLOSE_WINDOW on background click', async () => {
     const { container } = render(<App />)
     act(() => {
       fireEvent.click(container.firstChild as Element)
     })
-    wait(() =>
+    await wait(() =>
       expect(electron.ipcRenderer.send).toHaveBeenCalledWith(CLOSE_WINDOW),
     )
   })
 
   it('should set browser as favourite', () => {
-    const { container, queryAllByRole } = render(<App />)
+    const { container, queryAllByTestId } = render(<App />)
     const win = new electron.remote.BrowserWindow()
     act(() => {
+      win.webContents.send(FAV_SET, 'Safari')
       win.webContents.send(BROWSERS_SET, browsers2)
       win.webContents.send(URL_RECEIVED, 'example.com')
-      fireEvent.mouseEnter(container.firstChild as Element)
     })
+    fireEvent.mouseEnter(container.firstChild as Element)
+
     // Check current order
-    within(queryAllByRole('button')[0]).getByAltText('Safari')
-    within(queryAllByRole('button')[1]).getByAltText('Firefox')
+    within(queryAllByTestId('browser-button')[0]).getByAltText('Safari')
+    within(queryAllByTestId('browser-button')[1]).getByAltText('Firefox')
     act(() => {
       win.webContents.send(FAV_SET, 'Firefox')
     })
-    const btns = queryAllByRole('button')
     // Fav is now first:
-    within(btns[0]).getByAltText('Firefox')
-    within(btns[1]).getByAltText('Safari')
+    within(queryAllByTestId('browser-button')[0]).getByAltText('Firefox')
+    within(queryAllByTestId('browser-button')[1]).getByAltText('Safari')
   })
 
   describe('Picker Window', () => {

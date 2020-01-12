@@ -97,6 +97,7 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
                 'Picker__browser-btn',
                 { 'Picker__browser-btn--no-opt': isOptHeld && !browser.optCmd },
               ])}
+              data-testid="browser-button"
               key={name}
               onClick={onBrowserClick}
               style={{
