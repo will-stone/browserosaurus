@@ -1,4 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+/* eslint-disable object-shorthand */
+/* eslint-disable func-names */
 const EventEmitter = require('events')
 
 const eventEmitter = new EventEmitter()
@@ -17,7 +18,7 @@ module.exports = {
   },
   match: jest.fn(),
   remote: {
-    BrowserWindow() {
+    BrowserWindow: function() {
       return {
         webContents: {
           send: jest.fn((eventName, payload) =>
@@ -26,7 +27,7 @@ module.exports = {
         },
       }
     },
-    getCurrentWindow() {
+    getCurrentWindow: function() {
       return {
         setIgnoreMouseEvents: jest.fn(),
       }
