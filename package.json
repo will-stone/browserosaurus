@@ -2,17 +2,19 @@
   "name": "browserosaurus",
   "version": "8.1.2",
   "description": "The browser prompter for macOS",
-  "license": "MIT",
-  "repository": "https://github.com/will-stone/browserosaurus",
-  "author": "Will Stone",
+  "keywords": [
+    "macOS",
+    "Electron",
+    "Browser chooser"
+  ],
   "homepage": "https://browserosaurus.com/",
   "bugs": {
     "url": "https://github.com/will-stone/browserosaurus/issues"
   },
+  "repository": "https://github.com/will-stone/browserosaurus",
+  "license": "MIT",
+  "author": "Will Stone",
   "main": ".webpack/main",
-  "engines": {
-    "node": ">=10.4.1"
-  },
   "scripts": {
     "docs": "http-server ./docs",
     "env": "export $(cat .env | xargs) && env",
@@ -28,11 +30,100 @@
     "test:watch": "jest --watch",
     "typecheck": "tsc --noEmit --skipLibCheck"
   },
-  "keywords": [
-    "macOS",
-    "Electron",
-    "Browser chooser"
-  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "ws-scripts pre-commit"
+    }
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "appBundleId": "com.browserosaurus",
+        "asar": true,
+        "appCategoryType": "public.app-category.developer-tools",
+        "packageManager": "yarn",
+        "osxSign": {
+          "gatekeeper-assess": false,
+          "hardened-runtime": true,
+          "entitlements": "build/entitlements.mac.plist",
+          "entitlements-inherit": "build/entitlements.mac.plist"
+        },
+        "icon": "src/main/static/icon/icon.icns",
+        "protocols": [
+          {
+            "name": "HTTP link",
+            "schemes": [
+              "http",
+              "https"
+            ]
+          },
+          {
+            "name": "File",
+            "schemes": [
+              "file"
+            ]
+          }
+        ]
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-dmg",
+          "config": {
+            "format": "ULFO"
+          }
+        }
+      ],
+      "plugins": [
+        [
+          "@electron-forge/plugin-webpack",
+          {
+            "mainConfig": "./webpack.main.config.js",
+            "renderer": {
+              "config": "./webpack.renderer.config.js",
+              "entryPoints": [
+                {
+                  "html": "./src/renderer/index.html",
+                  "js": "./src/renderer/index.tsx",
+                  "name": "main_window"
+                }
+              ]
+            }
+          }
+        ]
+      ]
+    }
+  },
+  "prettier": "./node_modules/ws-scripts/dist/config/prettierrc",
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/ws-scripts/dist/config/eslintrc.js"
+    ]
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    },
+    "modulePathIgnorePatterns": [
+      "<rootDir>/docs/",
+      "<rootDir>/out/"
+    ],
+    "setupFilesAfterEnv": [
+      "@testing-library/react/cleanup-after-each",
+      "jest-dom/extend-expect"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/docs/",
+      "<rootDir>/out/"
+    ]
+  },
   "dependencies": {
     "@browser-logos/brave": "^3.0.10",
     "@browser-logos/brave-beta": "^1.0.8",
@@ -100,101 +191,10 @@
     "typescript": "^3.5.1",
     "url-loader": "^2.0.0",
     "webpack": "^4.40.2",
-    "ws-scripts": "^1.0.0"
+    "ws-scripts": "^1.0.1"
   },
-  "config": {
-    "forge": {
-      "packagerConfig": {
-        "appBundleId": "com.browserosaurus",
-        "asar": true,
-        "appCategoryType": "public.app-category.developer-tools",
-        "packageManager": "yarn",
-        "osxSign": {
-          "gatekeeper-assess": false,
-          "hardened-runtime": true,
-          "entitlements": "build/entitlements.mac.plist",
-          "entitlements-inherit": "build/entitlements.mac.plist"
-        },
-        "icon": "src/main/static/icon/icon.icns",
-        "protocols": [
-          {
-            "name": "HTTP link",
-            "schemes": [
-              "http",
-              "https"
-            ]
-          },
-          {
-            "name": "File",
-            "schemes": [
-              "file"
-            ]
-          }
-        ]
-      },
-      "makers": [
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-dmg",
-          "config": {
-            "format": "ULFO"
-          }
-        }
-      ],
-      "plugins": [
-        [
-          "@electron-forge/plugin-webpack",
-          {
-            "mainConfig": "./webpack.main.config.js",
-            "renderer": {
-              "config": "./webpack.renderer.config.js",
-              "entryPoints": [
-                {
-                  "html": "./src/renderer/index.html",
-                  "js": "./src/renderer/index.tsx",
-                  "name": "main_window"
-                }
-              ]
-            }
-          }
-        ]
-      ]
-    }
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "ws-scripts pre-commit"
-    }
-  },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "@testing-library/react/cleanup-after-each",
-      "jest-dom/extend-expect"
-    ],
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
-    },
-    "modulePathIgnorePatterns": [
-      "<rootDir>/docs/",
-      "<rootDir>/out/"
-    ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/node_modules/",
-      "<rootDir>/docs/",
-      "<rootDir>/out/"
-    ]
-  },
-  "prettier": "./node_modules/@will-stone/scripts/dist/config/prettierrc",
-  "eslintConfig": {
-    "extends": [
-      "./node_modules/@will-stone/scripts/dist/config/eslintrc.js"
-    ]
+  "engines": {
+    "node": ">=10.4.1"
   },
   "productName": "Browserosaurus"
 }
