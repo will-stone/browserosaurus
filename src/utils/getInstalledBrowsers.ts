@@ -20,7 +20,7 @@ async function filterAsync<T>(
 /**
  * Finds installed whitelisted browsers.
  */
-export const getInstalledBrowsers = (): Promise<BrowserName[]> =>
+const getInstalledBrowsers = (): Promise<BrowserName[]> =>
   // TODO: make this pure.
   filterAsync(browserNames, async (name: BrowserName) => {
     const { appId } = browsers[name]
@@ -29,3 +29,5 @@ export const getInstalledBrowsers = (): Promise<BrowserName[]> =>
     )
     return Boolean(appPath)
   })
+
+export default getInstalledBrowsers

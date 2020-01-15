@@ -3,7 +3,7 @@ import * as React from 'react'
 
 import { LOG } from '../config/events'
 
-export class ErrorBoundary extends React.Component {
+class ErrorBoundary extends React.Component {
   componentDidCatch(error: Error | null, errorInfo: object) {
     ipcRenderer.send(LOG, {
       errorName: error && error.name,
@@ -17,3 +17,5 @@ export class ErrorBoundary extends React.Component {
     return children
   }
 }
+
+export default ErrorBoundary

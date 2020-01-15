@@ -4,7 +4,7 @@ import * as Url from 'url'
 
 import { URL_RECEIVED } from '../../config/events'
 
-export const useUrl = (): Url.UrlWithStringQuery => {
+const useUrl = (): Url.UrlWithStringQuery => {
   const [urlObj, setUrlObj] = useState<Url.UrlWithStringQuery>({ query: '' })
 
   useEffect(() => {
@@ -19,3 +19,5 @@ export const useUrl = (): Url.UrlWithStringQuery => {
 
   return urlObj
 }
+
+export default useUrl

@@ -30,7 +30,7 @@ describe('App', () => {
       win.webContents.send(URL_RECEIVED, 'example.com')
       fireEvent.mouseEnter(container.firstChild as Element)
     })
-    getByText('example.com')
+    expect(getByText('example.com')).toBeVisible()
   })
 
   it('should display the received browsers', () => {
@@ -40,10 +40,10 @@ describe('App', () => {
       win.webContents.send(BROWSERS_SET, browsers2)
       fireEvent.mouseEnter(container.firstChild as Element)
     })
-    getByAltText('Safari')
-    getByText('s / space')
-    getByAltText('Firefox')
-    getByText('f')
+    expect(getByAltText('Safari')).toBeVisible()
+    expect(getByText('s / space')).toBeVisible()
+    expect(getByAltText('Firefox')).toBeVisible()
+    expect(getByText('f')).toBeVisible()
   })
 
   it('should show picker window on mouse enter', () => {
@@ -68,7 +68,10 @@ describe('App', () => {
     act(() => {
       fireEvent.click(getByAltText('Firefox'))
     })
-    expect(electron.ipcRenderer.send).toBeCalledWith(BROWSER_RUN, 'Firefox')
+    expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
+      BROWSER_RUN,
+      'Firefox',
+    )
   })
 
   it('should copy url on click', () => {
@@ -104,14 +107,26 @@ describe('App', () => {
     fireEvent.mouseEnter(container.firstChild as Element)
 
     // Check current order
-    within(queryAllByTestId('browser-button')[0]).getByAltText('Safari')
-    within(queryAllByTestId('browser-button')[1]).getByAltText('Firefox')
+    expect(
+      within(queryAllByTestId('browser-button')[0]).getByAltText('Safari'),
+    ).toBeInTheDocument()
+
+    expect(
+      within(queryAllByTestId('browser-button')[1]).getByAltText('Firefox'),
+    ).toBeInTheDocument()
+
     act(() => {
       win.webContents.send(FAV_SET, 'Firefox')
     })
+
     // Fav is now first:
-    within(queryAllByTestId('browser-button')[0]).getByAltText('Firefox')
-    within(queryAllByTestId('browser-button')[1]).getByAltText('Safari')
+    expect(
+      within(queryAllByTestId('browser-button')[0]).getByAltText('Firefox'),
+    ).toBeInTheDocument()
+
+    expect(
+      within(queryAllByTestId('browser-button')[1]).getByAltText('Safari'),
+    ).toBeInTheDocument()
   })
 
   describe('Picker Window', () => {

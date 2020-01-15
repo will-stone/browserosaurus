@@ -4,12 +4,12 @@ import cc from 'classcat'
 import { ipcRenderer } from 'electron'
 import * as React from 'react'
 
-import { browserLogos } from '../../config/browserLogos'
+import browserLogos from '../../config/browserLogos'
 import { browsers } from '../../config/browsers'
 import { BROWSER_RUN } from '../../config/events'
-import { useBrowsers } from '../hooks/useBrowsers'
-import { useOpt } from '../hooks/useOpt'
-import { CopyToClipboardButton } from './CopyToClipboardButton'
+import useBrowsers from '../hooks/useBrowsers'
+import useOpt from '../hooks/useOpt'
+import CopyToClipboardButton from './CopyToClipboardButton'
 
 const numberOfRowsAndCols = (num: number): [number, number] => {
   const breakpoint = 4
@@ -29,7 +29,7 @@ interface Props {
   isVisible: boolean
 }
 
-export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
+const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
   const browserNames = useBrowsers()
   const isOptHeld = useOpt()
 
@@ -122,3 +122,5 @@ export const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
     </div>
   )
 }
+
+export default Picker

@@ -12,7 +12,7 @@ interface Props {
 
 const onButtonClick = () => ipcRenderer.send(COPY_TO_CLIPBOARD)
 
-export const CopyToClipboardButton: React.FC<Props> = ({ transform }) => {
+const CopyToClipboardButton: React.FC<Props> = ({ transform }) => {
   React.useEffect(() => {
     mousetrap.bind(['command+c'], evt => {
       evt.preventDefault()
@@ -32,3 +32,5 @@ export const CopyToClipboardButton: React.FC<Props> = ({ transform }) => {
     </button>
   )
 }
+
+export default CopyToClipboardButton

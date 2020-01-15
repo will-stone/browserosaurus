@@ -4,7 +4,7 @@ import { ipcRenderer } from 'electron'
 import * as React from 'react'
 
 import { COPY_TO_CLIPBOARD } from '../../config/events'
-import { useUrl } from '../hooks/useUrl'
+import useUrl from '../hooks/useUrl'
 
 interface Props {
   isVisible: boolean
@@ -12,7 +12,7 @@ interface Props {
 
 const onClick = (): void => ipcRenderer.send(COPY_TO_CLIPBOARD)
 
-export const Bluebar: React.FC<Props> = ({ isVisible }) => {
+const Bluebar: React.FC<Props> = ({ isVisible }) => {
   const urlObj = useUrl()
 
   const transform = isVisible ? 'scaleY(1)' : 'scaleY(0)'
@@ -53,3 +53,5 @@ export const Bluebar: React.FC<Props> = ({ isVisible }) => {
     </button>
   )
 }
+
+export default Bluebar

@@ -26,7 +26,7 @@ import polypane from './polypane_256x256.png'
 
 type Browsers = { [key in BrowserName]: string }
 
-export const browserLogos: Browsers = {
+const browserLogos: Browsers = {
   Brave: brave,
   'Brave Beta': braveBeta,
   'Brave Dev': braveDev,
@@ -51,3 +51,5 @@ export const browserLogos: Browsers = {
   Vivaldi: vivaldi,
   Yandex: yandex,
 }
+
+export default browserLogos

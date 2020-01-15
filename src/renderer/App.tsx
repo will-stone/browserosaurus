@@ -13,8 +13,8 @@ import {
   MOUSE_THROUGH_ENABLE,
   WINDOW_BLUR,
 } from '../config/events'
-import { Bluebar } from './features/Bluebar'
-import { Picker } from './features/Picker'
+import Bluebar from './features/Bluebar'
+import Picker from './features/Picker'
 
 const { useEffect, useCallback, useState } = React
 

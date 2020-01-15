@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { BrowserName, browsers } from '../../config/browsers'
 import { BROWSER_RUN, BROWSERS_SET, FAV_SET } from '../../config/events'
 
-export const useBrowsers = (): BrowserName[] => {
+const useBrowsers = (): BrowserName[] => {
   const [browserNames, setBrowserNames] = useState<BrowserName[]>([])
   const [favName, setFavName] = useState<BrowserName>('Safari')
 
@@ -61,3 +61,5 @@ export const useBrowsers = (): BrowserName[] => {
 
   return [favName, ...browserNames.filter(name => name !== favName)]
 }
+
+export default useBrowsers

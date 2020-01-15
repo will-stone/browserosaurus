@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 import { OPT_TOGGLE, WINDOW_BLUR } from '../../config/events'
 
-export const useOpt = (): boolean => {
+const useOpt = (): boolean => {
   const [isOptHeld, setIsOptHeld] = useState<boolean>(false)
 
   useEffect(() => {
@@ -29,3 +29,5 @@ export const useOpt = (): boolean => {
 
   return isOptHeld
 }
+
+export default useOpt
