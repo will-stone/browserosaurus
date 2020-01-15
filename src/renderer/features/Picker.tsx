@@ -16,6 +16,7 @@ const numberOfRowsAndCols = (num: number): [number, number] => {
   if (num <= breakpoint) {
     return [1, num]
   }
+
   const sqrt = Math.sqrt(num)
   const ceil = Math.ceil(sqrt)
   const floor = Math.floor(sqrt)

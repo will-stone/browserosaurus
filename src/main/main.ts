@@ -28,9 +28,9 @@ import {
   URL_RECEIVED,
   WINDOW_BLUR,
 } from '../config/events'
-import { copyToClipboard } from '../utils/copyToClipboard'
-import { getInstalledBrowsers } from '../utils/getInstalledBrowsers'
-import { runCommand } from '../utils/runCommand'
+import copyToClipboard from '../utils/copyToClipboard'
+import getInstalledBrowsers from '../utils/getInstalledBrowsers'
+import runCommand from '../utils/runCommand'
 
 // Config file
 const dotBrowserosaurus: { ignored: string[] } = { ignored: [] }
@@ -126,6 +126,7 @@ ipcMain.on(BROWSER_RUN, (_: Event, name: BrowserName) => {
       runCommand(browser.cmd.replace('{URL}', urlToOpen))
     }
   }
+
   pickerWindow.webContents.send(WINDOW_BLUR)
 })
 
