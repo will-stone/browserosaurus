@@ -4,8 +4,12 @@ about: Create a report to help us improve
 title: ''
 labels: bug
 assignees: ''
-
 ---
+
+<!--
+Please read the following article, especially if it is your first issue on one of my repos.
+https://css-tricks.com/open-source-etiquette-guidebook/#article-header-id-1
+-->
 
 **Describe the bug**
 A clear and concise description of what the bug is.
