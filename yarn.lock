@@ -10757,10 +10757,10 @@ write@1.0.3:
   dependencies:
     mkdirp "^0.5.1"
 
-ws-scripts@^1.0.16:
-  version "1.0.16"
-  resolved "https://registry.yarnpkg.com/ws-scripts/-/ws-scripts-1.0.16.tgz#7ae4f875b4ffcb89574a7020b34fced793e0d965"
-  integrity sha512-x1VgT3mvt5+OQbl7nOo8dHNySv9uTiXu7iep41IFvqAfr5qXrB5OppugJetcoe6Eql5hk0reBKuUebXlUhLFbQ==
+ws-scripts@^1.0.18:
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/ws-scripts/-/ws-scripts-1.0.18.tgz#12e9230e79bbe384e16072dc9466abccf158b286"
+  integrity sha512-i7cUKgzM3MafDd5IHW5dbzDanNPJKalNXSzmEIkY0rTJO0sMniKcaLrDHWsDE23IFeWB5yNuZ4AyrWrZsv5++w==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^2.16.0"
     "@typescript-eslint/parser" "^2.16.0"
