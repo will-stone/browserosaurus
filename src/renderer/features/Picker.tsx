@@ -80,8 +80,8 @@ const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
           const isFav = index === 0
 
           let browserKey = browser.hotKey || ''
-          if (isFav && browser.hotKey) browserKey += ' / '
-          if (isFav) browserKey += 'space'
+          if (isFav && browser.hotKey) browserKey = `${browserKey} / `
+          if (isFav) browserKey = `${browserKey}space`
 
           const onBrowserClick = (
             evt: React.MouseEvent<HTMLButtonElement, MouseEvent>,
