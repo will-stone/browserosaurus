@@ -7,6 +7,11 @@ assignees: ''
 
 ---
 
+<!--
+Please read the following article, especially if it is your first issue on one of my repos.
+https://css-tricks.com/open-source-etiquette-guidebook/#article-header-id-1
+-->
+
 **Is your feature request related to a problem? Please describe.**
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 
