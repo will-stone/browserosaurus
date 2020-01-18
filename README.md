@@ -50,6 +50,12 @@ yarn notarize
 yarn make
 ```
 
+### Finding bundle identifier (`appId`) for an app
+
+```sh
+mdls -name kMDItemCFBundleIdentifier -r /Applications/Firefox.app
+```
+
 ### Browser logos
 
 The browser logos are provided by an excellent project by
