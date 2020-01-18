@@ -131,7 +131,10 @@ ipcMain.on(BROWSER_RUN, (_: Event, name: BrowserName) => {
 })
 
 ipcMain.on(COPY_TO_CLIPBOARD, () => {
-  if (urlToOpen) copyToClipboard(urlToOpen)
+  if (urlToOpen) {
+    copyToClipboard(urlToOpen)
+  }
+
   pickerWindow.webContents.send(WINDOW_BLUR)
 })
 
