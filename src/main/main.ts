@@ -10,6 +10,7 @@ import {
 } from 'electron'
 import isDev from 'electron-is-dev'
 import Store from 'electron-store'
+import execa from 'execa'
 import fs from 'fs'
 import os from 'os'
 
@@ -30,7 +31,6 @@ import {
 } from '../config/events'
 import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
-import runCommand from '../utils/runCommand'
 
 // Config file
 const dotBrowserosaurus: { ignored: string[] } = { ignored: [] }
@@ -120,10 +120,10 @@ const urlRecevied = (url: string) => {
 ipcMain.on(BROWSER_RUN, (_: Event, name: BrowserName) => {
   const browser = browsers[name]
   if (urlToOpen) {
-    if (isOptHeld && browser.optCmd) {
-      runCommand(browser.optCmd.replace('{URL}', urlToOpen))
+    if (isOptHeld) {
+      execa('open', [urlToOpen, '-b', browser.appId, '-g'])
     } else {
-      runCommand(browser.cmd.replace('{URL}', urlToOpen))
+      execa('open', [urlToOpen, '-b', browser.appId])
     }
   }
 
