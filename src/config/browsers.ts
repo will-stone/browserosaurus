@@ -23,6 +23,7 @@ export const browserNames = [
   'Microsoft Edge Dev',
   'Min',
   'Opera',
+  'Opera Developer',
   'Polypane',
   'qutebrowser',
   'Safari',
@@ -113,6 +114,10 @@ export const browsers: Browsers = {
     name: 'Opera',
     appId: 'com.operasoftware.Opera',
     hotKey: 'o',
+  },
+  'Opera Developer': {
+    name: 'Opera Developer',
+    appId: 'com.operasoftware.OperaDeveloper',
   },
   Polypane: {
     name: 'Polypane',
