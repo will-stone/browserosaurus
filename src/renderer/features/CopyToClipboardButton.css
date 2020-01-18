@@ -10,6 +10,9 @@
   opacity: 0.4;
   font-size: 10px;
   transition: opacity 200ms ease-in-out;
+  background-color: transparent;
+  outline: none;
+  border: 0;
 }
 
 .CopyToClipboardButton:hover {
@@ -26,5 +29,5 @@
   font-size: 11px;
   border-radius: 5px;
   text-transform: uppercase;
-  background-color: #2D3748;
+  background-color: #2d3748;
 }
