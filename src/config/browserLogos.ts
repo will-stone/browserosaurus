@@ -7,6 +7,7 @@ import chromium from '@browser-logos/chromium/chromium_256x256.png'
 import edgeBeta from '@browser-logos/edge-beta/edge-beta.svg'
 import edgeCanary from '@browser-logos/edge-canary/edge-canary.svg'
 import edgeDev from '@browser-logos/edge-dev/edge-dev.svg'
+import edge from '@browser-logos/edge/edge.svg'
 import firefoxDevEdition from '@browser-logos/firefox-developer-edition/firefox-developer-edition.svg'
 import firefoxNightly from '@browser-logos/firefox-nightly/firefox-nightly.svg'
 import firefox from '@browser-logos/firefox/firefox.svg'
@@ -38,6 +39,7 @@ const browserLogos: Browsers = {
   'Google Chrome Canary': chromeCanary,
   Iridium: iridium,
   Maxthon: maxthon,
+  'Microsoft Edge': edge,
   'Microsoft Edge Beta': edgeBeta,
   'Microsoft Edge Canary': edgeCanary,
   'Microsoft Edge Dev': edgeDev,

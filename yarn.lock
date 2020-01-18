@@ -773,6 +773,11 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/edge-dev/-/edge-dev-1.0.9.tgz#010b6b786fc507b63cc70df1cb2bab5b4fdff5e7"
   integrity sha512-nG46OcHueaHYEGMMT2KdRdpYEQDTLvZ2WrniVBcejdm2FUwtWYjRwhik18n/X891/HjXpwnxS3V7C067GlFWUg==
 
+"@browser-logos/edge@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@browser-logos/edge/-/edge-2.0.3.tgz#fa71539517a79a746d2d54afbdb02685f94bb835"
+  integrity sha512-ORz6Wu4BOUdRoVjHB/5bUdDC9+Zp+oTRzrcq+y2PvVQZmuoRWuEsIgXwwR/7Bd/zbQN7benjEAyr0vENZFhxig==
+
 "@browser-logos/firefox-developer-edition@^3.0.2":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@browser-logos/firefox-developer-edition/-/firefox-developer-edition-3.0.2.tgz#b2fc5cb6c74480cb78bd30be123e7031fb037945"

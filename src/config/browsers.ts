@@ -19,6 +19,7 @@ export const browserNames = [
   'Google Chrome Canary',
   'Iridium',
   'Maxthon',
+  'Microsoft Edge',
   'Microsoft Edge Beta',
   'Microsoft Edge Canary',
   'Microsoft Edge Dev',
@@ -100,11 +101,16 @@ export const browsers: Browsers = {
     cmd: 'open "{URL}" -b com.maxthon.mac.Maxthon',
     hotKey: 'm',
   },
+  'Microsoft Edge': {
+    name: 'Microsoft Edge',
+    appId: 'com.microsoft.edgemac',
+    cmd: 'open "{URL}" -b com.microsoft.edgemac',
+    hotKey: 'e',
+  },
   'Microsoft Edge Beta': {
     name: 'Microsoft Edge Beta',
     appId: 'com.microsoft.edgemac.Beta',
     cmd: 'open "{URL}" -b com.microsoft.edgemac.Beta',
-    hotKey: 'e',
   },
   'Microsoft Edge Canary': {
     name: 'Microsoft Edge Canary',
