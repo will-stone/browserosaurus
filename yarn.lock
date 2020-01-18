@@ -803,6 +803,11 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/maxthon/-/maxthon-1.0.3.tgz#3d1bc181c0c56977ee7a4794c128c01ec9722210"
   integrity sha512-fZIgdH/wiE/bxWMALYaIU3JvhyOCiYp/E/v3XmQwPMjIptNsk2QmedTj68AeM0dYZmj7DEpZd4JjCZuozMaEew==
 
+"@browser-logos/opera-beta@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@browser-logos/opera-beta/-/opera-beta-1.0.7.tgz#1013081c1402c8794ab60c34e22dc57b76219710"
+  integrity sha512-V8yATnZUM/BroP7VeS7J27qUhqQksQFkYOuBgCSCBfFs2MgTZlYcxvhsG13Ct5pHGu34tn9on3Xdxv/qOB7IkQ==
+
 "@browser-logos/opera-developer@^1.0.7":
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/@browser-logos/opera-developer/-/opera-developer-1.0.7.tgz#1e05cb4670354febda75ae70e5b0d53afbd22fbd"

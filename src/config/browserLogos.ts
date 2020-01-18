@@ -13,6 +13,7 @@ import firefoxNightly from '@browser-logos/firefox-nightly/firefox-nightly.svg'
 import firefox from '@browser-logos/firefox/firefox.svg'
 import iridium from '@browser-logos/iridium/iridium.svg'
 import maxthon from '@browser-logos/maxthon/maxthon_256x256.png'
+import operaBeta from '@browser-logos/opera-beta/opera-beta_256x256.png'
 import operaDeveloper from '@browser-logos/opera-developer/opera-developer_256x256.png'
 import opera from '@browser-logos/opera/opera.svg'
 import qutebrowser from '@browser-logos/qutebrowser/qutebrowser.svg'
@@ -46,6 +47,7 @@ const browserLogos: Browsers = {
   'Microsoft Edge Dev': edgeDev,
   Min: min,
   Opera: opera,
+  'Opera Beta': operaBeta,
   'Opera Developer': operaDeveloper,
   Polypane: polypane,
   qutebrowser,
