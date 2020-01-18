@@ -1,6 +1,5 @@
 import './Picker.css'
 
-import cc from 'classcat'
 import { ipcRenderer } from 'electron'
 import * as React from 'react'
 
@@ -92,17 +91,14 @@ const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
             evt: React.MouseEvent<HTMLButtonElement, MouseEvent>,
           ) => {
             evt.stopPropagation()
-            if ((isOptHeld && browser.optCmd) || !isOptHeld) {
+            if (isOptHeld || !isOptHeld) {
               ipcRenderer.send(BROWSER_RUN, name)
             }
           }
 
           return (
             <button
-              className={cc([
-                'Picker__browser-btn',
-                { 'Picker__browser-btn--no-opt': isOptHeld && !browser.optCmd },
-              ])}
+              className="Picker__browser-btn"
               data-testid="browser-button"
               key={name}
               onClick={onBrowserClick}

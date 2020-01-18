@@ -1,6 +1,6 @@
 .Picker {
   position: absolute;
-  background-color: #1A202C;
+  background-color: #1a202c;
   box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
   border-radius: 5px;
   overflow: hidden;
@@ -42,25 +42,19 @@
   outline: none;
 }
 
-.Picker__browser-btn--no-opt,
-.Picker__browser-btn--no-opt:hover {
-  opacity: 0.3;
-}
-
 .Picker__browser-img {
   display: block;
   width: 60%;
   margin-bottom: 10px;
 }
 
-.Picker__browser-btn:not(.Picker__browser-btn--no-opt):hover
-  .Picker__browser-img {
+.Picker__browser-btn:hover .Picker__browser-img {
   -webkit-filter: drop-shadow(0px 0px 5px #e2e8f0);
   filter: drop-shadow(0px 0px 5px #e2e8f0);
 }
 
 .Picker__browser-key {
-  background-color: #2D3748;
+  background-color: #2d3748;
   text-align: center;
   font-size: 11px;
   font-weight: 400;
@@ -73,7 +67,6 @@
   opacity: 0.4;
 }
 
-.Picker__browser-btn:not(.Picker__browser-btn--no-opt):hover
-  .Picker__browser-key {
+.Picker__browser-btn:hover .Picker__browser-key {
   opacity: 1;
 }
