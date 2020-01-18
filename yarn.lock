@@ -1574,14 +1574,6 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-native@*":
-  version "0.57.60"
-  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.57.60.tgz#61e97a84e2f64ed971e7d238bb30cec188898235"
-  integrity sha512-zObrnRsCbpM7qDm97d8+5qiSIMMYRaWgpqu6orjbjzLUAcJaKnpBMXgW6bRXWkFBjHgm3hjDAdVVGMWlrYJBdw==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/react" "*"
-
 "@types/react@*":
   version "16.8.19"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.8.19.tgz#629154ef05e2e1985cdde94477deefd823ad9be3"
@@ -1602,22 +1594,6 @@
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
   integrity sha512-l42BggppR6zLmpfU6fq9HEa2oGPEI8yrSPL3GITjfRInppYFahObbIQOQK3UGxEnyQpltZLaPe75046NOZQikw==
-
-"@types/styled-components@^4.1.16":
-  version "4.1.16"
-  resolved "https://registry.yarnpkg.com/@types/styled-components/-/styled-components-4.1.16.tgz#63fb33d02bc41d70a3af88711849b6df5d2a58e0"
-  integrity sha512-h4VtEopz0AS2oAbZlVSG1gnEhvx0LXcmYn9jD/y8Z/OHimsQygYFeDPbUDH/rJOaQu3T+PgAgRtOTG2IZyUTVg==
-  dependencies:
-    "@types/react" "*"
-    "@types/react-native" "*"
-    csstype "^2.2.0"
-
-"@types/styled-system@^4.2.1":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@types/styled-system/-/styled-system-4.2.1.tgz#dc03af329452b5208aba9dc56fdfc6971b9ed2d0"
-  integrity sha512-4wARGJuZz1DzogmGAKhOviaDeZYfOU29ROt/XrWSFTKhTNSpMvq7WyzEUuxPRC70VH57eUB1uxsWrKYND/FgJQ==
-  dependencies:
-    csstype "^2.6.4"
 
 "@types/testing-library__dom@*", "@types/testing-library__dom@^6.0.0":
   version "6.11.1"
@@ -3351,7 +3327,7 @@ cssstyle@^1.0.0:
   dependencies:
     cssom "0.3.x"
 
-csstype@^2.2.0, csstype@^2.6.4:
+csstype@^2.2.0:
   version "2.6.5"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.5.tgz#1cd1dff742ebf4d7c991470ae71e12bb6751e034"
   integrity sha512-JsTaiksRsel5n7XwqPAfB0l3TFKdpjW/kgAELf9vrb5adGA7UCPLajKK5s3nFrcFm3Rkyp/Qkgl73ENc1UY3cA==
