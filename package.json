@@ -43,6 +43,7 @@
         "asar": true,
         "appCategoryType": "public.app-category.developer-tools",
         "packageManager": "yarn",
+        "extendInfo": "build/Info.plist",
         "osxSign": {
           "gatekeeper-assess": false,
           "hardened-runtime": true,

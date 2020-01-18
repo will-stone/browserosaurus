@@ -291,6 +291,3 @@ app.on('open-url', (event, url) => {
     urlRecevied(urlToOpen)
   }
 })
-
-// Also prevents Browserosaurus from appearing in cmd-tab.
-app.dock.hide()
