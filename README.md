@@ -61,4 +61,4 @@ https://github.com/alrra/browser-logos
 To build an icns file from `src/images/icon/icon.png`, simply run
 `yarn run icns`.
 
-this is a test
+this is a test this is a test
