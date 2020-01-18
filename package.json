@@ -2,22 +2,24 @@
   "name": "browserosaurus",
   "version": "8.1.2",
   "description": "The browser prompter for macOS",
-  "license": "MIT",
-  "repository": "https://github.com/will-stone/browserosaurus",
-  "author": "Will Stone",
+  "keywords": [
+    "macOS",
+    "Electron",
+    "Browser chooser"
+  ],
   "homepage": "https://browserosaurus.com/",
   "bugs": {
     "url": "https://github.com/will-stone/browserosaurus/issues"
   },
+  "repository": "https://github.com/will-stone/browserosaurus",
+  "license": "MIT",
+  "author": "Will Stone",
   "main": ".webpack/main",
-  "engines": {
-    "node": ">=10.4.1"
-  },
   "scripts": {
     "docs": "http-server ./docs",
     "env": "export $(cat .env | xargs) && env",
     "icns": "cd ./src/images/icon && ./scripts/png2icns.sh icon.png",
-    "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx",
+    "lint": "ws-scripts lint",
     "list-browsers": "ts-node ./scripts/listInstalledBrowsers",
     "make": "electron-forge make --skip-package",
     "notarize": "export $(cat .env | xargs) && ts-node ./scripts/notarize.ts",
@@ -28,91 +30,10 @@
     "test:watch": "jest --watch",
     "typecheck": "tsc --noEmit --skipLibCheck"
   },
-  "keywords": [
-    "macOS",
-    "Electron",
-    "Browser chooser"
-  ],
-  "dependencies": {
-    "@browser-logos/brave": "^3.0.10",
-    "@browser-logos/brave-beta": "^1.0.8",
-    "@browser-logos/brave-dev": "^1.0.8",
-    "@browser-logos/chrome": "^1.0.15",
-    "@browser-logos/chrome-canary": "^1.1.7",
-    "@browser-logos/chromium": "^1.0.6",
-    "@browser-logos/edge-beta": "^1.0.11",
-    "@browser-logos/edge-canary": "^1.0.9",
-    "@browser-logos/edge-dev": "^1.0.9",
-    "@browser-logos/firefox": "^3.0.4",
-    "@browser-logos/firefox-developer-edition": "^3.0.2",
-    "@browser-logos/firefox-nightly": "^3.0.2",
-    "@browser-logos/iridium": "^2.0.5",
-    "@browser-logos/maxthon": "^1.0.3",
-    "@browser-logos/opera": "^1.1.8",
-    "@browser-logos/qutebrowser": "^1.0.2",
-    "@browser-logos/safari": "^1.0.6",
-    "@browser-logos/safari-technology-preview": "^1.0.7",
-    "@browser-logos/tor": "^2.0.2",
-    "@browser-logos/vivaldi": "^2.1.7",
-    "@browser-logos/yandex": "^1.0.6",
-    "classcat": "^4.0.2",
-    "electron-is-dev": "^1.1.0",
-    "electron-squirrel-startup": "^1.0.0",
-    "electron-store": "^3.2.0",
-    "execa": "^1.0.0",
-    "mousetrap": "^1.6.3",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
-    "@babel/preset-react": "^7.0.0",
-    "@babel/preset-typescript": "^7.3.3",
-    "@electron-forge/cli": "6.0.0-beta.45",
-    "@electron-forge/maker-deb": "6.0.0-beta.45",
-    "@electron-forge/maker-dmg": "^6.0.0-beta.45",
-    "@electron-forge/maker-rpm": "6.0.0-beta.45",
-    "@electron-forge/maker-squirrel": "6.0.0-beta.45",
-    "@electron-forge/maker-zip": "6.0.0-beta.45",
-    "@electron-forge/plugin-webpack": "6.0.0-beta.45",
-    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
-    "@testing-library/react": "^8.0.1",
-    "@types/jest": "^24.0.13",
-    "@types/mousetrap": "^1.6.2",
-    "@types/node": "^12.0.4",
-    "@types/react": "^16.8.19",
-    "@types/react-dom": "^16.8.4",
-    "@types/styled-components": "^4.1.16",
-    "@types/styled-system": "^4.2.1",
-    "@typescript-eslint/eslint-plugin": "^1.10.2",
-    "@typescript-eslint/parser": "^1.10.2",
-    "@will-stone/prettier-config": "^1.0.0",
-    "babel-loader": "^8.0.6",
-    "copy-webpack-plugin": "^5.0.3",
-    "css-loader": "^3.2.0",
-    "electron": "7.1.0",
-    "electron-notarize": "^0.2.0",
-    "eslint": "^5.16.0",
-    "eslint-config-prettier": "^4.3.0",
-    "eslint-plugin-jest": "^22.6.4",
-    "eslint-plugin-prettier": "^3.1.0",
-    "eslint-plugin-react": "^7.13.0",
-    "eslint-plugin-react-hooks": "^1.6.0",
-    "eslint-plugin-simple-import-sort": "^4.0.0",
-    "http-server": "^0.11.1",
-    "husky": "^3.0.9",
-    "jest": "^24.8.0",
-    "jest-dom": "^3.4.0",
-    "mini-css-extract-plugin": "^0.8.0",
-    "node-loader": "^0.6.0",
-    "prettier": "^1.18.2",
-    "prettier-plugin-package": "^0.3.1",
-    "style-loader": "^1.0.0",
-    "ts-node": "^8.3.0",
-    "typescript": "^3.5.1",
-    "url-loader": "^2.0.0",
-    "webpack": "^4.40.2"
+  "husky": {
+    "hooks": {
+      "pre-commit": "ws-scripts pre-commit"
+    }
   },
   "config": {
     "forge": {
@@ -178,16 +99,13 @@
       ]
     }
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn pretty-package && git add package.json"
-    }
+  "prettier": "./node_modules/ws-scripts/dist/config/prettierrc",
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/ws-scripts/dist/config/eslintrc.js"
+    ]
   },
   "jest": {
-    "setupFilesAfterEnv": [
-      "@testing-library/react/cleanup-after-each",
-      "jest-dom/extend-expect"
-    ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
@@ -196,12 +114,86 @@
       "<rootDir>/docs/",
       "<rootDir>/out/"
     ],
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-dom/extend-expect"
+    ],
     "testPathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/docs/",
       "<rootDir>/out/"
     ]
   },
-  "prettier": "@will-stone/prettier-config",
+  "dependencies": {
+    "@browser-logos/brave": "^3.0.10",
+    "@browser-logos/brave-beta": "^1.0.8",
+    "@browser-logos/brave-dev": "^1.0.8",
+    "@browser-logos/chrome": "^1.0.15",
+    "@browser-logos/chrome-canary": "^1.1.7",
+    "@browser-logos/chromium": "^1.0.6",
+    "@browser-logos/edge-beta": "^1.0.11",
+    "@browser-logos/edge-canary": "^1.0.9",
+    "@browser-logos/edge-dev": "^1.0.9",
+    "@browser-logos/firefox": "^3.0.4",
+    "@browser-logos/firefox-developer-edition": "^3.0.2",
+    "@browser-logos/firefox-nightly": "^3.0.2",
+    "@browser-logos/iridium": "^2.0.5",
+    "@browser-logos/maxthon": "^1.0.3",
+    "@browser-logos/opera": "^1.1.8",
+    "@browser-logos/qutebrowser": "^1.0.2",
+    "@browser-logos/safari": "^1.0.6",
+    "@browser-logos/safari-technology-preview": "^1.0.7",
+    "@browser-logos/tor": "^2.0.2",
+    "@browser-logos/vivaldi": "^2.1.7",
+    "@browser-logos/yandex": "^1.0.6",
+    "classcat": "^4.0.2",
+    "electron-is-dev": "^1.1.0",
+    "electron-notarize": "^0.2.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^3.2.0",
+    "execa": "^1.0.0",
+    "mousetrap": "^1.6.3",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
+    "@electron-forge/cli": "6.0.0-beta.47",
+    "@electron-forge/maker-deb": "6.0.0-beta.47",
+    "@electron-forge/maker-dmg": "^6.0.0-beta.47",
+    "@electron-forge/maker-rpm": "6.0.0-beta.47",
+    "@electron-forge/maker-squirrel": "6.0.0-beta.47",
+    "@electron-forge/maker-zip": "6.0.0-beta.47",
+    "@electron-forge/plugin-webpack": "6.0.0-beta.47",
+    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.0",
+    "@types/jest": "^24.0.25",
+    "@types/mousetrap": "^1.6.2",
+    "@types/node": "^12.0.4",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "@types/styled-components": "^4.1.16",
+    "@types/styled-system": "^4.2.1",
+    "babel-loader": "^8.0.6",
+    "copy-webpack-plugin": "^5.0.3",
+    "css-loader": "^3.2.0",
+    "electron": "7.1.8",
+    "http-server": "^0.11.1",
+    "jest": "^24.9.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "node-loader": "^0.6.0",
+    "style-loader": "^1.0.0",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.1",
+    "url-loader": "^2.0.0",
+    "webpack": "^4.40.2",
+    "ws-scripts": "^1.1.1"
+  },
+  "engines": {
+    "node": ">=10.4.1"
+  },
   "productName": "Browserosaurus"
 }

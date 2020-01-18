@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { BrowserName, browsers } from '../../config/browsers'
 import { BROWSER_RUN, BROWSERS_SET, FAV_SET } from '../../config/events'
 
-export const useBrowsers = (): BrowserName[] => {
+const useBrowsers = (): BrowserName[] => {
   const [browserNames, setBrowserNames] = useState<BrowserName[]>([])
   const [favName, setFavName] = useState<BrowserName>('Safari')
 
@@ -13,18 +13,19 @@ export const useBrowsers = (): BrowserName[] => {
     ipcRenderer.on(FAV_SET, (_: unknown, name: BrowserName) => {
       setFavName(name)
       mousetrap.unbind(['enter', 'option+enter', 'space', 'option+space'])
-      name &&
+      if (name) {
         mousetrap.bind(
           ['enter', 'option+enter', 'space', 'option+space'],
-          e => {
+          evt => {
             // When a browser has been selected with the mouse, it gets (invisible) focus.
             // This means when enter is pressed next, it will activate the focused browser AND fire
             // this key binding, causing two identical tabs to open in the selected browser.
             // This fixes that.
-            e.preventDefault()
+            evt.preventDefault()
             ipcRenderer.send(BROWSER_RUN, name)
           },
         )
+      }
     })
 
     return function cleanup() {
@@ -40,10 +41,13 @@ export const useBrowsers = (): BrowserName[] => {
         installedBrowserNames.forEach(browserName => {
           const browser = browsers[browserName]
           if (browser && browser.hotKey) {
-            mousetrap.bind([browser.hotKey, 'option+' + browser.hotKey], e => {
-              e.preventDefault()
-              ipcRenderer.send(BROWSER_RUN, browserName)
-            })
+            mousetrap.bind(
+              [browser.hotKey, `option+${browser.hotKey}`],
+              evt => {
+                evt.preventDefault()
+                ipcRenderer.send(BROWSER_RUN, browserName)
+              },
+            )
           }
         })
         setBrowserNames(installedBrowserNames)
@@ -57,3 +61,5 @@ export const useBrowsers = (): BrowserName[] => {
 
   return [favName, ...browserNames.filter(name => name !== favName)]
 }
+
+export default useBrowsers

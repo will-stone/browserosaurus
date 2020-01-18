@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   right: 0;
-  background-color: #2B6CB0;
+  background-color: #2b6cb0;
   box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
   font-size: 20px;
   line-height: 1.5;
@@ -18,6 +18,8 @@
   transform: none;
   transform-origin: center top;
   transition: transform 200ms ease-in-out;
+  outline: none;
+  border: 0;
 }
 
 .Bluebar__url {
@@ -26,21 +28,20 @@
   text-overflow: ellipsis;
 }
 
-
 .Bluebar__protocol {
-  color: #90CDF4;
+  color: #90cdf4;
 }
 
-.Bluebar__protocolIcon{
+.Bluebar__protocolIcon {
   height: 14px;
   margin-right: 10px;
 }
 
 .Bluebar__hostname {
   font-weight: bold;
-  color: #EBF8FF;
+  color: #ebf8ff;
 }
 
 .Bluebar__urlPart {
-  color: #90CDF4;
+  color: #90cdf4;
 }

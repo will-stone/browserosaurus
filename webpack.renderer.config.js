@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const webpackRules = require('./webpack.rules')
 
 module.exports = {
   // Put your normal webpack config below here
   module: {
-    rules: require('./webpack.rules'),
+    rules: webpackRules,
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],

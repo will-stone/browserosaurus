@@ -1,5 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const CopyPlugin = require('copy-webpack-plugin')
+const webpackRules = require('./webpack.rules')
 
 module.exports = {
   /**
@@ -9,7 +9,7 @@ module.exports = {
   entry: './src/main/main.ts',
   // Put your normal webpack config below here
   module: {
-    rules: require('./webpack.rules'),
+    rules: webpackRules,
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],

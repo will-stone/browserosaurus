@@ -4,11 +4,11 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
 import App from './App'
-import { ErrorBoundary } from './ErrorBoundary'
+import ErrorBoundary from './ErrorBoundary'
 
 ReactDOM.render(
   <ErrorBoundary>
     <App />
   </ErrorBoundary>,
-  document.getElementById('picker-root'),
+  document.querySelector('#picker-root'),
 )

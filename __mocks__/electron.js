@@ -1,5 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const EventEmitter = require('events')
+
 const eventEmitter = new EventEmitter()
 
 module.exports = {
@@ -25,7 +25,7 @@ module.exports = {
         },
       }
     },
-    getCurrentWindow: function() {
+    getCurrentWindow() {
       return {
         setIgnoreMouseEvents: jest.fn(),
       }

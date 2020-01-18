@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import './App.css'
 
 import cc from 'classcat'
@@ -11,8 +13,8 @@ import {
   MOUSE_THROUGH_ENABLE,
   WINDOW_BLUR,
 } from '../config/events'
-import { Bluebar } from './features/Bluebar'
-import { Picker } from './features/Picker'
+import Bluebar from './features/Bluebar'
+import Picker from './features/Picker'
 
 const { useEffect, useCallback, useState } = React
 
@@ -23,7 +25,8 @@ const App: React.FC = () => {
 
   const handleCloseWindow = useCallback(() => {
     setIsVisible(false)
-    setTimeout(() => ipcRenderer.send(CLOSE_WINDOW), 200)
+    const timeout = 200
+    setTimeout(() => ipcRenderer.send(CLOSE_WINDOW), timeout)
   }, [])
 
   // Set-up event listeners
@@ -31,8 +34,8 @@ const App: React.FC = () => {
     /**
      * Global keyboard shortcuts
      */
-    mousetrap.bind('esc', e => {
-      e.preventDefault()
+    mousetrap.bind('esc', evt => {
+      evt.preventDefault()
       handleCloseWindow()
     })
 
@@ -47,9 +50,9 @@ const App: React.FC = () => {
   }, [handleCloseWindow])
 
   const onMouseEnter = useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    (evt: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       if (!isVisible) {
-        setPickerPosition([e.clientX, e.clientY])
+        setPickerPosition([evt.clientX, evt.clientY])
         setIsVisible(true)
       }
     },
@@ -57,8 +60,8 @@ const App: React.FC = () => {
   )
 
   const onMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
-      setMouseTarget((e.target as Element).id),
+    (evt: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+      setMouseTarget((evt.target as Element).id),
     [],
   )
 
@@ -77,16 +80,16 @@ const App: React.FC = () => {
   return (
     <div
       className={cc(['App', { 'App--visible': isVisible }])}
-      onClick={handleCloseWindow}
       id="window"
+      onClick={handleCloseWindow}
       onMouseEnter={onMouseEnter}
       onMouseMove={onMouseMove}
     >
       <Bluebar isVisible={isVisible} />
       <Picker
+        isVisible={isVisible}
         x={pickerPosition[0]}
         y={pickerPosition[1]}
-        isVisible={isVisible}
       />
     </div>
   )
