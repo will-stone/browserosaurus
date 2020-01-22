@@ -194,7 +194,7 @@
     "typescript": "^3.5.1",
     "url-loader": "^2.0.0",
     "webpack": "^4.40.2",
-    "ws-scripts": "^1.2.0"
+    "ws-scripts": "^1.2.1"
   },
   "engines": {
     "node": ">=10.4.1"
