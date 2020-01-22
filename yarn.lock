@@ -10525,10 +10525,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^3.5.1:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.1.tgz#ba72a6a600b2158139c5dd8850f700e231464202"
-  integrity sha512-64HkdiRv1yYZsSe4xC1WVgamNigVYjlssIoaH2HcZF0+ijsk5YK2g0G34w9wJkze8+5ow4STd22AynfO6ZYYLw==
+typescript@^3.7.0:
+  version "3.7.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
+  integrity sha512-/P5lkRXkWHNAbcJIiHPfRoKqyd7bsyCma1hZNUGfn20qm64T6ZBlrzprymeu918H+mB/0rIg2gGK/BXkhhYgBw==
 
 uglify-js@3.4.x:
   version "3.4.10"
@@ -11053,10 +11053,10 @@ write@1.0.3:
   dependencies:
     mkdirp "^0.5.1"
 
-ws-scripts@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/ws-scripts/-/ws-scripts-1.2.1.tgz#88f5ec81f0568776978d251c6eea98383363971d"
-  integrity sha512-joTGrX3pMAZ6uSEjVD6oIpkc1pELRqVmBXZu6Krz8XKl/91eo4x/Hh6pyi+sia9686Xs9hnMWsIFCNfoRfqfCA==
+ws-scripts@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/ws-scripts/-/ws-scripts-1.3.1.tgz#8569b1d324396be26886a132226a6d3054a7a522"
+  integrity sha512-PK62pbkbWR6H3xybJ9D0DoCEmcyhObjVlIqMDZZVbFzP8niQm9carvNltVAqfOpCqu3PMKlkTBMNdCc4kVHmGw==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^2.17.0"
     "@typescript-eslint/parser" "^2.17.0"
