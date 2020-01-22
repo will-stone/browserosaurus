@@ -40,7 +40,7 @@ const useBrowsers = (): BrowserName[] => {
         // setup hotkeys
         installedBrowserNames.forEach(browserName => {
           const browser = browsers[browserName]
-          if (browser && browser.hotKey) {
+          if (browser.hotKey) {
             mousetrap.bind(
               [browser.hotKey, `option+${browser.hotKey}`],
               evt => {

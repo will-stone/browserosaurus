@@ -6,8 +6,8 @@ import { LOG } from '../config/events'
 class ErrorBoundary extends React.Component {
   componentDidCatch(error: Error | null, errorInfo: object) {
     ipcRenderer.send(LOG, {
-      errorName: error && error.name,
-      errorMessage: error && error.message,
+      errorName: error?.name,
+      errorMessage: error?.message,
       errorInfo,
     })
   }
