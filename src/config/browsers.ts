@@ -10,6 +10,7 @@ export const browserNames = [
   'Brave Beta',
   'Brave Dev',
   'Chromium',
+  'Cliqz',  
   'Firefox',
   'Firefox Developer Edition',
   'Firefox Nightly',
@@ -56,6 +57,10 @@ export const browsers: Browsers = {
     name: 'Chromium',
     appId: 'org.chromium.Chromium',
     hotKey: 'c',
+  },
+  Cliqz: {
+    name: 'Cliqz',
+    appId: 'org.mozilla.cliqz',
   },
   Firefox: {
     name: 'Firefox',
