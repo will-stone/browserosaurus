@@ -61,6 +61,7 @@ export const browsers: Browsers = {
   Cliqz: {
     name: 'Cliqz',
     appId: 'org.mozilla.cliqz',
+    hotKey: 'z',
   },
   Firefox: {
     name: 'Firefox',
