@@ -24,6 +24,7 @@ import vivaldi from '@browser-logos/vivaldi/vivaldi.svg'
 import yandex from '@browser-logos/yandex/yandex_256x256.png'
 
 import { BrowserName } from './browsers'
+import cliqz from './cliqz.svg'
 import min from './min_256x256.png'
 import polypane from './polypane_256x256.png'
 
@@ -34,6 +35,7 @@ const browserLogos: Browsers = {
   'Brave Beta': braveBeta,
   'Brave Dev': braveDev,
   Chromium: chromium,
+  Cliqz: cliqz,
   Firefox: firefox,
   'Firefox Developer Edition': firefoxDevEdition,
   'Firefox Nightly': firefoxNightly,
