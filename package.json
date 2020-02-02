@@ -173,7 +173,7 @@
     "@electron-forge/maker-zip": "6.0.0-beta.47",
     "@electron-forge/plugin-webpack": "6.0.0-beta.47",
     "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
-    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/jest-dom": "^5.0.2",
     "@testing-library/react": "^9.4.0",
     "@types/jest": "^24.0.25",
     "@types/mousetrap": "^1.6.2",
@@ -185,16 +185,16 @@
     "css-loader": "^3.2.0",
     "electron": "7.1.9",
     "http-server": "^0.11.1",
-    "jest": "^24.9.0",
+    "jest": "^25.1.0",
     "mini-css-extract-plugin": "^0.8.0",
     "node-loader": "^0.6.0",
     "rimraf": "^3.0.0",
     "style-loader": "^1.0.0",
     "ts-node": "^8.3.0",
-    "typescript": "^3.5.1",
+    "typescript": "^3.7.0",
     "url-loader": "^2.0.0",
     "webpack": "^4.40.2",
-    "ws-scripts": "^1.2.0"
+    "ws-scripts": "^1.10.0"
   },
   "engines": {
     "node": ">=10.4.1"

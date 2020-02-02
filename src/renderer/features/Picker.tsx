@@ -98,9 +98,9 @@ const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
 
           return (
             <button
+              key={name}
               className="Picker__browser-btn"
               data-testid="browser-button"
-              key={name}
               onClick={onBrowserClick}
               style={{
                 float: browserFloat,
