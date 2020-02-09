@@ -2,6 +2,7 @@ import './Picker.css'
 
 import { ipcRenderer } from 'electron'
 import * as React from 'react'
+import { animated, config, useSpring } from 'react-spring'
 
 import browserLogos from '../../config/browserLogos'
 import { browsers } from '../../config/browsers'
@@ -55,7 +56,6 @@ const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
   const transformOrigin = `${isAtRight ? 'right' : 'left'} ${
     isAtBottom ? 'bottom' : 'top'
   }`
-  const transform = `scale(${isVisible ? 1 : 0})`
 
   // Y-Orientation
   const rotateAll =
@@ -67,11 +67,17 @@ const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
   const browserFloat =
     (isAtRight && !isAtBottom) || (isAtBottom && !isAtRight) ? 'right' : 'left'
 
+  const springProps = useSpring({
+    config: config.stiff,
+    // opacity: isVisible ? 1 : 0,
+    transform: `scale(${isVisible ? 1 : 0})`,
+  })
+
   return (
-    <div
+    <animated.div
       className="Picker"
       data-testid="picker-window"
-      style={{ top, left, width, height, transformOrigin, transform }}
+      style={{ top, left, width, height, transformOrigin, ...springProps }}
     >
       <div className="Picker__inner" style={{ transform: rotateAll }}>
         {browserNames.map((name, index) => {
@@ -121,7 +127,7 @@ const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
         })}
         <CopyToClipboardButton transform={rotateAll} />
       </div>
-    </div>
+    </animated.div>
   )
 }
 

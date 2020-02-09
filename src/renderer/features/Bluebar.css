@@ -14,10 +14,7 @@
   align-items: center;
   padding: 0 20px;
   cursor: copy;
-  will-change: transform;
-  transform: none;
   transform-origin: center top;
-  transition: transform 200ms ease-in-out;
   outline: none;
   border: 0;
 }

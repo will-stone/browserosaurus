@@ -4,9 +4,6 @@
   box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
   border-radius: 5px;
   overflow: hidden;
-  will-change: transform;
-  transition: transform 200ms ease-in-out;
-  transform: scale(0);
 }
 
 .Picker__inner {
