@@ -2,7 +2,7 @@ import './Picker.css'
 
 import { ipcRenderer } from 'electron'
 import * as React from 'react'
-import { animated, config, useSpring } from 'react-spring'
+import { animated, useSpring } from 'react-spring'
 
 import browserLogos from '../../config/browserLogos'
 import { browsers } from '../../config/browsers'
@@ -39,8 +39,8 @@ const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
   // Picker dimensions
   const tileWidth = 100
   const copyBarHeight = 50
-  const width = cols * tileWidth
-  const height = rows * tileWidth + copyBarHeight
+  const width = cols * tileWidth + 2
+  const height = rows * tileWidth + copyBarHeight + 2
 
   // Picker releative-to-mouse placement
   const [isAtRight, isAtBottom] = [
@@ -68,8 +68,7 @@ const Picker: React.FC<Props> = ({ x, y, isVisible }) => {
     (isAtRight && !isAtBottom) || (isAtBottom && !isAtRight) ? 'right' : 'left'
 
   const springProps = useSpring({
-    config: config.stiff,
-    // opacity: isVisible ? 1 : 0,
+    config: { tension: 500, friction: 26 },
     transform: `scale(${isVisible ? 1 : 0})`,
   })
 

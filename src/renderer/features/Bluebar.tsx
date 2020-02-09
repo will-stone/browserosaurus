@@ -2,7 +2,7 @@ import './Bluebar.css'
 
 import { ipcRenderer } from 'electron'
 import * as React from 'react'
-import { animated, config, useSpring } from 'react-spring'
+import { animated, useSpring } from 'react-spring'
 
 import { COPY_TO_CLIPBOARD } from '../../config/events'
 import useUrl from '../hooks/useUrl'
@@ -17,8 +17,7 @@ const Bluebar: React.FC<Props> = ({ isVisible }) => {
   const urlObj = useUrl()
 
   const springProps = useSpring({
-    config: config.stiff,
-    // opacity: isVisible ? 1 : 0,
+    config: { tension: 500, friction: 26 },
     transform: `scaleY(${isVisible ? 1 : 0})`,
   })
 
