@@ -90,7 +90,7 @@ const createPickerWindow = () =>
     // eslint-disable-next-line no-undef
     pickerWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
-    pickerWindow.on('close', evt => {
+    pickerWindow.on('close', (evt) => {
       evt.preventDefault()
       pickerWindow.webContents.send(WINDOW_BLUR)
     })
@@ -186,7 +186,7 @@ app.on('ready', async () => {
   const fav = store.get('fav') || 'Safari'
 
   const browserNames = (await getInstalledBrowsers()).filter(
-    name => !dotBrowserosaurus.ignored.includes(name),
+    (name) => !dotBrowserosaurus.ignored.includes(name),
   )
 
   tray = new Tray(`${__dirname}/static/icon/tray_iconTemplate.png`)
@@ -196,7 +196,7 @@ app.on('ready', async () => {
     {
       label: 'Favourite',
       submenu: Menu.buildFromTemplate([
-        ...(browserNames.map(browserName => ({
+        ...(browserNames.map((browserName) => ({
           checked: browserName === fav,
           label: browserName,
           type: 'radio',
@@ -263,7 +263,7 @@ app.on('ready', async () => {
       pickerWindow.destroy()
     })
 
-    autoUpdater.on('error', err => {
+    autoUpdater.on('error', (err) => {
       // eslint-disable-next-line no-console
       console.log('updater error', err)
     })

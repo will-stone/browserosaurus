@@ -7,16 +7,16 @@ module.exports = {
   dialog: jest.fn(),
   ipcRenderer: {
     on: jest.fn((name, fn) =>
-      eventEmitter.on(name, payload => fn(null, payload)),
+      eventEmitter.on(name, (payload) => fn(null, payload)),
     ),
-    removeAllListeners: jest.fn(channel =>
+    removeAllListeners: jest.fn((channel) =>
       eventEmitter.removeAllListeners(channel),
     ),
     send: jest.fn(),
   },
   match: jest.fn(),
   remote: {
-    BrowserWindow: function() {
+    BrowserWindow: function () {
       return {
         webContents: {
           send: jest.fn((eventName, payload) =>

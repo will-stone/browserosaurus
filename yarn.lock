@@ -4468,10 +4468,10 @@ eslint-plugin-react@^7.18.0:
     resolve "^1.14.2"
     string.prototype.matchall "^4.0.2"
 
-eslint-plugin-simple-import-sort@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-simple-import-sort/-/eslint-plugin-simple-import-sort-5.0.1.tgz#fd47d3ed2af30db3dd2cadaed285ad510dde479b"
-  integrity sha512-s6Hjp9rcIDYT1h7tuTulblbY7+XQNZK+014uUkNJSKRXEHZO2i7CTr16HOpfgD9HDnUOpl0fwphPsr0oxZqgGg==
+eslint-plugin-simple-import-sort@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-simple-import-sort/-/eslint-plugin-simple-import-sort-5.0.2.tgz#43b5c4ab5affa2dd8481ef40216c71723becd2e2"
+  integrity sha512-YPEGo7DbMANQ01d2OXlREcaHRszsW8LoUQ9mIjI7gXSdwpnWKfogtzL6FiBfDf1teCBx+AdcjcfDXSKpmhTWeA==
 
 eslint-plugin-switch-case@^1.1.2:
   version "1.1.2"
@@ -11105,10 +11105,10 @@ write@1.0.3:
   dependencies:
     mkdirp "^0.5.1"
 
-ws-scripts@^1.13.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/ws-scripts/-/ws-scripts-1.13.0.tgz#bc0ea12309d4782b74159150e2710a73e12e73ca"
-  integrity sha512-D544txrsh2OJNc4mJTqpm8AVeJUz1jjbbS43dpv9BU6lgM/ac0lQ8i4c0H+GZjPcO7YTUyyullCAZ+vxWeGKcQ==
+ws-scripts@^1.13.1:
+  version "1.13.1"
+  resolved "https://registry.yarnpkg.com/ws-scripts/-/ws-scripts-1.13.1.tgz#ddf7fd4849b3ad60e8cbc1a32fccbfc7235468eb"
+  integrity sha512-iADdIoZCA4onpISf67LySyj8B1GPHjaZBDafS55F6vmYT6rxhU/aU6x0S+/B5GpthQ2g6x79VMv9kpwiiQDk5Q==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^2.19.0"
     "@typescript-eslint/parser" "^2.19.0"
@@ -11121,7 +11121,7 @@ ws-scripts@^1.13.0:
     eslint-plugin-prettier "^3.1.2"
     eslint-plugin-react "^7.18.0"
     eslint-plugin-react-hooks "^2.3.0"
-    eslint-plugin-simple-import-sort "^5.0.1"
+    eslint-plugin-simple-import-sort "^5.0.2"
     eslint-plugin-switch-case "^1.1.2"
     eslint-plugin-unicorn "^16.1.1"
     husky "^4.2.1"

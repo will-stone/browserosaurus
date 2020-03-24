@@ -14,7 +14,7 @@ const onButtonClick = () => ipcRenderer.send(COPY_TO_CLIPBOARD)
 
 const CopyToClipboardButton: React.FC<Props> = ({ transform }) => {
   React.useEffect(() => {
-    mousetrap.bind(['command+c'], evt => {
+    mousetrap.bind(['command+c'], (evt) => {
       evt.preventDefault()
       ipcRenderer.send(COPY_TO_CLIPBOARD)
     })

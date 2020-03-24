@@ -34,7 +34,7 @@ const App: React.FC = () => {
     /**
      * Global keyboard shortcuts
      */
-    mousetrap.bind('esc', evt => {
+    mousetrap.bind('esc', (evt) => {
       evt.preventDefault()
       handleCloseWindow()
     })
