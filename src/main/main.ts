@@ -85,6 +85,9 @@ const createPickerWindow = () =>
       width: 400,
     })
 
+    // Enables multi-desktop support for Mac OS (fixes issue #175).
+    pickerWindow.setVisibleOnAllWorkspaces(true)
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     // eslint-disable-next-line no-undef
