@@ -7,7 +7,7 @@
   width: 100%;
   background-color: rgba(26, 32, 44, 0.7);
   opacity: 0;
-  transition: opacity 200ms ease-in-out;
+  transition: opacity 150ms ease-in-out;
   will-change: opacity;
 }
 

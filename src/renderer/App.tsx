@@ -85,12 +85,8 @@ const App: React.FC = () => {
       onMouseEnter={onMouseEnter}
       onMouseMove={onMouseMove}
     >
-      <Bluebar isVisible={isVisible} />
-      <Picker
-        isVisible={isVisible}
-        x={pickerPosition[0]}
-        y={pickerPosition[1]}
-      />
+      <Bluebar />
+      <Picker x={pickerPosition[0]} y={pickerPosition[1]} />
     </div>
   )
 }

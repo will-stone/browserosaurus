@@ -2,32 +2,17 @@ import './Bluebar.css'
 
 import { ipcRenderer } from 'electron'
 import * as React from 'react'
-import { animated, useSpring } from 'react-spring'
 
 import { COPY_TO_CLIPBOARD } from '../../config/events'
 import useUrl from '../hooks/useUrl'
 
-interface Props {
-  isVisible: boolean
-}
-
 const onClick = (): void => ipcRenderer.send(COPY_TO_CLIPBOARD)
 
-const Bluebar: React.FC<Props> = ({ isVisible }) => {
+const Bluebar: React.FC = () => {
   const urlObj = useUrl()
 
-  const springProps = useSpring({
-    config: { tension: 500, friction: 26 },
-    transform: `scaleY(${isVisible ? 1 : 0})`,
-  })
-
   return (
-    <animated.button
-      className="Bluebar"
-      onClick={onClick}
-      style={springProps}
-      type="button"
-    >
+    <button className="Bluebar" onClick={onClick} type="button">
       <span className="Bluebar__url">
         <span className="Bluebar__protocol">
           {urlObj.protocol && urlObj.protocol.includes('s') && (
@@ -54,7 +39,7 @@ const Bluebar: React.FC<Props> = ({ isVisible }) => {
         <span className="Bluebar__urlPart">{urlObj.search}</span>
         <span className="Bluebar__urlPart">{urlObj.hash}</span>
       </span>
-    </animated.button>
+    </button>
   )
 }
 
