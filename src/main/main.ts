@@ -32,6 +32,9 @@ import {
 import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
 
+// TODO This will be the default in Electron 9, remove once upgraded
+app.allowRendererProcessReuse = true
+
 // Config file
 const dotBrowserosaurus: { ignored: string[] } = { ignored: [] }
 try {
