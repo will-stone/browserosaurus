@@ -3,7 +3,7 @@
     "declaration": true,
     "importHelpers": true,
     "jsx": "react",
-    "module": "commonjs",
+    "module": "ESNext",
     "moduleResolution": "node",
     "noEmitHelpers": true,
     "noImplicitAny": true,
@@ -17,7 +17,7 @@
     "sourceMap": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "target": "es2015",
+    "target": "es2017",
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
