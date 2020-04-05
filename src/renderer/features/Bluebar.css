@@ -1,8 +1,4 @@
 .Bluebar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
   background-color: #2b6cb0;
   box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
   font-size: 20px;
@@ -14,7 +10,6 @@
   align-items: center;
   padding: 0 20px;
   cursor: copy;
-  transform-origin: center top;
   outline: none;
   border: 0;
 }

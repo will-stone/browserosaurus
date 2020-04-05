@@ -1,8 +1,5 @@
 .Picker {
-  position: absolute;
   background-color: #1a202c;
-  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
-  border-radius: 5px;
   overflow: hidden;
 }
 

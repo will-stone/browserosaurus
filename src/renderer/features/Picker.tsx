@@ -10,70 +10,26 @@ import useBrowsers from '../hooks/useBrowsers'
 import useOpt from '../hooks/useOpt'
 import CopyToClipboardButton from './CopyToClipboardButton'
 
-const numberOfRowsAndCols = (num: number): [number, number] => {
-  const breakpoint = 4
-  if (num <= breakpoint) {
-    return [1, num]
-  }
+// const numberOfRowsAndCols = (num: number): [number, number] => {
+//   const breakpoint = 4
+//   if (num <= breakpoint) {
+//     return [1, num]
+//   }
 
-  const sqrt = Math.sqrt(num)
-  const ceil = Math.ceil(sqrt)
-  const floor = Math.floor(sqrt)
-  const ceilByFloor = ceil * floor
-  return ceilByFloor < num ? [ceil, ceil] : [floor, ceil]
-}
+//   const sqrt = Math.sqrt(num)
+//   const ceil = Math.ceil(sqrt)
+//   const floor = Math.floor(sqrt)
+//   const ceilByFloor = ceil * floor
+//   return ceilByFloor < num ? [ceil, ceil] : [floor, ceil]
+// }
 
-interface Props {
-  x: number
-  y: number
-}
-
-const Picker: React.FC<Props> = ({ x, y }) => {
+const Picker: React.FC = () => {
   const browserNames = useBrowsers()
   const isOptHeld = useOpt()
 
-  const [rows, cols] = numberOfRowsAndCols(browserNames.length)
-
-  // Picker dimensions
-  const tileWidth = 100
-  const copyBarHeight = 50
-  const width = cols * tileWidth + 2
-  const height = rows * tileWidth + copyBarHeight + 2
-
-  // Picker releative-to-mouse placement
-  const [isAtRight, isAtBottom] = [
-    x > window.innerWidth - width,
-    y > window.innerHeight - height,
-  ]
-
-  // Picker's inline styles
-  const [left, top] = [
-    isAtRight ? x - width - 1 : x + 1,
-    isAtBottom ? y - height : y,
-  ]
-
-  // Y-Orientation
-  const rotateAll =
-    (isAtRight && isAtBottom) || isAtBottom ? 'rotate(180deg)' : 'rotate(0deg)'
-  const rotateOffset =
-    (isAtRight && isAtBottom) || isAtBottom ? 'rotate(180deg)' : 'rotate(0deg)'
-
-  // X-orientation
-  const browserFloat =
-    (isAtRight && !isAtBottom) || (isAtBottom && !isAtRight) ? 'right' : 'left'
-
   return (
-    <div
-      className="Picker"
-      data-testid="picker-window"
-      style={{
-        top,
-        left,
-        width,
-        height,
-      }}
-    >
-      <div className="Picker__inner" style={{ transform: rotateAll }}>
+    <div className="Picker" data-testid="picker-window">
+      <div className="Picker__inner">
         {browserNames.map((name, index) => {
           const browser = browsers[name]
           const isFav = index === 0
@@ -102,10 +58,6 @@ const Picker: React.FC<Props> = ({ x, y }) => {
               className="Picker__browser-btn"
               data-testid="browser-button"
               onClick={onBrowserClick}
-              style={{
-                float: browserFloat,
-                transform: rotateOffset,
-              }}
               type="button"
             >
               <img
@@ -119,7 +71,7 @@ const Picker: React.FC<Props> = ({ x, y }) => {
             </button>
           )
         })}
-        <CopyToClipboardButton transform={rotateAll} />
+        <CopyToClipboardButton />
       </div>
     </div>
   )
