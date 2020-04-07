@@ -5883,10 +5883,10 @@ human-signals@^1.1.1:
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-1.1.1.tgz#c5b1cd14f50aeae09ab6c59fe63ba3395fe4dfa3"
   integrity sha512-SEQu7vl8KjNL2eoGBLF3+wAjpsNfA9XMlXAYj/3EdaNfAlxKthD1xjEQfGOUhllCGGJVNY34bRr6lPINhNjyZw==
 
-husky@^4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/husky/-/husky-4.2.1.tgz#b09f1bd9129e6c323cc515dc17081d0615e2d7c1"
-  integrity sha512-Qa0lRreeIf4Tl92sSs42ER6qc3hzoyQPPorzOrFWfPEVbdi6LuvJEqWKPk905fOWIR76iBpp7ECZNIwk+a8xuQ==
+husky@^4.2.3:
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/husky/-/husky-4.2.3.tgz#3b18d2ee5febe99e27f2983500202daffbc3151e"
+  integrity sha512-VxTsSTRwYveKXN4SaH1/FefRJYCtx+wx04sSVcOpD7N2zjoHxa+cEJ07Qg5NmV3HAK+IRKOyNVpi2YBIVccIfQ==
   dependencies:
     chalk "^3.0.0"
     ci-info "^2.0.0"
@@ -7088,10 +7088,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
-lint-staged@^10.0.7:
-  version "10.0.7"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-10.0.7.tgz#d205f92d9359419a23bc6aa3b6f8546b1998da64"
-  integrity sha512-Byj0F4l7GYUpYYHEqyFH69NiI6ICTg0CeCKbhRorL+ickbzILKUlZLiyCkljZV02wnoh7yH7PmFyYm9PRNwk9g==
+lint-staged@^10.1.1:
+  version "10.1.2"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-10.1.2.tgz#beaefc58037ea9e02fe7639cb323d584312a7957"
+  integrity sha512-Vtbe8rhWbJxPNlnXk6jczRh6wvAVjGg+VhELAIjLakOjTACdB4qJOD4W2R8oUXLRCqL1t9WMUsXbSlVK34A8Lg==
   dependencies:
     chalk "^3.0.0"
     commander "^4.0.1"
@@ -8782,17 +8782,17 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier-plugin-packagejson@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/prettier-plugin-packagejson/-/prettier-plugin-packagejson-2.1.1.tgz#a55c2a0d106fa174f4de92587a04d5ab50481a12"
-  integrity sha512-FSyZO/5Vxyog9bicAuiBR13V1HzQY+uq32Z5DGmu2+r9hg3qfdEyjZYfVyjPR7FWttG7/z1pXvduXxWjwUMDdQ==
+prettier-plugin-packagejson@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-packagejson/-/prettier-plugin-packagejson-2.1.2.tgz#910bb42f044fa0b634ba69e05de9255dcc5600b8"
+  integrity sha512-t2qnHPj3JbOgHLPaDCXnBpOabwM/RQlYGV0TBJXqxgXKJc6xvFW07C1JBznnOs5gZ3BLdVaBcuKD59OIv8Ezzg==
   dependencies:
     sort-package-json "1.40.0"
 
-prettier@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.0.1.tgz#3f00ac71263be34684b2b2c8d7e7f63737592dac"
-  integrity sha512-piXGBcY1zoFOG0MvHpNE5reAGseLmaCRifQ/fmfF49BcYkInEs/naD/unxGNAeOKFA5+JxVrPyMvMlpzcd20UA==
+prettier@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.0.4.tgz#2d1bae173e355996ee355ec9830a7a1ee05457ef"
+  integrity sha512-SVJIQ51spzFDvh4fIbCLvciiDMCrRhlN3mbZvv/+ycjvmF5E73bKdGfU8QDLNmjYJf+lsGnDBC4UUnvTe5OO0w==
 
 pretty-bytes@^1.0.2:
   version "1.0.4"
@@ -11373,10 +11373,10 @@ write@1.0.3:
   dependencies:
     mkdirp "^0.5.1"
 
-ws-scripts@^1.13.1:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/ws-scripts/-/ws-scripts-1.13.1.tgz#ddf7fd4849b3ad60e8cbc1a32fccbfc7235468eb"
-  integrity sha512-iADdIoZCA4onpISf67LySyj8B1GPHjaZBDafS55F6vmYT6rxhU/aU6x0S+/B5GpthQ2g6x79VMv9kpwiiQDk5Q==
+ws-scripts@^1.14.0:
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/ws-scripts/-/ws-scripts-1.14.0.tgz#f3c63cab6422b53cbabf8f091905076270a42750"
+  integrity sha512-tbDjNe5+Iq0wuuqVdlqztujGiPQtwpLc534eONT2mxB0Y0tj27apqtc4VkM82tMRzVB7wdGUyVcPH6NMXvQ+PQ==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^2.19.0"
     "@typescript-eslint/parser" "^2.19.0"
@@ -11392,13 +11392,13 @@ ws-scripts@^1.13.1:
     eslint-plugin-simple-import-sort "^5.0.2"
     eslint-plugin-switch-case "^1.1.2"
     eslint-plugin-unicorn "^16.1.1"
-    husky "^4.2.1"
-    lint-staged "^10.0.7"
+    husky "^4.2.3"
+    lint-staged "^10.1.1"
     lodash "^4.17.15"
-    prettier "^2.0.1"
-    prettier-plugin-packagejson "^2.1.1"
+    prettier "^2.0.4"
+    prettier-plugin-packagejson "^2.1.2"
     read-pkg-up "^7.0.1"
-    yargs-parser "^16.1.0"
+    yargs-parser "^18.1.2"
     yargs-unparser "^1.5.0"
     zoya "^1.0.0"
 
@@ -11502,7 +11502,7 @@ yargs-parser@^16.0.0, yargs-parser@^16.1.0:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
 
-yargs-parser@^18.1.1:
+yargs-parser@^18.1.1, yargs-parser@^18.1.2:
   version "18.1.2"
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-18.1.2.tgz#2f482bea2136dbde0861683abea7756d30b504f1"
   integrity sha512-hlIPNR3IzC1YuL1c2UwwDKpXlNFBqD1Fswwh1khz5+d8Cq/8yc/Mn0i+rQXduu8hcrFKvO7Eryk+09NecTQAAQ==
