@@ -1,4 +1,4 @@
-.browserButton {
+.button {
   background-color: #434445;
   color: inherit;
   border-radius: 4px;
@@ -11,21 +11,21 @@
   align-items: stretch;
 }
 
-.browserButton__top {
+.top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 16px;
 }
 
-.browserButton__logo {
+.logo {
   display: block;
   width: 32px;
   transition: transform 150ms ease-in-out;
 }
 
-.browserButton__kbd {
-  background-color: #1D1E1F;
+.kbd {
+  background-color: #1d1e1f;
   padding: 4px 8px;
   border-radius: 4px;
   font-family: inherit;
@@ -34,12 +34,12 @@
   text-transform: uppercase;
 }
 
-.browserButton__title {
+.title {
   font-weight: 600;
   font-size: 17px;
   text-align: left;
 }
 
-.browserButton__title--isLong {
+.titleIsLong {
   font-size: 12px;
 }

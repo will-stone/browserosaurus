@@ -30,7 +30,7 @@
   padding: 16px;
 }
 
-.browser--isFav {
+.browserIsFav {
   grid-column: 1 / span 2;
 }
 

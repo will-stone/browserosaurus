@@ -1,10 +1,9 @@
-import './BrowserButton.css'
-
 import cc from 'classcat'
 import React, { useCallback } from 'react'
 
 import { Browser } from '../../config/browsers'
 import { runBrowser } from '../sendToMain'
+import styles from './BrowserButton.module.css'
 
 interface Props {
   browser: Browser
@@ -17,24 +16,18 @@ const BrowserButton: React.FC<Props> = ({ browser, className }) => {
   return (
     <button
       key={browser.id}
-      className={cc(['browserButton', className])}
+      className={cc([styles.button, className])}
       onClick={handleClick}
       type="button"
     >
-      <div className="browserButton__top">
-        <img
-          alt={browser.name}
-          className="browserButton__logo"
-          src={browser.logo}
-        />
-        {browser.hotKey && (
-          <kbd className="browserButton__kbd">{browser.hotKey}</kbd>
-        )}
+      <div className={styles.top}>
+        <img alt={browser.name} className={styles.logo} src={browser.logo} />
+        {browser.hotKey && <kbd className={styles.kbd}>{browser.hotKey}</kbd>}
       </div>
       <div
         className={cc([
-          'browserButton__title',
-          { 'browserButton__title--isLong': browser.name.length > 10 },
+          styles.title,
+          { [styles.titleIsLong]: browser.name.length > 10 },
         ])}
       >
         {browser.name}
