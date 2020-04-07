@@ -2,16 +2,17 @@ import { app, autoUpdater, BrowserWindow, ipcMain } from 'electron'
 import isDev from 'electron-is-dev'
 import Store from 'electron-store'
 import execa from 'execa'
+import flatten from 'lodash/fp/flatten'
+import partition from 'lodash/fp/partition'
+import pipe from 'lodash/fp/pipe'
 
 import pkg from '../../package.json'
-import { BrowserName, browsers } from '../config/browsers'
+import { Browser } from '../config/browsers'
 import {
   BROWSER_RUN,
   BROWSERS_GET,
   BROWSERS_SET,
   COPY_TO_CLIPBOARD,
-  FAV_GET,
-  FAV_SET,
   OPT_TOGGLE,
   URL_RECEIVED,
 } from '../config/events'
@@ -76,26 +77,22 @@ const urlRecevied = (url: string) => {
   pickerWindow.show()
 }
 
-ipcMain.on(FAV_GET, () => {
-  // Sendfav down to picker
-  const fav = store.get('fav') || 'Safari'
-  pickerWindow.webContents.send(FAV_SET, fav)
-})
-
+// Send browsers down to picker
 ipcMain.on(BROWSERS_GET, async () => {
-  // Send browsers down to picker
-  const browserNames = await getInstalledBrowsers()
-  pickerWindow.webContents.send(BROWSERS_SET, browserNames)
+  const installedBrowsers = await getInstalledBrowsers()
+  const favBrowserId = store.get('fav') || 'com.apple.Safari'
+  const favFirst = pipe(partition({ appId: favBrowserId }), flatten)
+  const browsers = favFirst(installedBrowsers)
+  pickerWindow.webContents.send(BROWSERS_SET, browsers)
 })
 
-ipcMain.on(BROWSER_RUN, (_: Event, name: BrowserName) => {
-  const browser = browsers[name]
+ipcMain.on(BROWSER_RUN, (_: Event, browserId: string) => {
   if (urlToOpen) {
     if (isOptHeld) {
       isOptHeld = false
-      execa('open', [urlToOpen, '-b', browser.appId, '-g'])
+      execa('open', [urlToOpen, '-b', browserId, '-g'])
     } else {
-      execa('open', [urlToOpen, '-b', browser.appId])
+      execa('open', [urlToOpen, '-b', browserId])
     }
   }
 })

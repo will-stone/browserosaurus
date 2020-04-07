@@ -1,0 +1,45 @@
+.browserButton {
+  background-color: #434445;
+  color: inherit;
+  border-radius: 4px;
+  border: 0;
+  outline: none;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.browserButton__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.browserButton__logo {
+  display: block;
+  width: 32px;
+  transition: transform 150ms ease-in-out;
+}
+
+.browserButton__kbd {
+  background-color: #1D1E1F;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.browserButton__title {
+  font-weight: 600;
+  font-size: 17px;
+  text-align: left;
+}
+
+.browserButton__title--isLong {
+  font-size: 12px;
+}

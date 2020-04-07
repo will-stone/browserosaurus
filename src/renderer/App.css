@@ -30,30 +30,8 @@
   padding: 16px;
 }
 
-.browser {
-  background-color: #434445;
-  border-radius: 4px;
-  padding: 8px;
-}
-
-.browser--fav {
+.browser--isFav {
   grid-column: 1 / span 2;
-}
-
-.browser__logo {
-  display: block;
-  width: 32px;
-  margin-bottom: 8px;
-  transition: transform 150ms ease-in-out;
-}
-
-.browser__title {
-  font-weight: 600;
-  font-size: 15px;
-}
-
-.browser__title--long {
-  font-size: 12px;
 }
 
 .main {
