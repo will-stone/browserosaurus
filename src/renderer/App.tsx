@@ -11,6 +11,17 @@ import useOpt from './hooks/useOpt'
 
 const { useEffect } = React
 
+const resizerStyle: React.CSSProperties = {
+  zIndex: 1,
+  boxSizing: 'border-box',
+  backgroundClip: 'padding-box',
+  width: '11px',
+  margin: '0 -5px',
+  borderLeft: '5px solid rgba(255, 255, 255, 0)',
+  borderRight: '5px solid rgba(255, 255, 255, 0)',
+  cursor: 'col-resize',
+}
+
 const App: React.FC = () => {
   const browsers = useBrowsers()
   useOpt()
@@ -25,6 +36,7 @@ const App: React.FC = () => {
       className={styles.app}
       defaultSize={300}
       minSize={300}
+      resizerStyle={resizerStyle}
       split="vertical"
     >
       <div>
