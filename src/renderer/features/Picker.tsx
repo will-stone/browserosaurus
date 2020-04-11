@@ -29,10 +29,10 @@ interface Props {
 }
 
 const Picker: React.FC<Props> = ({ x, y }) => {
-  const browserNames = useBrowsers()
+  const browserProfiles = useBrowsers()
   const isOptHeld = useOpt()
 
-  const [rows, cols] = numberOfRowsAndCols(browserNames.length)
+  const [rows, cols] = numberOfRowsAndCols(browserProfiles.length)
 
   // Picker dimensions
   const tileWidth = 100
@@ -74,9 +74,11 @@ const Picker: React.FC<Props> = ({ x, y }) => {
       }}
     >
       <div className="Picker__inner" style={{ transform: rotateAll }}>
-        {browserNames.map((name, index) => {
+        {browserProfiles.map((profile, index) => {
+          const name = profile.browserName
           const browser = browsers[name]
           const isFav = index === 0
+          const label = name + (profile.profile ? ` (${profile.profile})` : '')
 
           let browserKey = ''
           if (isFav && browser.hotKey) {
@@ -92,13 +94,13 @@ const Picker: React.FC<Props> = ({ x, y }) => {
           ) => {
             evt.stopPropagation()
             if (isOptHeld || !isOptHeld) {
-              ipcRenderer.send(BROWSER_RUN, name)
+              ipcRenderer.send(BROWSER_RUN, profile)
             }
           }
 
           return (
             <button
-              key={name}
+              key={label}
               className="Picker__browser-btn"
               data-testid="browser-button"
               onClick={onBrowserClick}
@@ -109,7 +111,7 @@ const Picker: React.FC<Props> = ({ x, y }) => {
               type="button"
             >
               <img
-                alt={name}
+                alt={label}
                 className="Picker__browser-img"
                 src={browserLogos[name]}
               />

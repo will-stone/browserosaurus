@@ -2,18 +2,18 @@ import { ipcRenderer } from 'electron'
 import * as mousetrap from 'mousetrap'
 import { useEffect, useState } from 'react'
 
-import { BrowserName, browsers } from '../../config/browsers'
+import { BrowserProfile, browsers } from '../../config/browsers'
 import { BROWSER_RUN, BROWSERS_SET, FAV_SET } from '../../config/events'
 
-const useBrowsers = (): BrowserName[] => {
-  const [browserNames, setBrowserNames] = useState<BrowserName[]>([])
-  const [favName, setFavName] = useState<BrowserName>('Safari')
+const useBrowsers = (): BrowserProfile[] => {
+  const [browserProfiles, setBrowserProfiles] = useState<BrowserProfile[]>([])
+  const [favProfile, setFav] = useState<BrowserProfile>({ browserName: 'Safari' })
 
   useEffect(() => {
-    ipcRenderer.on(FAV_SET, (_: unknown, name: BrowserName) => {
-      setFavName(name)
+    ipcRenderer.on(FAV_SET, (_: unknown, fav: BrowserProfile) => {
+      setFav(fav)
       mousetrap.unbind(['enter', 'option+enter', 'space', 'option+space'])
-      if (name) {
+      if (fav.browserName) {
         mousetrap.bind(
           ['enter', 'option+enter', 'space', 'option+space'],
           (evt) => {
@@ -22,7 +22,7 @@ const useBrowsers = (): BrowserName[] => {
             // this key binding, causing two identical tabs to open in the selected browser.
             // This fixes that.
             evt.preventDefault()
-            ipcRenderer.send(BROWSER_RUN, name)
+            ipcRenderer.send(BROWSER_RUN, fav)
           },
         )
       }
@@ -36,21 +36,21 @@ const useBrowsers = (): BrowserName[] => {
   useEffect(() => {
     ipcRenderer.on(
       BROWSERS_SET,
-      (_: unknown, installedBrowserNames: BrowserName[]) => {
+      (_: unknown, installedBrowserProfiles: BrowserProfile[]) => {
         // setup hotkeys
-        installedBrowserNames.forEach((browserName) => {
-          const browser = browsers[browserName]
+        installedBrowserProfiles.forEach((browserProfile) => {
+          const browser = browsers[browserProfile.browserName]
           if (browser.hotKey) {
             mousetrap.bind(
               [browser.hotKey, `option+${browser.hotKey}`],
               (evt) => {
                 evt.preventDefault()
-                ipcRenderer.send(BROWSER_RUN, browserName)
+                ipcRenderer.send(BROWSER_RUN, browserProfile)
               },
             )
           }
         })
-        setBrowserNames(installedBrowserNames)
+        setBrowserProfiles(installedBrowserProfiles)
       },
     )
 
@@ -59,7 +59,9 @@ const useBrowsers = (): BrowserName[] => {
     }
   }, [])
 
-  return [favName, ...browserNames.filter((name) => name !== favName)]
+  return [favProfile, ...browserProfiles.filter((browser) =>
+    browser.browserName !== favProfile.browserName && browser.profile !== favProfile.profile
+  )]
 }
 
 export default useBrowsers

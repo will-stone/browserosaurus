@@ -15,7 +15,7 @@ import fs from 'fs'
 import os from 'os'
 
 import pkg from '../../package.json'
-import { BrowserName, browsers } from '../config/browsers'
+import { BrowserProfile, browsers } from '../config/browsers'
 import {
   BROWSER_RUN,
   BROWSERS_SET,
@@ -120,14 +120,23 @@ const urlRecevied = (url: string) => {
   pickerWindow.show()
 }
 
-ipcMain.on(BROWSER_RUN, (_: Event, name: BrowserName) => {
-  const browser = browsers[name]
+ipcMain.on(BROWSER_RUN, (_: Event, browserProfile: BrowserProfile) => {
+  const browser = browsers[browserProfile.browserName]
   if (urlToOpen) {
+    const execaArgs = ['-b', browser.appId]
     if (isOptHeld) {
-      execa('open', [urlToOpen, '-b', browser.appId, '-g'])
-    } else {
-      execa('open', [urlToOpen, '-b', browser.appId])
+      execaArgs.push('-g')
     }
+
+    execaArgs.push('--args')
+    execaArgs.push(urlToOpen)
+    if (browserProfile.profile) {
+      // `-n` prevents Chrome from ignoring the profile if already open
+      execaArgs.unshift('-n')
+      execaArgs.push(`--profile-directory=${browserProfile.profile}`)
+    }
+
+    execa('open', execaArgs)
   }
 
   pickerWindow.webContents.send(WINDOW_BLUR)
@@ -185,12 +194,31 @@ ipcMain.on(MOUSE_THROUGH_DISABLE, () => {
 app.on('ready', async () => {
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
+  const fav = (store.get('fav') || { browserName: 'Safari' }) as BrowserProfile
 
-  const fav = store.get('fav') || 'Safari'
+  const browsersDetected: BrowserProfile[] = (await getInstalledBrowsers())
+    .filter((name) => !dotBrowserosaurus.ignored.includes(name))
+    .flatMap((browserName: string) => {
+      const browserProfiles = [{ browserName, profile: '' }]
+      if (browserName === 'Google Chrome' && store.get('showProfiles')) {
+        // TODO: Make this more robust
+        const chromeLocalState = JSON.parse(
+          fs.readFileSync(
+            '/Users/aak/Library/Application Support/Google/Chrome/Local State',
+          ),
+        )
+        const profiles = chromeLocalState.profile.info_cache
+        // TODO: Use gaia_name/name/username instead of keys below
+        browserProfiles.push(
+          ...Object.keys(profiles).map((profileName) => ({
+            browserName,
+            profile: profileName,
+          })),
+        )
+      }
 
-  const browserNames = (await getInstalledBrowsers()).filter(
-    (name) => !dotBrowserosaurus.ignored.includes(name),
-  )
+      return browserProfiles
+    })
 
   tray = new Tray(`${__dirname}/static/icon/tray_iconTemplate.png`)
   tray.setPressedImage(`${__dirname}/static/icon/tray_iconHighlight.png`)
@@ -199,16 +227,30 @@ app.on('ready', async () => {
     {
       label: 'Favourite',
       submenu: Menu.buildFromTemplate([
-        ...(browserNames.map((browserName) => ({
-          checked: browserName === fav,
-          label: browserName,
+        ...(browsersDetected.map((browser: BrowserProfile) => ({
+          checked:
+            browser.browserName === fav.browserName &&
+            browser.profile === fav.profile,
+          label:
+            browser.browserName +
+            (browser.profile ? ` (${browser.profile})` : ''),
           type: 'radio',
           click: () => {
-            store.set('fav', browserName)
-            pickerWindow.webContents.send(FAV_SET, browserName)
+            store.set('fav', browser)
+            pickerWindow.webContents.send(FAV_SET, browser)
           },
         })) as MenuItemConstructorOptions[]),
       ]),
+    },
+    {
+      label: 'Show Profiles',
+      checked: store.get('showProfiles'),
+      type: 'checkbox',
+      click: (menuItem) => {
+        store.set('showProfiles', menuItem.checked)
+      },
+      toolTip:
+        'Displays individual Chrome profiles in browser picker when enabled.',
     },
     {
       type: 'separator',
@@ -230,7 +272,7 @@ app.on('ready', async () => {
   await createPickerWindow()
 
   // Send browsers and fav down to picker
-  pickerWindow.webContents.send(BROWSERS_SET, browserNames)
+  pickerWindow.webContents.send(BROWSERS_SET, browsersDetected)
   pickerWindow.webContents.send(FAV_SET, fav)
 
   if (urlToOpen) {

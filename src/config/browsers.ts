@@ -37,6 +37,11 @@ export const browserNames = [
 
 export type BrowserName = typeof browserNames[number]
 
+export interface BrowserProfile {
+  browserName: string
+  profile?: string
+}
+
 export type Browsers = { [key in BrowserName]: Browser<key> }
 
 export const browsers: Browsers = {

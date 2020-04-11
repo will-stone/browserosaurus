@@ -18,7 +18,7 @@
     "strict": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "target": "es2017",
+    "target": "es2019",
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
