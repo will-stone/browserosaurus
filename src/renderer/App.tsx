@@ -1,13 +1,15 @@
 import cc from 'classcat'
-import { ipcRenderer } from 'electron'
+import electron from 'electron'
 import * as React from 'react'
+import { shallowEqual, useDispatch } from 'react-redux'
 import SplitPane from 'react-split-pane'
 
-import { BROWSERS_GET } from '../config/events'
+import { Browser } from '../config/browsers'
+import { BROWSERS_SET } from '../config/events'
 import styles from './App.module.css'
 import BrowserButton from './components/BrowserButton'
-import useBrowsers from './hooks/useBrowsers'
-import useOpt from './hooks/useOpt'
+import { useSelector } from './store'
+import { appLoaded, browsersReceived, keyPress } from './store/actions'
 
 const { useEffect } = React
 
@@ -23,13 +25,24 @@ const resizerStyle: React.CSSProperties = {
 }
 
 const App: React.FC = () => {
-  const browsers = useBrowsers()
-  useOpt()
+  const dispatch = useDispatch()
+  const browsers = useSelector((state) => state.browsers, shallowEqual)
 
-  // Get browsers on load
   useEffect(() => {
-    ipcRenderer.send(BROWSERS_GET)
-  }, [])
+    dispatch(appLoaded())
+
+    // Setup main->renderer listeners
+    electron.ipcRenderer.on(
+      BROWSERS_SET,
+      (_: unknown, installedBrowsers: Browser[]) => {
+        dispatch(browsersReceived(installedBrowsers))
+      },
+    )
+
+    document.addEventListener('keydown', (event) => {
+      dispatch(keyPress(event))
+    })
+  }, [dispatch])
 
   return (
     <SplitPane

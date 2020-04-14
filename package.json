@@ -149,6 +149,7 @@
     "@browser-logos/tor": "^2.0.2",
     "@browser-logos/vivaldi": "^2.1.7",
     "@browser-logos/yandex": "^1.0.6",
+    "@reduxjs/toolkit": "^1.3.4",
     "classcat": "^4.0.2",
     "electron-is-dev": "^1.1.0",
     "electron-notarize": "^0.2.0",
@@ -159,7 +160,9 @@
     "mousetrap": "^1.6.3",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-split-pane": "^0.1.91"
+    "react-redux": "^7.2.0",
+    "react-split-pane": "^0.1.91",
+    "redux": "^4.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -182,6 +185,7 @@
     "@types/node": "^12.0.4",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
+    "@types/react-redux": "^7.1.7",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
     "electron": "8.2.0",

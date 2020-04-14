@@ -1,8 +1,9 @@
 import cc from 'classcat'
 import React, { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 
 import { Browser } from '../../config/browsers'
-import { runBrowser } from '../sendToMain'
+import { browserClicked } from '../store/actions'
 import styles from './BrowserButton.module.css'
 
 interface Props {
@@ -11,7 +12,14 @@ interface Props {
 }
 
 const BrowserButton: React.FC<Props> = ({ browser, className }) => {
-  const handleClick = useCallback(() => runBrowser(browser.id), [browser.id])
+  const dispatch = useDispatch()
+
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      dispatch(browserClicked({ id: browser.id, isAlt: event.altKey }))
+    },
+    [browser.id, dispatch],
+  )
 
   return (
     <button

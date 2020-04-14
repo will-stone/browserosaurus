@@ -2,13 +2,14 @@ import './index.css'
 
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
 
 import App from './App'
-import ErrorBoundary from './ErrorBoundary'
+import store from './store'
 
 ReactDOM.render(
-  <ErrorBoundary>
+  <Provider store={store}>
     <App />
-  </ErrorBoundary>,
+  </Provider>,
   document.querySelector('#picker-root'),
 )
