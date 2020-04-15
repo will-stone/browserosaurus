@@ -5,11 +5,16 @@ import { shallowEqual, useDispatch } from 'react-redux'
 import SplitPane from 'react-split-pane'
 
 import { Browser } from '../config/browsers'
-import { BROWSERS_SET } from '../config/events'
+import { BROWSERS_SET, URL_RECEIVED } from '../config/events'
 import styles from './App.module.css'
 import BrowserButton from './components/BrowserButton'
 import { useSelector } from './store'
-import { appLoaded, browsersReceived, keyPress } from './store/actions'
+import {
+  appLoaded,
+  browsersReceived,
+  keyPress,
+  urlReceived,
+} from './store/actions'
 
 const { useEffect } = React
 
@@ -27,6 +32,7 @@ const resizerStyle: React.CSSProperties = {
 const App: React.FC = () => {
   const dispatch = useDispatch()
   const browsers = useSelector((state) => state.browsers, shallowEqual)
+  const currentUrl = useSelector((state) => state.app.currentUrl)
 
   useEffect(() => {
     dispatch(appLoaded())
@@ -39,8 +45,14 @@ const App: React.FC = () => {
       },
     )
 
+    // Detect key presses
     document.addEventListener('keydown', (event) => {
       dispatch(keyPress(event))
+    })
+
+    // Receive URL
+    electron.ipcRenderer.on(URL_RECEIVED, (_: unknown, url: string) => {
+      dispatch(urlReceived(url))
     })
   }, [dispatch])
 
@@ -66,6 +78,7 @@ const App: React.FC = () => {
       </div>
       <div className={styles.main}>
         <div className={styles.titlebar} />
+        <div>{currentUrl}</div>
       </div>
     </SplitPane>
   )

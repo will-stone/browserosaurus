@@ -24,4 +24,9 @@ const browserClicked = createAction<{ id: string; isAlt: boolean }>(
  */
 const keyPress = createAction<KeyboardEvent>('keyboard/key-press')
 
-export { appLoaded, browsersReceived, keyPress, browserClicked }
+/**
+ * URL
+ */
+const urlReceived = createAction<string>('url/received')
+
+export { appLoaded, browsersReceived, keyPress, browserClicked, urlReceived }
