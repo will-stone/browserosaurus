@@ -5,6 +5,7 @@ import flatten from 'lodash/fp/flatten'
 import partition from 'lodash/fp/partition'
 import pipe from 'lodash/fp/pipe'
 
+import { Browser } from '../config/browsers'
 import {
   BROWSER_RUN,
   BROWSERS_GET,
@@ -57,16 +58,19 @@ electron.ipcMain.on(BROWSERS_GET, async () => {
   b.window?.webContents.send(BROWSERS_SET, browsers)
 })
 
-electron.ipcMain.on(BROWSER_RUN, (_: Event, browserId: string) => {
-  if (b.url) {
-    if (b.isOptHeld) {
-      b.isOptHeld = false
-      execa('open', [b.url, '-b', browserId, '-g'])
-    } else {
-      execa('open', [b.url, '-b', browserId])
+electron.ipcMain.on(
+  BROWSER_RUN,
+  (_: Event, { id, isAlt }: { id: Browser['id']; isAlt: boolean }) => {
+    if (b.url) {
+      if (isAlt) {
+        b.isOptHeld = false
+        execa('open', [b.url, '-b', id, '-g'])
+      } else {
+        execa('open', [b.url, '-b', id])
+      }
     }
-  }
-})
+  },
+)
 
 electron.ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, url: string) => {
   copyToClipboard(url)

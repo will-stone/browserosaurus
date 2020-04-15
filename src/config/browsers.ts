@@ -126,7 +126,6 @@ export const browsers: Browser[] = [
   {
     name: 'Min',
     id: 'com.electron.min',
-    hotKey: '-',
     logo: min,
   },
   {

@@ -2,6 +2,7 @@ import electron from 'electron'
 import { Middleware } from 'redux'
 
 import { BROWSERS_GET } from '../../config/events'
+import { runBrowser } from '../sendToMain'
 import { RootState } from '.'
 import { appLoaded, browserClicked, keyPress } from './actions'
 
@@ -18,19 +19,24 @@ const middleware = (): Middleware<{}, RootState> => (store) => (next) => (
     electron.ipcRenderer.send(BROWSERS_GET)
   }
 
-  // keyboard
+  // keyPress
   else if (keyPress.match(action)) {
-    const { browsers } = store.getState()
-    browsers.forEach((b) => {
-      console.log(b)
-    })
-
-    console.log({ key: action.payload.code, isAlt: action.payload.altKey })
+    // Launch browser if alpha key is a hotkey
+    const keyMatch = action.payload.code.match(/^Key([A-Z])$/u)
+    if (keyMatch) {
+      const val = keyMatch[1].toLowerCase()
+      const { browsers } = store.getState()
+      const browser = browsers.find((b) => b.hotKey === val)
+      if (browser) {
+        runBrowser(browser.id, action.payload.altKey)
+      }
+    }
   }
 
-  // keyboard
+  // browserClicked
   else if (browserClicked.match(action)) {
-    console.log(action.payload)
+    const { id, isAlt } = action.payload
+    runBrowser(id, isAlt)
   }
 
   return result
