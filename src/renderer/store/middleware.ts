@@ -2,9 +2,12 @@ import electron from 'electron'
 import { Middleware } from 'redux'
 
 import { BROWSERS_GET } from '../../config/events'
+import { RootState } from '.'
 import { appLoaded, browserClicked, keyPress } from './actions'
 
-const middleware = (): Middleware => (store) => (next) => (action) => {
+const middleware = (): Middleware<{}, RootState> => (store) => (next) => (
+  action,
+) => {
   // We want the middleware to asynchronously proceed to the next so calling
   // the callback without returning is okay.
   // eslint-disable-next-line callback-return
@@ -17,8 +20,10 @@ const middleware = (): Middleware => (store) => (next) => (action) => {
 
   // keyboard
   else if (keyPress.match(action)) {
-    // TODO find out how to type `store`
-    console.log(store.getState().browsers)
+    const { browsers } = store.getState()
+    browsers.forEach((b) => {
+      console.log(b)
+    })
 
     console.log({ key: action.payload.code, isAlt: action.payload.altKey })
   }
