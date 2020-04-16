@@ -1,22 +1,35 @@
-.app {
-  color: #dfe0e0;
-}
-
 .titlebar {
   -webkit-app-region: drag;
-  height: 38px;
+  height: 23px;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 15px;
-  font-weight: bold;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #0d1117;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.wrapper {
+  flex-grow: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.aside {
+  width: 300px;
+  padding: 16px;
+  overflow-y: auto;
+  flex-shrink: 0;
+  border-right: 1px solid #0d1117;
 }
 
 .browsers {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  padding: 16px;
 }
 
 .browserIsFav {
@@ -24,6 +37,54 @@
 }
 
 .main {
-  background-color: #1d1e1f;
-  height: 100vh;
+  background-color: #181a1f;
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.content {
+  flex-grow: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.currentUrl {
+  flex-shrink: 0;
+  height: 50px;
+  background-color: #181a1f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #0d1117;
+  position: relative;
+  user-select: auto;
+}
+
+.currentUrl:empty:before {
+  content: 'No URL selected';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #5f6672;
+}
+
+.panel {
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.activityBar {
+  border-left: 1px solid #0d1117;
+  background-color: #21252b;
+  width: 50px;
+  flex-shrink: 0;
 }

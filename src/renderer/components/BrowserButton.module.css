@@ -1,5 +1,5 @@
 .button {
-  background-color: #434445;
+  background-color: #181a1f;
   color: inherit;
   border-radius: 4px;
   border: 0;
@@ -25,7 +25,7 @@
 }
 
 .kbd {
-  background-color: #2e2f30;
+  background-color: #21252b;
   padding: 4px 8px;
   border-radius: 4px;
   font-family: inherit;

@@ -11,5 +11,5 @@ ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>,
-  document.querySelector('#picker-root'),
+  document.querySelector('#app'),
 )
