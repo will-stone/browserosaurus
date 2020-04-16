@@ -1,4 +1,4 @@
-import { act, fireEvent, render, wait, within } from '@testing-library/react'
+import { act, fireEvent, render, within } from '@testing-library/react'
 import * as electron from 'electron'
 import * as React from 'react'
 
@@ -12,7 +12,6 @@ import {
 import {
   BROWSER_RUN,
   BROWSERS_SET,
-  CLOSE_WINDOW,
   COPY_TO_CLIPBOARD,
   FAV_SET,
   URL_RECEIVED,
@@ -84,16 +83,6 @@ describe('App', () => {
       fireEvent.click(getByText('example.com'))
     })
     expect(electron.ipcRenderer.send).toHaveBeenCalledWith(COPY_TO_CLIPBOARD)
-  })
-
-  it('should CLOSE_WINDOW on background click', async () => {
-    const { container } = render(<App />)
-    act(() => {
-      fireEvent.click(container.firstChild as Element)
-    })
-    await wait(() =>
-      expect(electron.ipcRenderer.send).toHaveBeenCalledWith(CLOSE_WINDOW),
-    )
   })
 
   it('should set browser as favourite', () => {

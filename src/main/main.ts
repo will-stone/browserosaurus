@@ -11,7 +11,6 @@ import {
   BROWSERS_GET,
   BROWSERS_SET,
   COPY_TO_CLIPBOARD,
-  OPT_TOGGLE,
   URL_RECEIVED,
 } from '../config/events'
 import copyToClipboard from '../utils/copyToClipboard'
@@ -34,14 +33,12 @@ interface B {
   store: Store<{ fav: string }>
   url: string | null
   window: electron.BrowserWindow | null
-  isOptHeld: boolean
 }
 
 const b: B = {
   store: new Store({ fav: { type: 'string' } }),
   url: null,
   window: null,
-  isOptHeld: false,
 }
 
 const urlReceived = (url: string, win: electron.BrowserWindow) => {
@@ -63,7 +60,6 @@ electron.ipcMain.on(
   (_: Event, { id, isAlt }: { id: Browser['id']; isAlt: boolean }) => {
     if (b.url) {
       if (isAlt) {
-        b.isOptHeld = false
         execa('open', [b.url, '-b', id, '-g'])
       } else {
         execa('open', [b.url, '-b', id])
@@ -74,10 +70,6 @@ electron.ipcMain.on(
 
 electron.ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, url: string) => {
   copyToClipboard(url)
-})
-
-electron.ipcMain.on(OPT_TOGGLE, (_: Event, toggle: boolean) => {
-  b.isOptHeld = toggle
 })
 
 electron.app.on('ready', async () => {
