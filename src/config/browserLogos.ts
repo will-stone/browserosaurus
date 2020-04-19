@@ -15,6 +15,7 @@ import iridium from '@browser-logos/iridium/iridium.svg'
 import maxthon from '@browser-logos/maxthon/maxthon_256x256.png'
 import operaBeta from '@browser-logos/opera-beta/opera-beta_256x256.png'
 import operaDeveloper from '@browser-logos/opera-developer/opera-developer_256x256.png'
+import operaGX from '@browser-logos/opera-gx/opera-gx_256x256.png'
 import opera from '@browser-logos/opera/opera.svg'
 import qutebrowser from '@browser-logos/qutebrowser/qutebrowser.svg'
 import safariTechnologyPreview from '@browser-logos/safari-technology-preview/safari-technology-preview_256x256.png'
@@ -51,6 +52,7 @@ const browserLogos: Browsers = {
   Opera: opera,
   'Opera Beta': operaBeta,
   'Opera Developer': operaDeveloper,
+  'Opera GX': operaGX,
   Polypane: polypane,
   qutebrowser,
   Safari: safari,

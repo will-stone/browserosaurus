@@ -26,6 +26,7 @@ export const browserNames = [
   'Opera',
   'Opera Beta',
   'Opera Developer',
+  'Opera GX',
   'Polypane',
   'qutebrowser',
   'Safari',
@@ -129,6 +130,10 @@ export const browsers: Browsers = {
   'Opera Developer': {
     name: 'Opera Developer',
     appId: 'com.operasoftware.OperaDeveloper',
+  },
+  'Opera GX': {
+    name: 'Opera GX',
+    appId: 'com.operasoftware.OperaGX',
   },
   Polypane: {
     name: 'Polypane',
