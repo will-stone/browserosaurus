@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux'
 
 import { Browser } from '../../config/browsers'
 import { browserClicked } from '../store/actions'
-import styles from './BrowserButton.module.css'
 
 interface Props {
   browser: Browser
@@ -24,22 +23,15 @@ const BrowserButton: React.FC<Props> = ({ browser, className }) => {
   return (
     <button
       key={browser.id}
-      className={cc([styles.button, className])}
+      className={cc([className])}
       onClick={handleClick}
       type="button"
     >
-      <div className={styles.top}>
-        <img alt={browser.name} className={styles.logo} src={browser.logo} />
-        {browser.hotKey && <kbd className={styles.kbd}>{browser.hotKey}</kbd>}
+      <div>
+        <img alt={browser.name} src={browser.logo} />
+        {browser.hotKey && <kbd>{browser.hotKey}</kbd>}
       </div>
-      <div
-        className={cc([
-          styles.title,
-          { [styles.titleIsLong]: browser.name.length > 10 },
-        ])}
-      >
-        {browser.name}
-      </div>
+      <div>{browser.name}</div>
     </button>
   )
 }

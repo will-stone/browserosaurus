@@ -1,25 +1,17 @@
 const rules = require('./webpack.rules')
-const plugins = require('./webpack.plugins')
-
-rules.push({
-  test: /\.css$/u,
-  use: [
-    { loader: 'style-loader' },
-    {
-      loader: 'css-loader',
-      options: {
-        importLoaders: 1,
-        modules: true,
-      },
-    },
-  ],
-})
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
 module.exports = {
   module: {
     rules,
   },
-  plugins,
+  plugins: [
+    new ForkTsCheckerWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'main_window/index.css',
+    }),
+  ],
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
   },
