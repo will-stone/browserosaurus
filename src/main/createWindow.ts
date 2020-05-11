@@ -1,4 +1,5 @@
 import electron from 'electron'
+import path from 'path'
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
@@ -8,7 +9,7 @@ function createWindow(): Promise<electron.BrowserWindow> {
     const win = new electron.BrowserWindow({
       backgroundColor: '#21252B',
       frame: true,
-      icon: `${__dirname}/static/icon/icon.png`,
+      icon: path.join(__dirname, '/static/icon/icon.png'),
       title: 'Browserosaurus',
       titleBarStyle: 'hidden',
       webPreferences: {
@@ -22,8 +23,8 @@ function createWindow(): Promise<electron.BrowserWindow> {
 
     win.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
-    win.on('close', (evt) => {
-      evt.preventDefault()
+    win.on('close', (event_) => {
+      event_.preventDefault()
       win.hide()
     })
 

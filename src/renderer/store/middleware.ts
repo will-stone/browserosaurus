@@ -11,7 +11,7 @@ const middleware = (): Middleware<{}, RootState> => (store) => (next) => (
 ) => {
   // We want the middleware to asynchronously proceed to the next so calling
   // the callback without returning is okay.
-  // eslint-disable-next-line callback-return
+  // eslint-disable-next-line node/callback-return
   const result = next(action)
 
   // appLoaded
@@ -24,9 +24,9 @@ const middleware = (): Middleware<{}, RootState> => (store) => (next) => (
     // Launch browser if alpha key is a hotkey
     const keyMatch = action.payload.code.match(/^Key([A-Z])$/u)
     if (keyMatch) {
-      const val = keyMatch[1].toLowerCase()
+      const value = keyMatch[1].toLowerCase()
       const { browsers } = store.getState()
-      const browser = browsers.find((b) => b.hotKey === val)
+      const browser = browsers.find((b) => b.hotKey === value)
       if (browser) {
         runBrowser(browser.id, action.payload.altKey)
       }

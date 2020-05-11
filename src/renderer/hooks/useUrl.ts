@@ -5,19 +5,21 @@ import * as Url from 'url'
 import { URL_RECEIVED } from '../../config/events'
 
 const useUrl = (): Url.UrlWithStringQuery => {
-  const [urlObj, setUrlObj] = useState<Url.UrlWithStringQuery>({ query: '' })
+  const [urlObject, setUrlObject] = useState<Url.UrlWithStringQuery>({
+    query: '',
+  })
 
   useEffect(() => {
     ipcRenderer.on(URL_RECEIVED, (_: unknown, url: string) => {
-      setUrlObj(Url.parse(url || ''))
+      setUrlObject(Url.parse(url || ''))
     })
 
     return function cleanup() {
       ipcRenderer.removeAllListeners(URL_RECEIVED)
     }
-  }, [setUrlObj])
+  }, [setUrlObject])
 
-  return urlObj
+  return urlObject
 }
 
 export default useUrl
