@@ -2,6 +2,10 @@ const plugin = require('tailwindcss/plugin')
 
 module.exports = {
   theme: {
+    fontFamily: {
+      sans: 'SF Pro Text, Helvetica, Arial, sans-serif',
+      rounded: 'SF Pro Rounded, Helvetica, Arial, sans-serif',
+    },
     extend: {
       colors: {
         'grey-200': '#C6CCD7',
