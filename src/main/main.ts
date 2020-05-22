@@ -7,8 +7,8 @@ import pipe from 'lodash/fp/pipe'
 
 import { Browser } from '../config/browsers'
 import {
+  APP_LOADED,
   BROWSER_RUN,
-  BROWSERS_GET,
   BROWSERS_SET,
   COPY_TO_CLIPBOARD,
   URL_RECEIVED,
@@ -47,12 +47,13 @@ const urlReceived = (url: string, win: electron.BrowserWindow) => {
 }
 
 // Send browsers down to picker
-electron.ipcMain.on(BROWSERS_GET, async () => {
+electron.ipcMain.on(APP_LOADED, async () => {
   const installedBrowsers = await getInstalledBrowsers()
   const favBrowserId = b.store.get('fav') || 'com.apple.Safari'
   const favFirst = pipe(partition({ appId: favBrowserId }), flatten)
   const browsers = favFirst(installedBrowsers)
   b.window?.webContents.send(BROWSERS_SET, browsers)
+  b.window?.webContents.send(URL_RECEIVED, b.url)
 })
 
 electron.ipcMain.on(

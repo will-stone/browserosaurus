@@ -1,7 +1,7 @@
 import electron from 'electron'
 import { Middleware } from 'redux'
 
-import { BROWSERS_GET } from '../../config/events'
+import { APP_LOADED } from '../../config/events'
 import { runBrowser } from '../sendToMain'
 import { RootState } from '.'
 import { appLoaded, browserClicked, keyPress } from './actions'
@@ -16,7 +16,7 @@ const middleware = (): Middleware<unknown, RootState> => (store) => (next) => (
 
   // appLoaded
   if (appLoaded.match(action)) {
-    electron.ipcRenderer.send(BROWSERS_GET)
+    electron.ipcRenderer.send(APP_LOADED)
   }
 
   // keyPress
