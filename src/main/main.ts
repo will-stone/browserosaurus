@@ -17,7 +17,7 @@ import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
 import createWindow from './createWindow'
 
-// eslint-disable-next-line @typescript-eslint/camelcase, no-underscore-dangle
+// eslint-disable-next-line camelcase, no-underscore-dangle
 declare const __non_webpack_require__: (path: string) => { hello: string }
 
 // TODO This will be the default in Electron 9, remove once upgraded
@@ -31,14 +31,14 @@ electron.app.setAsDefaultProtocolClient('http')
 
 interface B {
   store: Store<{ fav: string }>
-  url: string | null
-  window: electron.BrowserWindow | null
+  url?: string
+  window?: electron.BrowserWindow
 }
 
 const b: B = {
   store: new Store({ fav: { type: 'string' } }),
-  url: null,
-  window: null,
+  url: undefined,
+  window: undefined,
 }
 
 const urlReceived = (url: string, win: electron.BrowserWindow) => {

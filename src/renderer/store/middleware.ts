@@ -6,7 +6,7 @@ import { runBrowser } from '../sendToMain'
 import { RootState } from '.'
 import { appLoaded, browserClicked, keyPress } from './actions'
 
-const middleware = (): Middleware<{}, RootState> => (store) => (next) => (
+const middleware = (): Middleware<unknown, RootState> => (store) => (next) => (
   action,
 ) => {
   // We want the middleware to asynchronously proceed to the next so calling
