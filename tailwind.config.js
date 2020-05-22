@@ -1,7 +1,26 @@
+const plugin = require('tailwindcss/plugin')
+
 module.exports = {
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'grey-200': '#C6CCD7',
+        'grey-300': '#A9B2C3',
+        'grey-500': '#5F6672',
+        'grey-700': '#21252B',
+        'grey-800': '#181A1F',
+        'grey-900': '#0D1117',
+      },
+    },
   },
   variants: {},
-  plugins: [],
+  plugins: [
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        '.draggable': {
+          '-webkit-app-region': 'drag',
+        },
+      })
+    }),
+  ],
 }

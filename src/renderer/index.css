@@ -1,24 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-* {
-  user-select: none;
-  box-sizing: border-box;
-}
-
-body {
-  background-color: transparent;
-  margin: 0;
-  overflow: hidden;
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, sans-serif;
-}
-
-body > div {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  color: #c6ccd7;
-}
