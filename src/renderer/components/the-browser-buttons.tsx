@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil'
 
 import { Browser } from '../../config/browsers'
 import { browsersState } from '../store/atoms'
-import BrowserButton from './BrowserButton'
+import BrowserButton from './browser-button'
 
 const TheBrowserButtons: React.FC = () => {
   const browsers: Browser[] = useRecoilValue(browsersState)
