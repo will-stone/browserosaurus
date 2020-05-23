@@ -18,7 +18,11 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
     <div
       className={cc([
         className,
-        'flex-shrink-0 bg-grey-800 h-10 flex items-center px-4 text-grey-500 border-b border-grey-900 tracking-wider font-medium text-xs',
+        'flex-shrink-0 flex items-center',
+        'bg-grey-800',
+        'border-b border-grey-900',
+        'text-xs text-grey-500 tracking-wider font-medium',
+        'h-10 px-4',
       ])}
     >
       {parsedUrl ? (
