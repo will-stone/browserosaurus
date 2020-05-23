@@ -1,9 +1,10 @@
 import { ipcRenderer } from 'electron'
 
 import { Browser } from '../config/browsers'
-import { BROWSER_RUN, FAV_SET } from '../config/events'
+import { BROWSER_SELECTED, FAVOURITE_SELECTED } from './events'
 
-export const runBrowser = (id: Browser['id'], isAlt: boolean): void =>
-  ipcRenderer.send(BROWSER_RUN, { id, isAlt })
+export const selectBrowser = (id: Browser['id'], isAlt: boolean): void =>
+  ipcRenderer.send(BROWSER_SELECTED, { id, isAlt })
 
-export const setFav = (id: Browser['id']): void => ipcRenderer.send(FAV_SET, id)
+export const setFav = (id: Browser['id']): void =>
+  ipcRenderer.send(FAVOURITE_SELECTED, id)

@@ -2,14 +2,13 @@ import './index.css'
 
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
+import { RecoilRoot } from 'recoil'
 
 import App from './App'
-import store from './store'
 
 ReactDOM.render(
-  <Provider store={store}>
+  <RecoilRoot>
     <App />
-  </Provider>,
+  </RecoilRoot>,
   document.querySelector('#app'),
 )

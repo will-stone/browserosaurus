@@ -1,9 +1,8 @@
 import cc from 'classcat'
 import React, { useCallback } from 'react'
-import { useDispatch } from 'react-redux'
 
 import { Browser } from '../../config/browsers'
-import { browserClicked } from '../store/actions'
+import { selectBrowser } from '../sendToMain'
 
 /**
  * Determines Tailwind text class given a browser name of given length.
@@ -37,13 +36,11 @@ interface Props {
 }
 
 const BrowserButton: React.FC<Props> = ({ browser, className }) => {
-  const dispatch = useDispatch()
-
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      dispatch(browserClicked({ id: browser.id, isAlt: event.altKey }))
+      selectBrowser(browser.id, event.altKey)
     },
-    [browser.id, dispatch],
+    [browser.id],
   )
 
   const nameSizeClass = getNameSize(browser.name)
