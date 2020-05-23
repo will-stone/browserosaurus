@@ -1,4 +1,3 @@
-import last from 'lodash/fp/last'
 import { selector } from 'recoil'
 import Url from 'url'
 
@@ -12,10 +11,9 @@ export const parsedLatestUrlState = selector({
   // @ts-expect-error
   get: ({ get }) => {
     const urlHistory: UrlHistoryItem[] = get(urlHistoryState)
-    const latestItem = last(urlHistory)
 
-    if (latestItem) {
-      return Url.parse(latestItem.url)
+    if (urlHistory[0]) {
+      return Url.parse(urlHistory[0].url)
     }
   },
 })
