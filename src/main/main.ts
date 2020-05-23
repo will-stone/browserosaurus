@@ -47,8 +47,8 @@ app.on('before-quit', () => {
 app.on('open-url', (event, url) => {
   event.preventDefault()
   const updatedUrlHistory = [
-    ...store.get('urlHistory'),
     { url, timestamp: Date.now() },
+    ...store.get('urlHistory'),
   ]
   store.set('urlHistory', updatedUrlHistory)
 })

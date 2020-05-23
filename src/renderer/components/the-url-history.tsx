@@ -9,13 +9,9 @@ const TheUrlHistory: React.FC = () => {
 
   return (
     <ul>
-      {urlHistory
-        // Make copy of array as "reverse" is mutative
-        .slice()
-        .reverse()
-        .map((item) => (
-          <li key={item.url + item.timestamp}>{item.url}</li>
-        ))}
+      {urlHistory.map((item) => (
+        <li key={item.url + item.timestamp}>{item.url}</li>
+      ))}
     </ul>
   )
 }
