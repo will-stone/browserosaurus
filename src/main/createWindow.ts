@@ -11,7 +11,7 @@ function createWindow(): Promise<electron.BrowserWindow> {
       frame: true,
       icon: path.join(__dirname, '/static/icon/icon.png'),
       title: 'Browserosaurus',
-      titleBarStyle: 'hiddenInset',
+      titleBarStyle: 'hidden',
       webPreferences: {
         nodeIntegration: true,
         preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,

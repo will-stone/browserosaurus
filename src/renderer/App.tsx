@@ -52,27 +52,38 @@ const App: React.FC = () => {
 
   return (
     <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col">
-      <div className="flex-shrink-0 bg-grey-800 py-2 pl-20 pr-4 truncate text-grey-500 border-b border-grey-900 tracking-wider draggable font-medium">
-        {urlObject.protocol}
-        <span>/</span>
-        <span>/</span>
-        <span className="font-bold text-grey-300">{urlObject.hostname}</span>
-        {urlObject.port && `:${urlObject.port}`}
-        {urlObject.pathname}
-        {urlObject.search}
-        {urlObject.hash}
+      <div className="flex-shrink-0 bg-grey-700 h-6 flex items-center justify-center text-grey-300 border-b border-grey-900 tracking-wider draggable text-xs">
+        Browserosaurus
+      </div>
+
+      <div className="flex-shrink-0 bg-grey-800 h-10 flex items-center px-4 text-grey-500 border-b border-grey-900 tracking-wider font-medium text-xs">
+        {currentUrl ? (
+          <span className="truncate">
+            {urlObject.protocol}
+            <span>/</span>
+            <span>/</span>
+            <span className="font-bold text-grey-300 text-sm">
+              {urlObject.hostname}
+            </span>
+            {urlObject.port && `:${urlObject.port}`}
+            {urlObject.pathname}
+            {urlObject.search}
+            {urlObject.hash}
+          </span>
+        ) : (
+          <span className="text-xs">
+            Most recently clicked link will show here
+          </span>
+        )}
       </div>
 
       <div className="flex-grow flex overflow-hidden">
         {/* Sidebar */}
         <div
-          className="flex-shrink-0 bg-grey-800 border-r border-grey-900"
+          className="flex-shrink-0 bg-grey-800 border-r border-grey-900 flex flex-col justify-between"
           style={{ width: '280px' }}
         >
-          {/* <div className="draggable h-10 flex items-center pl-24 mb-4 font-bold text-sm tracking-wider">
-          Browserosaurus
-        </div> */}
-          <div className="grid grid-cols-2 gap-4 p-4">
+          <div className="grid grid-cols-2 gap-4 p-4 overflow-y-auto">
             {browsers.map((browser, i) => (
               <BrowserButton
                 key={browser.id}
@@ -81,18 +92,10 @@ const App: React.FC = () => {
               />
             ))}
           </div>
+          <div className="p-4">Copy to clipboard</div>
         </div>
         {/* Main */}
         <div className="flex-grow flex flex-col overflow-hidden">
-          {/* <div className="flex-shrink-0 draggable h-10 mb-4 pr-4 flex justify-end items-start">
-          <button
-            className="bg-grey-500 py-1 px-3 rounded-b text-xs font-bold uppercase"
-            type="button"
-          >
-            Update Available
-          </button>
-        </div> */}
-
           <div className="p-4 overflow-y-auto">
             <h1 className="text-5xl mb-8 leading-none font-semibold text-blue-400 font-rounded">
               History
