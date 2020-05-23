@@ -4,7 +4,7 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { RecoilRoot } from 'recoil'
 
-import App from './App'
+import App from './components/the-app'
 
 ReactDOM.render(
   <RecoilRoot>

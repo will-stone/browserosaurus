@@ -2,7 +2,7 @@ import React from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { UrlHistoryItem } from '../../main/store'
-import { urlHistoryState } from '../store/atoms'
+import { urlHistoryState } from '../atoms'
 
 const TheUrlHistory: React.FC = () => {
   const urlHistory: UrlHistoryItem[] = useRecoilValue(urlHistoryState)

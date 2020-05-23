@@ -3,7 +3,7 @@ import React from 'react'
 import { useRecoilValue } from 'recoil'
 import Url from 'url'
 
-import { parsedLatestUrlState } from '../store/selectors'
+import { parsedLatestUrlState } from '../selectors'
 
 interface Props {
   className?: string

@@ -3,7 +3,7 @@ import React from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { Browser } from '../../config/browsers'
-import { browsersState } from '../store/atoms'
+import { browsersState } from '../atoms'
 import BrowserButton from './browser-button'
 
 const TheBrowserButtons: React.FC = () => {

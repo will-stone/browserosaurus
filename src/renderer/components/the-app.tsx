@@ -1,17 +1,15 @@
 import electron from 'electron'
-import * as React from 'react'
+import React, { useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
 
-import { Browser } from '../config/browsers'
-import { BROWSERS_SCANNED, URL_HISTORY_CHANGED } from '../main/events'
-import { UrlHistoryItem } from '../main/store'
-import TheBrowserButtons from './components/the-browser-buttons'
-import TheUrlBar from './components/the-url-bar'
-import TheUrlHistory from './components/the-url-history'
-import { APP_LOADED } from './events'
-import { browsersState, urlHistoryState } from './store/atoms'
-
-const { useEffect } = React
+import { Browser } from '../../config/browsers'
+import { BROWSERS_SCANNED, URL_HISTORY_CHANGED } from '../../main/events'
+import { UrlHistoryItem } from '../../main/store'
+import { browsersState, urlHistoryState } from '../atoms'
+import { APP_LOADED } from '../events'
+import TheBrowserButtons from './the-browser-buttons'
+import TheUrlBar from './the-url-bar'
+import TheUrlHistory from './the-url-history'
 
 const App: React.FC = () => {
   const setUrlHistoryState = useSetRecoilState(urlHistoryState)

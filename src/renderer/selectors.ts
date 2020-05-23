@@ -2,7 +2,7 @@ import last from 'lodash/fp/last'
 import { selector } from 'recoil'
 import Url from 'url'
 
-import { UrlHistoryItem } from '../../main/store'
+import { UrlHistoryItem } from '../main/store'
 import { urlHistoryState } from './atoms'
 
 export const parsedLatestUrlState = selector({
