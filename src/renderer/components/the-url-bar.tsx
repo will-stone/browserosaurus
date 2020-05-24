@@ -3,16 +3,17 @@ import React from 'react'
 import { useRecoilValue } from 'recoil'
 import Url from 'url'
 
-import { parsedUrlSelector } from '../selectors'
+import { UrlHistoryItem } from '../../main/stores'
+import { urlItemSelector } from '../selectors'
 
 interface Props {
   className?: string
 }
 
 const TheUrlBar: React.FC<Props> = ({ className }) => {
-  const parsedUrl: Url.UrlWithStringQuery | undefined = useRecoilValue(
-    parsedUrlSelector,
-  )
+  const urlItem: UrlHistoryItem | undefined = useRecoilValue(urlItemSelector)
+
+  const parsedUrl = urlItem ? Url.parse(urlItem.url) : undefined
 
   return (
     <div

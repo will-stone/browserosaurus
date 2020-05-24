@@ -1,5 +1,4 @@
 import { selector } from 'recoil'
-import Url from 'url'
 
 import {
   selectLastestUrlHistoryItem,
@@ -43,20 +42,6 @@ export const urlItemSelector = selector({
 
     if (urlId) {
       return urlHistory[urlId]
-    }
-  },
-})
-
-export const parsedUrlSelector = selector({
-  key: 'parsedUrlSelector',
-  // TODO [+@types/recoil] this should be typed when recoil types are ready
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  get: ({ get }): Url.UrlWithStringQuery | undefined => {
-    const urlItem: UrlHistoryItem | undefined = get(urlItemSelector)
-
-    if (urlItem) {
-      return Url.parse(urlItem.url)
     }
   },
 })
