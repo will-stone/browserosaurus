@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { Browser } from '../../config/browsers'
-import { selectedUrlIdState } from '../atoms'
+import { urlIdSelector } from '../selectors'
 import { selectBrowser } from '../sendToMain'
 
 /**
@@ -38,13 +38,15 @@ interface Props {
 }
 
 const BrowserButton: React.FC<Props> = ({ browser, className }) => {
-  const selectedUrlId: string = useRecoilValue(selectedUrlIdState)
+  const urlId: string | undefined = useRecoilValue(urlIdSelector)
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      selectBrowser(selectedUrlId, browser.id, event.altKey)
+      if (urlId) {
+        selectBrowser(urlId, browser.id, event.altKey)
+      }
     },
-    [browser.id, selectedUrlId],
+    [browser.id, urlId],
   )
 
   const nameSizeClass = getNameSize(browser.name)

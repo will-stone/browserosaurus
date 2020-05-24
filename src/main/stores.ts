@@ -6,6 +6,9 @@ import Store from 'electron-store'
  * -----------------
  */
 
+/**
+ * A stored URL item
+ */
 export interface UrlHistoryItem {
   id: string
   url: string

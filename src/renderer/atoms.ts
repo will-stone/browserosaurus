@@ -1,16 +1,16 @@
 import { atom } from 'recoil'
 
-export const selectedUrlIdState = atom({
+export const urlIdAtom = atom({
   key: 'selectedUrlIdState',
   default: undefined,
 })
 
-export const urlHistoryState = atom({
+export const urlHistoryAtom = atom({
   key: 'urlHistoryState',
   default: {},
 })
 
-export const browsersState = atom({
+export const browsersAtom = atom({
   key: 'browsersState',
   default: [],
 })

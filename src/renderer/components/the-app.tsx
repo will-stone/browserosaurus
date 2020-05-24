@@ -4,17 +4,18 @@ import { useSetRecoilState } from 'recoil'
 
 import { Browser } from '../../config/browsers'
 import { BROWSERS_SCANNED, URL_HISTORY_CHANGED } from '../../main/events'
-import { UrlHistoryItem } from '../../main/stores'
-import { browsersState, selectedUrlIdState, urlHistoryState } from '../atoms'
+import { UrlHistoryStore } from '../../main/stores'
+import { browsersAtom, urlHistoryAtom } from '../atoms'
 import { APP_LOADED } from '../events'
+import { urlIdSelector } from '../selectors'
 import TheBrowserButtons from './the-browser-buttons'
 import TheUrlBar from './the-url-bar'
 import TheUrlHistory from './the-url-history'
 
 const App: React.FC = () => {
-  const setUrlHistoryState = useSetRecoilState(urlHistoryState)
-  const setBrowsersState = useSetRecoilState(browsersState)
-  const setSelectedUrlIdState = useSetRecoilState(selectedUrlIdState)
+  const setUrlHistoryState = useSetRecoilState(urlHistoryAtom)
+  const setBrowsersState = useSetRecoilState(browsersAtom)
+  const setUrlId = useSetRecoilState(urlIdSelector)
 
   useEffect(() => {
     /**
@@ -34,8 +35,8 @@ const App: React.FC = () => {
      */
     electron.ipcRenderer.on(
       URL_HISTORY_CHANGED,
-      (_: unknown, urlHistory: UrlHistoryItem[]) => {
-        setSelectedUrlIdState()
+      (_: unknown, urlHistory: UrlHistoryStore) => {
+        setUrlId()
         setUrlHistoryState(urlHistory)
       },
     )
@@ -44,14 +45,12 @@ const App: React.FC = () => {
      * Detect key presses
      * document listener
      */
-    document.addEventListener('keydown', (event) => {
+    document.addEventListener('keydown', () => {
       // TODO need a way to turn on and off keyboard entry when the
       // functionality requires it.
-      event.preventDefault()
-
+      // event.preventDefault()
       // // Launch browser if alpha key is a hotkey
       // const keyMatch = event.code.match(/^Key([A-Z])$/u)
-
       // if (keyMatch) {
       //   const value = keyMatch[1].toLowerCase()
       //   const { browsers } = store.getState()
@@ -67,7 +66,7 @@ const App: React.FC = () => {
      * renderer -> main
      */
     electron.ipcRenderer.send(APP_LOADED)
-  }, [setBrowsersState, setUrlHistoryState, setSelectedUrlIdState])
+  }, [setBrowsersState, setUrlHistoryState, setUrlId])
 
   return (
     <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col">

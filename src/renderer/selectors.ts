@@ -1,27 +1,62 @@
 import { selector } from 'recoil'
 import Url from 'url'
 
-import { selectLastestUrlHistoryItem, UrlHistoryStore } from '../main/stores'
-import { selectedUrlIdState, urlHistoryState } from './atoms'
+import {
+  selectLastestUrlHistoryItem,
+  UrlHistoryItem,
+  UrlHistoryStore,
+} from '../main/stores'
+import { urlHistoryAtom, urlIdAtom } from './atoms'
 
-export const parsedSelectedUrlState = selector({
-  key: 'parsedSelectedUrlState',
+export const urlIdSelector = selector({
+  key: 'urlIdSelector',
+  // TODO [+@types/recoil] this should be typed when recoil types are ready
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  get: ({ get }): string | undefined => {
+    const selectedId: string | undefined = get(urlIdAtom)
+    const urlHistory: UrlHistoryStore = get(urlHistoryAtom)
+
+    // If no ID selected, use the latest from history, else undefined
+    if (!selectedId) {
+      const lastestUrlHistoryItem = selectLastestUrlHistoryItem(urlHistory)
+      return lastestUrlHistoryItem?.id
+    }
+
+    // If id exists, return it, else undefined
+    return urlHistory[selectedId]?.id
+  },
+  // TODO [+@types/recoil] this should be typed when recoil types are ready
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  set: ({ set }, value) => set(urlIdAtom, value),
+})
+
+export const urlItemSelector = selector({
+  key: 'urlItemSelector',
+  // TODO [+@types/recoil] this should be typed when recoil types are ready
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  get: ({ get }): UrlHistoryItem | undefined => {
+    const urlId: string | undefined = get(urlIdSelector)
+    const urlHistory: UrlHistoryStore = get(urlHistoryAtom)
+
+    if (urlId) {
+      return urlHistory[urlId]
+    }
+  },
+})
+
+export const parsedUrlSelector = selector({
+  key: 'parsedUrlSelector',
   // TODO [+@types/recoil] this should be typed when recoil types are ready
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   get: ({ get }): Url.UrlWithStringQuery | undefined => {
-    const urlHistory: UrlHistoryStore = get(urlHistoryState)
-    const selectedUrlId: string = get(selectedUrlIdState)
-    const selectedUrlHistoryItem = urlHistory[selectedUrlId]
+    const urlItem: UrlHistoryItem | undefined = get(urlItemSelector)
 
-    if (selectedUrlHistoryItem) {
-      return Url.parse(selectedUrlHistoryItem.url)
-    }
-
-    const latestItem = selectLastestUrlHistoryItem(urlHistory)
-
-    if (latestItem) {
-      return Url.parse(latestItem.url)
+    if (urlItem) {
+      return Url.parse(urlItem.url)
     }
   },
 })

@@ -25,7 +25,7 @@
     "notarize": "export $(cat .env | xargs) && ts-node ./scripts/notarize.ts",
     "prepackage": "rimraf ./out/",
     "package": "electron-forge package --platform=darwin --arch=x64",
-    "start": "ENV=DEV electron-forge start",
+    "start": "ENV=DEV ELECTRON_DISABLE_SECURITY_WARNINGS=true electron-forge start",
     "test": "jest",
     "test:watch": "jest --watch",
     "typecheck": "tsc --noEmit --skipLibCheck"

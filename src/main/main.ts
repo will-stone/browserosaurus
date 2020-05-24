@@ -58,9 +58,6 @@ app.on('open-url', (event, url) => {
  * ------------------
  */
 
-/**
- * React App component has mounted
- */
 ipcMain.on(APP_LOADED, async () => {
   // Send browsers down to picker
   const installedBrowsers = await getInstalledBrowsers()
@@ -71,16 +68,15 @@ ipcMain.on(APP_LOADED, async () => {
   bWindow?.webContents.send(URL_HISTORY_CHANGED, urlHistoryStore.store)
 })
 
+interface BrowserSelectedEventArgs {
+  urlId: string
+  browserId: Browser['id']
+  isAlt: boolean
+}
+
 ipcMain.on(
   BROWSER_SELECTED,
-  (
-    _: Event,
-    {
-      urlId,
-      browserId,
-      isAlt,
-    }: { urlId: string; browserId: Browser['id']; isAlt: boolean },
-  ) => {
+  (_: Event, { urlId, browserId, isAlt }: BrowserSelectedEventArgs) => {
     const urlItem = urlHistoryStore.get(urlId)
     if (urlItem) {
       if (isAlt) {

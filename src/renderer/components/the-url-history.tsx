@@ -10,14 +10,15 @@ import {
   UrlHistoryItem,
   UrlHistoryStore,
 } from '../../main/stores'
-import { selectedUrlIdState, urlHistoryState } from '../atoms'
+import { urlHistoryAtom } from '../atoms'
+import { urlIdSelector } from '../selectors'
 
 interface Props {
   item: UrlHistoryItem
 }
 
 const UrlHistoryItem: React.FC<Props> = ({ item }) => {
-  const setSelectedUrlIdState = useSetRecoilState(selectedUrlIdState)
+  const setUrlId = useSetRecoilState(urlIdSelector)
 
   const url = Url.parse(item.url)
   const urlEnding = [url.pathname, url.search, url.hash].join('')
@@ -27,9 +28,9 @@ const UrlHistoryItem: React.FC<Props> = ({ item }) => {
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       event.preventDefault()
-      setSelectedUrlIdState(item.id)
+      setUrlId(item.id)
     },
-    [setSelectedUrlIdState, item.id],
+    [setUrlId, item.id],
   )
 
   return (
@@ -50,7 +51,7 @@ const UrlHistoryItem: React.FC<Props> = ({ item }) => {
 }
 
 const TheUrlHistory: React.FC = () => {
-  const urlHistory: UrlHistoryStore = useRecoilValue(urlHistoryState)
+  const urlHistory: UrlHistoryStore = useRecoilValue(urlHistoryAtom)
   const urlHistoryItemsByTimestamp = selectUrlHistoryItemsByTimestamp(
     urlHistory,
   )

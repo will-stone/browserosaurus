@@ -3,11 +3,11 @@ import React from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { Browser } from '../../config/browsers'
-import { browsersState } from '../atoms'
+import { browsersAtom } from '../atoms'
 import BrowserButton from './browser-button'
 
 const TheBrowserButtons: React.FC = () => {
-  const browsers: Browser[] = useRecoilValue(browsersState)
+  const browsers: Browser[] = useRecoilValue(browsersAtom)
 
   return (
     <div className="grid grid-cols-2 gap-4">
