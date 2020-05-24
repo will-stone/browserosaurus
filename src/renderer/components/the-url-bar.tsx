@@ -3,15 +3,15 @@ import React from 'react'
 import { useRecoilValue } from 'recoil'
 import Url from 'url'
 
-import { parsedLatestUrlState } from '../selectors'
+import { parsedSelectedUrlState } from '../selectors'
 
 interface Props {
   className?: string
 }
 
 const TheUrlBar: React.FC<Props> = ({ className }) => {
-  const parsedUrl: Url.UrlWithStringQuery | undefined = useRecoilValue(
-    parsedLatestUrlState,
+  const parsedSelectedUrl: Url.UrlWithStringQuery | undefined = useRecoilValue(
+    parsedSelectedUrlState,
   )
 
   return (
@@ -25,18 +25,18 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
         'h-10 px-4',
       ])}
     >
-      {parsedUrl ? (
+      {parsedSelectedUrl ? (
         <span className="truncate">
-          {parsedUrl.protocol}
+          {parsedSelectedUrl.protocol}
           <span>/</span>
           <span>/</span>
           <span className="font-bold text-grey-300 text-sm">
-            {parsedUrl.hostname}
+            {parsedSelectedUrl.hostname}
           </span>
-          {parsedUrl.port && `:${parsedUrl.port}`}
-          {parsedUrl.pathname}
-          {parsedUrl.search}
-          {parsedUrl.hash}
+          {parsedSelectedUrl.port && `:${parsedSelectedUrl.port}`}
+          {parsedSelectedUrl.pathname}
+          {parsedSelectedUrl.search}
+          {parsedSelectedUrl.hash}
         </span>
       ) : (
         <span className="text-xs">

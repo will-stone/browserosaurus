@@ -3,6 +3,7 @@ import execa from 'execa'
 import flatten from 'lodash/fp/flatten'
 import partition from 'lodash/fp/partition'
 import pipe from 'lodash/fp/pipe'
+import { nanoid } from 'nanoid'
 
 import { Browser } from '../config/browsers'
 import {
@@ -14,7 +15,7 @@ import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
 import createWindow from './createWindow'
 import { BROWSERS_SCANNED, URL_HISTORY_CHANGED } from './events'
-import { selectLastestUrl, store } from './store'
+import { configStore, urlHistoryStore } from './stores'
 
 // TODO this will be useful if I need to require plugins dynamically
 // eslint-disable-next-line camelcase, no-underscore-dangle
@@ -46,11 +47,9 @@ app.on('before-quit', () => {
 
 app.on('open-url', (event, url) => {
   event.preventDefault()
-  const updatedUrlHistory = [
-    { url, timestamp: Date.now() },
-    ...store.get('urlHistory'),
-  ]
-  store.set('urlHistory', updatedUrlHistory)
+  const id = nanoid()
+  urlHistoryStore.set(id, { id, url, timestamp: Date.now() })
+  bWindow?.webContents.send(URL_HISTORY_CHANGED, urlHistoryStore.store)
 })
 
 /**
@@ -65,22 +64,29 @@ app.on('open-url', (event, url) => {
 ipcMain.on(APP_LOADED, async () => {
   // Send browsers down to picker
   const installedBrowsers = await getInstalledBrowsers()
-  const favBrowserId = store.get('fav')
+  const favBrowserId = configStore.get('fav')
   const favFirst = pipe(partition({ appId: favBrowserId }), flatten)
   const browsers = favFirst(installedBrowsers)
   bWindow?.webContents.send(BROWSERS_SCANNED, browsers)
-  bWindow?.webContents.send(URL_HISTORY_CHANGED, store.get('urlHistory'))
+  bWindow?.webContents.send(URL_HISTORY_CHANGED, urlHistoryStore.store)
 })
 
 ipcMain.on(
   BROWSER_SELECTED,
-  (_: Event, { id, isAlt }: { id: Browser['id']; isAlt: boolean }) => {
-    const latestUrl = selectLastestUrl()
-    if (latestUrl) {
+  (
+    _: Event,
+    {
+      urlId,
+      browserId,
+      isAlt,
+    }: { urlId: string; browserId: Browser['id']; isAlt: boolean },
+  ) => {
+    const urlItem = urlHistoryStore.get(urlId)
+    if (urlItem) {
       if (isAlt) {
-        execa('open', [latestUrl.url, '-b', id, '-g'])
+        execa('open', [urlItem.url, '-b', browserId, '-g'])
       } else {
-        execa('open', [latestUrl.url, '-b', id])
+        execa('open', [urlItem.url, '-b', browserId])
       }
     }
   },
@@ -88,4 +94,15 @@ ipcMain.on(
 
 ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, url: string) => {
   copyToClipboard(url)
+})
+
+/**
+ * ------------------
+ * Store Listeners
+ * ------------------
+ */
+
+urlHistoryStore.onDidAnyChange((updatedStore) => {
+  bWindow?.webContents.send(URL_HISTORY_CHANGED, updatedStore)
+  bWindow?.show()
 })

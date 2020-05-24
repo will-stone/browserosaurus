@@ -4,8 +4,8 @@ import { useSetRecoilState } from 'recoil'
 
 import { Browser } from '../../config/browsers'
 import { BROWSERS_SCANNED, URL_HISTORY_CHANGED } from '../../main/events'
-import { UrlHistoryItem } from '../../main/store'
-import { browsersState, urlHistoryState } from '../atoms'
+import { UrlHistoryItem } from '../../main/stores'
+import { browsersState, selectedUrlIdState, urlHistoryState } from '../atoms'
 import { APP_LOADED } from '../events'
 import TheBrowserButtons from './the-browser-buttons'
 import TheUrlBar from './the-url-bar'
@@ -14,6 +14,7 @@ import TheUrlHistory from './the-url-history'
 const App: React.FC = () => {
   const setUrlHistoryState = useSetRecoilState(urlHistoryState)
   const setBrowsersState = useSetRecoilState(browsersState)
+  const setSelectedUrlIdState = useSetRecoilState(selectedUrlIdState)
 
   useEffect(() => {
     /**
@@ -34,6 +35,7 @@ const App: React.FC = () => {
     electron.ipcRenderer.on(
       URL_HISTORY_CHANGED,
       (_: unknown, urlHistory: UrlHistoryItem[]) => {
+        setSelectedUrlIdState()
         setUrlHistoryState(urlHistory)
       },
     )
@@ -42,26 +44,30 @@ const App: React.FC = () => {
      * Detect key presses
      * document listener
      */
-    // document.addEventListener('keydown', (event) => {
-    //   // Launch browser if alpha key is a hotkey
-    //   const keyMatch = event.code.match(/^Key([A-Z])$/u)
+    document.addEventListener('keydown', (event) => {
+      // TODO need a way to turn on and off keyboard entry when the
+      // functionality requires it.
+      event.preventDefault()
 
-    //   if (keyMatch) {
-    //     const value = keyMatch[1].toLowerCase()
-    //     const { browsers } = store.getState()
-    //     const browser = browsers.find((b) => b.hotKey === value)
-    //     if (browser) {
-    //       runBrowser(browser.id, event.altKey)
-    //     }
-    //   }
-    // })
+      // // Launch browser if alpha key is a hotkey
+      // const keyMatch = event.code.match(/^Key([A-Z])$/u)
+
+      // if (keyMatch) {
+      //   const value = keyMatch[1].toLowerCase()
+      //   const { browsers } = store.getState()
+      //   const browser = browsers.find((b) => b.hotKey === value)
+      //   if (browser) {
+      //     runBrowser(browser.id, event.altKey)
+      //   }
+      // }
+    })
 
     /**
      * Tell main that App component has mounted
      * renderer -> main
      */
     electron.ipcRenderer.send(APP_LOADED)
-  }, [setBrowsersState, setUrlHistoryState])
+  }, [setBrowsersState, setUrlHistoryState, setSelectedUrlIdState])
 
   return (
     <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col">

@@ -1,7 +1,9 @@
 import cc from 'classcat'
 import React, { useCallback } from 'react'
+import { useRecoilValue } from 'recoil'
 
 import { Browser } from '../../config/browsers'
+import { selectedUrlIdState } from '../atoms'
 import { selectBrowser } from '../sendToMain'
 
 /**
@@ -36,11 +38,13 @@ interface Props {
 }
 
 const BrowserButton: React.FC<Props> = ({ browser, className }) => {
+  const selectedUrlId: string = useRecoilValue(selectedUrlIdState)
+
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      selectBrowser(browser.id, event.altKey)
+      selectBrowser(selectedUrlId, browser.id, event.altKey)
     },
-    [browser.id],
+    [browser.id, selectedUrlId],
   )
 
   const nameSizeClass = getNameSize(browser.name)
