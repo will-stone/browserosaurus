@@ -92,7 +92,7 @@ const App: React.FC = () => {
           </div>
         </div>
         {/* Main */}
-        <div className="flex-grow overflow-hidden">
+        <div className="flex-grow flex flex-col overflow-hidden">
           <div className="p-4 overflow-y-auto">
             <h1 className="text-5xl mb-8 leading-none font-semibold font-rounded">
               History
