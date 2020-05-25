@@ -2,23 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-.slide-enter {
+.slide-in-fade-out-enter {
   transform: translate(100%, 0);
   opacity: 0;
 }
 
-.slide-enter-active {
+.slide-in-fade-out-enter-active {
   transform: translate(0, 0);
   transition: all 200ms ease;
   opacity: 1;
 }
 
-.slide-exit {
+.slide-in-fade-out-exit {
   transform: translate(0, 0);
   opacity: 1;
 }
 
-.slide-exit-active {
+.slide-in-fade-out-exit-active {
   transition: all 200ms ease;
   opacity: 0;
 }

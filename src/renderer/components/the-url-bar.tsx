@@ -29,7 +29,11 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
     >
       {parsedUrl ? (
         <SwitchTransition mode="out-in">
-          <CSSTransition key={urlItem?.id} classNames="slide" timeout={200}>
+          <CSSTransition
+            key={urlItem?.id}
+            classNames="slide-in-fade-out"
+            timeout={200}
+          >
             <span className="truncate">
               {parsedUrl.protocol}
               <span>/</span>
