@@ -1,5 +1,6 @@
 import cc from 'classcat'
 import React from 'react'
+import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import { useRecoilValue } from 'recoil'
 import Url from 'url'
 
@@ -27,18 +28,22 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
       ])}
     >
       {parsedUrl ? (
-        <span className="truncate">
-          {parsedUrl.protocol}
-          <span>/</span>
-          <span>/</span>
-          <span className="font-bold text-grey-300 text-sm">
-            {parsedUrl.hostname}
-          </span>
-          {parsedUrl.port && `:${parsedUrl.port}`}
-          {parsedUrl.pathname}
-          {parsedUrl.search}
-          {parsedUrl.hash}
-        </span>
+        <SwitchTransition mode="out-in">
+          <CSSTransition key={urlItem?.id} classNames="slide" timeout={200}>
+            <span className="truncate">
+              {parsedUrl.protocol}
+              <span>/</span>
+              <span>/</span>
+              <span className="font-bold text-grey-300 text-sm">
+                {parsedUrl.hostname}
+              </span>
+              {parsedUrl.port && `:${parsedUrl.port}`}
+              {parsedUrl.pathname}
+              {parsedUrl.search}
+              {parsedUrl.hash}
+            </span>
+          </CSSTransition>
+        </SwitchTransition>
       ) : (
         <span className="text-xs">
           Most recently clicked link will show here
