@@ -57,7 +57,7 @@ const BrowserButton: React.FC<Props> = ({ browser, className }) => {
       className={cc([
         'transition duration-75 ease-in-out',
         'bg-grey-700 active:bg-blue-700',
-        'text-grey-500 active:text-white text-left',
+        'active:text-white text-left',
         'flex flex-col justify-between items-stretch',
         'p-4 rounded focus:outline-none cursor-default',
         className,
