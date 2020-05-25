@@ -19,6 +19,7 @@ interface Props {
 }
 
 const UrlHistoryItem: React.FC<Props> = ({ item }) => {
+  const urlId: string | undefined = useRecoilValue(urlIdSelector)
   const setUrlId = useSetRecoilState(urlIdSelector)
 
   const url = Url.parse(item.url)
@@ -34,14 +35,20 @@ const UrlHistoryItem: React.FC<Props> = ({ item }) => {
     [setUrlId, item.id],
   )
 
+  const isActive = urlId === item.id
+
   return (
     <button
       className={cc([
         'transition duration-75 ease-in-out',
-        'bg-grey-700',
         'py-2 px-4 w-full rounded',
-        'text-left text-grey-300 active:text-white text-sm tracking-wider font-medium break-all',
+        'text-left text-sm tracking-wider font-medium break-all',
         'focus:outline-none cursor-default',
+        'active:text-white active:bg-green-900',
+        { 'text-grey-300': !isActive },
+        { 'text-white': isActive },
+        { 'bg-grey-700': !isActive },
+        { 'bg-green-900': isActive },
       ])}
       onClick={handleClick}
       type="button"
