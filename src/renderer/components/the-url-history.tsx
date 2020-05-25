@@ -15,17 +15,16 @@ import { urlHistoryAtom } from '../atoms'
 import { urlIdSelector } from '../selectors'
 
 interface Props {
+  isStriped: boolean
   item: UrlHistoryItem
 }
 
-const UrlHistoryItem: React.FC<Props> = ({ item }) => {
+const UrlHistoryItem: React.FC<Props> = ({ isStriped, item }) => {
   const urlId: string | undefined = useRecoilValue(urlIdSelector)
   const setUrlId = useSetRecoilState(urlIdSelector)
 
   const url = Url.parse(item.url)
   const urlEnding = [url.pathname, url.search, url.hash].join('')
-  const truncatedUrlEnding =
-    urlEnding.length > 50 ? `${urlEnding.slice(0, 100)}…` : urlEnding
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -41,25 +40,32 @@ const UrlHistoryItem: React.FC<Props> = ({ item }) => {
     <button
       className={cc([
         'transition duration-75 ease-in-out',
-        'py-2 px-4 w-full rounded',
-        'text-left text-sm tracking-wider font-medium break-all',
+        'p-4 w-full rounded',
+        'text-left text-xs tracking-wider font-medium truncate',
         'focus:outline-none cursor-default',
-        'active:text-white active:bg-green-900',
-        { 'text-grey-300': !isActive },
-        { 'text-white': isActive },
-        { 'bg-grey-700': !isActive },
-        { 'bg-green-900': isActive },
+        { 'text-grey-500': !isActive },
+        { 'text-pink-200': isActive },
+        { 'bg-grey-700': !isActive && isStriped },
+        { 'bg-pink-900': isActive },
       ])}
       onClick={handleClick}
       type="button"
     >
-      <span className="opacity-50">{url.protocol}</span>
-      <span className="opacity-50">/</span>
-      <span className="opacity-50">/</span>
-      <span className="font-bold text-base">{url.hostname}</span>
-      <span className="opacity-50">
+      <span>{url.protocol}</span>
+      <span>/</span>
+      <span>/</span>
+      <span
+        className={cc([
+          'font-bold text-sm',
+          { 'text-grey-300': !isActive },
+          { 'text-white': isActive },
+        ])}
+      >
+        {url.hostname}
+      </span>
+      <span>
         {url.port && `:${url.port}`}
-        {truncatedUrlEnding}
+        {urlEnding}
       </span>
     </button>
   )
@@ -72,9 +78,12 @@ const TheUrlHistory: React.FC = () => {
   )
 
   return (
-    <div className="space-y-2">
-      {urlHistoryItemsByTimestamp.map((item) => {
-        return <UrlHistoryItem key={item.id} item={item} />
+    <div>
+      {urlHistoryItemsByTimestamp.map((item, i) => {
+        const isStriped = Boolean((i + 1) % 2)
+        return (
+          <UrlHistoryItem key={item.id} isStriped={isStriped} item={item} />
+        )
       })}
     </div>
   )
