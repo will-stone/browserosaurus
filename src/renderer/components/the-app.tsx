@@ -76,7 +76,7 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      <TheUrlBar className="mx-4 mb-4" />
+      <TheUrlBar className="mx-4" />
 
       <div className="flex-grow flex overflow-hidden">
         {/* Sidebar */}
@@ -88,9 +88,7 @@ const App: React.FC = () => {
             <TheBrowserButtons />
           </div>
           <div className="py-4 pr-2 pl-4">
-            <div className="p-4 flex-shrink-0 bg-grey-700">
-              Copy to clipboard
-            </div>
+            {/* footer of sidebar, needed? */}
           </div>
         </div>
         {/* Main */}

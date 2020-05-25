@@ -20,7 +20,7 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
     <div
       className={cc([
         className,
-        'flex-shrink-0 flex items-center',
+        'flex-shrink-0 flex items-center justify-between',
         'text-xs text-grey-500 tracking-wider font-medium',
         'h-10 rounded overflow-hidden space-x-2',
       ])}
@@ -50,7 +50,7 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
           <button
             className={cc([
               'flex-shrink-0',
-              'bg-grey-700 active:bg-blue-700',
+              'bg-grey-700',
               'py-1 px-2 space-x-2',
               'text-grey-300 font-bold active:text-white uppercase',
               'rounded focus:outline-none cursor-default',

@@ -38,7 +38,7 @@ const UrlHistoryItem: React.FC<Props> = ({ item }) => {
     <button
       className={cc([
         'transition duration-75 ease-in-out',
-        'bg-grey-700 active:bg-blue-700',
+        'bg-grey-700',
         'py-2 px-4 w-full rounded',
         'text-left text-grey-300 active:text-white text-sm tracking-wider font-medium break-all',
         'focus:outline-none cursor-default',
