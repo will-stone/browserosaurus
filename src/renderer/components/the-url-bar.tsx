@@ -6,6 +6,7 @@ import Url from 'url'
 
 import { UrlHistoryItem } from '../../main/stores'
 import { urlItemSelector } from '../selectors'
+import ProtocolIcon from './protocol-icon'
 
 interface Props {
   className?: string
@@ -33,15 +34,20 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
               classNames="slide-in-fade-out"
               timeout={200}
             >
-              <span className="truncate">
-                <span className="font-bold text-grey-300 text-sm">
-                  {parsedUrl.hostname}
-                </span>
-                {parsedUrl.port && `:${parsedUrl.port}`}
-                {parsedUrl.pathname}
-                {parsedUrl.search}
-                {parsedUrl.hash}
-              </span>
+              <div className="flex items-center space-x-2 truncate">
+                <ProtocolIcon urlProtocol={parsedUrl.protocol} />
+                <div className="truncate">
+                  <span className="font-bold text-grey-300 text-sm">
+                    {parsedUrl.hostname}
+                  </span>
+                  <span>
+                    {parsedUrl.port && `:${parsedUrl.port}`}
+                    {parsedUrl.pathname}
+                    {parsedUrl.search}
+                    {parsedUrl.hash}
+                  </span>
+                </div>
+              </div>
             </CSSTransition>
           </SwitchTransition>
           <button
