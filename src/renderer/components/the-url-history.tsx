@@ -1,6 +1,7 @@
 // TODO remove this when components abstracted out
 /* eslint-disable react/no-multi-comp */
 
+import cc from 'classcat'
 import React, { useCallback } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import Url from 'url'
@@ -35,17 +36,24 @@ const UrlHistoryItem: React.FC<Props> = ({ item }) => {
 
   return (
     <button
-      className="relative py-4 px-4 focus:outline-none w-full text-left text-grey-500 hover:text-grey-300 text-sm tracking-wider font-medium break-all"
+      className={cc([
+        'transition duration-75 ease-in-out',
+        'bg-grey-700 active:bg-blue-700',
+        'py-2 px-4 w-full rounded',
+        'text-left text-grey-300 active:text-white text-sm tracking-wider font-medium break-all',
+        'focus:outline-none cursor-default',
+      ])}
       onClick={handleClick}
       type="button"
     >
-      <span className="absolute left-0">-</span>
-      <span>{url.protocol}</span>
-      <span>/</span>
-      <span>/</span>
-      <span className="font-bold text-grey-300 text-base">{url.hostname}</span>
-      {url.port && `:${url.port}`}
-      {truncatedUrlEnding}
+      <span className="opacity-50">{url.protocol}</span>
+      <span className="opacity-50">/</span>
+      <span className="opacity-50">/</span>
+      <span className="font-bold text-base">{url.hostname}</span>
+      <span className="opacity-50">
+        {url.port && `:${url.port}`}
+        {truncatedUrlEnding}
+      </span>
     </button>
   )
 }
@@ -57,7 +65,7 @@ const TheUrlHistory: React.FC = () => {
   )
 
   return (
-    <div className="divide-y divide-grey-900">
+    <div className="space-y-2">
       {urlHistoryItemsByTimestamp.map((item) => {
         return <UrlHistoryItem key={item.id} item={item} />
       })}

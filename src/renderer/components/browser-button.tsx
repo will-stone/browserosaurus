@@ -55,10 +55,11 @@ const BrowserButton: React.FC<Props> = ({ browser, className }) => {
     <button
       key={browser.id}
       className={cc([
-        'bg-grey-700',
-        'text-grey-500 hover:text-grey-200 text-left',
+        'transition duration-75 ease-in-out',
+        'bg-grey-700 active:bg-blue-700',
+        'text-grey-500 active:text-white text-left',
         'flex flex-col justify-between items-stretch',
-        'p-4 rounded focus:outline-none',
+        'p-4 rounded focus:outline-none cursor-default',
         className,
       ])}
       onClick={handleClick}

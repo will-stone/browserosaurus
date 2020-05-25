@@ -70,27 +70,33 @@ const App: React.FC = () => {
 
   return (
     <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col">
-      <div className="flex-shrink-0 bg-grey-700 h-6 flex items-center justify-center text-grey-300 border-b border-grey-900 tracking-wider draggable text-xs">
-        Browserosaurus
+      <div className="flex-shrink-0 draggable pb-4">
+        <div className="h-6 flex items-center justify-center text-grey-300 tracking-wider text-xs">
+          Browserosaurus
+        </div>
       </div>
 
-      <TheUrlBar />
+      <TheUrlBar className="mx-4 mb-4" />
 
       <div className="flex-grow flex overflow-hidden">
         {/* Sidebar */}
         <div
-          className="flex-shrink-0 bg-grey-800 border-r border-grey-900 flex flex-col justify-between"
+          className="flex-shrink-0 flex flex-col justify-between"
           style={{ width: '280px' }}
         >
-          <div className="p-4 overflow-y-auto">
+          <div className="py-4 pr-2 pl-4 overflow-y-auto">
             <TheBrowserButtons />
           </div>
-          <div className="p-4 flex-shrink-0">Copy to clipboard</div>
+          <div className="py-4 pr-2 pl-4">
+            <div className="p-4 flex-shrink-0 bg-grey-700">
+              Copy to clipboard
+            </div>
+          </div>
         </div>
         {/* Main */}
         <div className="flex-grow flex flex-col overflow-hidden">
           <div className="p-4 overflow-y-auto">
-            <h1 className="text-5xl mb-8 leading-none font-semibold text-blue-400 font-rounded">
+            <h1 className="text-5xl mb-8 leading-none font-semibold font-rounded">
               History
             </h1>
             <TheUrlHistory />
