@@ -21,9 +21,8 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
       className={cc([
         className,
         'flex-shrink-0 flex items-center',
-        'bg-grey-700',
         'text-xs text-grey-500 tracking-wider font-medium',
-        'h-10 px-4 rounded overflow-hidden',
+        'h-10 rounded overflow-hidden space-x-2',
       ])}
     >
       {parsedUrl ? (
@@ -51,8 +50,8 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
           <button
             className={cc([
               'flex-shrink-0',
-              'bg-grey-800 active:bg-blue-700',
-              'py-1 px-2 ml-4 space-x-2',
+              'bg-grey-700 active:bg-blue-700',
+              'py-1 px-2 space-x-2',
               'text-grey-300 font-bold active:text-white uppercase',
               'rounded focus:outline-none cursor-default',
             ])}
@@ -63,9 +62,7 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
           </button>
         </>
       ) : (
-        <span className="text-xs">
-          Most recently clicked link will show here
-        </span>
+        <span>Most recently clicked link will show here</span>
       )}
     </div>
   )
