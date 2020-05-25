@@ -34,9 +34,6 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
               timeout={200}
             >
               <span className="truncate">
-                {parsedUrl.protocol}
-                <span>/</span>
-                <span>/</span>
                 <span className="font-bold text-grey-300 text-sm">
                   {parsedUrl.hostname}
                 </span>
