@@ -126,8 +126,10 @@ function createWindow(): Promise<electron.BrowserWindow> {
       },
       height: 700,
       minHeight: 700,
+      maxHeight: 700,
       width: 800,
       minWidth: 800,
+      maxWidth: 800,
       show: false,
     })
 

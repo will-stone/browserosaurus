@@ -6,7 +6,7 @@ import { Browser } from '../../config/browsers'
 import { BROWSERS_SCANNED, URL_HISTORY_CHANGED } from '../../main/events'
 import { UrlHistoryStore } from '../../main/stores'
 import { browsersAtom, urlHistoryAtom } from '../atoms'
-import { APP_LOADED } from '../events'
+import { APP_LOADED, KEY_PRESSED } from '../events'
 import { urlIdSelector } from '../selectors'
 import TheBrowserButtons from './the-browser-buttons'
 import TheUrlBar from './the-url-bar'
@@ -45,20 +45,23 @@ const App: React.FC = () => {
      * Detect key presses
      * document listener
      */
-    document.addEventListener('keydown', () => {
+    document.addEventListener('keydown', (event) => {
       // TODO need a way to turn on and off keyboard entry when the
       // functionality requires it.
-      // event.preventDefault()
-      // // Launch browser if alpha key is a hotkey
-      // const keyMatch = event.code.match(/^Key([A-Z])$/u)
-      // if (keyMatch) {
-      //   const value = keyMatch[1].toLowerCase()
-      //   const { browsers } = store.getState()
-      //   const browser = browsers.find((b) => b.hotKey === value)
-      //   if (browser) {
-      //     runBrowser(browser.id, event.altKey)
-      //   }
-      // }
+      const matchAlpha = event.code.match(/^Key([A-Z])$/u)
+
+      let key
+
+      if (matchAlpha) {
+        key = matchAlpha[1].toLowerCase()
+      } else if (event.code === 'Space' || event.code === 'Enter') {
+        key = event.code.toLowerCase()
+      }
+
+      if (key) {
+        // event.preventDefault()
+        electron.ipcRenderer.send(KEY_PRESSED, { key, isAlt: event.altKey })
+      }
     })
 
     /**
@@ -66,7 +69,7 @@ const App: React.FC = () => {
      * renderer -> main
      */
     electron.ipcRenderer.send(APP_LOADED)
-  }, [setBrowsersState, setUrlHistoryState, setUrlId])
+  })
 
   return (
     <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col">

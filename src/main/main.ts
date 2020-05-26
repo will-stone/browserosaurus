@@ -1,9 +1,10 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, Tray } from 'electron'
 import execa from 'execa'
 import flatten from 'lodash/fp/flatten'
 import partition from 'lodash/fp/partition'
 import pipe from 'lodash/fp/pipe'
 import { nanoid } from 'nanoid'
+import path from 'path'
 
 import { Browser } from '../config/browsers'
 import {
@@ -30,10 +31,24 @@ app.commandLine.appendArgument('--enable-features=Metal')
 // Prompt to set as default browser
 app.setAsDefaultProtocolClient('http')
 
+// Hide from dock and cmd-tab
+app.dock.hide()
+
+// Prevents garbage collection
 export let bWindow: BrowserWindow | undefined
+let tray: Tray | undefined
 
 app.on('ready', async () => {
   bWindow = await createWindow()
+
+  tray = new Tray(path.join(__dirname, '/static/icon/tray_iconTemplate.png'))
+  tray.setPressedImage(
+    path.join(__dirname, '/static/icon/tray_iconHighlight.png'),
+  )
+  tray.setToolTip('Browserosaurus')
+  tray.addListener('click', () => {
+    bWindow?.show()
+  })
 })
 
 app.on('activate', () => {
