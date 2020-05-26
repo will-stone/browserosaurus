@@ -2,7 +2,7 @@
 /* eslint-disable react/no-multi-comp */
 
 import cc from 'classcat'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import Url from 'url'
 
@@ -37,10 +37,27 @@ const UrlHistoryItem: React.FC<Props> = ({ isStriped, item }) => {
 
   const isActive = urlId === item.id
 
+  /**
+   * Scroll active item into view
+   */
+
+  // eslint-disable-next-line unicorn/no-null
+  const reference = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (isActive) {
+      reference.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+      })
+    }
+  }, [isActive])
+
   return (
     <button
+      ref={reference}
       className={cc([
-        'p-4 w-full rounded flex items-center space-x-2',
+        'p-2 w-full rounded flex items-center space-x-2',
         'text-left text-xs tracking-wider font-medium',
         'focus:outline-none cursor-default',
         { 'bg-grey-700': isStriped && !isActive },

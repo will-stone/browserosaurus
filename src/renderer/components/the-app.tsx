@@ -87,16 +87,13 @@ const App: React.FC = () => {
           <div className="py-4 pr-2 pl-4 overflow-y-auto">
             <TheBrowserButtons />
           </div>
-          <div className="py-4 pr-2 pl-4">
-            {/* footer of sidebar, needed? */}
-          </div>
         </div>
         {/* Main */}
         <div className="flex-grow flex flex-col overflow-hidden">
-          <div className="p-4 overflow-y-auto">
-            <h1 className="text-5xl mb-8 leading-none font-semibold font-rounded">
-              History
-            </h1>
+          <h1 className="py-4 pr-4 pl-2 text-5xl leading-none font-semibold font-rounded">
+            History
+          </h1>
+          <div className="pr-4 pb-4 pl-2 overflow-y-auto">
             <TheUrlHistory />
           </div>
         </div>
