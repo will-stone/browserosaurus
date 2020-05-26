@@ -35,7 +35,10 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
               timeout={200}
             >
               <div className="flex items-center space-x-2 truncate">
-                <ProtocolIcon urlProtocol={parsedUrl.protocol} />
+                <ProtocolIcon
+                  className="flex-shrink-0"
+                  urlProtocol={parsedUrl.protocol}
+                />
                 <div className="truncate">
                   <span className="font-bold text-grey-300 text-sm">
                     {parsedUrl.hostname}

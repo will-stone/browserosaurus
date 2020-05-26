@@ -1,14 +1,16 @@
+import cc from 'classcat'
 import React from 'react'
 
 interface Props {
+  className?: string
   urlProtocol?: string
 }
 
-const ProtocolIcon: React.FC<Props> = ({ urlProtocol }) => {
+const ProtocolIcon: React.FC<Props> = ({ className, urlProtocol }) => {
   return urlProtocol?.includes('s') ? (
     <svg
       aria-hidden="true"
-      className="flex-shrink-0 w-4 h-4"
+      className={cc(['w-4 h-4', className])}
       focusable="false"
       role="img"
       viewBox="0 0 448 512"
@@ -22,7 +24,7 @@ const ProtocolIcon: React.FC<Props> = ({ urlProtocol }) => {
   ) : (
     <svg
       aria-hidden="true"
-      className="flex-shrink-0 w-4 h-4 opacity-25"
+      className={cc(['w-4 h-4 opacity-25', className])}
       focusable="false"
       role="img"
       viewBox="0 0 576 512"

@@ -50,7 +50,7 @@ const UrlHistoryItem: React.FC<Props> = ({ isStriped, item }) => {
       onClick={handleClick}
       type="button"
     >
-      <ProtocolIcon urlProtocol={url.protocol} />
+      <ProtocolIcon className="flex-shrink-0" urlProtocol={url.protocol} />
       <span className="truncate">
         <span
           className={cc([
