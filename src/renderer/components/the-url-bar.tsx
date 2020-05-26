@@ -28,31 +28,33 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
     >
       {parsedUrl ? (
         <>
-          <SwitchTransition mode="out-in">
-            <CSSTransition
-              key={urlItem?.id}
-              classNames="slide-in-fade-out"
-              timeout={200}
-            >
-              <div className="flex items-center space-x-2 truncate">
-                <ProtocolIcon
-                  className="flex-shrink-0"
-                  urlProtocol={parsedUrl.protocol}
-                />
-                <div className="truncate">
-                  <span className="font-bold text-grey-300 text-sm">
-                    {parsedUrl.hostname}
-                  </span>
-                  <span>
-                    {parsedUrl.port && `:${parsedUrl.port}`}
-                    {parsedUrl.pathname}
-                    {parsedUrl.search}
-                    {parsedUrl.hash}
-                  </span>
+          <div className="overflow-hidden flex-grow">
+            <SwitchTransition mode="out-in">
+              <CSSTransition
+                key={urlItem?.id}
+                classNames="slide-in-fade-out"
+                timeout={200}
+              >
+                <div className="flex items-center space-x-2 truncate">
+                  <ProtocolIcon
+                    className="flex-shrink-0"
+                    urlProtocol={parsedUrl.protocol}
+                  />
+                  <div className="truncate">
+                    <span className="font-bold text-grey-300 text-sm">
+                      {parsedUrl.hostname}
+                    </span>
+                    <span>
+                      {parsedUrl.port && `:${parsedUrl.port}`}
+                      {parsedUrl.pathname}
+                      {parsedUrl.search}
+                      {parsedUrl.hash}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </CSSTransition>
-          </SwitchTransition>
+              </CSSTransition>
+            </SwitchTransition>
+          </div>
           <button
             className={cc([
               'flex-shrink-0',
