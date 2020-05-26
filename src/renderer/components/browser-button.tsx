@@ -57,18 +57,18 @@ const BrowserButton: React.FC<Props> = ({ browser, className }) => {
       className={cc([
         'transition duration-75 ease-in-out',
         'bg-grey-600',
-        'active:text-white text-left',
+        'active:text-white text-left leading-none',
         'flex flex-col justify-between items-stretch',
-        'p-4 rounded focus:outline-none cursor-default',
+        'p-2 rounded focus:outline-none cursor-default',
         className,
       ])}
       onClick={handleClick}
       type="button"
     >
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-2">
         <img alt={browser.name} className="w-8 h-8" src={browser.logo} />
         {browser.hotKey && (
-          <kbd className="bg-grey-800 px-2 text-xs font-bold uppercase rounded">
+          <kbd className="bg-grey-800 py-1 px-2 text-xs font-bold uppercase rounded">
             {browser.hotKey}
           </kbd>
         )}

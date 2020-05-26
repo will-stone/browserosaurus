@@ -16,8 +16,10 @@ function createWindow(): Promise<electron.BrowserWindow> {
         nodeIntegration: true,
         preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       },
-      height: 600,
-      width: 850,
+      minHeight: 800,
+      minWidth: 700,
+      height: 700,
+      width: 800,
       show: false,
     })
 

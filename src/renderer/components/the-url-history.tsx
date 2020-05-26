@@ -57,7 +57,7 @@ const UrlHistoryItem: React.FC<Props> = ({ isStriped, item }) => {
     <button
       ref={reference}
       className={cc([
-        'p-2 w-full rounded flex items-center space-x-2',
+        'p-4 w-full rounded flex items-center space-x-2',
         'text-left text-xs tracking-wider font-medium',
         'focus:outline-none cursor-default',
         { 'bg-grey-700': isStriped && !isActive },

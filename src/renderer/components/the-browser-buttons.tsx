@@ -1,4 +1,4 @@
-import cc from 'classcat'
+import safariTechnologyPreview from '@browser-logos/safari-technology-preview/safari-technology-preview_256x256.png'
 import React from 'react'
 import { useRecoilValue } from 'recoil'
 
@@ -10,14 +10,17 @@ const TheBrowserButtons: React.FC = () => {
   const browsers: Browser[] = useRecoilValue(browsersAtom)
 
   return (
-    <div className="grid grid-cols-2 gap-4">
-      {browsers.map((browser, i) => (
-        <BrowserButton
-          key={browser.id}
-          browser={browser}
-          className={cc({ 'col-span-2': i === 0 })}
-        />
+    <div className="grid grid-cols-5 gap-4">
+      {browsers.map((browser) => (
+        <BrowserButton key={browser.id} browser={browser} />
       ))}
+      <BrowserButton
+        browser={{
+          name: 'Safari Technology Preview',
+          id: 'com.apple.SafariTechnologyPreview',
+          logo: safariTechnologyPreview,
+        }}
+      />
     </div>
   )
 }

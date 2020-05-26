@@ -23,7 +23,7 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
         className,
         'flex-shrink-0 flex items-center justify-between',
         'text-xs text-grey-500 tracking-wider font-medium',
-        'h-10 rounded overflow-hidden space-x-2',
+        'overflow-hidden space-x-2',
       ])}
     >
       {parsedUrl ? (

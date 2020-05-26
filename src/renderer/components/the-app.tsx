@@ -78,24 +78,18 @@ const App: React.FC = () => {
 
       <TheUrlBar className="mx-4" />
 
-      <div className="flex-grow flex overflow-hidden">
-        {/* Sidebar */}
-        <div
-          className="flex-shrink-0 flex flex-col justify-between"
-          style={{ width: '280px' }}
-        >
-          <div className="py-4 pr-2 pl-4 overflow-y-auto">
-            <TheBrowserButtons />
-          </div>
+      <div className="flex-shrink-0 flex flex-col justify-between">
+        <div className="p-4">
+          <TheBrowserButtons />
         </div>
-        {/* Main */}
-        <div className="flex-grow flex flex-col overflow-hidden">
-          <h1 className="py-4 pr-4 pl-2 text-5xl leading-none font-semibold font-rounded">
-            History
-          </h1>
-          <div className="pr-4 pb-4 pl-2 overflow-y-auto">
-            <TheUrlHistory />
-          </div>
+      </div>
+
+      <div className="flex-grow flex flex-col overflow-hidden">
+        <h1 className="p-4 text-5xl leading-none font-semibold font-rounded">
+          History
+        </h1>
+        <div className="px-4 pb-4 overflow-y-auto">
+          <TheUrlHistory />
         </div>
       </div>
     </div>
