@@ -71,7 +71,7 @@ const App: React.FC = () => {
   return (
     <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col">
       <div className="flex-shrink-0 draggable pb-4">
-        <div className="h-6 flex items-center justify-center tracking-wider text-xs">
+        <div className="h-6 flex items-center justify-center tracking-wider text-xs font-medium">
           Browserosaurus
         </div>
       </div>
