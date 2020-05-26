@@ -58,7 +58,7 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
           <button
             className={cc([
               'flex-shrink-0',
-              'bg-grey-700',
+              'bg-grey-800',
               'py-2 px-3 space-x-2',
               'text-grey-300 font-bold active:text-white uppercase',
               'rounded focus:outline-none cursor-default',

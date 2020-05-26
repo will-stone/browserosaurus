@@ -62,7 +62,7 @@ const UrlHistoryItem: React.FC<Props> = ({ isStriped, item }) => {
         'focus:outline-none cursor-default',
         { 'bg-grey-700': isStriped && !isActive },
         { 'text-grey-500': !isActive },
-        { 'bg-blue-700 text-blue-100': isActive },
+        { 'bg-grey-600 text-blue-100': isActive },
       ])}
       onClick={handleClick}
       type="button"

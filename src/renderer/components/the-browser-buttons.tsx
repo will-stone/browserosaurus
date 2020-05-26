@@ -1,4 +1,4 @@
-import safariTechnologyPreview from '@browser-logos/safari-technology-preview/safari-technology-preview_256x256.png'
+// import safariTechnologyPreview from '@browser-logos/safari-technology-preview/safari-technology-preview_256x256.png'
 import React from 'react'
 import { useRecoilValue } from 'recoil'
 
@@ -14,13 +14,13 @@ const TheBrowserButtons: React.FC = () => {
       {browsers.map((browser) => (
         <BrowserButton key={browser.id} browser={browser} />
       ))}
-      <BrowserButton
+      {/* <BrowserButton
         browser={{
           name: 'Safari Technology Preview',
           id: 'com.apple.SafariTechnologyPreview',
           logo: safariTechnologyPreview,
         }}
-      />
+      /> */}
     </div>
   )
 }
