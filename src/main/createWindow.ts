@@ -118,7 +118,7 @@ function createWindow(): Promise<electron.BrowserWindow> {
       frame: true,
       icon: path.join(__dirname, '/static/icon/icon.png'),
       title: 'Browserosaurus',
-      titleBarStyle: 'hidden',
+      titleBarStyle: 'default',
       webPreferences: {
         additionalArguments: [],
         nodeIntegration: true,
@@ -126,14 +126,16 @@ function createWindow(): Promise<electron.BrowserWindow> {
       },
       height: 700,
       minHeight: 700,
-      maxHeight: 700,
       width: 800,
       minWidth: 800,
-      maxWidth: 800,
       show: false,
+      fullscreen: false,
+      fullscreenable: false,
     })
 
     win.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
+
+    win.setVisibleOnAllWorkspaces(true)
 
     win.on('close', (event_) => {
       event_.preventDefault()
@@ -141,7 +143,6 @@ function createWindow(): Promise<electron.BrowserWindow> {
     })
 
     win.once('ready-to-show', () => {
-      win.show()
       // pickerWindow.webContents.openDevTools()
       resolve(win)
     })
