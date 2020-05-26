@@ -200,7 +200,7 @@
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
     "@types/react-transition-group": "^4.4.0",
-    "@will-stone/eslint-config": "^1.12.0",
+    "@will-stone/eslint-config": "^1.12.1",
     "@will-stone/prettier-config": "^3.0.1",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
