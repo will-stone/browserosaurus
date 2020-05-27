@@ -1,3 +1,4 @@
+import cc from 'classcat'
 import electron from 'electron'
 import React, { useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
@@ -73,19 +74,52 @@ const App: React.FC = () => {
 
   return (
     <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col">
-      <div className="flex-shrink-0 bg-grey-700 pb-4">
-        <div className="draggable pb-4">
-          <div className="h-10 flex items-center justify-center tracking-wider text-xs font-medium">
-            Browserosaurus
-          </div>
+      <div className="flex-shrink-0 bg-grey-700 p-4">
+        <div className="pb-4 flex items-center space-x-4">
+          <button
+            className={cc([
+              'bg-grey-800 active:bg-grey-900',
+              'border border-grey-900 rounded shadow focus:outline-none',
+              'text-xs active:text-grey-200 font-bold',
+              'py-1 px-2 space-x-2',
+              'cursor-default',
+            ])}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="w-4"
+              focusable="false"
+              role="img"
+              viewBox="0 0 448 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+
+          <TheUrlBar className="flex-grow" />
+
+          <button
+            className={cc([
+              'bg-grey-800 active:bg-grey-900',
+              'border border-grey-900 rounded shadow focus:outline-none',
+              'text-xs active:text-grey-200 font-bold',
+              'py-1 px-2 space-x-2',
+              'cursor-default',
+            ])}
+            type="button"
+          >
+            <span>Copy</span>
+            <kbd className="opacity-50 tracking-widest">⌘+C</kbd>
+          </button>
         </div>
 
-        <TheUrlBar className="mx-4 mb-4" />
-
         <div className="flex-shrink-0 flex flex-col justify-between">
-          <div className="px-4">
-            <TheBrowserButtons />
-          </div>
+          <TheBrowserButtons />
         </div>
       </div>
 

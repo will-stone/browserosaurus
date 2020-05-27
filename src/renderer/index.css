@@ -19,7 +19,7 @@
 
 .slide-in-fade-out-enter-active {
   transform: translate(0, 0);
-  transition: all 200ms ease;
+  transition: all 150ms ease;
   opacity: 1;
 }
 
@@ -29,6 +29,6 @@
 }
 
 .slide-in-fade-out-exit-active {
-  transition: all 200ms ease;
+  transition: all 150ms ease;
   opacity: 0;
 }

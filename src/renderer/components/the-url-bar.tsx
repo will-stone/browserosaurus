@@ -21,54 +21,40 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
     <div
       className={cc([
         className,
-        'flex-shrink-0 flex items-center justify-between',
-        'text-xs text-grey-500 tracking-wider font-medium',
-        'overflow-hidden space-x-2',
+        'bg-grey-600',
+        'border border-grey-900 rounded-full',
+        'text-xs text-grey-300 tracking-wider font-medium',
+        'h-10 px-4',
+        'flex items-center',
+        'overflow-hidden',
       ])}
     >
       {parsedUrl ? (
-        <>
-          <div className="overflow-hidden flex-grow">
-            <SwitchTransition mode="out-in">
-              <CSSTransition
-                key={urlItem?.id}
-                classNames="slide-in-fade-out"
-                timeout={200}
-              >
-                <div className="flex items-center space-x-2 truncate">
-                  <ProtocolIcon
-                    className="flex-shrink-0"
-                    urlProtocol={parsedUrl.protocol}
-                  />
-                  <div className="truncate">
-                    <span className="font-bold text-grey-300 text-sm">
-                      {parsedUrl.hostname}
-                    </span>
-                    <span>
-                      {parsedUrl.port && `:${parsedUrl.port}`}
-                      {parsedUrl.pathname}
-                      {parsedUrl.search}
-                      {parsedUrl.hash}
-                    </span>
-                  </div>
-                </div>
-              </CSSTransition>
-            </SwitchTransition>
-          </div>
-          <button
-            className={cc([
-              'flex-shrink-0',
-              'bg-grey-800',
-              'py-2 px-3 space-x-2',
-              'text-grey-300 font-bold active:text-white uppercase',
-              'rounded focus:outline-none cursor-default',
-            ])}
-            type="button"
+        <SwitchTransition mode="out-in">
+          <CSSTransition
+            key={urlItem?.id}
+            classNames="slide-in-fade-out"
+            timeout={150}
           >
-            <span>Copy</span>
-            <kbd className="opacity-50 tracking-widest">⌘+C</kbd>
-          </button>
-        </>
+            <div className="flex items-center space-x-2 truncate">
+              <ProtocolIcon
+                className="flex-shrink-0"
+                urlProtocol={parsedUrl.protocol}
+              />
+              <div className="truncate">
+                <span className="font-bold text-grey-200 text-sm">
+                  {parsedUrl.hostname}
+                </span>
+                <span>
+                  {parsedUrl.port && `:${parsedUrl.port}`}
+                  {parsedUrl.pathname}
+                  {parsedUrl.search}
+                  {parsedUrl.hash}
+                </span>
+              </div>
+            </div>
+          </CSSTransition>
+        </SwitchTransition>
       ) : (
         <span>Most recently clicked link will show here</span>
       )}

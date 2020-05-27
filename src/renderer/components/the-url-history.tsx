@@ -62,7 +62,7 @@ const UrlHistoryItem: React.FC<Props> = ({ isStriped, item }) => {
         'focus:outline-none cursor-default',
         { 'bg-grey-700': isStriped && !isActive },
         { 'text-grey-500': !isActive },
-        { 'bg-grey-600 text-blue-100': isActive },
+        { 'bg-grey-600 text-grey-300': isActive },
       ])}
       onClick={handleClick}
       type="button"
@@ -73,7 +73,7 @@ const UrlHistoryItem: React.FC<Props> = ({ isStriped, item }) => {
           className={cc([
             'font-bold text-sm',
             { 'text-grey-300': !isActive },
-            { 'text-white': isActive },
+            { 'text-grey-200': isActive },
           ])}
         >
           {url.hostname}
