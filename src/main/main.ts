@@ -103,8 +103,9 @@ ipcMain.on(
   },
 )
 
-ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, url: string) => {
-  copyToClipboard(url)
+ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, urlId: string) => {
+  const urlItem = urlHistoryStore.get(urlId)
+  copyToClipboard(urlItem.url)
 })
 
 /**

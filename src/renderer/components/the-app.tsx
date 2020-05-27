@@ -7,9 +7,10 @@ import { Browser } from '../../config/browsers'
 import { BROWSERS_SCANNED, URL_HISTORY_CHANGED } from '../../main/events'
 import { UrlHistoryStore } from '../../main/stores'
 import { browsersAtom, urlHistoryAtom } from '../atoms'
-import { APP_LOADED, KEY_PRESSED } from '../events'
+import { APP_LOADED } from '../events'
 import { urlIdSelector } from '../selectors'
 import TheBrowserButtons from './the-browser-buttons'
+import TheKeyboardListeners from './the-keyboard-listeners'
 import TheUrlBar from './the-url-bar'
 import TheUrlHistory from './the-url-history'
 
@@ -41,29 +42,6 @@ const App: React.FC = () => {
         setUrlHistoryState(urlHistory)
       },
     )
-
-    /**
-     * Detect key presses
-     * document listener
-     */
-    document.addEventListener('keydown', (event) => {
-      // TODO need a way to turn on and off keyboard entry when the
-      // functionality requires it.
-      const matchAlpha = event.code.match(/^Key([A-Z])$/u)
-
-      let key
-
-      if (matchAlpha) {
-        key = matchAlpha[1].toLowerCase()
-      } else if (event.code === 'Space' || event.code === 'Enter') {
-        key = event.code.toLowerCase()
-      }
-
-      if (key) {
-        // event.preventDefault()
-        electron.ipcRenderer.send(KEY_PRESSED, { key, isAlt: event.altKey })
-      }
-    })
 
     /**
      * Tell main that App component has mounted
@@ -131,6 +109,8 @@ const App: React.FC = () => {
           <TheUrlHistory />
         </div>
       </div>
+
+      <TheKeyboardListeners />
     </div>
   )
 }

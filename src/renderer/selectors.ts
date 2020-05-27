@@ -28,7 +28,7 @@ export const urlIdSelector = selector({
   // TODO [+@types/recoil] this should be typed when recoil types are ready
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
-  set: ({ set }, value) => set(urlIdAtom, value),
+  set: ({ set }, urlId) => set(urlIdAtom, urlId),
 })
 
 export const urlItemSelector = selector({
