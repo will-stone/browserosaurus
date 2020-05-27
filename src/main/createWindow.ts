@@ -8,10 +8,9 @@ function createWindow(): Promise<electron.BrowserWindow> {
   return new Promise((resolve, reject) => {
     const win = new electron.BrowserWindow({
       backgroundColor: '#1e1e1e',
-      frame: true,
+      frame: false,
       icon: path.join(__dirname, '/static/icon/icon.png'),
       title: 'Browserosaurus',
-      titleBarStyle: 'hiddenInset',
       webPreferences: {
         additionalArguments: [],
         nodeIntegration: true,
@@ -22,6 +21,8 @@ function createWindow(): Promise<electron.BrowserWindow> {
       width: 800,
       minWidth: 800,
       show: false,
+      minimizable: false,
+      maximizable: false,
       fullscreen: false,
       fullscreenable: false,
     })
