@@ -32,7 +32,7 @@ app.commandLine.appendArgument('--enable-features=Metal')
 app.setAsDefaultProtocolClient('http')
 
 // Hide from dock and cmd-tab
-app.dock.hide()
+// app.dock.hide()
 
 // Prevents garbage collection
 export let bWindow: BrowserWindow | undefined
