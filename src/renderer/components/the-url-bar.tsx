@@ -23,7 +23,7 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
         className={cc([
           'flex-grow',
           'bg-grey-800',
-          'border border-grey-900 rounded-full',
+          'rounded-full',
           'shadow-inner',
           'text-xs text-grey-500 tracking-wider font-medium',
           'h-10 px-4',

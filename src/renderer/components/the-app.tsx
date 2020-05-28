@@ -51,7 +51,7 @@ const App: React.FC = () => {
 
   return (
     <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col">
-      <div className="flex-shrink-0 flex-grow p-4 border-b border-grey-900 shadow-md">
+      <div className="flex-shrink-0 flex-grow p-4 border-b border-grey-900">
         <TheUrlBar className="mb-4" />
 
         <div className="flex-shrink-0 flex flex-col justify-between">
@@ -59,7 +59,7 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      <div className="h-16 px-4 bg-grey-800 flex items-center overflow-hidden text-xs font-bold">
+      <div className="h-16 px-4 bg-grey-700 flex items-center overflow-hidden text-xs font-bold">
         <button
           className={cc([
             'bg-grey-600',
