@@ -33,8 +33,12 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
         <SwitchTransition mode="out-in">
           <CSSTransition
             key={urlItem?.id}
-            classNames="slide-in-fade-out"
-            timeout={150}
+            classNames="url-bar-anim"
+            timeout={{
+              appear: 0,
+              enter: 150,
+              exit: 150,
+            }}
           >
             <div className="flex items-center space-x-2 truncate">
               <ProtocolIcon

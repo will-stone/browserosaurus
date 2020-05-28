@@ -12,23 +12,20 @@
   background: #1f2123;
 }
 
-.slide-in-fade-out-enter {
-  transform: translate(100%, 0);
+.url-bar-anim-enter {
   opacity: 0;
 }
 
-.slide-in-fade-out-enter-active {
-  transform: translate(0, 0);
+.url-bar-anim-enter-active {
   transition: all 150ms ease;
   opacity: 1;
 }
 
-.slide-in-fade-out-exit {
-  transform: translate(0, 0);
+.url-bar-anim-exit {
   opacity: 1;
 }
 
-.slide-in-fade-out-exit-active {
+.url-bar-anim-exit-active {
   transition: all 150ms ease;
   opacity: 0;
 }
