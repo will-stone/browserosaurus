@@ -1,13 +1,14 @@
-import electron from 'electron'
+import { app, BrowserWindow } from 'electron'
+import isDev from 'electron-is-dev'
 import path from 'path'
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 
-function createWindow(): Promise<electron.BrowserWindow> {
+function createWindow(): Promise<BrowserWindow> {
   return new Promise((resolve, reject) => {
-    const win = new electron.BrowserWindow({
-      backgroundColor: '#1A1D21',
+    const win = new BrowserWindow({
+      backgroundColor: '#212428',
       frame: false,
       icon: path.join(__dirname, '/static/icon/icon.png'),
       title: 'Browserosaurus',
@@ -16,7 +17,7 @@ function createWindow(): Promise<electron.BrowserWindow> {
         nodeIntegration: true,
         preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       },
-      height: 700,
+      height: 225,
       width: 800,
       show: false,
       minimizable: false,
@@ -34,6 +35,7 @@ function createWindow(): Promise<electron.BrowserWindow> {
     win.on('close', (event_) => {
       event_.preventDefault()
       win.hide()
+      app.hide()
     })
 
     win.on('show', () => {
@@ -41,7 +43,10 @@ function createWindow(): Promise<electron.BrowserWindow> {
     })
 
     win.on('blur', () => {
-      win.hide()
+      if (!isDev) {
+        win.hide()
+        app.hide()
+      }
     })
 
     win.once('ready-to-show', () => {

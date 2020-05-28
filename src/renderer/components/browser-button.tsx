@@ -42,9 +42,7 @@ const BrowserButton: React.FC<Props> = ({ browser, className }) => {
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      if (urlId) {
-        selectBrowser(urlId, browser.id, event.altKey)
-      }
+      selectBrowser(urlId, browser.id, event.altKey)
     },
     [browser.id, urlId],
   )
@@ -55,6 +53,7 @@ const BrowserButton: React.FC<Props> = ({ browser, className }) => {
     <button
       key={browser.id}
       className={cc([
+        'h-24',
         'bg-grey-800 active:bg-grey-900',
         'border border-grey-900 focus:outline-none rounded shadow',
         'active:text-grey-200 text-left leading-none',
@@ -66,8 +65,8 @@ const BrowserButton: React.FC<Props> = ({ browser, className }) => {
       onClick={handleClick}
       type="button"
     >
-      <div className="flex justify-between items-center mb-2">
-        <img alt={browser.name} className="w-8 h-8" src={browser.logo} />
+      <div className="flex justify-between items-start">
+        <img alt={browser.name} className="w-10 h-10" src={browser.logo} />
         {browser.hotKey && (
           <kbd className="bg-grey-700 py-1 px-2 text-xs font-bold uppercase rounded">
             {browser.hotKey}

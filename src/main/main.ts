@@ -76,6 +76,9 @@ ipcMain.on(APP_LOADED, async () => {
   const favBrowserId = configStore.get('fav')
   const favFirst = pipe(partition({ appId: favBrowserId }), flatten)
   const browsers = favFirst(installedBrowsers)
+  const numberOfExtraBrowserRows = Math.ceil(browsers.length / 5) - 1
+  bWindow?.setSize(800, 225 + numberOfExtraBrowserRows * 112)
+  bWindow?.center()
   bWindow?.webContents.send(BROWSERS_SCANNED, browsers)
   bWindow?.webContents.send(URL_HISTORY_CHANGED, urlHistoryStore.store)
 })
@@ -89,21 +92,27 @@ interface BrowserSelectedEventArgs {
 ipcMain.on(
   BROWSER_SELECTED,
   (_: Event, { urlId, browserId, isAlt }: BrowserSelectedEventArgs) => {
-    bWindow?.hide()
     const urlItem = urlHistoryStore.get(urlId)
-    if (urlItem) {
-      if (isAlt) {
-        execa('open', [urlItem.url, '-b', browserId, '-g'])
-      } else {
-        execa('open', [urlItem.url, '-b', browserId])
-      }
-    }
+
+    const openArguments = [
+      urlItem?.url,
+      '-b',
+      browserId,
+      isAlt ? '-g' : '',
+    ].filter(Boolean)
+
+    execa('open', openArguments)
+
+    bWindow?.hide()
+    app.hide()
   },
 )
 
 ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, urlId: string) => {
   const urlItem = urlHistoryStore.get(urlId)
   copyToClipboard(urlItem.url)
+  bWindow?.hide()
+  app.hide()
 })
 
 /**

@@ -12,7 +12,6 @@ import { urlIdSelector } from '../selectors'
 import TheBrowserButtons from './the-browser-buttons'
 import TheKeyboardListeners from './the-keyboard-listeners'
 import TheUrlBar from './the-url-bar'
-import TheUrlHistory from './the-url-history'
 
 const App: React.FC = () => {
   const setUrlHistoryState = useSetRecoilState(urlHistoryAtom)
@@ -52,7 +51,7 @@ const App: React.FC = () => {
 
   return (
     <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col">
-      <div className="flex-shrink-0 bg-grey-700 p-4 border-b border-grey-900">
+      <div className="flex-shrink-0 flex-grow bg-grey-700 p-4 border-b border-grey-900 shadow-2xl">
         <div className="pb-4 flex items-center space-x-4">
           <button
             className={cc([
@@ -101,13 +100,8 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex-grow flex flex-col overflow-hidden">
-        <h1 className="p-4 text-xl leading-none font-semibold font-rounded">
-          History
-        </h1>
-        <div className="px-4 pb-4 overflow-y-auto">
-          <TheUrlHistory />
-        </div>
+      <div className="h-10 bg-grey-800 flex items-center justify-center overflow-hidden text-xs font-bold text-grey-500">
+        Browserosaurus
       </div>
 
       <TheKeyboardListeners />

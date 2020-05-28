@@ -1,11 +1,10 @@
-import { ipcRenderer } from 'electron'
 import React, { useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { Browser } from '../../config/browsers'
 import { browsersAtom } from '../atoms'
-import { BROWSER_SELECTED, COPY_TO_CLIPBOARD } from '../events'
 import { urlIdSelector } from '../selectors'
+import { copyToClipboard, selectBrowser } from '../sendToMain'
 
 const TheKeyboardListeners: React.FC = ({ children }) => {
   const urlId: string | undefined = useRecoilValue(urlIdSelector)
@@ -19,7 +18,7 @@ const TheKeyboardListeners: React.FC = ({ children }) => {
 
       if (isCopy) {
         event.preventDefault()
-        ipcRenderer.send(COPY_TO_CLIPBOARD, urlId)
+        copyToClipboard(urlId)
         return
       }
 
@@ -37,11 +36,7 @@ const TheKeyboardListeners: React.FC = ({ children }) => {
 
       if (key && browserId) {
         event.preventDefault()
-        ipcRenderer.send(BROWSER_SELECTED, {
-          urlId,
-          browserId,
-          isAlt: event.altKey,
-        })
+        selectBrowser(urlId, browserId, event.altKey)
       }
     }
 

@@ -4,6 +4,7 @@
 import cc from 'classcat'
 import React, { useCallback, useEffect, useRef } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
+import TimeAgo from 'timeago-react'
 import Url from 'url'
 
 import {
@@ -57,32 +58,33 @@ const UrlHistoryItem: React.FC<Props> = ({ isStriped, item }) => {
     <button
       ref={reference}
       className={cc([
-        'p-3 w-full rounded flex items-center space-x-2',
-        'text-left text-xs tracking-wider font-medium',
+        'w-full',
+        'p-3 rounded',
+        'text-left text-xs text-grey-500 tracking-wider font-medium',
         'focus:outline-none cursor-default',
-        { 'bg-grey-700': isStriped && !isActive },
-        { 'text-grey-500': !isActive },
-        { 'bg-grey-600 text-grey-300': isActive },
+        { 'bg-grey-700': isStriped },
       ])}
       onClick={handleClick}
       type="button"
     >
-      <ProtocolIcon className="flex-shrink-0" urlProtocol={url.protocol} />
-      <span className="truncate">
-        <span
-          className={cc([
-            'font-bold text-sm',
-            { 'text-grey-300': !isActive },
-            { 'text-grey-200': isActive },
-          ])}
-        >
-          {url.hostname}
-        </span>
-        <span>
-          {url.port && `:${url.port}`}
-          {urlEnding}
-        </span>
-      </span>
+      <div className="grid gap-4" style={{ gridTemplateColumns: 'auto 100px' }}>
+        <div className="overflow-hidden flex items-center space-x-2">
+          <ProtocolIcon className="flex-shrink-0" urlProtocol={url.protocol} />
+          <span className="truncate">
+            <span className="font-bold text-sm text-grey-300">
+              {url.hostname}
+            </span>
+            <span>
+              {url.port && `:${url.port}`}
+              {urlEnding}
+            </span>
+          </span>
+        </div>
+        <TimeAgo
+          className="flex items-center text-xs text-grey-500 font-bold"
+          datetime={item.timestamp}
+        />
+      </div>
     </button>
   )
 }
