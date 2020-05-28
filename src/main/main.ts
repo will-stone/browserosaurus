@@ -58,6 +58,7 @@ app.on('before-quit', () => {
 
 app.on('open-url', (event, url) => {
   event.preventDefault()
+  bWindow?.show()
   const id = nanoid()
   urlHistoryStore.set(id, { id, url, timestamp: Date.now() })
   bWindow?.webContents.send(URL_HISTORY_CHANGED, urlHistoryStore.store)
@@ -113,5 +114,4 @@ ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, urlId: string) => {
 
 urlHistoryStore.onDidAnyChange((updatedStore) => {
   bWindow?.webContents.send(URL_HISTORY_CHANGED, updatedStore)
-  bWindow?.show()
 })
