@@ -52,7 +52,7 @@ const App: React.FC = () => {
 
   return (
     <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col">
-      <div className="flex-shrink-0 bg-grey-700 p-4">
+      <div className="flex-shrink-0 bg-grey-700 p-4 border-b border-grey-900">
         <div className="pb-4 flex items-center space-x-4">
           <button
             className={cc([
