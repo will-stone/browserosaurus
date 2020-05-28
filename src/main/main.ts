@@ -92,6 +92,7 @@ interface BrowserSelectedEventArgs {
 ipcMain.on(
   BROWSER_SELECTED,
   (_: Event, { urlId, browserId, isAlt }: BrowserSelectedEventArgs) => {
+    bWindow?.hide()
     const urlItem = urlHistoryStore.get(urlId)
     if (urlItem) {
       if (isAlt) {
