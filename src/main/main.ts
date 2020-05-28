@@ -61,7 +61,11 @@ app.on('open-url', (event, url) => {
   bWindow?.show()
   const id = nanoid()
   const urlHistory = store.get('urlHistory')
-  const updatedUrlHistory = [...urlHistory, { id, url, timestamp: Date.now() }]
+  const updatedUrlHistory = [
+    // Only keep a small history
+    ...urlHistory.slice(-10),
+    { id, url, timestamp: Date.now() },
+  ]
   store.set('urlHistory', updatedUrlHistory)
 })
 
