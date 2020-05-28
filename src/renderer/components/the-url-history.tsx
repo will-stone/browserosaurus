@@ -7,11 +7,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil'
 import TimeAgo from 'timeago-react'
 import Url from 'url'
 
-import {
-  selectUrlHistoryItemsByTimestamp,
-  UrlHistoryItem,
-  UrlHistoryStore,
-} from '../../main/stores'
+import { UrlHistoryItem } from '../../main/store'
 import { urlHistoryAtom } from '../atoms'
 import { urlIdSelector } from '../selectors'
 import ProtocolIcon from './protocol-icon'
@@ -90,19 +86,19 @@ const UrlHistoryItem: React.FC<Props> = ({ isStriped, item }) => {
 }
 
 const TheUrlHistory: React.FC = () => {
-  const urlHistory: UrlHistoryStore = useRecoilValue(urlHistoryAtom)
-  const urlHistoryItemsByTimestamp = selectUrlHistoryItemsByTimestamp(
-    urlHistory,
-  )
+  const urlHistory: UrlHistoryItem[] = useRecoilValue(urlHistoryAtom)
 
   return (
     <div>
-      {urlHistoryItemsByTimestamp.map((item, i) => {
-        const isStriped = Boolean((i + 1) % 2)
-        return (
-          <UrlHistoryItem key={item.id} isStriped={isStriped} item={item} />
-        )
-      })}
+      {urlHistory
+        .slice()
+        .reverse()
+        .map((item, i) => {
+          const isStriped = Boolean((i + 1) % 2)
+          return (
+            <UrlHistoryItem key={item.id} isStriped={isStriped} item={item} />
+          )
+        })}
     </div>
   )
 }

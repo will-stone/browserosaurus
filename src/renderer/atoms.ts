@@ -7,7 +7,7 @@ export const urlIdAtom = atom({
 
 export const urlHistoryAtom = atom({
   key: 'urlHistoryState',
-  default: {},
+  default: [],
 })
 
 export const browsersAtom = atom({

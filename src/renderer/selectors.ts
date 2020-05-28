@@ -1,10 +1,7 @@
+import last from 'lodash/fp/last'
 import { selector } from 'recoil'
 
-import {
-  selectLastestUrlHistoryItem,
-  UrlHistoryItem,
-  UrlHistoryStore,
-} from '../main/stores'
+import { UrlHistoryItem } from '../main/store'
 import { urlHistoryAtom, urlIdAtom } from './atoms'
 
 export const urlIdSelector = selector({
@@ -14,16 +11,16 @@ export const urlIdSelector = selector({
   // @ts-expect-error
   get: ({ get }): string | undefined => {
     const selectedId: string | undefined = get(urlIdAtom)
-    const urlHistory: UrlHistoryStore = get(urlHistoryAtom)
+    const urlHistory: UrlHistoryItem[] = get(urlHistoryAtom)
 
     // If no ID selected, use the latest from history, else undefined
     if (!selectedId) {
-      const lastestUrlHistoryItem = selectLastestUrlHistoryItem(urlHistory)
+      const lastestUrlHistoryItem = last(urlHistory)
       return lastestUrlHistoryItem?.id
     }
 
     // If id exists, return it, else undefined
-    return urlHistory[selectedId]?.id
+    return urlHistory.find((u) => u.id === selectedId)?.id
   },
   // TODO [+@types/recoil] this should be typed when recoil types are ready
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -38,10 +35,10 @@ export const urlItemSelector = selector({
   // @ts-expect-error
   get: ({ get }): UrlHistoryItem | undefined => {
     const urlId: string | undefined = get(urlIdSelector)
-    const urlHistory: UrlHistoryStore = get(urlHistoryAtom)
+    const urlHistory: UrlHistoryItem[] = get(urlHistoryAtom)
 
     if (urlId) {
-      return urlHistory[urlId]
+      return urlHistory.find((u) => u.id === urlId)
     }
   },
 })

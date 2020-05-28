@@ -5,7 +5,7 @@ import { useSetRecoilState } from 'recoil'
 
 import { Browser } from '../../config/browsers'
 import { BROWSERS_SCANNED, URL_HISTORY_CHANGED } from '../../main/events'
-import { UrlHistoryStore } from '../../main/stores'
+import { UrlHistoryItem } from '../../main/store'
 import { browsersAtom, urlHistoryAtom } from '../atoms'
 import { APP_LOADED } from '../events'
 import { urlIdSelector } from '../selectors'
@@ -36,7 +36,7 @@ const App: React.FC = () => {
      */
     electron.ipcRenderer.on(
       URL_HISTORY_CHANGED,
-      (_: unknown, urlHistory: UrlHistoryStore) => {
+      (_: unknown, urlHistory: UrlHistoryItem[]) => {
         setUrlId()
         setUrlHistoryState(urlHistory)
       },

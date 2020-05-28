@@ -16,7 +16,7 @@ import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
 import createWindow from './createWindow'
 import { BROWSERS_SCANNED, URL_HISTORY_CHANGED } from './events'
-import { configStore, urlHistoryStore } from './stores'
+import { store } from './store'
 
 // TODO this will be useful if I need to require plugins dynamically
 // eslint-disable-next-line camelcase, no-underscore-dangle
@@ -60,8 +60,9 @@ app.on('open-url', (event, url) => {
   event.preventDefault()
   bWindow?.show()
   const id = nanoid()
-  urlHistoryStore.set(id, { id, url, timestamp: Date.now() })
-  bWindow?.webContents.send(URL_HISTORY_CHANGED, urlHistoryStore.store)
+  const urlHistory = store.get('urlHistory')
+  const updatedUrlHistory = [...urlHistory, { id, url, timestamp: Date.now() }]
+  store.set('urlHistory', updatedUrlHistory)
 })
 
 /**
@@ -73,14 +74,14 @@ app.on('open-url', (event, url) => {
 ipcMain.on(APP_LOADED, async () => {
   // Send browsers down to picker
   const installedBrowsers = await getInstalledBrowsers()
-  const favBrowserId = configStore.get('fav')
+  const favBrowserId = store.get('fav')
   const favFirst = pipe(partition({ id: favBrowserId }), flatten)
   const browsers = favFirst(installedBrowsers)
   const numberOfExtraBrowserRows = Math.ceil(browsers.length / 5) - 1
   bWindow?.setSize(800, 249 + numberOfExtraBrowserRows * 112)
   bWindow?.center()
   bWindow?.webContents.send(BROWSERS_SCANNED, browsers)
-  bWindow?.webContents.send(URL_HISTORY_CHANGED, urlHistoryStore.store)
+  bWindow?.webContents.send(URL_HISTORY_CHANGED, store.get('urlHistory'))
 })
 
 interface BrowserSelectedEventArgs {
@@ -92,10 +93,10 @@ interface BrowserSelectedEventArgs {
 ipcMain.on(
   BROWSER_SELECTED,
   (_: Event, { urlId, browserId, isAlt }: BrowserSelectedEventArgs) => {
-    const urlItem = urlHistoryStore.get(urlId)
+    const urlItem = store.get('urlHistory').find((u) => u.id === urlId)
 
-    const openArguments = [
-      urlItem?.url,
+    const openArguments: string[] = [
+      urlItem?.url || '',
       '-b',
       browserId,
       isAlt ? '-g' : '',
@@ -109,10 +110,12 @@ ipcMain.on(
 )
 
 ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, urlId: string) => {
-  const urlItem = urlHistoryStore.get(urlId)
-  copyToClipboard(urlItem.url)
-  bWindow?.hide()
-  app.hide()
+  const urlItem = store.get('urlHistory').find((u) => u.id === urlId)
+  if (urlItem) {
+    copyToClipboard(urlItem.url)
+    bWindow?.hide()
+    app.hide()
+  }
 })
 
 /**
@@ -121,6 +124,6 @@ ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, urlId: string) => {
  * ------------------
  */
 
-urlHistoryStore.onDidAnyChange((updatedStore) => {
-  bWindow?.webContents.send(URL_HISTORY_CHANGED, updatedStore)
+store.onDidChange('urlHistory', (updatedValue) => {
+  bWindow?.webContents.send(URL_HISTORY_CHANGED, updatedValue)
 })
