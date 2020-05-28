@@ -8,7 +8,7 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 function createWindow(): Promise<BrowserWindow> {
   return new Promise((resolve, reject) => {
     const win = new BrowserWindow({
-      backgroundColor: '#212428',
+      backgroundColor: '#2F333B',
       frame: false,
       icon: path.join(__dirname, '/static/icon/icon.png'),
       title: 'Browserosaurus',
@@ -17,7 +17,7 @@ function createWindow(): Promise<BrowserWindow> {
         nodeIntegration: true,
         preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       },
-      height: 225,
+      height: 249,
       width: 800,
       show: false,
       minimizable: false,

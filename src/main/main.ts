@@ -77,7 +77,7 @@ ipcMain.on(APP_LOADED, async () => {
   const favFirst = pipe(partition({ appId: favBrowserId }), flatten)
   const browsers = favFirst(installedBrowsers)
   const numberOfExtraBrowserRows = Math.ceil(browsers.length / 5) - 1
-  bWindow?.setSize(800, 225 + numberOfExtraBrowserRows * 112)
+  bWindow?.setSize(800, 249 + numberOfExtraBrowserRows * 112)
   bWindow?.center()
   bWindow?.webContents.send(BROWSERS_SCANNED, browsers)
   bWindow?.webContents.send(URL_HISTORY_CHANGED, urlHistoryStore.store)

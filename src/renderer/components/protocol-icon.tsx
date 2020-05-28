@@ -24,7 +24,7 @@ const ProtocolIcon: React.FC<Props> = ({ className, urlProtocol }) => {
   ) : (
     <svg
       aria-hidden="true"
-      className={cc(['w-4 h-4 opacity-25', className])}
+      className={cc(['w-4 h-4 opacity-50', className])}
       focusable="false"
       role="img"
       viewBox="0 0 576 512"
