@@ -74,7 +74,7 @@ ipcMain.on(APP_LOADED, async () => {
   // Send browsers down to picker
   const installedBrowsers = await getInstalledBrowsers()
   const favBrowserId = configStore.get('fav')
-  const favFirst = pipe(partition({ appId: favBrowserId }), flatten)
+  const favFirst = pipe(partition({ id: favBrowserId }), flatten)
   const browsers = favFirst(installedBrowsers)
   const numberOfExtraBrowserRows = Math.ceil(browsers.length / 5) - 1
   bWindow?.setSize(800, 249 + numberOfExtraBrowserRows * 112)
