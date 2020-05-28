@@ -60,7 +60,9 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
           </CSSTransition>
         </SwitchTransition>
       ) : (
-        <span>Most recently clicked link will show here</span>
+        <span className="text-grey-500">
+          Most recently clicked link will show here
+        </span>
       )}
     </div>
   )
