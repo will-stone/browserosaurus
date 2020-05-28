@@ -51,10 +51,6 @@ app.on('ready', async () => {
   })
 })
 
-app.on('activate', () => {
-  bWindow?.show()
-})
-
 // App doesn't always close on ctrl-c in console, this fixes that
 app.on('before-quit', () => {
   app.exit()
