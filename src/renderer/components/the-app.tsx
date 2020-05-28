@@ -59,7 +59,7 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      <div className="h-16 px-4 bg-grey-700 flex items-center overflow-hidden text-xs font-bold">
+      <div className="h-16 px-4 bg-grey-700 flex items-center overflow-hidden text-xs font-bold space-x-4">
         <button
           className={cc([
             'bg-grey-600',
