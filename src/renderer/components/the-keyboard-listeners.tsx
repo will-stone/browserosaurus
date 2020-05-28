@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil'
 import { Browser } from '../../config/browsers'
 import { browsersAtom } from '../atoms'
 import { urlIdSelector } from '../selectors'
-import { copyToClipboard, selectBrowser } from '../sendToMain'
+import { copyUrl, selectBrowser } from '../sendToMain'
 
 const TheKeyboardListeners: React.FC = ({ children }) => {
   const urlId: string | undefined = useRecoilValue(urlIdSelector)
@@ -18,7 +18,7 @@ const TheKeyboardListeners: React.FC = ({ children }) => {
 
       if (isCopy) {
         event.preventDefault()
-        copyToClipboard(urlId)
+        copyUrl(urlId)
         return
       }
 

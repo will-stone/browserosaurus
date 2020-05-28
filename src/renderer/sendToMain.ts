@@ -13,9 +13,9 @@ export const selectBrowser = (
   isAlt: boolean,
 ): void => ipcRenderer.send(BROWSER_SELECTED, { urlId, browserId, isAlt })
 
-export const copyToClipboard = (string?: string): void => {
-  if (string) {
-    ipcRenderer.send(COPY_TO_CLIPBOARD, string)
+export const copyUrl = (urlId?: string): void => {
+  if (urlId) {
+    ipcRenderer.send(COPY_TO_CLIPBOARD, urlId)
   }
 }
 

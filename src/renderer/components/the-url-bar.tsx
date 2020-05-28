@@ -1,11 +1,12 @@
 import cc from 'classcat'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import { useRecoilValue } from 'recoil'
 import Url from 'url'
 
 import { UrlHistoryItem } from '../../main/stores'
 import { urlItemSelector } from '../selectors'
+import { copyUrl } from '../sendToMain'
 import ProtocolIcon from './protocol-icon'
 
 interface Props {
@@ -16,6 +17,10 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
   const urlItem: UrlHistoryItem | undefined = useRecoilValue(urlItemSelector)
 
   const parsedUrl = urlItem ? Url.parse(urlItem.url) : undefined
+
+  const handleCopyClick = useCallback(() => {
+    copyUrl(urlItem?.id)
+  }, [urlItem?.id])
 
   return (
     <div className={cc([className, 'flex items-center space-x-4'])}>
@@ -76,6 +81,7 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
           'py-1 px-2 space-x-2',
           'cursor-default',
         ])}
+        onClick={handleCopyClick}
         type="button"
       >
         <span>Copy</span>
