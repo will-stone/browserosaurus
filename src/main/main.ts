@@ -19,10 +19,6 @@ import createWindow from './createWindow'
 import { BROWSERS_SCANNED, URL_HISTORY_CHANGED } from './events'
 import { store } from './store'
 
-// TODO this will be useful if I need to require plugins dynamically
-// eslint-disable-next-line camelcase, no-underscore-dangle
-// declare const __non_webpack_require__: (path: string) => { hello: string }
-
 // TODO [electron@>=9] This will be the default in Electron 9, remove once upgraded
 app.allowRendererProcessReuse = true
 
