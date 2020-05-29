@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
-import { Browser } from '../../config/browsers'
 import { browsersAtom, isUrlHistoryOpenAtom } from '../atoms'
 import { urlIdSelector } from '../selectors'
 import { copyUrl, escapePressed, selectBrowser } from '../sendToMain'
@@ -9,8 +8,8 @@ import { copyUrl, escapePressed, selectBrowser } from '../sendToMain'
 const TheKeyboardListeners: React.FC = ({ children }) => {
   const isUrlHistoryOpen = useRecoilValue(isUrlHistoryOpenAtom)
   const setIsUrlHistoryOpen = useSetRecoilState(isUrlHistoryOpenAtom)
-  const urlId: string | undefined = useRecoilValue(urlIdSelector)
-  const browsers: Browser[] = useRecoilValue(browsersAtom)
+  const urlId = useRecoilValue(urlIdSelector)
+  const browsers = useRecoilValue(browsersAtom)
 
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {

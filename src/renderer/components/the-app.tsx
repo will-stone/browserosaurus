@@ -37,7 +37,9 @@ const App: React.FC = () => {
     electron.ipcRenderer.on(
       URL_HISTORY_CHANGED,
       (_: unknown, urlHistory: UrlHistoryItem[]) => {
-        setUrlId()
+        // TODO should this use the latest history item?
+        const undef = undefined
+        setUrlId(undef)
         setUrlHistoryState(urlHistory)
       },
     )

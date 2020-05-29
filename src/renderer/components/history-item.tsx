@@ -14,7 +14,7 @@ interface Props {
 }
 
 const HistoryItem: React.FC<Props> = ({ isStriped, item }) => {
-  const urlId: string | undefined = useRecoilValue(urlIdSelector)
+  const urlId = useRecoilValue(urlIdSelector)
   const setUrlId = useSetRecoilState(urlIdSelector)
 
   const url = Url.parse(item.url)

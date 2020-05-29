@@ -4,7 +4,6 @@ import React, { useCallback } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import Url from 'url'
 
-import { UrlHistoryItem } from '../../main/store'
 import { isUrlHistoryOpenAtom, urlHistoryAtom } from '../atoms'
 import { urlItemSelector } from '../selectors'
 import { copyUrl } from '../sendToMain'
@@ -18,8 +17,8 @@ interface Props {
 const TheUrlBar: React.FC<Props> = ({ className }) => {
   const isUrlHistoryOpen = useRecoilValue(isUrlHistoryOpenAtom)
   const setIsUrlHistoryOpen = useSetRecoilState(isUrlHistoryOpenAtom)
-  const urlItem: UrlHistoryItem | undefined = useRecoilValue(urlItemSelector)
-  const urlHistory: UrlHistoryItem[] = useRecoilValue(urlHistoryAtom)
+  const urlItem = useRecoilValue(urlItemSelector)
+  const urlHistory = useRecoilValue(urlHistoryAtom)
 
   const parsedUrl = urlItem ? Url.parse(urlItem.url) : undefined
 

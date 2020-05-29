@@ -38,7 +38,7 @@ interface Props {
 }
 
 const BrowserButton: React.FC<Props> = ({ browser, className }) => {
-  const urlId: string | undefined = useRecoilValue(urlIdSelector)
+  const urlId = useRecoilValue(urlIdSelector)
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

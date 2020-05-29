@@ -2,12 +2,11 @@ import cc from 'classcat'
 import React from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { Browser } from '../../config/browsers'
 import { browsersAtom } from '../atoms'
 import BrowserButton from './browser-button'
 
 const TheBrowserButtons: React.FC = () => {
-  const browsers: Browser[] = useRecoilValue(browsersAtom)
+  const browsers = useRecoilValue(browsersAtom)
 
   const threeCols = browsers.length <= 3 || browsers.length === 6
   const fourCols =
