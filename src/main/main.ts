@@ -97,6 +97,9 @@ interface BrowserSelectedEventArgs {
 ipcMain.on(
   BROWSER_SELECTED,
   (_: Event, { urlId, browserId, isAlt }: BrowserSelectedEventArgs) => {
+    // Bail if browser id is missing
+    if (!browserId) return
+
     const urlItem = store.get('urlHistory').find((u) => u.id === urlId)
 
     const openArguments: string[] = [

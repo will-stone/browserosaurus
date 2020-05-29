@@ -1,12 +1,14 @@
+import { useClickedOutside } from '@will-stone/react-hooks'
 import cc from 'classcat'
 import React, { useCallback } from 'react'
-import { CSSTransition, SwitchTransition } from 'react-transition-group'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import Url from 'url'
 
 import { UrlHistoryItem } from '../../main/store'
+import { isUrlHistoryOpenAtom, urlHistoryAtom } from '../atoms'
 import { urlItemSelector } from '../selectors'
 import { copyUrl } from '../sendToMain'
+import HistoryItem from './history-item'
 import ProtocolIcon from './protocol-icon'
 
 interface Props {
@@ -14,7 +16,10 @@ interface Props {
 }
 
 const TheUrlBar: React.FC<Props> = ({ className }) => {
+  const isUrlHistoryOpen = useRecoilValue(isUrlHistoryOpenAtom)
+  const setIsUrlHistoryOpen = useSetRecoilState(isUrlHistoryOpenAtom)
   const urlItem: UrlHistoryItem | undefined = useRecoilValue(urlItemSelector)
+  const urlHistory: UrlHistoryItem[] = useRecoilValue(urlHistoryAtom)
 
   const parsedUrl = urlItem ? Url.parse(urlItem.url) : undefined
 
@@ -22,9 +27,20 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
     copyUrl(urlItem?.id)
   }, [urlItem?.id])
 
+  const handleUrlHistoryOpenClick = useCallback(() => {
+    setIsUrlHistoryOpen(!isUrlHistoryOpen)
+  }, [setIsUrlHistoryOpen, isUrlHistoryOpen])
+
+  const handleClickedOutside = useCallback(() => {
+    setIsUrlHistoryOpen(false)
+  }, [setIsUrlHistoryOpen])
+
+  const reference = useClickedOutside<HTMLDivElement>(handleClickedOutside)
+
   return (
     <div className={cc([className, 'flex items-center space-x-4'])}>
       <div
+        ref={reference}
         className={cc([
           'flex-grow',
           'bg-grey-800',
@@ -38,42 +54,43 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
       >
         {parsedUrl ? (
           <>
-            <SwitchTransition mode="out-in">
-              <CSSTransition
-                key={urlItem?.id}
-                classNames="url-bar-anim"
-                timeout={{
-                  appear: 0,
-                  enter: 150,
-                  exit: 150,
-                }}
-              >
-                <div className="flex items-center space-x-2 truncate">
-                  <ProtocolIcon
-                    className="flex-shrink-0"
-                    urlProtocol={parsedUrl.protocol}
-                  />
-                  <div className="truncate">
-                    <span className="font-bold text-grey-200 text-sm">
-                      {parsedUrl.hostname}
-                    </span>
-                    <span>
-                      {parsedUrl.port && `:${parsedUrl.port}`}
-                      {parsedUrl.pathname}
-                      {parsedUrl.search}
-                      {parsedUrl.hash}
-                    </span>
-                  </div>
-                </div>
-              </CSSTransition>
-            </SwitchTransition>
+            <div className="flex items-center space-x-2 truncate">
+              <ProtocolIcon
+                className="flex-shrink-0"
+                urlProtocol={parsedUrl.protocol}
+              />
+              <div className="truncate">
+                <span className="font-bold text-grey-200 text-sm">
+                  {parsedUrl.hostname}
+                </span>
+                <span>
+                  {parsedUrl.port && `:${parsedUrl.port}`}
+                  {parsedUrl.pathname}
+                  {parsedUrl.search}
+                  {parsedUrl.hash}
+                </span>
+              </div>
+            </div>
+
             <button
-              className="flex-shrink-0 rounded-full bg-grey-600 w-6 h-6 text-grey-300 focus:outline-none flex items-center justify-center cursor-default"
+              className={cc([
+                'flex-shrink-0',
+                'flex items-center justify-center',
+                'w-6 h-6',
+                'border border-grey-900 rounded-full focus:outline-none',
+                { 'bg-grey-600 text-grey-300': !isUrlHistoryOpen },
+                { 'bg-grey-300 text-grey-800': isUrlHistoryOpen },
+                'cursor-default',
+              ])}
+              onClick={handleUrlHistoryOpenClick}
               type="button"
             >
               <svg
                 aria-hidden="true"
-                className="w-2 h-2"
+                className={cc([
+                  'w-2 h-2 transform',
+                  { 'rotate-180': isUrlHistoryOpen },
+                ])}
                 focusable="false"
                 role="img"
                 viewBox="0 0 448 512"
@@ -90,6 +107,34 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
           <span className="text-grey-500">
             Most recently clicked link will show here
           </span>
+        )}
+
+        {isUrlHistoryOpen && (
+          <div
+            className="absolute bg-grey-900 shadow-xl rounded p-1"
+            style={{
+              top: '60px',
+              left: '16px',
+              right: '115px',
+              bottom: '8px',
+            }}
+          >
+            <div className="overflow-y-auto p-4 w-full h-full">
+              {urlHistory
+                .slice()
+                .reverse()
+                .map((item, i) => {
+                  const isStriped = Boolean((i + 1) % 2)
+                  return (
+                    <HistoryItem
+                      key={item.id}
+                      isStriped={isStriped}
+                      item={item}
+                    />
+                  )
+                })}
+            </div>
+          </div>
         )}
       </div>
 

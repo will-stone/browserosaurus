@@ -1,6 +1,3 @@
-// TODO remove this when components abstracted out
-/* eslint-disable react/no-multi-comp */
-
 import cc from 'classcat'
 import React, { useCallback, useEffect, useRef } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
@@ -8,7 +5,6 @@ import TimeAgo from 'timeago-react'
 import Url from 'url'
 
 import { UrlHistoryItem } from '../../main/store'
-import { urlHistoryAtom } from '../atoms'
 import { urlIdSelector } from '../selectors'
 import ProtocolIcon from './protocol-icon'
 
@@ -17,7 +13,7 @@ interface Props {
   item: UrlHistoryItem
 }
 
-const UrlHistoryItem: React.FC<Props> = ({ isStriped, item }) => {
+const HistoryItem: React.FC<Props> = ({ isStriped, item }) => {
   const urlId: string | undefined = useRecoilValue(urlIdSelector)
   const setUrlId = useSetRecoilState(urlIdSelector)
 
@@ -63,7 +59,7 @@ const UrlHistoryItem: React.FC<Props> = ({ isStriped, item }) => {
       onClick={handleClick}
       type="button"
     >
-      <div className="grid gap-4" style={{ gridTemplateColumns: 'auto 100px' }}>
+      <div className="grid gap-4" style={{ gridTemplateColumns: 'auto 120px' }}>
         <div className="overflow-hidden flex items-center space-x-2">
           <ProtocolIcon className="flex-shrink-0" urlProtocol={url.protocol} />
           <span className="truncate">
@@ -85,22 +81,4 @@ const UrlHistoryItem: React.FC<Props> = ({ isStriped, item }) => {
   )
 }
 
-const TheUrlHistory: React.FC = () => {
-  const urlHistory: UrlHistoryItem[] = useRecoilValue(urlHistoryAtom)
-
-  return (
-    <div>
-      {urlHistory
-        .slice()
-        .reverse()
-        .map((item, i) => {
-          const isStriped = Boolean((i + 1) % 2)
-          return (
-            <UrlHistoryItem key={item.id} isStriped={isStriped} item={item} />
-          )
-        })}
-    </div>
-  )
-}
-
-export default TheUrlHistory
+export default HistoryItem

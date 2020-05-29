@@ -9,23 +9,5 @@
 
 ::-webkit-scrollbar-thumb:window-inactive,
 ::-webkit-scrollbar-thumb {
-  background: #0d1117;
-}
-
-.url-bar-anim-enter {
-  opacity: 0;
-}
-
-.url-bar-anim-enter-active {
-  transition: all 150ms ease;
-  opacity: 1;
-}
-
-.url-bar-anim-exit {
-  opacity: 1;
-}
-
-.url-bar-anim-exit-active {
-  transition: all 150ms ease;
-  opacity: 0;
+  background: #a9b2c3;
 }

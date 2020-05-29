@@ -2,8 +2,11 @@ import last from 'lodash/fp/last'
 import { selector } from 'recoil'
 
 import { UrlHistoryItem } from '../main/store'
-import { urlHistoryAtom, urlIdAtom } from './atoms'
+import { isUrlHistoryOpenAtom, urlHistoryAtom, urlIdAtom } from './atoms'
 
+/**
+ * Current URL
+ */
 export const urlIdSelector = selector({
   key: 'urlIdSelector',
   // TODO [+@types/recoil] this should be typed when recoil types are ready
@@ -25,9 +28,15 @@ export const urlIdSelector = selector({
   // TODO [+@types/recoil] this should be typed when recoil types are ready
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
-  set: ({ set }, urlId) => set(urlIdAtom, urlId),
+  set: ({ set }, urlId) => {
+    set(isUrlHistoryOpenAtom, false)
+    set(urlIdAtom, urlId)
+  },
 })
 
+/**
+ * Current URL item
+ */
 export const urlItemSelector = selector({
   key: 'urlItemSelector',
   // TODO [+@types/recoil] this should be typed when recoil types are ready

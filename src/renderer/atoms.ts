@@ -1,16 +1,21 @@
 import { atom } from 'recoil'
 
+export const isUrlHistoryOpenAtom = atom({
+  key: 'isUrlHistoryOpenAtom',
+  default: false,
+})
+
 export const urlIdAtom = atom({
-  key: 'selectedUrlIdState',
+  key: 'urlIdAtom',
   default: undefined,
 })
 
 export const urlHistoryAtom = atom({
-  key: 'urlHistoryState',
+  key: 'urlHistoryAtom',
   default: [],
 })
 
 export const browsersAtom = atom({
-  key: 'browsersState',
+  key: 'browsersAtom',
   default: [],
 })

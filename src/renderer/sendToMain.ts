@@ -9,9 +9,11 @@ import {
 
 export const selectBrowser = (
   urlId: string | undefined,
-  browserId: Browser['id'],
+  browserId: Browser['id'] | undefined,
   isAlt: boolean,
-): void => ipcRenderer.send(BROWSER_SELECTED, { urlId, browserId, isAlt })
+): void => {
+  ipcRenderer.send(BROWSER_SELECTED, { urlId, browserId, isAlt })
+}
 
 export const copyUrl = (urlId?: string): void => {
   if (urlId) {

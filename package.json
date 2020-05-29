@@ -161,6 +161,7 @@
     "@browser-logos/tor": "^2.0.2",
     "@browser-logos/vivaldi": "^2.1.7",
     "@browser-logos/yandex": "^1.0.6",
+    "@will-stone/react-hooks": "^2.0.2",
     "autoprefixer": "^9.7.6",
     "classcat": "^4.0.2",
     "electron-is-dev": "^1.1.0",
@@ -174,7 +175,6 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-split-pane": "^0.1.91",
-    "react-transition-group": "^4.4.1",
     "recoil": "^0.0.7",
     "tailwindcss": "^1.3.4",
     "timeago-react": "^3.0.0"
@@ -200,7 +200,6 @@
     "@types/node": "^12.0.4",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
-    "@types/react-transition-group": "^4.4.0",
     "@will-stone/eslint-config": "^1.12.3",
     "@will-stone/prettier-config": "^3.0.2",
     "copy-webpack-plugin": "^5.1.1",

@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { Browser } from '../../config/browsers'
-import { browsersAtom } from '../atoms'
+import { browsersAtom, isUrlHistoryOpenAtom } from '../atoms'
 import { urlIdSelector } from '../selectors'
 import { copyUrl, selectBrowser } from '../sendToMain'
 
 const TheKeyboardListeners: React.FC = ({ children }) => {
+  const setIsUrlHistoryOpen = useSetRecoilState(isUrlHistoryOpenAtom)
   const urlId: string | undefined = useRecoilValue(urlIdSelector)
   const browsers: Browser[] = useRecoilValue(browsersAtom)
 
@@ -14,6 +15,14 @@ const TheKeyboardListeners: React.FC = ({ children }) => {
     const handler = (event: KeyboardEvent) => {
       // TODO need a way to turn on and off keyboard entry when the
       // functionality requires it. Use an atom?
+
+      const isEscape = event.code === 'Escape'
+
+      if (isEscape) {
+        setIsUrlHistoryOpen(false)
+        return
+      }
+
       const isCopy = event.code === 'KeyC' && event.metaKey
 
       if (isCopy) {
@@ -22,20 +31,19 @@ const TheKeyboardListeners: React.FC = ({ children }) => {
         return
       }
 
-      let key: string | undefined
-      let browserId: string | undefined
       const matchAlpha = event.code.match(/^Key([A-Z])$/u)
 
+      // Browser hotkey
       if (matchAlpha) {
-        key = matchAlpha[1].toLowerCase()
-        browserId = browsers.find((browser) => browser.hotKey === key)?.id
-      } else if (event.code === 'Space' || event.code === 'Enter') {
-        key = event.code.toLowerCase()
-        browserId = browsers[0].id
+        const key = matchAlpha[1].toLowerCase()
+        const browserId = browsers.find((browser) => browser.hotKey === key)?.id
+        selectBrowser(urlId, browserId, event.altKey)
       }
 
-      if (key && browserId) {
+      // Open favourite (first) browser
+      if (event.code === 'Space' || event.code === 'Enter') {
         event.preventDefault()
+        const browserId = browsers[0].id
         selectBrowser(urlId, browserId, event.altKey)
       }
     }
@@ -45,7 +53,7 @@ const TheKeyboardListeners: React.FC = ({ children }) => {
     return function cleanup() {
       document.removeEventListener('keydown', handler)
     }
-  }, [urlId, browsers])
+  }, [urlId, browsers, setIsUrlHistoryOpen])
 
   return <div>{children}</div>
 }
