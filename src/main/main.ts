@@ -19,6 +19,9 @@ import createWindow from './createWindow'
 import { BROWSERS_SCANNED, URL_HISTORY_CHANGED } from './events'
 import { store } from './store'
 
+// TODO [electron@>=9] This will be the default in Electron 9, remove once upgraded
+app.allowRendererProcessReuse = true
+
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
 app.commandLine.appendArgument('--enable-features=Metal')
 
