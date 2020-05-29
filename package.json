@@ -204,7 +204,7 @@
     "@will-stone/prettier-config": "^3.0.2",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
-    "electron": "8.2.0",
+    "electron": "9.0.0",
     "eslint": "^7.1.0",
     "fork-ts-checker-webpack-plugin": "^4.1.2",
     "http-server": "^0.12.1",
