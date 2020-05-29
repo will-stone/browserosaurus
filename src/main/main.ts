@@ -11,6 +11,7 @@ import {
   APP_LOADED,
   BROWSER_SELECTED,
   COPY_TO_CLIPBOARD,
+  ESCAPE_PRESSED,
 } from '../renderer/events'
 import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
@@ -58,7 +59,6 @@ app.on('before-quit', () => {
 
 app.on('open-url', (event, url) => {
   event.preventDefault()
-  bWindow?.show()
   const id = nanoid()
   const urlHistory = store.get('urlHistory')
   const updatedUrlHistory = [
@@ -125,6 +125,13 @@ ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, urlId: string) => {
   }
 })
 
+ipcMain.on(ESCAPE_PRESSED, () => {
+  console.log('what?')
+
+  bWindow?.hide()
+  app.hide()
+})
+
 /**
  * ------------------
  * Store Listeners
@@ -133,4 +140,5 @@ ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, urlId: string) => {
 
 store.onDidChange('urlHistory', (updatedValue) => {
   bWindow?.webContents.send(URL_HISTORY_CHANGED, updatedValue)
+  bWindow?.show()
 })

@@ -4,9 +4,10 @@ import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { Browser } from '../../config/browsers'
 import { browsersAtom, isUrlHistoryOpenAtom } from '../atoms'
 import { urlIdSelector } from '../selectors'
-import { copyUrl, selectBrowser } from '../sendToMain'
+import { copyUrl, escapePressed, selectBrowser } from '../sendToMain'
 
 const TheKeyboardListeners: React.FC = ({ children }) => {
+  const isUrlHistoryOpen = useRecoilValue(isUrlHistoryOpenAtom)
   const setIsUrlHistoryOpen = useSetRecoilState(isUrlHistoryOpenAtom)
   const urlId: string | undefined = useRecoilValue(urlIdSelector)
   const browsers: Browser[] = useRecoilValue(browsersAtom)
@@ -19,7 +20,12 @@ const TheKeyboardListeners: React.FC = ({ children }) => {
       const isEscape = event.code === 'Escape'
 
       if (isEscape) {
-        setIsUrlHistoryOpen(false)
+        if (isUrlHistoryOpen) {
+          setIsUrlHistoryOpen(false)
+        } else {
+          escapePressed()
+        }
+
         return
       }
 
@@ -53,7 +59,7 @@ const TheKeyboardListeners: React.FC = ({ children }) => {
     return function cleanup() {
       document.removeEventListener('keydown', handler)
     }
-  }, [urlId, browsers, setIsUrlHistoryOpen])
+  }, [urlId, browsers, setIsUrlHistoryOpen, isUrlHistoryOpen])
 
   return <div>{children}</div>
 }

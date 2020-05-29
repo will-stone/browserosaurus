@@ -4,6 +4,7 @@ import { Browser } from '../config/browsers'
 import {
   BROWSER_SELECTED,
   COPY_TO_CLIPBOARD,
+  ESCAPE_PRESSED,
   FAVOURITE_SELECTED,
 } from './events'
 
@@ -23,3 +24,5 @@ export const copyUrl = (urlId?: string): void => {
 
 export const setFav = (id: Browser['id']): void =>
   ipcRenderer.send(FAVOURITE_SELECTED, id)
+
+export const escapePressed = (): void => ipcRenderer.send(ESCAPE_PRESSED)
