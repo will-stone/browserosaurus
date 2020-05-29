@@ -126,8 +126,6 @@ ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, urlId: string) => {
 })
 
 ipcMain.on(ESCAPE_PRESSED, () => {
-  console.log('what?')
-
   bWindow?.hide()
   app.hide()
 })
