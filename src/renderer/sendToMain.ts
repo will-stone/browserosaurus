@@ -6,6 +6,7 @@ import {
   COPY_TO_CLIPBOARD,
   ESCAPE_PRESSED,
   FAVOURITE_SELECTED,
+  LOGGER,
 } from './events'
 
 export const selectBrowser = (
@@ -26,3 +27,6 @@ export const setFav = (id: Browser['id']): void =>
   ipcRenderer.send(FAVOURITE_SELECTED, id)
 
 export const escapePressed = (): void => ipcRenderer.send(ESCAPE_PRESSED)
+
+export const mainLog = (string: string): void =>
+  ipcRenderer.send(LOGGER, string)

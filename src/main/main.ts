@@ -12,6 +12,8 @@ import {
   BROWSER_SELECTED,
   COPY_TO_CLIPBOARD,
   ESCAPE_PRESSED,
+  FAVOURITE_SELECTED,
+  LOGGER,
 } from '../renderer/events'
 import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
@@ -127,6 +129,18 @@ ipcMain.on(ESCAPE_PRESSED, () => {
   app.hide()
 })
 
+ipcMain.on(FAVOURITE_SELECTED, (_, favBrowserId) => {
+  store.set('fav', favBrowserId)
+})
+
+const blue = (array: TemplateStringsArray) => `\u001B[34m${array[0]}\u001B[0m`
+const dim = (array: TemplateStringsArray) => `\u001B[2m${array[0]}\u001B[0m`
+
+ipcMain.on(LOGGER, (_, string: string) => {
+  // eslint-disable-next-line no-console
+  console.log(`${blue`Renderer`} ${dim`›`}`, string)
+})
+
 /**
  * ------------------
  * Store Listeners
@@ -136,4 +150,12 @@ ipcMain.on(ESCAPE_PRESSED, () => {
 store.onDidChange('urlHistory', (updatedValue) => {
   bWindow?.webContents.send(URL_HISTORY_CHANGED, updatedValue)
   bWindow?.show()
+})
+
+store.onDidChange('fav', async (updatedValue) => {
+  // TODO only send fav down to rend and so we don't have to scan for browsers again.
+  const installedBrowsers = await getInstalledBrowsers()
+  const favFirst = pipe(partition({ id: updatedValue }), flatten)
+  const browsers = favFirst(installedBrowsers)
+  bWindow?.webContents.send(BROWSERS_SCANNED, browsers)
 })

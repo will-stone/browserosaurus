@@ -22,3 +22,8 @@ export const browsersAtom = atom<Browser[]>({
   key: 'browsersAtom',
   default: [],
 })
+
+export const versionAtom = atom<string | undefined>({
+  key: 'versionAtom',
+  default: undefined,
+})

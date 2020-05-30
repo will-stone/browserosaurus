@@ -1,6 +1,6 @@
 import cc from 'classcat'
 import electron from 'electron'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useSetRecoilState } from 'recoil'
 
 import { Browser } from '../../config/browsers'
@@ -10,21 +10,32 @@ import {
   URL_HISTORY_CHANGED,
 } from '../../main/events'
 import { UrlHistoryItem } from '../../main/store'
-import { browsersAtom, urlHistoryAtom } from '../atoms'
+import { browsersAtom, urlHistoryAtom, versionAtom } from '../atoms'
 import { APP_LOADED } from '../events'
 import { urlIdSelector } from '../selectors'
+import { mainLog } from '../sendToMain'
+import Icon from './icon'
 import TheBrowserButtons from './the-browser-buttons'
 import TheKeyboardListeners from './the-keyboard-listeners'
+import TheMenu from './the-menu'
 import TheUrlBar from './the-url-bar'
+import Version from './version'
 
 const App: React.FC = () => {
   const setUrlHistoryState = useSetRecoilState(urlHistoryAtom)
   const setBrowsersState = useSetRecoilState(browsersAtom)
   const setUrlId = useSetRecoilState(urlIdSelector)
+  const setVersion = useSetRecoilState(versionAtom)
 
-  const [version, setVersion] = useState<string>()
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+
+  const handleMenuClick = useCallback(() => {
+    setIsMenuOpen(!isMenuOpen)
+  }, [isMenuOpen, setIsMenuOpen])
 
   useEffect(() => {
+    mainLog('App loaded')
+
     /**
      * Receive version
      * main -> renderer
@@ -63,16 +74,24 @@ const App: React.FC = () => {
      * renderer -> main
      */
     electron.ipcRenderer.send(APP_LOADED)
-  })
+
+    return function cleanup() {
+      electron.ipcRenderer.removeAllListeners(APP_VERSION)
+      electron.ipcRenderer.removeAllListeners(BROWSERS_SCANNED)
+      electron.ipcRenderer.removeAllListeners(URL_HISTORY_CHANGED)
+    }
+  }, [setBrowsersState, setUrlId, setUrlHistoryState, setVersion])
 
   return (
     <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col">
-      <div className="flex-shrink-0 flex-grow p-4 border-b border-grey-900">
+      <div className="flex-shrink-0 flex-grow p-4 border-b border-grey-900 relative">
         <TheUrlBar className="mb-4" />
 
         <div className="flex-shrink-0 flex flex-col justify-between">
           <TheBrowserButtons />
         </div>
+
+        {isMenuOpen && <TheMenu />}
       </div>
 
       <div className="h-16 px-4 bg-grey-700 flex items-center justify-between overflow-hidden text-xs font-bold space-x-4">
@@ -84,24 +103,13 @@ const App: React.FC = () => {
             'py-1 px-2',
             'cursor-default',
           ])}
+          onClick={handleMenuClick}
           type="button"
         >
-          <svg
-            aria-hidden="true"
-            className="w-4"
-            focusable="false"
-            role="img"
-            viewBox="0 0 448 512"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"
-              fill="currentColor"
-            />
-          </svg>
+          {isMenuOpen ? <Icon icon="cross" /> : <Icon icon="menu" />}
         </button>
 
-        {version && <span className="text-grey-500">v{version}</span>}
+        <Version className="text-grey-500" />
       </div>
 
       <TheKeyboardListeners />

@@ -113,12 +113,12 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
             className="absolute bg-grey-900 shadow-xl rounded p-1"
             style={{
               top: '60px',
-              left: '16px',
-              right: '115px',
-              bottom: '8px',
+              left: '24px',
+              right: '123px',
+              bottom: '-60px',
             }}
           >
-            <div className="overflow-y-auto p-4 w-full h-full">
+            <div className="overflow-y-auto p-1 w-full h-full">
               {urlHistory
                 .slice()
                 .reverse()
