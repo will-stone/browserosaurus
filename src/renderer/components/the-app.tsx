@@ -1,10 +1,14 @@
 import cc from 'classcat'
 import electron from 'electron'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSetRecoilState } from 'recoil'
 
 import { Browser } from '../../config/browsers'
-import { BROWSERS_SCANNED, URL_HISTORY_CHANGED } from '../../main/events'
+import {
+  APP_VERSION,
+  BROWSERS_SCANNED,
+  URL_HISTORY_CHANGED,
+} from '../../main/events'
 import { UrlHistoryItem } from '../../main/store'
 import { browsersAtom, urlHistoryAtom } from '../atoms'
 import { APP_LOADED } from '../events'
@@ -18,7 +22,17 @@ const App: React.FC = () => {
   const setBrowsersState = useSetRecoilState(browsersAtom)
   const setUrlId = useSetRecoilState(urlIdSelector)
 
+  const [version, setVersion] = useState<string>()
+
   useEffect(() => {
+    /**
+     * Receive version
+     * main -> renderer
+     */
+    electron.ipcRenderer.on(APP_VERSION, (_: unknown, string: string) => {
+      setVersion(string)
+    })
+
     /**
      * Receive browsers
      * main -> renderer
@@ -61,7 +75,7 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      <div className="h-16 px-4 bg-grey-700 flex items-center overflow-hidden text-xs font-bold space-x-4">
+      <div className="h-16 px-4 bg-grey-700 flex items-center justify-between overflow-hidden text-xs font-bold space-x-4">
         <button
           className={cc([
             'bg-grey-600',
@@ -86,6 +100,8 @@ const App: React.FC = () => {
             />
           </svg>
         </button>
+
+        {version && <span className="text-grey-500">v{version}</span>}
       </div>
 
       <TheKeyboardListeners />

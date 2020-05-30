@@ -16,7 +16,7 @@ import {
 import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
 import createWindow from './createWindow'
-import { BROWSERS_SCANNED, URL_HISTORY_CHANGED } from './events'
+import { APP_VERSION, BROWSERS_SCANNED, URL_HISTORY_CHANGED } from './events'
 import { store } from './store'
 
 // TODO [electron@>=9] This will be the default in Electron 9, remove once upgraded
@@ -82,6 +82,7 @@ ipcMain.on(APP_LOADED, async () => {
   bWindow?.center()
   bWindow?.webContents.send(BROWSERS_SCANNED, browsers)
   bWindow?.webContents.send(URL_HISTORY_CHANGED, store.get('urlHistory'))
+  bWindow?.webContents.send(APP_VERSION, app.getVersion())
 })
 
 interface BrowserSelectedEventArgs {
