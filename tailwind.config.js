@@ -3,7 +3,7 @@ const plugin = require('tailwindcss/plugin')
 module.exports = {
   theme: {
     fontSize: {
-      xxs: '.5rem',
+      xxs: '.6rem',
       xs: '.75rem',
       sm: '.875rem',
       base: '1rem',

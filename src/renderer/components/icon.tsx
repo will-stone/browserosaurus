@@ -22,20 +22,27 @@ const icons = {
     pathD:
       'M423.5 0C339.5.3 272 69.5 272 153.5V224H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48h-48v-71.1c0-39.6 31.7-72.5 71.3-72.9 40-.4 72.7 32.1 72.7 72v80c0 13.3 10.7 24 24 24h32c13.3 0 24-10.7 24-24v-80C576 68 507.5-.3 423.5 0z',
   },
+  star: {
+    viewBox: '0 0 576 512',
+    pathD:
+      'M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z',
+  },
 }
 
 interface Props {
   className?: string
+  style?: React.CSSProperties
   icon: keyof typeof icons
 }
 
-const Icon: React.FC<Props> = ({ className, icon }) => {
+const Icon: React.FC<Props> = ({ className, icon, style = {} }) => {
   return (
     <svg
       aria-hidden="true"
       className={cc(['w-4 h-4', className])}
       focusable="false"
       role="img"
+      style={style}
       viewBox={icons[icon].viewBox}
       xmlns="http://www.w3.org/2000/svg"
     >

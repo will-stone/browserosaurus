@@ -149,7 +149,7 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
         type="button"
       >
         <span>Copy</span>
-        <kbd className="opacity-50 tracking-widest">⌘+C</kbd>
+        <kbd className="opacity-50 tracking-widest text-xxs">⌘+C</kbd>
       </button>
     </div>
   )
