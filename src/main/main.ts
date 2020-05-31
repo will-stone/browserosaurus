@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain, Tray } from 'electron'
+import electronIsDev from 'electron-is-dev'
 import execa from 'execa'
-import { nanoid } from 'nanoid'
+import { nanoid } from 'nanoid/non-secure'
 import path from 'path'
 
 import { Browser } from '../config/browsers'
@@ -22,7 +23,7 @@ import {
   FAVOURITE_CHANGED,
   URL_HISTORY_CHANGED,
 } from './events'
-import { store } from './store'
+import { store, UrlHistoryItem } from './store'
 
 // TODO [electron@>=9] This will be the default in Electron 9, remove once upgraded
 app.allowRendererProcessReuse = true
@@ -39,7 +40,6 @@ app.dock.hide()
 // Prevents garbage collection
 let bWindow: BrowserWindow | undefined
 let tray: Tray | undefined
-let isRendererReady = false
 
 app.on('ready', async () => {
   bWindow = await createWindow()
@@ -59,14 +59,19 @@ app.on('before-quit', () => {
   app.exit()
 })
 
-async function waitForRendererReady() {
-  if (!isRendererReady) {
-    await new Promise((resolve) => setTimeout(resolve, 500))
-    await waitForRendererReady()
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+async function sendUrlHistory(urlHistory: UrlHistoryItem[]) {
+  if (bWindow) {
+    bWindow.webContents.send(URL_HISTORY_CHANGED, urlHistory)
+    bWindow.show()
+  } else {
+    await wait(500)
+    sendUrlHistory(urlHistory)
   }
 }
 
-app.on('open-url', async (event, url) => {
+app.on('open-url', (event, url) => {
   event.preventDefault()
   const id = nanoid()
   const urlHistory = store.get('urlHistory')
@@ -75,7 +80,7 @@ app.on('open-url', async (event, url) => {
     ...urlHistory.slice(-10),
     { id, url, timestamp: Date.now() },
   ]
-  await waitForRendererReady()
+  sendUrlHistory(updatedUrlHistory)
   store.set('urlHistory', updatedUrlHistory)
 })
 
@@ -98,8 +103,6 @@ ipcMain.on(RENDERER_LOADED, async () => {
   bWindow?.webContents.send(BROWSERS_SCANNED, installedBrowsers)
   bWindow?.webContents.send(URL_HISTORY_CHANGED, store.get('urlHistory'))
   bWindow?.webContents.send(APP_VERSION, app.getVersion())
-
-  isRendererReady = true
 })
 
 interface BrowserSelectedEventArgs {
@@ -146,6 +149,7 @@ ipcMain.on(ESCAPE_PRESSED, () => {
 
 ipcMain.on(FAVOURITE_SELECTED, (_, favBrowserId) => {
   store.set('fav', favBrowserId)
+  bWindow?.webContents.send(FAVOURITE_CHANGED, favBrowserId)
 })
 
 ipcMain.on(QUIT, () => {
@@ -156,21 +160,8 @@ const blue = (array: TemplateStringsArray) => `\u001B[34m${array[0]}\u001B[0m`
 const dim = (array: TemplateStringsArray) => `\u001B[2m${array[0]}\u001B[0m`
 
 ipcMain.on(LOGGER, (_, string: string) => {
-  // eslint-disable-next-line no-console
-  console.log(`${blue`Renderer`} ${dim`›`}`, string)
-})
-
-/**
- * ------------------
- * Store Listeners
- * ------------------
- */
-
-store.onDidChange('urlHistory', (updatedValue) => {
-  bWindow?.webContents.send(URL_HISTORY_CHANGED, updatedValue)
-  bWindow?.show()
-})
-
-store.onDidChange('fav', (updatedValue) => {
-  bWindow?.webContents.send(FAVOURITE_CHANGED, updatedValue)
+  if (electronIsDev) {
+    // eslint-disable-next-line no-console
+    console.log(`${blue`Renderer`} ${dim`›`}`, string)
+  }
 })
