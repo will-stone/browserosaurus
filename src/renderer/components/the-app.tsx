@@ -7,10 +7,16 @@ import { Browser } from '../../config/browsers'
 import {
   APP_VERSION,
   BROWSERS_SCANNED,
+  FAVOURITE_CHANGED,
   URL_HISTORY_CHANGED,
 } from '../../main/events'
 import { UrlHistoryItem } from '../../main/store'
-import { browsersAtom, urlHistoryAtom, versionAtom } from '../atoms'
+import {
+  browsersAtom,
+  favBrowserIdAtom,
+  urlHistoryAtom,
+  versionAtom,
+} from '../atoms'
 import { APP_LOADED } from '../events'
 import { urlIdSelector } from '../selectors'
 import { mainLog } from '../sendToMain'
@@ -26,6 +32,7 @@ const App: React.FC = () => {
   const setBrowsersState = useSetRecoilState(browsersAtom)
   const setUrlId = useSetRecoilState(urlIdSelector)
   const setVersion = useSetRecoilState(versionAtom)
+  const setFavBrowserId = useSetRecoilState(favBrowserIdAtom)
 
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
 
@@ -70,6 +77,17 @@ const App: React.FC = () => {
     )
 
     /**
+     * Receive favourite
+     * main -> renderer
+     */
+    electron.ipcRenderer.on(
+      FAVOURITE_CHANGED,
+      (_: unknown, favBrowserId: string) => {
+        setFavBrowserId(favBrowserId)
+      },
+    )
+
+    /**
      * Tell main that App component has mounted
      * renderer -> main
      */
@@ -80,7 +98,13 @@ const App: React.FC = () => {
       electron.ipcRenderer.removeAllListeners(BROWSERS_SCANNED)
       electron.ipcRenderer.removeAllListeners(URL_HISTORY_CHANGED)
     }
-  }, [setBrowsersState, setUrlId, setUrlHistoryState, setVersion])
+  }, [
+    setBrowsersState,
+    setUrlId,
+    setUrlHistoryState,
+    setVersion,
+    setFavBrowserId,
+  ])
 
   return (
     <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col">

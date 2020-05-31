@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
-import { browsersAtom, isUrlHistoryOpenAtom } from '../atoms'
+import { browsersAtom, favBrowserIdAtom, isUrlHistoryOpenAtom } from '../atoms'
 import { urlIdSelector } from '../selectors'
 import { copyUrl, escapePressed, selectBrowser } from '../sendToMain'
 
 const TheKeyboardListeners: React.FC = ({ children }) => {
   const isUrlHistoryOpen = useRecoilValue(isUrlHistoryOpenAtom)
   const setIsUrlHistoryOpen = useSetRecoilState(isUrlHistoryOpenAtom)
+  const favBrowserId = useRecoilValue(favBrowserIdAtom)
   const urlId = useRecoilValue(urlIdSelector)
   const browsers = useRecoilValue(browsersAtom)
 
@@ -48,8 +49,7 @@ const TheKeyboardListeners: React.FC = ({ children }) => {
       // Open favourite (first) browser
       if (event.code === 'Space' || event.code === 'Enter') {
         event.preventDefault()
-        const browserId = browsers[0].id
-        selectBrowser(urlId, browserId, event.altKey)
+        selectBrowser(urlId, favBrowserId, event.altKey)
       }
     }
 
@@ -58,7 +58,7 @@ const TheKeyboardListeners: React.FC = ({ children }) => {
     return function cleanup() {
       document.removeEventListener('keydown', handler)
     }
-  }, [urlId, browsers, setIsUrlHistoryOpen, isUrlHistoryOpen])
+  }, [urlId, browsers, setIsUrlHistoryOpen, isUrlHistoryOpen, favBrowserId])
 
   return <div>{children}</div>
 }

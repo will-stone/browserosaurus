@@ -1,8 +1,5 @@
 import { app, BrowserWindow, ipcMain, Tray } from 'electron'
 import execa from 'execa'
-import flatten from 'lodash/fp/flatten'
-import partition from 'lodash/fp/partition'
-import pipe from 'lodash/fp/pipe'
 import { nanoid } from 'nanoid'
 import path from 'path'
 
@@ -18,7 +15,12 @@ import {
 import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
 import createWindow from './createWindow'
-import { APP_VERSION, BROWSERS_SCANNED, URL_HISTORY_CHANGED } from './events'
+import {
+  APP_VERSION,
+  BROWSERS_SCANNED,
+  FAVOURITE_CHANGED,
+  URL_HISTORY_CHANGED,
+} from './events'
 import { store } from './store'
 
 // TODO [electron@>=9] This will be the default in Electron 9, remove once upgraded
@@ -74,15 +76,16 @@ app.on('open-url', (event, url) => {
  */
 
 ipcMain.on(APP_LOADED, async () => {
-  // Send browsers down to picker
   const installedBrowsers = await getInstalledBrowsers()
-  const favBrowserId = store.get('fav')
-  const favFirst = pipe(partition({ id: favBrowserId }), flatten)
-  const browsers = favFirst(installedBrowsers)
-  const numberOfExtraBrowserRows = Math.ceil(browsers.length / 5) - 1
+
+  // Position window
+  const numberOfExtraBrowserRows = Math.ceil(installedBrowsers.length / 5) - 1
   bWindow?.setSize(800, 249 + numberOfExtraBrowserRows * 112)
   bWindow?.center()
-  bWindow?.webContents.send(BROWSERS_SCANNED, browsers)
+
+  // Send all info down to renderer
+  bWindow?.webContents.send(FAVOURITE_CHANGED, store.get('fav'))
+  bWindow?.webContents.send(BROWSERS_SCANNED, installedBrowsers)
   bWindow?.webContents.send(URL_HISTORY_CHANGED, store.get('urlHistory'))
   bWindow?.webContents.send(APP_VERSION, app.getVersion())
 })
@@ -152,10 +155,6 @@ store.onDidChange('urlHistory', (updatedValue) => {
   bWindow?.show()
 })
 
-store.onDidChange('fav', async (updatedValue) => {
-  // TODO only send fav down to rend and so we don't have to scan for browsers again.
-  const installedBrowsers = await getInstalledBrowsers()
-  const favFirst = pipe(partition({ id: updatedValue }), flatten)
-  const browsers = favFirst(installedBrowsers)
-  bWindow?.webContents.send(BROWSERS_SCANNED, browsers)
+store.onDidChange('fav', (updatedValue) => {
+  bWindow?.webContents.send(FAVOURITE_CHANGED, updatedValue)
 })

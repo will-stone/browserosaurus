@@ -27,3 +27,8 @@ export const versionAtom = atom<string | undefined>({
   key: 'versionAtom',
   default: undefined,
 })
+
+export const favBrowserIdAtom = atom<string>({
+  key: 'favBrowserIdAtom',
+  default: '',
+})
