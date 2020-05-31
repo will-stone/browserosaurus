@@ -66,9 +66,7 @@ const BrowserButton: React.FC<Props> = ({ browser, className }) => {
       type="button"
     >
       <div className="flex justify-between items-start">
-        <div className="relative">
-          <img alt={browser.name} className="w-10 h-10" src={browser.logo} />
-        </div>
+        <img alt={browser.name} className="w-10 h-10" src={browser.logo} />
         <div className="flex flex-col items-end space-y-1">
           {browser.hotKey && (
             <kbd className="bg-grey-600 py-1 px-2 text-xxs font-bold uppercase rounded border border-grey-900">
