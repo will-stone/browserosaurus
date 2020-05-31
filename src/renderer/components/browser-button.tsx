@@ -27,11 +27,7 @@ const getNameSize = (name: string): string => {
     return 'text-sm'
   }
 
-  if (name.length > 7) {
-    return 'text-base'
-  }
-
-  return 'text-lg'
+  return 'text-base'
 }
 
 interface Props {
