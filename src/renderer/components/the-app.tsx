@@ -17,7 +17,7 @@ import {
   urlHistoryAtom,
   versionAtom,
 } from '../atoms'
-import { APP_LOADED } from '../events'
+import { RENDERER_LOADED } from '../events'
 import { urlIdSelector } from '../selectors'
 import { mainLog } from '../sendToMain'
 import Icon from './icon'
@@ -91,7 +91,7 @@ const App: React.FC = () => {
      * Tell main that App component has mounted
      * renderer -> main
      */
-    electron.ipcRenderer.send(APP_LOADED)
+    electron.ipcRenderer.send(RENDERER_LOADED)
 
     return function cleanup() {
       electron.ipcRenderer.removeAllListeners(APP_VERSION)

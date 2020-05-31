@@ -5,13 +5,13 @@ import path from 'path'
 
 import { Browser } from '../config/browsers'
 import {
-  APP_LOADED,
   BROWSER_SELECTED,
   COPY_TO_CLIPBOARD,
   ESCAPE_PRESSED,
   FAVOURITE_SELECTED,
   LOGGER,
   QUIT,
+  RENDERER_LOADED,
 } from '../renderer/events'
 import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
@@ -39,6 +39,7 @@ app.dock.hide()
 // Prevents garbage collection
 let bWindow: BrowserWindow | undefined
 let tray: Tray | undefined
+let isRendererReady = false
 
 app.on('ready', async () => {
   bWindow = await createWindow()
@@ -58,7 +59,14 @@ app.on('before-quit', () => {
   app.exit()
 })
 
-app.on('open-url', (event, url) => {
+async function waitForRendererReady() {
+  if (!isRendererReady) {
+    await new Promise((resolve) => setTimeout(resolve, 500))
+    await waitForRendererReady()
+  }
+}
+
+app.on('open-url', async (event, url) => {
   event.preventDefault()
   const id = nanoid()
   const urlHistory = store.get('urlHistory')
@@ -67,6 +75,7 @@ app.on('open-url', (event, url) => {
     ...urlHistory.slice(-10),
     { id, url, timestamp: Date.now() },
   ]
+  await waitForRendererReady()
   store.set('urlHistory', updatedUrlHistory)
 })
 
@@ -76,7 +85,7 @@ app.on('open-url', (event, url) => {
  * ------------------
  */
 
-ipcMain.on(APP_LOADED, async () => {
+ipcMain.on(RENDERER_LOADED, async () => {
   const installedBrowsers = await getInstalledBrowsers()
 
   // Position window
@@ -89,6 +98,8 @@ ipcMain.on(APP_LOADED, async () => {
   bWindow?.webContents.send(BROWSERS_SCANNED, installedBrowsers)
   bWindow?.webContents.send(URL_HISTORY_CHANGED, store.get('urlHistory'))
   bWindow?.webContents.send(APP_VERSION, app.getVersion())
+
+  isRendererReady = true
 })
 
 interface BrowserSelectedEventArgs {
@@ -155,9 +166,8 @@ ipcMain.on(LOGGER, (_, string: string) => {
  * ------------------
  */
 
-store.onDidChange('urlHistory', async (updatedValue) => {
+store.onDidChange('urlHistory', (updatedValue) => {
   bWindow?.webContents.send(URL_HISTORY_CHANGED, updatedValue)
-  await app.whenReady()
   bWindow?.show()
 })
 
