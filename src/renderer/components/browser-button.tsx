@@ -68,11 +68,6 @@ const BrowserButton: React.FC<Props> = ({ browser, className }) => {
       <div className="flex justify-between items-start">
         <img alt={browser.name} className="w-10 h-10" src={browser.logo} />
         <div className="flex flex-col items-end space-y-1">
-          {browser.hotKey && (
-            <kbd className="bg-grey-600 py-1 px-2 text-xxs font-bold uppercase rounded border border-grey-900">
-              {browser.hotKey}
-            </kbd>
-          )}
           {isFav && (
             <kbd className="bg-grey-600 py-1 px-2 text-xxs font-bold uppercase rounded border border-grey-900 flex items-center space-x-1">
               <Icon
@@ -81,6 +76,11 @@ const BrowserButton: React.FC<Props> = ({ browser, className }) => {
                 style={{ width: '10px', height: '10px' }}
               />
               <span>space</span>
+            </kbd>
+          )}
+          {browser.hotKey && (
+            <kbd className="bg-grey-600 py-1 px-2 text-xxs font-bold uppercase rounded border border-grey-900">
+              {browser.hotKey}
             </kbd>
           )}
         </div>
