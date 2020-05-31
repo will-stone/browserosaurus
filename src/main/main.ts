@@ -88,6 +88,8 @@ ipcMain.on(APP_LOADED, async () => {
   bWindow?.webContents.send(BROWSERS_SCANNED, installedBrowsers)
   bWindow?.webContents.send(URL_HISTORY_CHANGED, store.get('urlHistory'))
   bWindow?.webContents.send(APP_VERSION, app.getVersion())
+
+  bWindow?.show()
 })
 
 interface BrowserSelectedEventArgs {
