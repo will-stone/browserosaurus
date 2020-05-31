@@ -2,8 +2,10 @@ import cc from 'classcat'
 import React, { useCallback } from 'react'
 import { useRecoilValue } from 'recoil'
 
+import logo from '../assets/logo.png'
 import { browsersAtom, favBrowserIdAtom } from '../atoms'
-import { setFav } from '../sendToMain'
+import { quit, setFav } from '../sendToMain'
+import Version from './version'
 
 const TheMenu: React.FC = () => {
   const browsers = useRecoilValue(browsersAtom)
@@ -44,6 +46,29 @@ const TheMenu: React.FC = () => {
                   </label>
                 )
               })}
+            </div>
+          </div>
+
+          <div className="text-center">
+            <img alt="logo" className="mx-auto w-24 h-24" src={logo} />
+            <h1 className="text-2xl font-bold mb-2">Browserosaurus</h1>
+            <p className="mb-4 text-xs text-grey-500 font-semibold">
+              <Version />
+            </p>
+            <div>
+              <button
+                className={cc([
+                  'bg-grey-700',
+                  'border border-grey-900 rounded shadow-md active:shadow-none focus:outline-none',
+                  'active:text-grey-200 font-bold',
+                  'py-2 px-4 space-x-2',
+                  'cursor-default',
+                ])}
+                onClick={quit}
+                type="button"
+              >
+                Quit
+              </button>
             </div>
           </div>
         </div>

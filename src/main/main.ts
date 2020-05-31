@@ -11,6 +11,7 @@ import {
   ESCAPE_PRESSED,
   FAVOURITE_SELECTED,
   LOGGER,
+  QUIT,
 } from '../renderer/events'
 import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
@@ -136,6 +137,10 @@ ipcMain.on(ESCAPE_PRESSED, () => {
 
 ipcMain.on(FAVOURITE_SELECTED, (_, favBrowserId) => {
   store.set('fav', favBrowserId)
+})
+
+ipcMain.on(QUIT, () => {
+  app.quit()
 })
 
 const blue = (array: TemplateStringsArray) => `\u001B[34m${array[0]}\u001B[0m`

@@ -7,6 +7,7 @@ import {
   ESCAPE_PRESSED,
   FAVOURITE_SELECTED,
   LOGGER,
+  QUIT,
 } from './events'
 
 export const selectBrowser = (
@@ -30,3 +31,5 @@ export const escapePressed = (): void => ipcRenderer.send(ESCAPE_PRESSED)
 
 export const mainLog = (string: string): void =>
   ipcRenderer.send(LOGGER, string)
+
+export const quit = (): void => ipcRenderer.send(QUIT)
