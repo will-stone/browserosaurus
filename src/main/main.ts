@@ -16,11 +16,13 @@ import {
 } from '../renderer/events'
 import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
+import { checkForUpdate } from '../utils/isUpdateAvailable'
 import createWindow from './createWindow'
 import {
   APP_VERSION,
   BROWSERS_SCANNED,
   FAVOURITE_CHANGED,
+  UPDATE_STATUS,
   URL_HISTORY_CHANGED,
 } from './events'
 import { store, UrlHistoryItem } from './store'
@@ -107,6 +109,9 @@ ipcMain.on(RENDERER_LOADED, async () => {
   bWindow?.webContents.send(BROWSERS_SCANNED, installedBrowsers)
   bWindow?.webContents.send(URL_HISTORY_CHANGED, store.get('urlHistory'))
   bWindow?.webContents.send(APP_VERSION, app.getVersion())
+
+  const isUpdateAvailable = await checkForUpdate(app.getVersion())
+  bWindow?.webContents.send(UPDATE_STATUS, isUpdateAvailable)
 })
 
 interface BrowserSelectedEventArgs {

@@ -3,6 +3,11 @@ import { atom } from 'recoil'
 import { Browser } from '../config/browsers'
 import { UrlHistoryItem } from '../main/store'
 
+export const updateAvailableAtom = atom({
+  key: 'updateAvailableAtom',
+  default: false,
+})
+
 export const openMenuAtom = atom<'history' | 'fav' | false>({
   key: 'openMenuAtom',
   default: false,

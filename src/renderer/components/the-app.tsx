@@ -8,6 +8,7 @@ import {
   APP_VERSION,
   BROWSERS_SCANNED,
   FAVOURITE_CHANGED,
+  UPDATE_STATUS,
   URL_HISTORY_CHANGED,
 } from '../../main/events'
 import { UrlHistoryItem } from '../../main/store'
@@ -15,6 +16,7 @@ import {
   browsersAtom,
   favBrowserIdAtom,
   openMenuAtom,
+  updateAvailableAtom,
   urlHistoryAtom,
   versionAtom,
 } from '../atoms'
@@ -34,6 +36,7 @@ const App: React.FC = () => {
   const setUrlId = useSetRecoilState(urlIdSelector)
   const setVersion = useSetRecoilState(versionAtom)
   const setFavBrowserId = useSetRecoilState(favBrowserIdAtom)
+  const setUpdateAvailable = useSetRecoilState(updateAvailableAtom)
 
   const [openMenu, setOpenMenu] = useRecoilState(openMenuAtom)
 
@@ -50,6 +53,14 @@ const App: React.FC = () => {
      */
     electron.ipcRenderer.on(APP_VERSION, (_: unknown, string: string) => {
       setVersion(string)
+    })
+
+    /**
+     * Receive update availability
+     * main -> renderer
+     */
+    electron.ipcRenderer.on(UPDATE_STATUS, (_: unknown, bool: boolean) => {
+      setUpdateAvailable(bool)
     })
 
     /**
@@ -105,6 +116,7 @@ const App: React.FC = () => {
     setUrlHistoryState,
     setVersion,
     setFavBrowserId,
+    setUpdateAvailable,
   ])
 
   return (

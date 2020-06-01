@@ -26,6 +26,8 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
     setOpenMenu(openMenu === 'history' ? false : 'history')
   }, [openMenu, setOpenMenu])
 
+  const isUpdateUrl = parsedUrl?.hostname === 'browserosaurus.com'
+
   return (
     <div
       className={cc([
@@ -38,9 +40,12 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
         className={cc([
           'flex-grow',
           'bg-grey-700',
-          'border rounded-full focus:outline-none',
-          { 'border-grey-900': !openMenu },
-          { 'border-grey-600': openMenu === 'history' },
+          'rounded-full focus:outline-none',
+          { border: !isUpdateUrl },
+          { 'border-2': isUpdateUrl },
+          { 'border-grey-900': !isUpdateUrl && !openMenu },
+          { 'border-grey-600': !isUpdateUrl && openMenu === 'history' },
+          { 'border-blue-800': isUpdateUrl },
           'shadow-inner',
           'text-xs text-grey-500 tracking-wider font-medium',
           'h-10 pl-4 pr-2',
