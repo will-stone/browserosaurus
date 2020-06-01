@@ -11,6 +11,7 @@ export interface UrlHistoryItem {
 
 export interface Store {
   fav: string
+  firstRun: boolean
   urlHistory: UrlHistoryItem[]
 }
 
@@ -19,6 +20,7 @@ export const store = new ElectronStore<Store>({
   watch: true,
   defaults: {
     fav: 'com.apple.Safari',
+    firstRun: true,
     urlHistory: [],
   },
 })

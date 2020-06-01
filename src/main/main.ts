@@ -31,8 +31,10 @@ app.allowRendererProcessReuse = true
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
 app.commandLine.appendArgument('--enable-features=Metal')
 
-// Prompt to set as default browser
-app.setAsDefaultProtocolClient('http')
+if (store.get('firstRun')) {
+  // Prompt to set as default browser
+  app.setAsDefaultProtocolClient('http')
+}
 
 // Hide from dock and cmd-tab
 app.dock.hide()
@@ -52,6 +54,8 @@ app.on('ready', async () => {
   tray.addListener('click', () => {
     bWindow?.show()
   })
+
+  store.set('firstRun', false)
 })
 
 // App doesn't always close on ctrl-c in console, this fixes that
