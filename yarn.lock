@@ -2420,11 +2420,6 @@
   dependencies:
     prettier-plugin-packagejson "^2.2.4"
 
-"@will-stone/react-hooks@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@will-stone/react-hooks/-/react-hooks-2.0.2.tgz#02a0bb4a601b584c11d07d688187681cc2059b46"
-  integrity sha512-Yoe5Uvfg+Cf0hcwE2XPNl0q1SexPzSAY5oA75IExEM5KgGjFtpPTm53mNuMLfQHzNMwnhLHl3s9BqX9hHXdkWA==
-
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@xtuc/ieee754/-/ieee754-1.2.0.tgz#eef014a3145ae477a1cbc00cd1e552336dceb790"

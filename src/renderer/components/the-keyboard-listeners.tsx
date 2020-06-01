@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
-import { browsersAtom, favBrowserIdAtom, isUrlHistoryOpenAtom } from '../atoms'
+import { browsersAtom, favBrowserIdAtom, openMenuAtom } from '../atoms'
 import { urlIdSelector } from '../selectors'
 import { copyUrl, escapePressed, selectBrowser } from '../sendToMain'
+import Noop from './noop'
 
-const TheKeyboardListeners: React.FC = ({ children }) => {
-  const isUrlHistoryOpen = useRecoilValue(isUrlHistoryOpenAtom)
-  const setIsUrlHistoryOpen = useSetRecoilState(isUrlHistoryOpenAtom)
+const TheKeyboardListeners: React.FC = () => {
+  const [openMenu, setOpenMenu] = useRecoilState(openMenuAtom)
   const favBrowserId = useRecoilValue(favBrowserIdAtom)
   const urlId = useRecoilValue(urlIdSelector)
   const browsers = useRecoilValue(browsersAtom)
@@ -20,8 +20,8 @@ const TheKeyboardListeners: React.FC = ({ children }) => {
       const isEscape = event.code === 'Escape'
 
       if (isEscape) {
-        if (isUrlHistoryOpen) {
-          setIsUrlHistoryOpen(false)
+        if (openMenu) {
+          setOpenMenu(false)
         } else {
           escapePressed()
         }
@@ -58,9 +58,9 @@ const TheKeyboardListeners: React.FC = ({ children }) => {
     return function cleanup() {
       document.removeEventListener('keydown', handler)
     }
-  }, [urlId, browsers, setIsUrlHistoryOpen, isUrlHistoryOpen, favBrowserId])
+  }, [urlId, browsers, favBrowserId, openMenu, setOpenMenu])
 
-  return <div>{children}</div>
+  return <Noop />
 }
 
 export default TheKeyboardListeners

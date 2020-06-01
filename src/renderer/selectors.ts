@@ -2,7 +2,7 @@ import last from 'lodash/fp/last'
 import { selector } from 'recoil'
 
 import { UrlHistoryItem } from '../main/store'
-import { isUrlHistoryOpenAtom, urlHistoryAtom, urlIdAtom } from './atoms'
+import { openMenuAtom, urlHistoryAtom, urlIdAtom } from './atoms'
 
 /**
  * Current URL
@@ -23,7 +23,7 @@ export const urlIdSelector = selector<string | undefined>({
     return urlHistory.find((u) => u.id === selectedId)?.id
   },
   set: ({ set }, urlId) => {
-    set(isUrlHistoryOpenAtom, false)
+    set(openMenuAtom, false)
     set(urlIdAtom, urlId)
   },
 })

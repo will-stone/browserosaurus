@@ -161,7 +161,6 @@
     "@browser-logos/tor": "^2.0.2",
     "@browser-logos/vivaldi": "^2.1.7",
     "@browser-logos/yandex": "^1.0.6",
-    "@will-stone/react-hooks": "^2.0.2",
     "autoprefixer": "^9.7.6",
     "classcat": "^4.0.2",
     "electron-is-dev": "^1.1.0",

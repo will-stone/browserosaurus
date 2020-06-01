@@ -14,7 +14,7 @@ import { UrlHistoryItem } from '../../main/store'
 import {
   browsersAtom,
   favBrowserIdAtom,
-  isFavMenuOpenAtom,
+  openMenuAtom,
   urlHistoryAtom,
   versionAtom,
 } from '../atoms'
@@ -23,8 +23,8 @@ import { urlIdSelector } from '../selectors'
 import { mainLog, quit } from '../sendToMain'
 import Icon from './icon'
 import TheBrowserButtons from './the-browser-buttons'
-import TheFavMenu from './the-fav-menu'
 import TheKeyboardListeners from './the-keyboard-listeners'
+import TheMenuManager from './the-menu-manager'
 import TheUrlBar from './the-url-bar'
 import Version from './version'
 
@@ -35,11 +35,11 @@ const App: React.FC = () => {
   const setVersion = useSetRecoilState(versionAtom)
   const setFavBrowserId = useSetRecoilState(favBrowserIdAtom)
 
-  const [isFavMenuOpen, setIsFavMenuOpen] = useRecoilState(isFavMenuOpenAtom)
+  const [openMenu, setOpenMenu] = useRecoilState(openMenuAtom)
 
   const handleMenuClick = useCallback(() => {
-    setIsFavMenuOpen(!isFavMenuOpen)
-  }, [isFavMenuOpen, setIsFavMenuOpen])
+    setOpenMenu(openMenu === 'fav' ? false : 'fav')
+  }, [openMenu, setOpenMenu])
 
   useEffect(() => {
     mainLog('App loaded')
@@ -108,7 +108,7 @@ const App: React.FC = () => {
   ])
 
   return (
-    <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col">
+    <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col relative">
       <div className="flex-shrink-0 flex-grow p-4 border-b border-grey-900 relative">
         <TheUrlBar className="mb-4" />
 
@@ -117,7 +117,7 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      <div className="h-16 px-4 bg-grey-700 flex items-center justify-between overflow-hidden text-xs font-bold space-x-4">
+      <div className="flex-shrink-0 h-16 px-4 bg-grey-700 flex items-center justify-between overflow-hidden text-xs font-bold space-x-4">
         <button
           className={cc([
             'bg-grey-600',
@@ -125,12 +125,12 @@ const App: React.FC = () => {
             'text-xs active:text-grey-200 font-bold',
             'py-1 px-2',
             'cursor-default',
-            { 'z-10': isFavMenuOpen },
+            { 'z-30': openMenu === 'fav' },
           ])}
           onClick={handleMenuClick}
           type="button"
         >
-          {isFavMenuOpen ? <Icon icon="cross" /> : <Icon icon="star" />}
+          {openMenu === 'fav' ? <Icon icon="cross" /> : <Icon icon="star" />}
         </button>
 
         <Version className="text-grey-500" />
@@ -150,8 +150,7 @@ const App: React.FC = () => {
         </button>
       </div>
 
-      {isFavMenuOpen && <TheFavMenu />}
-
+      <TheMenuManager />
       <TheKeyboardListeners />
     </div>
   )

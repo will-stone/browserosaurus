@@ -3,13 +3,8 @@ import { atom } from 'recoil'
 import { Browser } from '../config/browsers'
 import { UrlHistoryItem } from '../main/store'
 
-export const isUrlHistoryOpenAtom = atom({
-  key: 'isUrlHistoryOpenAtom',
-  default: false,
-})
-
-export const isFavMenuOpenAtom = atom({
-  key: 'isFavMenuAtom',
+export const openMenuAtom = atom<'history' | 'fav' | false>({
+  key: 'openMenuAtom',
   default: false,
 })
 

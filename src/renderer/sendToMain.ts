@@ -24,7 +24,7 @@ export const copyUrl = (urlId?: string): void => {
   }
 }
 
-export const setFav = (id: Browser['id']): void =>
+export const selectFav = (id: Browser['id']): void =>
   ipcRenderer.send(FAVOURITE_SELECTED, id)
 
 export const escapePressed = (): void => ipcRenderer.send(ESCAPE_PRESSED)

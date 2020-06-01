@@ -1,13 +1,11 @@
-import { useClickedOutside } from '@will-stone/react-hooks'
 import cc from 'classcat'
 import React, { useCallback } from 'react'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import Url from 'url'
 
-import { isUrlHistoryOpenAtom, urlHistoryAtom } from '../atoms'
+import { openMenuAtom } from '../atoms'
 import { urlItemSelector } from '../selectors'
 import { copyUrl } from '../sendToMain'
-import HistoryItem from './history-item'
 import ProtocolIcon from './protocol-icon'
 
 interface Props {
@@ -15,10 +13,8 @@ interface Props {
 }
 
 const TheUrlBar: React.FC<Props> = ({ className }) => {
-  const isUrlHistoryOpen = useRecoilValue(isUrlHistoryOpenAtom)
-  const setIsUrlHistoryOpen = useSetRecoilState(isUrlHistoryOpenAtom)
+  const [openMenu, setOpenMenu] = useRecoilState(openMenuAtom)
   const urlItem = useRecoilValue(urlItemSelector)
-  const urlHistory = useRecoilValue(urlHistoryAtom)
 
   const parsedUrl = urlItem ? Url.parse(urlItem.url) : undefined
 
@@ -27,28 +23,24 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
   }, [urlItem?.id])
 
   const handleUrlHistoryOpenClick = useCallback(() => {
-    setIsUrlHistoryOpen(!isUrlHistoryOpen)
-  }, [setIsUrlHistoryOpen, isUrlHistoryOpen])
-
-  const handleClickedOutside = useCallback(() => {
-    setIsUrlHistoryOpen(false)
-  }, [setIsUrlHistoryOpen])
-
-  const reference = useClickedOutside<HTMLDivElement>(handleClickedOutside)
+    setOpenMenu(openMenu === 'history' ? false : 'history')
+  }, [openMenu, setOpenMenu])
 
   return (
     <div className={cc([className, 'flex items-center space-x-4'])}>
       <div
-        ref={reference}
         className={cc([
           'flex-grow',
-          'bg-grey-800',
-          'rounded-full',
+          'bg-grey-700',
+          'border rounded-full',
+          { 'border-grey-900': !openMenu },
+          { 'border-grey-600': openMenu === 'history' },
           'shadow-inner',
           'text-xs text-grey-500 tracking-wider font-medium',
           'h-10 pl-4 pr-2',
           'flex items-center justify-between',
           'overflow-hidden',
+          { 'bg-grey-300 z-30': openMenu === 'history' },
         ])}
       >
         {parsedUrl ? (
@@ -77,8 +69,8 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
                 'flex items-center justify-center',
                 'w-6 h-6',
                 'border border-grey-900 rounded-full focus:outline-none',
-                { 'bg-grey-600 text-grey-300': !isUrlHistoryOpen },
-                { 'bg-grey-300 text-grey-800': isUrlHistoryOpen },
+                { 'bg-grey-600 text-grey-300': openMenu !== 'history' },
+                { 'bg-grey-300 text-grey-800': openMenu === 'history' },
                 'cursor-default',
               ])}
               onClick={handleUrlHistoryOpenClick}
@@ -88,7 +80,7 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
                 aria-hidden="true"
                 className={cc([
                   'w-2 h-2 transform',
-                  { 'rotate-180': isUrlHistoryOpen },
+                  { 'rotate-180': openMenu === 'history' },
                 ])}
                 focusable="false"
                 role="img"
@@ -107,34 +99,6 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
             Most recently clicked link will show here
           </span>
         )}
-
-        {isUrlHistoryOpen && (
-          <div
-            className="absolute bg-grey-900 shadow-xl rounded p-1"
-            style={{
-              top: '60px',
-              left: '24px',
-              right: '123px',
-              bottom: '-60px',
-            }}
-          >
-            <div className="overflow-y-auto p-1 w-full h-full">
-              {urlHistory
-                .slice()
-                .reverse()
-                .map((item, i) => {
-                  const isStriped = Boolean((i + 1) % 2)
-                  return (
-                    <HistoryItem
-                      key={item.id}
-                      isStriped={isStriped}
-                      item={item}
-                    />
-                  )
-                })}
-            </div>
-          </div>
-        )}
       </div>
 
       <button
@@ -142,14 +106,16 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
           'bg-grey-700',
           'border border-grey-900 rounded shadow-md active:shadow-none focus:outline-none',
           'text-xs active:text-grey-200 font-bold',
-          'py-1 px-2 space-x-2',
+          'py-2 px-2 space-x-2',
           'cursor-default',
         ])}
         onClick={handleCopyClick}
         type="button"
       >
         <span>Copy</span>
-        <kbd className="opacity-50 tracking-widest text-xxs">⌘+C</kbd>
+        <kbd className="text-xxs tracking-widest font-bold uppercase bg-grey-600 py-1 px-2 rounded border border-grey-900">
+          ⌘+C
+        </kbd>
       </button>
     </div>
   )
