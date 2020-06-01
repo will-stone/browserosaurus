@@ -1,7 +1,7 @@
 import cc from 'classcat'
 import electron from 'electron'
-import React, { useCallback, useEffect, useState } from 'react'
-import { useSetRecoilState } from 'recoil'
+import React, { useCallback, useEffect } from 'react'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 
 import { Browser } from '../../config/browsers'
 import {
@@ -14,16 +14,17 @@ import { UrlHistoryItem } from '../../main/store'
 import {
   browsersAtom,
   favBrowserIdAtom,
+  isFavMenuOpenAtom,
   urlHistoryAtom,
   versionAtom,
 } from '../atoms'
 import { RENDERER_LOADED } from '../events'
 import { urlIdSelector } from '../selectors'
-import { mainLog } from '../sendToMain'
+import { mainLog, quit } from '../sendToMain'
 import Icon from './icon'
 import TheBrowserButtons from './the-browser-buttons'
+import TheFavMenu from './the-fav-menu'
 import TheKeyboardListeners from './the-keyboard-listeners'
-import TheMenu from './the-menu'
 import TheUrlBar from './the-url-bar'
 import Version from './version'
 
@@ -34,11 +35,11 @@ const App: React.FC = () => {
   const setVersion = useSetRecoilState(versionAtom)
   const setFavBrowserId = useSetRecoilState(favBrowserIdAtom)
 
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+  const [isFavMenuOpen, setIsFavMenuOpen] = useRecoilState(isFavMenuOpenAtom)
 
   const handleMenuClick = useCallback(() => {
-    setIsMenuOpen(!isMenuOpen)
-  }, [isMenuOpen, setIsMenuOpen])
+    setIsFavMenuOpen(!isFavMenuOpen)
+  }, [isFavMenuOpen, setIsFavMenuOpen])
 
   useEffect(() => {
     mainLog('App loaded')
@@ -114,8 +115,6 @@ const App: React.FC = () => {
         <div className="flex-shrink-0 flex flex-col justify-between">
           <TheBrowserButtons />
         </div>
-
-        {isMenuOpen && <TheMenu />}
       </div>
 
       <div className="h-16 px-4 bg-grey-700 flex items-center justify-between overflow-hidden text-xs font-bold space-x-4">
@@ -126,15 +125,32 @@ const App: React.FC = () => {
             'text-xs active:text-grey-200 font-bold',
             'py-1 px-2',
             'cursor-default',
+            { 'z-10': isFavMenuOpen },
           ])}
           onClick={handleMenuClick}
           type="button"
         >
-          {isMenuOpen ? <Icon icon="cross" /> : <Icon icon="menu" />}
+          {isFavMenuOpen ? <Icon icon="cross" /> : <Icon icon="star" />}
         </button>
 
         <Version className="text-grey-500" />
+
+        <button
+          className={cc([
+            'bg-grey-600',
+            'border border-grey-900 rounded shadow-md active:shadow-none focus:outline-none',
+            'text-xs active:text-grey-200 font-bold',
+            'py-1 px-2',
+            'cursor-default',
+          ])}
+          onClick={quit}
+          type="button"
+        >
+          <Icon icon="exit" />
+        </button>
       </div>
+
+      {isFavMenuOpen && <TheFavMenu />}
 
       <TheKeyboardListeners />
     </div>

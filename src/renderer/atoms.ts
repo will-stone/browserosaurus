@@ -8,6 +8,11 @@ export const isUrlHistoryOpenAtom = atom({
   default: false,
 })
 
+export const isFavMenuOpenAtom = atom({
+  key: 'isFavMenuAtom',
+  default: false,
+})
+
 export const urlIdAtom = atom<string | undefined>({
   key: 'urlIdAtom',
   default: undefined,
