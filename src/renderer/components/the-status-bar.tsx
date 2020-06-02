@@ -15,6 +15,7 @@ import {
   versionAtom,
 } from '../atoms'
 import { quit, setAsDefaultBrowser } from '../sendToMain'
+import StatusBarButton from './status-bar-button'
 
 interface Props {
   className?: string
@@ -43,58 +44,30 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
       ])}
     >
       <div className="flex items-center space-x-2">
-        <button
-          className={cc([
-            'bg-grey-600',
-            'border border-grey-900 rounded shadow-md active:shadow-none focus:outline-none',
-            'text-xs active:text-grey-200 font-bold',
-            'h-8 px-3',
-            'cursor-default',
-            { 'z-30': openMenu === 'fav' },
-          ])}
+        <StatusBarButton
+          className={cc([{ 'z-30': openMenu === 'fav' }])}
           onClick={handleFavMenuClick}
-          type="button"
         >
           {openMenu === 'fav' ? (
             <FontAwesomeIcon fixedWidth icon={faTimes} />
           ) : (
             <FontAwesomeIcon fixedWidth icon={faStar} />
           )}
-        </button>
+        </StatusBarButton>
 
-        <button
-          className={cc([
-            'bg-grey-600',
-            'border border-grey-900 rounded active:shadow-none focus:outline-none',
-            'text-xs font-bold',
-            'h-8 px-3',
-            'cursor-default',
-            { 'shadow-md active:text-grey-200': !protocolStatus },
-            { 'text-grey-500 bg-grey-700': protocolStatus },
-          ])}
+        <StatusBarButton
           disabled={protocolStatus}
           onClick={setAsDefaultBrowser}
-          type="button"
         >
           Set As Default Browser
-        </button>
+        </StatusBarButton>
       </div>
 
       <div className="flex items-center space-x-2">
-        <button
-          className={cc([
-            'bg-grey-600',
-            'border border-grey-900 rounded active:shadow-none focus:outline-none',
-            'text-xs font-bold',
-            'h-8 px-3',
-            'inline-flex items-center space-x-2',
-            'cursor-default',
-            { 'shadow-md text-blue-500 active:text-grey-200': updateAvailable },
-            { 'text-grey-500 bg-grey-700': !updateAvailable },
-          ])}
+        <StatusBarButton
           disabled={!updateAvailable}
           onClick={handleUpdateClick}
-          type="button"
+          tone={updateAvailable ? 'primary' : undefined}
         >
           {updateAvailable ? (
             <>
@@ -104,21 +77,11 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
           ) : (
             `v${version}`
           )}
-        </button>
+        </StatusBarButton>
 
-        <button
-          className={cc([
-            'bg-grey-600',
-            'border border-grey-900 rounded shadow-md active:shadow-none focus:outline-none',
-            'text-xs active:text-grey-200 font-bold',
-            'h-8 px-3',
-            'cursor-default',
-          ])}
-          onClick={quit}
-          type="button"
-        >
+        <StatusBarButton onClick={quit}>
           <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
-        </button>
+        </StatusBarButton>
       </div>
     </div>
   )

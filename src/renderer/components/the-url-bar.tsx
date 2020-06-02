@@ -116,7 +116,7 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
           'border border-grey-900 rounded shadow-md focus:outline-none',
           'text-xs font-bold',
           { 'active:text-grey-200 active:shadow-none': parsedUrl },
-          'py-2 px-2 space-x-2',
+          'py-2 px-3 space-x-2',
           'cursor-default',
         ])}
         disabled={!parsedUrl}
