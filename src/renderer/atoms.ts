@@ -38,7 +38,7 @@ export const favBrowserIdAtom = atom<string>({
   default: '',
 })
 
-export const protocolStatusAtom = atom<boolean | undefined>({
-  key: 'protocolStatusAtom',
-  default: undefined,
+export const isDefaultBrowserAtom = atom<boolean>({
+  key: 'isDefaultBrowserAtom',
+  default: true,
 })

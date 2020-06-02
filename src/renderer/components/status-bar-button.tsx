@@ -23,7 +23,7 @@ const StatusBarButton: React.FC<Props> = ({
         'space-x-2',
         'cursor-default',
         {
-          'text-blue-500 active:text-blue-200': !disabled && tone === 'primary',
+          'text-blue-400 active:text-blue-200': !disabled && tone === 'primary',
         },
         { 'text-grey-300 active:text-grey-200': !disabled && !tone },
         { 'bg-grey-600 shadow-md': !disabled },

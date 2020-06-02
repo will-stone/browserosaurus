@@ -1,4 +1,4 @@
-import { faCheeseSwiss } from '@fortawesome/pro-solid-svg-icons/faCheeseSwiss'
+import { faGift } from '@fortawesome/pro-solid-svg-icons/faGift'
 import { faSignOutAlt } from '@fortawesome/pro-solid-svg-icons/faSignOutAlt'
 import { faStar } from '@fortawesome/pro-solid-svg-icons/faStar'
 import { faTimes } from '@fortawesome/pro-solid-svg-icons/faTimes'
@@ -9,8 +9,8 @@ import React, { useCallback } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import {
+  isDefaultBrowserAtom,
   openMenuAtom,
-  protocolStatusAtom,
   updateAvailableAtom,
   versionAtom,
 } from '../atoms'
@@ -23,7 +23,7 @@ interface Props {
 
 const TheStatusBar: React.FC<Props> = ({ className }) => {
   const [openMenu, setOpenMenu] = useRecoilState(openMenuAtom)
-  const protocolStatus = useRecoilValue(protocolStatusAtom)
+  const isDefaultBrowser = useRecoilValue(isDefaultBrowserAtom)
   const updateAvailable = useRecoilValue(updateAvailableAtom)
   const version = useRecoilValue(versionAtom)
 
@@ -55,29 +55,22 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
           )}
         </StatusBarButton>
 
-        <StatusBarButton
-          disabled={protocolStatus}
-          onClick={setAsDefaultBrowser}
-        >
-          Set As Default Browser
-        </StatusBarButton>
+        {!isDefaultBrowser && (
+          <StatusBarButton onClick={setAsDefaultBrowser}>
+            Set As Default Browser
+          </StatusBarButton>
+        )}
       </div>
 
       <div className="flex items-center space-x-2">
-        <StatusBarButton
-          disabled={!updateAvailable}
-          onClick={handleUpdateClick}
-          tone={updateAvailable ? 'primary' : undefined}
-        >
-          {updateAvailable ? (
-            <>
-              <FontAwesomeIcon icon={faCheeseSwiss} />
-              <span>Update Available</span>
-            </>
-          ) : (
-            `v${version}`
-          )}
-        </StatusBarButton>
+        <div className="text-xs text-grey-600 text-bold">{`v${version}`}</div>
+
+        {updateAvailable && (
+          <StatusBarButton onClick={handleUpdateClick} tone="primary">
+            <FontAwesomeIcon icon={faGift} />
+            <span>Update Available</span>
+          </StatusBarButton>
+        )}
 
         <StatusBarButton onClick={quit}>
           <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />

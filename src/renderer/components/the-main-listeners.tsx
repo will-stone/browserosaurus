@@ -15,7 +15,7 @@ import { UrlHistoryItem } from '../../main/store'
 import {
   browsersAtom,
   favBrowserIdAtom,
-  protocolStatusAtom,
+  isDefaultBrowserAtom,
   updateAvailableAtom,
   urlHistoryAtom,
   versionAtom,
@@ -31,7 +31,7 @@ const TheMainListeners: React.FC = () => {
   const setVersion = useSetRecoilState(versionAtom)
   const setFavBrowserId = useSetRecoilState(favBrowserIdAtom)
   const setUpdateAvailable = useSetRecoilState(updateAvailableAtom)
-  const setProtocolStatusAtom = useSetRecoilState(protocolStatusAtom)
+  const setIsDefaultBrowser = useSetRecoilState(isDefaultBrowserAtom)
 
   useEffect(() => {
     /**
@@ -91,7 +91,7 @@ const TheMainListeners: React.FC = () => {
      * main -> renderer
      */
     electron.ipcRenderer.on(PROTOCOL_STATUS, (_: unknown, bool: boolean) => {
-      setProtocolStatusAtom(bool)
+      setIsDefaultBrowser(bool)
     })
 
     /**
@@ -112,6 +112,7 @@ const TheMainListeners: React.FC = () => {
     setVersion,
     setFavBrowserId,
     setUpdateAvailable,
+    setIsDefaultBrowser,
   ])
 
   return <Noop />
