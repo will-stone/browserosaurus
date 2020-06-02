@@ -4,11 +4,11 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { RecoilRoot } from 'recoil'
 
-import App from './components/the-app'
+import TheApp from './components/the-app'
 
 ReactDOM.render(
   <RecoilRoot>
-    <App />
+    <TheApp />
   </RecoilRoot>,
   document.querySelector('#app'),
 )

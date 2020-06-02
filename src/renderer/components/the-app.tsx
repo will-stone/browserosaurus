@@ -1,43 +1,18 @@
 import cc from 'classcat'
-import electron from 'electron'
 import React, { useCallback, useEffect } from 'react'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 
-import { Browser } from '../../config/browsers'
-import {
-  APP_VERSION,
-  BROWSERS_SCANNED,
-  FAVOURITE_CHANGED,
-  UPDATE_STATUS,
-  URL_HISTORY_CHANGED,
-} from '../../main/events'
-import { UrlHistoryItem } from '../../main/store'
-import {
-  browsersAtom,
-  favBrowserIdAtom,
-  openMenuAtom,
-  updateAvailableAtom,
-  urlHistoryAtom,
-  versionAtom,
-} from '../atoms'
-import { RENDERER_LOADED } from '../events'
-import { urlIdSelector } from '../selectors'
+import { openMenuAtom } from '../atoms'
 import { mainLog, quit } from '../sendToMain'
 import Icon from './icon'
 import TheBrowserButtons from './the-browser-buttons'
 import TheKeyboardListeners from './the-keyboard-listeners'
+import TheMainListeners from './the-main-listeners'
 import TheMenuManager from './the-menu-manager'
 import TheUrlBar from './the-url-bar'
 import Version from './version'
 
-const App: React.FC = () => {
-  const setUrlHistoryState = useSetRecoilState(urlHistoryAtom)
-  const setBrowsersState = useSetRecoilState(browsersAtom)
-  const setUrlId = useSetRecoilState(urlIdSelector)
-  const setVersion = useSetRecoilState(versionAtom)
-  const setFavBrowserId = useSetRecoilState(favBrowserIdAtom)
-  const setUpdateAvailable = useSetRecoilState(updateAvailableAtom)
-
+const TheApp: React.FC = () => {
   const [openMenu, setOpenMenu] = useRecoilState(openMenuAtom)
 
   const handleMenuClick = useCallback(() => {
@@ -46,78 +21,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     mainLog('App loaded')
-
-    /**
-     * Receive version
-     * main -> renderer
-     */
-    electron.ipcRenderer.on(APP_VERSION, (_: unknown, string: string) => {
-      setVersion(string)
-    })
-
-    /**
-     * Receive update availability
-     * main -> renderer
-     */
-    electron.ipcRenderer.on(UPDATE_STATUS, (_: unknown, bool: boolean) => {
-      setUpdateAvailable(bool)
-    })
-
-    /**
-     * Receive browsers
-     * main -> renderer
-     */
-    electron.ipcRenderer.on(
-      BROWSERS_SCANNED,
-      (_: unknown, installedBrowsers: Browser[]) => {
-        setBrowsersState(installedBrowsers)
-      },
-    )
-
-    /**
-     * Receive URL
-     * main -> renderer
-     */
-    electron.ipcRenderer.on(
-      URL_HISTORY_CHANGED,
-      (_: unknown, urlHistory: UrlHistoryItem[]) => {
-        // TODO should this use the latest history item?
-        const undef = undefined
-        setUrlId(undef)
-        setUrlHistoryState(urlHistory)
-      },
-    )
-
-    /**
-     * Receive favourite
-     * main -> renderer
-     */
-    electron.ipcRenderer.on(
-      FAVOURITE_CHANGED,
-      (_: unknown, favBrowserId: string) => {
-        setFavBrowserId(favBrowserId)
-      },
-    )
-
-    /**
-     * Tell main that App component has mounted
-     * renderer -> main
-     */
-    electron.ipcRenderer.send(RENDERER_LOADED)
-
-    return function cleanup() {
-      electron.ipcRenderer.removeAllListeners(APP_VERSION)
-      electron.ipcRenderer.removeAllListeners(BROWSERS_SCANNED)
-      electron.ipcRenderer.removeAllListeners(URL_HISTORY_CHANGED)
-    }
-  }, [
-    setBrowsersState,
-    setUrlId,
-    setUrlHistoryState,
-    setVersion,
-    setFavBrowserId,
-    setUpdateAvailable,
-  ])
+  }, [])
 
   return (
     <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col relative">
@@ -164,8 +68,9 @@ const App: React.FC = () => {
 
       <TheMenuManager />
       <TheKeyboardListeners />
+      <TheMainListeners />
     </div>
   )
 }
 
-export default App
+export default TheApp
