@@ -8,6 +8,7 @@ import { Browser } from '../../config/browsers'
 import { favBrowserIdAtom } from '../atoms'
 import { urlIdSelector } from '../selectors'
 import { selectBrowser } from '../sendToMain'
+import { LargeDarkButton } from './button'
 import Kbd from './kbd'
 
 /**
@@ -34,10 +35,9 @@ const getNameSize = (name: string): string => {
 
 interface Props {
   browser: Browser
-  className?: string
 }
 
-const BrowserButton: React.FC<Props> = ({ browser, className }) => {
+const BrowserButton: React.FC<Props> = ({ browser }) => {
   const urlId = useRecoilValue(urlIdSelector)
   const favBrowserId = useRecoilValue(favBrowserIdAtom)
 
@@ -52,20 +52,10 @@ const BrowserButton: React.FC<Props> = ({ browser, className }) => {
   const isFav = browser.id === favBrowserId
 
   return (
-    <button
+    <LargeDarkButton
       key={browser.id}
-      className={cc([
-        'h-24',
-        'bg-grey-700',
-        'border border-grey-900 focus:outline-none rounded shadow-md active:shadow-none',
-        'active:text-grey-200 text-left leading-none',
-        'flex flex-col justify-between items-stretch',
-        'p-3',
-        'cursor-default',
-        className,
-      ])}
+      className="flex flex-col justify-between items-stretch"
       onClick={handleClick}
-      type="button"
     >
       <div className="flex justify-between items-start">
         <img alt={browser.name} className="w-10 h-10" src={browser.logo} />
@@ -83,7 +73,7 @@ const BrowserButton: React.FC<Props> = ({ browser, className }) => {
         </div>
       </div>
       <div className={cc(['font-bold', nameSizeClass])}>{browser.name}</div>
-    </button>
+    </LargeDarkButton>
   )
 }
 

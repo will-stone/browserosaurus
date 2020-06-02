@@ -15,7 +15,7 @@ import {
   versionAtom,
 } from '../atoms'
 import { quit, setAsDefaultBrowser } from '../sendToMain'
-import StatusBarButton from './status-bar-button'
+import { LightButton } from './button'
 
 interface Props {
   className?: string
@@ -44,7 +44,7 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
       ])}
     >
       <div className="flex items-center space-x-2">
-        <StatusBarButton
+        <LightButton
           className={cc([{ 'z-30': openMenu === 'fav' }])}
           onClick={handleFavMenuClick}
         >
@@ -53,12 +53,12 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
           ) : (
             <FontAwesomeIcon fixedWidth icon={faStar} />
           )}
-        </StatusBarButton>
+        </LightButton>
 
         {!isDefaultBrowser && (
-          <StatusBarButton onClick={setAsDefaultBrowser}>
+          <LightButton onClick={setAsDefaultBrowser}>
             Set As Default Browser
-          </StatusBarButton>
+          </LightButton>
         )}
       </div>
 
@@ -66,15 +66,15 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
         <div className="text-xs text-grey-600 text-bold">{`v${version}`}</div>
 
         {updateAvailable && (
-          <StatusBarButton onClick={handleUpdateClick} tone="primary">
+          <LightButton onClick={handleUpdateClick} tone="primary">
             <FontAwesomeIcon icon={faGift} />
             <span>Update Available</span>
-          </StatusBarButton>
+          </LightButton>
         )}
 
-        <StatusBarButton onClick={quit}>
+        <LightButton onClick={quit}>
           <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
-        </StatusBarButton>
+        </LightButton>
       </div>
     </div>
   )

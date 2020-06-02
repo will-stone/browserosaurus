@@ -3,6 +3,7 @@ import { ipcRenderer } from 'electron'
 import { Browser } from '../config/browsers'
 import {
   BROWSER_SELECTED,
+  CLEAR_HISTORY,
   COPY_TO_CLIPBOARD,
   ESCAPE_PRESSED,
   FAVOURITE_SELECTED,
@@ -37,3 +38,5 @@ export const quit = (): void => ipcRenderer.send(QUIT)
 
 export const setAsDefaultBrowser = (): void =>
   ipcRenderer.send(SET_AS_DEFAULT_BROWSER)
+
+export const clearHistory = (): void => ipcRenderer.send(CLEAR_HISTORY)

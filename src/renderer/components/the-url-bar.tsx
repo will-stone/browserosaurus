@@ -6,6 +6,7 @@ import Url from 'url'
 import { openMenuAtom } from '../atoms'
 import { urlItemSelector } from '../selectors'
 import { copyUrl } from '../sendToMain'
+import { DarkButton } from './button'
 import Kbd from './kbd'
 import ProtocolIcon from './protocol-icon'
 
@@ -110,22 +111,10 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
         </div>
       </button>
 
-      <button
-        className={cc([
-          'bg-grey-700',
-          'border border-grey-900 rounded shadow-md focus:outline-none',
-          'text-xs font-bold',
-          { 'active:text-grey-200 active:shadow-none': parsedUrl },
-          'py-2 px-3 space-x-2',
-          'cursor-default',
-        ])}
-        disabled={!parsedUrl}
-        onClick={handleCopyClick}
-        type="button"
-      >
+      <DarkButton disabled={!parsedUrl} onClick={handleCopyClick}>
         <span>Copy</span>
         <Kbd>⌘+C</Kbd>
-      </button>
+      </DarkButton>
     </div>
   )
 }

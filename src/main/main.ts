@@ -7,6 +7,7 @@ import path from 'path'
 import { Browser } from '../config/browsers'
 import {
   BROWSER_SELECTED,
+  CLEAR_HISTORY,
   COPY_TO_CLIPBOARD,
   ESCAPE_PRESSED,
   FAVOURITE_SELECTED,
@@ -171,6 +172,11 @@ ipcMain.on(FAVOURITE_SELECTED, (_, favBrowserId) => {
 
 ipcMain.on(SET_AS_DEFAULT_BROWSER, () => {
   app.setAsDefaultProtocolClient('http')
+})
+
+ipcMain.on(CLEAR_HISTORY, () => {
+  store.reset('urlHistory')
+  sendUrlHistory([])
 })
 
 ipcMain.on(QUIT, () => {
