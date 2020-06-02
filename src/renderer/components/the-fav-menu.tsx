@@ -1,10 +1,11 @@
+import { faStar } from '@fortawesome/pro-solid-svg-icons/faStar'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cc from 'classcat'
 import React, { useCallback } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { browsersAtom, favBrowserIdAtom, openMenuAtom } from '../atoms'
 import { selectFav } from '../sendToMain'
-import Icon from './icon'
 
 const TheFavMenu: React.FC = () => {
   const browsers = useRecoilValue(browsersAtom)
@@ -29,8 +30,8 @@ const TheFavMenu: React.FC = () => {
       style={{ top: '8px', right: '50%', bottom: '50px', left: '8px' }}
     >
       <div className="p-4">
-        <div className="text-yellow-400 mb-4 flex items-center justify-between">
-          <Icon className="inline-block" icon="star" />
+        <div className="mb-4 flex items-center justify-between">
+          <FontAwesomeIcon className="text-yellow-400" icon={faStar} />
           <span className="text-xxs text-grey-500">
             Assign{' '}
             <kbd className="bg-grey-600 py-1 px-2 text-xxs font-bold uppercase rounded border border-grey-900 text-grey-300">

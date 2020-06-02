@@ -1,3 +1,5 @@
+import { faStar } from '@fortawesome/pro-solid-svg-icons/faStar'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cc from 'classcat'
 import React, { useCallback } from 'react'
 import { useRecoilValue } from 'recoil'
@@ -6,7 +8,6 @@ import { Browser } from '../../config/browsers'
 import { favBrowserIdAtom } from '../atoms'
 import { urlIdSelector } from '../selectors'
 import { selectBrowser } from '../sendToMain'
-import Icon from './icon'
 
 /**
  * Determines Tailwind text class given a browser name of given length.
@@ -69,17 +70,17 @@ const BrowserButton: React.FC<Props> = ({ browser, className }) => {
         <img alt={browser.name} className="w-10 h-10" src={browser.logo} />
         <div className="flex flex-col items-end space-y-1">
           {isFav && (
-            <kbd className="bg-grey-600 py-1 px-2 text-xxs font-bold uppercase rounded border border-grey-900 flex items-center space-x-1">
-              <Icon
-                className="text-yellow-400 inline-block"
-                icon="star"
-                style={{ width: '10px', height: '10px' }}
+            <kbd className="bg-grey-600 h-6 px-2 text-xxs font-bold uppercase rounded border border-grey-900 inline-flex items-center justify-center space-x-1">
+              <FontAwesomeIcon
+                className="text-yellow-400"
+                fixedWidth
+                icon={faStar}
               />
               <span>space</span>
             </kbd>
           )}
           {browser.hotKey && (
-            <kbd className="bg-grey-600 py-1 px-2 text-xxs font-bold uppercase rounded border border-grey-900">
+            <kbd className="bg-grey-600 py-1 px-2 text-xs font-bold uppercase rounded border border-grey-900">
               {browser.hotKey}
             </kbd>
           )}

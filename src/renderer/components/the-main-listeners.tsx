@@ -7,6 +7,7 @@ import {
   APP_VERSION,
   BROWSERS_SCANNED,
   FAVOURITE_CHANGED,
+  PROTOCOL_STATUS,
   UPDATE_STATUS,
   URL_HISTORY_CHANGED,
 } from '../../main/events'
@@ -14,6 +15,7 @@ import { UrlHistoryItem } from '../../main/store'
 import {
   browsersAtom,
   favBrowserIdAtom,
+  protocolStatusAtom,
   updateAvailableAtom,
   urlHistoryAtom,
   versionAtom,
@@ -29,6 +31,7 @@ const TheMainListeners: React.FC = () => {
   const setVersion = useSetRecoilState(versionAtom)
   const setFavBrowserId = useSetRecoilState(favBrowserIdAtom)
   const setUpdateAvailable = useSetRecoilState(updateAvailableAtom)
+  const setProtocolStatusAtom = useSetRecoilState(protocolStatusAtom)
 
   useEffect(() => {
     /**
@@ -82,6 +85,14 @@ const TheMainListeners: React.FC = () => {
         setFavBrowserId(favBrowserId)
       },
     )
+
+    /**
+     * Receive protocol status
+     * main -> renderer
+     */
+    electron.ipcRenderer.on(PROTOCOL_STATUS, (_: unknown, bool: boolean) => {
+      setProtocolStatusAtom(bool)
+    })
 
     /**
      * Tell main that App component has mounted

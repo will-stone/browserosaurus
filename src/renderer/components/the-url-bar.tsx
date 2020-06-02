@@ -45,7 +45,7 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
           { 'border-2': isUpdateUrl },
           { 'border-grey-900': !isUpdateUrl && !openMenu },
           { 'border-grey-600': !isUpdateUrl && openMenu === 'history' },
-          { 'border-blue-800': isUpdateUrl },
+          { 'border-blue-500': isUpdateUrl },
           'shadow-inner',
           'text-xs text-grey-500 tracking-wider font-medium',
           'h-10 pl-4 pr-2',

@@ -1,7 +1,8 @@
+import { faLock } from '@fortawesome/pro-solid-svg-icons/faLock'
+import { faLockOpen } from '@fortawesome/pro-solid-svg-icons/faLockOpen'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cc from 'classcat'
 import React from 'react'
-
-import Icon from './icon'
 
 interface Props {
   className?: string
@@ -10,9 +11,13 @@ interface Props {
 
 const ProtocolIcon: React.FC<Props> = ({ className, urlProtocol }) => {
   return urlProtocol?.includes('s') ? (
-    <Icon className={className} icon="lock" />
+    <FontAwesomeIcon className={className} fixedWidth icon={faLock} />
   ) : (
-    <Icon className={cc([className, 'opacity-50'])} icon="unlock" />
+    <FontAwesomeIcon
+      className={cc([className, 'opacity-50'])}
+      fixedWidth
+      icon={faLockOpen}
+    />
   )
 }
 

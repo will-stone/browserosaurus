@@ -8,6 +8,7 @@ import {
   FAVOURITE_SELECTED,
   LOGGER,
   QUIT,
+  SET_AS_DEFAULT_BROWSER,
 } from './events'
 
 export const selectBrowser = (
@@ -33,3 +34,6 @@ export const mainLog = (string: string): void =>
   ipcRenderer.send(LOGGER, string)
 
 export const quit = (): void => ipcRenderer.send(QUIT)
+
+export const setAsDefaultBrowser = (): void =>
+  ipcRenderer.send(SET_AS_DEFAULT_BROWSER)

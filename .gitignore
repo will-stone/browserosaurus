@@ -4,3 +4,4 @@ out
 .webpack
 yarn-error.log
 .env
+.npmrc

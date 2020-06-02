@@ -30,6 +30,10 @@ Move to folder:
 cd browserosaurus
 ```
 
+Make sure you have access to FontAwesome Pro:
+
+https://fontawesome.com/how-to-use/on-the-web/setup/using-package-managers#installing-pro
+
 Install dependencies:
 
 ```

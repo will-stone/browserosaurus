@@ -13,6 +13,7 @@ import {
   LOGGER,
   QUIT,
   RENDERER_LOADED,
+  SET_AS_DEFAULT_BROWSER,
 } from '../renderer/events'
 import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
@@ -22,6 +23,7 @@ import {
   APP_VERSION,
   BROWSERS_SCANNED,
   FAVOURITE_CHANGED,
+  PROTOCOL_STATUS,
   UPDATE_STATUS,
   URL_HISTORY_CHANGED,
 } from './events'
@@ -110,6 +112,12 @@ ipcMain.on(RENDERER_LOADED, async () => {
   bWindow?.webContents.send(URL_HISTORY_CHANGED, store.get('urlHistory'))
   bWindow?.webContents.send(APP_VERSION, app.getVersion())
 
+  // Is default browser
+  bWindow?.webContents.send(
+    PROTOCOL_STATUS,
+    app.isDefaultProtocolClient('http'),
+  )
+
   const isUpdateAvailable = await checkForUpdate(app.getVersion())
   bWindow?.webContents.send(UPDATE_STATUS, isUpdateAvailable)
 })
@@ -159,6 +167,10 @@ ipcMain.on(ESCAPE_PRESSED, () => {
 ipcMain.on(FAVOURITE_SELECTED, (_, favBrowserId) => {
   store.set('fav', favBrowserId)
   bWindow?.webContents.send(FAVOURITE_CHANGED, favBrowserId)
+})
+
+ipcMain.on(SET_AS_DEFAULT_BROWSER, () => {
+  app.setAsDefaultProtocolClient('http')
 })
 
 ipcMain.on(QUIT, () => {
