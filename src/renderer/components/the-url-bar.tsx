@@ -45,7 +45,7 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
           'rounded-full focus:outline-none',
           { border: !isUpdateUrl },
           { 'border-2': isUpdateUrl },
-          { 'border-grey-900': !isUpdateUrl && !openMenu },
+          { 'border-grey-900': !isUpdateUrl && openMenu !== 'history' },
           { 'border-grey-600': !isUpdateUrl && openMenu === 'history' },
           { 'border-blue-500': isUpdateUrl },
           'shadow-inner',
