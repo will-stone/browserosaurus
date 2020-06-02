@@ -8,6 +8,7 @@ import { Browser } from '../../config/browsers'
 import { favBrowserIdAtom } from '../atoms'
 import { urlIdSelector } from '../selectors'
 import { selectBrowser } from '../sendToMain'
+import Kbd from './kbd'
 
 /**
  * Determines Tailwind text class given a browser name of given length.
@@ -70,20 +71,15 @@ const BrowserButton: React.FC<Props> = ({ browser, className }) => {
         <img alt={browser.name} className="w-10 h-10" src={browser.logo} />
         <div className="flex flex-col items-end space-y-1">
           {isFav && (
-            <kbd className="bg-grey-600 h-6 px-2 text-xxs font-bold uppercase rounded border border-grey-900 inline-flex items-center justify-center space-x-1">
+            <Kbd className="space-x-1">
               <FontAwesomeIcon
-                className="text-yellow-400"
-                fixedWidth
+                className="text-yellow-400 align-text-top"
                 icon={faStar}
               />
               <span>space</span>
-            </kbd>
+            </Kbd>
           )}
-          {browser.hotKey && (
-            <kbd className="bg-grey-600 py-1 px-2 text-xs font-bold uppercase rounded border border-grey-900">
-              {browser.hotKey}
-            </kbd>
-          )}
+          {browser.hotKey && <Kbd>{browser.hotKey}</Kbd>}
         </div>
       </div>
       <div className={cc(['font-bold', nameSizeClass])}>{browser.name}</div>

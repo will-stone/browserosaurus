@@ -6,6 +6,7 @@ import Url from 'url'
 import { openMenuAtom } from '../atoms'
 import { urlItemSelector } from '../selectors'
 import { copyUrl } from '../sendToMain'
+import Kbd from './kbd'
 import ProtocolIcon from './protocol-icon'
 
 interface Props {
@@ -123,9 +124,7 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
         type="button"
       >
         <span>Copy</span>
-        <kbd className="text-xxs tracking-widest font-bold uppercase bg-grey-600 py-1 px-2 rounded border border-grey-900">
-          ⌘+C
-        </kbd>
+        <Kbd>⌘+C</Kbd>
       </button>
     </div>
   )
