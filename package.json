@@ -1,6 +1,6 @@
 {
   "name": "browserosaurus",
-  "version": "10.0.0-alpha.4",
+  "version": "10.0.0",
   "description": "The browser prompter for macOS",
   "keywords": [
     "macOS",
