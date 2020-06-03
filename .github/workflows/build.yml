@@ -2,6 +2,8 @@ on: [push]
 
 jobs:
   build:
+    env:
+      FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
     strategy:
       matrix:
         os: [macos-latest]
@@ -13,7 +15,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - run: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }} yarn
+      - run: yarn
       - run: yarn lint
       - run: yarn typecheck
       - run: yarn package
