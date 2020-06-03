@@ -2,7 +2,6 @@ language: node_js
 script:
   - yarn run lint
   - yarn run typecheck
-  - yarn run test
   - yarn run package
 cache:
   yarn: true
