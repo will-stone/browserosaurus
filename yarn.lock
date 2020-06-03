@@ -9807,10 +9807,10 @@ realpath-native@^1.1.0:
   dependencies:
     util.promisify "^1.0.0"
 
-recoil@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/recoil/-/recoil-0.0.7.tgz#197066ac0a983e4728f5973033bbe5b40a277d40"
-  integrity sha512-U/0kniHLk131hKhAX35QGdghVf3+PSkLcFIFoNBNy+yv62qCLm3TE5c3v4x4WYzuKgw1fxU3GGhKHAUYdyRnTQ==
+recoil@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/recoil/-/recoil-0.0.8.tgz#b24eb00fb8bfcbefb68836dc5ebc93cf884ed0f4"
+  integrity sha512-lfIH6y9A0wQ6piucwWFZfpp9KNQ+mFdTPFPFL0m0sRCrfsuwz3lyVaaofHY6/O4BXekDoXyjYodPBgCSdw9HCw==
 
 redent@^1.0.0:
   version "1.0.0"

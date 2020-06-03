@@ -182,7 +182,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-split-pane": "^0.1.91",
-    "recoil": "^0.0.7",
+    "recoil": "^0.0.8",
     "semver": "^7.3.2",
     "tailwindcss": "^1.4.5",
     "timeago-react": "^3.0.0"
