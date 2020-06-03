@@ -1,18 +1,13 @@
-* {
-  user-select: none !important;
-  box-sizing: border-box;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-body {
+::-webkit-scrollbar {
   background-color: transparent;
-  margin: 0;
-  overflow: hidden;
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, sans-serif;
+  width: 0.5rem;
 }
 
-html,
-body,
-#picker-root {
-  height: 100%;
+::-webkit-scrollbar-thumb:window-inactive,
+::-webkit-scrollbar-thumb {
+  background: #a9b2c3;
 }

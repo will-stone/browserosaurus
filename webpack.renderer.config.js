@@ -1,17 +1,18 @@
+const rules = require('./webpack.rules')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const webpackRules = require('./webpack.rules')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
 module.exports = {
-  // Put your normal webpack config below here
   module: {
-    rules: webpackRules,
-  },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+    rules,
   },
   plugins: [
+    new ForkTsCheckerWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'main_window/style.css',
+      filename: 'main_window/index.css',
     }),
   ],
+  resolve: {
+    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
+  },
 }

@@ -1,15 +1,13 @@
-import { BrowserName } from '../../config/browsers'
+export const browsers2: string[] = ['Firefox', 'Safari']
 
-export const browsers2: BrowserName[] = ['Firefox', 'Safari']
-
-export const browsers4: BrowserName[] = [
+export const browsers4: string[] = [
   'Firefox',
   'Safari',
   'Google Chrome',
   'Opera',
 ]
 
-export const browsers5: BrowserName[] = [
+export const browsers5: string[] = [
   'Brave Dev',
   'Brave',
   'Chromium',
@@ -17,7 +15,7 @@ export const browsers5: BrowserName[] = [
   'Safari',
 ]
 
-export const browsers7: BrowserName[] = [
+export const browsers7: string[] = [
   'Brave Dev',
   'Brave',
   'Chromium',
@@ -27,7 +25,7 @@ export const browsers7: BrowserName[] = [
   'Opera',
 ]
 
-export const browsers9: BrowserName[] = [
+export const browsers9: string[] = [
   'Brave Dev',
   'Brave',
   'Chromium',

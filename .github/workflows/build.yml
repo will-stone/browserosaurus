@@ -1,0 +1,23 @@
+on: [push]
+
+jobs:
+  build:
+    env:
+      FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+    strategy:
+      matrix:
+        os: [macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - run: npm config set "@fortawesome:registry" https://npm.fontawesome.com/
+      - run: npm config set "//npm.fontawesome.com/:_authToken" "$FONTAWESOME_NPM_AUTH_TOKEN"
+      - run: yarn
+      - run: yarn lint
+      - run: yarn typecheck
+      - run: yarn package

@@ -1,11 +1,7 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = [
-  {
-    test: /\.(js|jsx|ts|tsx)$/u,
-    exclude: /node_modules/u,
-    use: 'babel-loader',
-  },
+  // Add support for native node modules
   {
     test: /\.node$/u,
     use: 'node-loader',
@@ -25,7 +21,22 @@ module.exports = [
     use: 'url-loader',
   },
   {
+    test: /\.tsx?$/u,
+    exclude: /(node_modules|\.webpack)/u,
+    use: {
+      loader: 'ts-loader',
+      options: {
+        transpileOnly: true,
+      },
+    },
+  },
+  {
     test: /\.css$/u,
-    use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader'],
+    use: [
+      'style-loader',
+      MiniCssExtractPlugin.loader,
+      'css-loader',
+      'postcss-loader',
+    ],
   },
 ]
