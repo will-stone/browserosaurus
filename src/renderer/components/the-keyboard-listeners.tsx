@@ -1,22 +1,26 @@
 import React, { useEffect } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
-import { browsersAtom, favBrowserIdAtom, openMenuAtom } from '../atoms'
-import { urlIdSelector } from '../selectors'
+import {
+  areHotKeysEnabledAtom,
+  browsersAtom,
+  favBrowserIdAtom,
+  hotkeysAtom,
+} from '../atoms'
+import { openMenuSelector, urlIdSelector } from '../selectors'
 import { copyUrl, escapePressed, selectBrowser } from '../sendToMain'
 import Noop from './noop'
 
 const TheKeyboardListeners: React.FC = () => {
-  const [openMenu, setOpenMenu] = useRecoilState(openMenuAtom)
+  const [openMenu, setOpenMenu] = useRecoilState(openMenuSelector)
   const favBrowserId = useRecoilValue(favBrowserIdAtom)
   const urlId = useRecoilValue(urlIdSelector)
   const browsers = useRecoilValue(browsersAtom)
+  const areHotKeysEnabled = useRecoilValue(areHotKeysEnabledAtom)
+  const hotkeys = useRecoilValue(hotkeysAtom)
 
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
-      // TODO need a way to turn on and off keyboard entry when the
-      // functionality requires it. Use an atom?
-
       const isEscape = event.code === 'Escape'
 
       if (isEscape) {
@@ -29,6 +33,11 @@ const TheKeyboardListeners: React.FC = () => {
         return
       }
 
+      // Bail out if hotkeys are disabled
+      if (!areHotKeysEnabled) {
+        return
+      }
+
       const isCopy = event.code === 'KeyC' && event.metaKey
 
       if (isCopy) {
@@ -37,13 +46,14 @@ const TheKeyboardListeners: React.FC = () => {
         return
       }
 
-      const matchAlpha = event.code.match(/^Key([A-Z])$/u)
+      const matchAlphaNumeric = event.code.match(/^(?:Key|Digit)([A-Z0-9])$/u)
 
       // Browser hotkey
-      if (matchAlpha) {
-        const key = matchAlpha[1].toLowerCase()
-        const browserId = browsers.find((browser) => browser.hotKey === key)?.id
+      if (matchAlphaNumeric) {
+        const key = matchAlphaNumeric[1].toLowerCase()
+        const browserId = hotkeys[key]
         selectBrowser(urlId, browserId, event.altKey)
+        return
       }
 
       // Open favourite (first) browser
@@ -58,7 +68,15 @@ const TheKeyboardListeners: React.FC = () => {
     return function cleanup() {
       document.removeEventListener('keydown', handler)
     }
-  }, [urlId, browsers, favBrowserId, openMenu, setOpenMenu])
+  }, [
+    urlId,
+    browsers,
+    favBrowserId,
+    openMenu,
+    setOpenMenu,
+    areHotKeysEnabled,
+    hotkeys,
+  ])
 
   return <Noop />
 }

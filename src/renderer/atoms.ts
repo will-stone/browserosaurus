@@ -1,14 +1,16 @@
 import { atom } from 'recoil'
 
 import { Browser } from '../config/browsers'
-import { UrlHistoryItem } from '../main/store'
+import { Hotkeys, UrlHistoryItem } from '../main/store'
 
 export const updateAvailableAtom = atom({
   key: 'updateAvailableAtom',
   default: false,
 })
 
-export const openMenuAtom = atom<'history' | 'fav' | false>({
+export type MenuState = 'history' | 'fav' | 'hotkeys' | false
+
+export const openMenuAtom = atom<MenuState>({
   key: 'openMenuAtom',
   default: false,
 })
@@ -41,4 +43,14 @@ export const favBrowserIdAtom = atom<string>({
 export const isDefaultBrowserAtom = atom<boolean>({
   key: 'isDefaultBrowserAtom',
   default: true,
+})
+
+export const areHotKeysEnabledAtom = atom<boolean>({
+  key: 'areHotKeysEnabledAtom',
+  default: true,
+})
+
+export const hotkeysAtom = atom<Hotkeys>({
+  key: 'hotkeysAtom',
+  default: {},
 })

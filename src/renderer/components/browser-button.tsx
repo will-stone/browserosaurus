@@ -5,7 +5,8 @@ import React, { useCallback } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { Browser } from '../../config/browsers'
-import { favBrowserIdAtom } from '../atoms'
+import { getHotkeyByBrowserId } from '../../utils/getHotkeyByBrowserId'
+import { favBrowserIdAtom, hotkeysAtom } from '../atoms'
 import { urlIdSelector } from '../selectors'
 import { selectBrowser } from '../sendToMain'
 import { LargeDarkButton } from './button'
@@ -40,6 +41,7 @@ interface Props {
 const BrowserButton: React.FC<Props> = ({ browser }) => {
   const urlId = useRecoilValue(urlIdSelector)
   const favBrowserId = useRecoilValue(favBrowserIdAtom)
+  const hotkeys = useRecoilValue(hotkeysAtom)
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -50,6 +52,7 @@ const BrowserButton: React.FC<Props> = ({ browser }) => {
 
   const nameSizeClass = getNameSize(browser.name)
   const isFav = browser.id === favBrowserId
+  const hotkey = getHotkeyByBrowserId(hotkeys, browser.id)
 
   return (
     <LargeDarkButton
@@ -69,7 +72,7 @@ const BrowserButton: React.FC<Props> = ({ browser }) => {
               <span>space</span>
             </Kbd>
           )}
-          {browser.hotKey && <Kbd>{browser.hotKey}</Kbd>}
+          {hotkey && <Kbd>{hotkey}</Kbd>}
         </div>
       </div>
       <div className={cc(['font-bold', nameSizeClass])}>{browser.name}</div>

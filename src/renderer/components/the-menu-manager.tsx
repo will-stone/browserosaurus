@@ -5,13 +5,14 @@
 import React, { useCallback } from 'react'
 import { useRecoilState } from 'recoil'
 
-import { openMenuAtom } from '../atoms'
+import { openMenuSelector } from '../selectors'
 import Noop from './noop'
 import TheFavMenu from './the-fav-menu'
 import TheHistoryMenu from './the-history-menu'
+import TheHotkeysMenu from './the-hotkeys-menu'
 
 const TheMenuManager: React.FC = () => {
-  const [openMenu, setOpenMenu] = useRecoilState(openMenuAtom)
+  const [openMenu, setOpenMenu] = useRecoilState(openMenuSelector)
 
   const handleBgClick = useCallback(() => {
     setOpenMenu(false)
@@ -23,6 +24,8 @@ const TheMenuManager: React.FC = () => {
     Menu = TheHistoryMenu
   } else if (openMenu === 'fav') {
     Menu = TheFavMenu
+  } else if (openMenu === 'hotkeys') {
+    Menu = TheHotkeysMenu
   }
 
   if (Menu) {

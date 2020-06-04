@@ -3,8 +3,7 @@ import React, { useCallback } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import Url from 'url'
 
-import { openMenuAtom } from '../atoms'
-import { urlItemSelector } from '../selectors'
+import { openMenuSelector, urlItemSelector } from '../selectors'
 import { copyUrl } from '../sendToMain'
 import { DarkButton } from './button'
 import Kbd from './kbd'
@@ -15,7 +14,7 @@ interface Props {
 }
 
 const TheUrlBar: React.FC<Props> = ({ className }) => {
-  const [openMenu, setOpenMenu] = useRecoilState(openMenuAtom)
+  const [openMenu, setOpenMenu] = useRecoilState(openMenuSelector)
   const urlItem = useRecoilValue(urlItemSelector)
 
   const parsedUrl = urlItem ? Url.parse(urlItem.url) : undefined

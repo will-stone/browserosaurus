@@ -7,14 +7,16 @@ import {
   APP_VERSION,
   BROWSERS_SCANNED,
   FAVOURITE_CHANGED,
+  HOTKEYS_RETRIEVED,
   PROTOCOL_STATUS,
   UPDATE_STATUS,
   URL_HISTORY_CHANGED,
 } from '../../main/events'
-import { UrlHistoryItem } from '../../main/store'
+import { Hotkeys, UrlHistoryItem } from '../../main/store'
 import {
   browsersAtom,
   favBrowserIdAtom,
+  hotkeysAtom,
   isDefaultBrowserAtom,
   updateAvailableAtom,
   urlHistoryAtom,
@@ -32,6 +34,7 @@ const TheMainListeners: React.FC = () => {
   const setFavBrowserId = useSetRecoilState(favBrowserIdAtom)
   const setUpdateAvailable = useSetRecoilState(updateAvailableAtom)
   const setIsDefaultBrowser = useSetRecoilState(isDefaultBrowserAtom)
+  const setHotkeys = useSetRecoilState(hotkeysAtom)
 
   useEffect(() => {
     /**
@@ -95,6 +98,17 @@ const TheMainListeners: React.FC = () => {
     })
 
     /**
+     * Receive hotkeys
+     * main -> renderer
+     */
+    electron.ipcRenderer.on(
+      HOTKEYS_RETRIEVED,
+      (_: unknown, hotkeys: Hotkeys) => {
+        setHotkeys(hotkeys)
+      },
+    )
+
+    /**
      * Tell main that App component has mounted
      * renderer -> main
      */
@@ -113,6 +127,7 @@ const TheMainListeners: React.FC = () => {
     setFavBrowserId,
     setUpdateAvailable,
     setIsDefaultBrowser,
+    setHotkeys,
   ])
 
   return <Noop />

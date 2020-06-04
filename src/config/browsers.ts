@@ -30,7 +30,6 @@ import polypane from './polypane_256x256.png'
 export interface Browser {
   name: string
   id: string
-  hotKey?: string
   logo: string
 }
 
@@ -38,7 +37,6 @@ export const browsers: Browser[] = [
   {
     name: 'Brave',
     id: 'com.brave.Browser',
-    hotKey: 'b',
     logo: brave,
   },
   {
@@ -54,19 +52,16 @@ export const browsers: Browser[] = [
   {
     name: 'Chromium',
     id: 'org.chromium.Chromium',
-    hotKey: 'c',
     logo: chromium,
   },
   {
     name: 'Cliqz',
     id: 'org.mozilla.cliqz',
-    hotKey: 'z',
     logo: cliqz,
   },
   {
     name: 'Firefox',
     id: 'org.mozilla.firefox',
-    hotKey: 'f',
     logo: firefox,
   },
   {
@@ -82,7 +77,6 @@ export const browsers: Browser[] = [
   {
     name: 'Google Chrome',
     id: 'com.google.Chrome',
-    hotKey: 'g',
     logo: chrome,
   },
   {
@@ -93,19 +87,16 @@ export const browsers: Browser[] = [
   {
     name: 'Iridium',
     id: 'de.iridiumbrowser',
-    hotKey: 'i',
     logo: iridium,
   },
   {
     name: 'Maxthon',
     id: 'com.maxthon.mac.Maxthon',
-    hotKey: 'm',
     logo: maxthon,
   },
   {
     name: 'Microsoft Edge',
     id: 'com.microsoft.edgemac',
-    hotKey: 'e',
     logo: edge,
   },
   {
@@ -131,7 +122,6 @@ export const browsers: Browser[] = [
   {
     name: 'Opera',
     id: 'com.operasoftware.Opera',
-    hotKey: 'o',
     logo: opera,
   },
   {
@@ -147,19 +137,16 @@ export const browsers: Browser[] = [
   {
     name: 'Polypane',
     id: 'com.firstversionist.polypane',
-    hotKey: 'p',
     logo: polypane,
   },
   {
     name: 'qutebrowser',
     id: 'org.qt-project.Qt.QtWebEngineCore',
-    hotKey: 'q',
     logo: qutebrowser,
   },
   {
     name: 'Safari',
     id: 'com.apple.Safari',
-    hotKey: 's',
     logo: safari,
   },
   {
@@ -170,19 +157,16 @@ export const browsers: Browser[] = [
   {
     name: 'Tor Browser',
     id: 'org.torproject.torbrowser',
-    hotKey: 't',
     logo: tor,
   },
   {
     name: 'Vivaldi',
     id: 'com.vivaldi.Vivaldi',
-    hotKey: 'v',
     logo: vivaldi,
   },
   {
     name: 'Yandex',
     id: 'ru.yandex.desktop.yandex-browser',
-    hotKey: 'y',
     logo: yandex,
   },
 ]

@@ -11,6 +11,7 @@ import {
   COPY_TO_CLIPBOARD,
   ESCAPE_PRESSED,
   FAVOURITE_SELECTED,
+  HOTKEYS_UPDATED,
   LOGGER,
   QUIT,
   RENDERER_LOADED,
@@ -24,11 +25,12 @@ import {
   APP_VERSION,
   BROWSERS_SCANNED,
   FAVOURITE_CHANGED,
+  HOTKEYS_RETRIEVED,
   PROTOCOL_STATUS,
   UPDATE_STATUS,
   URL_HISTORY_CHANGED,
 } from './events'
-import { store, UrlHistoryItem } from './store'
+import { Hotkeys, store, UrlHistoryItem } from './store'
 
 // TODO [electron@>=9] This will be the default in Electron 9, remove once upgraded
 app.allowRendererProcessReuse = true
@@ -108,17 +110,19 @@ ipcMain.on(RENDERER_LOADED, async () => {
   bWindow?.center()
 
   // Send all info down to renderer
+  bWindow?.webContents.send(HOTKEYS_RETRIEVED, store.get('hotkeys'))
   bWindow?.webContents.send(FAVOURITE_CHANGED, store.get('fav'))
   bWindow?.webContents.send(BROWSERS_SCANNED, installedBrowsers)
   bWindow?.webContents.send(URL_HISTORY_CHANGED, store.get('urlHistory'))
   bWindow?.webContents.send(APP_VERSION, app.getVersion())
 
-  // Is default browser
+  // Is default browser?
   bWindow?.webContents.send(
     PROTOCOL_STATUS,
     app.isDefaultProtocolClient('http'),
   )
 
+  // Update available?
   const isUpdateAvailable = await checkForUpdate(app.getVersion())
   bWindow?.webContents.send(UPDATE_STATUS, isUpdateAvailable)
 })
@@ -167,7 +171,13 @@ ipcMain.on(ESCAPE_PRESSED, () => {
 
 ipcMain.on(FAVOURITE_SELECTED, (_, favBrowserId) => {
   store.set('fav', favBrowserId)
+  // TODO should this be here? Maybe deal with this the same as hotkeys
+  // by only sending down value on start and letting renderer keep track of its state?
   bWindow?.webContents.send(FAVOURITE_CHANGED, favBrowserId)
+})
+
+ipcMain.on(HOTKEYS_UPDATED, (_, hotkeys: Hotkeys) => {
+  store.set('hotkeys', hotkeys)
 })
 
 ipcMain.on(SET_AS_DEFAULT_BROWSER, () => {

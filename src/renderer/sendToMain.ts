@@ -1,12 +1,14 @@
 import { ipcRenderer } from 'electron'
 
 import { Browser } from '../config/browsers'
+import { Hotkeys } from '../main/store'
 import {
   BROWSER_SELECTED,
   CLEAR_HISTORY,
   COPY_TO_CLIPBOARD,
   ESCAPE_PRESSED,
   FAVOURITE_SELECTED,
+  HOTKEYS_UPDATED,
   LOGGER,
   QUIT,
   SET_AS_DEFAULT_BROWSER,
@@ -28,6 +30,9 @@ export const copyUrl = (urlId?: string): void => {
 
 export const selectFav = (id: Browser['id']): void =>
   ipcRenderer.send(FAVOURITE_SELECTED, id)
+
+export const updateHotkeys = (hotkeys: Hotkeys): void =>
+  ipcRenderer.send(HOTKEYS_UPDATED, hotkeys)
 
 export const escapePressed = (): void => ipcRenderer.send(ESCAPE_PRESSED)
 

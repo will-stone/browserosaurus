@@ -4,14 +4,15 @@ import cc from 'classcat'
 import React, { useCallback } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
-import { browsersAtom, favBrowserIdAtom, openMenuAtom } from '../atoms'
+import { browsersAtom, favBrowserIdAtom } from '../atoms'
+import { openMenuSelector } from '../selectors'
 import { selectFav } from '../sendToMain'
 import Kbd from './kbd'
 
 const TheFavMenu: React.FC = () => {
   const browsers = useRecoilValue(browsersAtom)
   const favBrowserId = useRecoilValue(favBrowserIdAtom)
-  const setOpenMenu = useSetRecoilState(openMenuAtom)
+  const setOpenMenu = useSetRecoilState(openMenuSelector)
 
   const handleFavChange = useCallback(
     (
@@ -41,14 +42,12 @@ const TheFavMenu: React.FC = () => {
           className="font-bold text-sm"
           style={{ columnCount: 2, pageBreakInside: 'avoid' }}
         >
-          {browsers.map((browser, i) => {
-            const isStriped = Boolean((i + 1) % 2)
+          {browsers.map((browser) => {
             return (
               <label
                 key={browser.id}
                 className={cc([
                   'inline-block w-full py-2 px-3 space-x-2 rounded',
-                  { 'bg-grey-700': isStriped },
                 ])}
               >
                 <input

@@ -1,5 +1,7 @@
 import ElectronStore from 'electron-store'
 
+import { Browser } from '../config/browsers'
+
 /**
  * A stored URL item
  */
@@ -9,10 +11,16 @@ export interface UrlHistoryItem {
   timestamp: number
 }
 
+/**
+ * Keyboard shortcuts
+ */
+export type Hotkeys = { [key in string]: Browser['id'] }
+
 export interface Store {
   fav: string
   firstRun: boolean
   urlHistory: UrlHistoryItem[]
+  hotkeys: Hotkeys
 }
 
 export const store = new ElectronStore<Store>({
@@ -22,5 +30,6 @@ export const store = new ElectronStore<Store>({
     fav: 'com.apple.Safari',
     firstRun: true,
     urlHistory: [],
+    hotkeys: {},
   },
 })

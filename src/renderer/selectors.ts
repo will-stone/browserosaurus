@@ -2,16 +2,22 @@ import last from 'lodash/fp/last'
 import { selector } from 'recoil'
 
 import { UrlHistoryItem } from '../main/store'
-import { openMenuAtom, urlHistoryAtom, urlIdAtom } from './atoms'
+import {
+  areHotKeysEnabledAtom,
+  MenuState,
+  openMenuAtom,
+  urlHistoryAtom,
+  urlIdAtom,
+} from './atoms'
 
 /**
  * Current URL
  */
 export const urlIdSelector = selector<string | undefined>({
   key: 'urlIdSelector',
-  get: ({ get }): string | undefined => {
-    const selectedId: string | undefined = get(urlIdAtom)
-    const urlHistory: UrlHistoryItem[] = get(urlHistoryAtom)
+  get: ({ get }) => {
+    const selectedId = get(urlIdAtom)
+    const urlHistory = get(urlHistoryAtom)
 
     // If no ID selected, use the latest from history, else undefined
     if (!selectedId) {
@@ -33,12 +39,31 @@ export const urlIdSelector = selector<string | undefined>({
  */
 export const urlItemSelector = selector({
   key: 'urlItemSelector',
-  get: ({ get }): UrlHistoryItem | undefined => {
+  get: ({ get }) => {
     const urlId = get(urlIdSelector)
     const urlHistory: UrlHistoryItem[] = get(urlHistoryAtom)
 
     if (urlId) {
       return urlHistory.find((u) => u.id === urlId)
+    }
+  },
+})
+
+/**
+ * Certain menus cause side effects when set
+ */
+export const openMenuSelector = selector<MenuState>({
+  key: 'openMenuSelector',
+  get: ({ get }) => {
+    return get(openMenuAtom)
+  },
+  set: ({ set }, menu) => {
+    if (menu === 'hotkeys') {
+      set(areHotKeysEnabledAtom, false)
+      set(openMenuAtom, 'hotkeys')
+    } else {
+      set(areHotKeysEnabledAtom, true)
+      set(openMenuAtom, menu)
     }
   },
 })

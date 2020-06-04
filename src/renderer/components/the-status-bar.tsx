@@ -1,4 +1,5 @@
 import { faGift } from '@fortawesome/pro-solid-svg-icons/faGift'
+import { faKeyboard } from '@fortawesome/pro-solid-svg-icons/faKeyboard'
 import { faSignOutAlt } from '@fortawesome/pro-solid-svg-icons/faSignOutAlt'
 import { faStar } from '@fortawesome/pro-solid-svg-icons/faStar'
 import { faTimes } from '@fortawesome/pro-solid-svg-icons/faTimes'
@@ -11,10 +12,10 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 
 import {
   isDefaultBrowserAtom,
-  openMenuAtom,
   updateAvailableAtom,
   versionAtom,
 } from '../atoms'
+import { openMenuSelector } from '../selectors'
 import { quit, setAsDefaultBrowser } from '../sendToMain'
 import { LightButton } from './button'
 
@@ -23,7 +24,7 @@ interface Props {
 }
 
 const TheStatusBar: React.FC<Props> = ({ className }) => {
-  const [openMenu, setOpenMenu] = useRecoilState(openMenuAtom)
+  const [openMenu, setOpenMenu] = useRecoilState(openMenuSelector)
   const isDefaultBrowser = useRecoilValue(isDefaultBrowserAtom)
   const updateAvailable = useRecoilValue(updateAvailableAtom)
   const version = useRecoilValue(versionAtom)
@@ -35,6 +36,10 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
 
   const handleFavMenuClick = useCallback(() => {
     setOpenMenu(openMenu === 'fav' ? false : 'fav')
+  }, [openMenu, setOpenMenu])
+
+  const handleHotKeysMenuClick = useCallback(() => {
+    setOpenMenu(openMenu === 'hotkeys' ? false : 'hotkeys')
   }, [openMenu, setOpenMenu])
 
   const displayedVersion = `v${version}${electronIsDev ? ' DEV' : ''}`
@@ -55,6 +60,17 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
             <FontAwesomeIcon fixedWidth icon={faTimes} />
           ) : (
             <FontAwesomeIcon fixedWidth icon={faStar} />
+          )}
+        </LightButton>
+
+        <LightButton
+          className={cc([{ 'z-30': openMenu === 'hotkeys' }])}
+          onClick={handleHotKeysMenuClick}
+        >
+          {openMenu === 'hotkeys' ? (
+            <FontAwesomeIcon fixedWidth icon={faTimes} />
+          ) : (
+            <FontAwesomeIcon fixedWidth icon={faKeyboard} />
           )}
         </LightButton>
 
