@@ -27,7 +27,6 @@
     "package": "electron-forge package --platform=darwin --arch=x64",
     "start": "ENV=DEV ELECTRON_DISABLE_SECURITY_WARNINGS=true electron-forge start",
     "test": "jest",
-    "test:watch": "jest --watch",
     "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "husky": {
@@ -200,8 +199,8 @@
     "@electron-forge/maker-zip": "6.0.0-beta.51",
     "@electron-forge/plugin-webpack": "6.0.0-beta.51",
     "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
-    "@testing-library/jest-dom": "^5.0.2",
-    "@testing-library/react": "^9.4.0",
+    "@testing-library/jest-dom": "^5.9.0",
+    "@testing-library/react": "^10.2.0",
     "@types/jest": "^24.0.25",
     "@types/lodash": "^4.14.149",
     "@types/mousetrap": "^1.6.2",
