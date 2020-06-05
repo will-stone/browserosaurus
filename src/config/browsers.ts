@@ -25,12 +25,14 @@ import yandex from '@browser-logos/yandex/yandex_256x256.png'
 
 import cliqz from './cliqz.svg'
 import min from './min_256x256.png'
+import pocket from './pocket.png'
 import polypane from './polypane_256x256.png'
 
 export interface Browser {
   name: string
   id: string
   logo: string
+  urlTemplate?: string
 }
 
 export const browsers: Browser[] = [
@@ -133,6 +135,12 @@ export const browsers: Browser[] = [
     name: 'Opera Developer',
     id: 'com.operasoftware.OperaDeveloper',
     logo: operaDeveloper,
+  },
+  {
+    name: 'Pocket',
+    id: 'com.readitlater.PocketMac',
+    logo: pocket,
+    urlTemplate: 'pocket://add?url={{URL}}',
   },
   {
     name: 'Polypane',

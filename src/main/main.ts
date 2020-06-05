@@ -3,7 +3,7 @@ import execa from 'execa'
 import { nanoid } from 'nanoid/non-secure'
 import path from 'path'
 
-import { Browser } from '../config/browsers'
+import { Browser, browsers } from '../config/browsers'
 import {
   BROWSER_SELECTED,
   CLEAR_HISTORY,
@@ -156,12 +156,21 @@ ipcMain.on(
     if (!browserId) return
 
     const urlItem = store.get('urlHistory').find((u) => u.id === urlId)
+    const browser = browsers.find((b) => b.id === browserId)
+
+    // Bail if browser cannot be found in config (this, in theory, can't happen)
+    if (!browser) return
+
+    const urlString = urlItem?.url || ''
+    const processedUrlTemplate = browser.urlTemplate
+      ? browser.urlTemplate.replace(/\{\{URL\}\}/u, urlString)
+      : urlString
 
     const openArguments: string[] = [
-      urlItem?.url || '',
+      processedUrlTemplate,
       '-b',
       browserId,
-      isAlt ? '-g' : '',
+      isAlt ? '--background' : '',
     ].filter(Boolean)
 
     execa('open', openArguments)
