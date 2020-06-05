@@ -21,6 +21,7 @@ export interface Store {
   firstRun: boolean
   urlHistory: UrlHistoryItem[]
   hotkeys: Hotkeys
+  lastUpdateCheck: number | undefined
 }
 
 export const store = new ElectronStore<Store>({
@@ -31,5 +32,6 @@ export const store = new ElectronStore<Store>({
     firstRun: true,
     urlHistory: [],
     hotkeys: {},
+    lastUpdateCheck: undefined,
   },
 })

@@ -1,5 +1,4 @@
 import { app, BrowserWindow, ipcMain, Tray } from 'electron'
-import electronIsDev from 'electron-is-dev'
 import execa from 'execa'
 import { nanoid } from 'nanoid/non-secure'
 import path from 'path'
@@ -20,6 +19,7 @@ import {
 import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
 import { checkForUpdate } from '../utils/isUpdateAvailable'
+import { logger } from '../utils/logger'
 import createWindow from './createWindow'
 import {
   APP_VERSION,
@@ -82,8 +82,24 @@ async function sendUrlHistory(urlHistory: UrlHistoryItem[]) {
   }
 }
 
+// 1000 * 60 * 60 * 24
+const ONE_DAY_MS = 86400000
+
+async function updateChecker() {
+  const lastUpdateCheck = store.get('lastUpdateCheck')
+  const now = Date.now()
+
+  if (!lastUpdateCheck || lastUpdateCheck + ONE_DAY_MS < now) {
+    logger('Main', 'Checking for update')
+    const isUpdateAvailable = await checkForUpdate(app.getVersion())
+    bWindow?.webContents.send(UPDATE_STATUS, isUpdateAvailable)
+    store.set('lastUpdateCheck', now)
+  }
+}
+
 app.on('open-url', (event, url) => {
   event.preventDefault()
+
   const id = nanoid()
   const urlHistory = store.get('urlHistory')
   const updatedUrlHistory = [
@@ -93,6 +109,8 @@ app.on('open-url', (event, url) => {
   ]
   sendUrlHistory(updatedUrlHistory)
   store.set('urlHistory', updatedUrlHistory)
+
+  updateChecker()
 })
 
 /**
@@ -122,9 +140,7 @@ ipcMain.on(RENDERER_LOADED, async () => {
     app.isDefaultProtocolClient('http'),
   )
 
-  // Update available?
-  const isUpdateAvailable = await checkForUpdate(app.getVersion())
-  bWindow?.webContents.send(UPDATE_STATUS, isUpdateAvailable)
+  updateChecker()
 })
 
 interface BrowserSelectedEventArgs {
@@ -193,12 +209,6 @@ ipcMain.on(QUIT, () => {
   app.quit()
 })
 
-const blue = (array: TemplateStringsArray) => `\u001B[34m${array[0]}\u001B[0m`
-const dim = (array: TemplateStringsArray) => `\u001B[2m${array[0]}\u001B[0m`
-
 ipcMain.on(LOGGER, (_, string: string) => {
-  if (electronIsDev) {
-    // eslint-disable-next-line no-console
-    console.log(`${blue`Renderer`} ${dim`›`}`, string)
-  }
+  logger('Renderer', string)
 })

@@ -1,6 +1,8 @@
 import fetch from 'node-fetch'
 import semver from 'semver'
 
+import { logger } from './logger'
+
 export async function checkForUpdate(currentVersion: string): Promise<boolean> {
   try {
     const url = `https://api.github.com/repos/will-stone/browserosaurus/releases/latest`
@@ -20,8 +22,7 @@ export async function checkForUpdate(currentVersion: string): Promise<boolean> {
 
     return semver.gt(releaseNumber, currentVersion)
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error)
+    logger('Main', error.message)
     return false
   }
 }
