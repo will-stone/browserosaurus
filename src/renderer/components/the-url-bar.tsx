@@ -24,9 +24,7 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
   }, [urlItem?.id])
 
   const handleUrlHistoryOpenClick = useCallback(() => {
-    setOpenMenu((currentOpenMenu) =>
-      currentOpenMenu === 'history' ? false : 'history',
-    )
+    setOpenMenu((menu) => (menu === 'history' ? false : 'history'))
   }, [setOpenMenu])
 
   const isUpdateUrl = parsedUrl?.hostname === 'browserosaurus.com'
