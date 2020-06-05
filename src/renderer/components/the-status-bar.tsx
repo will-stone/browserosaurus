@@ -35,12 +35,16 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
   )
 
   const handleFavMenuClick = useCallback(() => {
-    setOpenMenu(openMenu === 'fav' ? false : 'fav')
-  }, [openMenu, setOpenMenu])
+    setOpenMenu((currentOpenMenu) =>
+      currentOpenMenu === 'fav' ? false : 'fav',
+    )
+  }, [setOpenMenu])
 
   const handleHotKeysMenuClick = useCallback(() => {
-    setOpenMenu(openMenu === 'hotkeys' ? false : 'hotkeys')
-  }, [openMenu, setOpenMenu])
+    setOpenMenu((currentOpenMenu) =>
+      currentOpenMenu === 'hotkeys' ? false : 'hotkeys',
+    )
+  }, [setOpenMenu])
 
   const displayedVersion = `v${version}${electronIsDev ? ' DEV' : ''}`
 
