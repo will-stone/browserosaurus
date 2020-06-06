@@ -1,20 +1,21 @@
 import React, { useEffect } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
+import { copyUrl, escapePressed, selectBrowser } from '../sendToMain'
 import {
   areHotKeysEnabledAtom,
   browsersAtom,
   favBrowserIdAtom,
   hotkeysAtom,
-} from '../atoms'
-import { openMenuSelector, urlIdSelector } from '../selectors'
-import { copyUrl, escapePressed, selectBrowser } from '../sendToMain'
+  openMenuSelector,
+  urlSelector,
+} from '../state'
 import Noop from './noop'
 
 const TheKeyboardListeners: React.FC = () => {
   const [openMenu, setOpenMenu] = useRecoilState(openMenuSelector)
   const favBrowserId = useRecoilValue(favBrowserIdAtom)
-  const urlId = useRecoilValue(urlIdSelector)
+  const url = useRecoilValue(urlSelector)
   const browsers = useRecoilValue(browsersAtom)
   const areHotKeysEnabled = useRecoilValue(areHotKeysEnabledAtom)
   const hotkeys = useRecoilValue(hotkeysAtom)
@@ -42,7 +43,7 @@ const TheKeyboardListeners: React.FC = () => {
 
       if (isCopy) {
         event.preventDefault()
-        copyUrl(urlId)
+        copyUrl(url)
         return
       }
 
@@ -52,14 +53,14 @@ const TheKeyboardListeners: React.FC = () => {
       if (matchAlphaNumeric) {
         const key = matchAlphaNumeric[1].toLowerCase()
         const browserId = hotkeys[key]
-        selectBrowser(urlId, browserId, event.altKey)
+        selectBrowser(url, browserId, event.altKey)
         return
       }
 
       // Open favourite (first) browser
       if (event.code === 'Space' || event.code === 'Enter') {
         event.preventDefault()
-        selectBrowser(urlId, favBrowserId, event.altKey)
+        selectBrowser(url, favBrowserId, event.altKey)
       }
     }
 
@@ -69,7 +70,7 @@ const TheKeyboardListeners: React.FC = () => {
       document.removeEventListener('keydown', handler)
     }
   }, [
-    urlId,
+    url,
     browsers,
     favBrowserId,
     openMenu,

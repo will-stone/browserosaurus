@@ -23,6 +23,7 @@ module.exports = {
       colors: {
         'grey-200': '#C6CCD7',
         'grey-300': '#A9B2C3',
+        'grey-400': '#848C9B',
         'grey-500': '#5F6672',
         'grey-600': '#2F333B',
         'grey-700': '#212428',

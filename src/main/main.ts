@@ -1,12 +1,10 @@
 import { app, BrowserWindow, ipcMain, Tray } from 'electron'
 import execa from 'execa'
-import { nanoid } from 'nanoid/non-secure'
 import path from 'path'
 
 import { Browser, browsers } from '../config/browsers'
 import {
   BROWSER_SELECTED,
-  CLEAR_HISTORY,
   COPY_TO_CLIPBOARD,
   ESCAPE_PRESSED,
   FAVOURITE_SELECTED,
@@ -28,9 +26,9 @@ import {
   HOTKEYS_RETRIEVED,
   PROTOCOL_STATUS,
   UPDATE_STATUS,
-  URL_HISTORY_CHANGED,
+  URL_UPDATED,
 } from './events'
-import { Hotkeys, store, UrlHistoryItem } from './store'
+import { Hotkeys, store } from './store'
 
 // TODO [electron@>=9] This will be the default in Electron 9, remove once upgraded
 app.allowRendererProcessReuse = true
@@ -72,13 +70,13 @@ app.on('before-quit', () => {
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-async function sendUrlHistory(urlHistory: UrlHistoryItem[]) {
+async function sendUrl(url: string) {
   if (bWindow) {
-    bWindow.webContents.send(URL_HISTORY_CHANGED, urlHistory)
+    bWindow.webContents.send(URL_UPDATED, url)
     bWindow.show()
   } else {
     await wait(500)
-    sendUrlHistory(urlHistory)
+    sendUrl(url)
   }
 }
 
@@ -99,17 +97,7 @@ async function updateChecker() {
 
 app.on('open-url', (event, url) => {
   event.preventDefault()
-
-  const id = nanoid()
-  const urlHistory = store.get('urlHistory')
-  const updatedUrlHistory = [
-    // Only keep a small history
-    ...urlHistory.slice(-10),
-    { id, url, timestamp: Date.now() },
-  ]
-  sendUrlHistory(updatedUrlHistory)
-  store.set('urlHistory', updatedUrlHistory)
-
+  sendUrl(url)
   updateChecker()
 })
 
@@ -131,7 +119,6 @@ ipcMain.on(RENDERER_LOADED, async () => {
   bWindow?.webContents.send(HOTKEYS_RETRIEVED, store.get('hotkeys'))
   bWindow?.webContents.send(FAVOURITE_CHANGED, store.get('fav'))
   bWindow?.webContents.send(BROWSERS_SCANNED, installedBrowsers)
-  bWindow?.webContents.send(URL_HISTORY_CHANGED, store.get('urlHistory'))
   bWindow?.webContents.send(APP_VERSION, app.getVersion())
 
   // Is default browser?
@@ -144,24 +131,23 @@ ipcMain.on(RENDERER_LOADED, async () => {
 })
 
 interface BrowserSelectedEventArgs {
-  urlId: string
+  url?: string
   browserId: Browser['id']
   isAlt: boolean
 }
 
 ipcMain.on(
   BROWSER_SELECTED,
-  (_: Event, { urlId, browserId, isAlt }: BrowserSelectedEventArgs) => {
+  (_: Event, { url, browserId, isAlt }: BrowserSelectedEventArgs) => {
     // Bail if browser id is missing
     if (!browserId) return
 
-    const urlItem = store.get('urlHistory').find((u) => u.id === urlId)
     const browser = browsers.find((b) => b.id === browserId)
 
     // Bail if browser cannot be found in config (this, in theory, can't happen)
     if (!browser) return
 
-    const urlString = urlItem?.url || ''
+    const urlString = url || ''
     const processedUrlTemplate = browser.urlTemplate
       ? browser.urlTemplate.replace(/\{\{URL\}\}/u, urlString)
       : urlString
@@ -180,10 +166,9 @@ ipcMain.on(
   },
 )
 
-ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, urlId: string) => {
-  const urlItem = store.get('urlHistory').find((u) => u.id === urlId)
-  if (urlItem) {
-    copyToClipboard(urlItem.url)
+ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, url: string) => {
+  if (url) {
+    copyToClipboard(url)
     bWindow?.hide()
     app.hide()
   }
@@ -207,11 +192,6 @@ ipcMain.on(HOTKEYS_UPDATED, (_, hotkeys: Hotkeys) => {
 
 ipcMain.on(SET_AS_DEFAULT_BROWSER, () => {
   app.setAsDefaultProtocolClient('http')
-})
-
-ipcMain.on(CLEAR_HISTORY, () => {
-  store.reset('urlHistory')
-  sendUrlHistory([])
 })
 
 ipcMain.on(QUIT, () => {

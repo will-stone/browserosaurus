@@ -4,7 +4,6 @@ import { Browser } from '../config/browsers'
 import { Hotkeys } from '../main/store'
 import {
   BROWSER_SELECTED,
-  CLEAR_HISTORY,
   COPY_TO_CLIPBOARD,
   ESCAPE_PRESSED,
   FAVOURITE_SELECTED,
@@ -15,16 +14,16 @@ import {
 } from './events'
 
 export const selectBrowser = (
-  urlId: string | undefined,
+  url: string | undefined,
   browserId: Browser['id'] | undefined,
   isAlt: boolean,
 ): void => {
-  ipcRenderer.send(BROWSER_SELECTED, { urlId, browserId, isAlt })
+  ipcRenderer.send(BROWSER_SELECTED, { url, browserId, isAlt })
 }
 
-export const copyUrl = (urlId?: string): void => {
-  if (urlId) {
-    ipcRenderer.send(COPY_TO_CLIPBOARD, urlId)
+export const copyUrl = (url?: string): void => {
+  if (url) {
+    ipcRenderer.send(COPY_TO_CLIPBOARD, url)
   }
 }
 
@@ -43,5 +42,3 @@ export const quit = (): void => ipcRenderer.send(QUIT)
 
 export const setAsDefaultBrowser = (): void =>
   ipcRenderer.send(SET_AS_DEFAULT_BROWSER)
-
-export const clearHistory = (): void => ipcRenderer.send(CLEAR_HISTORY)

@@ -10,26 +10,24 @@ import {
   HOTKEYS_RETRIEVED,
   PROTOCOL_STATUS,
   UPDATE_STATUS,
-  URL_HISTORY_CHANGED,
+  URL_UPDATED,
 } from '../../main/events'
-import { Hotkeys, UrlHistoryItem } from '../../main/store'
+import { Hotkeys } from '../../main/store'
+import { RENDERER_LOADED } from '../events'
 import {
   browsersAtom,
   favBrowserIdAtom,
   hotkeysAtom,
   isDefaultBrowserAtom,
   updateAvailableAtom,
-  urlHistoryAtom,
+  urlSelector,
   versionAtom,
-} from '../atoms'
-import { RENDERER_LOADED } from '../events'
-import { urlIdSelector } from '../selectors'
+} from '../state'
 import Noop from './noop'
 
 const TheMainListeners: React.FC = () => {
-  const setUrlHistoryState = useSetRecoilState(urlHistoryAtom)
+  const setUrl = useSetRecoilState(urlSelector)
   const setBrowsersState = useSetRecoilState(browsersAtom)
-  const setUrlId = useSetRecoilState(urlIdSelector)
   const setVersion = useSetRecoilState(versionAtom)
   const setFavBrowserId = useSetRecoilState(favBrowserIdAtom)
   const setUpdateAvailable = useSetRecoilState(updateAvailableAtom)
@@ -68,15 +66,9 @@ const TheMainListeners: React.FC = () => {
      * Receive URL
      * main -> renderer
      */
-    electron.ipcRenderer.on(
-      URL_HISTORY_CHANGED,
-      (_: unknown, urlHistory: UrlHistoryItem[]) => {
-        // TODO should this use the latest history item?
-        const undef = undefined
-        setUrlId(undef)
-        setUrlHistoryState(urlHistory)
-      },
-    )
+    electron.ipcRenderer.on(URL_UPDATED, (_: unknown, url: string) => {
+      setUrl(url)
+    })
 
     /**
      * Receive favourite
@@ -117,12 +109,11 @@ const TheMainListeners: React.FC = () => {
     return function cleanup() {
       electron.ipcRenderer.removeAllListeners(APP_VERSION)
       electron.ipcRenderer.removeAllListeners(BROWSERS_SCANNED)
-      electron.ipcRenderer.removeAllListeners(URL_HISTORY_CHANGED)
+      electron.ipcRenderer.removeAllListeners(URL_UPDATED)
     }
   }, [
     setBrowsersState,
-    setUrlId,
-    setUrlHistoryState,
+    setUrl,
     setVersion,
     setFavBrowserId,
     setUpdateAvailable,

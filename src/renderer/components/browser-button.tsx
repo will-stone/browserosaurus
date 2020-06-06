@@ -6,9 +6,8 @@ import { useRecoilValue } from 'recoil'
 
 import { Browser } from '../../config/browsers'
 import { getHotkeyByBrowserId } from '../../utils/getHotkeyByBrowserId'
-import { favBrowserIdAtom, hotkeysAtom } from '../atoms'
-import { urlIdSelector } from '../selectors'
 import { selectBrowser } from '../sendToMain'
+import { favBrowserIdAtom, hotkeysAtom, urlSelector } from '../state'
 import { LargeDarkButton } from './button'
 import Kbd from './kbd'
 
@@ -39,15 +38,15 @@ interface Props {
 }
 
 const BrowserButton: React.FC<Props> = ({ browser }) => {
-  const urlId = useRecoilValue(urlIdSelector)
+  const url = useRecoilValue(urlSelector)
   const favBrowserId = useRecoilValue(favBrowserIdAtom)
   const hotkeys = useRecoilValue(hotkeysAtom)
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      selectBrowser(urlId, browser.id, event.altKey)
+      selectBrowser(url, browser.id, event.altKey)
     },
-    [browser.id, urlId],
+    [browser.id, url],
   )
 
   const nameSizeClass = getNameSize(browser.name)

@@ -5,8 +5,8 @@ import React, { useCallback } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { getHotkeyByBrowserId } from '../../utils/getHotkeyByBrowserId'
-import { browsersAtom, hotkeysAtom } from '../atoms'
 import { updateHotkeys } from '../sendToMain'
+import { browsersAtom, hotkeysAtom } from '../state'
 
 function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
   event.target.select()

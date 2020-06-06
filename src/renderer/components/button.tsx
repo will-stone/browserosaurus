@@ -26,7 +26,7 @@ const BaseButton: React.FC<Props> = ({
         {
           'text-blue-400 active:text-blue-200': !disabled && tone === 'primary',
         },
-        { 'text-grey-300 active:text-grey-200': !disabled && !tone },
+        { 'active:text-grey-200': !disabled && !tone },
         { 'shadow-md': !disabled },
       ])}
       disabled={disabled}
@@ -47,7 +47,7 @@ export const LightButton: React.FC<Props> = ({
         className,
         'py-2 px-3',
         'space-x-2',
-        { 'bg-grey-600': !disabled },
+        { 'bg-grey-600 text-grey-300': !disabled },
         { 'bg-grey-700 text-grey-500': disabled },
       ])}
       disabled={disabled}
@@ -67,7 +67,8 @@ export const DarkButton: React.FC<Props> = ({
         className,
         'py-2 px-3',
         'space-x-2',
-        { 'bg-grey-700': !disabled },
+        { 'bg-grey-700 text-grey-300': !disabled },
+        { 'bg-transparent text-grey-500': disabled },
       ])}
       disabled={disabled}
       {...restProperties}

@@ -5,10 +5,9 @@
 import React, { useCallback } from 'react'
 import { useRecoilState } from 'recoil'
 
-import { openMenuSelector } from '../selectors'
+import { openMenuSelector } from '../state'
 import Noop from './noop'
 import TheFavMenu from './the-fav-menu'
-import TheHistoryMenu from './the-history-menu'
 import TheHotkeysMenu from './the-hotkeys-menu'
 
 const TheMenuManager: React.FC = () => {
@@ -20,9 +19,7 @@ const TheMenuManager: React.FC = () => {
 
   let Menu
 
-  if (openMenu === 'history') {
-    Menu = TheHistoryMenu
-  } else if (openMenu === 'fav') {
+  if (openMenu === 'fav') {
     Menu = TheFavMenu
   } else if (openMenu === 'hotkeys') {
     Menu = TheHotkeysMenu

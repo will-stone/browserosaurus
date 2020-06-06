@@ -4,9 +4,8 @@ import cc from 'classcat'
 import React, { useCallback } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
-import { browsersAtom, favBrowserIdAtom } from '../atoms'
-import { openMenuSelector } from '../selectors'
 import { selectFav } from '../sendToMain'
+import { browsersAtom, favBrowserIdAtom, openMenuSelector } from '../state'
 import Kbd from './kbd'
 
 const TheFavMenu: React.FC = () => {

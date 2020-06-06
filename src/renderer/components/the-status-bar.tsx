@@ -10,13 +10,13 @@ import electronIsDev from 'electron-is-dev'
 import React, { useCallback } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
+import { quit, setAsDefaultBrowser } from '../sendToMain'
 import {
   isDefaultBrowserAtom,
+  openMenuSelector,
   updateAvailableAtom,
   versionAtom,
-} from '../atoms'
-import { openMenuSelector } from '../selectors'
-import { quit, setAsDefaultBrowser } from '../sendToMain'
+} from '../state'
 import { LightButton } from './button'
 
 interface Props {
@@ -82,7 +82,7 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
       </div>
 
       <div className="flex items-center space-x-2">
-        <div className="text-xs text-grey-600 text-bold">
+        <div className="text-xs text-grey-500 text-bold">
           {displayedVersion}
         </div>
 

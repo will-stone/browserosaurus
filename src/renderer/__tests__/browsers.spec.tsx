@@ -5,7 +5,7 @@ import React from 'react'
 import {
   BROWSERS_SCANNED,
   FAVOURITE_CHANGED,
-  URL_HISTORY_CHANGED,
+  URL_UPDATED,
 } from '../../main/events'
 import TheApp from '../components/the-app'
 import { BROWSER_SELECTED } from '../events'
@@ -37,13 +37,12 @@ test('browsers', () => {
     isAlt: false,
   })
 
-  const urlItem = { id: 'abc', url: 'http://example.com', timestamp: 100 }
   act(() => {
-    win.webContents.send(URL_HISTORY_CHANGED, [urlItem])
+    win.webContents.send(URL_UPDATED, 'http://example.com')
   })
   fireEvent.click(screen.getByAltText('Firefox'))
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(BROWSER_SELECTED, {
-    urlId: urlItem.id,
+    url: 'http://example.com',
     browserId: 'org.mozilla.firefox',
     isAlt: false,
   })

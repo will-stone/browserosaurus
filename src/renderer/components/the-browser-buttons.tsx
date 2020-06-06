@@ -2,7 +2,7 @@ import cc from 'classcat'
 import React from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { browsersAtom } from '../atoms'
+import { browsersAtom } from '../state'
 import BrowserButton from './browser-button'
 
 const TheBrowserButtons: React.FC = () => {
