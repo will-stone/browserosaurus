@@ -11,6 +11,7 @@ import {
   HOTKEYS_UPDATED,
   LOGGER,
   QUIT,
+  RELOAD,
   RENDERER_LOADED,
   SET_AS_DEFAULT_BROWSER,
 } from '../renderer/events'
@@ -192,6 +193,10 @@ ipcMain.on(HOTKEYS_UPDATED, (_, hotkeys: Hotkeys) => {
 
 ipcMain.on(SET_AS_DEFAULT_BROWSER, () => {
   app.setAsDefaultProtocolClient('http')
+})
+
+ipcMain.on(RELOAD, () => {
+  bWindow?.reload()
 })
 
 ipcMain.on(QUIT, () => {

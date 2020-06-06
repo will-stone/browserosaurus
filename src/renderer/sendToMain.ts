@@ -10,6 +10,7 @@ import {
   HOTKEYS_UPDATED,
   LOGGER,
   QUIT,
+  RELOAD,
   SET_AS_DEFAULT_BROWSER,
 } from './events'
 
@@ -42,3 +43,5 @@ export const quit = (): void => ipcRenderer.send(QUIT)
 
 export const setAsDefaultBrowser = (): void =>
   ipcRenderer.send(SET_AS_DEFAULT_BROWSER)
+
+export const reload = (): void => ipcRenderer.send(RELOAD)

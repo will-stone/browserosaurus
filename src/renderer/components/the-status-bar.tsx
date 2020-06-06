@@ -2,6 +2,7 @@ import { faGift } from '@fortawesome/pro-solid-svg-icons/faGift'
 import { faKeyboard } from '@fortawesome/pro-solid-svg-icons/faKeyboard'
 import { faSignOutAlt } from '@fortawesome/pro-solid-svg-icons/faSignOutAlt'
 import { faStar } from '@fortawesome/pro-solid-svg-icons/faStar'
+import { faSync } from '@fortawesome/pro-solid-svg-icons/faSync'
 import { faTimes } from '@fortawesome/pro-solid-svg-icons/faTimes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cc from 'classcat'
@@ -10,7 +11,7 @@ import electronIsDev from 'electron-is-dev'
 import React, { useCallback } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
-import { quit, setAsDefaultBrowser } from '../sendToMain'
+import { quit, reload, setAsDefaultBrowser } from '../sendToMain'
 import {
   isDefaultBrowserAtom,
   openMenuSelector,
@@ -42,7 +43,9 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
     setOpenMenu((menu) => (menu === 'hotkeys' ? false : 'hotkeys'))
   }, [setOpenMenu])
 
-  const displayedVersion = `v${version}${electronIsDev ? ' DEV' : ''}`
+  const displayedVersion = version
+    ? `v${version}${electronIsDev ? ' DEV' : ''}`
+    : ''
 
   return (
     <div
@@ -92,6 +95,10 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
             <span>Update Available</span>
           </LightButton>
         )}
+
+        <LightButton onClick={reload}>
+          <FontAwesomeIcon fixedWidth icon={faSync} />
+        </LightButton>
 
         <LightButton onClick={quit}>
           <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
