@@ -23,7 +23,6 @@ import tor from '@browser-logos/tor/tor_256x256.png'
 import vivaldi from '@browser-logos/vivaldi/vivaldi.svg'
 import yandex from '@browser-logos/yandex/yandex_256x256.png'
 
-import cliqz from './cliqz.svg'
 import min from './min_256x256.png'
 import pocket from './pocket.png'
 import polypane from './polypane_256x256.png'
@@ -55,11 +54,6 @@ export const browsers: Browser[] = [
     name: 'Chromium',
     id: 'org.chromium.Chromium',
     logo: chromium,
-  },
-  {
-    name: 'Cliqz',
-    id: 'org.mozilla.cliqz',
-    logo: cliqz,
   },
   {
     name: 'Firefox',
