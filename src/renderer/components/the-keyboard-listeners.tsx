@@ -39,7 +39,7 @@ const TheKeyboardListeners: React.FC = () => {
         return
       }
 
-      const isCopy = event.code === 'KeyC' && event.metaKey
+      const isCopy = event.key.toLowerCase() === 'c' && event.metaKey
 
       if (isCopy) {
         event.preventDefault()
@@ -47,11 +47,11 @@ const TheKeyboardListeners: React.FC = () => {
         return
       }
 
-      const matchAlphaNumeric = event.code.match(/^(?:Key|Digit)([A-Z0-9])$/u)
+      const matchAlphaNumeric = event.key.toLowerCase().match(/^([a-z0-9])$/u)
 
       // Browser hotkey
       if (matchAlphaNumeric) {
-        const key = matchAlphaNumeric[1].toLowerCase()
+        const key = matchAlphaNumeric[1]
         const browserId = hotkeys[key]
         selectBrowser(url, browserId, event.altKey)
         return
