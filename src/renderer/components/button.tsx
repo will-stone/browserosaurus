@@ -4,16 +4,13 @@
 import cc from 'classcat'
 import React from 'react'
 
-interface Props extends React.ComponentPropsWithoutRef<'button'> {
-  tone?: 'primary'
-}
+type BaseButtonProps = React.ComponentPropsWithoutRef<'button'>
 
-const BaseButton: React.FC<Props> = ({
+const BaseButton: React.FC<BaseButtonProps> = ({
+  className,
   disabled,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- type is hardcoded
   type,
-  className,
-  tone,
   ...restProperties
 }) => {
   return (
@@ -23,10 +20,6 @@ const BaseButton: React.FC<Props> = ({
         'border border-grey-900 rounded active:shadow-none focus:outline-none',
         'text-xs font-bold leading-none',
         'cursor-default',
-        {
-          'text-blue-400 active:text-blue-200': !disabled && tone === 'primary',
-        },
-        { 'active:text-grey-200': !disabled && !tone },
         { 'shadow-md': !disabled },
       ])}
       disabled={disabled}
@@ -36,9 +29,14 @@ const BaseButton: React.FC<Props> = ({
   )
 }
 
-export const LightButton: React.FC<Props> = ({
+interface LightButtonProps extends React.ComponentPropsWithoutRef<'button'> {
+  tone?: 'primary'
+}
+
+export const LightButton: React.FC<LightButtonProps> = ({
   className,
   disabled,
+  tone,
   ...restProperties
 }) => {
   return (
@@ -47,7 +45,13 @@ export const LightButton: React.FC<Props> = ({
         className,
         'py-2 px-3',
         'space-x-2',
-        { 'bg-grey-600 text-grey-300': !disabled },
+        {
+          'bg-grey-600 text-blue-400 active:text-blue-300':
+            !disabled && tone === 'primary',
+        },
+        {
+          'bg-grey-600 text-grey-300 active:text-grey-200': !disabled && !tone,
+        },
         { 'bg-grey-700 text-grey-500': disabled },
       ])}
       disabled={disabled}
@@ -56,7 +60,9 @@ export const LightButton: React.FC<Props> = ({
   )
 }
 
-export const DarkButton: React.FC<Props> = ({
+type DarkButtonProps = React.ComponentPropsWithoutRef<'button'>
+
+export const DarkButton: React.FC<DarkButtonProps> = ({
   className,
   disabled,
   ...restProperties
@@ -67,7 +73,7 @@ export const DarkButton: React.FC<Props> = ({
         className,
         'py-2 px-3',
         'space-x-2',
-        { 'bg-grey-700 text-grey-300': !disabled },
+        { 'bg-grey-700 text-grey-300 active:text-grey-200': !disabled },
         { 'bg-transparent text-grey-500': disabled },
       ])}
       disabled={disabled}
@@ -76,7 +82,9 @@ export const DarkButton: React.FC<Props> = ({
   )
 }
 
-export const LargeDarkButton: React.FC<Props> = ({
+type LargeDarkButtonProps = React.ComponentPropsWithoutRef<'button'>
+
+export const LargeDarkButton: React.FC<LargeDarkButtonProps> = ({
   className,
   disabled,
   ...restProperties
@@ -86,7 +94,8 @@ export const LargeDarkButton: React.FC<Props> = ({
       className={cc([
         className,
         'h-24 text-left p-3',
-        { 'bg-grey-700': !disabled },
+        { 'bg-grey-700 text-grey-300 active:text-grey-200': !disabled },
+        { 'bg-transparent text-grey-500': disabled },
       ])}
       disabled={disabled}
       {...restProperties}
