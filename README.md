@@ -1,6 +1,6 @@
 <img src="./docs/icon_squooshed.png" alt="logo" width="100" height="100" align="right" />
 
-<h1>Browserosaurus</h1>
+# Browserosaurus
 
 If you enjoy using Browserosaurus, please consider supporting its continued
 development.
