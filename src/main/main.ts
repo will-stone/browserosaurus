@@ -84,11 +84,12 @@ async function sendUrl(url: string) {
 // 1000 * 60 * 60 * 24
 const ONE_DAY_MS = 86400000
 
-async function updateChecker() {
-  const lastUpdateCheck = store.get('lastUpdateCheck')
+async function updateChecker(forceUpdateCheck = false) {
+  const lastUpdateCheck = store.get('lastUpdateCheck') || 0
   const now = Date.now()
+  const hasNotBeenCheckedRecently = lastUpdateCheck + ONE_DAY_MS < now
 
-  if (!lastUpdateCheck || lastUpdateCheck + ONE_DAY_MS < now) {
+  if (forceUpdateCheck || hasNotBeenCheckedRecently) {
     logger('Main', 'Checking for update')
     const isUpdateAvailable = await checkForUpdate(app.getVersion())
     bWindow?.webContents.send(UPDATE_STATUS, isUpdateAvailable)
@@ -128,7 +129,7 @@ ipcMain.on(RENDERER_LOADED, async () => {
     app.isDefaultProtocolClient('http'),
   )
 
-  updateChecker()
+  updateChecker(true)
 })
 
 interface BrowserSelectedEventArgs {
