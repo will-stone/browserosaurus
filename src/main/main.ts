@@ -1,6 +1,5 @@
 import {
   app,
-  autoUpdater,
   BrowserWindow,
   ipcMain,
   Menu,
@@ -8,13 +7,11 @@ import {
   screen,
   Tray,
 } from 'electron'
-import isDev from 'electron-is-dev'
 import Store from 'electron-store'
 import execa from 'execa'
 import fs from 'fs'
 import os from 'os'
 
-import pkg from '../../package.json'
 import { BrowserName, browsers } from '../config/browsers'
 import {
   BROWSER_RUN,
@@ -236,47 +233,6 @@ app.on('ready', async () => {
   if (urlToOpen) {
     // if Browserosaurus was opened with a link, this will now be sent on to the picker window.
     urlRecevied(urlToOpen)
-  }
-
-  // Auto update on production
-  if (!isDev) {
-    const feedURL = `https://update.electronjs.org/will-stone/browserosaurus/darwin-x64/${app.getVersion()}`
-
-    autoUpdater.setFeedURL({
-      url: feedURL,
-      headers: {
-        'User-Agent': `${pkg.name}/${pkg.version} (darwin: x64)`,
-      },
-    })
-
-    autoUpdater.on('update-downloaded', () => {
-      tray.setImage(`${__dirname}/static/icon/tray_iconBlue.png`)
-
-      contextMenu[2] = {
-        label: 'Install Update',
-        click: () => autoUpdater.quitAndInstall(),
-      }
-
-      // reapply tray menu
-      tray.setContextMenu(Menu.buildFromTemplate(contextMenu))
-    })
-
-    autoUpdater.on('before-quit-for-update', () => {
-      // All windows must be closed before an update can be applied using "restart".
-      pickerWindow.destroy()
-    })
-
-    autoUpdater.on('error', (err) => {
-      // eslint-disable-next-line no-console
-      console.log('updater error', err)
-    })
-
-    // check for updates right away and keep checking later
-    const TEN_MINS = 600000
-    autoUpdater.checkForUpdates()
-    setInterval(() => {
-      autoUpdater.checkForUpdates()
-    }, TEN_MINS)
   }
 
   appReady = true
