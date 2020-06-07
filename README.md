@@ -1,7 +1,6 @@
-<div style="text-align: center;">
-  <img src="./docs/icon_squooshed.png" alt="logo" width="100" height="100" />
-  <h1 style="margin-top: 0;">Browserosaurus</h1>
-</div>
+<img src="./docs/icon_squooshed.png" alt="logo" width="100" height="100" style="float:right;" />
+
+<h1>Browserosaurus</h1>
 
 If you enjoy using Browserosaurus, please consider supporting its continued
 development.
