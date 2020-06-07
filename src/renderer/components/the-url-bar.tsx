@@ -44,11 +44,8 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
             <div className="truncate">
               <span>{parsedUrl.protocol}</span>
               {parsedUrl.slashes && '//'}
-              <span className="text-grey-200 text-base">
-                {parsedUrl.hostname}
-              </span>
+              <span className="text-grey-200 text-base">{parsedUrl.host}</span>
               <span>
-                {parsedUrl.port && `:${parsedUrl.port}`}
                 {parsedUrl.pathname}
                 {parsedUrl.search}
                 {parsedUrl.hash}

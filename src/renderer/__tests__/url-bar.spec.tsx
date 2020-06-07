@@ -19,10 +19,16 @@ const multiElementText = (text: string) => (_: string, node: HTMLElement) => {
 test('url bar', () => {
   render(<TheApp />)
   const win = new electron.remote.BrowserWindow()
-  const url = 'http://example.com'
+  const protocol = 'http:'
+  const host = 'example.com:8000'
+  const rest = '/foo?bar=moo'
+  const url = `${protocol}//${host}${rest}`
   act(() => {
     win.webContents.send(URL_UPDATED, url)
   })
   expect(screen.getByText(multiElementText(url))).toBeVisible()
   expect(screen.queryByText('https://blah.com')).not.toBeInTheDocument()
+  expect(screen.getByText(protocol)).not.toHaveClass('text-base')
+  expect(screen.getByText(host)).toHaveClass('text-base')
+  expect(screen.getByText(rest)).not.toHaveClass('text-base')
 })
