@@ -7,7 +7,6 @@ import { copyUrl } from '../sendToMain'
 import { urlSelector } from '../state'
 import { DarkButton } from './button'
 import Kbd from './kbd'
-import ProtocolIcon from './protocol-icon'
 
 interface Props {
   className?: string
@@ -33,7 +32,7 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
           { 'border-b-2': isUpdateUrl },
           { 'border-grey-900': !isUpdateUrl },
           { 'border-blue-500': isUpdateUrl },
-          'text-xs tracking-wider font-medium text-grey-400',
+          'text-xs tracking-wider font-bold text-grey-400',
           'h-10 pr-2',
           'flex items-center justify-between',
           'overflow-hidden',
@@ -41,13 +40,11 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
         ])}
       >
         <div className="flex items-center space-x-2 truncate">
-          <ProtocolIcon
-            className="flex-shrink-0"
-            urlProtocol={parsedUrl?.protocol}
-          />
           {parsedUrl ? (
             <div className="truncate">
-              <span className="font-bold text-grey-200 text-sm">
+              <span>{parsedUrl.protocol}</span>
+              {parsedUrl.slashes && '//'}
+              <span className="text-grey-200 text-base">
                 {parsedUrl.hostname}
               </span>
               <span>
