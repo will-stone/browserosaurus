@@ -33,7 +33,7 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
           { 'border-grey-900': !isUpdateUrl },
           { 'border-blue-500': isUpdateUrl },
           'text-xs tracking-wider font-bold text-grey-400',
-          'h-10 pr-2',
+          'h-10',
           'flex items-center justify-between',
           'overflow-hidden',
           'cursor-default',
