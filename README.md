@@ -48,15 +48,7 @@ Run Browserosaurus in dev mode:
 yarn start
 ```
 
-Prepare for publishing:
-
-```
-yarn package
-yarn notarize
-yarn make
-```
-
-### Finding bundle identifier (`appId`) for an app
+### Finding bundle identifier for an app
 
 ```sh
 mdls -name kMDItemCFBundleIdentifier -r /Applications/Firefox.app
@@ -70,5 +62,17 @@ https://github.com/alrra/browser-logos
 
 ### Make icon.icns
 
-To build an icns file from `src/images/icon/icon.png`, simply run
+To build an icns file (app icon) from `src/images/icon/icon.png`, simply run
 `yarn run icns`.
+
+## Publishing
+
+App is published on GitHub, the following command will prompt to bump version
+number, package, notarize, and make installers:
+
+```
+yarn release
+```
+
+The dmg and zip files can then be added to a GitHub release. **Remember to bump
+the docs (website) version number too.**
