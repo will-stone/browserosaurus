@@ -16,7 +16,7 @@
   "author": "Will Stone",
   "main": ".webpack/main",
   "scripts": {
-    "docs": "http-server ./docs",
+    "docs": "npx http-server ./docs",
     "icns": "cd ./src/images/icon && ./scripts/png2icns.sh icon.png",
     "lint": "eslint . --ignore-path .gitignore",
     "list-browsers": "ts-node ./scripts/listInstalledBrowsers",
@@ -217,7 +217,6 @@
     "electron": "^8.0.0",
     "eslint": "^7.2.0",
     "fork-ts-checker-webpack-plugin": "^4.1.2",
-    "http-server": "^0.12.1",
     "husky": "^4.2.5",
     "jest": "^25.1.0",
     "lint-staged": "^10.2.2",
