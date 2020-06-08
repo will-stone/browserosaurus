@@ -1,6 +1,6 @@
 {
   "name": "browserosaurus",
-  "version": "10.4.1",
+  "version": "10.4.2",
   "description": "The browser prompter for macOS",
   "keywords": [
     "macOS",
@@ -25,6 +25,7 @@
     "notarize": "export $(cat .env | xargs) && ts-node ./scripts/notarize.ts",
     "prepackage": "rimraf ./out/",
     "package": "electron-forge package --platform=darwin --arch=x64",
+    "release": "yarn version && yarn package && yarn notarize && yarn make",
     "start": "ENV=DEV ELECTRON_DISABLE_SECURITY_WARNINGS=true electron-forge start",
     "test": "jest",
     "typecheck": "tsc --noEmit --skipLibCheck"
