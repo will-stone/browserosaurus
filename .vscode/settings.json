@@ -1,4 +1,6 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "eslint.enable": true
+  "eslint.enable": true,
+  "spellright.language": ["en_GB"],
+  "spellright.documentTypes": ["markdown", "latex", "plaintext", "html"]
 }
