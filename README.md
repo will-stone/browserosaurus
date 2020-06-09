@@ -5,8 +5,6 @@
 If you enjoy using Browserosaurus, please consider supporting its continued
 development.
 
-[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Z8Z7V0KF)
-
 Browserosaurus is an open-source (MIT license), Electron-based browser prompter
 for macOS. It works by setting itself as the default browser; any clicked links
 in non-browser apps are now sent to Browserosaurus where it’ll present you with
