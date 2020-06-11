@@ -232,7 +232,7 @@
     "rimraf": "^3.0.2",
     "style-loader": "^0.23.1",
     "ts-loader": "^6.2.2",
-    "ts-node": "^8.8.1",
+    "ts-node": "^8.10.2",
     "typescript": "^3.9.5",
     "url-loader": "^3.0.0",
     "webpack": "^4.42.1"

@@ -5,6 +5,7 @@ import React, { useCallback } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { Browser } from '../../config/browsers'
+import { logos } from '../../config/logos'
 import { getHotkeyByBrowserId } from '../../utils/getHotkeyByBrowserId'
 import { selectBrowser } from '../sendToMain'
 import { favBrowserIdAtom, hotkeysAtom, urlSelector } from '../state'
@@ -60,7 +61,7 @@ const BrowserButton: React.FC<Props> = ({ browser }) => {
       onClick={handleClick}
     >
       <div className="flex justify-between items-start">
-        <img alt={browser.name} className="w-10 h-10" src={browser.logo} />
+        <img alt={browser.name} className="w-10 h-10" src={logos[browser.id]} />
         <div className="flex flex-col items-end space-y-1">
           {isFav && (
             <Kbd className="space-x-1">
