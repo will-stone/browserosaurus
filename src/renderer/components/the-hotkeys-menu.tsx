@@ -48,8 +48,11 @@ const TheHotkeysMenu: React.FC = () => {
 
   return (
     <div
-      className="absolute bg-grey-800 rounded overflow-y-auto overflow-x-hidden border border-grey-600 shadow-xl z-30"
-      style={{ top: '8px', right: '8px', bottom: '50px', left: '8px' }}
+      className={cc([
+        'absolute bg-grey-800 rounded overflow-y-auto overflow-x-hidden border border-grey-600 shadow-xl z-30',
+        'animate__animated animate__fadeInUp animate__faster',
+      ])}
+      style={{ top: '8px', right: '8px', bottom: '60px', left: '8px' }}
     >
       <div className="p-4">
         <div className="mb-4 flex items-center justify-between">

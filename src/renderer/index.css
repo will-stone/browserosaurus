@@ -1,6 +1,15 @@
+@import 'animate.css/animate.css';
+
+/* purgecss start ignore */
 @tailwind base;
 @tailwind components;
+/* purgecss end ignore */
 @tailwind utilities;
+
+/* purgecss start ignore */
+:root {
+  --animate-duration: 0.5s;
+}
 
 ::-webkit-scrollbar {
   background-color: transparent;
@@ -11,3 +20,4 @@
 ::-webkit-scrollbar-thumb {
   background: #a9b2c3;
 }
+/* purgecss end ignore */

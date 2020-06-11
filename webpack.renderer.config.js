@@ -6,6 +6,8 @@ module.exports = {
   module: {
     rules,
   },
+  // Do not create source maps
+  devtool: false,
   plugins: [
     new ForkTsCheckerWebpackPlugin(),
     new MiniCssExtractPlugin({
