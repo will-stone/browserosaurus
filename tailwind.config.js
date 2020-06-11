@@ -1,6 +1,7 @@
 const plugin = require('tailwindcss/plugin')
 
 module.exports = {
+  purge: ['./src/**/*.html', './src/**/*.tsx'],
   theme: {
     fontSize: {
       xxs: '.6rem',
