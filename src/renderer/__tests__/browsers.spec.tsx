@@ -15,8 +15,8 @@ test('browsers', () => {
   const win = new electron.remote.BrowserWindow()
   act(() => {
     win.webContents.send(BROWSERS_SCANNED, [
-      { name: 'Firefox', id: 'org.mozilla.firefox', logo: 'firefox' },
-      { name: 'Safari', id: 'com.apple.Safari', logo: 'safari' },
+      { name: 'Firefox', id: 'org.mozilla.firefox' },
+      { name: 'Safari', id: 'com.apple.Safari' },
     ])
   })
   expect(screen.getByAltText('Safari')).toBeVisible()
