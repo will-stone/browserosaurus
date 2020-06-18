@@ -22,6 +22,10 @@ export const browsers: Browser[] = [
     id: 'org.chromium.Chromium',
   },
   {
+    name: 'Dissenter',
+    id: 'com.gab.Dissenter',
+  },
+  {
     name: 'Firefox',
     id: 'org.mozilla.firefox',
   },
