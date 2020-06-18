@@ -172,7 +172,7 @@
     "animate.css": "^4.1.0",
     "classcat": "^4.0.2",
     "electron-is-dev": "^1.1.0",
-    "electron-notarize": "^0.2.0",
+    "electron-notarize": "^1.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^5.1.1",
     "execa": "^4.0.0",
