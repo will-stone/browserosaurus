@@ -26,6 +26,7 @@ import vivaldi from '@browser-logos/vivaldi/vivaldi.svg'
 import yandex from '@browser-logos/yandex/yandex_256x256.png'
 
 import min from './min_256x256.png'
+import naverWhale from './NAVER_whale_256x256.png'
 import pocket from './pocket.png'
 import polypane from './polypane_256x256.png'
 import waterfox from './waterfox_256x256.png'
@@ -61,4 +62,5 @@ export const logos: { [key: string]: string } = {
   'com.vivaldi.Vivaldi.snapshot': vivaldiSnapshot,
   'net.waterfox.waterfoxcurrent': waterfox,
   'ru.yandex.desktop.yandex-browser': yandex,
+  'com.naver.Whale': naverWhale,
 }

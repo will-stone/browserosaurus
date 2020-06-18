@@ -70,6 +70,10 @@ export const browsers: Browser[] = [
     id: 'com.electron.min',
   },
   {
+    name: 'NAVER Whale',
+    id: 'com.naver.Whale',
+  },
+  {
     name: 'Opera',
     id: 'com.operasoftware.Opera',
   },
