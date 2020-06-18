@@ -119,6 +119,10 @@ export const browsers: Browser[] = [
     id: 'com.vivaldi.Vivaldi.snapshot',
   },
   {
+    name: 'Waterfox',
+    id: 'net.waterfox.waterfoxcurrent',
+  },
+  {
     name: 'Yandex',
     id: 'ru.yandex.desktop.yandex-browser',
   },
