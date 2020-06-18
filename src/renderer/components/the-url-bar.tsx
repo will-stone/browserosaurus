@@ -1,8 +1,9 @@
 import cc from 'classcat'
 import React, { useCallback } from 'react'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 import Url from 'url'
 
+import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 import { copyUrl } from '../sendToMain'
 import { urlSelector } from '../state'
 import { DarkButton } from './button'
@@ -13,7 +14,7 @@ interface Props {
 }
 
 const TheUrlBar: React.FC<Props> = ({ className }) => {
-  const url = useRecoilValue(urlSelector)
+  const [url, setUrl] = useRecoilState(urlSelector)
 
   const parsedUrl = url ? Url.parse(url) : undefined
 
@@ -22,6 +23,10 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
   }, [url])
 
   const isUpdateUrl = parsedUrl?.hostname === 'browserosaurus.com'
+
+  const handleBackspaceButtonClick = useCallback(() => {
+    setUrl(backspaceUrlParse(url))
+  }, [url, setUrl])
 
   return (
     <div className={cc([className, 'flex items-center space-x-4'])}>
@@ -39,22 +44,34 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
           'cursor-default',
         ])}
       >
-        <div className="flex items-center space-x-2 truncate">
-          {parsedUrl ? (
-            <div className="truncate">
-              <span>{parsedUrl.protocol}</span>
-              {parsedUrl.slashes && '//'}
-              <span className="text-grey-200 text-base">{parsedUrl.host}</span>
-              <span>
-                {parsedUrl.pathname}
-                {parsedUrl.search}
-                {parsedUrl.hash}
-              </span>
-            </div>
-          ) : (
-            <span>Most recently clicked link will show here</span>
-          )}
-        </div>
+        {parsedUrl ? (
+          <div className="truncate">
+            <span>{parsedUrl.protocol}</span>
+            {parsedUrl.slashes && '//'}
+            <span className="text-grey-200 text-base">{parsedUrl.host}</span>
+            <span>
+              {parsedUrl.pathname}
+              {parsedUrl.search}
+              {parsedUrl.hash}
+            </span>
+          </div>
+        ) : (
+          <span className="text-grey-500">
+            Most recently clicked link will show here
+          </span>
+        )}
+
+        <button
+          className={cc([
+            'cursor-default text-base focus:outline-none',
+            { 'text-grey-200': parsedUrl },
+            { 'text-grey-500': !parsedUrl },
+          ])}
+          onClick={handleBackspaceButtonClick}
+          type="button"
+        >
+          ⌫
+        </button>
       </div>
 
       <DarkButton disabled={!parsedUrl} onClick={handleCopyClick}>

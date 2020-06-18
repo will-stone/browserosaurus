@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
+import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 import { copyUrl, escapePressed, selectBrowser } from '../sendToMain'
 import {
   areHotKeysEnabledAtom,
@@ -15,7 +16,7 @@ import Noop from './noop'
 const TheKeyboardListeners: React.FC = () => {
   const [openMenu, setOpenMenu] = useRecoilState(openMenuSelector)
   const favBrowserId = useRecoilValue(favBrowserIdAtom)
-  const url = useRecoilValue(urlSelector)
+  const [url, setUrl] = useRecoilState(urlSelector)
   const browsers = useRecoilValue(browsersAtom)
   const areHotKeysEnabled = useRecoilValue(areHotKeysEnabledAtom)
   const hotkeys = useRecoilValue(hotkeysAtom)
@@ -37,6 +38,13 @@ const TheKeyboardListeners: React.FC = () => {
       // Bail out if hotkeys are disabled
       if (!areHotKeysEnabled) {
         return
+      }
+
+      const isBackspace = event.key === 'Backspace'
+
+      if (isBackspace) {
+        event.preventDefault()
+        setUrl(backspaceUrlParse(url))
       }
 
       const isCopy = event.key.toLowerCase() === 'c' && event.metaKey
@@ -71,6 +79,7 @@ const TheKeyboardListeners: React.FC = () => {
     }
   }, [
     url,
+    setUrl,
     browsers,
     favBrowserId,
     openMenu,
