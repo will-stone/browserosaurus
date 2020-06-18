@@ -2135,13 +2135,6 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@types/recoil@^0.0.0":
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/@types/recoil/-/recoil-0.0.0.tgz#1a77a5d50d6a398b7b16b4464e516761efcbab8d"
-  integrity sha512-i00Sidw/UDe6jxCJrY5HotFfKIMIbKHGf5chJw7AsxdHe7G8m/ot71AcnbLOS1rLTtnXnENQcf8upKYsGJNvyA==
-  dependencies:
-    "@types/react" "*"
-
 "@types/semver@^7.2.0":
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/@types/semver/-/semver-7.2.0.tgz#0d72066965e910531e1db4621c15d0ca36b8d83b"
@@ -9711,10 +9704,10 @@ realpath-native@^1.1.0:
   dependencies:
     util.promisify "^1.0.0"
 
-recoil@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/recoil/-/recoil-0.0.8.tgz#b24eb00fb8bfcbefb68836dc5ebc93cf884ed0f4"
-  integrity sha512-lfIH6y9A0wQ6piucwWFZfpp9KNQ+mFdTPFPFL0m0sRCrfsuwz3lyVaaofHY6/O4BXekDoXyjYodPBgCSdw9HCw==
+recoil@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/recoil/-/recoil-0.0.9.tgz#e595e031b935753f156310551b6b8192a7791d9d"
+  integrity sha512-PZUIj0abcKYcwBznxnTdb4oQqR9hUSa0djoxLuSxE20zU6CXqsMQLLTXxCZHIA8q6TmO1BrCq2BPeCdqtm5Hug==
 
 redent@^1.0.0:
   version "1.0.0"

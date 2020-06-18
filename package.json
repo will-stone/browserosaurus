@@ -178,7 +178,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-split-pane": "^0.1.91",
-    "recoil": "^0.0.8",
+    "recoil": "^0.0.9",
     "semver": "^7.3.2",
     "tailwindcss": "^1.4.5"
   },
@@ -203,7 +203,6 @@
     "@types/node-fetch": "^2.5.7",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
-    "@types/recoil": "^0.0.0",
     "@types/semver": "^7.2.0",
     "@will-stone/eslint-config": "^1.13.0",
     "@will-stone/prettier-config": "^3.1.0",
