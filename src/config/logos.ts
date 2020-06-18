@@ -15,6 +15,7 @@ import iridium from '@browser-logos/iridium/iridium.svg'
 import maxthon from '@browser-logos/maxthon/maxthon_256x256.png'
 import operaBeta from '@browser-logos/opera-beta/opera-beta_256x256.png'
 import operaDeveloper from '@browser-logos/opera-developer/opera-developer_256x256.png'
+import operaGX from '@browser-logos/opera-gx/opera-gx.svg'
 import opera from '@browser-logos/opera/opera.svg'
 import qutebrowser from '@browser-logos/qutebrowser/qutebrowser.svg'
 import safariTechnologyPreview from '@browser-logos/safari-technology-preview/safari-technology-preview_256x256.png'
@@ -46,6 +47,7 @@ export const logos: { [key: string]: string } = {
   'com.microsoft.edgemac.Dev': edgeDev,
   'com.electron.min': min,
   'com.operasoftware.Opera': opera,
+  'com.operasoftware.OperaGX': operaGX,
   'com.operasoftware.OperaNext': operaBeta,
   'com.operasoftware.OperaDeveloper': operaDeveloper,
   'com.readitlater.PocketMac': pocket,

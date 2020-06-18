@@ -82,6 +82,10 @@ export const browsers: Browser[] = [
     id: 'com.operasoftware.OperaDeveloper',
   },
   {
+    name: 'Opera GX',
+    id: 'com.operasoftware.OperaGX',
+  },
+  {
     name: 'Pocket',
     id: 'com.readitlater.PocketMac',
     urlTemplate: 'pocket://add?url={{URL}}',
