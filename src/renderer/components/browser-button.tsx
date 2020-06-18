@@ -19,19 +19,11 @@ import Kbd from './kbd'
 const getNameSize = (name: string): string => {
   const numberWords = name.split(' ').length
 
-  if (numberWords >= 3) {
+  if (numberWords >= 3 || name.length > 10) {
     return 'text-xs'
   }
 
-  if (numberWords === 2) {
-    return 'text-sm'
-  }
-
-  if (name.length > 10) {
-    return 'text-sm'
-  }
-
-  return 'text-base'
+  return 'text-sm'
 }
 
 interface Props {

@@ -159,6 +159,7 @@
     "@browser-logos/safari-technology-preview": "^1.0.7",
     "@browser-logos/tor": "^2.0.2",
     "@browser-logos/vivaldi": "^2.1.7",
+    "@browser-logos/vivaldi-snapshot": "^1.0.5",
     "@browser-logos/yandex": "^1.0.6",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",

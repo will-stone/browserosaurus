@@ -111,6 +111,10 @@ export const browsers: Browser[] = [
     id: 'com.vivaldi.Vivaldi',
   },
   {
+    name: 'Vivaldi Snapshot',
+    id: 'com.vivaldi.Vivaldi.snapshot',
+  },
+  {
     name: 'Yandex',
     id: 'ru.yandex.desktop.yandex-browser',
   },

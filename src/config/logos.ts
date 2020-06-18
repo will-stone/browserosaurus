@@ -20,6 +20,7 @@ import qutebrowser from '@browser-logos/qutebrowser/qutebrowser.svg'
 import safariTechnologyPreview from '@browser-logos/safari-technology-preview/safari-technology-preview_256x256.png'
 import safari from '@browser-logos/safari/safari_256x256.png'
 import tor from '@browser-logos/tor/tor_256x256.png'
+import vivaldiSnapshot from '@browser-logos/vivaldi-snapshot/vivaldi-snapshot_256x256.png'
 import vivaldi from '@browser-logos/vivaldi/vivaldi.svg'
 import yandex from '@browser-logos/yandex/yandex_256x256.png'
 
@@ -54,5 +55,6 @@ export const logos: { [key: string]: string } = {
   'com.apple.SafariTechnologyPreview': safariTechnologyPreview,
   'org.torproject.torbrowser': tor,
   'com.vivaldi.Vivaldi': vivaldi,
+  'com.vivaldi.Vivaldi.snapshot': vivaldiSnapshot,
   'ru.yandex.desktop.yandex-browser': yandex,
 }

@@ -1241,6 +1241,11 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/tor/-/tor-2.0.2.tgz#9d2b42afd1d9e048f49cc739e8dad04a6e243f08"
   integrity sha512-XGkwfqKMmlAucJwkD6H3OIR9WOAtQxW+/Pzh+VmxLIt01krplR8pjrslpOv+QY5Ty4mkxOkjyJ2uOtp55w91LQ==
 
+"@browser-logos/vivaldi-snapshot@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@browser-logos/vivaldi-snapshot/-/vivaldi-snapshot-1.0.5.tgz#cbf19426c91ee90a04c0ab2de1c7f4cb7e3cb0d9"
+  integrity sha512-W4uTWrSkw72zENILC+geLV89TCjn/WXzLU3HSHxzIQYRpMizpf4H4tgAcZmz95KkU51SquyrNrvqTQTy8ZuHSA==
+
 "@browser-logos/vivaldi@^2.1.7":
   version "2.1.7"
   resolved "https://registry.yarnpkg.com/@browser-logos/vivaldi/-/vivaldi-2.1.7.tgz#3348dc1fd68fa967fd9c82dff92a6892fc1d37fb"
