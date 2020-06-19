@@ -2186,10 +2186,10 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
-"@will-stone/eslint-config@^1.13.0":
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/@will-stone/eslint-config/-/eslint-config-1.13.1.tgz#99e457e19f1bf6f008375e8f7ee3155802f9fc5d"
-  integrity sha512-bs7Q0qf0RDwrBIBmqyuNDOqgnMXHp3lwLT4eXwkZMO0TKT5cUxXAW7OtWQ0YszhGQ/WJzOsYxp21EsI3vQiUUQ==
+"@will-stone/eslint-config@^1.13.2":
+  version "1.13.2"
+  resolved "https://registry.yarnpkg.com/@will-stone/eslint-config/-/eslint-config-1.13.2.tgz#f794a226b26e75d1e97ee30bd61d12e9ca3c0bf6"
+  integrity sha512-zzHGXhn2wU+zrMhroymfATpMYkbn+WmI2J9pOanBBtGNVAYfTQCSRwAOPFcvWBzohRRsc1yn3+LcAJRulXSV7A==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^3.2.0"
     "@typescript-eslint/parser" "^3.2.0"
@@ -2197,7 +2197,7 @@
     eslint-config-prettier "^6.11.0"
     eslint-plugin-import "^2.21.2"
     eslint-plugin-jest "^23.13.2"
-    eslint-plugin-jsx-a11y "^6.2.3"
+    eslint-plugin-jsx-a11y "^6.3.0"
     eslint-plugin-node "^11.1.0"
     eslint-plugin-prettier "^3.1.3"
     eslint-plugin-react "^7.20.0"
@@ -4519,7 +4519,7 @@ eslint-plugin-jest@^23.13.2:
   dependencies:
     "@typescript-eslint/experimental-utils" "^2.5.0"
 
-eslint-plugin-jsx-a11y@^6.2.3:
+eslint-plugin-jsx-a11y@^6.3.0:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-jsx-a11y/-/eslint-plugin-jsx-a11y-6.3.0.tgz#f6dc42b0a34fd38973b7f8888cb55ac7dab34984"
   integrity sha512-tHSWX2jXlAaiI45YuEPi3KXJ7MihvQWUZMR9UNB4bUVYvAamwr6AwCm5dgOZOV2rC2qVMjBtjNshBE46n4IG6w==
