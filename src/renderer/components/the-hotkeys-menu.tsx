@@ -4,44 +4,49 @@ import cc from 'classcat'
 import React, { useCallback } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
+import { Hotkeys } from '../../main/store'
 import { getHotkeyByBrowserId } from '../../utils/getHotkeyByBrowserId'
-import { updateHotkeys } from '../sendToMain'
-import { browsersAtom, hotkeysAtom } from '../state'
+import { browsersAtom, hotkeysSelector } from '../state'
 
 function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
   event.target.select()
 }
 
+// Update a hotkeys object based on incoming browser ID and hotkey combo
+const alterHotkey = (browserId: string, hotkey: string) => (
+  hotkeys: Hotkeys,
+) => {
+  // Do not alter original hotkeys object
+  const hotkeysCopy = { ...hotkeys }
+  // Find the previous key for this browser
+  const oldKey = getHotkeyByBrowserId(hotkeysCopy, browserId)
+  // If the new hotkey is empty, it's a deletion and so remove the current entry
+  if (!hotkey) {
+    delete hotkeysCopy[oldKey || '']
+    return hotkeysCopy
+  }
+
+  // If the new key is allowed, delete the previous entry and add new entry
+  const matchAlphaNumeric = hotkey.match(/^([A-Za-z0-9])$/u)
+  if (matchAlphaNumeric) {
+    delete hotkeysCopy[oldKey || '']
+    return { ...hotkeysCopy, [hotkey]: browserId }
+  }
+
+  // Else change nothing and return the original
+  return hotkeys
+}
+
 const TheHotkeysMenu: React.FC = () => {
   const browsers = useRecoilValue(browsersAtom)
-  const [hotkeys, setHotkeys] = useRecoilState(hotkeysAtom)
+  const [hotkeys, setHotkeys] = useRecoilState(hotkeysSelector)
 
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const browserId = event.currentTarget.name
       const key = event.currentTarget.value.toLowerCase()
 
-      // Delete key
-      if (!key) {
-        setHotkeys((currentHotkeys) => {
-          const currentHotkeysCopy = { ...currentHotkeys }
-          const oldKey = getHotkeyByBrowserId(currentHotkeysCopy, browserId)
-          delete currentHotkeysCopy[oldKey || '']
-          updateHotkeys(currentHotkeysCopy)
-          return currentHotkeysCopy
-        })
-        return
-      }
-
-      const matchAlphaNumeric = key.match(/^([A-Za-z0-9])$/u)
-
-      if (matchAlphaNumeric) {
-        setHotkeys((currentHotkeys) => {
-          const updatedHotkeys = { ...currentHotkeys, [key]: browserId }
-          updateHotkeys(updatedHotkeys)
-          return updatedHotkeys
-        })
-      }
+      setHotkeys(alterHotkey(browserId, key))
     },
     [setHotkeys],
   )

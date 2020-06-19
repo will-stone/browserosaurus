@@ -1,7 +1,8 @@
-import { atom, selector } from 'recoil'
+import { atom, DefaultValue, selector } from 'recoil'
 
 import { Browser } from '../config/browsers'
 import { Hotkeys } from '../main/store'
+import { updateFav, updateHotkeys } from './sendToMain'
 
 /**
  * -----------------------------------------------------------------------------
@@ -98,5 +99,37 @@ export const urlSelector = selector<string | undefined>({
   set: ({ set }, url) => {
     set(openMenuSelector, false)
     set(urlAtom, url)
+  },
+})
+
+/**
+ * Hotkeys Selector
+ */
+export const hotkeysSelector = selector<Hotkeys>({
+  key: 'hotkeysSelector',
+  get: ({ get }) => {
+    return get(hotkeysAtom)
+  },
+  set: ({ set }, hotkeys) => {
+    if (!(hotkeys instanceof DefaultValue)) {
+      updateHotkeys(hotkeys)
+      set(hotkeysAtom, hotkeys)
+    }
+  },
+})
+
+/**
+ * Fav Browser ID Selector
+ */
+export const favBrowserIdSelector = selector<string>({
+  key: 'favBrowserIdSelector',
+  get: ({ get }) => {
+    return get(favBrowserIdAtom)
+  },
+  set: ({ set }, browserId) => {
+    if (!(browserId instanceof DefaultValue)) {
+      updateFav(browserId)
+      set(favBrowserIdAtom, browserId)
+    }
   },
 })

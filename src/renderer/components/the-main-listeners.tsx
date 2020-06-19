@@ -16,8 +16,8 @@ import { Hotkeys } from '../../main/store'
 import { RENDERER_LOADED } from '../events'
 import {
   browsersAtom,
-  favBrowserIdAtom,
-  hotkeysAtom,
+  favBrowserIdSelector,
+  hotkeysSelector,
   isDefaultBrowserAtom,
   updateAvailableAtom,
   urlSelector,
@@ -29,10 +29,10 @@ const TheMainListeners: React.FC = () => {
   const setUrl = useSetRecoilState(urlSelector)
   const setBrowsersState = useSetRecoilState(browsersAtom)
   const setVersion = useSetRecoilState(versionAtom)
-  const setFavBrowserId = useSetRecoilState(favBrowserIdAtom)
+  const setFavBrowserId = useSetRecoilState(favBrowserIdSelector)
   const setUpdateAvailable = useSetRecoilState(updateAvailableAtom)
   const setIsDefaultBrowser = useSetRecoilState(isDefaultBrowserAtom)
-  const setHotkeys = useSetRecoilState(hotkeysAtom)
+  const setHotkeys = useSetRecoilState(hotkeysSelector)
 
   useEffect(() => {
     /**

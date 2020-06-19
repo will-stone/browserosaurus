@@ -7,7 +7,7 @@ import {
   BROWSER_SELECTED,
   COPY_TO_CLIPBOARD,
   ESCAPE_PRESSED,
-  FAVOURITE_SELECTED,
+  FAVOURITE_UPDATED,
   HOTKEYS_UPDATED,
   LOGGER,
   QUIT,
@@ -178,11 +178,8 @@ ipcMain.on(ESCAPE_PRESSED, () => {
   app.hide()
 })
 
-ipcMain.on(FAVOURITE_SELECTED, (_, favBrowserId) => {
+ipcMain.on(FAVOURITE_UPDATED, (_, favBrowserId) => {
   store.set('fav', favBrowserId)
-  // TODO should this be here? Maybe deal with this the same as hotkeys
-  // by only sending down value on start and letting renderer keep track of its state?
-  bWindow?.webContents.send(FAVOURITE_CHANGED, favBrowserId)
 })
 
 ipcMain.on(HOTKEYS_UPDATED, (_, hotkeys: Hotkeys) => {

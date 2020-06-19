@@ -6,8 +6,8 @@ import { copyUrl, escapePressed, selectBrowser } from '../sendToMain'
 import {
   areHotKeysEnabledAtom,
   browsersAtom,
-  favBrowserIdAtom,
-  hotkeysAtom,
+  favBrowserIdSelector,
+  hotkeysSelector,
   openMenuSelector,
   urlSelector,
 } from '../state'
@@ -15,11 +15,11 @@ import Noop from './noop'
 
 const TheKeyboardListeners: React.FC = () => {
   const [openMenu, setOpenMenu] = useRecoilState(openMenuSelector)
-  const favBrowserId = useRecoilValue(favBrowserIdAtom)
+  const favBrowserId = useRecoilValue(favBrowserIdSelector)
   const [url, setUrl] = useRecoilState(urlSelector)
   const browsers = useRecoilValue(browsersAtom)
   const areHotKeysEnabled = useRecoilValue(areHotKeysEnabledAtom)
-  const hotkeys = useRecoilValue(hotkeysAtom)
+  const hotkeys = useRecoilValue(hotkeysSelector)
 
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {

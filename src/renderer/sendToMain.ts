@@ -6,7 +6,7 @@ import {
   BROWSER_SELECTED,
   COPY_TO_CLIPBOARD,
   ESCAPE_PRESSED,
-  FAVOURITE_SELECTED,
+  FAVOURITE_UPDATED,
   HOTKEYS_UPDATED,
   LOGGER,
   QUIT,
@@ -28,8 +28,8 @@ export const copyUrl = (url?: string): void => {
   }
 }
 
-export const selectFav = (id: Browser['id']): void =>
-  ipcRenderer.send(FAVOURITE_SELECTED, id)
+export const updateFav = (id: Browser['id']): void =>
+  ipcRenderer.send(FAVOURITE_UPDATED, id)
 
 export const updateHotkeys = (hotkeys: Hotkeys): void =>
   ipcRenderer.send(HOTKEYS_UPDATED, hotkeys)

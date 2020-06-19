@@ -2,16 +2,14 @@ import { faStar } from '@fortawesome/pro-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cc from 'classcat'
 import React, { useCallback } from 'react'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
-import { selectFav } from '../sendToMain'
-import { browsersAtom, favBrowserIdAtom, openMenuSelector } from '../state'
+import { browsersAtom, favBrowserIdSelector } from '../state'
 import Kbd from './kbd'
 
 const TheFavMenu: React.FC = () => {
   const browsers = useRecoilValue(browsersAtom)
-  const favBrowserId = useRecoilValue(favBrowserIdAtom)
-  const setOpenMenu = useSetRecoilState(openMenuSelector)
+  const [favBrowserId, setFavBrowserId] = useRecoilState(favBrowserIdSelector)
 
   const handleFavChange = useCallback(
     (
@@ -19,10 +17,9 @@ const TheFavMenu: React.FC = () => {
         | React.ChangeEvent<HTMLInputElement>
         | React.MouseEvent<HTMLInputElement, MouseEvent>,
     ) => {
-      selectFav(event.currentTarget.value)
-      setOpenMenu(false)
+      setFavBrowserId(event.currentTarget.value)
     },
-    [setOpenMenu],
+    [setFavBrowserId],
   )
 
   return (

@@ -19,7 +19,6 @@ export interface Store {
 
 export const store = new ElectronStore<Store>({
   name: 'store',
-  watch: true,
   // TODO [>=11.0.0] Remove this if not using migrations
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
