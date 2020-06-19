@@ -28,8 +28,8 @@ const openMenuAtom = atom<MenuState>({
   default: false,
 })
 
-export const updateAvailableAtom = atom({
-  key: 'updateAvailableAtom',
+export const isUpdateAvailableAtom = atom<boolean>({
+  key: 'isUpdateAvailableAtom',
   default: false,
 })
 

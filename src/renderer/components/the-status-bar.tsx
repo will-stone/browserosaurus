@@ -6,15 +6,14 @@ import { faSync } from '@fortawesome/pro-solid-svg-icons/faSync'
 import { faTimes } from '@fortawesome/pro-solid-svg-icons/faTimes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cc from 'classcat'
-import { shell } from 'electron'
 import React, { useCallback } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
-import { quit, reload, setAsDefaultBrowser } from '../sendToMain'
+import { quit, reload, setAsDefaultBrowser, updateRestart } from '../sendToMain'
 import {
   isDefaultBrowserAtom,
+  isUpdateAvailableAtom,
   openMenuSelector,
-  updateAvailableAtom,
   versionAtom,
 } from '../state'
 import { LightButton } from './button'
@@ -26,13 +25,8 @@ interface Props {
 const TheStatusBar: React.FC<Props> = ({ className }) => {
   const [openMenu, setOpenMenu] = useRecoilState(openMenuSelector)
   const isDefaultBrowser = useRecoilValue(isDefaultBrowserAtom)
-  const updateAvailable = useRecoilValue(updateAvailableAtom)
+  const isUpdateAvailable = useRecoilValue(isUpdateAvailableAtom)
   const version = useRecoilValue(versionAtom)
-
-  const handleUpdateClick = useCallback(
-    () => shell.openExternal('https://browserosaurus.com'),
-    [],
-  )
 
   const handleFavMenuClick = useCallback(() => {
     setOpenMenu((menu) => (menu === 'fav' ? false : 'fav'))
@@ -86,20 +80,21 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
           {displayedVersion}
         </div>
 
-        {updateAvailable && (
-          <LightButton onClick={handleUpdateClick} tone="primary">
+        {isUpdateAvailable ? (
+          <LightButton onClick={updateRestart} tone="primary">
             <FontAwesomeIcon icon={faGift} />
-            <span>Update Available</span>
+            <span>Update</span>
           </LightButton>
+        ) : (
+          <>
+            <LightButton onClick={reload}>
+              <FontAwesomeIcon fixedWidth icon={faSync} />
+            </LightButton>
+            <LightButton onClick={quit}>
+              <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
+            </LightButton>
+          </>
         )}
-
-        <LightButton onClick={reload}>
-          <FontAwesomeIcon fixedWidth icon={faSync} />
-        </LightButton>
-
-        <LightButton onClick={quit}>
-          <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
-        </LightButton>
       </div>
     </div>
   )

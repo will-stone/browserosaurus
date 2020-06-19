@@ -1,8 +1,9 @@
-import { app, BrowserWindow, ipcMain, Tray } from 'electron'
+import { app, autoUpdater, BrowserWindow, ipcMain, Tray } from 'electron'
 import electronIsDev from 'electron-is-dev'
 import execa from 'execa'
 import path from 'path'
 
+import package_ from '../../package.json'
 import { Browser, browsers } from '../config/browsers'
 import {
   BROWSER_SELECTED,
@@ -15,10 +16,10 @@ import {
   RELOAD,
   RENDERER_LOADED,
   SET_AS_DEFAULT_BROWSER,
+  UPDATE_RESTART,
 } from '../renderer/events'
 import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
-import { checkForUpdate } from '../utils/isUpdateAvailable'
 import { logger } from '../utils/logger'
 import createWindow from './createWindow'
 import {
@@ -27,7 +28,7 @@ import {
   FAVOURITE_CHANGED,
   HOTKEYS_RETRIEVED,
   PROTOCOL_STATUS,
-  UPDATE_STATUS,
+  UPDATE_DOWNLOADED,
   URL_UPDATED,
 } from './events'
 import { Hotkeys, store } from './store'
@@ -60,6 +61,35 @@ app.on('ready', async () => {
   })
 
   store.set('firstRun', false)
+
+  // Auto update on production
+  if (!electronIsDev) {
+    const feedURL = `https://update.electronjs.org/will-stone/browserosaurus/darwin-x64/${app.getVersion()}`
+
+    autoUpdater.setFeedURL({
+      url: feedURL,
+      headers: {
+        'User-Agent': `${package_.name}/${package_.version} (darwin: x64)`,
+      },
+    })
+
+    autoUpdater.on('before-quit-for-update', () => {
+      // All windows must be closed before an update can be applied using "restart".
+      bWindow?.destroy()
+    })
+
+    autoUpdater.on('update-downloaded', () => {
+      bWindow?.webContents.send(UPDATE_DOWNLOADED)
+    })
+
+    // 1000 * 60 * 60 * 24
+    const ONE_DAY_MS = 86400000
+    // Check for updates every day. The first check is done on load: in the
+    // RENDERER_LOADED listener.
+    setInterval(() => {
+      autoUpdater.checkForUpdates()
+    }, ONE_DAY_MS)
+  }
 })
 
 // App doesn't always close on ctrl-c in console, this fixes that
@@ -79,26 +109,9 @@ async function sendUrl(url: string) {
   }
 }
 
-// 1000 * 60 * 60 * 24
-const ONE_DAY_MS = 86400000
-
-async function updateChecker(forceUpdateCheck = false) {
-  const lastUpdateCheck = store.get('lastUpdateCheck') || 0
-  const now = Date.now()
-  const hasNotBeenCheckedRecently = lastUpdateCheck + ONE_DAY_MS < now
-
-  if (forceUpdateCheck || hasNotBeenCheckedRecently) {
-    logger('Main', 'Checking for update')
-    const isUpdateAvailable = await checkForUpdate(app.getVersion())
-    bWindow?.webContents.send(UPDATE_STATUS, isUpdateAvailable)
-    store.set('lastUpdateCheck', now)
-  }
-}
-
 app.on('open-url', (event, url) => {
   event.preventDefault()
   sendUrl(url)
-  updateChecker()
 })
 
 /**
@@ -130,7 +143,7 @@ ipcMain.on(RENDERER_LOADED, async () => {
     app.isDefaultProtocolClient('http'),
   )
 
-  updateChecker(true)
+  autoUpdater.checkForUpdates()
 })
 
 interface BrowserSelectedEventArgs {
@@ -196,6 +209,10 @@ ipcMain.on(SET_AS_DEFAULT_BROWSER, () => {
 
 ipcMain.on(RELOAD, () => {
   bWindow?.reload()
+})
+
+ipcMain.on(UPDATE_RESTART, () => {
+  autoUpdater.quitAndInstall()
 })
 
 ipcMain.on(QUIT, () => {

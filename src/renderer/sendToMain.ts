@@ -12,6 +12,7 @@ import {
   QUIT,
   RELOAD,
   SET_AS_DEFAULT_BROWSER,
+  UPDATE_RESTART,
 } from './events'
 
 export const selectBrowser = (
@@ -38,6 +39,8 @@ export const escapePressed = (): void => ipcRenderer.send(ESCAPE_PRESSED)
 
 export const mainLog = (string: string): void =>
   ipcRenderer.send(LOGGER, string)
+
+export const updateRestart = (): void => ipcRenderer.send(UPDATE_RESTART)
 
 export const quit = (): void => ipcRenderer.send(QUIT)
 

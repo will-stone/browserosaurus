@@ -9,7 +9,7 @@ import {
   FAVOURITE_CHANGED,
   HOTKEYS_RETRIEVED,
   PROTOCOL_STATUS,
-  UPDATE_STATUS,
+  UPDATE_DOWNLOADED,
   URL_UPDATED,
 } from '../../main/events'
 import { Hotkeys } from '../../main/store'
@@ -19,7 +19,7 @@ import {
   favBrowserIdSelector,
   hotkeysSelector,
   isDefaultBrowserAtom,
-  updateAvailableAtom,
+  isUpdateAvailableAtom,
   urlSelector,
   versionAtom,
 } from '../state'
@@ -30,7 +30,7 @@ const TheMainListeners: React.FC = () => {
   const setBrowsersState = useSetRecoilState(browsersAtom)
   const setVersion = useSetRecoilState(versionAtom)
   const setFavBrowserId = useSetRecoilState(favBrowserIdSelector)
-  const setUpdateAvailable = useSetRecoilState(updateAvailableAtom)
+  const setUpdateAvailable = useSetRecoilState(isUpdateAvailableAtom)
   const setIsDefaultBrowser = useSetRecoilState(isDefaultBrowserAtom)
   const setHotkeys = useSetRecoilState(hotkeysSelector)
 
@@ -47,8 +47,8 @@ const TheMainListeners: React.FC = () => {
      * Receive update availability
      * main -> renderer
      */
-    electron.ipcRenderer.on(UPDATE_STATUS, (_: unknown, bool: boolean) => {
-      setUpdateAvailable(bool)
+    electron.ipcRenderer.on(UPDATE_DOWNLOADED, () => {
+      setUpdateAvailable(true)
     })
 
     /**
