@@ -31,9 +31,6 @@ import {
 } from './events'
 import { Hotkeys, store } from './store'
 
-// TODO [electron@>=9] This will be the default in Electron 9, remove once upgraded
-app.allowRendererProcessReuse = true
-
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
 app.commandLine.appendArgument('--enable-features=Metal')
 
