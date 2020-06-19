@@ -41,7 +41,6 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
           'h-10',
           'flex items-center justify-between',
           'overflow-hidden',
-          'cursor-default',
         ])}
       >
         {parsedUrl ? (
@@ -63,7 +62,7 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
 
         <button
           className={cc([
-            'cursor-default text-base focus:outline-none',
+            'text-base focus:outline-none',
             { 'text-grey-200': parsedUrl },
             { 'text-grey-500': !parsedUrl },
           ])}

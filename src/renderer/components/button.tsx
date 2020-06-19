@@ -19,7 +19,6 @@ const BaseButton: React.FC<BaseButtonProps> = ({
         className,
         'border border-grey-900 rounded active:shadow-none focus:outline-none',
         'text-xs font-bold leading-none',
-        'cursor-default',
         { 'shadow-md': !disabled },
       ])}
       disabled={disabled}
