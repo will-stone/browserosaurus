@@ -38,9 +38,9 @@ export const browsersAtom = atom<Browser[]>({
   default: [],
 })
 
-export const versionAtom = atom<string | undefined>({
+export const versionAtom = atom<string>({
   key: 'versionAtom',
-  default: undefined,
+  default: '',
 })
 
 export const favBrowserIdAtom = atom<string>({

@@ -18,6 +18,7 @@ function createWindow(): Promise<BrowserWindow> {
         additionalArguments: [],
         nodeIntegration: true,
         preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+        enableRemoteModule: false,
       },
       height: 249,
       width: 800,

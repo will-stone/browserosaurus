@@ -7,7 +7,6 @@ import { faTimes } from '@fortawesome/pro-solid-svg-icons/faTimes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cc from 'classcat'
 import { shell } from 'electron'
-import electronIsDev from 'electron-is-dev'
 import React, { useCallback } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
@@ -43,9 +42,7 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
     setOpenMenu((menu) => (menu === 'hotkeys' ? false : 'hotkeys'))
   }, [setOpenMenu])
 
-  const displayedVersion = version
-    ? `v${version}${electronIsDev ? ' DEV' : ''}`
-    : ''
+  const displayedVersion = version || ''
 
   return (
     <div

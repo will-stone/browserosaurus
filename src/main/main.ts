@@ -1,4 +1,5 @@
 import { app, BrowserWindow, ipcMain, Tray } from 'electron'
+import electronIsDev from 'electron-is-dev'
 import execa from 'execa'
 import path from 'path'
 
@@ -118,7 +119,10 @@ ipcMain.on(RENDERER_LOADED, async () => {
   bWindow?.webContents.send(HOTKEYS_RETRIEVED, store.get('hotkeys'))
   bWindow?.webContents.send(FAVOURITE_CHANGED, store.get('fav'))
   bWindow?.webContents.send(BROWSERS_SCANNED, installedBrowsers)
-  bWindow?.webContents.send(APP_VERSION, app.getVersion())
+  bWindow?.webContents.send(
+    APP_VERSION,
+    `v${app.getVersion()}${electronIsDev ? ' DEV' : ''}`,
+  )
 
   // Is default browser?
   bWindow?.webContents.send(
