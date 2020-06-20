@@ -26,7 +26,7 @@ const TheSponsorMenu: React.FC = () => {
       <div className="p-4">
         <p className="mb-4 font-medium">
           Maintaining open source projects takes a lot of time. With your
-          support I can continue to maintain projects such as this, which is
+          support I can continue to maintain projects such as this one, which is
           free and always will be.
         </p>
         <LightButton onClick={handleButtonClick} tone="sponsor">
