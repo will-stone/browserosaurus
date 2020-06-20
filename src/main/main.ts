@@ -1,6 +1,6 @@
+import { exec } from 'child_process'
 import { app, autoUpdater, BrowserWindow, ipcMain, Tray } from 'electron'
 import electronIsDev from 'electron-is-dev'
-import execa from 'execa'
 import path from 'path'
 
 import package_ from '../../package.json'
@@ -169,13 +169,14 @@ ipcMain.on(
       : urlString
 
     const openArguments: string[] = [
+      'open',
       processedUrlTemplate,
       '-b',
       browserId,
       isAlt ? '--background' : '',
     ].filter(Boolean)
 
-    execa('open', openArguments)
+    exec(openArguments.join(' '))
 
     bWindow?.hide()
     app.hide()
