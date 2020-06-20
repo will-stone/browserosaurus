@@ -1,4 +1,5 @@
 import { faGift } from '@fortawesome/pro-solid-svg-icons/faGift'
+import { faHeart } from '@fortawesome/pro-solid-svg-icons/faHeart'
 import { faKeyboard } from '@fortawesome/pro-solid-svg-icons/faKeyboard'
 import { faSignOutAlt } from '@fortawesome/pro-solid-svg-icons/faSignOutAlt'
 import { faStar } from '@fortawesome/pro-solid-svg-icons/faStar'
@@ -28,15 +29,18 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
   const isUpdateAvailable = useRecoilValue(isUpdateAvailableAtom)
   const version = useRecoilValue(versionAtom)
 
-  const handleFavMenuClick = useCallback(() => {
-    setOpenMenu((menu) => (menu === 'fav' ? false : 'fav'))
-  }, [setOpenMenu])
-
-  const handleHotKeysMenuClick = useCallback(() => {
-    setOpenMenu((menu) => (menu === 'hotkeys' ? false : 'hotkeys'))
-  }, [setOpenMenu])
-
   const displayedVersion = version || ''
+
+  const handleMenuClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      const { name } = event.currentTarget
+      // TODO turn this into proper type guard
+      if (name === 'sponsor' || name === 'fav' || name === 'hotkeys') {
+        setOpenMenu(name)
+      }
+    },
+    [setOpenMenu],
+  )
 
   return (
     <div
@@ -47,8 +51,9 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
     >
       <div className="flex items-center space-x-2">
         <LightButton
-          className={cc([{ 'z-30': openMenu === 'fav' }])}
-          onClick={handleFavMenuClick}
+          className={cc([{ 'z-20': openMenu === 'fav' }])}
+          name="fav"
+          onClick={handleMenuClick}
         >
           {openMenu === 'fav' ? (
             <FontAwesomeIcon fixedWidth icon={faTimes} />
@@ -58,8 +63,9 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
         </LightButton>
 
         <LightButton
-          className={cc([{ 'z-30': openMenu === 'hotkeys' }])}
-          onClick={handleHotKeysMenuClick}
+          className={cc([{ 'z-20': openMenu === 'hotkeys' }])}
+          name="hotkeys"
+          onClick={handleMenuClick}
         >
           {openMenu === 'hotkeys' ? (
             <FontAwesomeIcon fixedWidth icon={faTimes} />
@@ -79,6 +85,19 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
         <div className="text-xs text-grey-500 text-bold">
           {displayedVersion}
         </div>
+
+        <LightButton
+          className={cc([{ 'z-20': openMenu === 'sponsor' }])}
+          name="sponsor"
+          onClick={handleMenuClick}
+          tone={openMenu === 'sponsor' ? undefined : 'sponsor'}
+        >
+          {openMenu === 'sponsor' ? (
+            <FontAwesomeIcon fixedWidth icon={faTimes} />
+          ) : (
+            <FontAwesomeIcon fixedWidth icon={faHeart} />
+          )}
+        </LightButton>
 
         {isUpdateAvailable ? (
           <LightButton onClick={updateRestart} tone="primary">

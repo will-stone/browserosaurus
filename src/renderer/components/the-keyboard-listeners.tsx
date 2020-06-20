@@ -4,7 +4,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 import { copyUrl, escapePressed, selectBrowser } from '../sendToMain'
 import {
-  areHotKeysEnabledAtom,
+  areHotKeysEnabledSelector,
   browsersAtom,
   favBrowserIdSelector,
   hotkeysSelector,
@@ -18,7 +18,7 @@ const TheKeyboardListeners: React.FC = () => {
   const favBrowserId = useRecoilValue(favBrowserIdSelector)
   const [url, setUrl] = useRecoilState(urlSelector)
   const browsers = useRecoilValue(browsersAtom)
-  const areHotKeysEnabled = useRecoilValue(areHotKeysEnabledAtom)
+  const areHotKeysEnabled = useRecoilValue(areHotKeysEnabledSelector)
   const hotkeys = useRecoilValue(hotkeysSelector)
 
   useEffect(() => {

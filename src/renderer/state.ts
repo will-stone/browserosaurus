@@ -10,7 +10,7 @@ import { updateFav, updateHotkeys } from './sendToMain'
  * -----------------------------------------------------------------------------
  */
 
-export type MenuState = 'fav' | 'hotkeys' | false
+export type MenuState = 'fav' | 'hotkeys' | 'sponsor' | false
 
 /**
  * -----------------------------------------------------------------------------
@@ -43,7 +43,7 @@ export const versionAtom = atom<string>({
   default: '',
 })
 
-export const favBrowserIdAtom = atom<string>({
+const favBrowserIdAtom = atom<string>({
   key: 'favBrowserIdAtom',
   default: '',
 })
@@ -53,12 +53,7 @@ export const isDefaultBrowserAtom = atom<boolean>({
   default: true,
 })
 
-export const areHotKeysEnabledAtom = atom<boolean>({
-  key: 'areHotKeysEnabledAtom',
-  default: true,
-})
-
-export const hotkeysAtom = atom<Hotkeys>({
+const hotkeysAtom = atom<Hotkeys>({
   key: 'hotkeysAtom',
   default: {},
 })
@@ -70,6 +65,21 @@ export const hotkeysAtom = atom<Hotkeys>({
  */
 
 /**
+ * Hotkeys on or off
+ */
+export const areHotKeysEnabledSelector = selector<boolean>({
+  key: 'areHotKeysEnabledSelector',
+  get: ({ get }) => {
+    const menu = get(openMenuAtom)
+    if (menu) {
+      return false
+    }
+
+    return true
+  },
+})
+
+/**
  * Certain menus cause side effects when set
  */
 export const openMenuSelector = selector<MenuState>({
@@ -77,12 +87,11 @@ export const openMenuSelector = selector<MenuState>({
   get: ({ get }) => {
     return get(openMenuAtom)
   },
-  set: ({ set }, menu) => {
-    if (menu === 'hotkeys') {
-      set(areHotKeysEnabledAtom, false)
-      set(openMenuAtom, 'hotkeys')
+  set: ({ set, get }, menu) => {
+    const currentMenu = get(openMenuAtom)
+    if (currentMenu === menu || !menu) {
+      set(openMenuAtom, false)
     } else {
-      set(areHotKeysEnabledAtom, true)
       set(openMenuAtom, menu)
     }
   },
@@ -97,6 +106,7 @@ export const urlSelector = selector<string | undefined>({
     return get(urlAtom)
   },
   set: ({ set }, url) => {
+    // TODO should this be in its own selector? Get vs set other atom state?
     set(openMenuSelector, false)
     set(urlAtom, url)
   },

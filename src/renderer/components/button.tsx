@@ -29,7 +29,7 @@ const BaseButton: React.FC<BaseButtonProps> = ({
 }
 
 interface LightButtonProps extends React.ComponentPropsWithoutRef<'button'> {
-  tone?: 'primary'
+  tone?: 'primary' | 'sponsor'
 }
 
 export const LightButton: React.FC<LightButtonProps> = ({
@@ -45,12 +45,15 @@ export const LightButton: React.FC<LightButtonProps> = ({
         'py-2 px-3',
         'space-x-2',
         {
-          'bg-grey-600 text-blue-400 active:text-blue-300':
-            !disabled && tone === 'primary',
+          'text-blue-400 active:text-blue-300': !disabled && tone === 'primary',
         },
         {
-          'bg-grey-600 text-grey-300 active:text-grey-200': !disabled && !tone,
+          'text-pink-400 active:text-pink-300': !disabled && tone === 'sponsor',
         },
+        {
+          'text-grey-300 active:text-grey-200': !disabled && !tone,
+        },
+        { 'bg-grey-600': !disabled },
         { 'bg-grey-700 text-grey-500': disabled },
       ])}
       disabled={disabled}
