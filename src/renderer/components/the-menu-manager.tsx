@@ -8,9 +8,8 @@ import { useRecoilState } from 'recoil'
 
 import { openMenuSelector } from '../state'
 import Noop from './noop'
-import TheFavMenu from './the-fav-menu'
-import TheHotkeysMenu from './the-hotkeys-menu'
 import TheSponsorMenu from './the-sponsor-menu'
+import TheTilesMenu from './the-tiles-menu'
 
 const TheMenuManager: React.FC = () => {
   const [openMenu, setOpenMenu] = useRecoilState(openMenuSelector)
@@ -21,12 +20,10 @@ const TheMenuManager: React.FC = () => {
 
   let Menu
 
-  if (openMenu === 'fav') {
-    Menu = TheFavMenu
-  } else if (openMenu === 'hotkeys') {
-    Menu = TheHotkeysMenu
-  } else if (openMenu === 'sponsor') {
+  if (openMenu === 'sponsor') {
     Menu = TheSponsorMenu
+  } else if (openMenu === 'tiles') {
+    Menu = TheTilesMenu
   }
 
   if (Menu) {

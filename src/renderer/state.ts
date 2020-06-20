@@ -10,7 +10,7 @@ import { updateFav, updateHotkeys } from './sendToMain'
  * -----------------------------------------------------------------------------
  */
 
-export type MenuState = 'fav' | 'hotkeys' | 'sponsor' | false
+export type MenuState = 'sponsor' | 'tiles' | false
 
 /**
  * -----------------------------------------------------------------------------

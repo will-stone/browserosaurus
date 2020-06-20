@@ -1,8 +1,7 @@
 import { faGift } from '@fortawesome/pro-solid-svg-icons/faGift'
+import { faGripHorizontal } from '@fortawesome/pro-solid-svg-icons/faGripHorizontal'
 import { faHeart } from '@fortawesome/pro-solid-svg-icons/faHeart'
-import { faKeyboard } from '@fortawesome/pro-solid-svg-icons/faKeyboard'
 import { faSignOutAlt } from '@fortawesome/pro-solid-svg-icons/faSignOutAlt'
-import { faStar } from '@fortawesome/pro-solid-svg-icons/faStar'
 import { faSync } from '@fortawesome/pro-solid-svg-icons/faSync'
 import { faTimes } from '@fortawesome/pro-solid-svg-icons/faTimes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -35,7 +34,7 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       const { name } = event.currentTarget
       // TODO turn this into proper type guard
-      if (name === 'sponsor' || name === 'fav' || name === 'hotkeys') {
+      if (name === 'sponsor' || name === 'tiles') {
         setOpenMenu(name)
       }
     },
@@ -51,26 +50,14 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
     >
       <div className="flex items-center space-x-2">
         <LightButton
-          className={cc([{ 'z-20': openMenu === 'fav' }])}
-          name="fav"
+          className={cc([{ 'z-20': openMenu === 'tiles' }])}
+          name="tiles"
           onClick={handleMenuClick}
         >
-          {openMenu === 'fav' ? (
+          {openMenu === 'tiles' ? (
             <FontAwesomeIcon fixedWidth icon={faTimes} />
           ) : (
-            <FontAwesomeIcon fixedWidth icon={faStar} />
-          )}
-        </LightButton>
-
-        <LightButton
-          className={cc([{ 'z-20': openMenu === 'hotkeys' }])}
-          name="hotkeys"
-          onClick={handleMenuClick}
-        >
-          {openMenu === 'hotkeys' ? (
-            <FontAwesomeIcon fixedWidth icon={faTimes} />
-          ) : (
-            <FontAwesomeIcon fixedWidth icon={faKeyboard} />
+            <FontAwesomeIcon fixedWidth icon={faGripHorizontal} />
           )}
         </LightButton>
 
