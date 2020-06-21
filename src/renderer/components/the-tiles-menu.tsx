@@ -11,12 +11,17 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { Hotkeys } from '../../main/store'
 import { calcTileRows } from '../../utils/calcTileRows'
 import { getHotkeyByBrowserId } from '../../utils/getHotkeyByBrowserId'
-import { setRows } from '../sendToMain'
+import {
+  setRows,
+  updateFav,
+  updateHiddenTileIds,
+  updateHotkeys,
+} from '../sendToMain'
 import {
   browsersAtom,
-  favBrowserIdSelector,
-  hiddenTileIdsSelector,
-  hotkeysSelector,
+  favBrowserIdAtom,
+  hiddenTileIdsAtom,
+  hotkeysAtom,
 } from '../state'
 import Kbd from './kbd'
 
@@ -51,25 +56,27 @@ const alterHotkey = (browserId: string, hotkey: string) => (
 
 const TheTilesMenu: React.FC = () => {
   const browsers = useRecoilValue(browsersAtom)
-  const [hotkeys, setHotkeys] = useRecoilState(hotkeysSelector)
-  const [favBrowserId, setFavBrowserId] = useRecoilState(favBrowserIdSelector)
-  const [hiddenTileIds, setHiddenTileIds] = useRecoilState(
-    hiddenTileIdsSelector,
-  )
+  const [hotkeys, setHotkeys] = useRecoilState(hotkeysAtom)
+  const [favBrowserId, setFavBrowserId] = useRecoilState(favBrowserIdAtom)
+  const [hiddenTileIds, setHiddenTileIds] = useRecoilState(hiddenTileIdsAtom)
 
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const browserId = event.currentTarget.name
       const key = event.currentTarget.value.toLowerCase()
 
-      setHotkeys(alterHotkey(browserId, key))
+      const updatedHotkeys = alterHotkey(browserId, key)(hotkeys)
+
+      updateHotkeys(updatedHotkeys)
+      setHotkeys(updatedHotkeys)
     },
-    [setHotkeys],
+    [setHotkeys, hotkeys],
   )
 
   const handleFavClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       setFavBrowserId(event.currentTarget.name)
+      updateFav(event.currentTarget.name)
     },
     [setFavBrowserId],
   )
@@ -87,6 +94,7 @@ const TheTilesMenu: React.FC = () => {
       }
 
       setRows(calcTileRows(browsers, updatedHiddenTileIds))
+      updateHiddenTileIds(updatedHiddenTileIds)
       setHiddenTileIds(updatedHiddenTileIds)
     },
     [setHiddenTileIds, hiddenTileIds, browsers],

@@ -2,12 +2,12 @@ import cc from 'classcat'
 import React from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { browsersAtom, hiddenTileIdsSelector } from '../state'
+import { browsersAtom, hiddenTileIdsAtom } from '../state'
 import BrowserButton from './browser-button'
 
 const TheBrowserButtons: React.FC = () => {
   const browsers = useRecoilValue(browsersAtom)
-  const hiddenTileIds = useRecoilValue(hiddenTileIdsSelector)
+  const hiddenTileIds = useRecoilValue(hiddenTileIdsAtom)
   const visibleBrowsers = browsers.filter((b) => !hiddenTileIds.includes(b.id))
 
   const threeCols = visibleBrowsers.length <= 3 || visibleBrowsers.length === 6

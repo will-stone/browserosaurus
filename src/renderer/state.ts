@@ -1,8 +1,7 @@
-import { atom, DefaultValue, selector } from 'recoil'
+import { atom, selector } from 'recoil'
 
 import { Browser } from '../config/browsers'
 import { Hotkeys } from '../main/store'
-import { updateFav, updateHiddenTileIds, updateHotkeys } from './sendToMain'
 
 /**
  * -----------------------------------------------------------------------------
@@ -43,7 +42,7 @@ export const versionAtom = atom<string>({
   default: '',
 })
 
-const favBrowserIdAtom = atom<string>({
+export const favBrowserIdAtom = atom<string>({
   key: 'favBrowserIdAtom',
   default: '',
 })
@@ -53,12 +52,12 @@ export const isDefaultBrowserAtom = atom<boolean>({
   default: true,
 })
 
-const hotkeysAtom = atom<Hotkeys>({
+export const hotkeysAtom = atom<Hotkeys>({
   key: 'hotkeysAtom',
   default: {},
 })
 
-const hiddenTileIdsAtom = atom<string[]>({
+export const hiddenTileIdsAtom = atom<string[]>({
   key: 'hiddenTileIdsAtom',
   default: [],
 })
@@ -111,53 +110,7 @@ export const urlSelector = selector<string | undefined>({
     return get(urlAtom)
   },
   set: ({ set }, url) => {
-    // TODO should this be in its own selector? Get vs set other atom state?
     set(openMenuSelector, false)
     set(urlAtom, url)
-  },
-})
-
-/**
- * Hotkeys Selector
- */
-export const hotkeysSelector = selector<Hotkeys>({
-  key: 'hotkeysSelector',
-  get: ({ get }) => {
-    return get(hotkeysAtom)
-  },
-  set: ({ set }, hotkeys) => {
-    if (!(hotkeys instanceof DefaultValue)) {
-      updateHotkeys(hotkeys)
-      set(hotkeysAtom, hotkeys)
-    }
-  },
-})
-
-/**
- * Fav Browser ID Selector
- */
-export const favBrowserIdSelector = selector<string>({
-  key: 'favBrowserIdSelector',
-  get: ({ get }) => {
-    return get(favBrowserIdAtom)
-  },
-  set: ({ set }, browserId) => {
-    if (!(browserId instanceof DefaultValue)) {
-      updateFav(browserId)
-      set(favBrowserIdAtom, browserId)
-    }
-  },
-})
-
-export const hiddenTileIdsSelector = selector<string[]>({
-  key: 'hiddenTileIdsSelector',
-  get: ({ get }) => {
-    return get(hiddenTileIdsAtom)
-  },
-  set: ({ set }, hiddenTileIds) => {
-    if (!(hiddenTileIds instanceof DefaultValue)) {
-      updateHiddenTileIds(hiddenTileIds)
-      set(hiddenTileIdsAtom, hiddenTileIds)
-    }
   },
 })
