@@ -1,3 +1,6 @@
+import { faEye } from '@fortawesome/pro-solid-svg-icons/faEye'
+import { faEyeSlash } from '@fortawesome/pro-solid-svg-icons/faEyeSlash'
+import { faGripHorizontal } from '@fortawesome/pro-solid-svg-icons/faGripHorizontal'
 import { faKeyboard } from '@fortawesome/pro-solid-svg-icons/faKeyboard'
 import { faStar } from '@fortawesome/pro-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -6,8 +9,15 @@ import React, { useCallback } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { Hotkeys } from '../../main/store'
+import { calcTileRows } from '../../utils/calcTileRows'
 import { getHotkeyByBrowserId } from '../../utils/getHotkeyByBrowserId'
-import { browsersAtom, favBrowserIdSelector, hotkeysSelector } from '../state'
+import { setRows } from '../sendToMain'
+import {
+  browsersAtom,
+  favBrowserIdSelector,
+  hiddenTileIdsSelector,
+  hotkeysSelector,
+} from '../state'
 import Kbd from './kbd'
 
 function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
@@ -43,6 +53,9 @@ const TheTilesMenu: React.FC = () => {
   const browsers = useRecoilValue(browsersAtom)
   const [hotkeys, setHotkeys] = useRecoilState(hotkeysSelector)
   const [favBrowserId, setFavBrowserId] = useRecoilState(favBrowserIdSelector)
+  const [hiddenTileIds, setHiddenTileIds] = useRecoilState(
+    hiddenTileIdsSelector,
+  )
 
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,6 +74,24 @@ const TheTilesMenu: React.FC = () => {
     [setFavBrowserId],
   )
 
+  const handleVisibilityClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      const theId = event.currentTarget.name
+
+      // Remove the id if it exists in the array
+      const updatedHiddenTileIds = hiddenTileIds.filter((id) => id !== theId)
+
+      // If no id was removed, it didn't exist to begin with and should be added
+      if (updatedHiddenTileIds.length === hiddenTileIds.length) {
+        updatedHiddenTileIds.push(theId)
+      }
+
+      setRows(calcTileRows(browsers, updatedHiddenTileIds))
+      setHiddenTileIds(updatedHiddenTileIds)
+    },
+    [setHiddenTileIds, hiddenTileIds, browsers],
+  )
+
   return (
     <div
       className={cc([
@@ -69,40 +100,46 @@ const TheTilesMenu: React.FC = () => {
       ])}
       style={{ top: '8px', right: '8px', bottom: '60px', left: '8px' }}
     >
-      <div className="p-4">
-        <div className="mb-8 flex items-center justify-center space-x-4 text-xxs">
-          <span className="space-x-2">
-            <FontAwesomeIcon className="text-yellow-400" icon={faStar} />
+      <div className="p-4 grid grid-cols-2">
+        <div className="space-y-3 text-xs">
+          <FontAwesomeIcon fixedWidth icon={faGripHorizontal} />
+          <div className="space-x-2">
+            <FontAwesomeIcon
+              className="text-yellow-400"
+              fixedWidth
+              icon={faStar}
+            />
             <span>
               Assign <Kbd>space</Kbd> key
             </span>
-          </span>
-          <span className="text-grey-500">|</span>
-          <span className="space-x-2">
-            <FontAwesomeIcon className="text-blue-400" icon={faKeyboard} />
+          </div>
+          <div className="space-x-2">
+            <FontAwesomeIcon
+              className="text-purple-500"
+              fixedWidth
+              icon={faEye}
+            />
+            <span>Show / hide</span>
+          </div>
+          <div className="space-x-2">
+            <FontAwesomeIcon
+              className="text-blue-400"
+              fixedWidth
+              icon={faKeyboard}
+            />
             <span>Assign single letters or numbers as hotkeys</span>
-          </span>
+          </div>
         </div>
 
-        <div
-          className="font-bold text-sm"
-          style={{
-            columnCount: 3,
-            columnRule: '1px solid #5F6672',
-            columnGap: '2rem',
-          }}
-        >
+        <div className="font-bold text-sm w-64 mx-auto space-y-3">
           {browsers.map((browser) => {
             const hotkey =
               Object.keys(hotkeys).find((key) => hotkeys[key] === browser.id) ||
               ''
             const isFav = favBrowserId === browser.id
+            const isVisible = !hiddenTileIds.includes(browser.id)
             return (
-              <div
-                key={browser.id}
-                className="space-x-3 mb-4 flex items-center"
-                style={{ breakInside: 'avoid' }}
-              >
+              <div key={browser.id} className="space-x-3 flex items-center">
                 <span className="inline-block mr-auto">{browser.name}</span>
 
                 <button
@@ -114,9 +151,29 @@ const TheTilesMenu: React.FC = () => {
                 >
                   <FontAwesomeIcon
                     className={cc([
-                      { 'text-yellow-400': isFav, 'text-grey-600': !isFav },
+                      { 'text-yellow-400': isFav, 'text-grey-500': !isFav },
                     ])}
+                    fixedWidth
                     icon={faStar}
+                  />
+                </button>
+
+                <button
+                  className="flex-shrink-0 focus:outline-none"
+                  name={browser.id}
+                  onClick={handleVisibilityClick}
+                  tabIndex={-1}
+                  type="button"
+                >
+                  <FontAwesomeIcon
+                    className={cc([
+                      {
+                        'text-purple-500': isVisible,
+                        'text-grey-500': !isVisible,
+                      },
+                    ])}
+                    fixedWidth
+                    icon={isVisible ? faEye : faEyeSlash}
                   />
                 </button>
 

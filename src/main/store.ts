@@ -1,4 +1,3 @@
-import { app } from 'electron'
 import ElectronStore from 'electron-store'
 
 import { Browser } from '../config/browsers'
@@ -12,27 +11,24 @@ export interface Store {
   fav: string
   firstRun: boolean
   hotkeys: Hotkeys
-  lastUpdateCheck: number | undefined
+  hiddenTileIds: string[]
   // TODO [>=11.0.0] Remove this when enough time has passed to flush-out old v10 settings
-  urlHistory?: undefined
+  lastUpdateCheck?: unknown
+  // TODO [>=11.0.0] Remove this when enough time has passed to flush-out old v10 settings
+  urlHistory?: unknown
 }
 
 export const store = new ElectronStore<Store>({
   name: 'store',
-  // TODO [>=11.0.0] Remove this if not using migrations
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  projectVersion: app.getVersion(),
   defaults: {
     fav: 'com.apple.Safari',
     firstRun: true,
     hotkeys: {},
-    lastUpdateCheck: undefined,
-  },
-  migrations: {
-    // TODO [>=11.0.0] Remove this when enough time has passed to flush-out old v10 settings
-    '>=10.3.0': (migrationStore) => {
-      migrationStore.delete('urlHistory')
-    },
+    hiddenTileIds: [],
   },
 })
+
+// TODO [>=11.0.0] Remove this when enough time has passed to flush-out old v10 settings
+// Remove old settings (cannot get electron-store's migrations to work)
+store.delete('urlHistory')
+store.delete('lastUpdateCheck')

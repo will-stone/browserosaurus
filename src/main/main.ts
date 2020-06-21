@@ -10,14 +10,18 @@ import {
   COPY_TO_CLIPBOARD,
   ESCAPE_PRESSED,
   FAVOURITE_UPDATED,
+  HIDDEN_TILE_IDS_UPDATED,
   HOTKEYS_UPDATED,
   LOGGER,
   QUIT,
   RELOAD,
   RENDERER_LOADED,
+  ROWS_SET,
   SET_AS_DEFAULT_BROWSER,
   UPDATE_RESTART,
 } from '../renderer/events'
+import { calcTileRows } from '../utils/calcTileRows'
+import { calcWindowHeight } from '../utils/calcWindowHeight'
 import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
 import { logger } from '../utils/logger'
@@ -26,6 +30,7 @@ import {
   APP_VERSION,
   BROWSERS_SCANNED,
   FAVOURITE_CHANGED,
+  HIDDEN_TILE_IDS_RETRIEVED,
   HOTKEYS_RETRIEVED,
   PROTOCOL_STATUS,
   UPDATE_DOWNLOADED,
@@ -122,15 +127,17 @@ app.on('open-url', (event, url) => {
 
 ipcMain.on(RENDERER_LOADED, async () => {
   const installedBrowsers = await getInstalledBrowsers()
+  const hiddenTiles = store.get('hiddenTileIds')
 
-  // Position window
-  const numberOfExtraBrowserRows = Math.ceil(installedBrowsers.length / 5) - 1
-  bWindow?.setSize(800, 249 + numberOfExtraBrowserRows * 112)
+  const numberTileRows = calcTileRows(installedBrowsers, hiddenTiles)
+
+  bWindow?.setSize(800, calcWindowHeight(numberTileRows))
   bWindow?.center()
 
   // Send all info down to renderer
   bWindow?.webContents.send(HOTKEYS_RETRIEVED, store.get('hotkeys'))
   bWindow?.webContents.send(FAVOURITE_CHANGED, store.get('fav'))
+  bWindow?.webContents.send(HIDDEN_TILE_IDS_RETRIEVED, hiddenTiles)
   bWindow?.webContents.send(BROWSERS_SCANNED, installedBrowsers)
   bWindow?.webContents.send(
     APP_VERSION,
@@ -204,8 +211,17 @@ ipcMain.on(HOTKEYS_UPDATED, (_, hotkeys: Hotkeys) => {
   store.set('hotkeys', hotkeys)
 })
 
+ipcMain.on(HIDDEN_TILE_IDS_UPDATED, (_, tileIds: string[]) => {
+  store.set('hiddenTileIds', tileIds)
+})
+
 ipcMain.on(SET_AS_DEFAULT_BROWSER, () => {
   app.setAsDefaultProtocolClient('http')
+})
+
+ipcMain.on(ROWS_SET, (_, numberTileRows: number) => {
+  bWindow?.setSize(800, calcWindowHeight(numberTileRows))
+  bWindow?.center()
 })
 
 ipcMain.on(RELOAD, () => {

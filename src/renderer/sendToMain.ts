@@ -7,10 +7,12 @@ import {
   COPY_TO_CLIPBOARD,
   ESCAPE_PRESSED,
   FAVOURITE_UPDATED,
+  HIDDEN_TILE_IDS_UPDATED,
   HOTKEYS_UPDATED,
   LOGGER,
   QUIT,
   RELOAD,
+  ROWS_SET,
   SET_AS_DEFAULT_BROWSER,
   UPDATE_RESTART,
 } from './events'
@@ -48,3 +50,9 @@ export const setAsDefaultBrowser = (): void =>
   ipcRenderer.send(SET_AS_DEFAULT_BROWSER)
 
 export const reload = (): void => ipcRenderer.send(RELOAD)
+
+export const updateHiddenTileIds = (tileIds: string[]): void =>
+  ipcRenderer.send(HIDDEN_TILE_IDS_UPDATED, tileIds)
+
+export const setRows = (number: number): void =>
+  ipcRenderer.send(ROWS_SET, number)

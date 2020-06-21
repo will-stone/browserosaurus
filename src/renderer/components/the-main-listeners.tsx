@@ -7,6 +7,7 @@ import {
   APP_VERSION,
   BROWSERS_SCANNED,
   FAVOURITE_CHANGED,
+  HIDDEN_TILE_IDS_RETRIEVED,
   HOTKEYS_RETRIEVED,
   PROTOCOL_STATUS,
   UPDATE_DOWNLOADED,
@@ -17,6 +18,7 @@ import { RENDERER_LOADED } from '../events'
 import {
   browsersAtom,
   favBrowserIdSelector,
+  hiddenTileIdsSelector,
   hotkeysSelector,
   isDefaultBrowserAtom,
   isUpdateAvailableAtom,
@@ -33,6 +35,7 @@ const TheMainListeners: React.FC = () => {
   const setUpdateAvailable = useSetRecoilState(isUpdateAvailableAtom)
   const setIsDefaultBrowser = useSetRecoilState(isDefaultBrowserAtom)
   const setHotkeys = useSetRecoilState(hotkeysSelector)
+  const setHiddenTileIds = useSetRecoilState(hiddenTileIdsSelector)
 
   useEffect(() => {
     /**
@@ -101,6 +104,17 @@ const TheMainListeners: React.FC = () => {
     )
 
     /**
+     * Receive hidden tile IDs
+     * main -> renderer
+     */
+    electron.ipcRenderer.on(
+      HIDDEN_TILE_IDS_RETRIEVED,
+      (_: unknown, tileIds: string[]) => {
+        setHiddenTileIds(tileIds)
+      },
+    )
+
+    /**
      * Tell main that App component has mounted
      * renderer -> main
      */
@@ -108,8 +122,13 @@ const TheMainListeners: React.FC = () => {
 
     return function cleanup() {
       electron.ipcRenderer.removeAllListeners(APP_VERSION)
+      electron.ipcRenderer.removeAllListeners(UPDATE_DOWNLOADED)
       electron.ipcRenderer.removeAllListeners(BROWSERS_SCANNED)
       electron.ipcRenderer.removeAllListeners(URL_UPDATED)
+      electron.ipcRenderer.removeAllListeners(FAVOURITE_CHANGED)
+      electron.ipcRenderer.removeAllListeners(PROTOCOL_STATUS)
+      electron.ipcRenderer.removeAllListeners(HOTKEYS_RETRIEVED)
+      electron.ipcRenderer.removeAllListeners(HIDDEN_TILE_IDS_RETRIEVED)
     }
   }, [
     setBrowsersState,
@@ -119,6 +138,7 @@ const TheMainListeners: React.FC = () => {
     setUpdateAvailable,
     setIsDefaultBrowser,
     setHotkeys,
+    setHiddenTileIds,
   ])
 
   return <Noop />

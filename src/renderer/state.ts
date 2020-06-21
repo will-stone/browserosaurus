@@ -2,7 +2,7 @@ import { atom, DefaultValue, selector } from 'recoil'
 
 import { Browser } from '../config/browsers'
 import { Hotkeys } from '../main/store'
-import { updateFav, updateHotkeys } from './sendToMain'
+import { updateFav, updateHiddenTileIds, updateHotkeys } from './sendToMain'
 
 /**
  * -----------------------------------------------------------------------------
@@ -56,6 +56,11 @@ export const isDefaultBrowserAtom = atom<boolean>({
 const hotkeysAtom = atom<Hotkeys>({
   key: 'hotkeysAtom',
   default: {},
+})
+
+const hiddenTileIdsAtom = atom<string[]>({
+  key: 'hiddenTileIdsAtom',
+  default: [],
 })
 
 /**
@@ -140,6 +145,19 @@ export const favBrowserIdSelector = selector<string>({
     if (!(browserId instanceof DefaultValue)) {
       updateFav(browserId)
       set(favBrowserIdAtom, browserId)
+    }
+  },
+})
+
+export const hiddenTileIdsSelector = selector<string[]>({
+  key: 'hiddenTileIdsSelector',
+  get: ({ get }) => {
+    return get(hiddenTileIdsAtom)
+  },
+  set: ({ set }, hiddenTileIds) => {
+    if (!(hiddenTileIds instanceof DefaultValue)) {
+      updateHiddenTileIds(hiddenTileIds)
+      set(hiddenTileIdsAtom, hiddenTileIds)
     }
   },
 })

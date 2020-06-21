@@ -2,24 +2,26 @@ import cc from 'classcat'
 import React from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { browsersAtom } from '../state'
+import { browsersAtom, hiddenTileIdsSelector } from '../state'
 import BrowserButton from './browser-button'
 
 const TheBrowserButtons: React.FC = () => {
   const browsers = useRecoilValue(browsersAtom)
+  const hiddenTileIds = useRecoilValue(hiddenTileIdsSelector)
+  const visibleBrowsers = browsers.filter((b) => !hiddenTileIds.includes(b.id))
 
-  const threeCols = browsers.length <= 3 || browsers.length === 6
+  const threeCols = visibleBrowsers.length <= 3 || visibleBrowsers.length === 6
   const fourCols =
-    browsers.length === 4 ||
-    browsers.length === 7 ||
-    browsers.length === 8 ||
-    browsers.length === 11 ||
-    browsers.length === 12
+    visibleBrowsers.length === 4 ||
+    visibleBrowsers.length === 7 ||
+    visibleBrowsers.length === 8 ||
+    visibleBrowsers.length === 11 ||
+    visibleBrowsers.length === 12
   const fiveCols =
-    browsers.length === 5 ||
-    browsers.length === 9 ||
-    browsers.length === 10 ||
-    browsers.length >= 13
+    visibleBrowsers.length === 5 ||
+    visibleBrowsers.length === 9 ||
+    visibleBrowsers.length === 10 ||
+    visibleBrowsers.length >= 13
 
   return (
     <div
@@ -30,7 +32,7 @@ const TheBrowserButtons: React.FC = () => {
         { 'grid-cols-5': fiveCols },
       ])}
     >
-      {browsers.map((browser) => (
+      {visibleBrowsers.map((browser) => (
         <BrowserButton key={browser.id} browser={browser} />
       ))}
     </div>
