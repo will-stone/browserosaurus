@@ -70,14 +70,14 @@ const TheTilesMenu: React.FC = () => {
       style={{ top: '8px', right: '8px', bottom: '60px', left: '8px' }}
     >
       <div className="p-4">
-        <div className="mb-8 flex items-center justify-center space-x-4 text-xxs opacity-75">
+        <div className="mb-8 flex items-center justify-center space-x-4 text-xxs">
           <span className="space-x-2">
             <FontAwesomeIcon className="text-yellow-400" icon={faStar} />
             <span>
               Assign <Kbd>space</Kbd> key
             </span>
           </span>
-          <span className="opacity-25">|</span>
+          <span className="text-grey-500">|</span>
           <span className="space-x-2">
             <FontAwesomeIcon className="text-blue-400" icon={faKeyboard} />
             <span>Assign single letters or numbers as hotkeys</span>
@@ -88,7 +88,7 @@ const TheTilesMenu: React.FC = () => {
           className="font-bold text-sm"
           style={{
             columnCount: 3,
-            columnRule: '1px solid #0D1117',
+            columnRule: '1px solid #5F6672',
             columnGap: '2rem',
           }}
         >
