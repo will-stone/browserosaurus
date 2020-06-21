@@ -1,23 +1,23 @@
 import electron from 'electron'
 import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { useSetRecoilState } from 'recoil'
 
 import { Browser } from '../../config/browsers'
 import {
   APP_VERSION,
   BROWSERS_SCANNED,
-  FAVOURITE_CHANGED,
   HIDDEN_TILE_IDS_RETRIEVED,
   HOTKEYS_RETRIEVED,
   PROTOCOL_STATUS,
+  STORE_RETRIEVED,
   UPDATE_DOWNLOADED,
   URL_UPDATED,
 } from '../../main/events'
-import { Hotkeys } from '../../main/store'
+import { Hotkeys, Store as MainStore } from '../../main/store'
 import { RENDERER_LOADED } from '../events'
 import {
   browsersAtom,
-  favBrowserIdAtom,
   hiddenTileIdsAtom,
   hotkeysAtom,
   isDefaultBrowserAtom,
@@ -25,13 +25,14 @@ import {
   urlSelector,
   versionAtom,
 } from '../state'
+import { receivedStore } from '../store/actions'
 import Noop from './noop'
 
 const TheMainListeners: React.FC = () => {
+  const dispatch = useDispatch()
   const setUrl = useSetRecoilState(urlSelector)
   const setBrowsersState = useSetRecoilState(browsersAtom)
   const setVersion = useSetRecoilState(versionAtom)
-  const setFavBrowserId = useSetRecoilState(favBrowserIdAtom)
   const setUpdateAvailable = useSetRecoilState(isUpdateAvailableAtom)
   const setIsDefaultBrowser = useSetRecoilState(isDefaultBrowserAtom)
   const setHotkeys = useSetRecoilState(hotkeysAtom)
@@ -74,15 +75,12 @@ const TheMainListeners: React.FC = () => {
     })
 
     /**
-     * Receive favourite
+     * Receive main's store
      * main -> renderer
      */
-    electron.ipcRenderer.on(
-      FAVOURITE_CHANGED,
-      (_: unknown, favBrowserId: string) => {
-        setFavBrowserId(favBrowserId)
-      },
-    )
+    electron.ipcRenderer.on(STORE_RETRIEVED, (_: unknown, store: MainStore) => {
+      dispatch(receivedStore(store))
+    })
 
     /**
      * Receive protocol status
@@ -125,7 +123,6 @@ const TheMainListeners: React.FC = () => {
       electron.ipcRenderer.removeAllListeners(UPDATE_DOWNLOADED)
       electron.ipcRenderer.removeAllListeners(BROWSERS_SCANNED)
       electron.ipcRenderer.removeAllListeners(URL_UPDATED)
-      electron.ipcRenderer.removeAllListeners(FAVOURITE_CHANGED)
       electron.ipcRenderer.removeAllListeners(PROTOCOL_STATUS)
       electron.ipcRenderer.removeAllListeners(HOTKEYS_RETRIEVED)
       electron.ipcRenderer.removeAllListeners(HIDDEN_TILE_IDS_RETRIEVED)
@@ -134,11 +131,11 @@ const TheMainListeners: React.FC = () => {
     setBrowsersState,
     setUrl,
     setVersion,
-    setFavBrowserId,
     setUpdateAvailable,
     setIsDefaultBrowser,
     setHotkeys,
     setHiddenTileIds,
+    dispatch,
   ])
 
   return <Noop />

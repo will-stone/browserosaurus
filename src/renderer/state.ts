@@ -42,11 +42,6 @@ export const versionAtom = atom<string>({
   default: '',
 })
 
-export const favBrowserIdAtom = atom<string>({
-  key: 'favBrowserIdAtom',
-  default: '',
-})
-
 export const isDefaultBrowserAtom = atom<boolean>({
   key: 'isDefaultBrowserAtom',
   default: true,

@@ -31,6 +31,7 @@ import {
   HIDDEN_TILE_IDS_RETRIEVED,
   HOTKEYS_RETRIEVED,
   PROTOCOL_STATUS,
+  STORE_RETRIEVED,
   UPDATE_DOWNLOADED,
   URL_UPDATED,
 } from './events'
@@ -130,6 +131,7 @@ ipcMain.on(RENDERER_LOADED, async () => {
   bWindow?.center()
 
   // Send all info down to renderer
+  bWindow?.webContents.send(STORE_RETRIEVED, store.store)
   bWindow?.webContents.send(HOTKEYS_RETRIEVED, store.get('hotkeys'))
   bWindow?.webContents.send(FAVOURITE_CHANGED, store.get('fav'))
   bWindow?.webContents.send(HIDDEN_TILE_IDS_RETRIEVED, hiddenTiles)

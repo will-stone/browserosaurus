@@ -9,7 +9,7 @@ export type Hotkeys = { [key in string]: Browser['id'] }
 
 export interface Store {
   fav: string
-  firstRun: boolean
+  firstRun?: boolean
   hotkeys: Hotkeys
   hiddenTileIds: string[]
   // TODO [>=11.0.0] Remove this when enough time has passed to flush-out old v10 settings

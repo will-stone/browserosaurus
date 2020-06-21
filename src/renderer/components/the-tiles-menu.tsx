@@ -6,17 +6,15 @@ import { faStar } from '@fortawesome/pro-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cc from 'classcat'
 import React, { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { Hotkeys } from '../../main/store'
 import { getHotkeyByBrowserId } from '../../utils/getHotkeyByBrowserId'
-import { updateFav, updateHiddenTileIds, updateHotkeys } from '../sendToMain'
-import {
-  browsersAtom,
-  favBrowserIdAtom,
-  hiddenTileIdsAtom,
-  hotkeysAtom,
-} from '../state'
+import { updateHiddenTileIds, updateHotkeys } from '../sendToMain'
+import { browsersAtom, hiddenTileIdsAtom, hotkeysAtom } from '../state'
+import { useSelector } from '../store'
+import { updateFavClicked } from '../store/actions'
 import Kbd from './kbd'
 
 function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
@@ -49,9 +47,10 @@ const alterHotkey = (browserId: string, hotkey: string) => (
 }
 
 const TheTilesMenu: React.FC = () => {
+  const dispatch = useDispatch()
   const browsers = useRecoilValue(browsersAtom)
   const [hotkeys, setHotkeys] = useRecoilState(hotkeysAtom)
-  const [favBrowserId, setFavBrowserId] = useRecoilState(favBrowserIdAtom)
+  const favBrowserId = useSelector((state) => state.mainStore.fav)
   const [hiddenTileIds, setHiddenTileIds] = useRecoilState(hiddenTileIdsAtom)
 
   const handleInputChange = useCallback(
@@ -69,10 +68,9 @@ const TheTilesMenu: React.FC = () => {
 
   const handleFavClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      setFavBrowserId(event.currentTarget.name)
-      updateFav(event.currentTarget.name)
+      dispatch(updateFavClicked(event.currentTarget.name))
     },
-    [setFavBrowserId],
+    [dispatch],
   )
 
   const handleVisibilityClick = useCallback(
