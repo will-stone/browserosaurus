@@ -9,14 +9,8 @@ import React, { useCallback } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { Hotkeys } from '../../main/store'
-import { calcTileRows } from '../../utils/calcTileRows'
 import { getHotkeyByBrowserId } from '../../utils/getHotkeyByBrowserId'
-import {
-  setRows,
-  updateFav,
-  updateHiddenTileIds,
-  updateHotkeys,
-} from '../sendToMain'
+import { updateFav, updateHiddenTileIds, updateHotkeys } from '../sendToMain'
 import {
   browsersAtom,
   favBrowserIdAtom,
@@ -93,11 +87,10 @@ const TheTilesMenu: React.FC = () => {
         updatedHiddenTileIds.push(theId)
       }
 
-      setRows(calcTileRows(browsers, updatedHiddenTileIds))
       updateHiddenTileIds(updatedHiddenTileIds)
       setHiddenTileIds(updatedHiddenTileIds)
     },
-    [setHiddenTileIds, hiddenTileIds, browsers],
+    [setHiddenTileIds, hiddenTileIds],
   )
 
   return (

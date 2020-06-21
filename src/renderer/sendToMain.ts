@@ -12,7 +12,6 @@ import {
   LOGGER,
   QUIT,
   RELOAD,
-  ROWS_SET,
   SET_AS_DEFAULT_BROWSER,
   UPDATE_RESTART,
 } from './events'
@@ -53,6 +52,3 @@ export const reload = (): void => ipcRenderer.send(RELOAD)
 
 export const updateHiddenTileIds = (tileIds: string[]): void =>
   ipcRenderer.send(HIDDEN_TILE_IDS_UPDATED, tileIds)
-
-export const setRows = (number: number): void =>
-  ipcRenderer.send(ROWS_SET, number)

@@ -16,11 +16,9 @@ import {
   QUIT,
   RELOAD,
   RENDERER_LOADED,
-  ROWS_SET,
   SET_AS_DEFAULT_BROWSER,
   UPDATE_RESTART,
 } from '../renderer/events'
-import { calcTileRows } from '../utils/calcTileRows'
 import { calcWindowHeight } from '../utils/calcWindowHeight'
 import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
@@ -52,6 +50,7 @@ app.dock.hide()
 // Prevents garbage collection
 let bWindow: BrowserWindow | undefined
 let tray: Tray | undefined
+let installedBrowsers: Browser[] = []
 
 app.on('ready', async () => {
   bWindow = await createWindow()
@@ -69,10 +68,8 @@ app.on('ready', async () => {
 
   // Auto update on production
   if (!electronIsDev) {
-    const feedURL = `https://update.electronjs.org/will-stone/browserosaurus/darwin-x64/${app.getVersion()}`
-
     autoUpdater.setFeedURL({
-      url: feedURL,
+      url: `https://update.electronjs.org/will-stone/browserosaurus/darwin-x64/${app.getVersion()}`,
       headers: {
         'User-Agent': `${package_.name}/${package_.version} (darwin: x64)`,
       },
@@ -126,12 +123,10 @@ app.on('open-url', (event, url) => {
  */
 
 ipcMain.on(RENDERER_LOADED, async () => {
-  const installedBrowsers = await getInstalledBrowsers()
+  installedBrowsers = await getInstalledBrowsers()
+
   const hiddenTiles = store.get('hiddenTileIds')
-
-  const numberTileRows = calcTileRows(installedBrowsers, hiddenTiles)
-
-  bWindow?.setSize(800, calcWindowHeight(numberTileRows))
+  bWindow?.setSize(800, calcWindowHeight(installedBrowsers, hiddenTiles))
   bWindow?.center()
 
   // Send all info down to renderer
@@ -211,17 +206,14 @@ ipcMain.on(HOTKEYS_UPDATED, (_, hotkeys: Hotkeys) => {
   store.set('hotkeys', hotkeys)
 })
 
-ipcMain.on(HIDDEN_TILE_IDS_UPDATED, (_, tileIds: string[]) => {
-  store.set('hiddenTileIds', tileIds)
+ipcMain.on(HIDDEN_TILE_IDS_UPDATED, (_, hiddenTileIds: string[]) => {
+  bWindow?.setSize(800, calcWindowHeight(installedBrowsers, hiddenTileIds))
+  bWindow?.center()
+  store.set('hiddenTileIds', hiddenTileIds)
 })
 
 ipcMain.on(SET_AS_DEFAULT_BROWSER, () => {
   app.setAsDefaultProtocolClient('http')
-})
-
-ipcMain.on(ROWS_SET, (_, numberTileRows: number) => {
-  bWindow?.setSize(800, calcWindowHeight(numberTileRows))
-  bWindow?.center()
 })
 
 ipcMain.on(RELOAD, () => {
