@@ -1,7 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit'
 
 import { Store as MainStore } from '../../main/store'
-import { madeTileFav, receivedStore, toggledTileVisibility } from './actions'
+import { alterHotkeys } from '../../utils/alterHotkeys'
+import {
+  madeTileFav,
+  receivedStore,
+  toggledTileVisibility,
+  updatedTileHotkey,
+} from './actions'
 
 const mainStoreIntialState: MainStore = {
   fav: '',
@@ -27,6 +33,15 @@ const mainStore = createReducer(mainStoreIntialState, (builder) =>
       }
 
       state.hiddenTileIds = updatedHiddenTileIds
+    })
+    .addCase(updatedTileHotkey, (state, action) => {
+      const updatedHotkeys = alterHotkeys(
+        state.hotkeys,
+        action.payload.browserId,
+        // TODO move this lower casing ot alterHotkeys
+        action.payload.value.toLowerCase(),
+      )
+      state.hotkeys = updatedHotkeys
     }),
 )
 

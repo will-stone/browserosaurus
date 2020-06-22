@@ -2,9 +2,13 @@
 
 import { Middleware } from 'redux'
 
-import { updateFav, updateHiddenTileIds } from '../sendToMain'
+import { updateFav, updateHiddenTileIds, updateHotkeys } from '../sendToMain'
 import { RootState } from '.'
-import { madeTileFav, toggledTileVisibility } from './actions'
+import {
+  madeTileFav,
+  toggledTileVisibility,
+  updatedTileHotkey,
+} from './actions'
 
 export const middleware: Middleware<unknown, RootState> = (store) => (next) => (
   action,
@@ -18,6 +22,10 @@ export const middleware: Middleware<unknown, RootState> = (store) => (next) => (
 
   if (toggledTileVisibility.match(action)) {
     updateHiddenTileIds(store.getState().mainStore.hiddenTileIds)
+  }
+
+  if (updatedTileHotkey.match(action)) {
+    updateHotkeys(store.getState().mainStore.hotkeys)
   }
 
   return result

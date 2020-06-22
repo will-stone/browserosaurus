@@ -1,7 +1,6 @@
 import { atom, selector } from 'recoil'
 
 import { Browser } from '../config/browsers'
-import { Hotkeys } from '../main/store'
 
 /**
  * -----------------------------------------------------------------------------
@@ -45,11 +44,6 @@ export const versionAtom = atom<string>({
 export const isDefaultBrowserAtom = atom<boolean>({
   key: 'isDefaultBrowserAtom',
   default: true,
-})
-
-export const hotkeysAtom = atom<Hotkeys>({
-  key: 'hotkeysAtom',
-  default: {},
 })
 
 /**

@@ -7,49 +7,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cc from 'classcat'
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilValue } from 'recoil'
 
-import { Hotkeys } from '../../main/store'
-import { getHotkeyByBrowserId } from '../../utils/getHotkeyByBrowserId'
-import { updateHotkeys } from '../sendToMain'
-import { browsersAtom, hotkeysAtom } from '../state'
+import { browsersAtom } from '../state'
 import { useSelector, useShallowEqualSelector } from '../store'
-import { madeTileFav, toggledTileVisibility } from '../store/actions'
+import {
+  madeTileFav,
+  toggledTileVisibility,
+  updatedTileHotkey,
+} from '../store/actions'
 import Kbd from './kbd'
 
 function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
   event.target.select()
 }
 
-// Update a hotkeys object based on incoming browser ID and hotkey combo
-const alterHotkey = (browserId: string, hotkey: string) => (
-  hotkeys: Hotkeys,
-) => {
-  // Do not alter original hotkeys object
-  const hotkeysCopy = { ...hotkeys }
-  // Find the previous key for this browser
-  const oldKey = getHotkeyByBrowserId(hotkeysCopy, browserId)
-  // If the new hotkey is empty, it's a deletion and so remove the current entry
-  if (!hotkey) {
-    delete hotkeysCopy[oldKey || '']
-    return hotkeysCopy
-  }
-
-  // If the new key is allowed, delete the previous entry and add new entry
-  const matchAlphaNumeric = hotkey.match(/^([A-Za-z0-9])$/u)
-  if (matchAlphaNumeric) {
-    delete hotkeysCopy[oldKey || '']
-    return { ...hotkeysCopy, [hotkey]: browserId }
-  }
-
-  // Else change nothing and return the original
-  return hotkeys
-}
-
 const TheTilesMenu: React.FC = () => {
   const dispatch = useDispatch()
   const browsers = useRecoilValue(browsersAtom)
-  const [hotkeys, setHotkeys] = useRecoilState(hotkeysAtom)
+  const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
   const favBrowserId = useSelector((state) => state.mainStore.fav)
   const hiddenTileIds = useShallowEqualSelector(
     (state) => state.mainStore.hiddenTileIds,
@@ -58,14 +34,11 @@ const TheTilesMenu: React.FC = () => {
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const browserId = event.currentTarget.name
-      const key = event.currentTarget.value.toLowerCase()
-
-      const updatedHotkeys = alterHotkey(browserId, key)(hotkeys)
-
-      updateHotkeys(updatedHotkeys)
-      setHotkeys(updatedHotkeys)
+      dispatch(
+        updatedTileHotkey({ browserId, value: event.currentTarget.value }),
+      )
     },
-    [setHotkeys, hotkeys],
+    [dispatch],
   )
 
   const handleFavClick = useCallback(

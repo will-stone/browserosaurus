@@ -8,17 +8,15 @@ import {
   APP_VERSION,
   BROWSERS_SCANNED,
   HIDDEN_TILE_IDS_RETRIEVED,
-  HOTKEYS_RETRIEVED,
   PROTOCOL_STATUS,
   STORE_RETRIEVED,
   UPDATE_DOWNLOADED,
   URL_UPDATED,
 } from '../../main/events'
-import { Hotkeys, Store as MainStore } from '../../main/store'
+import { Store as MainStore } from '../../main/store'
 import { RENDERER_LOADED } from '../events'
 import {
   browsersAtom,
-  hotkeysAtom,
   isDefaultBrowserAtom,
   isUpdateAvailableAtom,
   urlSelector,
@@ -34,7 +32,6 @@ const TheMainListeners: React.FC = () => {
   const setVersion = useSetRecoilState(versionAtom)
   const setUpdateAvailable = useSetRecoilState(isUpdateAvailableAtom)
   const setIsDefaultBrowser = useSetRecoilState(isDefaultBrowserAtom)
-  const setHotkeys = useSetRecoilState(hotkeysAtom)
 
   useEffect(() => {
     /**
@@ -89,17 +86,6 @@ const TheMainListeners: React.FC = () => {
     })
 
     /**
-     * Receive hotkeys
-     * main -> renderer
-     */
-    electron.ipcRenderer.on(
-      HOTKEYS_RETRIEVED,
-      (_: unknown, hotkeys: Hotkeys) => {
-        setHotkeys(hotkeys)
-      },
-    )
-
-    /**
      * Tell main that App component has mounted
      * renderer -> main
      */
@@ -111,7 +97,6 @@ const TheMainListeners: React.FC = () => {
       electron.ipcRenderer.removeAllListeners(BROWSERS_SCANNED)
       electron.ipcRenderer.removeAllListeners(URL_UPDATED)
       electron.ipcRenderer.removeAllListeners(PROTOCOL_STATUS)
-      electron.ipcRenderer.removeAllListeners(HOTKEYS_RETRIEVED)
       electron.ipcRenderer.removeAllListeners(HIDDEN_TILE_IDS_RETRIEVED)
     }
   }, [
@@ -120,7 +105,6 @@ const TheMainListeners: React.FC = () => {
     setVersion,
     setUpdateAvailable,
     setIsDefaultBrowser,
-    setHotkeys,
     dispatch,
   ])
 

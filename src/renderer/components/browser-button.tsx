@@ -8,8 +8,8 @@ import { Browser } from '../../config/browsers'
 import { logos } from '../../config/logos'
 import { getHotkeyByBrowserId } from '../../utils/getHotkeyByBrowserId'
 import { selectBrowser } from '../sendToMain'
-import { hotkeysAtom, urlSelector } from '../state'
-import { useSelector } from '../store'
+import { urlSelector } from '../state'
+import { useSelector, useShallowEqualSelector } from '../store'
 import { LargeDarkButton } from './button'
 import Kbd from './kbd'
 
@@ -34,7 +34,7 @@ interface Props {
 const BrowserButton: React.FC<Props> = ({ browser }) => {
   const url = useRecoilValue(urlSelector)
   const favBrowserId = useSelector((state) => state.mainStore.fav)
-  const hotkeys = useRecoilValue(hotkeysAtom)
+  const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
