@@ -73,4 +73,4 @@ yarn release
 ```
 
 The dmg and zip files can then be added to a GitHub release. **Remember to bump
-the docs (website) version number too.**
+the docs (website) version number too.** test
