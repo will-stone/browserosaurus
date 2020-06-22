@@ -7,15 +7,20 @@ import { faTimes } from '@fortawesome/pro-solid-svg-icons/faTimes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cc from 'classcat'
 import React, { useCallback } from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useDispatch } from 'react-redux'
+import { useRecoilValue } from 'recoil'
 
 import { quit, reload, setAsDefaultBrowser, updateRestart } from '../sendToMain'
 import {
   isDefaultBrowserAtom,
   isUpdateAvailableAtom,
-  openMenuSelector,
   versionAtom,
 } from '../state'
+import { useSelector } from '../store'
+import {
+  clickedSponsorMenuButton,
+  clickedTilesMenuButton,
+} from '../store/actions'
 import { LightButton } from './button'
 
 interface Props {
@@ -23,23 +28,21 @@ interface Props {
 }
 
 const TheStatusBar: React.FC<Props> = ({ className }) => {
-  const [openMenu, setOpenMenu] = useRecoilState(openMenuSelector)
+  const dispatch = useDispatch()
+  const openMenu = useSelector((state) => state.ui.menu)
   const isDefaultBrowser = useRecoilValue(isDefaultBrowserAtom)
   const isUpdateAvailable = useRecoilValue(isUpdateAvailableAtom)
   const version = useRecoilValue(versionAtom)
 
   const displayedVersion = version || ''
 
-  const handleMenuClick = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      const { name } = event.currentTarget
-      // TODO turn this into proper type guard
-      if (name === 'sponsor' || name === 'tiles') {
-        setOpenMenu(name)
-      }
-    },
-    [setOpenMenu],
-  )
+  const handleTilesMenuButtonClick = useCallback(() => {
+    dispatch(clickedTilesMenuButton())
+  }, [dispatch])
+
+  const handleSponsorMenuButtonClick = useCallback(() => {
+    dispatch(clickedSponsorMenuButton())
+  }, [dispatch])
 
   return (
     <div
@@ -51,8 +54,7 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
       <div className="flex items-center space-x-2">
         <LightButton
           className={cc([{ 'z-20': openMenu === 'tiles' }])}
-          name="tiles"
-          onClick={handleMenuClick}
+          onClick={handleTilesMenuButtonClick}
         >
           {openMenu === 'tiles' ? (
             <FontAwesomeIcon fixedWidth icon={faTimes} />
@@ -75,8 +77,7 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
 
         <LightButton
           className={cc([{ 'z-20': openMenu === 'sponsor' }])}
-          name="sponsor"
-          onClick={handleMenuClick}
+          onClick={handleSponsorMenuButtonClick}
           tone={openMenu === 'sponsor' ? undefined : 'sponsor'}
         >
           {openMenu === 'sponsor' ? (

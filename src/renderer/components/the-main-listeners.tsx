@@ -19,15 +19,13 @@ import {
   browsersAtom,
   isDefaultBrowserAtom,
   isUpdateAvailableAtom,
-  urlSelector,
   versionAtom,
 } from '../state'
-import { receivedStore } from '../store/actions'
+import { receivedStore, receivedUrl } from '../store/actions'
 import Noop from './noop'
 
 const TheMainListeners: React.FC = () => {
   const dispatch = useDispatch()
-  const setUrl = useSetRecoilState(urlSelector)
   const setBrowsersState = useSetRecoilState(browsersAtom)
   const setVersion = useSetRecoilState(versionAtom)
   const setUpdateAvailable = useSetRecoilState(isUpdateAvailableAtom)
@@ -66,7 +64,7 @@ const TheMainListeners: React.FC = () => {
      * main -> renderer
      */
     electron.ipcRenderer.on(URL_UPDATED, (_: unknown, url: string) => {
-      setUrl(url)
+      dispatch(receivedUrl(url))
     })
 
     /**
@@ -101,7 +99,6 @@ const TheMainListeners: React.FC = () => {
     }
   }, [
     setBrowsersState,
-    setUrl,
     setVersion,
     setUpdateAvailable,
     setIsDefaultBrowser,

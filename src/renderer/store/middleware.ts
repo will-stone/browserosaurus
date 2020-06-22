@@ -2,10 +2,16 @@
 
 import { Middleware } from 'redux'
 
-import { updateFav, updateHiddenTileIds, updateHotkeys } from '../sendToMain'
+import {
+  escapePressed,
+  updateFav,
+  updateHiddenTileIds,
+  updateHotkeys,
+} from '../sendToMain'
 import { RootState } from '.'
 import {
   madeTileFav,
+  pressedEscapeKey,
   toggledTileVisibility,
   updatedTileHotkey,
 } from './actions'
@@ -13,8 +19,17 @@ import {
 export const middleware: Middleware<unknown, RootState> = (store) => (next) => (
   action,
 ) => {
-  // Moving on to next action ensures reducer has run for this action and state is up-to-date
+  // Hide window if escape key is pressed when no menus are open
+  if (pressedEscapeKey.match(action)) {
+    if (!store.getState().ui.menu) {
+      // TODO change to "closeWindow" or "hide"
+      escapePressed()
+    }
+  }
+
+  // Everything above here is run BEFORE reducers are calculated for the current action
   const result = next(action)
+  // Everything below here is run AFTER reducers are calculated for the current action
 
   if (madeTileFav.match(action)) {
     updateFav(action.payload)
