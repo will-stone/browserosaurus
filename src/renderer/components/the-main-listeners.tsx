@@ -18,7 +18,6 @@ import { Hotkeys, Store as MainStore } from '../../main/store'
 import { RENDERER_LOADED } from '../events'
 import {
   browsersAtom,
-  hiddenTileIdsAtom,
   hotkeysAtom,
   isDefaultBrowserAtom,
   isUpdateAvailableAtom,
@@ -36,7 +35,6 @@ const TheMainListeners: React.FC = () => {
   const setUpdateAvailable = useSetRecoilState(isUpdateAvailableAtom)
   const setIsDefaultBrowser = useSetRecoilState(isDefaultBrowserAtom)
   const setHotkeys = useSetRecoilState(hotkeysAtom)
-  const setHiddenTileIds = useSetRecoilState(hiddenTileIdsAtom)
 
   useEffect(() => {
     /**
@@ -102,17 +100,6 @@ const TheMainListeners: React.FC = () => {
     )
 
     /**
-     * Receive hidden tile IDs
-     * main -> renderer
-     */
-    electron.ipcRenderer.on(
-      HIDDEN_TILE_IDS_RETRIEVED,
-      (_: unknown, tileIds: string[]) => {
-        setHiddenTileIds(tileIds)
-      },
-    )
-
-    /**
      * Tell main that App component has mounted
      * renderer -> main
      */
@@ -134,7 +121,6 @@ const TheMainListeners: React.FC = () => {
     setUpdateAvailable,
     setIsDefaultBrowser,
     setHotkeys,
-    setHiddenTileIds,
     dispatch,
   ])
 

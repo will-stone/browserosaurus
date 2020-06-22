@@ -11,10 +11,10 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { Hotkeys } from '../../main/store'
 import { getHotkeyByBrowserId } from '../../utils/getHotkeyByBrowserId'
-import { updateHiddenTileIds, updateHotkeys } from '../sendToMain'
-import { browsersAtom, hiddenTileIdsAtom, hotkeysAtom } from '../state'
-import { useSelector } from '../store'
-import { updateFavClicked } from '../store/actions'
+import { updateHotkeys } from '../sendToMain'
+import { browsersAtom, hotkeysAtom } from '../state'
+import { useSelector, useShallowEqualSelector } from '../store'
+import { madeTileFav, toggledTileVisibility } from '../store/actions'
 import Kbd from './kbd'
 
 function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
@@ -51,7 +51,9 @@ const TheTilesMenu: React.FC = () => {
   const browsers = useRecoilValue(browsersAtom)
   const [hotkeys, setHotkeys] = useRecoilState(hotkeysAtom)
   const favBrowserId = useSelector((state) => state.mainStore.fav)
-  const [hiddenTileIds, setHiddenTileIds] = useRecoilState(hiddenTileIdsAtom)
+  const hiddenTileIds = useShallowEqualSelector(
+    (state) => state.mainStore.hiddenTileIds,
+  )
 
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +70,7 @@ const TheTilesMenu: React.FC = () => {
 
   const handleFavClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      dispatch(updateFavClicked(event.currentTarget.name))
+      dispatch(madeTileFav(event.currentTarget.name))
     },
     [dispatch],
   )
@@ -76,19 +78,9 @@ const TheTilesMenu: React.FC = () => {
   const handleVisibilityClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       const theId = event.currentTarget.name
-
-      // Remove the id if it exists in the array
-      const updatedHiddenTileIds = hiddenTileIds.filter((id) => id !== theId)
-
-      // If no id was removed, it didn't exist to begin with and should be added
-      if (updatedHiddenTileIds.length === hiddenTileIds.length) {
-        updatedHiddenTileIds.push(theId)
-      }
-
-      updateHiddenTileIds(updatedHiddenTileIds)
-      setHiddenTileIds(updatedHiddenTileIds)
+      dispatch(toggledTileVisibility(theId))
     },
-    [setHiddenTileIds, hiddenTileIds],
+    [dispatch],
   )
 
   return (

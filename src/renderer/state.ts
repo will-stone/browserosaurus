@@ -52,11 +52,6 @@ export const hotkeysAtom = atom<Hotkeys>({
   default: {},
 })
 
-export const hiddenTileIdsAtom = atom<string[]>({
-  key: 'hiddenTileIdsAtom',
-  default: [],
-})
-
 /**
  * -----------------------------------------------------------------------------
  * SELECTORS

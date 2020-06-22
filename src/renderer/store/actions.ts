@@ -4,6 +4,7 @@ import { Store as MainStore } from '../../main/store'
 
 const receivedStore = createAction<MainStore>('mainStore/received')
 
-const updateFavClicked = createAction<string>('fav/updateClicked')
+const madeTileFav = createAction<string>('tile/madeFav')
+const toggledTileVisibility = createAction<string>('tile/visibilityToggled')
 
-export { receivedStore, updateFavClicked }
+export { receivedStore, madeTileFav, toggledTileVisibility }

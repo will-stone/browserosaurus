@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import {
+  shallowEqual,
   TypedUseSelectorHook,
   useSelector as useReduxSelector,
 } from 'react-redux'
@@ -21,3 +22,6 @@ export default store
 
 // useSelector hook wrapper includes typed state
 export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector
+export const useShallowEqualSelector: TypedUseSelectorHook<RootState> = (
+  selector,
+) => useSelector(selector, shallowEqual)
