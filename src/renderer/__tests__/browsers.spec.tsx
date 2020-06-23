@@ -4,7 +4,7 @@ import React from 'react'
 
 import { BROWSERS_SCANNED, URL_UPDATED } from '../../main/events'
 import TheApp from '../components/the-app'
-import { BROWSER_SELECTED } from '../events'
+import { SELECT_BROWSER } from '../sendToMain'
 
 test('browsers', () => {
   render(<TheApp />)
@@ -33,7 +33,7 @@ test('browsers', () => {
 
   // Correct info sent to main when tile clicked
   fireEvent.click(screen.getByAltText('Firefox'))
-  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(BROWSER_SELECTED, {
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(SELECT_BROWSER, {
     urlId: undefined,
     browserId: 'org.mozilla.firefox',
     isAlt: false,
@@ -43,7 +43,7 @@ test('browsers', () => {
     win.webContents.send(URL_UPDATED, 'http://example.com')
   })
   fireEvent.click(screen.getByAltText('Firefox'))
-  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(BROWSER_SELECTED, {
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(SELECT_BROWSER, {
     url: 'http://example.com',
     browserId: 'org.mozilla.firefox',
     isAlt: false,

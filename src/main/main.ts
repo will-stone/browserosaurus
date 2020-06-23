@@ -6,19 +6,19 @@ import path from 'path'
 import package_ from '../../package.json'
 import { Browser, browsers } from '../config/browsers'
 import {
-  BROWSER_SELECTED,
   COPY_TO_CLIPBOARD,
-  FAVOURITE_UPDATED,
-  HIDDEN_TILE_IDS_UPDATED,
   HIDE_WINDOW,
-  HOTKEYS_UPDATED,
-  LOGGER,
+  MAIN_LOG,
   QUIT,
   RELOAD,
-  RENDERER_LOADED,
+  SELECT_BROWSER,
   SET_AS_DEFAULT_BROWSER,
+  START_APP,
+  UPDATE_FAV,
+  UPDATE_HIDDEN_TILE_IDS,
+  UPDATE_HOTKEYS,
   UPDATE_RESTART,
-} from '../renderer/events'
+} from '../renderer/sendToMain'
 import { calcWindowHeight } from '../utils/calcWindowHeight'
 import copyToClipboard from '../utils/copyToClipboard'
 import getInstalledBrowsers from '../utils/getInstalledBrowsers'
@@ -27,10 +27,7 @@ import createWindow from './createWindow'
 import {
   APP_VERSION,
   BROWSERS_SCANNED,
-  FAVOURITE_CHANGED,
-  HIDDEN_TILE_IDS_RETRIEVED,
-  HOTKEYS_RETRIEVED,
-  PROTOCOL_STATUS,
+  PROTOCOL_STATUS_RETRIEVED,
   STORE_RETRIEVED,
   UPDATE_DOWNLOADED,
   URL_UPDATED,
@@ -123,18 +120,17 @@ app.on('open-url', (event, url) => {
  * ------------------
  */
 
-ipcMain.on(RENDERER_LOADED, async () => {
+ipcMain.on(START_APP, async () => {
   installedBrowsers = await getInstalledBrowsers()
 
-  const hiddenTiles = store.get('hiddenTileIds')
-  bWindow?.setSize(800, calcWindowHeight(installedBrowsers, hiddenTiles))
+  bWindow?.setSize(
+    800,
+    calcWindowHeight(installedBrowsers, store.store.hiddenTileIds),
+  )
   bWindow?.center()
 
   // Send all info down to renderer
   bWindow?.webContents.send(STORE_RETRIEVED, store.store)
-  bWindow?.webContents.send(HOTKEYS_RETRIEVED, store.get('hotkeys'))
-  bWindow?.webContents.send(FAVOURITE_CHANGED, store.get('fav'))
-  bWindow?.webContents.send(HIDDEN_TILE_IDS_RETRIEVED, hiddenTiles)
   bWindow?.webContents.send(BROWSERS_SCANNED, installedBrowsers)
   bWindow?.webContents.send(
     APP_VERSION,
@@ -143,7 +139,7 @@ ipcMain.on(RENDERER_LOADED, async () => {
 
   // Is default browser?
   bWindow?.webContents.send(
-    PROTOCOL_STATUS,
+    PROTOCOL_STATUS_RETRIEVED,
     app.isDefaultProtocolClient('http'),
   )
 
@@ -157,7 +153,7 @@ interface BrowserSelectedEventArgs {
 }
 
 ipcMain.on(
-  BROWSER_SELECTED,
+  SELECT_BROWSER,
   (_: Event, { url, browserId, isAlt }: BrowserSelectedEventArgs) => {
     // Bail if browser id is missing
     if (!browserId) return
@@ -200,15 +196,15 @@ ipcMain.on(HIDE_WINDOW, () => {
   app.hide()
 })
 
-ipcMain.on(FAVOURITE_UPDATED, (_, favBrowserId) => {
+ipcMain.on(UPDATE_FAV, (_, favBrowserId) => {
   store.set('fav', favBrowserId)
 })
 
-ipcMain.on(HOTKEYS_UPDATED, (_, hotkeys: Hotkeys) => {
+ipcMain.on(UPDATE_HOTKEYS, (_, hotkeys: Hotkeys) => {
   store.set('hotkeys', hotkeys)
 })
 
-ipcMain.on(HIDDEN_TILE_IDS_UPDATED, (_, hiddenTileIds: string[]) => {
+ipcMain.on(UPDATE_HIDDEN_TILE_IDS, (_, hiddenTileIds: string[]) => {
   bWindow?.setSize(800, calcWindowHeight(installedBrowsers, hiddenTileIds))
   bWindow?.center()
   store.set('hiddenTileIds', hiddenTileIds)
@@ -230,6 +226,6 @@ ipcMain.on(QUIT, () => {
   app.quit()
 })
 
-ipcMain.on(LOGGER, (_, string: string) => {
+ipcMain.on(MAIN_LOG, (_, string: string) => {
   logger('Renderer', string)
 })

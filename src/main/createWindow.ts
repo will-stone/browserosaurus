@@ -2,7 +2,7 @@ import { app, BrowserWindow } from 'electron'
 import isDev from 'electron-is-dev'
 import path from 'path'
 
-import { PROTOCOL_STATUS } from './events'
+import { PROTOCOL_STATUS_RETRIEVED } from './events'
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
@@ -45,7 +45,10 @@ function createWindow(): Promise<BrowserWindow> {
       win.center()
       // There isn't a listener for default protocol client, therefore the check
       // is made each time the app is brought into focus.
-      win.webContents.send(PROTOCOL_STATUS, app.isDefaultProtocolClient('http'))
+      win.webContents.send(
+        PROTOCOL_STATUS_RETRIEVED,
+        app.isDefaultProtocolClient('http'),
+      )
     })
 
     win.on('blur', () => {

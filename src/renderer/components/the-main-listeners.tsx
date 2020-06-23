@@ -6,14 +6,13 @@ import { Browser } from '../../config/browsers'
 import {
   APP_VERSION,
   BROWSERS_SCANNED,
-  HIDDEN_TILE_IDS_RETRIEVED,
-  PROTOCOL_STATUS,
+  PROTOCOL_STATUS_RETRIEVED,
   STORE_RETRIEVED,
   UPDATE_DOWNLOADED,
   URL_UPDATED,
 } from '../../main/events'
 import { Store as MainStore } from '../../main/store'
-import { RENDERER_LOADED } from '../events'
+import { startApp } from '../sendToMain'
 import {
   receivedBrowsers,
   receivedDefaultProtocolClientStatus,
@@ -75,23 +74,26 @@ const TheMainListeners: React.FC = () => {
      * Receive protocol status
      * main -> renderer
      */
-    electron.ipcRenderer.on(PROTOCOL_STATUS, (_: unknown, bool: boolean) => {
-      dispatch(receivedDefaultProtocolClientStatus(bool))
-    })
+    electron.ipcRenderer.on(
+      PROTOCOL_STATUS_RETRIEVED,
+      (_: unknown, bool: boolean) => {
+        dispatch(receivedDefaultProtocolClientStatus(bool))
+      },
+    )
 
     /**
      * Tell main that App component has mounted
      * renderer -> main
      */
-    electron.ipcRenderer.send(RENDERER_LOADED)
+    startApp()
 
     return function cleanup() {
       electron.ipcRenderer.removeAllListeners(APP_VERSION)
       electron.ipcRenderer.removeAllListeners(UPDATE_DOWNLOADED)
       electron.ipcRenderer.removeAllListeners(BROWSERS_SCANNED)
       electron.ipcRenderer.removeAllListeners(URL_UPDATED)
-      electron.ipcRenderer.removeAllListeners(PROTOCOL_STATUS)
-      electron.ipcRenderer.removeAllListeners(HIDDEN_TILE_IDS_RETRIEVED)
+      electron.ipcRenderer.removeAllListeners(PROTOCOL_STATUS_RETRIEVED)
+      electron.ipcRenderer.removeAllListeners(STORE_RETRIEVED)
     }
   }, [dispatch])
 
