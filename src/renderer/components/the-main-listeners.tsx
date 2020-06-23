@@ -1,41 +1,30 @@
 import electron from 'electron'
 import React, { useEffect } from 'react'
-import { useSetRecoilState } from 'recoil'
+import { useDispatch } from 'react-redux'
 
 import { Browser } from '../../config/browsers'
 import {
   APP_VERSION,
   BROWSERS_SCANNED,
-  FAVOURITE_CHANGED,
-  HIDDEN_TILE_IDS_RETRIEVED,
-  HOTKEYS_RETRIEVED,
-  PROTOCOL_STATUS,
+  PROTOCOL_STATUS_RETRIEVED,
+  STORE_RETRIEVED,
   UPDATE_DOWNLOADED,
   URL_UPDATED,
 } from '../../main/events'
-import { Hotkeys } from '../../main/store'
-import { RENDERER_LOADED } from '../events'
+import { Store as MainStore } from '../../main/store'
+import { startApp } from '../sendToMain'
 import {
-  browsersAtom,
-  favBrowserIdAtom,
-  hiddenTileIdsAtom,
-  hotkeysAtom,
-  isDefaultBrowserAtom,
-  isUpdateAvailableAtom,
-  urlSelector,
-  versionAtom,
-} from '../state'
+  receivedBrowsers,
+  receivedDefaultProtocolClientStatus,
+  receivedStore,
+  receivedUpdate,
+  receivedUrl,
+  receivedVersion,
+} from '../store/actions'
 import Noop from './noop'
 
 const TheMainListeners: React.FC = () => {
-  const setUrl = useSetRecoilState(urlSelector)
-  const setBrowsersState = useSetRecoilState(browsersAtom)
-  const setVersion = useSetRecoilState(versionAtom)
-  const setFavBrowserId = useSetRecoilState(favBrowserIdAtom)
-  const setUpdateAvailable = useSetRecoilState(isUpdateAvailableAtom)
-  const setIsDefaultBrowser = useSetRecoilState(isDefaultBrowserAtom)
-  const setHotkeys = useSetRecoilState(hotkeysAtom)
-  const setHiddenTileIds = useSetRecoilState(hiddenTileIdsAtom)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     /**
@@ -43,7 +32,7 @@ const TheMainListeners: React.FC = () => {
      * main -> renderer
      */
     electron.ipcRenderer.on(APP_VERSION, (_: unknown, string: string) => {
-      setVersion(string)
+      dispatch(receivedVersion(string))
     })
 
     /**
@@ -51,7 +40,7 @@ const TheMainListeners: React.FC = () => {
      * main -> renderer
      */
     electron.ipcRenderer.on(UPDATE_DOWNLOADED, () => {
-      setUpdateAvailable(true)
+      dispatch(receivedUpdate())
     })
 
     /**
@@ -61,7 +50,7 @@ const TheMainListeners: React.FC = () => {
     electron.ipcRenderer.on(
       BROWSERS_SCANNED,
       (_: unknown, installedBrowsers: Browser[]) => {
-        setBrowsersState(installedBrowsers)
+        dispatch(receivedBrowsers(installedBrowsers))
       },
     )
 
@@ -70,47 +59,25 @@ const TheMainListeners: React.FC = () => {
      * main -> renderer
      */
     electron.ipcRenderer.on(URL_UPDATED, (_: unknown, url: string) => {
-      setUrl(url)
+      dispatch(receivedUrl(url))
     })
 
     /**
-     * Receive favourite
+     * Receive main's store
      * main -> renderer
      */
-    electron.ipcRenderer.on(
-      FAVOURITE_CHANGED,
-      (_: unknown, favBrowserId: string) => {
-        setFavBrowserId(favBrowserId)
-      },
-    )
+    electron.ipcRenderer.on(STORE_RETRIEVED, (_: unknown, store: MainStore) => {
+      dispatch(receivedStore(store))
+    })
 
     /**
      * Receive protocol status
      * main -> renderer
      */
-    electron.ipcRenderer.on(PROTOCOL_STATUS, (_: unknown, bool: boolean) => {
-      setIsDefaultBrowser(bool)
-    })
-
-    /**
-     * Receive hotkeys
-     * main -> renderer
-     */
     electron.ipcRenderer.on(
-      HOTKEYS_RETRIEVED,
-      (_: unknown, hotkeys: Hotkeys) => {
-        setHotkeys(hotkeys)
-      },
-    )
-
-    /**
-     * Receive hidden tile IDs
-     * main -> renderer
-     */
-    electron.ipcRenderer.on(
-      HIDDEN_TILE_IDS_RETRIEVED,
-      (_: unknown, tileIds: string[]) => {
-        setHiddenTileIds(tileIds)
+      PROTOCOL_STATUS_RETRIEVED,
+      (_: unknown, bool: boolean) => {
+        dispatch(receivedDefaultProtocolClientStatus(bool))
       },
     )
 
@@ -118,28 +85,17 @@ const TheMainListeners: React.FC = () => {
      * Tell main that App component has mounted
      * renderer -> main
      */
-    electron.ipcRenderer.send(RENDERER_LOADED)
+    startApp()
 
     return function cleanup() {
       electron.ipcRenderer.removeAllListeners(APP_VERSION)
       electron.ipcRenderer.removeAllListeners(UPDATE_DOWNLOADED)
       electron.ipcRenderer.removeAllListeners(BROWSERS_SCANNED)
       electron.ipcRenderer.removeAllListeners(URL_UPDATED)
-      electron.ipcRenderer.removeAllListeners(FAVOURITE_CHANGED)
-      electron.ipcRenderer.removeAllListeners(PROTOCOL_STATUS)
-      electron.ipcRenderer.removeAllListeners(HOTKEYS_RETRIEVED)
-      electron.ipcRenderer.removeAllListeners(HIDDEN_TILE_IDS_RETRIEVED)
+      electron.ipcRenderer.removeAllListeners(PROTOCOL_STATUS_RETRIEVED)
+      electron.ipcRenderer.removeAllListeners(STORE_RETRIEVED)
     }
-  }, [
-    setBrowsersState,
-    setUrl,
-    setVersion,
-    setFavBrowserId,
-    setUpdateAvailable,
-    setIsDefaultBrowser,
-    setHotkeys,
-    setHiddenTileIds,
-  ])
+  }, [dispatch])
 
   return <Noop />
 }

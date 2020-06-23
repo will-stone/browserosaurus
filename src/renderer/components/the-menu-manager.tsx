@@ -4,25 +4,27 @@
 
 import cc from 'classcat'
 import React, { useCallback } from 'react'
-import { useRecoilState } from 'recoil'
+import { useDispatch } from 'react-redux'
 
-import { openMenuSelector } from '../state'
+import { useSelector } from '../store'
+import { clickedMenuBackdrop } from '../store/actions'
 import Noop from './noop'
 import TheSponsorMenu from './the-sponsor-menu'
 import TheTilesMenu from './the-tiles-menu'
 
 const TheMenuManager: React.FC = () => {
-  const [openMenu, setOpenMenu] = useRecoilState(openMenuSelector)
+  const dispatch = useDispatch()
+  const menu = useSelector((state) => state.ui.menu)
 
   const handleBgClick = useCallback(() => {
-    setOpenMenu(false)
-  }, [setOpenMenu])
+    dispatch(clickedMenuBackdrop())
+  }, [dispatch])
 
   let Menu
 
-  if (openMenu === 'sponsor') {
+  if (menu === 'sponsor') {
     Menu = TheSponsorMenu
-  } else if (openMenu === 'tiles') {
+  } else if (menu === 'tiles') {
     Menu = TheTilesMenu
   }
 

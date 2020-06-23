@@ -6,91 +6,56 @@ import { faStar } from '@fortawesome/pro-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cc from 'classcat'
 import React, { useCallback } from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useDispatch } from 'react-redux'
 
-import { Hotkeys } from '../../main/store'
-import { getHotkeyByBrowserId } from '../../utils/getHotkeyByBrowserId'
-import { updateFav, updateHiddenTileIds, updateHotkeys } from '../sendToMain'
+import { useSelector, useShallowEqualSelector } from '../store'
 import {
-  browsersAtom,
-  favBrowserIdAtom,
-  hiddenTileIdsAtom,
-  hotkeysAtom,
-} from '../state'
+  madeTileFav,
+  toggledTileVisibility,
+  updatedTileHotkey,
+} from '../store/actions'
 import Kbd from './kbd'
 
 function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
   event.target.select()
 }
 
-// Update a hotkeys object based on incoming browser ID and hotkey combo
-const alterHotkey = (browserId: string, hotkey: string) => (
-  hotkeys: Hotkeys,
-) => {
-  // Do not alter original hotkeys object
-  const hotkeysCopy = { ...hotkeys }
-  // Find the previous key for this browser
-  const oldKey = getHotkeyByBrowserId(hotkeysCopy, browserId)
-  // If the new hotkey is empty, it's a deletion and so remove the current entry
-  if (!hotkey) {
-    delete hotkeysCopy[oldKey || '']
-    return hotkeysCopy
-  }
-
-  // If the new key is allowed, delete the previous entry and add new entry
-  const matchAlphaNumeric = hotkey.match(/^([A-Za-z0-9])$/u)
-  if (matchAlphaNumeric) {
-    delete hotkeysCopy[oldKey || '']
-    return { ...hotkeysCopy, [hotkey]: browserId }
-  }
-
-  // Else change nothing and return the original
-  return hotkeys
-}
-
 const TheTilesMenu: React.FC = () => {
-  const browsers = useRecoilValue(browsersAtom)
-  const [hotkeys, setHotkeys] = useRecoilState(hotkeysAtom)
-  const [favBrowserId, setFavBrowserId] = useRecoilState(favBrowserIdAtom)
-  const [hiddenTileIds, setHiddenTileIds] = useRecoilState(hiddenTileIdsAtom)
+  const dispatch = useDispatch()
+  const browsers = useShallowEqualSelector((state) => state.browsers)
+  const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
+  const favBrowserId = useSelector((state) => state.mainStore.fav)
+  const hiddenTileIds = useShallowEqualSelector(
+    (state) => state.mainStore.hiddenTileIds,
+  )
 
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      const browserId = event.currentTarget.name
-      const key = event.currentTarget.value.toLowerCase()
-
-      const updatedHotkeys = alterHotkey(browserId, key)(hotkeys)
-
-      updateHotkeys(updatedHotkeys)
-      setHotkeys(updatedHotkeys)
+      const { browserId = '' } = event.currentTarget.dataset
+      dispatch(
+        updatedTileHotkey({
+          browserId,
+          value: event.currentTarget.value,
+        }),
+      )
     },
-    [setHotkeys, hotkeys],
+    [dispatch],
   )
 
   const handleFavClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      setFavBrowserId(event.currentTarget.name)
-      updateFav(event.currentTarget.name)
+      const { browserId = '' } = event.currentTarget.dataset
+      dispatch(madeTileFav(browserId))
     },
-    [setFavBrowserId],
+    [dispatch],
   )
 
   const handleVisibilityClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      const theId = event.currentTarget.name
-
-      // Remove the id if it exists in the array
-      const updatedHiddenTileIds = hiddenTileIds.filter((id) => id !== theId)
-
-      // If no id was removed, it didn't exist to begin with and should be added
-      if (updatedHiddenTileIds.length === hiddenTileIds.length) {
-        updatedHiddenTileIds.push(theId)
-      }
-
-      updateHiddenTileIds(updatedHiddenTileIds)
-      setHiddenTileIds(updatedHiddenTileIds)
+      const { browserId = '' } = event.currentTarget.dataset
+      dispatch(toggledTileVisibility(browserId))
     },
-    [setHiddenTileIds, hiddenTileIds],
+    [dispatch],
   )
 
   return (
@@ -144,8 +109,9 @@ const TheTilesMenu: React.FC = () => {
                 <span className="inline-block mr-auto">{browser.name}</span>
 
                 <button
+                  aria-label={`Favourite ${browser.name}`}
                   className="flex-shrink-0 focus:outline-none"
-                  name={browser.id}
+                  data-browser-id={browser.id}
                   onClick={handleFavClick}
                   tabIndex={-1}
                   type="button"
@@ -160,8 +126,9 @@ const TheTilesMenu: React.FC = () => {
                 </button>
 
                 <button
+                  aria-label={`Toggle Visibility ${browser.name}`}
                   className="flex-shrink-0 focus:outline-none"
-                  name={browser.id}
+                  data-browser-id={browser.id}
                   onClick={handleVisibilityClick}
                   tabIndex={-1}
                   type="button"
@@ -190,9 +157,9 @@ const TheTilesMenu: React.FC = () => {
                   )}
                   <input
                     className="bg-transparent w-full h-full absolute z-10 text-grey-200 text-center uppercase font-bold focus:outline-none"
+                    data-browser-id={browser.id}
                     maxLength={1}
                     minLength={0}
-                    name={browser.id}
                     onChange={handleInputChange}
                     onFocus={handleFocus}
                     type="text"

@@ -1,12 +1,12 @@
 import cc from 'classcat'
 import React, { useCallback } from 'react'
-import { useRecoilState } from 'recoil'
+import { useDispatch } from 'react-redux'
 import Url from 'url'
 
 import { SPONSOR_URL } from '../../config/CONTANTS'
-import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 import { copyUrl } from '../sendToMain'
-import { urlSelector } from '../state'
+import { useSelector } from '../store'
+import { clickedUrlBackspaceButton } from '../store/actions'
 import { DarkButton } from './button'
 import Kbd from './kbd'
 
@@ -15,7 +15,8 @@ interface Props {
 }
 
 const TheUrlBar: React.FC<Props> = ({ className }) => {
-  const [url, setUrl] = useRecoilState(urlSelector)
+  const dispatch = useDispatch()
+  const url = useSelector((state) => state.ui.url)
 
   const parsedUrl = url ? Url.parse(url) : undefined
 
@@ -26,8 +27,8 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
   const isSponsorUrl = url === SPONSOR_URL
 
   const handleBackspaceButtonClick = useCallback(() => {
-    setUrl(backspaceUrlParse(url))
-  }, [url, setUrl])
+    dispatch(clickedUrlBackspaceButton())
+  }, [dispatch])
 
   return (
     <div className={cc([className, 'flex items-center space-x-4'])}>

@@ -2,13 +2,12 @@ import { faStar } from '@fortawesome/pro-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cc from 'classcat'
 import React, { useCallback } from 'react'
-import { useRecoilValue } from 'recoil'
 
 import { Browser } from '../../config/browsers'
 import { logos } from '../../config/logos'
 import { getHotkeyByBrowserId } from '../../utils/getHotkeyByBrowserId'
 import { selectBrowser } from '../sendToMain'
-import { favBrowserIdAtom, hotkeysAtom, urlSelector } from '../state'
+import { useSelector, useShallowEqualSelector } from '../store'
 import { LargeDarkButton } from './button'
 import Kbd from './kbd'
 
@@ -31,9 +30,9 @@ interface Props {
 }
 
 const BrowserButton: React.FC<Props> = ({ browser }) => {
-  const url = useRecoilValue(urlSelector)
-  const favBrowserId = useRecoilValue(favBrowserIdAtom)
-  const hotkeys = useRecoilValue(hotkeysAtom)
+  const url = useSelector((state) => state.ui.url)
+  const favBrowserId = useSelector((state) => state.mainStore.fav)
+  const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -49,6 +48,7 @@ const BrowserButton: React.FC<Props> = ({ browser }) => {
   return (
     <LargeDarkButton
       key={browser.id}
+      aria-label={`${browser.name} Tile`}
       className="flex flex-col justify-between items-stretch"
       onClick={handleClick}
     >

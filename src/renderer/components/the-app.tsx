@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
-import { RecoilRoot } from 'recoil'
+import { Provider } from 'react-redux'
 
 import { mainLog } from '../sendToMain'
+import store from '../store'
 import TheBrowserButtons from './the-browser-buttons'
 import TheKeyboardListeners from './the-keyboard-listeners'
 import TheMainListeners from './the-main-listeners'
@@ -15,7 +16,7 @@ const TheApp: React.FC = () => {
   }, [])
 
   return (
-    <RecoilRoot>
+    <Provider store={store}>
       <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col relative">
         <div className="flex-shrink-0 flex-grow p-4 border-b border-grey-900 relative">
           <TheUrlBar className="mb-4" />
@@ -31,7 +32,7 @@ const TheApp: React.FC = () => {
         <TheKeyboardListeners />
         <TheMainListeners />
       </div>
-    </RecoilRoot>
+    </Provider>
   )
 }
 

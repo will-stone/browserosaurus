@@ -2,18 +2,17 @@ import { faHeart } from '@fortawesome/pro-solid-svg-icons/faHeart'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cc from 'classcat'
 import React, { useCallback } from 'react'
-import { useSetRecoilState } from 'recoil'
+import { useDispatch } from 'react-redux'
 
-import { SPONSOR_URL } from '../../config/CONTANTS'
-import { urlSelector } from '../state'
+import { clickedSponsorButton } from '../store/actions'
 import { LightButton } from './button'
 
 const TheSponsorMenu: React.FC = () => {
-  const setUrl = useSetRecoilState(urlSelector)
+  const dispatch = useDispatch()
 
   const handleButtonClick = useCallback(() => {
-    setUrl(SPONSOR_URL)
-  }, [setUrl])
+    dispatch(clickedSponsorButton())
+  }, [dispatch])
 
   return (
     <div

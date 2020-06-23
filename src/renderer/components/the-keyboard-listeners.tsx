@@ -1,42 +1,30 @@
 import React, { useEffect } from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useDispatch } from 'react-redux'
 
-import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
-import { copyUrl, escapePressed, selectBrowser } from '../sendToMain'
-import {
-  areHotKeysEnabledSelector,
-  browsersAtom,
-  favBrowserIdAtom,
-  hotkeysAtom,
-  openMenuSelector,
-  urlSelector,
-} from '../state'
+import { copyUrl, selectBrowser } from '../sendToMain'
+import { useSelector, useShallowEqualSelector } from '../store'
+import { pressedBackspaceKey, pressedEscapeKey } from '../store/actions'
 import Noop from './noop'
 
 const TheKeyboardListeners: React.FC = () => {
-  const [openMenu, setOpenMenu] = useRecoilState(openMenuSelector)
-  const favBrowserId = useRecoilValue(favBrowserIdAtom)
-  const [url, setUrl] = useRecoilState(urlSelector)
-  const browsers = useRecoilValue(browsersAtom)
-  const areHotKeysEnabled = useRecoilValue(areHotKeysEnabledSelector)
-  const hotkeys = useRecoilValue(hotkeysAtom)
+  const dispatch = useDispatch()
+  const favBrowserId = useSelector((state) => state.mainStore.fav)
+  const menu = useSelector((state) => state.ui.menu)
+  const url = useSelector((state) => state.ui.url)
+  const browsers = useShallowEqualSelector((state) => state.browsers)
+  const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
 
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
       const isEscape = event.code === 'Escape'
 
       if (isEscape) {
-        if (openMenu) {
-          setOpenMenu(false)
-        } else {
-          escapePressed()
-        }
-
+        dispatch(pressedEscapeKey())
         return
       }
 
-      // Bail out if hotkeys are disabled
-      if (!areHotKeysEnabled) {
+      // Bail out if hotkeys are disabled by menu being open
+      if (menu) {
         return
       }
 
@@ -44,7 +32,7 @@ const TheKeyboardListeners: React.FC = () => {
 
       if (isBackspace) {
         event.preventDefault()
-        setUrl(backspaceUrlParse(url))
+        dispatch(pressedBackspaceKey())
       }
 
       const isCopy = event.key.toLowerCase() === 'c' && event.metaKey
@@ -77,16 +65,7 @@ const TheKeyboardListeners: React.FC = () => {
     return function cleanup() {
       document.removeEventListener('keydown', handler)
     }
-  }, [
-    url,
-    setUrl,
-    browsers,
-    favBrowserId,
-    openMenu,
-    setOpenMenu,
-    areHotKeysEnabled,
-    hotkeys,
-  ])
+  }, [url, browsers, favBrowserId, hotkeys, dispatch, menu])
 
   return <Noop />
 }
