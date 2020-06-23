@@ -5,9 +5,9 @@ import { Hotkeys } from '../main/store'
 import {
   BROWSER_SELECTED,
   COPY_TO_CLIPBOARD,
-  ESCAPE_PRESSED,
   FAVOURITE_UPDATED,
   HIDDEN_TILE_IDS_UPDATED,
+  HIDE_WINDOW,
   HOTKEYS_UPDATED,
   LOGGER,
   QUIT,
@@ -36,7 +36,7 @@ export const updateFav = (id: Browser['id']): void =>
 export const updateHotkeys = (hotkeys: Hotkeys): void =>
   ipcRenderer.send(HOTKEYS_UPDATED, hotkeys)
 
-export const escapePressed = (): void => ipcRenderer.send(ESCAPE_PRESSED)
+export const hideWindow = (): void => ipcRenderer.send(HIDE_WINDOW)
 
 export const mainLog = (string: string): void =>
   ipcRenderer.send(LOGGER, string)

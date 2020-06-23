@@ -8,9 +8,9 @@ import { Browser, browsers } from '../config/browsers'
 import {
   BROWSER_SELECTED,
   COPY_TO_CLIPBOARD,
-  ESCAPE_PRESSED,
   FAVOURITE_UPDATED,
   HIDDEN_TILE_IDS_UPDATED,
+  HIDE_WINDOW,
   HOTKEYS_UPDATED,
   LOGGER,
   QUIT,
@@ -195,7 +195,7 @@ ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, url: string) => {
   }
 })
 
-ipcMain.on(ESCAPE_PRESSED, () => {
+ipcMain.on(HIDE_WINDOW, () => {
   bWindow?.hide()
   app.hide()
 })
