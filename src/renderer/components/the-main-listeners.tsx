@@ -1,7 +1,6 @@
 import electron from 'electron'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { useSetRecoilState } from 'recoil'
 
 import { Browser } from '../../config/browsers'
 import {
@@ -16,20 +15,17 @@ import {
 import { Store as MainStore } from '../../main/store'
 import { RENDERER_LOADED } from '../events'
 import {
-  browsersAtom,
-  isDefaultBrowserAtom,
-  isUpdateAvailableAtom,
-  versionAtom,
-} from '../state'
-import { receivedStore, receivedUrl } from '../store/actions'
+  receivedBrowsers,
+  receivedDefaultProtocolClientStatus,
+  receivedStore,
+  receivedUpdate,
+  receivedUrl,
+  receivedVersion,
+} from '../store/actions'
 import Noop from './noop'
 
 const TheMainListeners: React.FC = () => {
   const dispatch = useDispatch()
-  const setBrowsersState = useSetRecoilState(browsersAtom)
-  const setVersion = useSetRecoilState(versionAtom)
-  const setUpdateAvailable = useSetRecoilState(isUpdateAvailableAtom)
-  const setIsDefaultBrowser = useSetRecoilState(isDefaultBrowserAtom)
 
   useEffect(() => {
     /**
@@ -37,7 +33,7 @@ const TheMainListeners: React.FC = () => {
      * main -> renderer
      */
     electron.ipcRenderer.on(APP_VERSION, (_: unknown, string: string) => {
-      setVersion(string)
+      dispatch(receivedVersion(string))
     })
 
     /**
@@ -45,7 +41,7 @@ const TheMainListeners: React.FC = () => {
      * main -> renderer
      */
     electron.ipcRenderer.on(UPDATE_DOWNLOADED, () => {
-      setUpdateAvailable(true)
+      dispatch(receivedUpdate())
     })
 
     /**
@@ -55,7 +51,7 @@ const TheMainListeners: React.FC = () => {
     electron.ipcRenderer.on(
       BROWSERS_SCANNED,
       (_: unknown, installedBrowsers: Browser[]) => {
-        setBrowsersState(installedBrowsers)
+        dispatch(receivedBrowsers(installedBrowsers))
       },
     )
 
@@ -80,7 +76,7 @@ const TheMainListeners: React.FC = () => {
      * main -> renderer
      */
     electron.ipcRenderer.on(PROTOCOL_STATUS, (_: unknown, bool: boolean) => {
-      setIsDefaultBrowser(bool)
+      dispatch(receivedDefaultProtocolClientStatus(bool))
     })
 
     /**
@@ -97,13 +93,7 @@ const TheMainListeners: React.FC = () => {
       electron.ipcRenderer.removeAllListeners(PROTOCOL_STATUS)
       electron.ipcRenderer.removeAllListeners(HIDDEN_TILE_IDS_RETRIEVED)
     }
-  }, [
-    setBrowsersState,
-    setVersion,
-    setUpdateAvailable,
-    setIsDefaultBrowser,
-    dispatch,
-  ])
+  }, [dispatch])
 
   return <Noop />
 }

@@ -9081,11 +9081,6 @@ realpath-native@^2.0.0:
   resolved "https://registry.yarnpkg.com/realpath-native/-/realpath-native-2.0.0.tgz#7377ac429b6e1fd599dc38d08ed942d0d7beb866"
   integrity sha512-v1SEYUOXXdbBZK8ZuNgO4TBjamPsiSgcFr0aP+tEKpQZK8vooEUqV6nm6Cv502mX4NF2EfsnVqtNAHG+/6Ur1Q==
 
-recoil@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/recoil/-/recoil-0.0.9.tgz#e595e031b935753f156310551b6b8192a7791d9d"
-  integrity sha512-PZUIj0abcKYcwBznxnTdb4oQqR9hUSa0djoxLuSxE20zU6CXqsMQLLTXxCZHIA8q6TmO1BrCq2BPeCdqtm5Hug==
-
 redent@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/redent/-/redent-1.0.0.tgz#cf916ab1fd5f1f16dfb20822dd6ec7f730c2afde"

@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
 
+import { Browser } from '../../config/browsers'
 import { SPONSOR_URL } from '../../config/CONTANTS'
 import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'
@@ -13,11 +14,23 @@ import {
   madeTileFav,
   pressedBackspaceKey,
   pressedEscapeKey,
+  receivedBrowsers,
+  receivedDefaultProtocolClientStatus,
   receivedStore,
+  receivedUpdate,
   receivedUrl,
+  receivedVersion,
   toggledTileVisibility,
   updatedTileHotkey,
 } from './actions'
+
+// ------------------
+// Browsers Reducer
+// ------------------
+
+const browsers = createReducer<Browser[]>([], (builder) =>
+  builder.addCase(receivedBrowsers, (state, action) => action.payload),
+)
 
 // ------------------
 // Main Store Reducer
@@ -60,46 +73,64 @@ const mainStore = createReducer<MainStore>(
 )
 
 // ------------------
-// Menu Reducer
+// UI Reducer
 // ------------------
 
 interface UiState {
   menu: false | 'tiles' | 'sponsor'
   url?: string
+  version: string
+  isUpdateAvailable: boolean
+  isDefaultProtocolClient: boolean
 }
 
-const ui = createReducer<UiState>({ menu: false }, (builder) =>
-  builder
-    .addCase(clickedTilesMenuButton, (state) => {
-      if (state.menu) state.menu = false
-      else state.menu = 'tiles'
-    })
-    .addCase(clickedSponsorMenuButton, (state) => {
-      if (state.menu) state.menu = false
-      else state.menu = 'sponsor'
-    })
-    // Close menu when escape key is pressed
-    .addCase(pressedEscapeKey, (state) => {
-      state.menu = false
-    })
-    // Close menu modal when backdrop clicked
-    .addCase(clickedMenuBackdrop, (state) => {
-      state.menu = false
-    })
-    // Close menus when new URL arrives
-    .addCase(receivedUrl, (state) => {
-      state.menu = false
-    })
-    .addCase(clickedUrlBackspaceButton, (state) => {
-      state.url = backspaceUrlParse(state.url)
-    })
-    .addCase(pressedBackspaceKey, (state) => {
-      state.url = backspaceUrlParse(state.url)
-    })
-    .addCase(clickedSponsorButton, (state) => {
-      state.url = SPONSOR_URL
-      state.menu = false
-    }),
+const ui = createReducer<UiState>(
+  {
+    menu: false,
+    version: '',
+    isUpdateAvailable: false,
+    isDefaultProtocolClient: true,
+  },
+  (builder) =>
+    builder
+      .addCase(clickedTilesMenuButton, (state) => {
+        if (state.menu) state.menu = false
+        else state.menu = 'tiles'
+      })
+      .addCase(clickedSponsorMenuButton, (state) => {
+        if (state.menu) state.menu = false
+        else state.menu = 'sponsor'
+      })
+      // Close menu when escape key is pressed
+      .addCase(pressedEscapeKey, (state) => {
+        state.menu = false
+      })
+      // Close menu modal when backdrop clicked
+      .addCase(clickedMenuBackdrop, (state) => {
+        state.menu = false
+      })
+      .addCase(receivedUrl, (state, action) => {
+        state.url = action.payload
+      })
+      .addCase(clickedUrlBackspaceButton, (state) => {
+        state.url = backspaceUrlParse(state.url)
+      })
+      .addCase(pressedBackspaceKey, (state) => {
+        state.url = backspaceUrlParse(state.url)
+      })
+      .addCase(clickedSponsorButton, (state) => {
+        state.url = SPONSOR_URL
+        state.menu = false
+      })
+      .addCase(receivedVersion, (state, action) => {
+        state.version = action.payload
+      })
+      .addCase(receivedUpdate, (state) => {
+        state.isUpdateAvailable = true
+      })
+      .addCase(receivedDefaultProtocolClientStatus, (state, action) => {
+        state.isDefaultProtocolClient = action.payload
+      }),
 )
 
-export { mainStore, ui }
+export { browsers, mainStore, ui }

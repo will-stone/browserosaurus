@@ -1,13 +1,11 @@
 import cc from 'classcat'
 import React from 'react'
-import { useRecoilValue } from 'recoil'
 
-import { browsersAtom } from '../state'
 import { useShallowEqualSelector } from '../store'
 import BrowserButton from './browser-button'
 
 const TheBrowserButtons: React.FC = () => {
-  const browsers = useRecoilValue(browsersAtom)
+  const browsers = useShallowEqualSelector((state) => state.browsers)
   const hiddenTileIds = useShallowEqualSelector(
     (state) => state.mainStore.hiddenTileIds,
   )

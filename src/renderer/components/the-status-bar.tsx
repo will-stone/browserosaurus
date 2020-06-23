@@ -8,14 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cc from 'classcat'
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { useRecoilValue } from 'recoil'
 
 import { quit, reload, setAsDefaultBrowser, updateRestart } from '../sendToMain'
-import {
-  isDefaultBrowserAtom,
-  isUpdateAvailableAtom,
-  versionAtom,
-} from '../state'
 import { useSelector } from '../store'
 import {
   clickedSponsorMenuButton,
@@ -30,9 +24,11 @@ interface Props {
 const TheStatusBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const openMenu = useSelector((state) => state.ui.menu)
-  const isDefaultBrowser = useRecoilValue(isDefaultBrowserAtom)
-  const isUpdateAvailable = useRecoilValue(isUpdateAvailableAtom)
-  const version = useRecoilValue(versionAtom)
+  const isDefaultProtocolClient = useSelector(
+    (state) => state.ui.isDefaultProtocolClient,
+  )
+  const isUpdateAvailable = useSelector((state) => state.ui.isUpdateAvailable)
+  const version = useSelector((state) => state.ui.version)
 
   const displayedVersion = version || ''
 
@@ -53,6 +49,7 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
     >
       <div className="flex items-center space-x-2">
         <LightButton
+          aria-label="Tiles Menu"
           className={cc([{ 'z-20': openMenu === 'tiles' }])}
           onClick={handleTilesMenuButtonClick}
         >
@@ -63,7 +60,7 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
           )}
         </LightButton>
 
-        {!isDefaultBrowser && (
+        {!isDefaultProtocolClient && (
           <LightButton onClick={setAsDefaultBrowser}>
             Set As Default Browser
           </LightButton>

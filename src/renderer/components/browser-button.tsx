@@ -48,6 +48,7 @@ const BrowserButton: React.FC<Props> = ({ browser }) => {
   return (
     <LargeDarkButton
       key={browser.id}
+      aria-label={`${browser.name} Tile`}
       className="flex flex-col justify-between items-stretch"
       onClick={handleClick}
     >

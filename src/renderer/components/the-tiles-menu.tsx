@@ -7,9 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cc from 'classcat'
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { useRecoilValue } from 'recoil'
 
-import { browsersAtom } from '../state'
 import { useSelector, useShallowEqualSelector } from '../store'
 import {
   madeTileFav,
@@ -24,7 +22,7 @@ function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
 
 const TheTilesMenu: React.FC = () => {
   const dispatch = useDispatch()
-  const browsers = useRecoilValue(browsersAtom)
+  const browsers = useShallowEqualSelector((state) => state.browsers)
   const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
   const favBrowserId = useSelector((state) => state.mainStore.fav)
   const hiddenTileIds = useShallowEqualSelector(
@@ -33,9 +31,12 @@ const TheTilesMenu: React.FC = () => {
 
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      const browserId = event.currentTarget.name
+      const { browserId = '' } = event.currentTarget.dataset
       dispatch(
-        updatedTileHotkey({ browserId, value: event.currentTarget.value }),
+        updatedTileHotkey({
+          browserId,
+          value: event.currentTarget.value,
+        }),
       )
     },
     [dispatch],
@@ -43,15 +44,16 @@ const TheTilesMenu: React.FC = () => {
 
   const handleFavClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      dispatch(madeTileFav(event.currentTarget.name))
+      const { browserId = '' } = event.currentTarget.dataset
+      dispatch(madeTileFav(browserId))
     },
     [dispatch],
   )
 
   const handleVisibilityClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      const theId = event.currentTarget.name
-      dispatch(toggledTileVisibility(theId))
+      const { browserId = '' } = event.currentTarget.dataset
+      dispatch(toggledTileVisibility(browserId))
     },
     [dispatch],
   )
@@ -107,8 +109,9 @@ const TheTilesMenu: React.FC = () => {
                 <span className="inline-block mr-auto">{browser.name}</span>
 
                 <button
+                  aria-label={`Favourite ${browser.name}`}
                   className="flex-shrink-0 focus:outline-none"
-                  name={browser.id}
+                  data-browser-id={browser.id}
                   onClick={handleFavClick}
                   tabIndex={-1}
                   type="button"
@@ -123,8 +126,9 @@ const TheTilesMenu: React.FC = () => {
                 </button>
 
                 <button
+                  aria-label={`Toggle Visibility ${browser.name}`}
                   className="flex-shrink-0 focus:outline-none"
-                  name={browser.id}
+                  data-browser-id={browser.id}
                   onClick={handleVisibilityClick}
                   tabIndex={-1}
                   type="button"
@@ -153,9 +157,9 @@ const TheTilesMenu: React.FC = () => {
                   )}
                   <input
                     className="bg-transparent w-full h-full absolute z-10 text-grey-200 text-center uppercase font-bold focus:outline-none"
+                    data-browser-id={browser.id}
                     maxLength={1}
                     minLength={0}
-                    name={browser.id}
                     onChange={handleInputChange}
                     onFocus={handleFocus}
                     type="text"

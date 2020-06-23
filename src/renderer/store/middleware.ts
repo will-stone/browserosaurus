@@ -31,7 +31,7 @@ export const middleware: Middleware<unknown, RootState> = (store) => (next) => (
   const result = next(action)
   // Everything below here is run AFTER reducers are calculated for the current action
 
-  if (madeTileFav.match(action)) {
+  if (madeTileFav.match(action) && action.payload) {
     updateFav(action.payload)
   }
 

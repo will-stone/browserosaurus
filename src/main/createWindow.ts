@@ -45,8 +45,7 @@ function createWindow(): Promise<BrowserWindow> {
       win.center()
       // There isn't a listener for default protocol client, therefore the check
       // is made each time the app is brought into focus.
-      const isDefaultBrowser = app.isDefaultProtocolClient('http')
-      win.webContents.send(PROTOCOL_STATUS, isDefaultBrowser)
+      win.webContents.send(PROTOCOL_STATUS, app.isDefaultProtocolClient('http'))
     })
 
     win.on('blur', () => {

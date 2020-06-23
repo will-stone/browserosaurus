@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { useRecoilValue } from 'recoil'
 
 import { copyUrl, selectBrowser } from '../sendToMain'
-import { browsersAtom } from '../state'
 import { useSelector, useShallowEqualSelector } from '../store'
 import { pressedBackspaceKey, pressedEscapeKey } from '../store/actions'
 import Noop from './noop'
@@ -13,7 +11,7 @@ const TheKeyboardListeners: React.FC = () => {
   const favBrowserId = useSelector((state) => state.mainStore.fav)
   const menu = useSelector((state) => state.ui.menu)
   const url = useSelector((state) => state.ui.url)
-  const browsers = useRecoilValue(browsersAtom)
+  const browsers = useShallowEqualSelector((state) => state.browsers)
   const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
 
   useEffect(() => {
