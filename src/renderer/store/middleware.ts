@@ -22,7 +22,6 @@ export const middleware: Middleware<unknown, RootState> = (store) => (next) => (
   // Hide window if escape key is pressed when no menus are open
   if (pressedEscapeKey.match(action)) {
     if (!store.getState().ui.menu) {
-      // TODO change to "closeWindow" or "hide"
       hideWindow()
     }
   }
