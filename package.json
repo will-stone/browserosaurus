@@ -145,7 +145,7 @@
     "@browser-logos/edge": "^2.0.3",
     "@browser-logos/edge-beta": "^1.0.11",
     "@browser-logos/edge-canary": "^1.0.9",
-    "@browser-logos/edge-dev": "^1.0.9",
+    "@browser-logos/edge-dev": "^2.0.2",
     "@browser-logos/firefox": "^3.0.4",
     "@browser-logos/firefox-developer-edition": "^3.0.2",
     "@browser-logos/firefox-nightly": "^3.0.2",
