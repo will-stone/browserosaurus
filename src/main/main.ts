@@ -170,7 +170,7 @@ ipcMain.on(
 
     const openArguments: string[] = [
       'open',
-      `"${processedUrlTemplate}"`,
+      `"${encodeURI(processedUrlTemplate)}"`,
       '-b',
       browserId,
       isAlt ? '--background' : '',
