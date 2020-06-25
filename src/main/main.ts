@@ -1,4 +1,4 @@
-import { exec } from 'child_process'
+import { execFile } from 'child_process'
 import { app, autoUpdater, BrowserWindow, ipcMain, Tray } from 'electron'
 import electronIsDev from 'electron-is-dev'
 import path from 'path'
@@ -169,14 +169,13 @@ ipcMain.on(
       : urlString
 
     const openArguments: string[] = [
-      'open',
-      `"${encodeURI(processedUrlTemplate)}"`,
+      processedUrlTemplate,
       '-b',
       browserId,
       isAlt ? '--background' : '',
     ].filter(Boolean)
 
-    exec(openArguments.join(' '))
+    execFile('open', openArguments)
 
     bWindow?.hide()
     app.hide()
