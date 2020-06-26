@@ -82,6 +82,10 @@ app.on('ready', async () => {
       bWindow?.webContents.send(UPDATE_DOWNLOADED)
     })
 
+    autoUpdater.on('error', () => {
+      logger('AutoUpdater', 'An error has occurred')
+    })
+
     // 1000 * 60 * 60 * 24
     const ONE_DAY_MS = 86400000
     // Check for updates every day. The first check is done on load: in the
