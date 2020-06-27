@@ -18,6 +18,10 @@ export const apps: App[] = [
     id: 'com.brave.Browser.dev',
   },
   {
+    name: 'Brave Nightly',
+    id: 'com.brave.Browser.nightly',
+  },
+  {
     name: 'Chromium',
     id: 'org.chromium.Chromium',
   },

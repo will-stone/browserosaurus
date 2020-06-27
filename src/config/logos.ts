@@ -1,5 +1,6 @@
 import braveBeta from '@browser-logos/brave-beta/brave-beta.svg'
 import braveDev from '@browser-logos/brave-dev/brave-dev.svg'
+import braveNightly from '@browser-logos/brave-nightly/brave-nightly_128x128.png'
 import brave from '@browser-logos/brave/brave.svg'
 import chromeCanary from '@browser-logos/chrome-canary/chrome-canary.svg'
 import chrome from '@browser-logos/chrome/chrome.svg'
@@ -36,6 +37,7 @@ export const logos: { [key: string]: string } = {
   'com.brave.Browser': brave,
   'com.brave.Browser.beta': braveBeta,
   'com.brave.Browser.dev': braveDev,
+  'com.brave.Browser.nightly': braveNightly,
   'org.chromium.Chromium': chromium,
   'org.mozilla.firefox': firefox,
   'org.mozilla.firefoxdeveloperedition': firefoxDevEdition,
