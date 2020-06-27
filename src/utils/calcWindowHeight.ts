@@ -1,4 +1,4 @@
-import { Browser } from '../config/browsers'
+import { App } from '../config/apps'
 
 const mainPaddingY = 32
 const mainBorderBottom = 1
@@ -9,10 +9,10 @@ const rowGap = 16
 const footerHeight = 64
 
 export function calcWindowHeight(
-  installedBrowsers: Browser[],
+  installedApps: App[],
   hiddenTileIds: string[],
 ): number {
-  const visibleTiles = installedBrowsers.filter(
+  const visibleTiles = installedApps.filter(
     (b) => !hiddenTileIds.includes(b.id),
   )
   // At least one row

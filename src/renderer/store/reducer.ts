@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
 
-import { Browser } from '../../config/browsers'
+import { App } from '../../config/apps'
 import { SPONSOR_URL } from '../../config/CONTANTS'
 import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'
@@ -14,7 +14,7 @@ import {
   madeTileFav,
   pressedBackspaceKey,
   pressedEscapeKey,
-  receivedBrowsers,
+  receivedApps,
   receivedDefaultProtocolClientStatus,
   receivedStore,
   receivedUpdate,
@@ -25,11 +25,11 @@ import {
 } from './actions'
 
 // ------------------
-// Browsers Reducer
+// Apps Reducer
 // ------------------
 
-const browsers = createReducer<Browser[]>([], (builder) =>
-  builder.addCase(receivedBrowsers, (state, action) => action.payload),
+const apps = createReducer<App[]>([], (builder) =>
+  builder.addCase(receivedApps, (state, action) => action.payload),
 )
 
 // ------------------
@@ -64,7 +64,7 @@ const mainStore = createReducer<MainStore>(
       .addCase(updatedTileHotkey, (state, action) => {
         const updatedHotkeys = alterHotkeys(
           state.hotkeys,
-          action.payload.browserId,
+          action.payload.appId,
           // TODO move this lower casing ot alterHotkeys
           action.payload.value.toLowerCase(),
         )
@@ -133,4 +133,4 @@ const ui = createReducer<UiState>(
       }),
 )
 
-export { browsers, mainStore, ui }
+export { apps, mainStore, ui }

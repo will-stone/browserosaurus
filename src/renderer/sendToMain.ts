@@ -1,15 +1,16 @@
 import { ipcRenderer } from 'electron'
 
-import { Browser } from '../config/browsers'
+import { App } from '../config/apps'
 import { Hotkeys } from '../main/store'
 
-export const SELECT_BROWSER = 'SELECT_BROWSER'
-export const selectBrowser = (
-  url: string | undefined,
-  browserId: Browser['id'] | undefined,
-  isAlt: boolean,
-): void => {
-  ipcRenderer.send(SELECT_BROWSER, { url, browserId, isAlt })
+export const OPEN_APP = 'OPEN_APP'
+export interface OpenAppArguments {
+  url: string | undefined
+  appId: App['id'] | undefined
+  isAlt: boolean
+}
+export function openApp(arguments_: OpenAppArguments): void {
+  ipcRenderer.send(OPEN_APP, arguments_)
 }
 
 export const COPY_TO_CLIPBOARD = 'COPY_TO_CLIPBOARD'
@@ -20,7 +21,7 @@ export const copyUrl = (url?: string): void => {
 }
 
 export const UPDATE_FAV = 'UPDATE_FAV'
-export const updateFav = (id: Browser['id']): void =>
+export const updateFav = (id: App['id']): void =>
   ipcRenderer.send(UPDATE_FAV, id)
 
 export const UPDATE_HOTKEYS = 'UPDATE_HOTKEYS'

@@ -1,11 +1,11 @@
 import { createAction } from '@reduxjs/toolkit'
 
-import { Browser } from '../../config/browsers'
+import { App } from '../../config/apps'
 import { Store as MainStore } from '../../main/store'
 
 const receivedStore = createAction<MainStore>('main/storeReceived')
 const receivedUrl = createAction<string>('main/urlReceived')
-const receivedBrowsers = createAction<Browser[]>('main/browsersReceived')
+const receivedApps = createAction<App[]>('main/appsReceived')
 const receivedVersion = createAction<string>('main/versionReceived')
 const receivedUpdate = createAction('main/updateReceived')
 const receivedDefaultProtocolClientStatus = createAction<boolean>(
@@ -14,7 +14,7 @@ const receivedDefaultProtocolClientStatus = createAction<boolean>(
 
 const madeTileFav = createAction<string>('tile/madeFav')
 const toggledTileVisibility = createAction<string>('tile/visibilityToggled')
-const updatedTileHotkey = createAction<{ browserId: string; value: string }>(
+const updatedTileHotkey = createAction<{ appId: string; value: string }>(
   'tile/hotkeyUpdated',
 )
 
@@ -38,7 +38,7 @@ export {
   pressedEscapeKey,
   receivedStore,
   receivedUrl,
-  receivedBrowsers,
+  receivedApps,
   receivedVersion,
   receivedUpdate,
   receivedDefaultProtocolClientStatus,

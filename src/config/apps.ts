@@ -1,10 +1,10 @@
-export interface Browser {
+export interface App {
   name: string
   id: string
   urlTemplate?: string
 }
 
-export const browsers: Browser[] = [
+export const apps: App[] = [
   {
     name: 'Brave',
     id: 'com.brave.Browser',

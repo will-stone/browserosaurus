@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import electron from 'electron'
 import isDev from 'electron-is-dev'
 import path from 'path'
 
@@ -7,9 +7,9 @@ import { PROTOCOL_STATUS_RETRIEVED } from './events'
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 
-function createWindow(): Promise<BrowserWindow> {
+function createWindow(): Promise<electron.BrowserWindow> {
   return new Promise((resolve, reject) => {
-    const win = new BrowserWindow({
+    const bWindow = new electron.BrowserWindow({
       backgroundColor: '#2F333B',
       frame: false,
       icon: path.join(__dirname, '/static/icon/icon.png'),
@@ -31,39 +31,39 @@ function createWindow(): Promise<BrowserWindow> {
       resizable: false,
     })
 
-    win.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
+    bWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
-    win.setVisibleOnAllWorkspaces(true)
+    bWindow.setVisibleOnAllWorkspaces(true)
 
-    win.on('close', (event_) => {
+    bWindow.on('close', (event_) => {
       event_.preventDefault()
-      win.hide()
-      app.hide()
+      bWindow.hide()
+      electron.app.hide()
     })
 
-    win.on('show', () => {
-      win.center()
+    bWindow.on('show', () => {
+      bWindow.center()
       // There isn't a listener for default protocol client, therefore the check
       // is made each time the app is brought into focus.
-      win.webContents.send(
+      bWindow.webContents.send(
         PROTOCOL_STATUS_RETRIEVED,
-        app.isDefaultProtocolClient('http'),
+        electron.app.isDefaultProtocolClient('http'),
       )
     })
 
-    win.on('blur', () => {
+    bWindow.on('blur', () => {
       if (!isDev) {
-        win.hide()
-        app.hide()
+        bWindow.hide()
+        electron.app.hide()
       }
     })
 
-    win.once('ready-to-show', () => {
+    bWindow.once('ready-to-show', () => {
       // pickerWindow.webContents.openDevTools()
-      resolve(win)
+      resolve(bWindow)
     })
 
-    win.once('unresponsive', () => reject(new Error('Window did not load')))
+    bWindow.once('unresponsive', () => reject(new Error('Window did not load')))
   })
 }
 

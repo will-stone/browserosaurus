@@ -22,19 +22,19 @@ function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
 
 const TheTilesMenu: React.FC = () => {
   const dispatch = useDispatch()
-  const browsers = useShallowEqualSelector((state) => state.browsers)
+  const apps = useShallowEqualSelector((state) => state.apps)
   const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
-  const favBrowserId = useSelector((state) => state.mainStore.fav)
+  const favAppId = useSelector((state) => state.mainStore.fav)
   const hiddenTileIds = useShallowEqualSelector(
     (state) => state.mainStore.hiddenTileIds,
   )
 
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      const { browserId = '' } = event.currentTarget.dataset
+      const { appId = '' } = event.currentTarget.dataset
       dispatch(
         updatedTileHotkey({
-          browserId,
+          appId,
           value: event.currentTarget.value,
         }),
       )
@@ -44,16 +44,16 @@ const TheTilesMenu: React.FC = () => {
 
   const handleFavClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      const { browserId = '' } = event.currentTarget.dataset
-      dispatch(madeTileFav(browserId))
+      const { appId = '' } = event.currentTarget.dataset
+      dispatch(madeTileFav(appId))
     },
     [dispatch],
   )
 
   const handleVisibilityClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      const { browserId = '' } = event.currentTarget.dataset
-      dispatch(toggledTileVisibility(browserId))
+      const { appId = '' } = event.currentTarget.dataset
+      dispatch(toggledTileVisibility(appId))
     },
     [dispatch],
   )
@@ -98,20 +98,19 @@ const TheTilesMenu: React.FC = () => {
         </div>
 
         <div className="font-bold text-sm w-64 mx-auto space-y-3">
-          {browsers.map((browser) => {
+          {apps.map((app) => {
             const hotkey =
-              Object.keys(hotkeys).find((key) => hotkeys[key] === browser.id) ||
-              ''
-            const isFav = favBrowserId === browser.id
-            const isVisible = !hiddenTileIds.includes(browser.id)
+              Object.keys(hotkeys).find((key) => hotkeys[key] === app.id) || ''
+            const isFav = favAppId === app.id
+            const isVisible = !hiddenTileIds.includes(app.id)
             return (
-              <div key={browser.id} className="space-x-3 flex items-center">
-                <span className="inline-block mr-auto">{browser.name}</span>
+              <div key={app.id} className="space-x-3 flex items-center">
+                <span className="inline-block mr-auto">{app.name}</span>
 
                 <button
-                  aria-label={`Favourite ${browser.name}`}
+                  aria-label={`Favourite ${app.name}`}
                   className="flex-shrink-0 focus:outline-none"
-                  data-browser-id={browser.id}
+                  data-app-id={app.id}
                   onClick={handleFavClick}
                   tabIndex={-1}
                   type="button"
@@ -126,9 +125,9 @@ const TheTilesMenu: React.FC = () => {
                 </button>
 
                 <button
-                  aria-label={`Toggle Visibility ${browser.name}`}
+                  aria-label={`Toggle Visibility ${app.name}`}
                   className="flex-shrink-0 focus:outline-none"
-                  data-browser-id={browser.id}
+                  data-app-id={app.id}
                   onClick={handleVisibilityClick}
                   tabIndex={-1}
                   type="button"
@@ -157,7 +156,7 @@ const TheTilesMenu: React.FC = () => {
                   )}
                   <input
                     className="bg-transparent w-full h-full absolute z-10 text-grey-200 text-center uppercase font-bold focus:outline-none"
-                    data-browser-id={browser.id}
+                    data-app-id={app.id}
                     maxLength={1}
                     minLength={0}
                     onChange={handleInputChange}

@@ -2,15 +2,15 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import electron from 'electron'
 import React from 'react'
 
-import { BROWSERS_SCANNED, URL_UPDATED } from '../../main/events'
+import { INSTALLED_APPS_FOUND, URL_UPDATED } from '../../main/events'
 import TheApp from '../components/the-app'
-import { SELECT_BROWSER } from '../sendToMain'
+import { OPEN_APP } from '../sendToMain'
 
-test('browsers', () => {
+test('tiles', () => {
   render(<TheApp />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
-    win.webContents.send(BROWSERS_SCANNED, [
+    win.webContents.send(INSTALLED_APPS_FOUND, [
       { name: 'Firefox', id: 'org.mozilla.firefox' },
       { name: 'Safari', id: 'com.apple.Safari' },
     ])
@@ -33,9 +33,9 @@ test('browsers', () => {
 
   // Correct info sent to main when tile clicked
   fireEvent.click(screen.getByAltText('Firefox'))
-  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(SELECT_BROWSER, {
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(OPEN_APP, {
     urlId: undefined,
-    browserId: 'org.mozilla.firefox',
+    appId: 'org.mozilla.firefox',
     isAlt: false,
   })
 
@@ -43,9 +43,9 @@ test('browsers', () => {
     win.webContents.send(URL_UPDATED, 'http://example.com')
   })
   fireEvent.click(screen.getByAltText('Firefox'))
-  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(SELECT_BROWSER, {
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(OPEN_APP, {
     url: 'http://example.com',
-    browserId: 'org.mozilla.firefox',
+    appId: 'org.mozilla.firefox',
     isAlt: false,
   })
 })

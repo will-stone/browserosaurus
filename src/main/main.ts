@@ -1,17 +1,18 @@
 import { execFile } from 'child_process'
-import { app, autoUpdater, BrowserWindow, ipcMain, Tray } from 'electron'
+import electron from 'electron'
 import electronIsDev from 'electron-is-dev'
 import path from 'path'
 
 import package_ from '../../package.json'
-import { Browser, browsers } from '../config/browsers'
+import { App, apps } from '../config/apps'
 import {
   COPY_TO_CLIPBOARD,
   HIDE_WINDOW,
   MAIN_LOG,
+  OPEN_APP,
+  OpenAppArguments,
   QUIT,
   RELOAD,
-  SELECT_BROWSER,
   SET_AS_DEFAULT_BROWSER,
   START_APP,
   UPDATE_FAV,
@@ -21,12 +22,12 @@ import {
 } from '../renderer/sendToMain'
 import { calcWindowHeight } from '../utils/calcWindowHeight'
 import copyToClipboard from '../utils/copyToClipboard'
-import getInstalledBrowsers from '../utils/getInstalledBrowsers'
+import getInstalledApps from '../utils/getInstalledApps'
 import { logger } from '../utils/logger'
 import createWindow from './createWindow'
 import {
   APP_VERSION,
-  BROWSERS_SCANNED,
+  INSTALLED_APPS_FOUND,
   PROTOCOL_STATUS_RETRIEVED,
   STORE_RETRIEVED,
   UPDATE_DOWNLOADED,
@@ -35,25 +36,27 @@ import {
 import { Hotkeys, store } from './store'
 
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
-app.commandLine.appendArgument('--enable-features=Metal')
+electron.app.commandLine.appendArgument('--enable-features=Metal')
 
 if (store.get('firstRun')) {
   // Prompt to set as default browser
-  app.setAsDefaultProtocolClient('http')
+  electron.app.setAsDefaultProtocolClient('http')
 }
 
 // Hide from dock and cmd-tab
-app.dock.hide()
+electron.app.dock.hide()
 
 // Prevents garbage collection
-let bWindow: BrowserWindow | undefined
-let tray: Tray | undefined
-let installedBrowsers: Browser[] = []
+let bWindow: electron.BrowserWindow | undefined
+let tray: electron.Tray | undefined
+let installedApps: App[] = []
 
-app.on('ready', async () => {
+electron.app.on('ready', async () => {
   bWindow = await createWindow()
 
-  tray = new Tray(path.join(__dirname, '/static/icon/tray_iconTemplate.png'))
+  tray = new electron.Tray(
+    path.join(__dirname, '/static/icon/tray_iconTemplate.png'),
+  )
   tray.setPressedImage(
     path.join(__dirname, '/static/icon/tray_iconHighlight.png'),
   )
@@ -66,23 +69,23 @@ app.on('ready', async () => {
 
   // Auto update on production
   if (!electronIsDev) {
-    autoUpdater.setFeedURL({
-      url: `https://update.electronjs.org/will-stone/browserosaurus/darwin-x64/${app.getVersion()}`,
+    electron.autoUpdater.setFeedURL({
+      url: `https://update.electronjs.org/will-stone/browserosaurus/darwin-x64/${electron.app.getVersion()}`,
       headers: {
         'User-Agent': `${package_.name}/${package_.version} (darwin: x64)`,
       },
     })
 
-    autoUpdater.on('before-quit-for-update', () => {
+    electron.autoUpdater.on('before-quit-for-update', () => {
       // All windows must be closed before an update can be applied using "restart".
       bWindow?.destroy()
     })
 
-    autoUpdater.on('update-downloaded', () => {
+    electron.autoUpdater.on('update-downloaded', () => {
       bWindow?.webContents.send(UPDATE_DOWNLOADED)
     })
 
-    autoUpdater.on('error', () => {
+    electron.autoUpdater.on('error', () => {
       logger('AutoUpdater', 'An error has occurred')
     })
 
@@ -91,14 +94,14 @@ app.on('ready', async () => {
     // Check for updates every day. The first check is done on load: in the
     // RENDERER_LOADED listener.
     setInterval(() => {
-      autoUpdater.checkForUpdates()
+      electron.autoUpdater.checkForUpdates()
     }, ONE_DAY_MS)
   }
 })
 
 // App doesn't always close on ctrl-c in console, this fixes that
-app.on('before-quit', () => {
-  app.exit()
+electron.app.on('before-quit', () => {
+  electron.app.exit()
 })
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -113,7 +116,7 @@ async function sendUrl(url: string) {
   }
 }
 
-app.on('open-url', (event, url) => {
+electron.app.on('open-url', (event, url) => {
   event.preventDefault()
   sendUrl(url)
 })
@@ -124,111 +127,105 @@ app.on('open-url', (event, url) => {
  * ------------------
  */
 
-ipcMain.on(START_APP, async () => {
-  installedBrowsers = await getInstalledBrowsers()
+electron.ipcMain.on(START_APP, async () => {
+  installedApps = await getInstalledApps()
 
   bWindow?.setSize(
     800,
-    calcWindowHeight(installedBrowsers, store.store.hiddenTileIds),
+    calcWindowHeight(installedApps, store.store.hiddenTileIds),
   )
   bWindow?.center()
 
   // Send all info down to renderer
   bWindow?.webContents.send(STORE_RETRIEVED, store.store)
-  bWindow?.webContents.send(BROWSERS_SCANNED, installedBrowsers)
+  bWindow?.webContents.send(INSTALLED_APPS_FOUND, installedApps)
   bWindow?.webContents.send(
     APP_VERSION,
-    `v${app.getVersion()}${electronIsDev ? ' DEV' : ''}`,
+    `v${electron.app.getVersion()}${electronIsDev ? ' DEV' : ''}`,
   )
 
   // Is default browser?
   bWindow?.webContents.send(
     PROTOCOL_STATUS_RETRIEVED,
-    app.isDefaultProtocolClient('http'),
+    electron.app.isDefaultProtocolClient('http'),
   )
 
-  autoUpdater.checkForUpdates()
+  electron.autoUpdater.checkForUpdates()
 })
 
-interface BrowserSelectedEventArgs {
-  url?: string
-  browserId: Browser['id']
-  isAlt: boolean
-}
+electron.ipcMain.on(
+  OPEN_APP,
+  (_: Event, { url, appId, isAlt }: OpenAppArguments) => {
+    // Bail if app's bundle id is missing
+    if (!appId) return
 
-ipcMain.on(
-  SELECT_BROWSER,
-  (_: Event, { url, browserId, isAlt }: BrowserSelectedEventArgs) => {
-    // Bail if browser id is missing
-    if (!browserId) return
+    const app = apps.find((b) => b.id === appId)
 
-    const browser = browsers.find((b) => b.id === browserId)
-
-    // Bail if browser cannot be found in config (this, in theory, can't happen)
-    if (!browser) return
+    // Bail if app cannot be found in config (this, in theory, can't happen)
+    if (!app) return
 
     const urlString = url || ''
-    const processedUrlTemplate = browser.urlTemplate
-      ? browser.urlTemplate.replace(/\{\{URL\}\}/u, urlString)
+    const processedUrlTemplate = app.urlTemplate
+      ? app.urlTemplate.replace(/\{\{URL\}\}/u, urlString)
       : urlString
 
     const openArguments: string[] = [
       processedUrlTemplate,
       '-b',
-      browserId,
+      appId,
       isAlt ? '--background' : '',
     ].filter(Boolean)
 
     execFile('open', openArguments)
 
     bWindow?.hide()
-    app.hide()
+    electron.app.hide()
   },
 )
 
-ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, url: string) => {
+electron.ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, url: string) => {
   if (url) {
     copyToClipboard(url)
     bWindow?.hide()
-    app.hide()
+    electron.app.hide()
   }
 })
 
-ipcMain.on(HIDE_WINDOW, () => {
+electron.ipcMain.on(HIDE_WINDOW, () => {
   bWindow?.hide()
-  app.hide()
+  electron.app.hide()
 })
 
-ipcMain.on(UPDATE_FAV, (_, favBrowserId) => {
-  store.set('fav', favBrowserId)
+electron.ipcMain.on(UPDATE_FAV, (_, favAppId) => {
+  store.set('fav', favAppId)
 })
 
-ipcMain.on(UPDATE_HOTKEYS, (_, hotkeys: Hotkeys) => {
+electron.ipcMain.on(UPDATE_HOTKEYS, (_, hotkeys: Hotkeys) => {
   store.set('hotkeys', hotkeys)
 })
 
-ipcMain.on(UPDATE_HIDDEN_TILE_IDS, (_, hiddenTileIds: string[]) => {
-  bWindow?.setSize(800, calcWindowHeight(installedBrowsers, hiddenTileIds))
+electron.ipcMain.on(UPDATE_HIDDEN_TILE_IDS, (_, hiddenTileIds: string[]) => {
+  bWindow?.setSize(800, calcWindowHeight(installedApps, hiddenTileIds))
   bWindow?.center()
   store.set('hiddenTileIds', hiddenTileIds)
 })
 
-ipcMain.on(SET_AS_DEFAULT_BROWSER, () => {
-  app.setAsDefaultProtocolClient('http')
+electron.ipcMain.on(SET_AS_DEFAULT_BROWSER, () => {
+  electron.app.setAsDefaultProtocolClient('http')
 })
 
-ipcMain.on(RELOAD, () => {
+electron.ipcMain.on(RELOAD, () => {
   bWindow?.reload()
 })
 
-ipcMain.on(UPDATE_RESTART, () => {
-  autoUpdater.quitAndInstall()
+electron.ipcMain.on(UPDATE_RESTART, () => {
+  electron.autoUpdater.quitAndInstall()
 })
 
-ipcMain.on(QUIT, () => {
-  app.quit()
+electron.ipcMain.on(QUIT, () => {
+  electron.app.quit()
 })
 
-ipcMain.on(MAIN_LOG, (_, string: string) => {
+electron.ipcMain.on(MAIN_LOG, (_, string: string) => {
   logger('Renderer', string)
 })

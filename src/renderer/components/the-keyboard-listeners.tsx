@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { copyUrl, selectBrowser } from '../sendToMain'
+import { copyUrl, openApp } from '../sendToMain'
 import { useSelector, useShallowEqualSelector } from '../store'
 import { pressedBackspaceKey, pressedEscapeKey } from '../store/actions'
 import Noop from './noop'
 
 const TheKeyboardListeners: React.FC = () => {
   const dispatch = useDispatch()
-  const favBrowserId = useSelector((state) => state.mainStore.fav)
+  const favAppId = useSelector((state) => state.mainStore.fav)
   const menu = useSelector((state) => state.ui.menu)
   const url = useSelector((state) => state.ui.url)
-  const browsers = useShallowEqualSelector((state) => state.browsers)
+  const apps = useShallowEqualSelector((state) => state.apps)
   const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
 
   useEffect(() => {
@@ -45,18 +45,18 @@ const TheKeyboardListeners: React.FC = () => {
 
       const matchAlphaNumeric = event.key.toLowerCase().match(/^([a-z0-9])$/u)
 
-      // Browser hotkey
+      // App hotkey
       if (matchAlphaNumeric) {
         const key = matchAlphaNumeric[1]
-        const browserId = hotkeys[key]
-        selectBrowser(url, browserId, event.altKey)
+        const appId = hotkeys[key]
+        openApp({ url, appId, isAlt: event.altKey })
         return
       }
 
-      // Open favourite (first) browser
+      // Open favourite app
       if (event.code === 'Space' || event.code === 'Enter') {
         event.preventDefault()
-        selectBrowser(url, favBrowserId, event.altKey)
+        openApp({ url, appId: favAppId, isAlt: event.altKey })
       }
     }
 
@@ -65,7 +65,7 @@ const TheKeyboardListeners: React.FC = () => {
     return function cleanup() {
       document.removeEventListener('keydown', handler)
     }
-  }, [url, browsers, favBrowserId, hotkeys, dispatch, menu])
+  }, [url, apps, favAppId, hotkeys, dispatch, menu])
 
   return <Noop />
 }

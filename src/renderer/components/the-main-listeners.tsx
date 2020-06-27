@@ -2,10 +2,10 @@ import electron from 'electron'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { Browser } from '../../config/browsers'
+import { App } from '../../config/apps'
 import {
   APP_VERSION,
-  BROWSERS_SCANNED,
+  INSTALLED_APPS_FOUND,
   PROTOCOL_STATUS_RETRIEVED,
   STORE_RETRIEVED,
   UPDATE_DOWNLOADED,
@@ -14,7 +14,7 @@ import {
 import { Store as MainStore } from '../../main/store'
 import { startApp } from '../sendToMain'
 import {
-  receivedBrowsers,
+  receivedApps,
   receivedDefaultProtocolClientStatus,
   receivedStore,
   receivedUpdate,
@@ -44,13 +44,13 @@ const TheMainListeners: React.FC = () => {
     })
 
     /**
-     * Receive browsers
+     * Receive apps
      * main -> renderer
      */
     electron.ipcRenderer.on(
-      BROWSERS_SCANNED,
-      (_: unknown, installedBrowsers: Browser[]) => {
-        dispatch(receivedBrowsers(installedBrowsers))
+      INSTALLED_APPS_FOUND,
+      (_: unknown, installedApps: App[]) => {
+        dispatch(receivedApps(installedApps))
       },
     )
 
@@ -90,7 +90,7 @@ const TheMainListeners: React.FC = () => {
     return function cleanup() {
       electron.ipcRenderer.removeAllListeners(APP_VERSION)
       electron.ipcRenderer.removeAllListeners(UPDATE_DOWNLOADED)
-      electron.ipcRenderer.removeAllListeners(BROWSERS_SCANNED)
+      electron.ipcRenderer.removeAllListeners(INSTALLED_APPS_FOUND)
       electron.ipcRenderer.removeAllListeners(URL_UPDATED)
       electron.ipcRenderer.removeAllListeners(PROTOCOL_STATUS_RETRIEVED)
       electron.ipcRenderer.removeAllListeners(STORE_RETRIEVED)

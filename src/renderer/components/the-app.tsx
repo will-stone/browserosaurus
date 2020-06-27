@@ -3,11 +3,11 @@ import { Provider } from 'react-redux'
 
 import { mainLog } from '../sendToMain'
 import store from '../store'
-import TheBrowserButtons from './the-browser-buttons'
 import TheKeyboardListeners from './the-keyboard-listeners'
 import TheMainListeners from './the-main-listeners'
 import TheMenuManager from './the-menu-manager'
 import TheStatusBar from './the-status-bar'
+import TheTiles from './the-tiles'
 import TheUrlBar from './the-url-bar'
 
 const TheApp: React.FC = () => {
@@ -22,7 +22,7 @@ const TheApp: React.FC = () => {
           <TheUrlBar className="mb-4" />
 
           <div className="flex-shrink-0 flex flex-col justify-between">
-            <TheBrowserButtons />
+            <TheTiles />
           </div>
         </div>
 

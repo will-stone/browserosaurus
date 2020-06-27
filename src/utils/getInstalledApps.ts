@@ -1,7 +1,7 @@
 import { exec } from 'child_process'
 import { promisify } from 'util'
 
-import { Browser, browsers } from '../config/browsers'
+import { App, apps } from '../config/apps'
 
 const execP = promisify(exec)
 
@@ -18,15 +18,15 @@ async function filterAsync<T>(
 }
 
 /**
- * Finds installed whitelisted browsers.
+ * Finds installed whitelisted apps.
  */
-const getInstalledBrowsers = (): Promise<Browser[]> =>
+const getInstalledApps = (): Promise<App[]> =>
   // TODO: make this pure.
-  filterAsync(browsers, async (browser) => {
+  filterAsync(apps, async (app) => {
     const { stdout: appPath } = await execP(
-      `mdfind 'kMDItemContentType == "com.apple.application-bundle" && kMDItemCFBundleIdentifier == "${browser.id}"'`,
+      `mdfind 'kMDItemContentType == "com.apple.application-bundle" && kMDItemCFBundleIdentifier == "${app.id}"'`,
     )
     return Boolean(appPath)
   })
 
-export default getInstalledBrowsers
+export default getInstalledApps

@@ -1,11 +1,11 @@
 import ElectronStore from 'electron-store'
 
-import { Browser } from '../config/browsers'
+import { App } from '../config/apps'
 
 /**
  * Keyboard shortcuts
  */
-export type Hotkeys = { [key in string]: Browser['id'] }
+export type Hotkeys = { [key in string]: App['id'] }
 
 export interface Store {
   fav: string

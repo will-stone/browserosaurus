@@ -19,7 +19,7 @@
     "docs": "npx http-server ./docs",
     "icns": "cd ./src/images/icon && ./scripts/png2icns.sh icon.png",
     "lint": "eslint . --ignore-path .gitignore",
-    "list-browsers": "ts-node ./scripts/listInstalledBrowsers",
+    "list-apps": "ts-node ./scripts/listInstalledApps",
     "make": "electron-forge make --skip-package",
     "notarize": "ts-node ./scripts/notarize.ts",
     "prepackage": "rimraf ./out/",
