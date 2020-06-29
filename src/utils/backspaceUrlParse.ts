@@ -9,8 +9,42 @@ export function backspaceUrlParse(url?: string): string | undefined {
   if (url) {
     const { protocol, slashes, host, pathname, search, hash } = Url.parse(url)
 
-    const isOnlyDomain = pathname === '/' && !search && !hash
+    if (hash) {
+      return `${protocol}${slashes ? '//' : ''}${host}${pathname}${search}`
+    }
 
-    return isOnlyDomain ? undefined : `${protocol}${slashes ? '//' : ''}${host}`
+    if (search) {
+      const searchParameters = new URLSearchParams(search)
+      const searchParametersArray: string[] = []
+      searchParameters.forEach((value, key) => {
+        searchParametersArray.push(`${key}=${value}`)
+      })
+      if (searchParametersArray.length > 1) {
+        const minusLast = searchParametersArray.slice(0, -1)
+        const searchParametersString = minusLast.join('&')
+
+        return [
+          protocol,
+          slashes ? '//' : '',
+          host,
+          pathname,
+          '?',
+          searchParametersString,
+        ].join('')
+      }
+
+      return `${protocol}${slashes ? '//' : ''}${host}${pathname}`
+    }
+
+    if (pathname && pathname !== '/') {
+      const pathnameArray = pathname.split('/').filter(Boolean)
+      if (pathnameArray.length > 1) {
+        const minusLast = pathnameArray.slice(0, -1)
+        const pathnameString = minusLast.join('/')
+        return `${protocol}${slashes ? '//' : ''}${host}/${pathnameString}/`
+      }
+
+      return `${protocol}${slashes ? '//' : ''}${host}/`
+    }
   }
 }
