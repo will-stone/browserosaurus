@@ -18,6 +18,7 @@ import {
   receivedDefaultProtocolClientStatus,
   receivedStore,
   receivedUpdate,
+  receivedUpdateAvailable,
   receivedUrl,
   receivedVersion,
   toggledTileVisibility,
@@ -80,7 +81,7 @@ interface UiState {
   menu: false | 'tiles' | 'sponsor'
   url?: string
   version: string
-  isUpdateAvailable: boolean
+  updateStatus: 'no-update' | 'available' | 'downloaded'
   isDefaultProtocolClient: boolean
 }
 
@@ -88,7 +89,7 @@ const ui = createReducer<UiState>(
   {
     menu: false,
     version: '',
-    isUpdateAvailable: false,
+    updateStatus: 'no-update',
     isDefaultProtocolClient: true,
   },
   (builder) =>
@@ -125,8 +126,11 @@ const ui = createReducer<UiState>(
       .addCase(receivedVersion, (state, action) => {
         state.version = action.payload
       })
+      .addCase(receivedUpdateAvailable, (state) => {
+        state.updateStatus = 'available'
+      })
       .addCase(receivedUpdate, (state) => {
-        state.isUpdateAvailable = true
+        state.updateStatus = 'downloaded'
       })
       .addCase(receivedDefaultProtocolClientStatus, (state, action) => {
         state.isDefaultProtocolClient = action.payload

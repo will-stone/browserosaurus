@@ -8,6 +8,7 @@ import {
   INSTALLED_APPS_FOUND,
   PROTOCOL_STATUS_RETRIEVED,
   STORE_RETRIEVED,
+  UPDATE_AVAILABLE,
   UPDATE_DOWNLOADED,
   URL_UPDATED,
 } from '../../main/events'
@@ -18,6 +19,7 @@ import {
   receivedDefaultProtocolClientStatus,
   receivedStore,
   receivedUpdate,
+  receivedUpdateAvailable,
   receivedUrl,
   receivedVersion,
 } from '../store/actions'
@@ -36,7 +38,15 @@ const TheMainListeners: React.FC = () => {
     })
 
     /**
-     * Receive update availability
+     * Receive update available
+     * main -> renderer
+     */
+    electron.ipcRenderer.on(UPDATE_AVAILABLE, () => {
+      dispatch(receivedUpdateAvailable())
+    })
+
+    /**
+     * Receive update downloaded
      * main -> renderer
      */
     electron.ipcRenderer.on(UPDATE_DOWNLOADED, () => {

@@ -30,6 +30,7 @@ import {
   INSTALLED_APPS_FOUND,
   PROTOCOL_STATUS_RETRIEVED,
   STORE_RETRIEVED,
+  UPDATE_AVAILABLE,
   UPDATE_DOWNLOADED,
   URL_UPDATED,
 } from './events'
@@ -79,6 +80,10 @@ electron.app.on('ready', async () => {
     electron.autoUpdater.on('before-quit-for-update', () => {
       // All windows must be closed before an update can be applied using "restart".
       bWindow?.destroy()
+    })
+
+    electron.autoUpdater.on('update-available', () => {
+      bWindow?.webContents.send(UPDATE_AVAILABLE)
     })
 
     electron.autoUpdater.on('update-downloaded', () => {

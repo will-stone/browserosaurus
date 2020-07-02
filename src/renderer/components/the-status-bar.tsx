@@ -27,7 +27,7 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
   const isDefaultProtocolClient = useSelector(
     (state) => state.ui.isDefaultProtocolClient,
   )
-  const isUpdateAvailable = useSelector((state) => state.ui.isUpdateAvailable)
+  const updateStatus = useSelector((state) => state.ui.updateStatus)
   const version = useSelector((state) => state.ui.version)
 
   const displayedVersion = version || ''
@@ -69,7 +69,9 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
 
       <div className="flex items-center space-x-2">
         <div className="text-xs text-grey-500 text-bold">
-          {displayedVersion}
+          {updateStatus === 'available'
+            ? 'Downloading update…'
+            : displayedVersion}
         </div>
 
         <LightButton
@@ -84,12 +86,14 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
           )}
         </LightButton>
 
-        {isUpdateAvailable ? (
+        {updateStatus === 'downloaded' && (
           <LightButton onClick={updateRestart} tone="primary">
             <FontAwesomeIcon icon={faGift} />
             <span>Update</span>
           </LightButton>
-        ) : (
+        )}
+
+        {updateStatus !== 'downloaded' && (
           <>
             <LightButton onClick={reload}>
               <FontAwesomeIcon fixedWidth icon={faSync} />
