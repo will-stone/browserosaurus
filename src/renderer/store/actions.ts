@@ -8,7 +8,7 @@ const receivedUrl = createAction<string>('main/urlReceived')
 const receivedApps = createAction<App[]>('main/appsReceived')
 const receivedVersion = createAction<string>('main/versionReceived')
 const receivedUpdateAvailable = createAction('main/updateAvailableReceived')
-const receivedUpdate = createAction('main/updateReceived')
+const receivedUpdateDownloaded = createAction('main/updateDownloadedReceived')
 const receivedDefaultProtocolClientStatus = createAction<boolean>(
   'main/defaultProtocolClientStatusReceived',
 )
@@ -42,7 +42,7 @@ export {
   receivedApps,
   receivedVersion,
   receivedUpdateAvailable,
-  receivedUpdate,
+  receivedUpdateDownloaded,
   receivedDefaultProtocolClientStatus,
   toggledTileVisibility,
   updatedTileHotkey,

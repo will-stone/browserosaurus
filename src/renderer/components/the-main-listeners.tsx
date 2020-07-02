@@ -18,8 +18,8 @@ import {
   receivedApps,
   receivedDefaultProtocolClientStatus,
   receivedStore,
-  receivedUpdate,
   receivedUpdateAvailable,
+  receivedUpdateDownloaded,
   receivedUrl,
   receivedVersion,
 } from '../store/actions'
@@ -50,7 +50,7 @@ const TheMainListeners: React.FC = () => {
      * main -> renderer
      */
     electron.ipcRenderer.on(UPDATE_DOWNLOADED, () => {
-      dispatch(receivedUpdate())
+      dispatch(receivedUpdateDownloaded())
     })
 
     /**

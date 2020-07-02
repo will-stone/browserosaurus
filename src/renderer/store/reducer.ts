@@ -17,8 +17,8 @@ import {
   receivedApps,
   receivedDefaultProtocolClientStatus,
   receivedStore,
-  receivedUpdate,
   receivedUpdateAvailable,
+  receivedUpdateDownloaded,
   receivedUrl,
   receivedVersion,
   toggledTileVisibility,
@@ -129,7 +129,7 @@ const ui = createReducer<UiState>(
       .addCase(receivedUpdateAvailable, (state) => {
         state.updateStatus = 'available'
       })
-      .addCase(receivedUpdate, (state) => {
+      .addCase(receivedUpdateDownloaded, (state) => {
         state.updateStatus = 'downloaded'
       })
       .addCase(receivedDefaultProtocolClientStatus, (state, action) => {
