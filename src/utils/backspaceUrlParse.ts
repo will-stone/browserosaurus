@@ -10,7 +10,7 @@ export function backspaceUrlParse(url?: string): string | undefined {
     const { protocol, slashes, host, pathname, search, hash } = Url.parse(url)
 
     if (hash) {
-      return `${protocol}${slashes ? '//' : ''}${host}${pathname}${search}`
+      return [protocol, slashes ? '//' : '', host, pathname, search].join('')
     }
 
     if (search) {

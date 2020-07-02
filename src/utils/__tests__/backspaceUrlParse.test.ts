@@ -1,28 +1,60 @@
 import { backspaceUrlParse } from '../backspaceUrlParse'
 
 test('should remove parts of url by steps', () => {
-  const url =
-    'https://example.com:4000/path/name/?search=param&another=param2#hash-thing'
+  // Kitchen sink
+  expect(
+    backspaceUrlParse(
+      'https://example.com:4000/path/name/?search=param&another=param2#hash-thing',
+    ),
+  ).toBe('https://example.com:4000/path/name/?search=param&another=param2')
 
-  const url1 = backspaceUrlParse(url)
-  expect(url1).toBe(
-    'https://example.com:4000/path/name/?search=param&another=param2',
+  expect(
+    backspaceUrlParse(
+      'https://example.com:4000/path/name/?search=param&another=param2',
+    ),
+  ).toBe('https://example.com:4000/path/name/?search=param')
+
+  expect(
+    backspaceUrlParse('https://example.com:4000/path/name/?search=param'),
+  ).toBe('https://example.com:4000/path/name/')
+
+  expect(backspaceUrlParse('https://example.com:4000/path/name/')).toBe(
+    'https://example.com:4000/path/',
   )
 
-  const url2 = backspaceUrlParse(url1)
-  expect(url2).toBe('https://example.com:4000/path/name/?search=param')
+  expect(backspaceUrlParse('https://example.com:4000/path/')).toBe(
+    'https://example.com:4000/',
+  )
 
-  const url3 = backspaceUrlParse(url2)
-  expect(url3).toBe('https://example.com:4000/path/name/')
+  expect(backspaceUrlParse('https://example.com:4000/')).toBeUndefined()
 
-  const url4 = backspaceUrlParse(url3)
-  expect(url4).toBe('https://example.com:4000/path/')
-
-  const url5 = backspaceUrlParse(url4)
-  expect(url5).toBe('https://example.com:4000/')
-
-  const url6 = backspaceUrlParse(url5)
-  expect(url6).toBeUndefined()
-
+  // No text
   expect(backspaceUrlParse()).toBeUndefined()
+
+  // No port
+  expect(backspaceUrlParse('https://example.com/')).toBeUndefined()
+  expect(backspaceUrlParse('https://example.com')).toBeUndefined()
+
+  // Just hash
+  expect(backspaceUrlParse('https://example.com/#hash')).toBe(
+    'https://example.com/',
+  )
+  expect(backspaceUrlParse('https://example.com#hash')).toBe(
+    'https://example.com/',
+  )
+
+  // Just query params
+  expect(backspaceUrlParse('https://example.com/?a=1&b=2')).toBe(
+    'https://example.com/?a=1',
+  )
+  expect(backspaceUrlParse('https://example.com/?a=1')).toBe(
+    'https://example.com/',
+  )
+
+  expect(backspaceUrlParse('https://example.com?a=1&b=2')).toBe(
+    'https://example.com/?a=1',
+  )
+  expect(backspaceUrlParse('https://example.com?a=1')).toBe(
+    'https://example.com/',
+  )
 })
