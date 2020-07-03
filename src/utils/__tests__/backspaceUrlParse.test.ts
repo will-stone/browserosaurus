@@ -1,60 +1,41 @@
 import { backspaceUrlParse } from '../backspaceUrlParse'
 
-test('should remove parts of url by steps', () => {
+const cases = [
   // Kitchen sink
-  expect(
-    backspaceUrlParse(
-      'https://example.com:4000/path/name/?search=param&another=param2#hash-thing',
-    ),
-  ).toBe('https://example.com:4000/path/name/?search=param&another=param2')
-
-  expect(
-    backspaceUrlParse(
-      'https://example.com:4000/path/name/?search=param&another=param2',
-    ),
-  ).toBe('https://example.com:4000/path/name/?search=param')
-
-  expect(
-    backspaceUrlParse('https://example.com:4000/path/name/?search=param'),
-  ).toBe('https://example.com:4000/path/name/')
-
-  expect(backspaceUrlParse('https://example.com:4000/path/name/')).toBe(
-    'https://example.com:4000/path/',
-  )
-
-  expect(backspaceUrlParse('https://example.com:4000/path/')).toBe(
-    'https://example.com:4000/',
-  )
-
-  expect(backspaceUrlParse('https://example.com:4000/')).toBeUndefined()
-
-  // No text
-  expect(backspaceUrlParse()).toBeUndefined()
-
+  [
+    'https://example.com:4000/path/name/?search=param&another=param2#hash-thing',
+    'https://example.com:4000/path/name/?search=param&another=param2',
+  ],
+  [
+    'https://example.com:4000/path/name/?search=param&another=param2',
+    'https://example.com:4000/path/name/?search=param',
+  ],
+  [
+    'https://example.com:4000/path/name/?search=param',
+    'https://example.com:4000/path/name/',
+  ],
+  ['https://example.com:4000/path/name/', 'https://example.com:4000/path/'],
+  ['https://example.com:4000/path/', 'https://example.com:4000/'],
+  ['https://example.com:4000/', undefined],
+  [undefined, undefined],
   // No port
-  expect(backspaceUrlParse('https://example.com/')).toBeUndefined()
-  expect(backspaceUrlParse('https://example.com')).toBeUndefined()
-
+  ['https://example.com/', undefined],
+  // No trailing slash
+  ['https://example.com', undefined],
   // Just hash
-  expect(backspaceUrlParse('https://example.com/#hash')).toBe(
-    'https://example.com/',
-  )
-  expect(backspaceUrlParse('https://example.com#hash')).toBe(
-    'https://example.com/',
-  )
-
+  ['https://example.com/#hash', 'https://example.com/'],
+  ['https://example.com#hash', 'https://example.com/'],
   // Just query params
-  expect(backspaceUrlParse('https://example.com/?a=1&b=2')).toBe(
-    'https://example.com/?a=1',
-  )
-  expect(backspaceUrlParse('https://example.com/?a=1')).toBe(
-    'https://example.com/',
-  )
+  ['https://example.com/?a=1&b=2', 'https://example.com/?a=1'],
+  ['https://example.com/?a=1', 'https://example.com/'],
+  ['https://example.com?a=1&b=2', 'https://example.com/?a=1'],
+  // Hash hijacking
+  [
+    'https://example.com/a/b#comment:8/agdsf?sdfasdfasd&jhgsadf',
+    'https://example.com/a/b',
+  ],
+]
 
-  expect(backspaceUrlParse('https://example.com?a=1&b=2')).toBe(
-    'https://example.com/?a=1',
-  )
-  expect(backspaceUrlParse('https://example.com?a=1')).toBe(
-    'https://example.com/',
-  )
+test.each(cases)('given %p return %p', (input, expected) => {
+  expect(backspaceUrlParse(input)).toBe(expected)
 })
