@@ -14,5 +14,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
   },
-  plugins: [new CopyPlugin([{ from: 'src/main/static', to: 'static' }])],
+  plugins: [
+    new CopyPlugin({ patterns: [{ from: 'src/main/static', to: 'static' }] }),
+  ],
 }
