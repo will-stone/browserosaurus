@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "esModuleInterop": true,
     "jsx": "react",
     "module": "commonjs",
-    "skipLibCheck": true,
     "noImplicitAny": true,
-    "strict": true,
-    "baseUrl": ".",
     "outDir": "dist",
     "paths": {
       "*": ["node_modules/*"]
     },
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "skipLibCheck": true,
+    "strict": true
   },
   "include": ["src/**/*", "@types/*"]
 }
