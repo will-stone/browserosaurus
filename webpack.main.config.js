@@ -11,6 +11,8 @@ module.exports = {
   module: {
     rules,
   },
+  // Do not create source maps
+  devtool: false,
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
   },
