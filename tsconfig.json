@@ -2,10 +2,8 @@
   "compilerOptions": {
     "jsx": "react",
     "module": "commonjs",
-    "moduleResolution": "node",
     "skipLibCheck": true,
     "noImplicitAny": true,
-    "sourceMap": true,
     "strict": true,
     "baseUrl": ".",
     "outDir": "dist",
