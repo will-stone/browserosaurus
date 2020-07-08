@@ -1,6 +1,6 @@
 import ElectronStore from 'electron-store'
 
-import { App } from '../config/apps'
+import { App } from '../config/types'
 
 /**
  * Keyboard shortcuts

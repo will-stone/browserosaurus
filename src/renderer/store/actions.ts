@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
 
-import { App } from '../../config/apps'
+import { App } from '../../config/types'
 import { Store as MainStore } from '../../main/store'
 
 const receivedStore = createAction<MainStore>('main/storeReceived')

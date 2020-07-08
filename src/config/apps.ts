@@ -1,8 +1,4 @@
-export interface App {
-  name: string
-  id: string
-  urlTemplate?: string
-}
+import { App } from './types'
 
 export const apps: App[] = [
   {

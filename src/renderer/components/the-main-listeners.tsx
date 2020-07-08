@@ -2,7 +2,7 @@ import electron from 'electron'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { App } from '../../config/apps'
+import { App } from '../../config/types'
 import {
   APP_VERSION,
   INSTALLED_APPS_FOUND,

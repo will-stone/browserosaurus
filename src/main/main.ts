@@ -4,7 +4,8 @@ import electronIsDev from 'electron-is-dev'
 import path from 'path'
 
 import package_ from '../../package.json'
-import { App, apps } from '../config/apps'
+import { apps } from '../config/apps'
+import { App } from '../config/types'
 import {
   COPY_TO_CLIPBOARD,
   HIDE_WINDOW,
@@ -22,7 +23,7 @@ import {
 } from '../renderer/sendToMain'
 import { calcWindowHeight } from '../utils/calcWindowHeight'
 import copyToClipboard from '../utils/copyToClipboard'
-import getInstalledApps from '../utils/getInstalledApps'
+import { filterAppsByInstalled } from '../utils/filterAppsByInstalled'
 import { logger } from '../utils/logger'
 import createWindow from './createWindow'
 import {
@@ -133,7 +134,7 @@ electron.app.on('open-url', (event, url) => {
  */
 
 electron.ipcMain.on(START_APP, async () => {
-  installedApps = await getInstalledApps()
+  installedApps = await filterAppsByInstalled(apps)
 
   bWindow?.setSize(
     800,

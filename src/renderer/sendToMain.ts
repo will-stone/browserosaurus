@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron'
 
-import { App } from '../config/apps'
+import { App } from '../config/types'
 import { Hotkeys } from '../main/store'
 
 export const OPEN_APP = 'OPEN_APP'

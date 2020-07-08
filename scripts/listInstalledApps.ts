@@ -1,4 +1,8 @@
-import getInstalledApps from '../src/utils/getInstalledApps'
+import pino from 'pino'
 
-// eslint-disable-next-line no-console
-getInstalledApps().then(console.log)
+import { apps } from '../src/config/apps'
+import { filterAppsByInstalled } from '../src/utils/filterAppsByInstalled'
+
+const logger = pino({ prettyPrint: true })
+
+filterAppsByInstalled(apps).then((installedApps) => logger.info(installedApps))

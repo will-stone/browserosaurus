@@ -1,4 +1,4 @@
-import { App } from '../config/apps'
+import { App } from '../config/types'
 import { Hotkeys } from '../main/store'
 
 export function getHotkeyByAppId(

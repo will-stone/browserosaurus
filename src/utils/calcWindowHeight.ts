@@ -1,4 +1,4 @@
-import { App } from '../config/apps'
+import { App } from '../config/types'
 
 const mainPaddingY = 32
 const mainBorderBottom = 1
