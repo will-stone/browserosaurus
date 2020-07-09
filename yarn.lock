@@ -1186,10 +1186,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/qutebrowser/-/qutebrowser-1.0.4.tgz#cc7a1cb8768c11319d9a7e1bc77143cffc277575"
   integrity sha512-46LDiQZ9lcAltYLEhp+3x5HIsBbXYhu3Z05p2gfB5tKdNNafTGW3nnW4bEY7e7WrrbuZOumPuPHC8STDsaZFnQ==
 
-"@browser-logos/safari-technology-preview@^1.0.7":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@browser-logos/safari-technology-preview/-/safari-technology-preview-1.0.8.tgz#4f1426bedad02587877b966287dc910dccbd4e91"
-  integrity sha512-3V3400NqlITDo7rdqrm0Ojt7Dt7FWLjBmMFjq2wo7f/YmXS9gvRN46vZJL8r9AFAM5+i5vwpjOSmYAOOM4xldw==
+"@browser-logos/safari-technology-preview@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@browser-logos/safari-technology-preview/-/safari-technology-preview-2.0.1.tgz#2f15804b314f857c5f0d297b7e1f19e2df7a429f"
+  integrity sha512-6SqWCh+0zsXofeJS3p4TY1CHmuQQUV9ueGixul0s+6pAF6F+QitO8L65+4PrmnhvowhwQti5lZ4cae5zuuVwvQ==
 
 "@browser-logos/safari@^1.0.6":
   version "1.0.7"
