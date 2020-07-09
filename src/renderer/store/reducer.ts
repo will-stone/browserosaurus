@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
 
-import { SPONSOR_URL } from '../../config/CONTANTS'
+import { SPONSOR_URL } from '../../config/CONSTANTS'
 import { App } from '../../config/types'
 import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'

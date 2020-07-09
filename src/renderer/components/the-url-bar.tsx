@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import Url from 'url'
 
-import { SPONSOR_URL } from '../../config/CONTANTS'
+import { SPONSOR_URL } from '../../config/CONSTANTS'
 import { copyUrl } from '../sendToMain'
 import { useSelector } from '../store'
 import { clickedUrlBackspaceButton } from '../store/actions'
