@@ -7,14 +7,14 @@ import { SPONSOR_URL } from '../../config/CONSTANTS'
 import { copyUrl } from '../sendToMain'
 import { useSelector } from '../store'
 import { clickedUrlBackspaceButton } from '../store/actions'
-import { DarkButton } from './button'
-import Kbd from './kbd'
+import { DarkButton } from './atoms/button'
+import Kbd from './atoms/kbd'
 
 interface Props {
   className?: string
 }
 
-const TheUrlBar: React.FC<Props> = ({ className }) => {
+const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
 
@@ -89,4 +89,4 @@ const TheUrlBar: React.FC<Props> = ({ className }) => {
   )
 }
 
-export default TheUrlBar
+export default UrlBar

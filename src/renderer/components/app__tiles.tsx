@@ -2,9 +2,9 @@ import cc from 'classcat'
 import React from 'react'
 
 import { useShallowEqualSelector } from '../store'
-import TileButton from './tile-button'
+import Tile from './app__tiles__tile'
 
-const TheTiles: React.FC = () => {
+const Tiles: React.FC = () => {
   const apps = useShallowEqualSelector((state) => state.apps)
   const hiddenTileIds = useShallowEqualSelector(
     (state) => state.mainStore.hiddenTileIds,
@@ -34,10 +34,10 @@ const TheTiles: React.FC = () => {
       ])}
     >
       {visibleTiles.map((app) => (
-        <TileButton key={app.id} app={app} />
+        <Tile key={app.id} app={app} />
       ))}
     </div>
   )
 }
 
-export default TheTiles
+export default Tiles

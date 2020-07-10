@@ -23,9 +23,9 @@ import {
   receivedUrl,
   receivedVersion,
 } from '../store/actions'
-import Noop from './noop'
+import Noop from './atoms/noop'
 
-const TheMainListeners: React.FC = () => {
+const MainEventsManager: React.FC = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -110,4 +110,4 @@ const TheMainListeners: React.FC = () => {
   return <Noop />
 }
 
-export default TheMainListeners
+export default MainEventsManager

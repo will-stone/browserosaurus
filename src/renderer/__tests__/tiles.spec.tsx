@@ -3,11 +3,11 @@ import electron from 'electron'
 import React from 'react'
 
 import { INSTALLED_APPS_FOUND, URL_UPDATED } from '../../main/events'
-import TheApp from '../components/the-app'
+import App from '../components/app'
 import { OPEN_APP } from '../sendToMain'
 
 test('tiles', () => {
-  render(<TheApp />)
+  render(<App />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
     win.webContents.send(INSTALLED_APPS_FOUND, [

@@ -8,8 +8,8 @@ import { App } from '../../config/types'
 import { getHotkeyByAppId } from '../../utils/getHotkeyByAppId'
 import { openApp } from '../sendToMain'
 import { useSelector, useShallowEqualSelector } from '../store'
-import { LargeDarkButton } from './button'
-import Kbd from './kbd'
+import { LargeDarkButton } from './atoms/button'
+import Kbd from './atoms/kbd'
 
 /**
  * Determines Tailwind text class given an app name of given length.
@@ -29,7 +29,7 @@ interface Props {
   app: App
 }
 
-const TileButton: React.FC<Props> = ({ app }) => {
+const Tile: React.FC<Props> = ({ app }) => {
   const url = useSelector((state) => state.ui.url)
   const favAppId = useSelector((state) => state.mainStore.fav)
   const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
@@ -72,4 +72,4 @@ const TileButton: React.FC<Props> = ({ app }) => {
   )
 }
 
-export default TileButton
+export default Tile

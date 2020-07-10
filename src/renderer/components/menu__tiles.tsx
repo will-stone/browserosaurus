@@ -14,13 +14,13 @@ import {
   toggledTileVisibility,
   updatedTileHotkey,
 } from '../store/actions'
-import Kbd from './kbd'
+import Kbd from './atoms/kbd'
 
 function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
   event.target.select()
 }
 
-const TheTilesMenu: React.FC = () => {
+const TilesMenu: React.FC = () => {
   const dispatch = useDispatch()
   const apps = useShallowEqualSelector((state) => state.apps)
   const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
@@ -174,4 +174,4 @@ const TheTilesMenu: React.FC = () => {
   )
 }
 
-export default TheTilesMenu
+export default TilesMenu

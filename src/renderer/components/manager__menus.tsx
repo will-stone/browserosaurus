@@ -8,11 +8,11 @@ import { useDispatch } from 'react-redux'
 
 import { useSelector } from '../store'
 import { clickedMenuBackdrop } from '../store/actions'
-import Noop from './noop'
-import TheSponsorMenu from './the-sponsor-menu'
-import TheTilesMenu from './the-tiles-menu'
+import Noop from './atoms/noop'
+import SponsorMenu from './menu__sponsor'
+import TilesMenu from './menu__tiles'
 
-const TheMenuManager: React.FC = () => {
+const MenusManager: React.FC = () => {
   const dispatch = useDispatch()
   const menu = useSelector((state) => state.ui.menu)
 
@@ -23,9 +23,9 @@ const TheMenuManager: React.FC = () => {
   let Menu
 
   if (menu === 'sponsor') {
-    Menu = TheSponsorMenu
+    Menu = SponsorMenu
   } else if (menu === 'tiles') {
-    Menu = TheTilesMenu
+    Menu = TilesMenu
   }
 
   if (Menu) {
@@ -46,4 +46,4 @@ const TheMenuManager: React.FC = () => {
   return <Noop />
 }
 
-export default TheMenuManager
+export default MenusManager

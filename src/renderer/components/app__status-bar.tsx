@@ -15,13 +15,13 @@ import {
   clickedSponsorMenuButton,
   clickedTilesMenuButton,
 } from '../store/actions'
-import { LightButton } from './button'
+import { LightButton } from './atoms/button'
 
 interface Props {
   className?: string
 }
 
-const TheStatusBar: React.FC<Props> = ({ className }) => {
+const StatusBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const openMenu = useSelector((state) => state.ui.menu)
   const isDefaultProtocolClient = useSelector(
@@ -108,4 +108,4 @@ const TheStatusBar: React.FC<Props> = ({ className }) => {
   )
 }
 
-export default TheStatusBar
+export default StatusBar

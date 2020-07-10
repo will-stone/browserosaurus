@@ -5,9 +5,9 @@ import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { clickedSponsorButton } from '../store/actions'
-import { LightButton } from './button'
+import { LightButton } from './atoms/button'
 
-const TheSponsorMenu: React.FC = () => {
+const SponsorMenu: React.FC = () => {
   const dispatch = useDispatch()
 
   const handleButtonClick = useCallback(() => {
@@ -37,4 +37,4 @@ const TheSponsorMenu: React.FC = () => {
   )
 }
 
-export default TheSponsorMenu
+export default SponsorMenu

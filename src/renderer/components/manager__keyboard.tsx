@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux'
 import { copyUrl, openApp } from '../sendToMain'
 import { useSelector, useShallowEqualSelector } from '../store'
 import { pressedBackspaceKey, pressedEscapeKey } from '../store/actions'
-import Noop from './noop'
+import Noop from './atoms/noop'
 
-const TheKeyboardListeners: React.FC = () => {
+const KeyboardManager: React.FC = () => {
   const dispatch = useDispatch()
   const favAppId = useSelector((state) => state.mainStore.fav)
   const menu = useSelector((state) => state.ui.menu)
@@ -70,4 +70,4 @@ const TheKeyboardListeners: React.FC = () => {
   return <Noop />
 }
 
-export default TheKeyboardListeners
+export default KeyboardManager
