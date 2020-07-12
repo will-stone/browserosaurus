@@ -114,6 +114,8 @@
           href="https://github.com/sponsors/will-stone"
           class="d-none d-md-inline-block btn shadow-sm"
           style="background-color: white;"
+          target="_blank"
+          rel="noopener noreferrer nofollow"
         >
           <svg
             class="align-text-bottom"
@@ -203,11 +205,18 @@
           <blockquote class="blockquote col-md-8 offset-md-2 mb-5">
             <p class="mb-0 text-justify">
               Browserosaurus is FREE. However, please consider
-              <a href="https://github.com/sponsors/will-stone">sponsorship</a>.
-              Doing so will help me cover the cost of future development and the
+              <a
+                href="https://github.com/sponsors/will-stone"
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                style="color: #ec45ab;"
+                >sponsorship</a
+              >. Doing so will help me cover the cost of future development and
+              the
               <a
                 href="https://insights.dice.com/2018/10/23/apple-app-notarization-macos-apps/"
-                class="text-danger"
+                target="_blank"
+                rel="noopener noreferrer nofollow"
                 >fee</a
               >
               charged by Apple to release software on their operating system.
@@ -218,13 +227,35 @@
           </blockquote>
 
           <p class="text-center">
-            <a
-              id="js-download-button"
+            <button
+              type="button"
               class="btn btn-primary btn-lg shadow"
-              href="https://github.com/will-stone/browserosaurus/releases/latest"
+              data-toggle="modal"
+              data-target="#downloadModal"
             >
-              Download Browserosaurus for Mac
-            </a>
+              <svg
+                width="1em"
+                height="1em"
+                viewBox="0 0 16 16"
+                class="bi bi-download mr-2"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M.5 8a.5.5 0 0 1 .5.5V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5a.5.5 0 0 1 1 0V12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8.5A.5.5 0 0 1 .5 8z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M5 7.5a.5.5 0 0 1 .707 0L8 9.793 10.293 7.5a.5.5 0 1 1 .707.707l-2.646 2.647a.5.5 0 0 1-.708 0L5 8.207A.5.5 0 0 1 5 7.5z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M8 1a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0v-8A.5.5 0 0 1 8 1z"
+                />
+              </svg>
+              <span>Download Browserosaurus for macOS</span>
+            </button>
           </p>
 
           <div class="text-center">
@@ -328,7 +359,7 @@
             <p>
               Browserosaurus operates on a
               <a
-                href="https://github.com/will-stone/browserosaurus/blob/master/src/config/browsers.ts"
+                href="https://github.com/will-stone/browserosaurus/blob/master/src/config/apps.ts"
                 >whitelist</a
               >
               basis. If you would like a browser added, please
@@ -348,7 +379,11 @@
               subscription that I must pay for the app to work correctly on your
               machine. If you love Browserosaurus as much as I do, please
               consider
-              <a href="https://github.com/sponsors/will-stone">sponsoring it</a
+              <a
+                href="https://github.com/sponsors/will-stone"
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                >sponsoring it</a
               >. Thank you.
             </p>
             <h6 class="text-info">
@@ -418,6 +453,8 @@
             <a
               href="https://github.com/sponsors/will-stone"
               class="btn btn-light shadow"
+              target="_blank"
+              rel="noopener noreferrer nofollow"
             >
               <svg
                 class="align-text-bottom"
@@ -437,6 +474,75 @@
         </div>
       </div>
     </footer>
+
+    <div
+      class="modal"
+      id="downloadModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="downloadModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <blockquote class="blockquote">
+              <p class="mb-0 text-justify">
+                Browserosaurus is FREE. However, please consider
+                <a
+                  href="https://github.com/sponsors/will-stone"
+                  style="color: #ec45ab;"
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  >sponsorship</a
+                >. Doing so will help me cover the cost of future development
+                and the
+                <a
+                  href="https://insights.dice.com/2018/10/23/apple-app-notarization-macos-apps/"
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  >fee</a
+                >
+                charged by Apple to release software on their operating system.
+              </p>
+              <footer class="blockquote-footer">
+                Thank you 😘
+              </footer>
+            </blockquote>
+          </div>
+          <div class="modal-footer">
+            <a
+              href="https://github.com/sponsors/will-stone"
+              class="btn shadow text-white"
+              style="background-color: #ec45ab;"
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+            >
+              <svg
+                class="align-text-bottom"
+                width="1em"
+                height="1em"
+                viewBox="0 0 16 16"
+                fill="#ffffff"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                />
+              </svg>
+              <span class="ml-1">Sponsor</span>
+            </a>
+            <a
+              id="js-download-button"
+              class="btn btn-primary"
+              href="https://github.com/will-stone/browserosaurus/releases/latest"
+            >
+              Download Browserosaurus for Mac
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="./version.js"></script>
     <script
