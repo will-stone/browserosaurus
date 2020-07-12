@@ -66,8 +66,7 @@ const mainStore = createReducer<MainStore>(
         const updatedHotkeys = alterHotkeys(
           state.hotkeys,
           action.payload.appId,
-          // TODO move this lower casing ot alterHotkeys
-          action.payload.value.toLowerCase(),
+          action.payload.value,
         )
         state.hotkeys = updatedHotkeys
       }),
