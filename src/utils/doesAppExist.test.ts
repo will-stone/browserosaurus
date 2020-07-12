@@ -1,5 +1,5 @@
-import { App } from '../../config/types'
-import { doesAppExist } from '../doesAppExist'
+import { App } from '../config/types'
+import { doesAppExist } from './doesAppExist'
 
 const cases: [App, boolean][] = [
   [
