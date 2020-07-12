@@ -2620,6 +2620,11 @@ anymatch@^3.0.3, anymatch@~3.1.1:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
+app-exists@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/app-exists/-/app-exists-1.1.0.tgz#231204a42e9bfb5c99182e54865c9d9f56538b69"
+  integrity sha512-fwxkbtnVJeSPcOt1xBDHzmCkwiexGldy6KRxC9QXPbFT1CVlszyaPiccpSXRZKi4q5sQC4SR4t8dtrJcpiaGzg==
+
 appdmg@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/appdmg/-/appdmg-0.6.0.tgz#81b3beab624ab458e6104d87c5cfa4b172203821"

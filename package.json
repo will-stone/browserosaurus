@@ -172,6 +172,7 @@
     "@fortawesome/react-fontawesome": "^0.1.9",
     "@reduxjs/toolkit": "^1.4.0",
     "animate.css": "^4.1.0",
+    "app-exists": "^1.1.0",
     "classcat": "^4.0.2",
     "electron-is-dev": "^1.1.0",
     "electron-notarize": "^1.0.0",

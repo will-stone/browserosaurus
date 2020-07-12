@@ -3,7 +3,6 @@ import pFilter from 'p-filter'
 import { App } from '../config/types'
 import { doesAppExist } from './doesAppExist'
 
-// TODO: make this pure.
 /**
  * Finds installed whitelisted apps.
  */
