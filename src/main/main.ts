@@ -110,7 +110,10 @@ electron.app.on('before-quit', () => {
   electron.app.exit()
 })
 
-const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+const wait = (ms: number) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms)
+  })
 
 async function sendUrl(url: string) {
   if (bWindow) {
