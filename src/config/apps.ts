@@ -26,6 +26,10 @@ export const apps: App[] = [
     id: 'com.gab.Dissenter',
   },
   {
+    name: 'Finicky',
+    id: 'net.kassett.finicky',
+  },
+  {
     name: 'Firefox',
     id: 'org.mozilla.firefox',
   },

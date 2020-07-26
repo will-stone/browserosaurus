@@ -27,6 +27,7 @@ import vivaldi from '@browser-logos/vivaldi/vivaldi.svg'
 import yandex from '@browser-logos/yandex/yandex_128x128.png'
 
 import dissenter from './logos/dissenter.png'
+import finicky from './logos/finicky.png'
 import min from './logos/min.png'
 import naverWhale from './logos/NAVER_whale.png'
 import pocket from './logos/pocket.png'
@@ -67,4 +68,5 @@ export const logos: { [key: string]: string } = {
   'ru.yandex.desktop.yandex-browser': yandex,
   'com.naver.Whale': naverWhale,
   'com.gab.Dissenter': dissenter,
+  'net.kassett.finicky': finicky,
 }
