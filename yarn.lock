@@ -1091,10 +1091,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/brave-dev/-/brave-dev-1.0.10.tgz#3f6a1bb927e8ce8a75a9505b8bb5c33213c817bf"
   integrity sha512-3aHMw9sPF4e592BmTMCJsxLT395DBsCjreA1BWnLLtUsOMi+5duxs3k7xWF85XG5/Ik8FTrcHwnwJuGRTBVwFA==
 
-"@browser-logos/brave-nightly@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@browser-logos/brave-nightly/-/brave-nightly-1.0.4.tgz#933baf9e596e47195da899f1aa31514f3da56df2"
-  integrity sha512-z984OTRTCknJJoB/w+Ev8Urpsld6buzfO5GqO0K3xeQYYpgJAO8Yr2Ua2Il9Ari3C7E7HW4HU6TaPl7AGo2sEQ==
+"@browser-logos/brave-nightly@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@browser-logos/brave-nightly/-/brave-nightly-1.0.5.tgz#72817016c72bba9c47990f8b91f635d134c687c3"
+  integrity sha512-NCTJYwwbrt8q3y0as39VtafB+IcA1+SNCcVdi2gTwHUBCQuUOa41H0Io+EZJarvxyoeNbuG3kJatNSnSTtkTlQ==
 
 "@browser-logos/brave@^3.0.10":
   version "3.0.12"
@@ -1201,10 +1201,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/tor/-/tor-2.0.3.tgz#61825d09e071ade1683aa91701d58555c20bf939"
   integrity sha512-c0wDinRV7TMuFwdTzB18HgF+syUy5yRZViKS7UGgtz6ly4+YZGC6MDx9FYwHiTdoj0EX9C+ftrhjPysjZJrO7w==
 
-"@browser-logos/vivaldi-snapshot@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@browser-logos/vivaldi-snapshot/-/vivaldi-snapshot-1.0.5.tgz#cbf19426c91ee90a04c0ab2de1c7f4cb7e3cb0d9"
-  integrity sha512-W4uTWrSkw72zENILC+geLV89TCjn/WXzLU3HSHxzIQYRpMizpf4H4tgAcZmz95KkU51SquyrNrvqTQTy8ZuHSA==
+"@browser-logos/vivaldi-snapshot@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@browser-logos/vivaldi-snapshot/-/vivaldi-snapshot-1.0.6.tgz#8d35030d1631eb69461e4897b93e0e349bdd3150"
+  integrity sha512-WPHx0JWu3YnJ6jI4VHEsNrjK9248kwU1Y6HKiZjU3xnk0fNLKW3oYepb6xwWLx7kdnoXX6Hlwmo722v/vkO8Jw==
 
 "@browser-logos/vivaldi@^2.1.7":
   version "2.1.9"
@@ -1994,10 +1994,10 @@
     jest-diff "^25.2.1"
     pretty-format "^25.2.1"
 
-"@types/jest@^26.0.3":
-  version "26.0.3"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.3.tgz#79534e0e94857171c0edc596db0ebe7cb7863251"
-  integrity sha512-v89ga1clpVL/Y1+YI0eIu1VMW+KU7Xl8PhylVtDKVWaSUHBHYPLXMQGBdrpHewaKoTvlXkksbYqPgz8b4cmRZg==
+"@types/jest@^26.0.7":
+  version "26.0.7"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.7.tgz#495cb1d1818c1699dbc3b8b046baf1c86ef5e324"
+  integrity sha512-+x0077/LoN6MjqBcVOe1y9dpryWnfDZ+Xfo3EqGeBcfPRJlQp3Lw62RvNlWxuGv7kOEwlHriAa54updi3Jvvwg==
   dependencies:
     jest-diff "^25.2.1"
     pretty-format "^25.2.1"
@@ -2080,10 +2080,18 @@
     hoist-non-react-statics "^3.3.0"
     redux "^4.0.0"
 
-"@types/react@*", "@types/react@^16.9.38":
+"@types/react@*":
   version "16.9.38"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.38.tgz#868405dace93a4095d3e054f4c4a1de7a1ac0680"
   integrity sha512-pHAeZbjjNRa/hxyNuLrvbxhhnKyKNiLC6I5fRF2Zr/t/S6zS41MiyzH4+c+1I9vVfvuRt1VS2Lodjr4ZWnxrdA==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^2.2.0"
+
+"@types/react@^16.9.43":
+  version "16.9.43"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.43.tgz#c287f23f6189666ee3bebc2eb8d0f84bcb6cdb6b"
+  integrity sha512-PxshAFcnJqIWYpJbLPriClH53Z2WlJcVZE+NP2etUtWQs2s7yIMj3/LDKZT/5CHJ/F62iyjVCDu2H3jHEXIxSg==
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
@@ -9911,7 +9919,7 @@ schema-utils@^1.0.0:
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
 
-schema-utils@^2.6.5, schema-utils@^2.7.0:
+schema-utils@^2.6.5, schema-utils@^2.6.6, schema-utils@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-2.7.0.tgz#17151f76d8eae67fbbf77960c33c676ad9f4efc7"
   integrity sha512-0ilKFI6QQF5nxDZLFn2dMjvc4hjg/Wkg7rHd3jK6/A4a1Hl9VFdQWvgB1UMGoU94pad1P/8N7fMcEnLnSiju8A==
@@ -10582,13 +10590,13 @@ strip-outer@^1.0.1:
   dependencies:
     escape-string-regexp "^1.0.2"
 
-style-loader@^0.23.1:
-  version "0.23.1"
-  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.23.1.tgz#cb9154606f3e771ab6c4ab637026a1049174d925"
-  integrity sha512-XK+uv9kWwhZMZ1y7mysB+zoihsEj4wneFWAS5qoiLwzW0WzSqMrrsIy+a3zkQJq0ipFtBpX5W3MqyRIBF/WFGg==
+style-loader@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-1.2.1.tgz#c5cbbfbf1170d076cfdd86e0109c5bba114baa1a"
+  integrity sha512-ByHSTQvHLkWE9Ir5+lGbVOXhxX10fbprhLvdg96wedFZb4NDekDPxVKv5Fwmio+QcMlkkNfuK+5W1peQ5CUhZg==
   dependencies:
-    loader-utils "^1.1.0"
-    schema-utils "^1.0.0"
+    loader-utils "^2.0.0"
+    schema-utils "^2.6.6"
 
 sudo-prompt@^9.1.1:
   version "9.2.1"
