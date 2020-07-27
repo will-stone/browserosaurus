@@ -1091,10 +1091,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/brave-dev/-/brave-dev-1.0.10.tgz#3f6a1bb927e8ce8a75a9505b8bb5c33213c817bf"
   integrity sha512-3aHMw9sPF4e592BmTMCJsxLT395DBsCjreA1BWnLLtUsOMi+5duxs3k7xWF85XG5/Ik8FTrcHwnwJuGRTBVwFA==
 
-"@browser-logos/brave-nightly@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@browser-logos/brave-nightly/-/brave-nightly-1.0.4.tgz#933baf9e596e47195da899f1aa31514f3da56df2"
-  integrity sha512-z984OTRTCknJJoB/w+Ev8Urpsld6buzfO5GqO0K3xeQYYpgJAO8Yr2Ua2Il9Ari3C7E7HW4HU6TaPl7AGo2sEQ==
+"@browser-logos/brave-nightly@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@browser-logos/brave-nightly/-/brave-nightly-1.0.5.tgz#72817016c72bba9c47990f8b91f635d134c687c3"
+  integrity sha512-NCTJYwwbrt8q3y0as39VtafB+IcA1+SNCcVdi2gTwHUBCQuUOa41H0Io+EZJarvxyoeNbuG3kJatNSnSTtkTlQ==
 
 "@browser-logos/brave@^3.0.10":
   version "3.0.12"
