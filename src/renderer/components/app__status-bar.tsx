@@ -5,7 +5,7 @@ import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons/faSignOutAlt'
 import { faSync } from '@fortawesome/free-solid-svg-icons/faSync'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import cc from 'classcat'
+import clsx from 'clsx'
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -42,15 +42,15 @@ const StatusBar: React.FC<Props> = ({ className }) => {
 
   return (
     <div
-      className={cc([
+      className={clsx(
         className,
         'h-16 px-4 bg-grey-700 flex items-center justify-between overflow-hidden text-xs font-bold space-x-4',
-      ])}
+      )}
     >
       <div className="flex items-center space-x-2">
         <LightButton
           aria-label="Tiles Menu"
-          className={cc([{ 'z-20': openMenu === 'tiles' }])}
+          className={clsx(openMenu === 'tiles' && 'z-20')}
           onClick={handleTilesMenuButtonClick}
         >
           {openMenu === 'tiles' ? (
@@ -75,7 +75,7 @@ const StatusBar: React.FC<Props> = ({ className }) => {
         </div>
 
         <LightButton
-          className={cc([{ 'z-20': openMenu === 'sponsor' }])}
+          className={clsx(openMenu === 'sponsor' && 'z-20')}
           onClick={handleSponsorMenuButtonClick}
           tone={openMenu === 'sponsor' ? undefined : 'sponsor'}
         >

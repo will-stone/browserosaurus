@@ -1,6 +1,6 @@
 import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import cc from 'classcat'
+import clsx from 'clsx'
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -16,10 +16,10 @@ const SponsorMenu: React.FC = () => {
 
   return (
     <div
-      className={cc([
+      className={clsx(
         'absolute bg-grey-800 rounded overflow-y-auto overflow-x-hidden border border-grey-600 shadow-xl z-30',
         'animate__animated animate__fadeInUp animate__faster',
-      ])}
+      )}
       style={{ left: '50%', bottom: '60px', right: '8px' }}
     >
       <div className="p-4">

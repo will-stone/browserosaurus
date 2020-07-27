@@ -1,6 +1,6 @@
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import cc from 'classcat'
+import clsx from 'clsx'
 import React, { useCallback } from 'react'
 
 import { logos } from '../../config/logos'
@@ -67,7 +67,7 @@ const Tile: React.FC<Props> = ({ app }) => {
           {hotkey && <Kbd>{hotkey}</Kbd>}
         </div>
       </div>
-      <div className={cc(['font-bold', nameSizeClass])}>{app.name}</div>
+      <div className={clsx('font-bold', nameSizeClass)}>{app.name}</div>
     </LargeDarkButton>
   )
 }
