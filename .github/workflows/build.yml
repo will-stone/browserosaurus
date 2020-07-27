@@ -15,7 +15,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - run: yarn
+      - run: yarn install --network-timeout 300000
       - run: yarn lint
       - run: yarn typecheck
       - run: yarn test
