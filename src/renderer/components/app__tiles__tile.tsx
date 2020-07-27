@@ -1,4 +1,4 @@
-import { faStar } from '@fortawesome/pro-solid-svg-icons/faStar'
+import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cc from 'classcat'
 import React, { useCallback } from 'react'
