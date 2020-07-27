@@ -1191,10 +1191,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/safari-technology-preview/-/safari-technology-preview-2.0.1.tgz#2f15804b314f857c5f0d297b7e1f19e2df7a429f"
   integrity sha512-6SqWCh+0zsXofeJS3p4TY1CHmuQQUV9ueGixul0s+6pAF6F+QitO8L65+4PrmnhvowhwQti5lZ4cae5zuuVwvQ==
 
-"@browser-logos/safari@^1.0.6":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@browser-logos/safari/-/safari-1.0.7.tgz#9e1acbc3316405e416493327aa5f1e762e8d60e2"
-  integrity sha512-lkskEtZTbI7JLaY0iyDwWuLo3P+kTfEcOkGVqDi4ByTAKktViQ+Fac2UwC1lLAuonVQkOk95b1hgAZPpzS1j4w==
+"@browser-logos/safari@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@browser-logos/safari/-/safari-1.0.8.tgz#7bf3290fc18910db33fedbe0772652f9d249c038"
+  integrity sha512-A5pFCgRr1iJa6odek/FCiQE+ce4zT6/K6+1j90PwjyRq8z71on/slqTr0LlPmlQwmATsBtT7kDvU1P9wvVkqzA==
 
 "@browser-logos/tor@^2.0.2":
   version "2.0.3"
