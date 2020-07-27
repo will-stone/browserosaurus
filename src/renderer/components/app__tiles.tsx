@@ -1,4 +1,4 @@
-import cc from 'classcat'
+import clsx from 'clsx'
 import React from 'react'
 
 import { useShallowEqualSelector } from '../store'
@@ -26,12 +26,12 @@ const Tiles: React.FC = () => {
 
   return (
     <div
-      className={cc([
+      className={clsx(
         'grid gap-4',
-        { 'grid-cols-3': threeCols },
-        { 'grid-cols-4': fourCols },
-        { 'grid-cols-5': fiveCols },
-      ])}
+        threeCols && 'grid-cols-3',
+        fourCols && 'grid-cols-4',
+        fiveCols && 'grid-cols-5',
+      )}
     >
       {visibleTiles.map((app) => (
         <Tile key={app.id} app={app} />

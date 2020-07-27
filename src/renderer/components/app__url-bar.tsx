@@ -1,4 +1,4 @@
-import cc from 'classcat'
+import clsx from 'clsx'
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import Url from 'url'
@@ -31,28 +31,28 @@ const UrlBar: React.FC<Props> = ({ className }) => {
   }, [dispatch])
 
   return (
-    <div className={cc([className, 'flex items-center space-x-4'])}>
+    <div className={clsx(className, 'flex items-center space-x-4')}>
       <div
-        className={cc([
+        className={clsx(
           'flex-grow',
-          { 'border-grey-900 text-grey-400 border-b': !isSponsorUrl },
-          { 'border-pink-500 text-pink-200 border-b-2': isSponsorUrl },
+          isSponsorUrl
+            ? 'border-pink-500 text-pink-200 border-b-2'
+            : 'border-grey-900 text-grey-400 border-b',
           'text-xs tracking-wider font-bold',
           'h-10',
           'flex items-center justify-between',
           'overflow-hidden',
-        ])}
+        )}
       >
         {parsedUrl ? (
           <div className="truncate">
             <span>{parsedUrl.protocol}</span>
             {parsedUrl.slashes && '//'}
             <span
-              className={cc([
+              className={clsx(
                 'text-base',
-                { 'text-grey-200': !isSponsorUrl },
-                { 'text-pink-400': isSponsorUrl },
-              ])}
+                isSponsorUrl ? 'text-pink-400' : 'text-grey-200',
+              )}
             >
               {parsedUrl.host}
             </span>
@@ -69,11 +69,10 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         )}
 
         <button
-          className={cc([
+          className={clsx(
             'text-base focus:outline-none',
-            { 'text-grey-200': parsedUrl },
-            { 'text-grey-500': !parsedUrl },
-          ])}
+            parsedUrl ? 'text-grey-200' : 'text-grey-500',
+          )}
           onClick={handleBackspaceButtonClick}
           type="button"
         >

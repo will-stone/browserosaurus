@@ -4,7 +4,7 @@ import { faGripHorizontal } from '@fortawesome/free-solid-svg-icons/faGripHorizo
 import { faKeyboard } from '@fortawesome/free-solid-svg-icons/faKeyboard'
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import cc from 'classcat'
+import clsx from 'clsx'
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -60,10 +60,10 @@ const TilesMenu: React.FC = () => {
 
   return (
     <div
-      className={cc([
+      className={clsx(
         'absolute bg-grey-800 rounded overflow-y-auto overflow-x-hidden border border-grey-600 shadow-xl z-30',
         'animate__animated animate__fadeInUp animate__faster',
-      ])}
+      )}
       style={{ top: '8px', right: '8px', bottom: '60px', left: '8px' }}
     >
       <div className="p-4 grid grid-cols-2">
@@ -116,9 +116,7 @@ const TilesMenu: React.FC = () => {
                   type="button"
                 >
                   <FontAwesomeIcon
-                    className={cc([
-                      { 'text-yellow-400': isFav, 'text-grey-500': !isFav },
-                    ])}
+                    className={isFav ? 'text-yellow-400' : 'text-grey-500'}
                     fixedWidth
                     icon={faStar}
                   />
@@ -133,12 +131,7 @@ const TilesMenu: React.FC = () => {
                   type="button"
                 >
                   <FontAwesomeIcon
-                    className={cc([
-                      {
-                        'text-purple-500': isVisible,
-                        'text-grey-500': !isVisible,
-                      },
-                    ])}
+                    className={isVisible ? 'text-purple-500' : 'text-grey-500'}
                     fixedWidth
                     icon={isVisible ? faEye : faEyeSlash}
                   />

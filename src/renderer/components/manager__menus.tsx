@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import cc from 'classcat'
+import clsx from 'clsx'
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -32,10 +32,10 @@ const MenusManager: React.FC = () => {
     return (
       <>
         <div
-          className={cc([
+          className={clsx(
             'absolute top-0 left-0 right-0 bottom-0 bg-grey-900 bg-opacity-75 z-10',
             'animate__animated animate__fadeIn animate__faster',
-          ])}
+          )}
           onClick={handleBgClick}
         />
         <Menu />
