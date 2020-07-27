@@ -1156,10 +1156,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/iridium/-/iridium-2.0.5.tgz#ccd2b3614d65f04cb0bcf32de2f18a32bcfd03ef"
   integrity sha512-x9q/z4DHYFSNUpjQt0z51ead2GWzwEn6GH2A2+KUtYkAVgm7l+0sLzncIArznSNq3k+eWcnoSMNOz6pRhOU/ZA==
 
-"@browser-logos/maxthon@^1.0.3":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@browser-logos/maxthon/-/maxthon-1.0.4.tgz#67d4a1f1041fac2577c764281128953fa2b310c8"
-  integrity sha512-M1jZJn4Cb6WZZA4awIMRlLsABHxlc66Ma5DZxQZeN+Z9vGJk8shXI15QFWl9WBTAPxO1NlnFyPd88YaSyJ6w5A==
+"@browser-logos/maxthon@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@browser-logos/maxthon/-/maxthon-1.0.5.tgz#7cd33ae0faec4647c41e331ae723dada5748d1fd"
+  integrity sha512-6zcEWmA3lrb3IGbx3bMCCtwkScZpj53tU+q0AE8oA8SCy4k/5OHNrJx8RteJ3E0tWS5bfEiLH+l5CwGY6z6zkA==
 
 "@browser-logos/opera-beta@^1.0.7":
   version "1.0.7"
