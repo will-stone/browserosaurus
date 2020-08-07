@@ -214,7 +214,7 @@
     "eslint": "^7.5.0",
     "fork-ts-checker-webpack-plugin": "^4.1.2",
     "husky": "^4.2.5",
-    "jest": "^26.1.0",
+    "jest": "^26.2.2",
     "lint-staged": "^10.2.2",
     "mini-css-extract-plugin": "^0.9.0",
     "node-loader": "^1.0.0",
