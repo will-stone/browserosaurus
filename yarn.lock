@@ -1119,10 +1119,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/brave-nightly/-/brave-nightly-1.0.5.tgz#72817016c72bba9c47990f8b91f635d134c687c3"
   integrity sha512-NCTJYwwbrt8q3y0as39VtafB+IcA1+SNCcVdi2gTwHUBCQuUOa41H0Io+EZJarvxyoeNbuG3kJatNSnSTtkTlQ==
 
-"@browser-logos/brave@^3.0.10":
-  version "3.0.12"
-  resolved "https://registry.yarnpkg.com/@browser-logos/brave/-/brave-3.0.12.tgz#abd532629f202e02a20c1e17ba2cee14877bf020"
-  integrity sha512-gCjDQFc0BhHcgqTq8CDLzHA78v02GvWCypTnnUUl1C8LBrus7kG4venazRv60jtFR6/4e+mQ8ybCdGim7G9gpw==
+"@browser-logos/brave@^3.0.13":
+  version "3.0.13"
+  resolved "https://registry.yarnpkg.com/@browser-logos/brave/-/brave-3.0.13.tgz#e5c761b299c5f212e0376c266d98b102bd2ad952"
+  integrity sha512-Dvd3INXrmtenzdDRl0QFL5UFiK+Rg/225dYzMevczfTdNBzuA5Z6w8OO8btTrQ7BLez6zl9JaicNhVakusKqsg==
 
 "@browser-logos/chrome-canary@^1.1.7":
   version "1.1.9"

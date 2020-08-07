@@ -136,7 +136,7 @@
     ]
   },
   "dependencies": {
-    "@browser-logos/brave": "^3.0.10",
+    "@browser-logos/brave": "^3.0.13",
     "@browser-logos/brave-beta": "^1.0.8",
     "@browser-logos/brave-dev": "^1.0.8",
     "@browser-logos/brave-nightly": "^1.0.5",
