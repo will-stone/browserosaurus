@@ -11,7 +11,7 @@ in non-browser apps are now sent to Browserosaurus where it’ll present you wit
 a menu of all your installed browsers. You may now decide which browser you’d
 like to continue opening the link with.
 
-**Currently supports macOS 10.15.1**
+**Currently supports macOS 10.15.6**
 
 ## Development
 
