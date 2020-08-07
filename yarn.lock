@@ -1194,10 +1194,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/opera-developer/-/opera-developer-1.0.8.tgz#d42951435555b3f7fdc20b48c8fe346ec76cb15d"
   integrity sha512-l4asvMc51AML7tnKlUWkwqhAAzmxMdva5ekTPq0zS8WnvQqnYouq0znwm3jDGWY4MtjFzcdQ3sdwcONRa0tS0Q==
 
-"@browser-logos/opera-gx@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@browser-logos/opera-gx/-/opera-gx-1.0.6.tgz#f83ff9c879c72832072fecc9f464f1c772461082"
-  integrity sha512-6SbZfs/tSQv0+y01f4TFRfN2hpJcehtBvUB1dYR9bYNoR7wgfzLQCGKmdPASLN+Q0SVR7/R/8HyKuq7VPDBefg==
+"@browser-logos/opera-gx@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@browser-logos/opera-gx/-/opera-gx-1.0.7.tgz#d17086c8543e00064b98539a83b83b2afd54ed68"
+  integrity sha512-l4+O1hu189oyBDB60rYzZ7jLXjG0gGGBCCZr0BeKIrZ1M1SGUhLclib5e710t6hGKkKMVLx298Iyz89/fhPC0w==
 
 "@browser-logos/opera@^1.1.8":
   version "1.1.10"
