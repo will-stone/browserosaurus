@@ -212,7 +212,7 @@
     "dotenv": "^8.2.0",
     "electron": "^9.1.0",
     "eslint": "^7.5.0",
-    "fork-ts-checker-webpack-plugin": "^4.1.2",
+    "fork-ts-checker-webpack-plugin": "^5.0.14",
     "husky": "^4.2.5",
     "jest": "^26.1.0",
     "lint-staged": "^10.2.2",
