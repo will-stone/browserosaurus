@@ -7,8 +7,7 @@ import { SPONSOR_URL } from '../../config/CONSTANTS'
 import { copyUrl } from '../sendToMain'
 import { useSelector } from '../store'
 import { clickedUrlBackspaceButton } from '../store/actions'
-import { DarkButton } from './atoms/button'
-import Kbd from './atoms/kbd'
+import { NewLightButton } from './atoms/button'
 
 interface Props {
   className?: string
@@ -31,13 +30,20 @@ const UrlBar: React.FC<Props> = ({ className }) => {
   }, [dispatch])
 
   return (
-    <div className={clsx(className, 'flex items-center space-x-4')}>
+    <div
+      className={clsx(
+        className,
+        'flex items-center space-x-2',
+        'bg-grey-800',
+        'border-2 rounded-md',
+        'px-2',
+        isSponsorUrl ? 'border-pink-500' : 'border-grey-800 ',
+      )}
+    >
       <div
         className={clsx(
           'flex-grow',
-          isSponsorUrl
-            ? 'border-pink-500 text-pink-200 border-b-2'
-            : 'border-grey-900 text-grey-400 border-b',
+          isSponsorUrl ? 'text-pink-200' : 'text-grey-400 ',
           'text-xs tracking-wider font-bold',
           'h-10',
           'flex items-center justify-between',
@@ -67,23 +73,23 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             Most recently clicked link will show here
           </span>
         )}
-
-        <button
-          className={clsx(
-            'text-base focus:outline-none',
-            parsedUrl ? 'text-grey-200' : 'text-grey-500',
-          )}
-          onClick={handleBackspaceButtonClick}
-          type="button"
-        >
-          ⌫
-        </button>
       </div>
 
-      <DarkButton disabled={!parsedUrl} onClick={handleCopyClick}>
+      <NewLightButton
+        disabled={!parsedUrl}
+        onClick={handleBackspaceButtonClick}
+      >
+        ⌫
+      </NewLightButton>
+
+      <NewLightButton
+        className="space-x-1"
+        disabled={!parsedUrl}
+        onClick={handleCopyClick}
+      >
         <span>Copy</span>
-        <Kbd>⌘+C</Kbd>
-      </DarkButton>
+        <span className="text-xxs">⌘+C</span>
+      </NewLightButton>
     </div>
   )
 }

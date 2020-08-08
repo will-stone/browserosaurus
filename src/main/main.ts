@@ -21,7 +21,6 @@ import {
   UPDATE_HOTKEYS,
   UPDATE_RESTART,
 } from '../renderer/sendToMain'
-import { calcWindowHeight } from '../utils/calcWindowHeight'
 import copyToClipboard from '../utils/copyToClipboard'
 import { filterAppsByInstalled } from '../utils/filterAppsByInstalled'
 import { logger } from '../utils/logger'
@@ -139,10 +138,6 @@ electron.app.on('open-url', (event, url) => {
 electron.ipcMain.on(START_APP, async () => {
   installedApps = await filterAppsByInstalled(apps)
 
-  bWindow?.setSize(
-    800,
-    calcWindowHeight(installedApps, store.store.hiddenTileIds),
-  )
   bWindow?.center()
 
   // Send all info down to renderer
@@ -214,8 +209,6 @@ electron.ipcMain.on(UPDATE_HOTKEYS, (_, hotkeys: Hotkeys) => {
 })
 
 electron.ipcMain.on(UPDATE_HIDDEN_TILE_IDS, (_, hiddenTileIds: string[]) => {
-  bWindow?.setSize(800, calcWindowHeight(installedApps, hiddenTileIds))
-  bWindow?.center()
   store.set('hiddenTileIds', hiddenTileIds)
 })
 

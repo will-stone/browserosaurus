@@ -99,3 +99,29 @@ export const LargeDarkButton: React.FC<LargeDarkButtonProps> = ({
     />
   )
 }
+
+type NewLightButton = React.ComponentPropsWithoutRef<'button'>
+
+export const NewLightButton: React.FC<NewLightButton> = ({
+  className,
+  disabled,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- type is hardcoded
+  type,
+  ...restProperties
+}) => {
+  return (
+    <button
+      className={clsx(
+        className,
+        'bg-grey-600',
+        'px-3 py-2',
+        'rounded-md',
+        'text-xs font-bold leading-none focus:outline-none',
+        disabled ? 'text-grey-500' : 'text-grey-200 active:text-white',
+      )}
+      disabled={disabled}
+      type="button"
+      {...restProperties}
+    />
+  )
+}
