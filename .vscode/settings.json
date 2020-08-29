@@ -5,7 +5,6 @@
   "spellright.documentTypes": ["markdown", "latex", "plaintext", "html"],
   "workbench.colorCustomizations": {
     "statusBar.background": "#234870",
-    "statusBar.border": "#234870",
     "statusBar.foreground": "#e7e7e7",
     "statusBarItem.hoverBackground": "#2f6197"
   },
