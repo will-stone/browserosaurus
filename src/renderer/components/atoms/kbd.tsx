@@ -8,10 +8,7 @@ interface Props {
 const Kbd: React.FC<Props> = ({ children, className }) => {
   return (
     <kbd
-      className={clsx(
-        className,
-        'text-xxs tracking-widest font-bold uppercase',
-      )}
+      className={clsx(className, 'text-xs tracking-widest font-bold uppercase')}
     >
       {children}
     </kbd>

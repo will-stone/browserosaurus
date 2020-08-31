@@ -18,12 +18,8 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col relative p-4">
-        <UrlBar />
-
+        <UrlBar className="mb-4" />
         <Tiles />
-
-        {/* <StatusBar className="flex-shrink-0" /> */}
-
         <MenusManager />
         <KeyboardManager />
         <MainEventsManager />

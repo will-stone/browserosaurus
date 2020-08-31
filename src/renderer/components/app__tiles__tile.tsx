@@ -12,10 +12,11 @@ import Kbd from './atoms/kbd'
 
 interface Props {
   app: App
-  isFav: boolean
+  isFav?: boolean
+  className?: string
 }
 
-const Tile: React.FC<Props> = ({ app, isFav }) => {
+const Tile: React.FC<Props> = ({ app, isFav, className }) => {
   const url = useSelector((state) => state.ui.url)
   const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
 
@@ -35,22 +36,27 @@ const Tile: React.FC<Props> = ({ app, isFav }) => {
       className={clsx(
         isFav && 'flex-shrink-0',
         'flex flex-col items-center justify-center',
-        'p-4',
-        isFav ? 'w-28' : 'w-20',
         'focus:outline-none',
         'active:opacity-50',
+        className,
       )}
       onClick={handleClick}
+      style={{
+        maxWidth: isFav ? '100px' : '85px',
+        height: isFav ? '134px' : '90px',
+      }}
       type="button"
     >
-      <img
-        alt={app.name}
-        className={clsx('mb-2 h-full w-full object-contain')}
-        src={logos[app.id]}
-      />
-      {hotkey && <Kbd className="mb-1">{hotkey}</Kbd>}
+      <div className="overflow-hidden flex justify-center items-center">
+        <img
+          alt={app.name}
+          className={clsx('object-contain w-full max-h-full')}
+          src={logos[app.id]}
+        />
+      </div>
+      {hotkey && <Kbd className="flex-shrink-0 mt-1">{hotkey}</Kbd>}
       {isFav && (
-        <Kbd className="space-x-1">
+        <Kbd className="flex-shrink-0 mt-1 space-x-1">
           <FontAwesomeIcon
             className="text-yellow-400 align-text-top"
             icon={faStar}
