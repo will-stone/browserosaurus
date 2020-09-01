@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
 
-import { SPONSOR_URL } from '../../config/CONSTANTS'
+import { DEFAULT_URL, SPONSOR_URL } from '../../config/CONSTANTS'
 import { App } from '../../config/types'
 import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'
@@ -90,7 +90,7 @@ const ui = createReducer<UiState>(
     version: '',
     updateStatus: 'no-update',
     isDefaultProtocolClient: true,
-    url: 'https://browserosaurus.com/',
+    url: DEFAULT_URL,
   },
   (builder) =>
     builder

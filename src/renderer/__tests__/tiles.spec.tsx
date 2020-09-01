@@ -2,6 +2,7 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import electron from 'electron'
 import React from 'react'
 
+import { DEFAULT_URL } from '../../config/CONSTANTS'
 import { INSTALLED_APPS_FOUND, URL_UPDATED } from '../../main/events'
 import App from '../components/app'
 import { OPEN_APP } from '../sendToMain'
@@ -34,7 +35,7 @@ test('tiles', () => {
   // Correct info sent to main when tile clicked
   fireEvent.click(screen.getByRole('button', { name: 'Firefox Tile' }))
   expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(OPEN_APP, {
-    url: 'https://browserosaurus.com/',
+    url: DEFAULT_URL,
     appId: 'org.mozilla.firefox',
     isAlt: false,
   })
