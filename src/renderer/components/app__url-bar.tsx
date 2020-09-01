@@ -7,7 +7,7 @@ import { SPONSOR_URL } from '../../config/CONSTANTS'
 import { copyUrl } from '../sendToMain'
 import { useSelector } from '../store'
 import { clickedUrlBackspaceButton } from '../store/actions'
-import { NewLightButton } from './atoms/button'
+import { LightButton } from './atoms/button'
 import Kbd from './atoms/kbd'
 
 interface Props {
@@ -77,21 +77,18 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         )}
       </div>
 
-      <NewLightButton
-        disabled={!parsedUrl}
-        onClick={handleBackspaceButtonClick}
-      >
+      <LightButton disabled={!parsedUrl} onClick={handleBackspaceButtonClick}>
         ⌫
-      </NewLightButton>
+      </LightButton>
 
-      <NewLightButton
+      <LightButton
         className="space-x-1"
         disabled={!parsedUrl}
         onClick={handleCopyClick}
       >
         <span>Copy</span>
         <Kbd>⌘+C</Kbd>
-      </NewLightButton>
+      </LightButton>
     </div>
   )
 }
