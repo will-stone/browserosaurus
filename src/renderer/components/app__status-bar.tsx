@@ -47,6 +47,18 @@ const StatusBar: React.FC<Props> = ({ className }) => {
         'flex-shrink-0 leading-none flex justify-end items-center space-x-2',
       )}
     >
+      <div className="text-xxs text-grey-500 font-bold">
+        {updateStatus === 'available'
+          ? 'Downloading update…'
+          : displayedVersion}
+      </div>
+
+      {!isDefaultProtocolClient && (
+        <DarkButton className="opacity-50" onClick={setAsDefaultBrowser}>
+          Set As Default Browser
+        </DarkButton>
+      )}
+
       <DarkButton
         aria-label="Tiles Menu"
         className={clsx(openMenu === 'tiles' && 'z-20')}
@@ -58,18 +70,6 @@ const StatusBar: React.FC<Props> = ({ className }) => {
           <FontAwesomeIcon fixedWidth icon={faGripHorizontal} />
         )}
       </DarkButton>
-
-      {!isDefaultProtocolClient && (
-        <DarkButton onClick={setAsDefaultBrowser}>
-          Set As Default Browser
-        </DarkButton>
-      )}
-
-      <div className="text-xs text-grey-500 text-bold">
-        {updateStatus === 'available'
-          ? 'Downloading update…'
-          : displayedVersion}
-      </div>
 
       <DarkButton
         className={clsx(openMenu === 'sponsor' && 'z-20')}

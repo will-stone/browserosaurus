@@ -54,9 +54,9 @@ export const DarkButton: React.FC<DarkButtonProps> = ({
       className={clsx(
         className,
         'active:shadow-none focus:outline-none',
-        'px-2 py-1',
+        'px-2 py-2',
         'rounded-md',
-        'text-xs font-bold',
+        'text-xxs font-bold',
         !disabled && tone === 'primary' && 'text-blue-400 active:text-blue-300',
         !disabled && tone === 'sponsor' && 'text-pink-400 active:text-pink-300',
         !disabled && !tone && 'text-grey-300 active:text-grey-200',
