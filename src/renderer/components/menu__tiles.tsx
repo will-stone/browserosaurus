@@ -64,7 +64,7 @@ const TilesMenu: React.FC = () => {
         'absolute bg-grey-800 rounded overflow-y-auto overflow-x-hidden border border-grey-600 shadow-xl z-30',
         'animate__animated animate__fadeInUp animate__faster',
       )}
-      style={{ top: '8px', right: '8px', bottom: '60px', left: '8px' }}
+      style={{ top: '8px', right: '8px', bottom: '45px', left: '8px' }}
     >
       <div className="p-4 grid grid-cols-2">
         <div className="space-y-3 text-xs">

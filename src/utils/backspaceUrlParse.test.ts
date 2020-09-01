@@ -1,6 +1,6 @@
 import { backspaceUrlParse } from './backspaceUrlParse'
 
-const cases = [
+const cases: [string, string][] = [
   // Kitchen sink
   [
     'https://example.com:4000/path/name/?search=param&another=param2#hash-thing',
@@ -16,12 +16,12 @@ const cases = [
   ],
   ['https://example.com:4000/path/name/', 'https://example.com:4000/path/'],
   ['https://example.com:4000/path/', 'https://example.com:4000/'],
-  ['https://example.com:4000/', undefined],
-  [undefined, undefined],
+  ['https://example.com:4000/', ''],
+  ['', ''],
   // No port
-  ['https://example.com/', undefined],
+  ['https://example.com/', ''],
   // No trailing slash
-  ['https://example.com', undefined],
+  ['https://example.com', ''],
   // Just hash
   ['https://example.com/#hash', 'https://example.com/'],
   ['https://example.com#hash', 'https://example.com/'],

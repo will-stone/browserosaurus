@@ -15,7 +15,7 @@ import {
   clickedSponsorMenuButton,
   clickedTilesMenuButton,
 } from '../store/actions'
-import { LightButton } from './atoms/button'
+import Button from './atoms/button'
 
 interface Props {
   className?: string
@@ -44,66 +44,80 @@ const StatusBar: React.FC<Props> = ({ className }) => {
     <div
       className={clsx(
         className,
-        'h-16 px-4 bg-grey-700 flex items-center justify-between overflow-hidden text-xs font-bold space-x-4',
+        'flex-shrink-0 leading-none flex justify-end items-center space-x-2',
       )}
     >
-      <div className="flex items-center space-x-2">
-        <LightButton
-          aria-label="Tiles Menu"
-          className={clsx(openMenu === 'tiles' && 'z-20')}
-          onClick={handleTilesMenuButtonClick}
-        >
-          {openMenu === 'tiles' ? (
-            <FontAwesomeIcon fixedWidth icon={faTimes} />
-          ) : (
-            <FontAwesomeIcon fixedWidth icon={faGripHorizontal} />
-          )}
-        </LightButton>
-
-        {!isDefaultProtocolClient && (
-          <LightButton onClick={setAsDefaultBrowser}>
-            Set As Default Browser
-          </LightButton>
-        )}
+      <div className="text-xxs text-grey-500 font-bold">
+        {updateStatus === 'available'
+          ? 'Downloading update…'
+          : displayedVersion}
       </div>
 
-      <div className="flex items-center space-x-2">
-        <div className="text-xs text-grey-500 text-bold">
-          {updateStatus === 'available'
-            ? 'Downloading update…'
-            : displayedVersion}
-        </div>
-
-        <LightButton
-          className={clsx(openMenu === 'sponsor' && 'z-20')}
-          onClick={handleSponsorMenuButtonClick}
-          tone={openMenu === 'sponsor' ? undefined : 'sponsor'}
+      {!isDefaultProtocolClient && (
+        <Button
+          className="opacity-50"
+          onClick={setAsDefaultBrowser}
+          size="xxs"
+          title="Accept incoming URLs"
         >
-          {openMenu === 'sponsor' ? (
-            <FontAwesomeIcon fixedWidth icon={faTimes} />
-          ) : (
-            <FontAwesomeIcon fixedWidth icon={faHeart} />
-          )}
-        </LightButton>
+          Set As Default Browser
+        </Button>
+      )}
 
-        {updateStatus === 'downloaded' && (
-          <LightButton onClick={updateRestart} tone="primary">
-            <FontAwesomeIcon icon={faGift} />
-            <span>Update</span>
-          </LightButton>
+      <Button
+        aria-label="Tiles Menu"
+        className={clsx(openMenu === 'tiles' && 'z-20')}
+        onClick={handleTilesMenuButtonClick}
+        size="xxs"
+      >
+        {openMenu === 'tiles' ? (
+          <FontAwesomeIcon fixedWidth icon={faTimes} title="Close menu" />
+        ) : (
+          <FontAwesomeIcon
+            fixedWidth
+            icon={faGripHorizontal}
+            title="Tiles menu"
+          />
         )}
+      </Button>
 
-        {updateStatus !== 'downloaded' && (
-          <>
-            <LightButton onClick={reload}>
-              <FontAwesomeIcon fixedWidth icon={faSync} />
-            </LightButton>
-            <LightButton onClick={quit}>
-              <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
-            </LightButton>
-          </>
+      <Button
+        className={clsx(openMenu === 'sponsor' && 'z-20')}
+        onClick={handleSponsorMenuButtonClick}
+        size="xxs"
+        tone={openMenu === 'sponsor' ? undefined : 'sponsor'}
+      >
+        {openMenu === 'sponsor' ? (
+          <FontAwesomeIcon fixedWidth icon={faTimes} title="Close menu" />
+        ) : (
+          <FontAwesomeIcon
+            fixedWidth
+            icon={faHeart}
+            title="Sponsor information"
+          />
         )}
-      </div>
+      </Button>
+
+      {updateStatus === 'downloaded' && (
+        <Button
+          className="space-x-2"
+          onClick={updateRestart}
+          size="xxs"
+          title="Restart app and update"
+          tone="primary"
+        >
+          <FontAwesomeIcon icon={faGift} />
+          <span>Update</span>
+        </Button>
+      )}
+
+      <Button onClick={reload} size="xxs" title="Reload">
+        <FontAwesomeIcon fixedWidth icon={faSync} />
+      </Button>
+
+      <Button onClick={quit} size="xxs" title="Quit">
+        <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
+      </Button>
     </div>
   )
 }

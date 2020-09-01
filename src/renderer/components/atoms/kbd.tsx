@@ -10,10 +10,7 @@ const Kbd: React.FC<Props> = ({ children, className }) => {
     <kbd
       className={clsx(
         className,
-        'text-grey-300 text-xxs tracking-widest font-bold uppercase',
-        'bg-grey-600',
-        'py-1 px-2',
-        'border border-grey-900 rounded',
+        'text-xs tracking-widest font-bold uppercase py-1 px-2 rounded text-center',
       )}
     >
       {children}

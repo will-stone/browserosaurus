@@ -12,10 +12,6 @@ export interface Store {
   firstRun?: boolean
   hotkeys: Hotkeys
   hiddenTileIds: string[]
-  // TODO [>=11.0.0] Remove this when enough time has passed to flush-out old v10 settings
-  lastUpdateCheck?: unknown
-  // TODO [>=11.0.0] Remove this when enough time has passed to flush-out old v10 settings
-  urlHistory?: unknown
 }
 
 export const store = new ElectronStore<Store>({
@@ -27,8 +23,3 @@ export const store = new ElectronStore<Store>({
     hiddenTileIds: [],
   },
 })
-
-// TODO [>=11.0.0] Remove this when enough time has passed to flush-out old v10 settings
-// Remove old settings (cannot get electron-store's migrations to work)
-store.delete('urlHistory')
-store.delete('lastUpdateCheck')

@@ -5,7 +5,7 @@ import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { clickedSponsorButton } from '../store/actions'
-import { LightButton } from './atoms/button'
+import Button from './atoms/button'
 
 const SponsorMenu: React.FC = () => {
   const dispatch = useDispatch()
@@ -20,7 +20,7 @@ const SponsorMenu: React.FC = () => {
         'absolute bg-grey-800 rounded overflow-y-auto overflow-x-hidden border border-grey-600 shadow-xl z-30',
         'animate__animated animate__fadeInUp animate__faster',
       )}
-      style={{ left: '50%', bottom: '60px', right: '8px' }}
+      style={{ top: '8px', left: '50%', bottom: '45px', right: '8px' }}
     >
       <div className="p-4">
         <p className="mb-4 font-medium">
@@ -28,10 +28,10 @@ const SponsorMenu: React.FC = () => {
           support I can continue to maintain projects such as this one, which is
           free and always will be.
         </p>
-        <LightButton onClick={handleButtonClick} tone="sponsor">
+        <Button onClick={handleButtonClick} tone="sponsor">
           <FontAwesomeIcon fixedWidth icon={faHeart} />
           <span>Sponsor from $1 / month</span>
-        </LightButton>
+        </Button>
       </div>
     </div>
   )

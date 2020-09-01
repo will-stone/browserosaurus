@@ -1,3 +1,5 @@
+import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
@@ -7,8 +9,7 @@ import { SPONSOR_URL } from '../../config/CONSTANTS'
 import { copyUrl } from '../sendToMain'
 import { useSelector } from '../store'
 import { clickedUrlBackspaceButton } from '../store/actions'
-import { DarkButton } from './atoms/button'
-import Kbd from './atoms/kbd'
+import Button from './atoms/button'
 
 interface Props {
   className?: string
@@ -18,7 +19,9 @@ const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
 
-  const parsedUrl = url ? Url.parse(url) : undefined
+  const isEmpty = url.length === 0
+
+  const parsedUrl = Url.parse(url)
 
   const handleCopyClick = useCallback(() => {
     copyUrl(url)
@@ -31,59 +34,62 @@ const UrlBar: React.FC<Props> = ({ className }) => {
   }, [dispatch])
 
   return (
-    <div className={clsx(className, 'flex items-center space-x-4')}>
+    <div
+      className={clsx(
+        className,
+        'flex-shrink-0',
+        'flex items-center space-x-2',
+        'bg-grey-800',
+        'border-2 rounded-md',
+        'px-2',
+        'h-12',
+        isSponsorUrl ? 'border-pink-500' : 'border-grey-800 ',
+      )}
+    >
       <div
         className={clsx(
           'flex-grow',
-          isSponsorUrl
-            ? 'border-pink-500 text-pink-200 border-b-2'
-            : 'border-grey-900 text-grey-400 border-b',
+          isSponsorUrl ? 'text-pink-200' : 'text-grey-400 ',
           'text-xs tracking-wider font-bold',
-          'h-10',
           'flex items-center justify-between',
           'overflow-hidden',
         )}
       >
-        {parsedUrl ? (
-          <div className="truncate">
-            <span>{parsedUrl.protocol}</span>
-            {parsedUrl.slashes && '//'}
-            <span
-              className={clsx(
-                'text-base',
-                isSponsorUrl ? 'text-pink-400' : 'text-grey-200',
-              )}
-            >
-              {parsedUrl.host}
-            </span>
-            <span>
-              {parsedUrl.pathname}
-              {parsedUrl.search}
-              {parsedUrl.hash}
-            </span>
-          </div>
-        ) : (
-          <span className="text-grey-500">
-            Most recently clicked link will show here
+        <div className="truncate">
+          <span>{parsedUrl.protocol}</span>
+          {parsedUrl.slashes && '//'}
+          <span
+            className={clsx(
+              'text-base',
+              isSponsorUrl ? 'text-pink-400' : 'text-grey-200',
+            )}
+          >
+            {parsedUrl.host}
           </span>
-        )}
-
-        <button
-          className={clsx(
-            'text-base focus:outline-none',
-            parsedUrl ? 'text-grey-200' : 'text-grey-500',
-          )}
-          onClick={handleBackspaceButtonClick}
-          type="button"
-        >
-          ⌫
-        </button>
+          <span>
+            {parsedUrl.pathname}
+            {parsedUrl.search}
+            {parsedUrl.hash}
+          </span>
+        </div>
       </div>
 
-      <DarkButton disabled={!parsedUrl} onClick={handleCopyClick}>
-        <span>Copy</span>
-        <Kbd>⌘+C</Kbd>
-      </DarkButton>
+      <Button
+        disabled={isEmpty}
+        onClick={handleBackspaceButtonClick}
+        title="Delete section of URL (Backspace)"
+      >
+        ⌫
+      </Button>
+
+      <Button
+        className="space-x-2"
+        disabled={isEmpty}
+        onClick={handleCopyClick}
+        title="Copy to clipboard (⌘+C)"
+      >
+        <FontAwesomeIcon fixedWidth icon={faCopy} />
+      </Button>
     </div>
   )
 }

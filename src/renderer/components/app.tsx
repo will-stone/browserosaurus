@@ -3,8 +3,9 @@ import { Provider } from 'react-redux'
 
 import { mainLog } from '../sendToMain'
 import store from '../store'
+import FavTile from './app__fav-tile'
+import NormalTiles from './app__normal-tiles'
 import StatusBar from './app__status-bar'
-import Tiles from './app__tiles'
 import UrlBar from './app__url-bar'
 import KeyboardManager from './manager__keyboard'
 import MainEventsManager from './manager__main-events'
@@ -17,16 +18,19 @@ const App: React.FC = () => {
 
   return (
     <Provider store={store}>
-      <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col relative">
-        <div className="flex-shrink-0 flex-grow p-4 border-b border-grey-900 relative">
-          <UrlBar className="mb-4" />
+      <div className="h-screen w-screen select-none overflow-hidden text-grey-300 flex flex-col relative p-4">
+        <UrlBar className="mb-4" />
+        <div className="flex-grow flex items-center">
+          <FavTile />
 
-          <div className="flex-shrink-0 flex flex-col justify-between">
-            <Tiles />
+          <div className="flex-grow flex flex-col h-full">
+            <div className="flex-grow flex items-center">
+              <NormalTiles />
+            </div>
+
+            <StatusBar />
           </div>
         </div>
-
-        <StatusBar className="flex-shrink-0" />
 
         <MenusManager />
         <KeyboardManager />

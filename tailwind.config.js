@@ -31,12 +31,16 @@ module.exports = {
         'grey-800': '#1A1D21',
         'grey-900': '#0D1117',
       },
+      spacing: {
+        '28': '7rem',
+      },
     },
   },
   variants: {
     backgroundColor: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
     textColor: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
     boxShadow: ['responsive', 'hover', 'focus', 'active'],
+    opacity: ['responsive', 'hover', 'focus', 'active'],
   },
   plugins: [
     plugin(({ addUtilities }) => {

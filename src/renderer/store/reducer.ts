@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
 
-import { SPONSOR_URL } from '../../config/CONSTANTS'
+import { DEFAULT_URL, SPONSOR_URL } from '../../config/CONSTANTS'
 import { App } from '../../config/types'
 import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'
@@ -78,7 +78,7 @@ const mainStore = createReducer<MainStore>(
 
 interface UiState {
   menu: false | 'tiles' | 'sponsor'
-  url?: string
+  url: string
   version: string
   updateStatus: 'no-update' | 'available' | 'downloaded'
   isDefaultProtocolClient: boolean
@@ -90,6 +90,7 @@ const ui = createReducer<UiState>(
     version: '',
     updateStatus: 'no-update',
     isDefaultProtocolClient: true,
+    url: DEFAULT_URL,
   },
   (builder) =>
     builder
