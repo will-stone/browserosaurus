@@ -15,7 +15,7 @@ import {
   clickedSponsorMenuButton,
   clickedTilesMenuButton,
 } from '../store/actions'
-import { LightButton } from './atoms/button'
+import { NewDarkButton } from './atoms/button'
 
 interface Props {
   className?: string
@@ -44,66 +44,62 @@ const StatusBar: React.FC<Props> = ({ className }) => {
     <div
       className={clsx(
         className,
-        'h-16 px-4 bg-grey-700 flex items-center justify-between overflow-hidden text-xs font-bold space-x-4',
+        'flex-shrink-0 leading-none flex justify-end items-center space-x-2',
       )}
     >
-      <div className="flex items-center space-x-2">
-        <LightButton
-          aria-label="Tiles Menu"
-          className={clsx(openMenu === 'tiles' && 'z-20')}
-          onClick={handleTilesMenuButtonClick}
-        >
-          {openMenu === 'tiles' ? (
-            <FontAwesomeIcon fixedWidth icon={faTimes} />
-          ) : (
-            <FontAwesomeIcon fixedWidth icon={faGripHorizontal} />
-          )}
-        </LightButton>
-
-        {!isDefaultProtocolClient && (
-          <LightButton onClick={setAsDefaultBrowser}>
-            Set As Default Browser
-          </LightButton>
+      <NewDarkButton
+        aria-label="Tiles Menu"
+        className={clsx(openMenu === 'tiles' && 'z-20')}
+        onClick={handleTilesMenuButtonClick}
+      >
+        {openMenu === 'tiles' ? (
+          <FontAwesomeIcon fixedWidth icon={faTimes} />
+        ) : (
+          <FontAwesomeIcon fixedWidth icon={faGripHorizontal} />
         )}
+      </NewDarkButton>
+
+      {!isDefaultProtocolClient && (
+        <NewDarkButton onClick={setAsDefaultBrowser}>
+          Set As Default Browser
+        </NewDarkButton>
+      )}
+
+      <div className="text-xs text-grey-500 text-bold">
+        {updateStatus === 'available'
+          ? 'Downloading update…'
+          : displayedVersion}
       </div>
 
-      <div className="flex items-center space-x-2">
-        <div className="text-xs text-grey-500 text-bold">
-          {updateStatus === 'available'
-            ? 'Downloading update…'
-            : displayedVersion}
-        </div>
-
-        <LightButton
-          className={clsx(openMenu === 'sponsor' && 'z-20')}
-          onClick={handleSponsorMenuButtonClick}
-          tone={openMenu === 'sponsor' ? undefined : 'sponsor'}
-        >
-          {openMenu === 'sponsor' ? (
-            <FontAwesomeIcon fixedWidth icon={faTimes} />
-          ) : (
-            <FontAwesomeIcon fixedWidth icon={faHeart} />
-          )}
-        </LightButton>
-
-        {updateStatus === 'downloaded' && (
-          <LightButton onClick={updateRestart} tone="primary">
-            <FontAwesomeIcon icon={faGift} />
-            <span>Update</span>
-          </LightButton>
+      <NewDarkButton
+        className={clsx(openMenu === 'sponsor' && 'z-20')}
+        onClick={handleSponsorMenuButtonClick}
+        tone={openMenu === 'sponsor' ? undefined : 'sponsor'}
+      >
+        {openMenu === 'sponsor' ? (
+          <FontAwesomeIcon fixedWidth icon={faTimes} />
+        ) : (
+          <FontAwesomeIcon fixedWidth icon={faHeart} />
         )}
+      </NewDarkButton>
 
-        {updateStatus !== 'downloaded' && (
-          <>
-            <LightButton onClick={reload}>
-              <FontAwesomeIcon fixedWidth icon={faSync} />
-            </LightButton>
-            <LightButton onClick={quit}>
-              <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
-            </LightButton>
-          </>
-        )}
-      </div>
+      {updateStatus === 'downloaded' && (
+        <NewDarkButton onClick={updateRestart} tone="primary">
+          <FontAwesomeIcon icon={faGift} />
+          <span>Update</span>
+        </NewDarkButton>
+      )}
+
+      {updateStatus !== 'downloaded' && (
+        <>
+          <NewDarkButton onClick={reload}>
+            <FontAwesomeIcon fixedWidth icon={faSync} />
+          </NewDarkButton>
+          <NewDarkButton onClick={quit}>
+            <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
+          </NewDarkButton>
+        </>
+      )}
     </div>
   )
 }

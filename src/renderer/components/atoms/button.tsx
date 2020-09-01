@@ -125,3 +125,34 @@ export const NewLightButton: React.FC<NewLightButton> = ({
     />
   )
 }
+
+interface NewDarkButtonProps extends React.ComponentPropsWithoutRef<'button'> {
+  tone?: 'primary' | 'sponsor'
+}
+
+export const NewDarkButton: React.FC<NewDarkButtonProps> = ({
+  className,
+  disabled,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- type is hardcoded
+  type,
+  tone,
+  ...restProperties
+}) => {
+  return (
+    <button
+      className={clsx(
+        className,
+        'px-2 py-1',
+        'rounded-md',
+        'text-xs font-bold',
+        !disabled && tone === 'primary' && 'text-blue-400 active:text-blue-300',
+        !disabled && tone === 'sponsor' && 'text-pink-400 active:text-pink-300',
+        !disabled && !tone && 'text-grey-300 active:text-grey-200',
+        disabled ? 'bg-transparent text-grey-500' : 'bg-grey-700',
+      )}
+      disabled={disabled}
+      type="button"
+      {...restProperties}
+    />
+  )
+}

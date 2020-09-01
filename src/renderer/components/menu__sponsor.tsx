@@ -20,7 +20,7 @@ const SponsorMenu: React.FC = () => {
         'absolute bg-grey-800 rounded overflow-y-auto overflow-x-hidden border border-grey-600 shadow-xl z-30',
         'animate__animated animate__fadeInUp animate__faster',
       )}
-      style={{ left: '50%', bottom: '60px', right: '8px' }}
+      style={{ top: '8px', left: '50%', bottom: '45px', right: '8px' }}
     >
       <div className="p-4">
         <p className="mb-4 font-medium">

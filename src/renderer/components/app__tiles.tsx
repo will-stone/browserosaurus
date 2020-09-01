@@ -1,9 +1,8 @@
-import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import React from 'react'
 
 import { useSelector, useShallowEqualSelector } from '../store'
+import StatusBar from './app__status-bar'
 import Tile from './app__tiles__tile'
 
 const Tiles: React.FC = () => {
@@ -31,32 +30,7 @@ const Tiles: React.FC = () => {
           ))}
         </div>
 
-        <div className="flex-shrink-0 leading-none text-right">
-          <button
-            className={clsx(
-              'bg-grey-700',
-              'px-2 py-1',
-              'mr-2',
-              'rounded-md',
-              'text-pink-400 text-xs font-bold leading-none focus:outline-none',
-            )}
-            type="button"
-          >
-            <FontAwesomeIcon fixedWidth icon={faHeart} />
-          </button>
-
-          <button
-            className={clsx(
-              'bg-grey-700',
-              'px-2 py-1',
-              'rounded-md',
-              'text-xs font-bold leading-none focus:outline-none',
-            )}
-            type="button"
-          >
-            Menu
-          </button>
-        </div>
+        <StatusBar />
       </div>
     </div>
   )
