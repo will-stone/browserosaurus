@@ -15,7 +15,7 @@ import {
   clickedSponsorMenuButton,
   clickedTilesMenuButton,
 } from '../store/actions'
-import { DarkButton } from './atoms/button'
+import Button from './atoms/button'
 
 interface Props {
   className?: string
@@ -54,19 +54,21 @@ const StatusBar: React.FC<Props> = ({ className }) => {
       </div>
 
       {!isDefaultProtocolClient && (
-        <DarkButton
+        <Button
           className="opacity-50"
           onClick={setAsDefaultBrowser}
+          size="xxs"
           title="Accept incoming URLs"
         >
           Set As Default Browser
-        </DarkButton>
+        </Button>
       )}
 
-      <DarkButton
+      <Button
         aria-label="Tiles Menu"
         className={clsx(openMenu === 'tiles' && 'z-20')}
         onClick={handleTilesMenuButtonClick}
+        size="xxs"
       >
         {openMenu === 'tiles' ? (
           <FontAwesomeIcon fixedWidth icon={faTimes} title="Close menu" />
@@ -77,11 +79,12 @@ const StatusBar: React.FC<Props> = ({ className }) => {
             title="Tiles menu"
           />
         )}
-      </DarkButton>
+      </Button>
 
-      <DarkButton
+      <Button
         className={clsx(openMenu === 'sponsor' && 'z-20')}
         onClick={handleSponsorMenuButtonClick}
+        size="xxs"
         tone={openMenu === 'sponsor' ? undefined : 'sponsor'}
       >
         {openMenu === 'sponsor' ? (
@@ -93,27 +96,28 @@ const StatusBar: React.FC<Props> = ({ className }) => {
             title="Sponsor information"
           />
         )}
-      </DarkButton>
+      </Button>
 
       {updateStatus === 'downloaded' && (
-        <DarkButton
+        <Button
           onClick={updateRestart}
+          size="xxs"
           title="Restart app and update"
           tone="primary"
         >
           <FontAwesomeIcon icon={faGift} />
           <span>Update</span>
-        </DarkButton>
+        </Button>
       )}
 
       {updateStatus !== 'downloaded' && (
         <>
-          <DarkButton onClick={reload} title="Reload">
+          <Button onClick={reload} size="xxs" title="Reload">
             <FontAwesomeIcon fixedWidth icon={faSync} />
-          </DarkButton>
-          <DarkButton onClick={quit} title="Quit">
+          </Button>
+          <Button onClick={quit} size="xxs" title="Quit">
             <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
-          </DarkButton>
+          </Button>
         </>
       )}
     </div>

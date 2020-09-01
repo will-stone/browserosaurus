@@ -38,6 +38,7 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         'flex flex-col items-center justify-center',
         'focus:outline-none',
         'active:opacity-50',
+        'group',
         className,
       )}
       onClick={handleClick}
@@ -55,14 +56,16 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         />
       </div>
       <div
-        className="flex-shrink-0 mt-2 flex flex-col"
+        className="flex-shrink-0 mt-2 flex flex-col items-center"
         // To avoid logos growing into space when no hotkey
         style={{ minHeight: '1em' }}
       >
-        <Kbd>{hotkey}</Kbd>
+        <Kbd className="group-hover:bg-grey-900 group-hover:text-grey-100">
+          {hotkey}
+        </Kbd>
 
         {isFav && (
-          <Kbd className="mt-1 space-x-1">
+          <Kbd className="mt-1 space-x-1 group-hover:bg-grey-900 group-hover:text-grey-100">
             <FontAwesomeIcon
               className="text-yellow-400 align-text-top"
               icon={faStar}

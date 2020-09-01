@@ -5,7 +5,7 @@ import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { clickedSponsorButton } from '../store/actions'
-import { LightButton } from './atoms/button'
+import Button from './atoms/button'
 
 const SponsorMenu: React.FC = () => {
   const dispatch = useDispatch()
@@ -28,10 +28,10 @@ const SponsorMenu: React.FC = () => {
           support I can continue to maintain projects such as this one, which is
           free and always will be.
         </p>
-        <LightButton onClick={handleButtonClick} tone="sponsor">
+        <Button onClick={handleButtonClick} tone="sponsor">
           <FontAwesomeIcon fixedWidth icon={faHeart} />
           <span>Sponsor from $1 / month</span>
-        </LightButton>
+        </Button>
       </div>
     </div>
   )

@@ -9,7 +9,7 @@ import { SPONSOR_URL } from '../../config/CONSTANTS'
 import { copyUrl } from '../sendToMain'
 import { useSelector } from '../store'
 import { clickedUrlBackspaceButton } from '../store/actions'
-import { LightButton } from './atoms/button'
+import Button from './atoms/button'
 
 interface Props {
   className?: string
@@ -74,22 +74,22 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         </div>
       </div>
 
-      <LightButton
+      <Button
         disabled={isEmpty}
         onClick={handleBackspaceButtonClick}
         title="Delete section of URL (Backspace)"
       >
         ⌫
-      </LightButton>
+      </Button>
 
-      <LightButton
+      <Button
         className="space-x-2"
         disabled={isEmpty}
         onClick={handleCopyClick}
         title="Copy to clipboard (⌘+C)"
       >
         <FontAwesomeIcon fixedWidth icon={faCopy} />
-      </LightButton>
+      </Button>
     </div>
   )
 }
