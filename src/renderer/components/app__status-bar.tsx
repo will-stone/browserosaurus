@@ -100,6 +100,7 @@ const StatusBar: React.FC<Props> = ({ className }) => {
 
       {updateStatus === 'downloaded' && (
         <Button
+          className="space-x-2"
           onClick={updateRestart}
           size="xxs"
           title="Restart app and update"
@@ -110,16 +111,13 @@ const StatusBar: React.FC<Props> = ({ className }) => {
         </Button>
       )}
 
-      {updateStatus !== 'downloaded' && (
-        <>
-          <Button onClick={reload} size="xxs" title="Reload">
-            <FontAwesomeIcon fixedWidth icon={faSync} />
-          </Button>
-          <Button onClick={quit} size="xxs" title="Quit">
-            <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
-          </Button>
-        </>
-      )}
+      <Button onClick={reload} size="xxs" title="Reload">
+        <FontAwesomeIcon fixedWidth icon={faSync} />
+      </Button>
+
+      <Button onClick={quit} size="xxs" title="Quit">
+        <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
+      </Button>
     </div>
   )
 }
