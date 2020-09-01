@@ -2,9 +2,9 @@ import clsx from 'clsx'
 import React from 'react'
 
 import { useNormalTilesSelector } from '../store/selectors'
-import Tile from './app__tiles__tile'
+import Tile from './organisms/tile'
 
-const Tiles: React.FC = () => {
+const NormalTiles: React.FC = () => {
   const normalTiles = useNormalTilesSelector()
 
   return (
@@ -21,4 +21,4 @@ const Tiles: React.FC = () => {
   )
 }
 
-export default Tiles
+export default NormalTiles

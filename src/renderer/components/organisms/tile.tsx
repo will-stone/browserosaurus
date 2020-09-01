@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import React, { useCallback } from 'react'
 
-import { logos } from '../../config/logos'
-import { App } from '../../config/types'
-import { getHotkeyByAppId } from '../../utils/getHotkeyByAppId'
-import { openApp } from '../sendToMain'
-import { useSelector, useShallowEqualSelector } from '../store'
-import Kbd from './atoms/kbd'
+import { logos } from '../../../config/logos'
+import { App } from '../../../config/types'
+import { getHotkeyByAppId } from '../../../utils/getHotkeyByAppId'
+import { openApp } from '../../sendToMain'
+import { useSelector, useShallowEqualSelector } from '../../store'
+import Kbd from '../atoms/kbd'
 
 interface Props {
   app: App

@@ -55,51 +55,6 @@ export const LightButton: React.FC<LightButtonProps> = ({
   )
 }
 
-type DarkButtonProps = React.ComponentPropsWithoutRef<'button'>
-
-export const DarkButton: React.FC<DarkButtonProps> = ({
-  className,
-  disabled,
-  ...restProperties
-}) => {
-  return (
-    <BaseButton
-      className={clsx(
-        className,
-        'py-2 px-3',
-        'space-x-2',
-        disabled
-          ? 'bg-transparent text-grey-500'
-          : 'bg-grey-700 text-grey-300 active:text-grey-200',
-      )}
-      disabled={disabled}
-      {...restProperties}
-    />
-  )
-}
-
-type LargeDarkButtonProps = React.ComponentPropsWithoutRef<'button'>
-
-export const LargeDarkButton: React.FC<LargeDarkButtonProps> = ({
-  className,
-  disabled,
-  ...restProperties
-}) => {
-  return (
-    <BaseButton
-      className={clsx(
-        className,
-        'h-24 text-left p-3',
-        disabled
-          ? 'bg-transparent text-grey-500'
-          : 'bg-grey-700 text-grey-300 active:text-grey-200',
-      )}
-      disabled={disabled}
-      {...restProperties}
-    />
-  )
-}
-
 type NewLightButton = React.ComponentPropsWithoutRef<'button'>
 
 export const NewLightButton: React.FC<NewLightButton> = ({

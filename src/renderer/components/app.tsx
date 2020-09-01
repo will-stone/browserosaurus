@@ -4,8 +4,8 @@ import { Provider } from 'react-redux'
 import { mainLog } from '../sendToMain'
 import store from '../store'
 import FavTile from './app__fav-tile'
+import NormalTiles from './app__normal-tiles'
 import StatusBar from './app__status-bar'
-import Tiles from './app__tiles'
 import UrlBar from './app__url-bar'
 import KeyboardManager from './manager__keyboard'
 import MainEventsManager from './manager__main-events'
@@ -25,7 +25,7 @@ const App: React.FC = () => {
 
           <div className="flex-grow flex flex-col h-full">
             <div className="flex-grow flex items-center">
-              <Tiles />
+              <NormalTiles />
             </div>
 
             <StatusBar />

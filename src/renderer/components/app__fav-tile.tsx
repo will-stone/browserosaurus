@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { useFavTileSelector } from '../store/selectors'
-import Tile from './app__tiles__tile'
 import Noop from './atoms/noop'
+import Tile from './organisms/tile'
 
 const FavTile: React.FC = () => {
   const favTile = useFavTileSelector()
