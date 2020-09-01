@@ -78,7 +78,7 @@ const mainStore = createReducer<MainStore>(
 
 interface UiState {
   menu: false | 'tiles' | 'sponsor'
-  url?: string
+  url: string
   version: string
   updateStatus: 'no-update' | 'available' | 'downloaded'
   isDefaultProtocolClient: boolean
@@ -90,6 +90,7 @@ const ui = createReducer<UiState>(
     version: '',
     updateStatus: 'no-update',
     isDefaultProtocolClient: true,
+    url: 'https://browserosaurus.com/',
   },
   (builder) =>
     builder

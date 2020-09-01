@@ -5,7 +5,7 @@ import Url from 'url'
  * This allows for two-step deletion.
  * @param url url string
  */
-export function backspaceUrlParse(url?: string): string | undefined {
+export function backspaceUrlParse(url: string): string {
   if (url) {
     const { protocol, slashes, host, pathname, search, hash } = Url.parse(url)
 
@@ -47,4 +47,6 @@ export function backspaceUrlParse(url?: string): string | undefined {
       return `${protocol}${slashes ? '//' : ''}${host}/`
     }
   }
+
+  return ''
 }

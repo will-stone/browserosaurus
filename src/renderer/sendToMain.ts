@@ -5,7 +5,7 @@ import { Hotkeys } from '../main/store'
 
 export const OPEN_APP = 'OPEN_APP'
 export interface OpenAppArguments {
-  url: string | undefined
+  url: string
   appId: App['id'] | undefined
   isAlt: boolean
 }
@@ -14,7 +14,7 @@ export function openApp(arguments_: OpenAppArguments): void {
 }
 
 export const COPY_TO_CLIPBOARD = 'COPY_TO_CLIPBOARD'
-export const copyUrl = (url?: string): void => {
+export const copyUrl = (url: string): void => {
   if (url) {
     ipcRenderer.send(COPY_TO_CLIPBOARD, url)
   }

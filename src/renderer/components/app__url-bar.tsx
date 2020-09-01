@@ -19,7 +19,9 @@ const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
 
-  const parsedUrl = url ? Url.parse(url) : undefined
+  const isEmpty = url.length === 0
+
+  const parsedUrl = Url.parse(url)
 
   const handleCopyClick = useCallback(() => {
     copyUrl(url)
@@ -53,33 +55,27 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           'overflow-hidden',
         )}
       >
-        {parsedUrl ? (
-          <div className="truncate">
-            <span>{parsedUrl.protocol}</span>
-            {parsedUrl.slashes && '//'}
-            <span
-              className={clsx(
-                'text-base',
-                isSponsorUrl ? 'text-pink-400' : 'text-grey-200',
-              )}
-            >
-              {parsedUrl.host}
-            </span>
-            <span>
-              {parsedUrl.pathname}
-              {parsedUrl.search}
-              {parsedUrl.hash}
-            </span>
-          </div>
-        ) : (
-          <span className="text-grey-500">
-            Most recently clicked link will show here
+        <div className="truncate">
+          <span>{parsedUrl.protocol}</span>
+          {parsedUrl.slashes && '//'}
+          <span
+            className={clsx(
+              'text-base',
+              isSponsorUrl ? 'text-pink-400' : 'text-grey-200',
+            )}
+          >
+            {parsedUrl.host}
           </span>
-        )}
+          <span>
+            {parsedUrl.pathname}
+            {parsedUrl.search}
+            {parsedUrl.hash}
+          </span>
+        </div>
       </div>
 
       <LightButton
-        disabled={!parsedUrl}
+        disabled={isEmpty}
         onClick={handleBackspaceButtonClick}
         title="Delete section of URL (Backspace)"
       >
@@ -88,7 +84,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
 
       <LightButton
         className="space-x-2"
-        disabled={!parsedUrl}
+        disabled={isEmpty}
         onClick={handleCopyClick}
         title="Copy to clipboard (⌘+C)"
       >
