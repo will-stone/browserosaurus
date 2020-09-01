@@ -90,7 +90,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         onClick={handleCopyClick}
       >
         <span>Copy</span>
-        <Kbd className="text-xxs">⌘+C</Kbd>
+        <Kbd>⌘+C</Kbd>
       </NewLightButton>
     </div>
   )
