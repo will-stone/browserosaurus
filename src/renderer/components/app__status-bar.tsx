@@ -54,7 +54,11 @@ const StatusBar: React.FC<Props> = ({ className }) => {
       </div>
 
       {!isDefaultProtocolClient && (
-        <DarkButton className="opacity-50" onClick={setAsDefaultBrowser}>
+        <DarkButton
+          className="opacity-50"
+          onClick={setAsDefaultBrowser}
+          title="Accept incoming URLs"
+        >
           Set As Default Browser
         </DarkButton>
       )}
@@ -65,9 +69,13 @@ const StatusBar: React.FC<Props> = ({ className }) => {
         onClick={handleTilesMenuButtonClick}
       >
         {openMenu === 'tiles' ? (
-          <FontAwesomeIcon fixedWidth icon={faTimes} />
+          <FontAwesomeIcon fixedWidth icon={faTimes} title="Close menu" />
         ) : (
-          <FontAwesomeIcon fixedWidth icon={faGripHorizontal} />
+          <FontAwesomeIcon
+            fixedWidth
+            icon={faGripHorizontal}
+            title="Tiles menu"
+          />
         )}
       </DarkButton>
 
@@ -77,14 +85,22 @@ const StatusBar: React.FC<Props> = ({ className }) => {
         tone={openMenu === 'sponsor' ? undefined : 'sponsor'}
       >
         {openMenu === 'sponsor' ? (
-          <FontAwesomeIcon fixedWidth icon={faTimes} />
+          <FontAwesomeIcon fixedWidth icon={faTimes} title="Close menu" />
         ) : (
-          <FontAwesomeIcon fixedWidth icon={faHeart} />
+          <FontAwesomeIcon
+            fixedWidth
+            icon={faHeart}
+            title="Sponsor information"
+          />
         )}
       </DarkButton>
 
       {updateStatus === 'downloaded' && (
-        <DarkButton onClick={updateRestart} tone="primary">
+        <DarkButton
+          onClick={updateRestart}
+          title="Restart app and update"
+          tone="primary"
+        >
           <FontAwesomeIcon icon={faGift} />
           <span>Update</span>
         </DarkButton>
@@ -92,10 +108,10 @@ const StatusBar: React.FC<Props> = ({ className }) => {
 
       {updateStatus !== 'downloaded' && (
         <>
-          <DarkButton onClick={reload}>
+          <DarkButton onClick={reload} title="Reload">
             <FontAwesomeIcon fixedWidth icon={faSync} />
           </DarkButton>
-          <DarkButton onClick={quit}>
+          <DarkButton onClick={quit} title="Quit">
             <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
           </DarkButton>
         </>

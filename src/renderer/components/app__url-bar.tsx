@@ -1,3 +1,5 @@
+import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
@@ -8,7 +10,6 @@ import { copyUrl } from '../sendToMain'
 import { useSelector } from '../store'
 import { clickedUrlBackspaceButton } from '../store/actions'
 import { LightButton } from './atoms/button'
-import Kbd from './atoms/kbd'
 
 interface Props {
   className?: string
@@ -77,17 +78,21 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         )}
       </div>
 
-      <LightButton disabled={!parsedUrl} onClick={handleBackspaceButtonClick}>
+      <LightButton
+        disabled={!parsedUrl}
+        onClick={handleBackspaceButtonClick}
+        title="Delete section of URL (Backspace)"
+      >
         ⌫
       </LightButton>
 
       <LightButton
-        className="space-x-1"
+        className="space-x-2"
         disabled={!parsedUrl}
         onClick={handleCopyClick}
+        title="Copy to clipboard (⌘+C)"
       >
-        <span>Copy</span>
-        <Kbd>⌘+C</Kbd>
+        <FontAwesomeIcon fixedWidth icon={faCopy} />
       </LightButton>
     </div>
   )
