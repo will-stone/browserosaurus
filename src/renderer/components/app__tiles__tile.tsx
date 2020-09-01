@@ -54,16 +54,23 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
           src={logos[app.id]}
         />
       </div>
-      {hotkey && <Kbd className="flex-shrink-0 mt-1">{hotkey}</Kbd>}
-      {isFav && (
-        <Kbd className="flex-shrink-0 mt-1 space-x-1">
-          <FontAwesomeIcon
-            className="text-yellow-400 align-text-top"
-            icon={faStar}
-          />
-          <span>space</span>
-        </Kbd>
-      )}
+      <div
+        className="flex-shrink-0 mt-2 flex flex-col"
+        // To avoid logos growing into space when no hotkey
+        style={{ minHeight: '1em' }}
+      >
+        <Kbd>{hotkey}</Kbd>
+
+        {isFav && (
+          <Kbd className="mt-1 space-x-1">
+            <FontAwesomeIcon
+              className="text-yellow-400 align-text-top"
+              icon={faStar}
+            />
+            <span>space</span>
+          </Kbd>
+        )}
+      </div>
     </button>
   )
 }
