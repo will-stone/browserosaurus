@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
-
 import clsx from 'clsx'
 import React from 'react'
 
