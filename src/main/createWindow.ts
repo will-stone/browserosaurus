@@ -21,7 +21,7 @@ function createWindow(): Promise<electron.BrowserWindow> {
         enableRemoteModule: false,
       },
       height: 230,
-      width: 800,
+      width: 1000,
       show: false,
       minimizable: false,
       maximizable: false,
