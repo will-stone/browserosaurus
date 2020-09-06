@@ -17,22 +17,22 @@ const SponsorMenu: React.FC = () => {
   return (
     <div
       className={clsx(
-        'absolute bg-grey-800 rounded overflow-y-auto overflow-x-hidden border border-grey-600 shadow-xl z-30',
+        'absolute bg-grey-800 rounded overflow-hidden border border-grey-600 shadow-xl z-30',
         'animate__animated animate__fadeInUp animate__faster',
+        'p-4',
+        'flex flex-col justify-between',
       )}
       style={{ top: '8px', left: '50%', bottom: '45px', right: '8px' }}
     >
-      <div className="p-4">
-        <p className="mb-4 font-medium">
-          Maintaining open source projects takes a lot of time. With your
-          support I can continue to maintain projects such as this one, which is
-          free and always will be.
-        </p>
-        <Button onClick={handleButtonClick} tone="sponsor">
-          <FontAwesomeIcon fixedWidth icon={faHeart} />
-          <span>Sponsor from $1 / month</span>
-        </Button>
-      </div>
+      <p className="mb-4 font-medium">
+        Maintaining open source projects takes a lot of time. With your support
+        I can continue to maintain projects such as this one, which is free and
+        always will be.
+      </p>
+      <Button onClick={handleButtonClick} tone="sponsor">
+        <FontAwesomeIcon fixedWidth icon={faHeart} />
+        <span>Sponsor from $1 / month</span>
+      </Button>
     </div>
   )
 }

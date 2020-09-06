@@ -44,80 +44,84 @@ const StatusBar: React.FC<Props> = ({ className }) => {
     <div
       className={clsx(
         className,
-        'flex-shrink-0 leading-none flex justify-end items-center space-x-2',
+        'flex-shrink-0 leading-none flex justify-between items-center',
       )}
     >
-      <div className="text-xxs text-grey-500 font-bold">
-        {updateStatus === 'available'
-          ? 'Downloading update…'
-          : displayedVersion}
+      <div>
+        <Button
+          aria-label="Tiles Menu"
+          className={clsx(openMenu === 'tiles' && 'z-20')}
+          onClick={handleTilesMenuButtonClick}
+          size="xxs"
+        >
+          {openMenu === 'tiles' ? (
+            <FontAwesomeIcon fixedWidth icon={faTimes} title="Close menu" />
+          ) : (
+            <FontAwesomeIcon
+              fixedWidth
+              icon={faGripHorizontal}
+              title="Tiles menu"
+            />
+          )}
+        </Button>
       </div>
 
-      {!isDefaultProtocolClient && (
-        <Button
-          className="opacity-50"
-          onClick={setAsDefaultBrowser}
-          size="xxs"
-          title="Accept incoming URLs"
-        >
-          Set As Default Browser
-        </Button>
-      )}
+      <div className="flex justify-between items-center space-x-2">
+        <div className="text-xxs text-grey-500 font-bold">
+          {updateStatus === 'available'
+            ? 'Downloading update…'
+            : displayedVersion}
+        </div>
 
-      <Button
-        aria-label="Tiles Menu"
-        className={clsx(openMenu === 'tiles' && 'z-20')}
-        onClick={handleTilesMenuButtonClick}
-        size="xxs"
-      >
-        {openMenu === 'tiles' ? (
-          <FontAwesomeIcon fixedWidth icon={faTimes} title="Close menu" />
-        ) : (
-          <FontAwesomeIcon
-            fixedWidth
-            icon={faGripHorizontal}
-            title="Tiles menu"
-          />
+        {!isDefaultProtocolClient && (
+          <Button
+            className="opacity-50"
+            onClick={setAsDefaultBrowser}
+            size="xxs"
+            title="Accept incoming URLs"
+          >
+            Set As Default Browser
+          </Button>
         )}
-      </Button>
 
-      <Button
-        className={clsx(openMenu === 'sponsor' && 'z-20')}
-        onClick={handleSponsorMenuButtonClick}
-        size="xxs"
-        tone={openMenu === 'sponsor' ? undefined : 'sponsor'}
-      >
-        {openMenu === 'sponsor' ? (
-          <FontAwesomeIcon fixedWidth icon={faTimes} title="Close menu" />
-        ) : (
-          <FontAwesomeIcon
-            fixedWidth
-            icon={faHeart}
-            title="Sponsor information"
-          />
-        )}
-      </Button>
-
-      {updateStatus === 'downloaded' && (
         <Button
-          className="space-x-2"
-          onClick={updateRestart}
+          className={clsx(openMenu === 'sponsor' && 'z-20')}
+          onClick={handleSponsorMenuButtonClick}
           size="xxs"
-          title="Restart app and update"
-          tone="primary"
+          tone={openMenu === 'sponsor' ? undefined : 'sponsor'}
         >
-          <FontAwesomeIcon icon={faGift} />
-          <span>Update</span>
+          {openMenu === 'sponsor' ? (
+            <FontAwesomeIcon fixedWidth icon={faTimes} title="Close menu" />
+          ) : (
+            <FontAwesomeIcon
+              fixedWidth
+              icon={faHeart}
+              title="Sponsor information"
+            />
+          )}
         </Button>
-      )}
 
-      <Button onClick={reload} size="xxs" title="Reload">
-        <FontAwesomeIcon fixedWidth icon={faSync} />
-      </Button>
+        {updateStatus === 'downloaded' && (
+          <Button
+            className="space-x-2"
+            onClick={updateRestart}
+            size="xxs"
+            title="Restart app and update"
+            tone="primary"
+          >
+            <FontAwesomeIcon icon={faGift} />
+            <span>Update</span>
+          </Button>
+        )}
 
-      <Button onClick={quit} size="xxs" title="Quit">
-        <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
-      </Button>
+        <Button onClick={reload} size="xxs" title="Reload">
+          <FontAwesomeIcon fixedWidth icon={faSync} />
+        </Button>
+
+        <Button onClick={quit} size="xxs" title="Quit">
+          <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
+        </Button>
+      </div>
     </div>
   )
 }

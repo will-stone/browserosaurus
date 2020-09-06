@@ -34,8 +34,7 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
       key={app.id}
       aria-label={`${app.name} Tile`}
       className={clsx(
-        isFav && 'flex-shrink-0',
-        'flex flex-col items-center justify-center',
+        'flex-grow flex flex-col items-center justify-center max-h-full',
         'focus:outline-none',
         'active:opacity-50',
         'group',
@@ -43,37 +42,31 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
       )}
       onClick={handleClick}
       style={{
-        maxWidth: isFav ? '100px' : '85px',
-        height: isFav ? '134px' : '90px',
+        maxWidth: '75px',
+        maxHeight: '108px',
+        flexBasis: 0,
       }}
       type="button"
     >
       <div className="overflow-hidden flex justify-center items-center">
         <img
           alt={app.name}
-          className={clsx('object-contain w-full max-h-full')}
+          className="object-contain w-full max-h-full"
           src={logos[app.id]}
         />
       </div>
-      <div
-        className="flex-shrink-0 mt-2 flex flex-col items-center"
-        // To avoid logos growing into space when no hotkey
-        style={{ minHeight: '1em' }}
-      >
-        <Kbd className="group-hover:bg-grey-900 group-hover:text-grey-100">
-          {hotkey}
-        </Kbd>
-
+      <Kbd className="flex-shrink-0 flex justify-center items-center group-hover:bg-grey-900 group-hover:text-grey-100 mt-2">
         {isFav && (
-          <Kbd className="mt-1 space-x-1 group-hover:bg-grey-900 group-hover:text-grey-100">
-            <FontAwesomeIcon
-              className="text-yellow-400 align-text-top"
-              icon={faStar}
-            />
-            <span>space</span>
-          </Kbd>
+          <FontAwesomeIcon
+            aria-label="Favourite"
+            className="text-yellow-400 mr-2"
+            icon={faStar}
+            role="img"
+          />
         )}
-      </div>
+        {/* Prevents box collapse when hotkey not set */}
+        {hotkey || <span className="opacity-0">.</span>}
+      </Kbd>
     </button>
   )
 }

@@ -23,14 +23,14 @@ test('tiles', () => {
   expect(screen.getByRole('button', { name: 'Safari Tile' })).toBeVisible()
 
   // Make sure no tile set as favourite
-  expect(screen.queryByText('space')).not.toBeInTheDocument()
+  expect(screen.queryByLabelText('Favourite')).not.toBeInTheDocument()
 
   // Set Safari as favourite
   fireEvent.click(screen.getByRole('button', { name: 'Tiles Menu' }))
   fireEvent.click(screen.getByRole('button', { name: 'Favourite Safari' }))
   fireEvent.click(screen.getByRole('button', { name: 'Tiles Menu' }))
   const safariTile = screen.getByRole('button', { name: 'Safari Tile' })
-  expect(within(safariTile).getByText('space')).toBeVisible()
+  expect(within(safariTile).getByLabelText('Favourite')).toBeVisible()
 
   // Correct info sent to main when tile clicked
   fireEvent.click(screen.getByRole('button', { name: 'Firefox Tile' }))
