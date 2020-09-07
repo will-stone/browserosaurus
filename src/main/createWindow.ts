@@ -38,7 +38,6 @@ function createWindow(): Promise<electron.BrowserWindow> {
     bWindow.on('close', (event_) => {
       event_.preventDefault()
       bWindow.hide()
-      electron.app.hide()
     })
 
     bWindow.on('show', () => {
@@ -54,7 +53,6 @@ function createWindow(): Promise<electron.BrowserWindow> {
     bWindow.on('blur', () => {
       if (!isDev) {
         bWindow.hide()
-        electron.app.hide()
       }
     })
 

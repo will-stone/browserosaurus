@@ -44,9 +44,6 @@ if (store.get('firstRun')) {
   electron.app.setAsDefaultProtocolClient('http')
 }
 
-// Hide from dock and cmd-tab
-electron.app.dock.hide()
-
 // Prevents garbage collection
 let bWindow: electron.BrowserWindow | undefined
 let tray: electron.Tray | undefined
@@ -102,6 +99,9 @@ electron.app.on('ready', async () => {
       electron.autoUpdater.checkForUpdates()
     }, ONE_DAY_MS)
   }
+
+  // Hide from dock and cmd-tab
+  electron.app.dock.hide()
 })
 
 // App doesn't always close on ctrl-c in console, this fixes that
@@ -183,7 +183,6 @@ electron.ipcMain.on(
     execFile('open', openArguments)
 
     bWindow?.hide()
-    electron.app.hide()
   },
 )
 
@@ -191,13 +190,11 @@ electron.ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, url: string) => {
   if (url) {
     copyToClipboard(url)
     bWindow?.hide()
-    electron.app.hide()
   }
 })
 
 electron.ipcMain.on(HIDE_WINDOW, () => {
   bWindow?.hide()
-  electron.app.hide()
 })
 
 electron.ipcMain.on(UPDATE_FAV, (_, favAppId) => {
