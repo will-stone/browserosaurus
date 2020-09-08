@@ -61,6 +61,7 @@ const TilesMenu: React.FC = () => {
 
   return (
     <MouseDiv
+      capture
       className={clsx(
         'absolute bg-grey-800 rounded overflow-y-auto overflow-x-hidden border border-grey-600 shadow-xl z-30',
         'animate__animated animate__fadeInUp animate__faster',
