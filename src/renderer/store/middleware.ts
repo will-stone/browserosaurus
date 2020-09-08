@@ -3,8 +3,8 @@
 import { Middleware } from 'redux'
 
 import {
-  hideWindow,
-  updateFav,
+  pressEscape,
+  selectFav,
   updateHiddenTileIds,
   updateHotkeys,
 } from '../sendToMain'
@@ -22,7 +22,7 @@ export const middleware: Middleware<unknown, RootState> = (store) => (next) => (
   // Hide window if escape key is pressed when no menus are open
   if (pressedEscapeKey.match(action)) {
     if (!store.getState().ui.menu) {
-      hideWindow()
+      pressEscape()
     }
   }
 
@@ -31,7 +31,7 @@ export const middleware: Middleware<unknown, RootState> = (store) => (next) => (
   // Everything below here is run AFTER reducers are calculated for the current action
 
   if (madeTileFav.match(action) && action.payload) {
-    updateFav(action.payload)
+    selectFav(action.payload)
   }
 
   if (toggledTileVisibility.match(action)) {

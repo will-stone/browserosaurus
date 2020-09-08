@@ -3,14 +3,14 @@ import { ipcRenderer } from 'electron'
 import { App } from '../config/types'
 import { Hotkeys } from '../main/store'
 
-export const OPEN_APP = 'OPEN_APP'
+export const APP_SELECTED = 'APP_SELECTED'
 export interface OpenAppArguments {
   url: string
   appId: App['id'] | undefined
   isAlt: boolean
 }
-export function openApp(arguments_: OpenAppArguments): void {
-  ipcRenderer.send(OPEN_APP, arguments_)
+export function selectApp(arguments_: OpenAppArguments): void {
+  ipcRenderer.send(APP_SELECTED, arguments_)
 }
 
 export const COPY_TO_CLIPBOARD = 'COPY_TO_CLIPBOARD'
@@ -20,16 +20,16 @@ export const copyUrl = (url: string): void => {
   }
 }
 
-export const UPDATE_FAV = 'UPDATE_FAV'
-export const updateFav = (id: App['id']): void =>
-  ipcRenderer.send(UPDATE_FAV, id)
+export const FAV_SELECTED = 'FAV_SELECTED'
+export const selectFav = (id: App['id']): void =>
+  ipcRenderer.send(FAV_SELECTED, id)
 
-export const UPDATE_HOTKEYS = 'UPDATE_HOTKEYS'
+export const HOTKEYS_UPDATED = 'HOTKEYS_UPDATED'
 export const updateHotkeys = (hotkeys: Hotkeys): void =>
-  ipcRenderer.send(UPDATE_HOTKEYS, hotkeys)
+  ipcRenderer.send(HOTKEYS_UPDATED, hotkeys)
 
-export const HIDE_WINDOW = 'HIDE_WINDOW'
-export const hideWindow = (): void => ipcRenderer.send(HIDE_WINDOW)
+export const ESCAPE_PRESSED = 'ESCAPE_PRESSED'
+export const pressEscape = (): void => ipcRenderer.send(ESCAPE_PRESSED)
 
 export const MAIN_LOG = 'MAIN_LOG'
 export const mainLog = (string: string): void =>
@@ -52,5 +52,5 @@ export const UPDATE_HIDDEN_TILE_IDS = 'UPDATE_HIDDEN_TILE_IDS'
 export const updateHiddenTileIds = (tileIds: string[]): void =>
   ipcRenderer.send(UPDATE_HIDDEN_TILE_IDS, tileIds)
 
-export const START_APP = 'START_APP'
-export const startApp = (): void => ipcRenderer.send(START_APP)
+export const RENDERER_STARTED = 'RENDERER_STARTED'
+export const startRenderer = (): void => ipcRenderer.send(RENDERER_STARTED)
