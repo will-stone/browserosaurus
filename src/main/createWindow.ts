@@ -42,6 +42,7 @@ function createWindow(): Promise<electron.BrowserWindow> {
     })
 
     bWindow.on('show', () => {
+      bWindow.setIgnoreMouseEvents(false)
       bWindow.center()
       // There isn't a listener for default protocol client, therefore the check
       // is made each time the app is brought into focus.

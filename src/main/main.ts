@@ -114,7 +114,6 @@ electron.app.on('before-quit', () => {
 
 async function sendUrl(url: string) {
   if (bWindow) {
-    bWindow.setIgnoreMouseEvents(false)
     bWindow.webContents.send(URL_UPDATED, url)
     bWindow.show()
   } else {
