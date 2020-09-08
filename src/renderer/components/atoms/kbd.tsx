@@ -11,7 +11,7 @@ const Kbd: React.FC<Props> = ({ children, className, style }) => {
     <kbd
       className={clsx(
         className,
-        'text-xs tracking-widest font-bold uppercase py-1 px-2 rounded text-center',
+        'text-xs tracking-widest font-bold uppercase rounded text-center',
       )}
       style={style}
     >

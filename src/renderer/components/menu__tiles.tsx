@@ -63,8 +63,8 @@ const TilesMenu: React.FC = () => {
     <MouseDiv
       capture
       className={clsx(
-        'absolute bg-grey-800 rounded overflow-y-auto overflow-x-hidden border border-grey-600 shadow-xl z-30',
-        'animate__animated animate__fadeInUp animate__faster',
+        'absolute bg-grey-800 rounded overflow-y-auto overflow-x-hidden border-4 border-grey-600 shadow-xl z-30',
+        'animate__animated animate__fadeInDown animate__faster',
       )}
       style={{ top: '0', right: '0', bottom: '0', left: '0' }}
     >
