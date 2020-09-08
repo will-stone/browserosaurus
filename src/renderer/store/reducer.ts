@@ -6,7 +6,6 @@ import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'
 import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 import {
-  clickedMenuBackdrop,
   clickedSponsorButton,
   clickedSponsorMenuButton,
   clickedTilesMenuButton,
@@ -104,10 +103,6 @@ const ui = createReducer<UiState>(
       })
       // Close menu when escape key is pressed
       .addCase(pressedEscapeKey, (state) => {
-        state.menu = false
-      })
-      // Close menu modal when backdrop clicked
-      .addCase(clickedMenuBackdrop, (state) => {
         state.menu = false
       })
       .addCase(receivedUrl, (state, action) => {

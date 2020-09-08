@@ -10896,6 +10896,11 @@ timers-browserify@^2.0.4:
   dependencies:
     setimmediate "^1.0.4"
 
+tings@^0.0.20:
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/tings/-/tings-0.0.20.tgz#1d982ef3cca8388cedcdb0fca2413b26187d98ac"
+  integrity sha512-ymICQi7sjOaKmPLdsYzAPdcWCF5xd8Mh7ocQFGqKH7duENZBoyTjOlV9xUObwzqP5VsKpMR0j8T/uw25gPcMRQ==
+
 tiny-each-async@2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/tiny-each-async/-/tiny-each-async-2.0.3.tgz#8ebbbfd6d6295f1370003fbb37162afe5a0a51d1"

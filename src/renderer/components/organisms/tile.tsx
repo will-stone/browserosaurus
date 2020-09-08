@@ -34,7 +34,7 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
       key={app.id}
       aria-label={`${app.name} Tile`}
       className={clsx(
-        'flex-grow flex flex-col items-center justify-center max-h-full',
+        'flex flex-col items-center justify-center max-h-full',
         'focus:outline-none',
         'active:opacity-50',
         'group',
@@ -43,18 +43,10 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
       onClick={handleClick}
       style={{
         maxWidth: '75px',
-        maxHeight: '108px',
-        flexBasis: 0,
       }}
       type="button"
     >
-      <div className="overflow-hidden flex justify-center items-center">
-        <img
-          alt={app.name}
-          className="object-contain w-full max-h-full"
-          src={logos[app.id]}
-        />
-      </div>
+      <img alt={app.name} className="w-full max-h-full" src={logos[app.id]} />
       <Kbd className="flex-shrink-0 flex justify-center items-center group-hover:bg-grey-900 group-hover:text-grey-100 mt-2">
         {isFav && (
           <FontAwesomeIcon

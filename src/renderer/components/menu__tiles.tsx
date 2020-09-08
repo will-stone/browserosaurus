@@ -15,6 +15,7 @@ import {
   updatedTileHotkey,
 } from '../store/actions'
 import Kbd from './atoms/kbd'
+import MouseDiv from './organisms/mouse-div'
 
 function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
   event.target.select()
@@ -59,12 +60,12 @@ const TilesMenu: React.FC = () => {
   )
 
   return (
-    <div
+    <MouseDiv
       className={clsx(
         'absolute bg-grey-800 rounded overflow-y-auto overflow-x-hidden border border-grey-600 shadow-xl z-30',
         'animate__animated animate__fadeInUp animate__faster',
       )}
-      style={{ top: '8px', right: '8px', bottom: '45px', left: '8px' }}
+      style={{ top: '0', right: '0', bottom: '0', left: '0' }}
     >
       <div className="p-4 grid grid-cols-2">
         <div className="space-y-3 text-xs">
@@ -163,7 +164,7 @@ const TilesMenu: React.FC = () => {
           })}
         </div>
       </div>
-    </div>
+    </MouseDiv>
   )
 }
 

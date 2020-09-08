@@ -2,19 +2,22 @@ import { execFile } from 'child_process'
 import electron from 'electron'
 import electronIsDev from 'electron-is-dev'
 import path from 'path'
+import sleep from 'tings/sleep'
 
 import package_ from '../../package.json'
 import { apps } from '../config/apps'
 import { App } from '../config/types'
 import {
   APP_SELECTED,
+  CATCH_MOUSE,
   COPY_TO_CLIPBOARD,
-  ESCAPE_PRESSED,
   FAV_SELECTED,
+  HIDE_WINDOW,
   HOTKEYS_UPDATED,
   MAIN_LOG,
   OpenAppArguments,
   QUIT,
+  RELEASE_MOUSE,
   RELOAD,
   RENDERER_STARTED,
   SET_AS_DEFAULT_BROWSER,
@@ -109,17 +112,13 @@ electron.app.on('before-quit', () => {
   electron.app.exit()
 })
 
-const wait = (ms: number) =>
-  new Promise((resolve) => {
-    setTimeout(resolve, ms)
-  })
-
 async function sendUrl(url: string) {
   if (bWindow) {
+    bWindow.setIgnoreMouseEvents(false)
     bWindow.webContents.send(URL_UPDATED, url)
     bWindow.show()
   } else {
-    await wait(500)
+    await sleep(500)
     sendUrl(url)
   }
 }
@@ -193,7 +192,7 @@ electron.ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, url: string) => {
   }
 })
 
-electron.ipcMain.on(ESCAPE_PRESSED, () => {
+electron.ipcMain.on(HIDE_WINDOW, () => {
   bWindow?.hide()
 })
 
@@ -227,4 +226,12 @@ electron.ipcMain.on(QUIT, () => {
 
 electron.ipcMain.on(MAIN_LOG, (_, string: string) => {
   logger('Renderer', string)
+})
+
+electron.ipcMain.on(CATCH_MOUSE, () => {
+  bWindow?.setIgnoreMouseEvents(false)
+})
+
+electron.ipcMain.on(RELEASE_MOUSE, () => {
+  bWindow?.setIgnoreMouseEvents(true, { forward: true })
 })

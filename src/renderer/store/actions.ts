@@ -22,14 +22,12 @@ const updatedTileHotkey = createAction<{ appId: string; value: string }>(
 const clickedUrlBackspaceButton = createAction('ui/urlBackspaceButtonClicked')
 const clickedTilesMenuButton = createAction('ui/tilesMenuButtonClicked')
 const clickedSponsorMenuButton = createAction('ui/sponsorMenuButtonClicked')
-const clickedMenuBackdrop = createAction('ui/menuBackdropClicked')
 const clickedSponsorButton = createAction('ui/sponsorButtonClicked')
 
 const pressedEscapeKey = createAction('ui/escapeKeyPressed')
 const pressedBackspaceKey = createAction('ui/backspaceKeyPressed')
 
 export {
-  clickedMenuBackdrop,
   clickedSponsorButton,
   clickedSponsorMenuButton,
   clickedTilesMenuButton,

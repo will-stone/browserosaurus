@@ -10,7 +10,6 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 function createWindow(): Promise<electron.BrowserWindow> {
   return new Promise((resolve, reject) => {
     const bWindow = new electron.BrowserWindow({
-      backgroundColor: '#212428',
       frame: false,
       icon: path.join(__dirname, '/static/icon/icon.png'),
       title: 'Browserosaurus',
@@ -29,6 +28,8 @@ function createWindow(): Promise<electron.BrowserWindow> {
       fullscreenable: false,
       movable: false,
       resizable: false,
+      transparent: true,
+      hasShadow: false,
     })
 
     bWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
