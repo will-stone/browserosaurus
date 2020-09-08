@@ -1,3 +1,4 @@
+import { faBackspace } from '@fortawesome/free-solid-svg-icons/faBackspace'
 import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
 import { faGripHorizontal } from '@fortawesome/free-solid-svg-icons/faGripHorizontal'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
@@ -49,10 +50,10 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         className,
         'flex-shrink-0',
         'max-w-full',
-        'flex items-center space-x-2',
+        'flex items-center space-x-4',
         'bg-grey-800',
         'border-2 rounded-md shadow-lg',
-        'px-2',
+        'px-4',
         'h-12',
         isSponsorUrl ? 'border-pink-500' : 'border-grey-800 ',
       )}
@@ -85,39 +86,39 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         </div>
       </div>
 
-      <Button
-        disabled={isEmpty}
-        onClick={handleBackspaceButtonClick}
-        title="Delete section of URL (Backspace)"
-      >
-        ⌫
-      </Button>
+      <div className="flex-shrink-0 space-x-2">
+        <Button
+          disabled={isEmpty}
+          onClick={handleBackspaceButtonClick}
+          title="Delete section of URL (Backspace)"
+        >
+          <FontAwesomeIcon fixedWidth icon={faBackspace} />
+        </Button>
 
-      <Button
-        className="space-x-2"
-        disabled={isEmpty}
-        onClick={handleCopyClick}
-        title="Copy to clipboard (⌘+C)"
-      >
-        <FontAwesomeIcon fixedWidth icon={faCopy} />
-      </Button>
+        <Button
+          disabled={isEmpty}
+          onClick={handleCopyClick}
+          title="Copy to clipboard (⌘+C)"
+        >
+          <FontAwesomeIcon fixedWidth icon={faCopy} />
+        </Button>
 
-      <Button
-        aria-label="Tiles Menu"
-        className={clsx(openMenu === 'tiles' && 'z-20')}
-        onClick={handleTilesMenuButtonClick}
-        size="xxs"
-      >
-        {openMenu === 'tiles' ? (
-          <FontAwesomeIcon fixedWidth icon={faTimes} title="Close menu" />
-        ) : (
-          <FontAwesomeIcon
-            fixedWidth
-            icon={faGripHorizontal}
-            title="Tiles menu"
-          />
-        )}
-      </Button>
+        <Button
+          aria-label="Tiles Menu"
+          className={clsx(openMenu === 'tiles' && 'z-20')}
+          onClick={handleTilesMenuButtonClick}
+        >
+          {openMenu === 'tiles' ? (
+            <FontAwesomeIcon fixedWidth icon={faTimes} title="Close menu" />
+          ) : (
+            <FontAwesomeIcon
+              fixedWidth
+              icon={faGripHorizontal}
+              title="Tiles menu"
+            />
+          )}
+        </Button>
+      </div>
     </MouseDiv>
   )
 }
