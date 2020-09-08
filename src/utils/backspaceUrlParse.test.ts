@@ -16,12 +16,12 @@ const cases: [string, string][] = [
   ],
   ['https://example.com:4000/path/name/', 'https://example.com:4000/path/'],
   ['https://example.com:4000/path/', 'https://example.com:4000/'],
-  ['https://example.com:4000/', ''],
+  ['https://example.com:4000/', 'https://example.com:4000/'],
   ['', ''],
   // No port
-  ['https://example.com/', ''],
+  ['https://example.com/', 'https://example.com/'],
   // No trailing slash
-  ['https://example.com', ''],
+  ['https://example.com', 'https://example.com'],
   // Just hash
   ['https://example.com/#hash', 'https://example.com/'],
   ['https://example.com#hash', 'https://example.com/'],

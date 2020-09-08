@@ -48,5 +48,5 @@ export function backspaceUrlParse(url: string): string {
     }
   }
 
-  return ''
+  return url
 }
