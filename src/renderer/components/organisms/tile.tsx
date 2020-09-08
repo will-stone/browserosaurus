@@ -35,19 +35,24 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
       aria-label={`${app.name} Tile`}
       className={clsx(
         'flex flex-col items-center justify-center max-h-full',
+        'rounded',
         'focus:outline-none',
-        'active:opacity-50',
-        'group',
+        'hover:bg-grey-900',
         className,
       )}
       onClick={handleClick}
       style={{
-        maxWidth: '75px',
+        maxWidth: '100px',
+        minWidth: '50px',
       }}
       type="button"
     >
-      <img alt={app.name} className="w-full max-h-full" src={logos[app.id]} />
-      <Kbd className="flex-shrink-0 flex justify-center items-center group-hover:bg-grey-900 group-hover:text-grey-100 mt-2">
+      <img
+        alt={app.name}
+        className="w-full object-contain"
+        src={logos[app.id]}
+      />
+      <Kbd className="flex-shrink-0 flex justify-center items-center mt-2">
         {isFav && (
           <FontAwesomeIcon
             aria-label="Favourite"

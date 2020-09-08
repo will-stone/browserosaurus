@@ -9,23 +9,29 @@ const Tiles: React.FC = () => {
   const favTile = useFavTileSelector()
   const normalTiles = useNormalTilesSelector()
 
+  let p = 'p-1'
+
+  if (normalTiles.length < 8) {
+    p = 'p-4'
+  } else if (normalTiles.length < 16) {
+    p = 'p-2'
+  }
+
   return (
     <MouseDiv
       capture
       className={clsx(
-        'bg-grey-700',
-        'p-4',
-        'flex justify-center overflow-hidden',
-        'rounded-md',
-        normalTiles.length < 8 && 'space-x-8',
-        normalTiles.length >= 8 && normalTiles.length < 16 && 'space-x-4',
-        normalTiles.length >= 16 && 'space-x-1',
+        'bg-grey-800',
+        'p-2',
+        'flex justify-start',
+        'rounded-md shadow-lg',
+        'max-w-full overflow-x-auto',
       )}
     >
-      {favTile && <Tile app={favTile} isFav />}
+      {favTile && <Tile app={favTile} className={p} isFav />}
       {normalTiles.map((app, i) => {
         const key = app.id + i
-        return <Tile key={key} app={app} />
+        return <Tile key={key} app={app} className={p} />
       })}
     </MouseDiv>
   )

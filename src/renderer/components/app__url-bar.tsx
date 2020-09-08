@@ -51,7 +51,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         'max-w-full',
         'flex items-center space-x-2',
         'bg-grey-800',
-        'border-2 rounded-md',
+        'border-2 rounded-md shadow-lg',
         'px-2',
         'h-12',
         isSponsorUrl ? 'border-pink-500' : 'border-grey-800 ',
