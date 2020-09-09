@@ -8,7 +8,6 @@ import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 import {
   clickedCloseMenuButton,
   clickedSponsorButton,
-  clickedSponsorMenuButton,
   clickedTilesMenuButton,
   clickedUrlBackspaceButton,
   madeTileFav,
@@ -77,7 +76,7 @@ const mainStore = createReducer<MainStore>(
 // ------------------
 
 interface UiState {
-  menu: false | 'tiles' | 'sponsor'
+  menu: false | 'tiles'
   url: string
   version: string
   updateStatus: 'no-update' | 'available' | 'downloaded'
@@ -100,10 +99,6 @@ const ui = createReducer<UiState>(
       .addCase(clickedTilesMenuButton, (state) => {
         if (state.menu) state.menu = false
         else state.menu = 'tiles'
-      })
-      .addCase(clickedSponsorMenuButton, (state) => {
-        if (state.menu) state.menu = false
-        else state.menu = 'sponsor'
       })
       // Close menu when escape key is pressed
       .addCase(pressedEscapeKey, (state) => {
