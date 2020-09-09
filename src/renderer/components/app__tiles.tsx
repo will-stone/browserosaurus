@@ -21,6 +21,7 @@ const Tiles: React.FC = () => {
     <MouseDiv
       capture
       className={clsx(
+        'relative',
         'bg-grey-800',
         'p-2',
         'flex justify-start',

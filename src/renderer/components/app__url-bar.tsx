@@ -25,6 +25,7 @@ interface Props {
 const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
+  const updateStatus = useSelector((state) => state.ui.updateStatus)
 
   const handleCopyClick = useCallback(() => {
     copyUrl(url)
@@ -109,7 +110,11 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           <FontAwesomeIcon fixedWidth icon={faCopy} />
         </Button>
 
-        <Button aria-label="Tiles Menu" onClick={handleTilesMenuButtonClick}>
+        <Button
+          aria-label="Tiles Menu"
+          onClick={handleTilesMenuButtonClick}
+          tone={updateStatus === 'downloaded' ? 'primary' : undefined}
+        >
           <FontAwesomeIcon fixedWidth icon={faCog} title="Tiles menu" />
         </Button>
       </div>

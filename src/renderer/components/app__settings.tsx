@@ -5,6 +5,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
 import { faKeyboard } from '@fortawesome/free-solid-svg-icons/faKeyboard'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons/faSignOutAlt'
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
+import { faSync } from '@fortawesome/free-solid-svg-icons/faSync'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@tailwindui/react'
@@ -12,7 +13,7 @@ import clsx from 'clsx'
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { quit, setAsDefaultBrowser, updateRestart } from '../sendToMain'
+import { quit, reload, setAsDefaultBrowser, updateRestart } from '../sendToMain'
 import { useSelector, useShallowEqualSelector } from '../store'
 import {
   clickedCloseMenuButton,
@@ -42,6 +43,7 @@ const Settings: React.FC = () => {
   )
   const updateStatus = useSelector((state) => state.ui.updateStatus)
   const menu = useSelector((state) => state.ui.menu)
+  const version = useSelector((state) => state.ui.version)
 
   const handleCloseButtonClick = useCallback(() => {
     dispatch(clickedCloseMenuButton())
@@ -125,6 +127,24 @@ const Settings: React.FC = () => {
                 </Button>
               )}
 
+              {updateStatus === 'available' && (
+                <Button
+                  className="space-x-2"
+                  disabled
+                  title="Restart app and update"
+                  tone="primary"
+                >
+                  <FontAwesomeIcon icon={faGift} />
+                  <span>Downloading update…</span>
+                </Button>
+              )}
+
+              {updateStatus === 'no-update' && (
+                <Button onClick={reload} title="Reload">
+                  <FontAwesomeIcon fixedWidth icon={faSync} />
+                </Button>
+              )}
+
               <Button className="space-x-2" onClick={quit} title="Quit">
                 <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
                 <span>Quit</span>
@@ -139,7 +159,7 @@ const Settings: React.FC = () => {
                 which is free and always will be.
               </p>
               <Button
-                className="w-full"
+                className="w-full mb-4"
                 onClick={handleSponsorClick}
                 size="md"
                 tone="sponsor"
@@ -147,6 +167,7 @@ const Settings: React.FC = () => {
                 <FontAwesomeIcon fixedWidth icon={faHeart} />
                 <span>Sponsor from $1 / month</span>
               </Button>
+              <div className="text-xxs font-bold text-grey-600">{version}</div>
             </div>
           </div>
         </div>
