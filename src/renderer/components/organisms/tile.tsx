@@ -2,6 +2,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import React, { useCallback } from 'react'
+import ReactTooltip from 'react-tooltip'
 
 import { logos } from '../../../config/logos'
 import { App } from '../../../config/types'
@@ -40,6 +41,8 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         'hover:bg-grey-900',
         className,
       )}
+      data-for={app.id}
+      data-tip
       onClick={handleClick}
       style={{
         maxWidth: '100px',
@@ -64,6 +67,14 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         {/* Prevents box collapse when hotkey not set */}
         {hotkey || <span className="opacity-0">.</span>}
       </Kbd>
+      <ReactTooltip
+        backgroundColor="#0D1117"
+        effect="solid"
+        id={app.id}
+        place="bottom"
+      >
+        <span className="font-bold text-grey-200">{app.name}</span>
+      </ReactTooltip>
     </button>
   )
 }

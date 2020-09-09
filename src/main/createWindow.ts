@@ -19,7 +19,7 @@ function createWindow(): Promise<electron.BrowserWindow> {
         preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
         enableRemoteModule: false,
       },
-      height: 250,
+      height: 300,
       width: 1000,
       show: false,
       minimizable: false,

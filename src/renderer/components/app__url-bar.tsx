@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
+import ReactTooltip from 'react-tooltip'
 import Url from 'url'
 
 import { SPONSOR_URL } from '../../config/CONSTANTS'
@@ -95,27 +96,62 @@ const UrlBar: React.FC<Props> = ({ className }) => {
 
       <div className="flex-shrink-0 space-x-2">
         <Button
+          data-for="backspace"
+          data-tip
           disabled={isEmpty}
           onClick={handleBackspaceButtonClick}
-          title="Delete section of URL (Backspace)"
         >
           <FontAwesomeIcon fixedWidth icon={faBackspace} />
+          <ReactTooltip
+            backgroundColor="#0D1117"
+            delayShow={500}
+            effect="solid"
+            id="backspace"
+            place="bottom"
+          >
+            <span className="font-bold text-grey-200">
+              Delete section of URL (Backspace)
+            </span>
+          </ReactTooltip>
         </Button>
 
         <Button
+          data-for="copy-to-clipboard"
+          data-tip
           disabled={isEmpty}
           onClick={handleCopyClick}
-          title="Copy to clipboard (⌘+C)"
         >
           <FontAwesomeIcon fixedWidth icon={faCopy} />
+          <ReactTooltip
+            backgroundColor="#0D1117"
+            delayShow={500}
+            effect="solid"
+            id="copy-to-clipboard"
+            place="bottom"
+          >
+            <span className="font-bold text-grey-200">
+              Copy (<kbd>⌘+C</kbd>)
+            </span>
+          </ReactTooltip>
         </Button>
 
         <Button
-          aria-label="Tiles Menu"
+          aria-label="Settings Menu"
+          data-for="settings"
+          data-tip
           onClick={handleTilesMenuButtonClick}
           tone={updateStatus === 'downloaded' ? 'primary' : undefined}
         >
-          <FontAwesomeIcon fixedWidth icon={faCog} title="Tiles menu" />
+          <FontAwesomeIcon fixedWidth icon={faCog} />
+          <ReactTooltip
+            backgroundColor="#0D1117"
+            delayShow={500}
+            effect="solid"
+            id="settings"
+            place="bottom"
+          >
+            <span className="font-bold text-grey-200">Settings</span>
+          </ReactTooltip>
         </Button>
       </div>
     </MouseDiv>

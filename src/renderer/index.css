@@ -30,4 +30,9 @@ button {
 ::-webkit-scrollbar-thumb {
   background: #2f333b;
 }
+
+/* Override React-Tooltip's default style */
+.__react_component_tooltip.show {
+  opacity: 1 !important;
+}
 /* purgecss end ignore */
