@@ -12,6 +12,7 @@ import { Transition } from '@tailwindui/react'
 import clsx from 'clsx'
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
+import ReactTooltip from 'react-tooltip'
 
 import { quit, reload, setAsDefaultBrowser, updateRestart } from '../sendToMain'
 import { useSelector, useShallowEqualSelector } from '../store'
@@ -101,16 +102,27 @@ const Settings: React.FC = () => {
       >
         <div className="overflow-hidden flex flex-col">
           <div className="flex-shrink-0 flex justify-between p-2 border-b-2 border-grey-600">
-            <Button aria-label="Close menu" onClick={handleCloseButtonClick}>
+            <Button
+              aria-label="Close menu"
+              data-for="close"
+              data-tip
+              onClick={handleCloseButtonClick}
+            >
               <FontAwesomeIcon fixedWidth icon={faTimes} />
+              <ReactTooltip
+                backgroundColor="#0D1117"
+                delayShow={500}
+                effect="solid"
+                id="close"
+                place="bottom"
+              >
+                <span className="font-bold text-grey-200">Close menu</span>
+              </ReactTooltip>
             </Button>
 
             <div className="space-x-2">
               {!isDefaultProtocolClient && (
-                <Button
-                  onClick={setAsDefaultBrowser}
-                  title="Accept incoming URLs"
-                >
+                <Button onClick={setAsDefaultBrowser}>
                   Set As Default Browser
                 </Button>
               )}
@@ -119,7 +131,6 @@ const Settings: React.FC = () => {
                 <Button
                   className="space-x-2"
                   onClick={updateRestart}
-                  title="Restart app and update"
                   tone="primary"
                 >
                   <FontAwesomeIcon icon={faGift} />
@@ -128,24 +139,30 @@ const Settings: React.FC = () => {
               )}
 
               {updateStatus === 'available' && (
-                <Button
-                  className="space-x-2"
-                  disabled
-                  title="Restart app and update"
-                  tone="primary"
-                >
+                <Button className="space-x-2" disabled tone="primary">
                   <FontAwesomeIcon icon={faGift} />
                   <span>Downloading update…</span>
                 </Button>
               )}
 
               {updateStatus === 'no-update' && (
-                <Button onClick={reload} title="Reload">
+                <Button data-for="reload" data-tip onClick={reload}>
                   <FontAwesomeIcon fixedWidth icon={faSync} />
+                  <ReactTooltip
+                    backgroundColor="#0D1117"
+                    delayShow={500}
+                    effect="solid"
+                    id="reload"
+                    place="bottom"
+                  >
+                    <span className="font-bold text-grey-200">
+                      Reload Browserosaurus
+                    </span>
+                  </ReactTooltip>
                 </Button>
               )}
 
-              <Button className="space-x-2" onClick={quit} title="Quit">
+              <Button className="space-x-2" onClick={quit}>
                 <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
                 <span>Quit</span>
               </Button>
