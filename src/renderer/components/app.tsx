@@ -21,10 +21,10 @@ const App: React.FC = () => {
         <UrlBar className="mb-8" />
         <Tiles />
         <Settings />
-
-        <KeyboardManager />
-        <MainEventsManager />
       </MouseDiv>
+
+      <KeyboardManager />
+      <MainEventsManager />
     </Provider>
   )
 }
