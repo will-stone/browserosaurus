@@ -13,7 +13,7 @@ import {
   URL_UPDATED,
 } from '../../main/events'
 import { Store as MainStore } from '../../main/store'
-import { startApp } from '../sendToMain'
+import { startRenderer } from '../sendToMain'
 import {
   receivedApps,
   receivedDefaultProtocolClientStatus,
@@ -95,7 +95,7 @@ const MainEventsManager: React.FC = () => {
      * Tell main that App component has mounted
      * renderer -> main
      */
-    startApp()
+    startRenderer()
 
     return function cleanup() {
       electron.ipcRenderer.removeAllListeners(APP_VERSION)

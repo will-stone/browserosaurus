@@ -7,18 +7,18 @@ import package_ from '../../package.json'
 import { apps } from '../config/apps'
 import { App } from '../config/types'
 import {
+  APP_SELECTED,
   COPY_TO_CLIPBOARD,
-  HIDE_WINDOW,
+  ESCAPE_PRESSED,
+  FAV_SELECTED,
+  HOTKEYS_UPDATED,
   MAIN_LOG,
-  OPEN_APP,
   OpenAppArguments,
   QUIT,
   RELOAD,
+  RENDERER_STARTED,
   SET_AS_DEFAULT_BROWSER,
-  START_APP,
-  UPDATE_FAV,
   UPDATE_HIDDEN_TILE_IDS,
-  UPDATE_HOTKEYS,
   UPDATE_RESTART,
 } from '../renderer/sendToMain'
 import copyToClipboard from '../utils/copyToClipboard'
@@ -135,7 +135,7 @@ electron.app.on('open-url', (event, url) => {
  * ------------------
  */
 
-electron.ipcMain.on(START_APP, async () => {
+electron.ipcMain.on(RENDERER_STARTED, async () => {
   installedApps = await filterAppsByInstalled(apps)
 
   bWindow?.center()
@@ -158,7 +158,7 @@ electron.ipcMain.on(START_APP, async () => {
 })
 
 electron.ipcMain.on(
-  OPEN_APP,
+  APP_SELECTED,
   (_: Event, { url, appId, isAlt }: OpenAppArguments) => {
     // Bail if app's bundle id is missing
     if (!appId) return
@@ -193,15 +193,15 @@ electron.ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, url: string) => {
   }
 })
 
-electron.ipcMain.on(HIDE_WINDOW, () => {
+electron.ipcMain.on(ESCAPE_PRESSED, () => {
   bWindow?.hide()
 })
 
-electron.ipcMain.on(UPDATE_FAV, (_, favAppId) => {
+electron.ipcMain.on(FAV_SELECTED, (_, favAppId) => {
   store.set('fav', favAppId)
 })
 
-electron.ipcMain.on(UPDATE_HOTKEYS, (_, hotkeys: Hotkeys) => {
+electron.ipcMain.on(HOTKEYS_UPDATED, (_, hotkeys: Hotkeys) => {
   store.set('hotkeys', hotkeys)
 })
 

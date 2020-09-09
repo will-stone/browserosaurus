@@ -6,7 +6,7 @@ import React, { useCallback } from 'react'
 import { logos } from '../../../config/logos'
 import { App } from '../../../config/types'
 import { getHotkeyByAppId } from '../../../utils/getHotkeyByAppId'
-import { openApp } from '../../sendToMain'
+import { selectApp } from '../../sendToMain'
 import { useSelector, useShallowEqualSelector } from '../../store'
 import Kbd from '../atoms/kbd'
 
@@ -22,7 +22,7 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      openApp({ url, appId: app.id, isAlt: event.altKey })
+      selectApp({ url, appId: app.id, isAlt: event.altKey })
     },
     [app.id, url],
   )

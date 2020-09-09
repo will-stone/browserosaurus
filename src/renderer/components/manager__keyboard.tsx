@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { copyUrl, openApp } from '../sendToMain'
+import { copyUrl, selectApp } from '../sendToMain'
 import { useSelector, useShallowEqualSelector } from '../store'
 import { pressedBackspaceKey, pressedEscapeKey } from '../store/actions'
 import Noop from './atoms/noop'
@@ -49,14 +49,14 @@ const KeyboardManager: React.FC = () => {
       if (matchAlphaNumeric) {
         const key = matchAlphaNumeric[1]
         const appId = hotkeys[key]
-        openApp({ url, appId, isAlt: event.altKey })
+        selectApp({ url, appId, isAlt: event.altKey })
         return
       }
 
       // Open favourite app
       if (event.code === 'Space' || event.code === 'Enter') {
         event.preventDefault()
-        openApp({ url, appId: favAppId, isAlt: event.altKey })
+        selectApp({ url, appId: favAppId, isAlt: event.altKey })
       }
     }
 
