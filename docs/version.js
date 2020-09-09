@@ -1,4 +1,4 @@
-const version = '11.1.1'
+const version = '12.0.0'
 
 const downloadButton = document.querySelector('#js-download-button')
 downloadButton.href = `https://github.com/will-stone/browserosaurus/releases/download/v${version}/Browserosaurus-${version}.dmg`
