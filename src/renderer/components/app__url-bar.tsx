@@ -48,7 +48,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       className={clsx(
         className,
         'flex-shrink-0',
-        'max-w-full',
+        'w-full',
         'flex items-center space-x-4',
         'bg-grey-800',
         'border-2 rounded-md shadow-lg',

@@ -6,6 +6,7 @@ import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'
 import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 import {
+  clickedCloseMenuButton,
   clickedSponsorButton,
   clickedSponsorMenuButton,
   clickedTilesMenuButton,
@@ -93,6 +94,9 @@ const ui = createReducer<UiState>(
   },
   (builder) =>
     builder
+      .addCase(clickedCloseMenuButton, (state) => {
+        state.menu = false
+      })
       .addCase(clickedTilesMenuButton, (state) => {
         if (state.menu) state.menu = false
         else state.menu = 'tiles'
@@ -106,6 +110,7 @@ const ui = createReducer<UiState>(
         state.menu = false
       })
       .addCase(receivedUrl, (state, action) => {
+        state.menu = false
         state.url = action.payload
       })
       .addCase(clickedUrlBackspaceButton, (state) => {

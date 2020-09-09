@@ -1,26 +1,25 @@
+import { Transition } from '@tailwindui/react'
 import React from 'react'
 
 import { useSelector } from '../store'
-import Noop from './atoms/noop'
-import SponsorMenu from './menu__sponsor'
 import TilesMenu from './menu__tiles'
 
 const MenusManager: React.FC = () => {
   const menu = useSelector((state) => state.ui.menu)
 
-  let Menu
-
-  if (menu === 'sponsor') {
-    Menu = SponsorMenu
-  } else if (menu === 'tiles') {
-    Menu = TilesMenu
-  }
-
-  if (Menu) {
-    return <Menu />
-  }
-
-  return <Noop />
+  return (
+    <Transition
+      enter="transition-opacity duration-300"
+      enterFrom="opacity-0"
+      enterTo="opacity-100"
+      leave="transition-opacity duration-150"
+      leaveFrom="opacity-100"
+      leaveTo="opacity-0"
+      show={menu === 'tiles'}
+    >
+      <TilesMenu />
+    </Transition>
+  )
 }
 
 export default MenusManager

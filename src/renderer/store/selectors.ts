@@ -29,5 +29,11 @@ export const useNormalTilesSelector = (): App[] => {
   const favAppId = useFavAppIdSelector()
   const normalTiles = tiles.filter((a) => a.id !== favAppId)
 
-  return normalTiles
+  return [
+    ...normalTiles,
+    // ...normalTiles,
+    // ...normalTiles,
+    // ...normalTiles,
+    // ...normalTiles,
+  ]
 }

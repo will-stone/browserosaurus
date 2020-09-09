@@ -3,7 +3,7 @@ import React from 'react'
 
 interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   tone?: 'primary' | 'sponsor'
-  size?: 'xxs' | 'xs'
+  size?: 'xxs' | 'xs' | 'md'
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -15,14 +15,25 @@ const Button: React.FC<ButtonProps> = ({
   type,
   ...restProperties
 }) => {
+  let textSize = 'text-xs'
+  let padding = 'px-3 py-2'
+
+  if (size === 'xxs') {
+    textSize = 'text-xxs'
+    padding = 'px-2 py-2'
+  } else if (size === 'md') {
+    textSize = 'text-base'
+    padding = 'px-4 py-3'
+  }
+
   return (
     <button
       className={clsx(
         className,
         'active:shadow-none focus:outline-none',
-        size === 'xxs' ? 'px-2 py-2' : 'px-3 py-2',
+        padding,
         'rounded-md',
-        size === 'xxs' ? 'text-xxs' : 'text-xs',
+        textSize,
         'font-bold leading-none',
         !disabled && tone === 'primary' && 'text-blue-400 active:text-blue-300',
         !disabled && tone === 'sponsor' && 'text-pink-400 active:text-pink-300',

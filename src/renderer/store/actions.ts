@@ -23,11 +23,13 @@ const clickedUrlBackspaceButton = createAction('ui/urlBackspaceButtonClicked')
 const clickedTilesMenuButton = createAction('ui/tilesMenuButtonClicked')
 const clickedSponsorMenuButton = createAction('ui/sponsorMenuButtonClicked')
 const clickedSponsorButton = createAction('ui/sponsorButtonClicked')
+const clickedCloseMenuButton = createAction('ui/closeMenuButtonClicked')
 
 const pressedEscapeKey = createAction('ui/escapeKeyPressed')
 const pressedBackspaceKey = createAction('ui/backspaceKeyPressed')
 
 export {
+  clickedCloseMenuButton,
   clickedSponsorButton,
   clickedSponsorMenuButton,
   clickedTilesMenuButton,
@@ -35,13 +37,13 @@ export {
   madeTileFav,
   pressedBackspaceKey,
   pressedEscapeKey,
-  receivedStore,
-  receivedUrl,
   receivedApps,
-  receivedVersion,
+  receivedDefaultProtocolClientStatus,
+  receivedStore,
   receivedUpdateAvailable,
   receivedUpdateDownloaded,
-  receivedDefaultProtocolClientStatus,
+  receivedUrl,
+  receivedVersion,
   toggledTileVisibility,
   updatedTileHotkey,
 }
