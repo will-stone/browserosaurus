@@ -101,7 +101,7 @@ const Settings: React.FC = () => {
       >
         <div className="overflow-hidden flex flex-col">
           <div className="flex-shrink-0 flex justify-between p-2 border-b-2 border-grey-600">
-            <Button onClick={handleCloseButtonClick} title="Close menu">
+            <Button aria-label="Close menu" onClick={handleCloseButtonClick}>
               <FontAwesomeIcon fixedWidth icon={faTimes} />
             </Button>
 

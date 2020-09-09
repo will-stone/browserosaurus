@@ -136,7 +136,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         </Button>
 
         <Button
-          aria-label="Settings Menu"
+          aria-label="Settings menu"
           data-for="settings"
           data-tip
           onClick={handleTilesMenuButtonClick}
