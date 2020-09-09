@@ -15,7 +15,6 @@ const multiElementText = (text: string) => (_: string, node: HTMLElement) => {
   return nodeHasText && childrenDontHaveText
 }
 
-// TODO: make sure url is split out into parts and host is bold
 test('url bar', () => {
   render(<App />)
   const win = new electron.remote.BrowserWindow()
