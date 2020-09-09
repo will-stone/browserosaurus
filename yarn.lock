@@ -1154,10 +1154,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/edge-dev/-/edge-dev-2.0.2.tgz#e4829823b498951bcd64aac3f67d4e4e8d2c77cd"
   integrity sha512-d2mZQScPRFRvHVZcVtFaJrCit3DvIgb0iEFoWpkyZijx2eLcO4VuWrgE43N+digx1moq8jvB8R83NAA+U6VhWA==
 
-"@browser-logos/edge@^2.0.3":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@browser-logos/edge/-/edge-2.0.4.tgz#320bc22a1dc2803963e463b15de73c168ec5efe5"
-  integrity sha512-e5BDOcN64GwIhRN/gv7sQc6RPXhsPXaWmN0HKCG0QvDsS6JwaQdhWDWpfNqsJexHJ9ZBELfec1Q4kEhKZt8ETg==
+"@browser-logos/edge@^2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@browser-logos/edge/-/edge-2.0.5.tgz#01173fb59e5cc8fecd7fd4774af6704c4a1f5f8c"
+  integrity sha512-5eEA9FQw8wxLruWSygbwadtYhvr9RS3nZI7M6tSxIoxcMgpDZ4npbkDCJ5+QXYuCriQAsKeQKX+tW6u2wWJMvg==
 
 "@browser-logos/firefox-developer-edition@^3.0.2":
   version "3.0.4"
