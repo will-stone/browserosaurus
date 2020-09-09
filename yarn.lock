@@ -1229,10 +1229,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/vivaldi-snapshot/-/vivaldi-snapshot-1.0.6.tgz#8d35030d1631eb69461e4897b93e0e349bdd3150"
   integrity sha512-WPHx0JWu3YnJ6jI4VHEsNrjK9248kwU1Y6HKiZjU3xnk0fNLKW3oYepb6xwWLx7kdnoXX6Hlwmo722v/vkO8Jw==
 
-"@browser-logos/vivaldi@^2.1.7":
-  version "2.1.9"
-  resolved "https://registry.yarnpkg.com/@browser-logos/vivaldi/-/vivaldi-2.1.9.tgz#7a4c384d8afbab35ee348d9f6fab91888c5f75cc"
-  integrity sha512-bKsyZwPhrZXL04MMiR5gh8YmjdE4JTjkK+Va5QHB/9taroByUq/HQ0HkK1B640VsFdnB9yQMme0AbUaKK+/STQ==
+"@browser-logos/vivaldi@^2.1.10":
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/@browser-logos/vivaldi/-/vivaldi-2.1.10.tgz#633580b60c2279c9070ac6791d525988947b6647"
+  integrity sha512-1UOTvxWR4e172SqF01qGKVgQriQTzQigIdY+MwxKarBvK/jyExkyQFDx146I/0ICPvlB6Z4upFiNJJiA6DpapQ==
 
 "@browser-logos/yandex@^1.0.6":
   version "1.0.7"
