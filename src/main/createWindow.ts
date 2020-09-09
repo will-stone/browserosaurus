@@ -10,7 +10,6 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 function createWindow(): Promise<electron.BrowserWindow> {
   return new Promise((resolve, reject) => {
     const bWindow = new electron.BrowserWindow({
-      backgroundColor: '#212428',
       frame: false,
       icon: path.join(__dirname, '/static/icon/icon.png'),
       title: 'Browserosaurus',
@@ -20,7 +19,7 @@ function createWindow(): Promise<electron.BrowserWindow> {
         preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
         enableRemoteModule: false,
       },
-      height: 230,
+      height: 300,
       width: 1000,
       show: false,
       minimizable: false,
@@ -29,6 +28,8 @@ function createWindow(): Promise<electron.BrowserWindow> {
       fullscreenable: false,
       movable: false,
       resizable: false,
+      transparent: true,
+      hasShadow: false,
     })
 
     bWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
@@ -41,6 +42,7 @@ function createWindow(): Promise<electron.BrowserWindow> {
     })
 
     bWindow.on('show', () => {
+      bWindow.setIgnoreMouseEvents(false)
       bWindow.center()
       // There isn't a listener for default protocol client, therefore the check
       // is made each time the app is brought into focus.

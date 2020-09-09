@@ -28,6 +28,11 @@ button {
 
 ::-webkit-scrollbar-thumb:window-inactive,
 ::-webkit-scrollbar-thumb {
-  background: #a9b2c3;
+  background: #2f333b;
+}
+
+/* Override React-Tooltip's default style */
+.__react_component_tooltip.show {
+  opacity: 1 !important;
 }
 /* purgecss end ignore */

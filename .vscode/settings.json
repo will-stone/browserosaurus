@@ -1,8 +1,6 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
   "eslint.enable": true,
-  "spellright.language": ["en_GB"],
-  "spellright.documentTypes": ["markdown", "latex", "plaintext", "html"],
   "workbench.colorCustomizations": {
     "statusBar.background": "#234870",
     "statusBar.foreground": "#e7e7e7",

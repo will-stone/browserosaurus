@@ -2,6 +2,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import React, { useCallback } from 'react'
+import ReactTooltip from 'react-tooltip'
 
 import { logos } from '../../../config/logos'
 import { App } from '../../../config/types'
@@ -34,28 +35,27 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
       key={app.id}
       aria-label={`${app.name} Tile`}
       className={clsx(
-        'flex-grow flex flex-col items-center justify-center max-h-full',
+        'flex flex-col items-center justify-center max-h-full',
+        'rounded',
         'focus:outline-none',
-        'active:opacity-50',
-        'group',
+        'hover:bg-grey-900',
         className,
       )}
+      data-for={app.id}
+      data-tip
       onClick={handleClick}
       style={{
-        maxWidth: '75px',
-        maxHeight: '108px',
-        flexBasis: 0,
+        maxWidth: '100px',
+        minWidth: '50px',
       }}
       type="button"
     >
-      <div className="overflow-hidden flex justify-center items-center">
-        <img
-          alt={app.name}
-          className="object-contain w-full max-h-full"
-          src={logos[app.id]}
-        />
-      </div>
-      <Kbd className="flex-shrink-0 flex justify-center items-center group-hover:bg-grey-900 group-hover:text-grey-100 mt-2">
+      <img
+        alt={app.name}
+        className="w-full object-contain"
+        src={logos[app.id]}
+      />
+      <Kbd className="flex-shrink-0 flex justify-center items-center mt-2">
         {isFav && (
           <FontAwesomeIcon
             aria-label="Favourite"
@@ -67,6 +67,14 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         {/* Prevents box collapse when hotkey not set */}
         {hotkey || <span className="opacity-0">.</span>}
       </Kbd>
+      <ReactTooltip
+        backgroundColor="#0D1117"
+        effect="solid"
+        id={app.id}
+        place="bottom"
+      >
+        <span className="font-bold text-grey-200">{app.name}</span>
+      </ReactTooltip>
     </button>
   )
 }

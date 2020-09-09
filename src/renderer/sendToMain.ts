@@ -28,8 +28,8 @@ export const HOTKEYS_UPDATED = 'HOTKEYS_UPDATED'
 export const updateHotkeys = (hotkeys: Hotkeys): void =>
   ipcRenderer.send(HOTKEYS_UPDATED, hotkeys)
 
-export const ESCAPE_PRESSED = 'ESCAPE_PRESSED'
-export const pressEscape = (): void => ipcRenderer.send(ESCAPE_PRESSED)
+export const HIDE_WINDOW = 'HIDE_WINDOW'
+export const hideWindow = (): void => ipcRenderer.send(HIDE_WINDOW)
 
 export const MAIN_LOG = 'MAIN_LOG'
 export const mainLog = (string: string): void =>
@@ -54,3 +54,9 @@ export const updateHiddenTileIds = (tileIds: string[]): void =>
 
 export const RENDERER_STARTED = 'RENDERER_STARTED'
 export const startRenderer = (): void => ipcRenderer.send(RENDERER_STARTED)
+
+export const CATCH_MOUSE = 'CATCH_MOUSE'
+export const catchMouse = (): void => ipcRenderer.send(CATCH_MOUSE)
+
+export const RELEASE_MOUSE = 'RELEASE_MOUSE'
+export const releaseMouse = (): void => ipcRenderer.send(RELEASE_MOUSE)

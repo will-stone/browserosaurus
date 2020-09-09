@@ -21,29 +21,27 @@ const updatedTileHotkey = createAction<{ appId: string; value: string }>(
 
 const clickedUrlBackspaceButton = createAction('ui/urlBackspaceButtonClicked')
 const clickedTilesMenuButton = createAction('ui/tilesMenuButtonClicked')
-const clickedSponsorMenuButton = createAction('ui/sponsorMenuButtonClicked')
-const clickedMenuBackdrop = createAction('ui/menuBackdropClicked')
 const clickedSponsorButton = createAction('ui/sponsorButtonClicked')
+const clickedCloseMenuButton = createAction('ui/closeMenuButtonClicked')
 
 const pressedEscapeKey = createAction('ui/escapeKeyPressed')
 const pressedBackspaceKey = createAction('ui/backspaceKeyPressed')
 
 export {
-  clickedMenuBackdrop,
+  clickedCloseMenuButton,
   clickedSponsorButton,
-  clickedSponsorMenuButton,
   clickedTilesMenuButton,
   clickedUrlBackspaceButton,
   madeTileFav,
   pressedBackspaceKey,
   pressedEscapeKey,
-  receivedStore,
-  receivedUrl,
   receivedApps,
-  receivedVersion,
+  receivedDefaultProtocolClientStatus,
+  receivedStore,
   receivedUpdateAvailable,
   receivedUpdateDownloaded,
-  receivedDefaultProtocolClientStatus,
+  receivedUrl,
+  receivedVersion,
   toggledTileVisibility,
   updatedTileHotkey,
 }

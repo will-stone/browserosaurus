@@ -6,9 +6,8 @@ import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'
 import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 import {
-  clickedMenuBackdrop,
+  clickedCloseMenuButton,
   clickedSponsorButton,
-  clickedSponsorMenuButton,
   clickedTilesMenuButton,
   clickedUrlBackspaceButton,
   madeTileFav,
@@ -77,7 +76,7 @@ const mainStore = createReducer<MainStore>(
 // ------------------
 
 interface UiState {
-  menu: false | 'tiles' | 'sponsor'
+  menu: false | 'tiles'
   url: string
   version: string
   updateStatus: 'no-update' | 'available' | 'downloaded'
@@ -94,23 +93,19 @@ const ui = createReducer<UiState>(
   },
   (builder) =>
     builder
+      .addCase(clickedCloseMenuButton, (state) => {
+        state.menu = false
+      })
       .addCase(clickedTilesMenuButton, (state) => {
         if (state.menu) state.menu = false
         else state.menu = 'tiles'
-      })
-      .addCase(clickedSponsorMenuButton, (state) => {
-        if (state.menu) state.menu = false
-        else state.menu = 'sponsor'
       })
       // Close menu when escape key is pressed
       .addCase(pressedEscapeKey, (state) => {
         state.menu = false
       })
-      // Close menu modal when backdrop clicked
-      .addCase(clickedMenuBackdrop, (state) => {
-        state.menu = false
-      })
       .addCase(receivedUrl, (state, action) => {
+        state.menu = false
         state.url = action.payload
       })
       .addCase(clickedUrlBackspaceButton, (state) => {

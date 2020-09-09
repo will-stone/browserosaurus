@@ -3,7 +3,7 @@
 import { Middleware } from 'redux'
 
 import {
-  pressEscape,
+  hideWindow,
   selectFav,
   updateHiddenTileIds,
   updateHotkeys,
@@ -22,7 +22,7 @@ export const middleware: Middleware<unknown, RootState> = (store) => (next) => (
   // Hide window if escape key is pressed when no menus are open
   if (pressedEscapeKey.match(action)) {
     if (!store.getState().ui.menu) {
-      pressEscape()
+      hideWindow()
     }
   }
 

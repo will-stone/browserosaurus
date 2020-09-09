@@ -167,6 +167,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.9",
     "@reduxjs/toolkit": "^1.4.0",
+    "@tailwindui/react": "^0.1.1",
     "animate.css": "^4.1.0",
     "app-exists": "^1.1.0",
     "clsx": "^1.1.1",
@@ -178,9 +179,11 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
+    "react-tooltip": "^4.2.9",
     "redux": "^4.0.5",
     "semver": "^7.3.2",
-    "tailwindcss": "^1.4.5"
+    "tailwindcss": "^1.4.5",
+    "tings": "^0.0.20"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
