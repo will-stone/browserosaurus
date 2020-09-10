@@ -1,4 +1,5 @@
 import { ipcRenderer } from 'electron'
+import ReactTooltip from 'react-tooltip'
 
 import { App } from '../config/types'
 import { Hotkeys } from '../main/store'
@@ -14,11 +15,8 @@ export function selectApp(arguments_: OpenAppArguments): void {
 }
 
 export const COPY_TO_CLIPBOARD = 'COPY_TO_CLIPBOARD'
-export const copyUrl = (url: string): void => {
-  if (url) {
-    ipcRenderer.send(COPY_TO_CLIPBOARD, url)
-  }
-}
+export const copyUrl = (url: string): void =>
+  ipcRenderer.send(COPY_TO_CLIPBOARD, url)
 
 export const FAV_SELECTED = 'FAV_SELECTED'
 export const selectFav = (id: App['id']): void =>
@@ -29,7 +27,10 @@ export const updateHotkeys = (hotkeys: Hotkeys): void =>
   ipcRenderer.send(HOTKEYS_UPDATED, hotkeys)
 
 export const HIDE_WINDOW = 'HIDE_WINDOW'
-export const hideWindow = (): void => ipcRenderer.send(HIDE_WINDOW)
+export const hideWindow = (): void => {
+  ReactTooltip.hide()
+  ipcRenderer.send(HIDE_WINDOW)
+}
 
 export const MAIN_LOG = 'MAIN_LOG'
 export const mainLog = (string: string): void =>

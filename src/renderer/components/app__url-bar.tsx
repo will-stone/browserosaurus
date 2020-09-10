@@ -10,10 +10,10 @@ import ReactTooltip from 'react-tooltip'
 import Url from 'url'
 
 import { SPONSOR_URL } from '../../config/CONSTANTS'
-import { copyUrl } from '../sendToMain'
 import { useSelector } from '../store'
 import {
-  clickedTilesMenuButton,
+  clickedCopyButton,
+  clickedSettingsButton,
   clickedUrlBackspaceButton,
 } from '../store/actions'
 import Button from './atoms/button'
@@ -29,15 +29,15 @@ const UrlBar: React.FC<Props> = ({ className }) => {
   const updateStatus = useSelector((state) => state.ui.updateStatus)
 
   const handleCopyClick = useCallback(() => {
-    copyUrl(url)
-  }, [url])
+    dispatch(clickedCopyButton())
+  }, [dispatch])
 
   const handleBackspaceButtonClick = useCallback(() => {
     dispatch(clickedUrlBackspaceButton())
   }, [dispatch])
 
   const handleTilesMenuButtonClick = useCallback(() => {
-    dispatch(clickedTilesMenuButton())
+    dispatch(clickedSettingsButton())
   }, [dispatch])
 
   const isSponsorUrl = url === SPONSOR_URL
@@ -53,10 +53,10 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         'w-full',
         'flex items-center space-x-4',
         'bg-grey-800',
-        'border-2 rounded-md shadow-lg',
+        'border rounded-md shadow',
         'px-4',
         'h-12',
-        isSponsorUrl ? 'border-pink-500' : 'border-grey-800 ',
+        isSponsorUrl ? 'border-pink-500' : 'border-grey-600 ',
       )}
       style={{ minWidth: '300px' }}
     >

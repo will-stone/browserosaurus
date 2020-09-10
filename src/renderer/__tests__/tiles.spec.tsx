@@ -5,7 +5,7 @@ import React from 'react'
 import { DEFAULT_URL } from '../../config/CONSTANTS'
 import { INSTALLED_APPS_FOUND, URL_UPDATED } from '../../main/events'
 import App from '../components/app'
-import { APP_SELECTED } from '../sendToMain'
+import { APP_SELECTED, HIDE_WINDOW } from '../sendToMain'
 
 test('tiles', () => {
   render(<App />)
@@ -34,19 +34,21 @@ test('tiles', () => {
 
   // Correct info sent to main when tile clicked
   fireEvent.click(screen.getByRole('button', { name: 'Firefox Tile' }))
-  expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(APP_SELECTED, {
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
     url: DEFAULT_URL,
     appId: 'org.mozilla.firefox',
     isAlt: false,
   })
+  expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 
   act(() => {
     win.webContents.send(URL_UPDATED, 'http://example.com')
   })
   fireEvent.click(screen.getByAltText('Firefox'))
-  expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(APP_SELECTED, {
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
     url: 'http://example.com',
     appId: 'org.mozilla.firefox',
     isAlt: false,
   })
+  expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 })

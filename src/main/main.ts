@@ -179,16 +179,11 @@ electron.ipcMain.on(
     ].filter(Boolean)
 
     execFile('open', openArguments)
-
-    bWindow?.hide()
   },
 )
 
 electron.ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, url: string) => {
-  if (url) {
-    copyToClipboard(url)
-    bWindow?.hide()
-  }
+  copyToClipboard(url)
 })
 
 electron.ipcMain.on(HIDE_WINDOW, () => {

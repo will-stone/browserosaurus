@@ -22,10 +22,11 @@ const Tiles: React.FC = () => {
       capture
       className={clsx(
         'relative',
+        'border border-grey-600',
         'bg-grey-800',
         'p-2',
         'flex justify-start',
-        'rounded-md shadow-lg',
+        'rounded-md shadow',
         'max-w-full overflow-x-auto',
       )}
     >

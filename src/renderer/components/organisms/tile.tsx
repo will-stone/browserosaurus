@@ -2,13 +2,14 @@ import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import React, { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
 
 import { logos } from '../../../config/logos'
 import { App } from '../../../config/types'
 import { getHotkeyByAppId } from '../../../utils/getHotkeyByAppId'
-import { selectApp } from '../../sendToMain'
-import { useSelector, useShallowEqualSelector } from '../../store'
+import { useShallowEqualSelector } from '../../store'
+import { clickedTileButton } from '../../store/actions'
 import Kbd from '../atoms/kbd'
 
 interface Props {
@@ -18,14 +19,14 @@ interface Props {
 }
 
 const Tile: React.FC<Props> = ({ app, isFav, className }) => {
-  const url = useSelector((state) => state.ui.url)
+  const dispatch = useDispatch()
   const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      selectApp({ url, appId: app.id, isAlt: event.altKey })
+      dispatch(clickedTileButton({ appId: app.id, isAlt: event.altKey }))
     },
-    [app.id, url],
+    [dispatch, app.id],
   )
 
   const hotkey = getHotkeyByAppId(hotkeys, app.id)

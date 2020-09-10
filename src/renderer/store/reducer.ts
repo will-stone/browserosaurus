@@ -7,8 +7,8 @@ import { alterHotkeys } from '../../utils/alterHotkeys'
 import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 import {
   clickedCloseMenuButton,
+  clickedSettingsButton,
   clickedSponsorButton,
-  clickedTilesMenuButton,
   clickedUrlBackspaceButton,
   madeTileFav,
   pressedBackspaceKey,
@@ -96,7 +96,7 @@ const ui = createReducer<UiState>(
       .addCase(clickedCloseMenuButton, (state) => {
         state.menu = false
       })
-      .addCase(clickedTilesMenuButton, (state) => {
+      .addCase(clickedSettingsButton, (state) => {
         if (state.menu) state.menu = false
         else state.menu = 'tiles'
       })

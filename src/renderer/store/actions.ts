@@ -3,37 +3,65 @@ import { createAction } from '@reduxjs/toolkit'
 import { App } from '../../config/types'
 import { Store as MainStore } from '../../main/store'
 
-const receivedStore = createAction<MainStore>('main/storeReceived')
-const receivedUrl = createAction<string>('main/urlReceived')
-const receivedApps = createAction<App[]>('main/appsReceived')
-const receivedVersion = createAction<string>('main/versionReceived')
-const receivedUpdateAvailable = createAction('main/updateAvailableReceived')
-const receivedUpdateDownloaded = createAction('main/updateDownloadedReceived')
+const receivedStore = createAction<MainStore>('main/receivedStore')
+const receivedUrl = createAction<string>('main/receivedUrl')
+const receivedApps = createAction<App[]>('main/receivedApps')
+const receivedVersion = createAction<string>('main/receivedVersion')
+const receivedUpdateAvailable = createAction('main/receivedUpdateAvailable')
+const receivedUpdateDownloaded = createAction('main/receivedUpdateDownloaded')
 const receivedDefaultProtocolClientStatus = createAction<boolean>(
-  'main/defaultProtocolClientStatusReceived',
+  'main/receivedDefaultProtocolClientStatus',
 )
 
-const madeTileFav = createAction<string>('tile/madeFav')
-const toggledTileVisibility = createAction<string>('tile/visibilityToggled')
+const appStarted = createAction('app/started')
+
+const madeTileFav = createAction<string>('tile/madeTileFav')
+const toggledTileVisibility = createAction<string>('tile/toggledTileVisibility')
 const updatedTileHotkey = createAction<{ appId: string; value: string }>(
-  'tile/hotkeyUpdated',
+  'tile/updatedTileHotkey',
 )
 
-const clickedUrlBackspaceButton = createAction('ui/urlBackspaceButtonClicked')
-const clickedTilesMenuButton = createAction('ui/tilesMenuButtonClicked')
-const clickedSponsorButton = createAction('ui/sponsorButtonClicked')
-const clickedCloseMenuButton = createAction('ui/closeMenuButtonClicked')
+const foundMouse = createAction('ui/foundMouse')
+const lostMouse = createAction('ui/lostMouse')
 
+const clickedCloseMenuButton = createAction('ui/clickedCloseMenuButton')
+const clickedCopyButton = createAction('ui/clickedCopyButton')
+const clickedQuitButton = createAction('ui/clickedQuitButton')
+const clickedReloadButton = createAction('ui/clickedReloadButton')
+const clickedSetAsDefaultButton = createAction('ui/clickedSetAsDefaultButton')
+const clickedSettingsButton = createAction('ui/clickedSettingsButton')
+const clickedSponsorButton = createAction('ui/clickedSponsorButton')
+const clickedTileButton = createAction<{ appId: string; isAlt: boolean }>(
+  'ui/clickedTileButton',
+)
+const clickedUpdateButton = createAction('ui/clickedUpdateButton')
+const clickedUrlBackspaceButton = createAction('ui/clickedUrlBackspaceButton')
+
+const pressedAppKey = createAction<{ key: string; isAlt: boolean }>(
+  'ui/pressedAppKey',
+)
+const pressedBackspaceKey = createAction('ui/pressedBackspaceKey')
+const pressedCopyKey = createAction('ui/pressedCopyKey')
 const pressedEscapeKey = createAction('ui/escapeKeyPressed')
-const pressedBackspaceKey = createAction('ui/backspaceKeyPressed')
 
 export {
+  appStarted,
   clickedCloseMenuButton,
+  clickedCopyButton,
+  clickedQuitButton,
+  clickedReloadButton,
+  clickedSetAsDefaultButton,
   clickedSponsorButton,
-  clickedTilesMenuButton,
+  clickedTileButton,
+  clickedSettingsButton,
+  clickedUpdateButton,
   clickedUrlBackspaceButton,
+  foundMouse,
+  lostMouse,
   madeTileFav,
+  pressedAppKey,
   pressedBackspaceKey,
+  pressedCopyKey,
   pressedEscapeKey,
   receivedApps,
   receivedDefaultProtocolClientStatus,

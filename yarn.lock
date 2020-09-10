@@ -2639,10 +2639,10 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
-"@will-stone/eslint-config@^1.23.0":
-  version "1.23.0"
-  resolved "https://registry.yarnpkg.com/@will-stone/eslint-config/-/eslint-config-1.23.0.tgz#e18edae4c1c49c37ccb9c0b70f54fbc236df9514"
-  integrity sha512-J1bskpN1sjR4C64aXOJ0RfIU8dVaiylGbwtJbl+nrhAL3s7nrdqBjEFPo4dTliukYA5ifpsRXbHhQ9FWCdHZqg==
+"@will-stone/eslint-config@^1.24.0":
+  version "1.24.0"
+  resolved "https://registry.yarnpkg.com/@will-stone/eslint-config/-/eslint-config-1.24.0.tgz#2fb7f9d8373a7eedb41dd52e7746170af228f39d"
+  integrity sha512-RI8T36TZGgRSee51pL96ebKc8vkjKSsA3OckwbEFoxlofNX93IIGRn1UYOqr4Eyvb7mgp12IoN8dkO3w0M+QhQ==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^3.10.1"
     "@typescript-eslint/parser" "^3.10.1"

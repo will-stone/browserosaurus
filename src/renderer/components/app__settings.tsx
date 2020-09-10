@@ -14,11 +14,14 @@ import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
 
-import { quit, reload, setAsDefaultBrowser, updateRestart } from '../sendToMain'
 import { useSelector, useShallowEqualSelector } from '../store'
 import {
   clickedCloseMenuButton,
+  clickedQuitButton,
+  clickedReloadButton,
+  clickedSetAsDefaultButton,
   clickedSponsorButton,
+  clickedUpdateButton,
   madeTileFav,
   toggledTileVisibility,
   updatedTileHotkey,
@@ -46,42 +49,56 @@ const Settings: React.FC = () => {
   const menu = useSelector((state) => state.ui.menu)
   const version = useSelector((state) => state.ui.version)
 
-  const handleCloseButtonClick = useCallback(() => {
-    dispatch(clickedCloseMenuButton())
-  }, [dispatch])
+  const handleCloseButtonClick = useCallback(
+    () => dispatch(clickedCloseMenuButton()),
+    [dispatch],
+  )
+
+  const handleUpdateButtonClick = useCallback(
+    () => dispatch(clickedUpdateButton()),
+    [dispatch],
+  )
+
+  const handleSetAsDefaultButtonClick = useCallback(
+    () => dispatch(clickedSetAsDefaultButton()),
+    [dispatch],
+  )
 
   const handleInputChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const { appId = '' } = event.currentTarget.dataset
+    (event: React.ChangeEvent<HTMLInputElement>) =>
       dispatch(
         updatedTileHotkey({
-          appId,
+          appId: event.currentTarget.dataset.appId || '',
           value: event.currentTarget.value,
         }),
-      )
-    },
+      ),
     [dispatch],
   )
 
   const handleFavClick = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      const { appId = '' } = event.currentTarget.dataset
-      dispatch(madeTileFav(appId))
-    },
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+      dispatch(madeTileFav(event.currentTarget.dataset.appId || '')),
     [dispatch],
   )
 
   const handleVisibilityClick = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      const { appId = '' } = event.currentTarget.dataset
-      dispatch(toggledTileVisibility(appId))
-    },
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+      dispatch(toggledTileVisibility(event.currentTarget.dataset.appId || '')),
     [dispatch],
   )
 
-  const handleSponsorClick = useCallback(() => {
-    dispatch(clickedSponsorButton())
-  }, [dispatch])
+  const handleSponsorClick = useCallback(
+    () => dispatch(clickedSponsorButton()),
+    [dispatch],
+  )
+
+  const handleReloadClick = useCallback(() => dispatch(clickedReloadButton()), [
+    dispatch,
+  ])
+
+  const handleQuitClick = useCallback(() => dispatch(clickedQuitButton()), [
+    dispatch,
+  ])
 
   return (
     <Transition
@@ -122,15 +139,19 @@ const Settings: React.FC = () => {
 
             <div className="space-x-2">
               {!isDefaultProtocolClient && (
-                <Button onClick={setAsDefaultBrowser}>
+                <Button
+                  aria-label="Set as default browser"
+                  onClick={handleSetAsDefaultButtonClick}
+                >
                   Set As Default Browser
                 </Button>
               )}
 
               {updateStatus === 'downloaded' && (
                 <Button
+                  aria-label="Restart and update"
                   className="space-x-2"
-                  onClick={updateRestart}
+                  onClick={handleUpdateButtonClick}
                   tone="primary"
                 >
                   <FontAwesomeIcon icon={faGift} />
@@ -139,14 +160,24 @@ const Settings: React.FC = () => {
               )}
 
               {updateStatus === 'available' && (
-                <Button className="space-x-2" disabled tone="primary">
+                <Button
+                  aria-label="Downloading update"
+                  className="space-x-2"
+                  disabled
+                  tone="primary"
+                >
                   <FontAwesomeIcon icon={faGift} />
                   <span>Downloading update…</span>
                 </Button>
               )}
 
               {updateStatus === 'no-update' && (
-                <Button data-for="reload" data-tip onClick={reload}>
+                <Button
+                  aria-label="Reload"
+                  data-for="reload"
+                  data-tip
+                  onClick={handleReloadClick}
+                >
                   <FontAwesomeIcon fixedWidth icon={faSync} />
                   <ReactTooltip
                     backgroundColor="#0D1117"
@@ -162,7 +193,11 @@ const Settings: React.FC = () => {
                 </Button>
               )}
 
-              <Button className="space-x-2" onClick={quit}>
+              <Button
+                aria-label="Quit"
+                className="space-x-2"
+                onClick={handleQuitClick}
+              >
                 <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
                 <span>Quit</span>
               </Button>
@@ -176,6 +211,7 @@ const Settings: React.FC = () => {
                 which is free and always will be.
               </p>
               <Button
+                aria-label="Sponsor"
                 className="w-full mb-4"
                 onClick={handleSponsorClick}
                 size="md"

@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React, { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 
-import { catchMouse, releaseMouse } from '../../sendToMain'
+import { foundMouse, lostMouse } from '../../store/actions'
 
 interface Props extends React.ComponentPropsWithoutRef<'div'> {
   capture?: boolean
@@ -13,19 +14,21 @@ const MouseDiv: React.FC<Props> = ({
   onMouseOver,
   ...rest
 }) => {
+  const dispatch = useDispatch()
+
   const handleMouseEnter = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       event.stopPropagation()
 
       if (capture) {
-        catchMouse()
+        dispatch(foundMouse())
       }
 
       if (onMouseEnter) {
         onMouseEnter(event)
       }
     },
-    [capture, onMouseEnter],
+    [dispatch, capture, onMouseEnter],
   )
 
   const handleMouseOver = useCallback(
@@ -33,7 +36,7 @@ const MouseDiv: React.FC<Props> = ({
       event.stopPropagation()
 
       if (!capture) {
-        releaseMouse()
+        dispatch(lostMouse())
       }
 
       if (onMouseOver) {

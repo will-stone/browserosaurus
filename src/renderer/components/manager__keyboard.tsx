@@ -1,21 +1,23 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { copyUrl, selectApp } from '../sendToMain'
-import { useSelector, useShallowEqualSelector } from '../store'
-import { pressedBackspaceKey, pressedEscapeKey } from '../store/actions'
+import { useSelector } from '../store'
+import {
+  pressedAppKey,
+  pressedBackspaceKey,
+  pressedCopyKey,
+  pressedEscapeKey,
+} from '../store/actions'
 import Noop from './atoms/noop'
 
 const KeyboardManager: React.FC = () => {
   const dispatch = useDispatch()
-  const favAppId = useSelector((state) => state.mainStore.fav)
   const menu = useSelector((state) => state.ui.menu)
-  const url = useSelector((state) => state.ui.url)
-  const apps = useShallowEqualSelector((state) => state.apps)
-  const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
 
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
+      // TODO move all this logic to middleware as an action:
+      // dispatch(keyboardEvent(event))
       const isEscape = event.code === 'Escape'
 
       if (isEscape) {
@@ -33,13 +35,14 @@ const KeyboardManager: React.FC = () => {
       if (isBackspace) {
         event.preventDefault()
         dispatch(pressedBackspaceKey())
+        return
       }
 
       const isCopy = event.key.toLowerCase() === 'c' && event.metaKey
 
       if (isCopy) {
         event.preventDefault()
-        copyUrl(url)
+        dispatch(pressedCopyKey())
         return
       }
 
@@ -48,15 +51,14 @@ const KeyboardManager: React.FC = () => {
       // App hotkey
       if (matchAlphaNumeric) {
         const key = matchAlphaNumeric[1]
-        const appId = hotkeys[key]
-        selectApp({ url, appId, isAlt: event.altKey })
+        dispatch(pressedAppKey({ key, isAlt: event.altKey }))
         return
       }
 
       // Open favourite app
       if (event.code === 'Space' || event.code === 'Enter') {
         event.preventDefault()
-        selectApp({ url, appId: favAppId, isAlt: event.altKey })
+        dispatch(pressedAppKey({ key: event.code, isAlt: event.altKey }))
       }
     }
 
@@ -65,7 +67,7 @@ const KeyboardManager: React.FC = () => {
     return function cleanup() {
       document.removeEventListener('keydown', handler)
     }
-  }, [url, apps, favAppId, hotkeys, dispatch, menu])
+  }, [dispatch, menu])
 
   return <Noop />
 }
