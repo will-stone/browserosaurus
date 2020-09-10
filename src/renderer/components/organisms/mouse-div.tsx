@@ -43,7 +43,7 @@ const MouseDiv: React.FC<Props> = ({
         onMouseOver(event)
       }
     },
-    [capture, onMouseOver],
+    [capture, onMouseOver, dispatch],
   )
 
   return (
