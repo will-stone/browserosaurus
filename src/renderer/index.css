@@ -32,6 +32,10 @@ button {
 }
 
 /* Override React-Tooltip's default style */
+.__react_component_tooltip {
+  transition-property: none !important;
+}
+
 .__react_component_tooltip.show {
   opacity: 1 !important;
 }
