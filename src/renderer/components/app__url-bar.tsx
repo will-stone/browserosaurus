@@ -56,14 +56,14 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         'border rounded-md shadow',
         'px-4',
         'h-12',
-        isSponsorUrl ? 'border-pink-500' : 'border-grey-600 ',
+        isSponsorUrl ? 'border-pink-500' : 'border-grey-600',
       )}
       style={{ minWidth: '300px' }}
     >
       <div
         className={clsx(
           'flex-grow',
-          isSponsorUrl ? 'text-pink-200' : 'text-grey-400 ',
+          isSponsorUrl ? 'text-pink-200' : 'text-grey-400',
           'text-xs tracking-wider font-bold',
           'flex items-center justify-between',
           'overflow-hidden',
