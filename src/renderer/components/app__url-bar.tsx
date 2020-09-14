@@ -119,17 +119,19 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           onClick={handleBackspaceButtonClick}
         >
           <FontAwesomeIcon fixedWidth icon={faBackspace} />
-          <ReactTooltip
-            backgroundColor={themes[theme].tooltip.bg}
-            delayShow={500}
-            effect="solid"
-            id="backspace"
-            place="bottom"
-          >
-            <span className={css({ color: themes[theme].tooltip.text })}>
-              Delete section of URL (Backspace)
-            </span>
-          </ReactTooltip>
+          {!isEmpty && (
+            <ReactTooltip
+              backgroundColor={themes[theme].tooltip.bg}
+              delayShow={500}
+              effect="solid"
+              id="backspace"
+              place="bottom"
+            >
+              <span className={css({ color: themes[theme].tooltip.text })}>
+                Delete section of URL (Backspace)
+              </span>
+            </ReactTooltip>
+          )}
         </Button>
 
         <Button
