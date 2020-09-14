@@ -173,7 +173,7 @@
     "electron-is-dev": "^1.1.0",
     "electron-notarize": "^1.0.0",
     "electron-squirrel-startup": "^1.0.0",
-    "electron-store": "^5.1.1",
+    "electron-store": "^6.0.0",
     "emotion": "^10.0.27",
     "immer": "^7.0.9",
     "p-filter": "^2.1.0",
