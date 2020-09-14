@@ -11,107 +11,74 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@tailwindui/react'
 import clsx from 'clsx'
 import { css } from 'emotion'
-import React, { useCallback } from 'react'
-import { useDispatch } from 'react-redux'
+import React from 'react'
 import ReactTooltip from 'react-tooltip'
+import shallow from 'zustand/shallow'
 
 import { Store as MainStore } from '../../main/store'
-import { useSelector, useShallowEqualSelector } from '../store'
-import {
+import { events, useStore } from '../store'
+import { themes } from '../themes'
+import Button from './atoms/button'
+import Kbd from './atoms/kbd'
+import MouseDiv from './organisms/mouse-div'
+
+const {
+  changedHotkey,
   clickedCloseMenuButton,
+  clickedEyeButton,
+  clickedFavButton,
   clickedQuitButton,
   clickedReloadButton,
   clickedSetAsDefaultButton,
   clickedSponsorButton,
   clickedThemeButton,
   clickedUpdateButton,
-  madeTileFav,
-  toggledTileVisibility,
-  updatedTileHotkey,
-} from '../store/actions'
-import { themes } from '../themes'
-import Button from './atoms/button'
-import Kbd from './atoms/kbd'
-import MouseDiv from './organisms/mouse-div'
+} = events
 
 function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
   event.target.select()
 }
 
+function handleClickThemeButton(
+  event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+) {
+  clickedThemeButton(event.currentTarget.value as MainStore['theme'])
+}
+
+function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+  changedHotkey({
+    appId: event.currentTarget.dataset.appId || '',
+    value: event.currentTarget.value,
+  })
+}
+
+function handleFavClick(
+  event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+) {
+  clickedFavButton(event.currentTarget.dataset.appId || '')
+}
+
+function handleVisibilityClick(
+  event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+) {
+  clickedEyeButton(event.currentTarget.dataset.appId || '')
+}
+
 const Settings: React.FC = () => {
-  const dispatch = useDispatch()
-  const apps = useShallowEqualSelector((state) => state.apps)
-  const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
-  const favAppId = useSelector((state) => state.mainStore.fav)
-  const theme = useSelector((state) => state.mainStore.theme)
-  const hiddenTileIds = useShallowEqualSelector(
+  const apps = useStore((state) => state.apps, shallow)
+  const hotkeys = useStore((state) => state.mainStore.hotkeys, shallow)
+  const favAppId = useStore((state) => state.mainStore.fav)
+  const theme = useStore((state) => state.mainStore.theme)
+  const hiddenTileIds = useStore(
     (state) => state.mainStore.hiddenTileIds,
+    shallow,
   )
-  const isDefaultProtocolClient = useSelector(
+  const isDefaultProtocolClient = useStore(
     (state) => state.ui.isDefaultProtocolClient,
   )
-  const updateStatus = useSelector((state) => state.ui.updateStatus)
-  const menu = useSelector((state) => state.ui.menu)
-  const version = useSelector((state) => state.ui.version)
-
-  const handleCloseButtonClick = useCallback(
-    () => dispatch(clickedCloseMenuButton()),
-    [dispatch],
-  )
-
-  const handleUpdateButtonClick = useCallback(
-    () => dispatch(clickedUpdateButton()),
-    [dispatch],
-  )
-
-  const handleSetAsDefaultButtonClick = useCallback(
-    () => dispatch(clickedSetAsDefaultButton()),
-    [dispatch],
-  )
-
-  const handleClickThemeButton = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-      dispatch(
-        clickedThemeButton(event.currentTarget.value as MainStore['theme']),
-      ),
-    [dispatch],
-  )
-
-  const handleInputChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) =>
-      dispatch(
-        updatedTileHotkey({
-          appId: event.currentTarget.dataset.appId || '',
-          value: event.currentTarget.value,
-        }),
-      ),
-    [dispatch],
-  )
-
-  const handleFavClick = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-      dispatch(madeTileFav(event.currentTarget.dataset.appId || '')),
-    [dispatch],
-  )
-
-  const handleVisibilityClick = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-      dispatch(toggledTileVisibility(event.currentTarget.dataset.appId || '')),
-    [dispatch],
-  )
-
-  const handleSponsorClick = useCallback(
-    () => dispatch(clickedSponsorButton()),
-    [dispatch],
-  )
-
-  const handleReloadClick = useCallback(() => dispatch(clickedReloadButton()), [
-    dispatch,
-  ])
-
-  const handleQuitClick = useCallback(() => dispatch(clickedQuitButton()), [
-    dispatch,
-  ])
+  const updateStatus = useStore((state) => state.ui.updateStatus)
+  const menu = useStore((state) => state.ui.menu)
+  const version = useStore((state) => state.ui.version)
 
   return (
     <Transition
@@ -150,7 +117,7 @@ const Settings: React.FC = () => {
               aria-label="Close menu"
               data-for="close"
               data-tip
-              onClick={handleCloseButtonClick}
+              onClick={clickedCloseMenuButton}
             >
               <FontAwesomeIcon fixedWidth icon={faTimes} />
               <ReactTooltip
@@ -170,7 +137,7 @@ const Settings: React.FC = () => {
               {!isDefaultProtocolClient && (
                 <Button
                   aria-label="Set as default browser"
-                  onClick={handleSetAsDefaultButtonClick}
+                  onClick={clickedSetAsDefaultButton}
                 >
                   Set As Default Browser
                 </Button>
@@ -180,7 +147,7 @@ const Settings: React.FC = () => {
                 <Button
                   aria-label="Restart and update"
                   className="space-x-2"
-                  onClick={handleUpdateButtonClick}
+                  onClick={clickedUpdateButton}
                   tone="primary"
                 >
                   <FontAwesomeIcon icon={faGift} />
@@ -205,7 +172,7 @@ const Settings: React.FC = () => {
                   aria-label="Reload"
                   data-for="reload"
                   data-tip
-                  onClick={handleReloadClick}
+                  onClick={clickedReloadButton}
                 >
                   <FontAwesomeIcon fixedWidth icon={faSync} />
                   <ReactTooltip
@@ -229,7 +196,7 @@ const Settings: React.FC = () => {
               <Button
                 aria-label="Quit"
                 className="space-x-2"
-                onClick={handleQuitClick}
+                onClick={clickedQuitButton}
               >
                 <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
                 <span>Quit</span>
@@ -246,7 +213,7 @@ const Settings: React.FC = () => {
               <Button
                 aria-label="Sponsor"
                 className="w-full mb-4 space-x-1"
-                onClick={handleSponsorClick}
+                onClick={clickedSponsorButton}
                 size="md"
                 tone="sponsor"
               >

@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 
-import { useSelector } from '../store'
-import {
+import { events, useStore } from '../store'
+import Noop from './atoms/noop'
+
+const {
   pressedAppKey,
   pressedBackspaceKey,
   pressedCopyKey,
   pressedEscapeKey,
-} from '../store/actions'
-import Noop from './atoms/noop'
+} = events
 
 const KeyboardManager: React.FC = () => {
-  const dispatch = useDispatch()
-  const menu = useSelector((state) => state.ui.menu)
+  const menu = useStore((state) => state.ui.menu)
 
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
@@ -21,7 +20,7 @@ const KeyboardManager: React.FC = () => {
       const isEscape = event.code === 'Escape'
 
       if (isEscape) {
-        dispatch(pressedEscapeKey())
+        pressedEscapeKey()
         return
       }
 
@@ -34,7 +33,7 @@ const KeyboardManager: React.FC = () => {
 
       if (isBackspace) {
         event.preventDefault()
-        dispatch(pressedBackspaceKey())
+        pressedBackspaceKey()
         return
       }
 
@@ -42,7 +41,7 @@ const KeyboardManager: React.FC = () => {
 
       if (isCopy) {
         event.preventDefault()
-        dispatch(pressedCopyKey())
+        pressedCopyKey()
         return
       }
 
@@ -51,14 +50,14 @@ const KeyboardManager: React.FC = () => {
       // App hotkey
       if (matchAlphaNumeric) {
         const key = matchAlphaNumeric[1]
-        dispatch(pressedAppKey({ key, isAlt: event.altKey }))
+        pressedAppKey({ key, isAlt: event.altKey })
         return
       }
 
       // Open favourite app
       if (event.code === 'Space' || event.code === 'Enter') {
         event.preventDefault()
-        dispatch(pressedAppKey({ key: event.code, isAlt: event.altKey }))
+        pressedAppKey({ key: event.code, isAlt: event.altKey })
       }
     }
 
@@ -67,7 +66,7 @@ const KeyboardManager: React.FC = () => {
     return function cleanup() {
       document.removeEventListener('keydown', handler)
     }
-  }, [dispatch, menu])
+  }, [menu])
 
   return <Noop />
 }

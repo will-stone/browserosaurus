@@ -3,16 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import { css } from 'emotion'
 import React, { useCallback } from 'react'
-import { useDispatch } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
 
 import { logos } from '../../../config/logos'
 import { App } from '../../../config/types'
 import { getHotkeyByAppId } from '../../../utils/getHotkeyByAppId'
-import { useSelector, useShallowEqualSelector } from '../../store'
-import { clickedTileButton } from '../../store/actions'
+import { events, useStore } from '../../store'
 import { themes } from '../../themes'
 import Kbd from '../atoms/kbd'
+
+const { clickedTileButton } = events
 
 interface Props {
   app: App
@@ -21,15 +21,14 @@ interface Props {
 }
 
 const Tile: React.FC<Props> = ({ app, isFav, className }) => {
-  const dispatch = useDispatch()
-  const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
-  const theme = useSelector((state) => state.mainStore.theme)
+  const hotkeys = useStore((state) => state.mainStore.hotkeys)
+  const theme = useStore((state) => state.mainStore.theme)
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      dispatch(clickedTileButton({ appId: app.id, isAlt: event.altKey }))
+      clickedTileButton({ appId: app.id, isAlt: event.altKey })
     },
-    [dispatch, app.id],
+    [app.id],
   )
 
   const hotkey = getHotkeyByAppId(hotkeys, app.id)

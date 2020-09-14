@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { css } from 'emotion'
 import React from 'react'
 
-import { useSelector } from '../../store'
+import { useStore } from '../../store'
 import { themes } from '../../themes'
 
 interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
@@ -19,7 +19,7 @@ const Button: React.FC<ButtonProps> = ({
   type,
   ...restProperties
 }) => {
-  const theme = useSelector((state) => state.mainStore.theme)
+  const theme = useStore((state) => state.mainStore.theme)
 
   let textSize = 'text-xs'
   let padding = 'px-3 py-2'

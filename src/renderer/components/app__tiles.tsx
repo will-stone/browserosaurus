@@ -2,16 +2,15 @@ import clsx from 'clsx'
 import { css } from 'emotion'
 import React from 'react'
 
-import { useSelector } from '../store'
-import { useFavTileSelector, useNormalTilesSelector } from '../store/selectors'
+import { useFavTileSelector, useNormalTilesSelector, useStore } from '../store'
 import { themes } from '../themes'
 import MouseDiv from './organisms/mouse-div'
 import Tile from './organisms/tile'
 
 const Tiles: React.FC = () => {
-  const favTile = useFavTileSelector()
-  const normalTiles = useNormalTilesSelector()
-  const theme = useSelector((state) => state.mainStore.theme)
+  const favTile = useStore(useFavTileSelector)
+  const normalTiles = useStore(useNormalTilesSelector)
+  const theme = useStore((state) => state.mainStore.theme)
 
   let p = 'p-1'
 

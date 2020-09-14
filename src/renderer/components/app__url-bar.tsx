@@ -5,43 +5,30 @@ import { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import { css } from 'emotion'
-import React, { useCallback } from 'react'
-import { useDispatch } from 'react-redux'
+import React from 'react'
 import ReactTooltip from 'react-tooltip'
 import Url from 'url'
 
 import { SPONSOR_URL } from '../../config/CONSTANTS'
-import { useSelector } from '../store'
-import {
-  clickedCopyButton,
-  clickedSettingsButton,
-  clickedUrlBackspaceButton,
-} from '../store/actions'
+import { events, useStore } from '../store'
 import { themes } from '../themes'
 import Button from './atoms/button'
 import MouseDiv from './organisms/mouse-div'
+
+const {
+  clickedCopyButton,
+  clickedSettingsButton,
+  clickedUrlBackspaceButton,
+} = events
 
 interface Props {
   className?: string
 }
 
 const UrlBar: React.FC<Props> = ({ className }) => {
-  const dispatch = useDispatch()
-  const url = useSelector((state) => state.ui.url)
-  const updateStatus = useSelector((state) => state.ui.updateStatus)
-  const theme = useSelector((state) => state.mainStore.theme)
-
-  const handleCopyClick = useCallback(() => {
-    dispatch(clickedCopyButton())
-  }, [dispatch])
-
-  const handleBackspaceButtonClick = useCallback(() => {
-    dispatch(clickedUrlBackspaceButton())
-  }, [dispatch])
-
-  const handleTilesMenuButtonClick = useCallback(() => {
-    dispatch(clickedSettingsButton())
-  }, [dispatch])
+  const url = useStore((state) => state.ui.url)
+  const updateStatus = useStore((state) => state.ui.updateStatus)
+  const theme = useStore((state) => state.mainStore.theme)
 
   const isSponsorUrl = url === SPONSOR_URL
   const isEmpty = url.length === 0
@@ -116,7 +103,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           data-for="backspace"
           data-tip
           disabled={isEmpty}
-          onClick={handleBackspaceButtonClick}
+          onClick={clickedUrlBackspaceButton}
         >
           <FontAwesomeIcon fixedWidth icon={faBackspace} />
           {!isEmpty && (
@@ -138,7 +125,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           data-for="copy-to-clipboard"
           data-tip
           disabled={isEmpty}
-          onClick={handleCopyClick}
+          onClick={clickedCopyButton}
         >
           <FontAwesomeIcon fixedWidth icon={faCopy} />
           <ReactTooltip
@@ -158,7 +145,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           aria-label="Settings menu"
           data-for="settings"
           data-tip
-          onClick={handleTilesMenuButtonClick}
+          onClick={clickedSettingsButton}
           tone={updateStatus === 'downloaded' ? 'primary' : undefined}
         >
           <FontAwesomeIcon fixedWidth icon={faCog} />
