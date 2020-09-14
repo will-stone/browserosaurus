@@ -183,7 +183,7 @@
     "react-tooltip": "^4.2.9",
     "redux": "^4.0.5",
     "semver": "^7.3.2",
-    "tailwindcss": "^1.4.5",
+    "tailwindcss": "^1.8.9",
     "tings": "^0.0.20"
   },
   "devDependencies": {
