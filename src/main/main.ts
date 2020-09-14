@@ -10,6 +10,7 @@ import { App } from '../config/types'
 import {
   APP_SELECTED,
   CATCH_MOUSE,
+  CHANGE_THEME,
   COPY_TO_CLIPBOARD,
   FAV_SELECTED,
   HIDE_WINDOW,
@@ -37,7 +38,7 @@ import {
   UPDATE_DOWNLOADED,
   URL_UPDATED,
 } from './events'
-import { Hotkeys, store } from './store'
+import { Hotkeys, Store, store } from './store'
 
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
 electron.app.commandLine.appendArgument('--enable-features=Metal')
@@ -196,6 +197,10 @@ electron.ipcMain.on(FAV_SELECTED, (_, favAppId) => {
 
 electron.ipcMain.on(HOTKEYS_UPDATED, (_, hotkeys: Hotkeys) => {
   store.set('hotkeys', hotkeys)
+})
+
+electron.ipcMain.on(CHANGE_THEME, (_, theme: Store['theme']) => {
+  store.set('theme', theme)
 })
 
 electron.ipcMain.on(UPDATE_HIDDEN_TILE_IDS, (_, hiddenTileIds: string[]) => {

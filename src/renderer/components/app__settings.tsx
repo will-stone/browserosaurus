@@ -10,10 +10,12 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@tailwindui/react'
 import clsx from 'clsx'
+import { css } from 'emotion'
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
 
+import { Store as MainStore } from '../../main/store'
 import { useSelector, useShallowEqualSelector } from '../store'
 import {
   clickedCloseMenuButton,
@@ -21,11 +23,13 @@ import {
   clickedReloadButton,
   clickedSetAsDefaultButton,
   clickedSponsorButton,
+  clickedThemeButton,
   clickedUpdateButton,
   madeTileFav,
   toggledTileVisibility,
   updatedTileHotkey,
 } from '../store/actions'
+import { themes } from '../themes'
 import Button from './atoms/button'
 import Kbd from './atoms/kbd'
 import MouseDiv from './organisms/mouse-div'
@@ -39,6 +43,7 @@ const Settings: React.FC = () => {
   const apps = useShallowEqualSelector((state) => state.apps)
   const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
   const favAppId = useSelector((state) => state.mainStore.fav)
+  const theme = useSelector((state) => state.mainStore.theme)
   const hiddenTileIds = useShallowEqualSelector(
     (state) => state.mainStore.hiddenTileIds,
   )
@@ -61,6 +66,14 @@ const Settings: React.FC = () => {
 
   const handleSetAsDefaultButtonClick = useCallback(
     () => dispatch(clickedSetAsDefaultButton()),
+    [dispatch],
+  )
+
+  const handleClickThemeButton = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+      dispatch(
+        clickedThemeButton(event.currentTarget.value as MainStore['theme']),
+      ),
     [dispatch],
   )
 
@@ -113,12 +126,26 @@ const Settings: React.FC = () => {
       <MouseDiv
         capture
         className={clsx(
-          'absolute bg-grey-800 rounded border-4 border-grey-600 shadow-xl z-30 grid grid-cols-2 divide-x-2 divide-grey-600',
+          'absolute inset-0 rounded border-2 shadow-xl z-30 grid grid-cols-2',
+          css({
+            color: themes[theme].settings.text,
+            backgroundColor: themes[theme].settings.bg,
+            borderColor: themes[theme].settings.border,
+          }),
         )}
-        style={{ top: '0', right: '0', bottom: '0', left: '0' }}
       >
-        <div className="overflow-hidden flex flex-col">
-          <div className="flex-shrink-0 flex justify-between p-2 border-b-2 border-grey-600">
+        <div
+          className={clsx(
+            'overflow-hidden flex flex-col border-r-2',
+            css({ borderColor: themes[theme].settings.border }),
+          )}
+        >
+          <div
+            className={clsx(
+              'flex-shrink-0 flex justify-between px-4 py-2 border-b-2',
+              css({ borderColor: themes[theme].settings.border }),
+            )}
+          >
             <Button
               aria-label="Close menu"
               data-for="close"
@@ -127,13 +154,15 @@ const Settings: React.FC = () => {
             >
               <FontAwesomeIcon fixedWidth icon={faTimes} />
               <ReactTooltip
-                backgroundColor="#0D1117"
+                backgroundColor={themes[theme].tooltip.bg}
                 delayShow={500}
                 effect="solid"
                 id="close"
                 place="bottom"
               >
-                <span className="font-bold text-grey-200">Close menu</span>
+                <span className={css({ color: themes[theme].tooltip.text })}>
+                  Close menu
+                </span>
               </ReactTooltip>
             </Button>
 
@@ -180,13 +209,17 @@ const Settings: React.FC = () => {
                 >
                   <FontAwesomeIcon fixedWidth icon={faSync} />
                   <ReactTooltip
-                    backgroundColor="#0D1117"
+                    backgroundColor={themes[theme].tooltip.bg}
                     delayShow={500}
                     effect="solid"
                     id="reload"
                     place="bottom"
                   >
-                    <span className="font-bold text-grey-200">
+                    <span
+                      className={css({
+                        color: themes[theme].tooltip.text,
+                      })}
+                    >
                       Reload Browserosaurus
                     </span>
                   </ReactTooltip>
@@ -204,7 +237,7 @@ const Settings: React.FC = () => {
             </div>
           </div>
           <div className="flex-grow overflow-y-auto">
-            <div className="p-4">
+            <div className="pt-4 px-4 pb-12">
               <p className="mb-4 font-medium">
                 Maintaining open source projects takes a lot of time. With your
                 support I can continue to maintain projects such as this one,
@@ -220,16 +253,67 @@ const Settings: React.FC = () => {
                 <FontAwesomeIcon fixedWidth icon={faHeart} />
                 <span>Sponsor from $1 / month</span>
               </Button>
-              <div className="text-xxs font-bold text-grey-600">{version}</div>
+
+              <h3 className="mb-3 underline text-center">Theme</h3>
+              <p className="flex flex-wrap gap-2 justify-center">
+                {Object.entries(themes).map(([themeKey, themeInfo]) => {
+                  return (
+                    <Button
+                      key={themeKey}
+                      className="relative pr-8"
+                      onClick={handleClickThemeButton}
+                      value={themeKey}
+                    >
+                      <span>{themeKey}</span>
+                      <span className="absolute top-0 right-0 bottom-0 flex flex-col h-full w-6">
+                        <span
+                          className={clsx(
+                            'flex-grow',
+                            css({
+                              backgroundColor: themeInfo.sample.a,
+                            }),
+                          )}
+                        />
+                        <span
+                          className={clsx(
+                            'flex-grow',
+                            css({
+                              backgroundColor: themeInfo.sample.b,
+                            }),
+                          )}
+                        />
+                        <span
+                          className={clsx(
+                            'flex-grow',
+                            css({
+                              backgroundColor: themeInfo.sample.c,
+                            }),
+                          )}
+                        />
+                      </span>
+                    </Button>
+                  )
+                })}
+              </p>
             </div>
+          </div>
+          <div
+            className={clsx(
+              'text-xxs absolute bottom-0 left-0 pt-2 pr-2 pb-1 pl-1 rounded-tr',
+              css({
+                backgroundColor: themes[theme].settings.border,
+              }),
+            )}
+          >
+            {version}
           </div>
         </div>
 
-        <div className="font-bold text-sm flex overflow-hidden">
-          <div className="px-4 py-8 space-y-3 text-xs w-48 bg-grey-700">
+        <div className="text-sm flex overflow-hidden">
+          <div className="px-4 py-8 space-y-3 text-xs w-48">
             <div className="space-x-2">
               <FontAwesomeIcon
-                className="text-yellow-400"
+                className={css({ color: themes[theme].icons.star })}
                 fixedWidth
                 icon={faStar}
               />
@@ -239,7 +323,7 @@ const Settings: React.FC = () => {
             </div>
             <div className="space-x-2">
               <FontAwesomeIcon
-                className="text-purple-500"
+                className={css({ color: themes[theme].icons.eye })}
                 fixedWidth
                 icon={faEye}
               />
@@ -247,7 +331,7 @@ const Settings: React.FC = () => {
             </div>
             <div className="flex items-center  space-x-2">
               <FontAwesomeIcon
-                className="text-blue-400"
+                className={css({ color: themes[theme].icons.keyboard })}
                 fixedWidth
                 icon={faKeyboard}
               />
@@ -276,7 +360,11 @@ const Settings: React.FC = () => {
                       type="button"
                     >
                       <FontAwesomeIcon
-                        className={isFav ? 'text-yellow-400' : 'text-grey-500'}
+                        className={css({
+                          color: isFav
+                            ? themes[theme].icons.star
+                            : themes[theme].button.text.disabled,
+                        })}
                         fixedWidth
                         icon={faStar}
                       />
@@ -291,26 +379,42 @@ const Settings: React.FC = () => {
                       type="button"
                     >
                       <FontAwesomeIcon
-                        className={
-                          isVisible ? 'text-purple-500' : 'text-grey-500'
-                        }
+                        className={css({
+                          color: isVisible
+                            ? themes[theme].icons.eye
+                            : themes[theme].button.text.disabled,
+                        })}
                         fixedWidth
                         icon={isVisible ? faEye : faEyeSlash}
                       />
                     </button>
 
-                    <div className="flex-shrink-0 relative w-10 h-8 bg-grey-600 rounded-full">
+                    <div
+                      className={clsx(
+                        'flex-shrink-0 relative w-10 h-8 rounded-full',
+                        css({
+                          backgroundColor: themes[theme].button.bg,
+                        }),
+                      )}
+                    >
                       {!hotkey && (
                         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none">
                           <FontAwesomeIcon
-                            className="text-blue-400"
+                            className={css({
+                              color: themes[theme].icons.keyboard,
+                            })}
                             fixedWidth
                             icon={faKeyboard}
                           />
                         </div>
                       )}
                       <input
-                        className="bg-transparent w-full h-full absolute z-10 text-grey-200 text-center uppercase font-bold focus:outline-none"
+                        className={clsx(
+                          'bg-transparent w-full h-full absolute z-10 text-center uppercase focus:outline-none',
+                          css({
+                            color: themes[theme].button.text.base,
+                          }),
+                        )}
                         data-app-id={app.id}
                         maxLength={1}
                         minLength={0}

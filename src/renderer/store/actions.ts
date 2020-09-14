@@ -31,6 +31,9 @@ const clickedReloadButton = createAction('ui/clickedReloadButton')
 const clickedSetAsDefaultButton = createAction('ui/clickedSetAsDefaultButton')
 const clickedSettingsButton = createAction('ui/clickedSettingsButton')
 const clickedSponsorButton = createAction('ui/clickedSponsorButton')
+const clickedThemeButton = createAction<MainStore['theme']>(
+  'ui/clickedThemeButton',
+)
 const clickedTileButton = createAction<{ appId: string; isAlt: boolean }>(
   'ui/clickedTileButton',
 )
@@ -52,6 +55,7 @@ export {
   clickedReloadButton,
   clickedSetAsDefaultButton,
   clickedSponsorButton,
+  clickedThemeButton,
   clickedTileButton,
   clickedSettingsButton,
   clickedUpdateButton,

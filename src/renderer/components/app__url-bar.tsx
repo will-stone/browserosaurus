@@ -4,6 +4,7 @@ import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
+import { css } from 'emotion'
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
@@ -16,6 +17,7 @@ import {
   clickedSettingsButton,
   clickedUrlBackspaceButton,
 } from '../store/actions'
+import { themes } from '../themes'
 import Button from './atoms/button'
 import MouseDiv from './organisms/mouse-div'
 
@@ -27,6 +29,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
   const updateStatus = useSelector((state) => state.ui.updateStatus)
+  const theme = useSelector((state) => state.mainStore.theme)
 
   const handleCopyClick = useCallback(() => {
     dispatch(clickedCopyButton())
@@ -52,21 +55,29 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         'flex-shrink-0',
         'w-full',
         'flex items-center space-x-4',
-        'bg-grey-800',
-        'border rounded-md shadow',
+        'border-2 rounded-md shadow',
         'px-4',
         'h-12',
-        isSponsorUrl ? 'border-pink-500' : 'border-grey-600',
+        css({
+          backgroundColor: themes[theme].url.bg,
+          borderColor: isSponsorUrl
+            ? themes[theme].url.border.sponsor
+            : themes[theme].url.border.base,
+        }),
       )}
       style={{ minWidth: '300px' }}
     >
       <div
         className={clsx(
           'flex-grow',
-          isSponsorUrl ? 'text-pink-200' : 'text-grey-400',
-          'text-xs tracking-wider font-bold',
+          'text-xs tracking-wider',
           'flex items-center justify-between',
           'overflow-hidden',
+          css({
+            color: isSponsorUrl
+              ? themes[theme].url.text.sponsorBase
+              : themes[theme].url.text.base,
+          }),
         )}
       >
         <div className="truncate">
@@ -75,12 +86,18 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           <span
             className={clsx(
               'text-base',
-              isSponsorUrl ? 'text-pink-400' : 'text-grey-200',
+              css({
+                color: isSponsorUrl
+                  ? themes[theme].url.text.sponsorHost
+                  : themes[theme].url.text.host,
+              }),
             )}
           >
             {parsedUrl.host || (
               <FontAwesomeIcon
-                className="text-grey-600"
+                className={css({
+                  color: themes[theme].url.text.disabled,
+                })}
                 fixedWidth
                 icon={faEllipsisH}
               />
@@ -103,13 +120,13 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         >
           <FontAwesomeIcon fixedWidth icon={faBackspace} />
           <ReactTooltip
-            backgroundColor="#0D1117"
+            backgroundColor={themes[theme].tooltip.bg}
             delayShow={500}
             effect="solid"
             id="backspace"
             place="bottom"
           >
-            <span className="font-bold text-grey-200">
+            <span className={css({ color: themes[theme].tooltip.text })}>
               Delete section of URL (Backspace)
             </span>
           </ReactTooltip>
@@ -123,13 +140,13 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         >
           <FontAwesomeIcon fixedWidth icon={faCopy} />
           <ReactTooltip
-            backgroundColor="#0D1117"
+            backgroundColor={themes[theme].tooltip.bg}
             delayShow={500}
             effect="solid"
             id="copy-to-clipboard"
             place="bottom"
           >
-            <span className="font-bold text-grey-200">
+            <span className={css({ color: themes[theme].tooltip.text })}>
               Copy (<kbd>⌘+C</kbd>)
             </span>
           </ReactTooltip>
@@ -144,13 +161,15 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         >
           <FontAwesomeIcon fixedWidth icon={faCog} />
           <ReactTooltip
-            backgroundColor="#0D1117"
+            backgroundColor={themes[theme].tooltip.bg}
             delayShow={500}
             effect="solid"
             id="settings"
             place="bottom"
           >
-            <span className="font-bold text-grey-200">Settings</span>
+            <span className={css({ color: themes[theme].tooltip.text })}>
+              Settings
+            </span>
           </ReactTooltip>
         </Button>
       </div>

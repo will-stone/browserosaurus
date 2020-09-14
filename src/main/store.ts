@@ -12,6 +12,7 @@ export interface Store {
   firstRun?: boolean
   hotkeys: Hotkeys
   hiddenTileIds: string[]
+  theme: 'dark' | 'dracula'
 }
 
 export const store = new ElectronStore<Store>({
@@ -21,5 +22,6 @@ export const store = new ElectronStore<Store>({
     firstRun: true,
     hotkeys: {},
     hiddenTileIds: [],
+    theme: 'dark',
   },
 })

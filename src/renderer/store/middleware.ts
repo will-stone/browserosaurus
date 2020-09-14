@@ -4,6 +4,7 @@ import { Middleware } from 'redux'
 
 import {
   catchMouse,
+  changeTheme,
   copyUrl,
   hideWindow,
   quit,
@@ -24,6 +25,7 @@ import {
   clickedQuitButton,
   clickedReloadButton,
   clickedSetAsDefaultButton,
+  clickedThemeButton,
   clickedTileButton,
   clickedUpdateButton,
   foundMouse,
@@ -117,6 +119,11 @@ export const middleware: Middleware<unknown, RootState> = (store) => (next) => (
   //
   else if (clickedUpdateButton.match(action)) {
     updateRestart()
+  }
+
+  //
+  else if (clickedThemeButton.match(action)) {
+    changeTheme(action.payload)
   }
 
   // Everything above here is run BEFORE reducers are calculated for the current action

@@ -1,6 +1,7 @@
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
+import { css } from 'emotion'
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
@@ -8,8 +9,9 @@ import ReactTooltip from 'react-tooltip'
 import { logos } from '../../../config/logos'
 import { App } from '../../../config/types'
 import { getHotkeyByAppId } from '../../../utils/getHotkeyByAppId'
-import { useShallowEqualSelector } from '../../store'
+import { useSelector, useShallowEqualSelector } from '../../store'
 import { clickedTileButton } from '../../store/actions'
+import { themes } from '../../themes'
 import Kbd from '../atoms/kbd'
 
 interface Props {
@@ -21,6 +23,7 @@ interface Props {
 const Tile: React.FC<Props> = ({ app, isFav, className }) => {
   const dispatch = useDispatch()
   const hotkeys = useShallowEqualSelector((state) => state.mainStore.hotkeys)
+  const theme = useSelector((state) => state.mainStore.theme)
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -39,7 +42,12 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         'flex flex-col items-center justify-center max-h-full',
         'rounded',
         'focus:outline-none',
-        'hover:bg-grey-900',
+        css({
+          color: themes[theme].tile.text,
+          '&:hover': {
+            backgroundColor: themes[theme].tile.bg.hover,
+          },
+        }),
         className,
       )}
       data-for={app.id}
@@ -60,7 +68,7 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         {isFav && (
           <FontAwesomeIcon
             aria-label="Favourite"
-            className="text-yellow-400 mr-2"
+            className={clsx('mr-2', css({ color: themes[theme].icons.star }))}
             icon={faStar}
             role="img"
           />
@@ -69,12 +77,14 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         {hotkey || <span className="opacity-0">.</span>}
       </Kbd>
       <ReactTooltip
-        backgroundColor="#0D1117"
+        backgroundColor={themes[theme].tooltip.bg}
         effect="solid"
         id={app.id}
         place="bottom"
       >
-        <span className="font-bold text-grey-200">{app.name}</span>
+        <span className={css({ color: themes[theme].tooltip.text })}>
+          {app.name}
+        </span>
       </ReactTooltip>
     </button>
   )

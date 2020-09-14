@@ -1,5 +1,9 @@
 import clsx from 'clsx'
+import { css } from 'emotion'
 import React from 'react'
+
+import { useSelector } from '../../store'
+import { themes } from '../../themes'
 
 interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   tone?: 'primary' | 'sponsor'
@@ -15,6 +19,8 @@ const Button: React.FC<ButtonProps> = ({
   type,
   ...restProperties
 }) => {
+  const theme = useSelector((state) => state.mainStore.theme)
+
   let textSize = 'text-xs'
   let padding = 'px-3 py-2'
 
@@ -26,21 +32,27 @@ const Button: React.FC<ButtonProps> = ({
     padding = 'px-4 py-3'
   }
 
+  let color = themes[theme].button.text.base
+  if (disabled) {
+    color = themes[theme].button.text.disabled
+  } else if (tone === 'primary') {
+    color = themes[theme].button.text.update
+  } else if (tone === 'sponsor') {
+    color = themes[theme].button.text.sponsor
+  }
+
+  const backgroundColor = disabled ? 'bg-transparent' : themes[theme].button.bg
+
   return (
     <button
       className={clsx(
         className,
-        'active:shadow-none focus:outline-none',
+        'active:shadow-none focus:outline-none active:opacity-75',
         padding,
         'rounded-md',
         textSize,
-        'font-bold leading-none',
-        !disabled && tone === 'primary' && 'text-blue-400 active:text-blue-300',
-        !disabled && tone === 'sponsor' && 'text-pink-400 active:text-pink-300',
-        !disabled && !tone && 'text-grey-300 active:text-grey-200',
-        disabled
-          ? 'bg-transparent text-grey-500'
-          : 'bg-grey-700 hover:bg-grey-900',
+        'leading-none',
+        css({ color, backgroundColor }),
       )}
       disabled={disabled}
       type="button"

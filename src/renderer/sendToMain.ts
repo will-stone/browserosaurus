@@ -2,7 +2,7 @@ import { ipcRenderer } from 'electron'
 import ReactTooltip from 'react-tooltip'
 
 import { App } from '../config/types'
-import { Hotkeys } from '../main/store'
+import { Hotkeys, Store as MainStore } from '../main/store'
 
 export const APP_SELECTED = 'APP_SELECTED'
 export interface OpenAppArguments {
@@ -61,3 +61,7 @@ export const catchMouse = (): void => ipcRenderer.send(CATCH_MOUSE)
 
 export const RELEASE_MOUSE = 'RELEASE_MOUSE'
 export const releaseMouse = (): void => ipcRenderer.send(RELEASE_MOUSE)
+
+export const CHANGE_THEME = 'CHANGE_THEME'
+export const changeTheme = (theme: MainStore['theme']): void =>
+  ipcRenderer.send(CHANGE_THEME, theme)

@@ -12,7 +12,7 @@ import MouseDiv from './organisms/mouse-div'
 const App: React.FC = () => {
   return (
     <Provider store={store}>
-      <MouseDiv className="h-screen w-screen select-none text-grey-300 flex flex-col items-center relative">
+      <MouseDiv className="h-screen w-screen select-none flex flex-col items-center relative">
         <UrlBar className="mb-8" />
         <Tiles />
         <Settings />

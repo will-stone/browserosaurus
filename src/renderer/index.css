@@ -7,6 +7,11 @@
 @tailwind utilities;
 
 /* purgecss start ignore */
+/* Save adding font-bold classes everywhere */
+* {
+  font-weight: bold;
+}
+
 *,
 *::after,
 *::before,
@@ -28,7 +33,8 @@ button {
 
 ::-webkit-scrollbar-thumb:window-inactive,
 ::-webkit-scrollbar-thumb {
-  background: #2f333b;
+  /* TODO can this be themed? */
+  background: #ffffff09;
 }
 
 /* Override React-Tooltip's default style */

@@ -9,6 +9,7 @@ import {
   clickedCloseMenuButton,
   clickedSettingsButton,
   clickedSponsorButton,
+  clickedThemeButton,
   clickedUrlBackspaceButton,
   madeTileFav,
   pressedBackspaceKey,
@@ -41,6 +42,7 @@ const mainStore = createReducer<MainStore>(
     fav: '',
     hiddenTileIds: [],
     hotkeys: {},
+    theme: 'dark',
   },
   (builder) =>
     builder
@@ -68,6 +70,9 @@ const mainStore = createReducer<MainStore>(
           action.payload.value,
         )
         state.hotkeys = updatedHotkeys
+      })
+      .addCase(clickedThemeButton, (state, action) => {
+        state.theme = action.payload
       }),
 )
 
