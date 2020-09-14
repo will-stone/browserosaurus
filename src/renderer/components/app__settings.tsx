@@ -245,7 +245,7 @@ const Settings: React.FC = () => {
               </p>
               <Button
                 aria-label="Sponsor"
-                className="w-full mb-4"
+                className="w-full mb-4 space-x-1"
                 onClick={handleSponsorClick}
                 size="md"
                 tone="sponsor"
