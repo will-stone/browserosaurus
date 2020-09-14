@@ -6,6 +6,7 @@ import { App } from '../config/types'
 import { Store as MainStore } from '../main/store'
 import { alterHotkeys } from '../utils/alterHotkeys'
 import { backspaceUrlParse } from '../utils/backspaceUrlParse'
+import { getHotkeyByAppId } from '../utils/getHotkeyByAppId'
 import {
   catchMouse,
   changeTheme,
@@ -279,6 +280,14 @@ export const useFavTileSelector = (state: State): App | undefined => {
 
 export const useNormalTilesSelector = (state: State): App[] => {
   const tiles = useTilesSelector(state)
-  const normalTiles = tiles.filter((a) => a.id !== state.mainStore.fav)
+  const normalTiles = tiles
+    .filter((a) => a.id !== state.mainStore.fav)
+    .sort((a, b) => {
+      const hotkeyA = String(getHotkeyByAppId(state.mainStore.hotkeys, a.id))
+      const hotkeyB = String(getHotkeyByAppId(state.mainStore.hotkeys, b.id))
+      if (hotkeyA < hotkeyB) return -1
+      if (hotkeyA > hotkeyB) return 1
+      return 0
+    })
   return normalTiles
 }

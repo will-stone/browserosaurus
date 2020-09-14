@@ -376,6 +376,7 @@ const Settings: React.FC = () => {
                         </div>
                       )}
                       <input
+                        aria-label={`${app.name} hotkey`}
                         className={clsx(
                           'bg-transparent w-full h-full absolute z-10 text-center uppercase focus:outline-none',
                           css({

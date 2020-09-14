@@ -22,8 +22,9 @@ test('tiles', () => {
   expect(screen.getByAltText('Safari')).toBeVisible()
   expect(screen.getByRole('button', { name: 'Safari Tile' })).toBeVisible()
 
-  // Make sure no tile set as favourite
-  expect(screen.queryByLabelText('Favourite')).not.toBeInTheDocument()
+  expect(screen.getAllByRole('button', { name: /[A-z]+ Tile/u })).toHaveLength(
+    2,
+  )
 
   // Set Safari as favourite
   fireEvent.click(screen.getByRole('button', { name: 'Settings menu' }))
@@ -51,4 +52,44 @@ test('tiles', () => {
     isAlt: false,
   })
   expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
+})
+
+test('tiles order', () => {
+  render(<App />)
+  const win = new electron.remote.BrowserWindow()
+  act(() => {
+    win.webContents.send(INSTALLED_APPS_FOUND, [
+      { name: 'Firefox', id: 'org.mozilla.firefox' },
+      { name: 'Safari', id: 'com.apple.Safari' },
+      { name: 'Opera', id: 'com.operasoftware.Opera' },
+      { name: 'Microsoft Edge', id: 'com.microsoft.edgemac' },
+      { name: 'Brave', id: 'com.brave.Browser' },
+    ])
+  })
+  // Check tiles and tile logos shown
+  const tiles = screen.getAllByRole('button', { name: /[A-z]+ Tile/u })
+
+  expect(tiles).toHaveLength(5)
+
+  // Set hotkeys
+  fireEvent.click(screen.getByRole('button', { name: 'Settings menu' }))
+  // Set Safari as favourite
+  fireEvent.click(screen.getByRole('button', { name: 'Favourite Safari' }))
+  fireEvent.change(screen.getByLabelText('Opera hotkey'), {
+    target: { value: '1' },
+  })
+  fireEvent.change(screen.getByLabelText('Microsoft Edge hotkey'), {
+    target: { value: '2' },
+  })
+  fireEvent.change(screen.getByLabelText('Brave hotkey'), {
+    target: { value: '3' },
+  })
+  fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
+
+  const updatedTiles = screen.getAllByRole('button', { name: /[A-z]+ Tile/u })
+  expect(updatedTiles[0]).toHaveAttribute('aria-label', 'Safari Tile')
+  expect(updatedTiles[1]).toHaveAttribute('aria-label', 'Opera Tile')
+  expect(updatedTiles[2]).toHaveAttribute('aria-label', 'Microsoft Edge Tile')
+  expect(updatedTiles[3]).toHaveAttribute('aria-label', 'Brave Tile')
+  expect(updatedTiles[4]).toHaveAttribute('aria-label', 'Firefox Tile')
 })
