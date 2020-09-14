@@ -7,56 +7,56 @@ const grey3 = '#848C9B'
 const grey2 = '#A9B2C3'
 const grey1 = '#C6CCD7'
 
-const pink3 = '#ED64A6'
-const pink2 = '#F687B3'
-const pink1 = '#FED7E2'
+const pink3 = '#97266D'
+const pink2 = '#B83280'
+const pink1 = '#D53F8C'
 
-const blue = '#63B3ED'
+const blue = '#3182CE'
 
-const yellow = '#F6E05E'
+const yellow = '#4C51BF'
 
-const purple = '#9F7AEA'
+const purple = '#805AD5'
 
-export const dark: Theme = {
-  sample: { a: grey5, b: grey4, c: grey1 },
+export const light: Theme = {
+  sample: { a: grey1, b: grey2, c: grey4 },
   url: {
-    bg: grey5,
+    bg: grey1,
     text: {
-      base: grey3,
-      host: grey1,
+      base: grey4,
+      host: grey6,
       sponsorBase: pink1,
       sponsorHost: pink2,
-      disabled: grey4,
+      disabled: grey3,
     },
     border: {
-      base: grey4,
+      base: grey2,
       sponsor: pink3,
     },
   },
   settings: {
-    text: grey2,
-    bg: grey5,
-    border: grey4,
+    text: grey5,
+    bg: grey1,
+    border: grey2,
   },
   tiles: {
-    bg: grey5,
-    border: grey4,
+    bg: grey1,
+    border: grey2,
   },
   tile: {
     bg: {
-      hover: grey6,
+      hover: grey2,
     },
-    text: grey1,
+    text: grey6,
   },
   tooltip: {
-    bg: grey6,
-    text: grey1,
+    bg: grey2,
+    text: grey6,
   },
   button: {
-    bg: grey4,
+    bg: grey2,
     text: {
-      disabled: grey4,
-      base: grey1,
+      disabled: grey3,
+      base: grey6,
       sponsor: pink2,
       update: blue,
     },

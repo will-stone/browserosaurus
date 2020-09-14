@@ -221,7 +221,6 @@ const Settings: React.FC = () => {
                 <span>Sponsor from $1 / month</span>
               </Button>
 
-              <h3 className="mb-3 underline text-center">Theme</h3>
               <p className="flex flex-wrap gap-2 justify-center">
                 {Object.entries(themes).map(([themeKey, themeInfo]) => {
                   return (
@@ -231,7 +230,7 @@ const Settings: React.FC = () => {
                       onClick={handleClickThemeButton}
                       value={themeKey}
                     >
-                      <span>{themeKey}</span>
+                      <span>{themeKey.toUpperCase()}</span>
                       <span className="absolute top-0 right-0 bottom-0 flex flex-col h-full w-6">
                         <span
                           className={clsx(
