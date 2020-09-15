@@ -148,7 +148,11 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           onClick={clickedSettingsButton}
           tone={updateStatus === 'downloaded' ? 'primary' : undefined}
         >
-          <FontAwesomeIcon fixedWidth icon={faCog} />
+          <FontAwesomeIcon
+            fixedWidth
+            icon={faCog}
+            spin={updateStatus === 'available'}
+          />
           <ReactTooltip
             backgroundColor={themes[theme].tooltip.bg}
             delayShow={500}
