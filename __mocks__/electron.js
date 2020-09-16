@@ -6,8 +6,8 @@ module.exports = {
   app: jest.fn(),
   dialog: jest.fn(),
   ipcRenderer: {
-    on: jest.fn((name, fn) =>
-      eventEmitter.on(name, (payload) => fn(undefined, payload)),
+    on: jest.fn((eventName, fn) =>
+      eventEmitter.on(eventName, (payload) => fn(undefined, payload)),
     ),
     removeAllListeners: jest.fn((channel) =>
       eventEmitter.removeAllListeners(channel),

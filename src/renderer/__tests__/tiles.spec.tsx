@@ -14,6 +14,7 @@ test('tiles', () => {
     win.webContents.send(INSTALLED_APPS_FOUND, [
       { name: 'Firefox', id: 'org.mozilla.firefox' },
       { name: 'Safari', id: 'com.apple.Safari' },
+      { name: 'Brave Nightly', id: 'com.brave.Browser.nightly' },
     ])
   })
   // Check tiles and tile logos shown
@@ -21,9 +22,13 @@ test('tiles', () => {
   expect(screen.getByRole('button', { name: 'Firefox Tile' })).toBeVisible()
   expect(screen.getByAltText('Safari')).toBeVisible()
   expect(screen.getByRole('button', { name: 'Safari Tile' })).toBeVisible()
+  expect(screen.getByAltText('Brave Nightly')).toBeVisible()
+  expect(
+    screen.getByRole('button', { name: 'Brave Nightly Tile' }),
+  ).toBeVisible()
 
   expect(screen.getAllByRole('button', { name: /[A-z]+ Tile/u })).toHaveLength(
-    2,
+    3,
   )
 
   // Set Safari as favourite
@@ -42,14 +47,18 @@ test('tiles', () => {
   })
   expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 
+  // Correct info sent to main when tile clicked
+  const url = 'http://example.com'
   act(() => {
-    win.webContents.send(URL_UPDATED, 'http://example.com')
+    win.webContents.send(URL_UPDATED, url)
   })
-  fireEvent.click(screen.getByAltText('Firefox'))
+  fireEvent.click(screen.getByRole('button', { name: 'Brave Nightly Tile' }), {
+    altKey: true,
+  })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
-    url: 'http://example.com',
-    appId: 'org.mozilla.firefox',
-    isAlt: false,
+    url,
+    appId: 'com.brave.Browser.nightly',
+    isAlt: true,
   })
   expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 })
