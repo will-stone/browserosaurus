@@ -36,6 +36,10 @@ function createWindow(): Promise<electron.BrowserWindow> {
 
     bWindow.setVisibleOnAllWorkspaces(true)
 
+    bWindow.on('hide', () => {
+      electron.app.hide()
+    })
+
     bWindow.on('close', (event_) => {
       event_.preventDefault()
       bWindow.hide()
