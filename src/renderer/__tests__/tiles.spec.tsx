@@ -82,7 +82,7 @@ test('use hotkey', () => {
   act(() => {
     win.webContents.send(URL_UPDATED, url)
   })
-  fireEvent.keyDown(document, { key: 'S', code: 'KeyS' })
+  fireEvent.keyDown(document, { key: 'S', code: 'KeyS', keyCode: 83 })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
     url,
     appId: 'com.apple.Safari',
@@ -103,14 +103,19 @@ test('use hotkey with alt', () => {
   fireEvent.click(screen.getByRole('button', { name: 'Settings menu' }))
   // Set Safari as s
   fireEvent.change(screen.getByLabelText('Safari hotkey'), {
-    target: { value: 'S' },
+    target: { value: 's' },
   })
   fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
   const url = 'http://example.com'
   act(() => {
     win.webContents.send(URL_UPDATED, url)
   })
-  fireEvent.keyDown(document, { key: 'S', code: 'KeyS', altKey: true })
+  fireEvent.keyDown(document, {
+    key: 's',
+    code: 'KeyS',
+    keyCode: 83,
+    altKey: true,
+  })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
     url,
     appId: 'com.apple.Safari',

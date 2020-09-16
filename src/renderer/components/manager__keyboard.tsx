@@ -45,7 +45,10 @@ const KeyboardManager: React.FC = () => {
         return
       }
 
-      const matchAlphaNumeric = event.key.toLowerCase().match(/^([a-z0-9])$/u)
+      // Using `fromCharCode` allows detection to be keyboard layout agnostic
+      const matchAlphaNumeric = String.fromCharCode(event.keyCode)
+        .toLowerCase()
+        .match(/^([a-z0-9])$/u)
 
       // App hotkey
       if (matchAlphaNumeric) {
