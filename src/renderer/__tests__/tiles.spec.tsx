@@ -63,6 +63,62 @@ test('tiles', () => {
   expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 })
 
+test('use hotkey', () => {
+  render(<App />)
+  const win = new electron.remote.BrowserWindow()
+  act(() => {
+    win.webContents.send(INSTALLED_APPS_FOUND, [
+      { name: 'Safari', id: 'com.apple.Safari' },
+    ])
+  })
+  // Set hotkeys
+  fireEvent.click(screen.getByRole('button', { name: 'Settings menu' }))
+  // Set Safari as s
+  fireEvent.change(screen.getByLabelText('Safari hotkey'), {
+    target: { value: 'S' },
+  })
+  fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
+  const url = 'http://example.com'
+  act(() => {
+    win.webContents.send(URL_UPDATED, url)
+  })
+  fireEvent.keyDown(document, { key: 'S', code: 'KeyS' })
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
+    url,
+    appId: 'com.apple.Safari',
+    isAlt: false,
+  })
+  expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
+})
+
+test('use hotkey with alt', () => {
+  render(<App />)
+  const win = new electron.remote.BrowserWindow()
+  act(() => {
+    win.webContents.send(INSTALLED_APPS_FOUND, [
+      { name: 'Safari', id: 'com.apple.Safari' },
+    ])
+  })
+  // Set hotkeys
+  fireEvent.click(screen.getByRole('button', { name: 'Settings menu' }))
+  // Set Safari as s
+  fireEvent.change(screen.getByLabelText('Safari hotkey'), {
+    target: { value: 'S' },
+  })
+  fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
+  const url = 'http://example.com'
+  act(() => {
+    win.webContents.send(URL_UPDATED, url)
+  })
+  fireEvent.keyDown(document, { key: 'S', code: 'KeyS', altKey: true })
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
+    url,
+    appId: 'com.apple.Safari',
+    isAlt: true,
+  })
+  expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
+})
+
 test('tiles order', () => {
   render(<App />)
   const win = new electron.remote.BrowserWindow()
