@@ -98,11 +98,12 @@ const MainEventsManager: React.FC = () => {
 
     return function cleanup() {
       electron.ipcRenderer.removeAllListeners(APP_VERSION)
+      electron.ipcRenderer.removeAllListeners(UPDATE_AVAILABLE)
       electron.ipcRenderer.removeAllListeners(UPDATE_DOWNLOADED)
       electron.ipcRenderer.removeAllListeners(INSTALLED_APPS_FOUND)
       electron.ipcRenderer.removeAllListeners(URL_UPDATED)
-      electron.ipcRenderer.removeAllListeners(PROTOCOL_STATUS_RETRIEVED)
       electron.ipcRenderer.removeAllListeners(STORE_RETRIEVED)
+      electron.ipcRenderer.removeAllListeners(PROTOCOL_STATUS_RETRIEVED)
     }
   }, [])
 
