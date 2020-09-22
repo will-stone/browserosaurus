@@ -179,6 +179,9 @@ export const useStore = create<State>(
         reload()
       },
       clickedSetAsDefaultButton: () => {
+        set((state) => {
+          state.ui.menu = false
+        })
         setAsDefaultBrowser()
       },
       clickedSettingsButton: () =>
