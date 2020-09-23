@@ -1,12 +1,8 @@
-@import 'animate.css/animate.css';
-
-/* purgecss start ignore */
 @tailwind base;
 @tailwind components;
-/* purgecss end ignore */
 @tailwind utilities;
 
-/* purgecss start ignore */
+/*! purgecss start ignore */
 /* Save adding font-bold classes everywhere */
 * {
   font-weight: bold;
@@ -45,4 +41,4 @@ button {
 .__react_component_tooltip.show {
   opacity: 1 !important;
 }
-/* purgecss end ignore */
+/*! purgecss end ignore */

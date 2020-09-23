@@ -1,4 +1,3 @@
-const atImport = require('postcss-import')
 const discardComments = require('postcss-discard-comments')
 const tailwindcss = require('tailwindcss')
 
@@ -22,9 +21,8 @@ const purgecss = require('@fullhuman/postcss-purgecss')({
 
 module.exports = {
   plugins: [
-    atImport,
-    tailwindcss('./tailwind.config.js'),
-    discardComments({ removeAll: true }),
+    tailwindcss,
     ...(process.env.NODE_ENV === 'production' ? [purgecss] : []),
+    discardComments({ removeAll: true }),
   ],
 }

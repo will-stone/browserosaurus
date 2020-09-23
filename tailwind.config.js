@@ -5,7 +5,7 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
     purgeLayersByDefault: true,
   },
-  purge: ['./src/**/*.html', './src/**/*.tsx'],
+  purge: false,
   theme: {
     fontSize: {
       xxs: '.6rem',
