@@ -1,7 +1,6 @@
 import { faEye } from '@fortawesome/free-solid-svg-icons/faEye'
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons/faEyeSlash'
 import { faGift } from '@fortawesome/free-solid-svg-icons/faGift'
-import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
 import { faKeyboard } from '@fortawesome/free-solid-svg-icons/faKeyboard'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons/faSignOutAlt'
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
@@ -213,13 +212,12 @@ const Settings: React.FC = () => {
               </p>
               <Button
                 aria-label="Sponsor"
-                className="w-full mb-4 space-x-1"
+                className="w-full mb-8 space-x-1"
                 onClick={clickedSponsorButton}
                 size="md"
                 tone="sponsor"
               >
-                <FontAwesomeIcon fixedWidth icon={faHeart} />
-                <span>Sponsor from $1 / month</span>
+                <span>Please consider sponsorship</span>
               </Button>
 
               <p className="flex flex-wrap gap-2 justify-center">
