@@ -109,7 +109,7 @@ const Settings: React.FC = () => {
         >
           <div
             className={clsx(
-              'flex-shrink-0 flex justify-between px-4 py-2 border-b-2',
+              'flex-shrink-0 flex justify-between p-2 border-b-2',
               css({ borderColor: themes[theme].settings.border }),
             )}
           >
