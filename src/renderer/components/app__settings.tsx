@@ -33,6 +33,7 @@ const {
   clickedSponsorButton,
   clickedThemeButton,
   clickedUpdateButton,
+  clickedVersionButton,
 } = events
 
 function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
@@ -263,16 +264,19 @@ const Settings: React.FC = () => {
               </p>
             </div>
           </div>
-          <div
+          <button
             className={clsx(
               'text-xxs absolute bottom-0 left-0 pt-2 pr-2 pb-1 pl-1 rounded-tr',
+              'active:shadow-none focus:outline-none active:opacity-75',
               css({
                 backgroundColor: themes[theme].settings.border,
               }),
             )}
+            onClick={clickedVersionButton}
+            type="button"
           >
             {version}
-          </div>
+          </button>
         </div>
 
         <div className="text-sm flex overflow-hidden">

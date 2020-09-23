@@ -55,6 +55,7 @@ interface Events {
   clickedSetAsDefaultButton: () => void
   clickedSettingsButton: () => void
   clickedSponsorButton: () => void
+  clickedVersionButton: () => void
   clickedThemeButton: (payload: MainStore['theme']) => void
   clickedTileButton: (payload: { appId: string; isAlt: boolean }) => void
   clickedUpdateButton: () => void
@@ -195,6 +196,11 @@ export const useStore = create<State>(
       clickedSponsorButton: () =>
         set((state) => {
           state.ui.url = SPONSOR_URL
+          state.ui.menu = false
+        }),
+      clickedVersionButton: () =>
+        set((state) => {
+          state.ui.url = DEFAULT_URL
           state.ui.menu = false
         }),
       clickedThemeButton: (payload) =>
