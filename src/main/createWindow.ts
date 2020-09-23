@@ -62,7 +62,7 @@ function createWindow(): Promise<electron.BrowserWindow> {
       }
     })
 
-    bWindow.once('ready-to-show', () => {
+    bWindow.webContents.on('did-finish-load', () => {
       // pickerWindow.webContents.openDevTools()
       resolve(bWindow)
     })
