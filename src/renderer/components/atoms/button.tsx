@@ -33,10 +33,10 @@ const Button: React.FC<ButtonProps> = ({
   }
 
   let color = themes[theme].button.text.base
-  if (disabled) {
-    color = themes[theme].button.text.disabled
-  } else if (tone === 'primary') {
+  if (tone === 'primary') {
     color = themes[theme].button.text.update
+  } else if (disabled) {
+    color = themes[theme].button.text.disabled
   } else if (tone === 'sponsor') {
     color = themes[theme].button.text.sponsor
   }
