@@ -1,6 +1,8 @@
 import clsx from 'clsx'
 import { css } from 'emotion'
 import React from 'react'
+import ReactTooltip from 'react-tooltip'
+import toLetters from 'tings/toLetters'
 
 import { useStore } from '../../store'
 import { themes } from '../../themes'
@@ -8,12 +10,14 @@ import { themes } from '../../themes'
 interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   tone?: 'primary' | 'sponsor'
   size?: 'xxs' | 'xs' | 'md'
+  tip?: string
 }
 
 const Button: React.FC<ButtonProps> = ({
   className,
   disabled,
   size,
+  tip,
   tone,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- type is hardcoded
   type,
@@ -43,21 +47,39 @@ const Button: React.FC<ButtonProps> = ({
 
   const backgroundColor = disabled ? 'bg-transparent' : themes[theme].button.bg
 
+  const tipId = toLetters(tip)
+
   return (
-    <button
-      className={clsx(
-        className,
-        'active:shadow-none focus:outline-none active:opacity-75',
-        padding,
-        'rounded-md',
-        textSize,
-        'leading-none',
-        css({ color, backgroundColor }),
+    <>
+      <button
+        className={clsx(
+          className,
+          'active:shadow-none focus:outline-none active:opacity-75',
+          padding,
+          'rounded-md',
+          textSize,
+          'leading-none',
+          css({ color, backgroundColor }),
+        )}
+        data-for={tipId}
+        data-tip
+        disabled={disabled}
+        type="button"
+        {...restProperties}
+      />
+      {tip && !disabled && (
+        <ReactTooltip
+          backgroundColor={themes[theme].tooltip.bg}
+          effect="solid"
+          html
+          id={tipId}
+          place="bottom"
+          textColor={themes[theme].tooltip.text}
+        >
+          {tip}
+        </ReactTooltip>
       )}
-      disabled={disabled}
-      type="button"
-      {...restProperties}
-    />
+    </>
   )
 }
 

@@ -34,58 +34,59 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
   const hotkey = getHotkeyByAppId(hotkeys, app.id)
 
   return (
-    <button
-      key={app.id}
-      aria-label={`${app.name} Tile`}
-      className={clsx(
-        'flex flex-col items-center justify-center max-h-full',
-        'rounded',
-        'focus:outline-none',
-        css({
-          color: themes[theme].tile.text,
-          '&:hover': {
-            backgroundColor: themes[theme].tile.bg.hover,
-          },
-        }),
-        className,
-      )}
-      data-for={app.id}
-      data-tip
-      onClick={handleClick}
-      style={{
-        maxWidth: '100px',
-        minWidth: '50px',
-      }}
-      type="button"
-    >
-      <img
-        alt={app.name}
-        className="w-full object-contain"
-        src={logos[app.id]}
-      />
-      <Kbd className="flex-shrink-0 flex justify-center items-center mt-2">
-        {isFav && (
-          <FontAwesomeIcon
-            aria-label="Favourite"
-            className={clsx('mr-2', css({ color: themes[theme].icons.star }))}
-            icon={faStar}
-            role="img"
-          />
+    <>
+      <button
+        key={app.id}
+        aria-label={`${app.name} Tile`}
+        className={clsx(
+          'flex flex-col items-center justify-center max-h-full',
+          'rounded',
+          'focus:outline-none',
+          css({
+            color: themes[theme].tile.text,
+            '&:hover': {
+              backgroundColor: themes[theme].tile.bg.hover,
+            },
+          }),
+          className,
         )}
-        {/* Prevents box collapse when hotkey not set */}
-        {hotkey || <span className="opacity-0">.</span>}
-      </Kbd>
+        data-for={app.id}
+        data-tip
+        onClick={handleClick}
+        style={{
+          maxWidth: '100px',
+          minWidth: '50px',
+        }}
+        type="button"
+      >
+        <img
+          alt={app.name}
+          className="w-full object-contain"
+          src={logos[app.id]}
+        />
+        <Kbd className="flex-shrink-0 flex justify-center items-center mt-2">
+          {isFav && (
+            <FontAwesomeIcon
+              aria-label="Favourite"
+              className={clsx('mr-2', css({ color: themes[theme].icons.star }))}
+              icon={faStar}
+              role="img"
+            />
+          )}
+          {/* Prevents box collapse when hotkey not set */}
+          {hotkey || <span className="opacity-0">.</span>}
+        </Kbd>
+      </button>
       <ReactTooltip
         backgroundColor={themes[theme].tooltip.bg}
         effect="solid"
         id={app.id}
         place="bottom"
+        textColor={themes[theme].tooltip.text}
       >
-        <span className={css({ color: themes[theme].tooltip.text })}>
-          {app.name}
-        </span>
+        {app.name}
       </ReactTooltip>
-    </button>
+    </>
   )
 }
 

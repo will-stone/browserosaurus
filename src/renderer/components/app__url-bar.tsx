@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import { css } from 'emotion'
 import React from 'react'
-import ReactTooltip from 'react-tooltip'
 import Url from 'url'
 
 import { SPONSOR_URL } from '../../config/CONSTANTS'
@@ -100,52 +99,25 @@ const UrlBar: React.FC<Props> = ({ className }) => {
 
       <div className="flex-shrink-0 space-x-2">
         <Button
-          data-for="backspace"
-          data-tip
           disabled={isEmpty}
           onClick={clickedUrlBackspaceButton}
+          tip="Delete section of URL (Backspace)"
         >
           <FontAwesomeIcon fixedWidth icon={faBackspace} />
-          {!isEmpty && (
-            <ReactTooltip
-              backgroundColor={themes[theme].tooltip.bg}
-              delayShow={500}
-              effect="solid"
-              id="backspace"
-              place="bottom"
-            >
-              <span className={css({ color: themes[theme].tooltip.text })}>
-                Delete section of URL (Backspace)
-              </span>
-            </ReactTooltip>
-          )}
         </Button>
 
         <Button
-          data-for="copy-to-clipboard"
-          data-tip
           disabled={isEmpty}
           onClick={clickedCopyButton}
+          tip="Copy (<kbd>⌘+C</kbd>)"
         >
           <FontAwesomeIcon fixedWidth icon={faCopy} />
-          <ReactTooltip
-            backgroundColor={themes[theme].tooltip.bg}
-            delayShow={500}
-            effect="solid"
-            id="copy-to-clipboard"
-            place="bottom"
-          >
-            <span className={css({ color: themes[theme].tooltip.text })}>
-              Copy (<kbd>⌘+C</kbd>)
-            </span>
-          </ReactTooltip>
         </Button>
 
         <Button
           aria-label="Settings menu"
-          data-for="settings"
-          data-tip
           onClick={clickedSettingsButton}
+          tip="Settings"
           tone={updateStatus === 'downloaded' ? 'primary' : undefined}
         >
           <FontAwesomeIcon
@@ -153,17 +125,6 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             icon={faCog}
             spin={updateStatus === 'available'}
           />
-          <ReactTooltip
-            backgroundColor={themes[theme].tooltip.bg}
-            delayShow={500}
-            effect="solid"
-            id="settings"
-            place="bottom"
-          >
-            <span className={css({ color: themes[theme].tooltip.text })}>
-              Settings
-            </span>
-          </ReactTooltip>
         </Button>
       </div>
     </MouseDiv>

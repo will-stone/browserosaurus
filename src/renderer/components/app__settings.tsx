@@ -11,7 +11,6 @@ import { Transition } from '@tailwindui/react'
 import clsx from 'clsx'
 import { css } from 'emotion'
 import React from 'react'
-import ReactTooltip from 'react-tooltip'
 import shallow from 'zustand/shallow'
 
 import { Store as MainStore } from '../../main/store'
@@ -115,22 +114,10 @@ const Settings: React.FC = () => {
           >
             <Button
               aria-label="Close menu"
-              data-for="close"
-              data-tip
               onClick={clickedCloseMenuButton}
+              tip="Close menu"
             >
               <FontAwesomeIcon fixedWidth icon={faTimes} />
-              <ReactTooltip
-                backgroundColor={themes[theme].tooltip.bg}
-                delayShow={500}
-                effect="solid"
-                id="close"
-                place="bottom"
-              >
-                <span className={css({ color: themes[theme].tooltip.text })}>
-                  Close menu
-                </span>
-              </ReactTooltip>
             </Button>
 
             <div className="space-x-2">
@@ -170,26 +157,10 @@ const Settings: React.FC = () => {
               {updateStatus === 'no-update' && (
                 <Button
                   aria-label="Reload"
-                  data-for="reload"
-                  data-tip
                   onClick={clickedReloadButton}
+                  tip="Reload Browserosaurus"
                 >
                   <FontAwesomeIcon fixedWidth icon={faSync} />
-                  <ReactTooltip
-                    backgroundColor={themes[theme].tooltip.bg}
-                    delayShow={500}
-                    effect="solid"
-                    id="reload"
-                    place="bottom"
-                  >
-                    <span
-                      className={css({
-                        color: themes[theme].tooltip.text,
-                      })}
-                    >
-                      Reload Browserosaurus
-                    </span>
-                  </ReactTooltip>
                 </Button>
               )}
 
