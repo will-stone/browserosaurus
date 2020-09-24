@@ -1405,10 +1405,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/vivaldi/-/vivaldi-2.1.10.tgz#633580b60c2279c9070ac6791d525988947b6647"
   integrity sha512-1UOTvxWR4e172SqF01qGKVgQriQTzQigIdY+MwxKarBvK/jyExkyQFDx146I/0ICPvlB6Z4upFiNJJiA6DpapQ==
 
-"@browser-logos/yandex@^1.0.6":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@browser-logos/yandex/-/yandex-1.0.7.tgz#28a77c39bcca1b1fec0288dc899be72b2d97e6a0"
-  integrity sha512-vLN4+ITPK1Mgrlmz/oO7xtK2obBY9CJML40cBEAZhaTSw9O/BjjdOqoaIQqOVUQkdxqWd0LjRusaZ9Xy7FBcrg==
+"@browser-logos/yandex@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@browser-logos/yandex/-/yandex-1.0.8.tgz#21a12c0e940d7243ff8483214c818e1ed68e4789"
+  integrity sha512-M7IvQ1+F2Zd8oVY+ccTf38BBvEFUpLSX3njaY1ty/X/PY4EgIwh9Gn2qi89x6nHOxhOfvC3wRTaUeEQYvCNLKg==
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
