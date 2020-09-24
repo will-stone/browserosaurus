@@ -1320,10 +1320,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/edge-canary/-/edge-canary-2.0.1.tgz#aa98f973826a6ef08a5462447a185ce86ddb5c55"
   integrity sha512-/8rx5yVOxeahHVhdxemZSZId9GNdDfz6ybAGE2ZrrhydeUipwY8Rnq4zg+3/Rq5gp8hwTx9kQ1t3TS4ZFtIr1g==
 
-"@browser-logos/edge-dev@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@browser-logos/edge-dev/-/edge-dev-2.0.2.tgz#e4829823b498951bcd64aac3f67d4e4e8d2c77cd"
-  integrity sha512-d2mZQScPRFRvHVZcVtFaJrCit3DvIgb0iEFoWpkyZijx2eLcO4VuWrgE43N+digx1moq8jvB8R83NAA+U6VhWA==
+"@browser-logos/edge-dev@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@browser-logos/edge-dev/-/edge-dev-2.0.3.tgz#556c64ee125905c96bba6ec20096311b190c0522"
+  integrity sha512-LkGChYsPtsMMtyMlN3KgLB18i9aAfBD15mJZ1TSFFgoVmIHtMMDFWxOzWwgKBZBJpLkEUZdYuMnANq+NOvoTLQ==
 
 "@browser-logos/edge@^2.0.5":
   version "2.0.5"
