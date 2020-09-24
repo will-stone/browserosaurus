@@ -1330,10 +1330,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/edge/-/edge-2.0.5.tgz#01173fb59e5cc8fecd7fd4774af6704c4a1f5f8c"
   integrity sha512-5eEA9FQw8wxLruWSygbwadtYhvr9RS3nZI7M6tSxIoxcMgpDZ4npbkDCJ5+QXYuCriQAsKeQKX+tW6u2wWJMvg==
 
-"@browser-logos/firefox-developer-edition@^3.0.2":
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/@browser-logos/firefox-developer-edition/-/firefox-developer-edition-3.0.4.tgz#2153a5a8d8ce44173db08dbcd1ccea13460dd0b0"
-  integrity sha512-1jE8lg4SNnr4ABeTL8k1+rUNtKra/sIYK5wHqqwnK5W4NMEEvQ/8xNiERLtNMqjBhBClAmovBWTjG1b8kQIZ+Q==
+"@browser-logos/firefox-developer-edition@^3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@browser-logos/firefox-developer-edition/-/firefox-developer-edition-3.0.5.tgz#372f70ae1bba0e6b2409272ded055b6eb69f9183"
+  integrity sha512-9LTQdwuB4yj8obLzDpOAuIprj7nDi7GA+RXgQg0NR7iTIOGkM1BJmq6Cf4r0flHdL5O5IdqigOWqFMuPabSAmg==
 
 "@browser-logos/firefox-nightly@^3.0.2":
   version "3.0.4"
