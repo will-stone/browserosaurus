@@ -1,15 +1,15 @@
 import { Theme } from './_model'
 
-const purple0 = '#1D1E26'
-const purple1 = '#282A36'
-const purple2 = '#38395A'
-const purple3 = '#BE90FC'
+const purple0 = '#21222C'
+const purple1 = '#282a36'
+const purple2 = '#44475a'
+const purple3 = '#bd93f9'
 
-const pink = '#FF76C7'
+const pink = '#ff79c6'
 
-const green = '#45FC75'
+const green = '#50fa7b'
 
-const concrete = '#f2f2f2'
+const concrete = '#f8f8f2'
 
 export const dracula: Theme = {
   sample: { a: purple1, b: purple2, c: green },
@@ -20,7 +20,7 @@ export const dracula: Theme = {
       host: green,
       sponsorBase: pink,
       sponsorHost: green,
-      disabled: purple0,
+      disabled: purple2,
     },
     border: {
       base: purple2,
@@ -49,7 +49,7 @@ export const dracula: Theme = {
   button: {
     bg: purple2,
     text: {
-      disabled: purple0,
+      disabled: purple2,
       base: concrete,
       sponsor: pink,
       update: green,
