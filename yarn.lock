@@ -8425,10 +8425,10 @@ node-libs-browser@^2.2.1:
     util "^0.11.0"
     vm-browserify "^1.0.1"
 
-node-loader@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/node-loader/-/node-loader-1.0.0.tgz#efe5adbcc68d34b97af201106b94531095ee8ca8"
-  integrity sha512-4EdARSBpLsdapqp2Wbu0S9YwFF0dimoaMYdn01u28lUvT6qx/3+KR2MIprSMBWzqX7+i7OjdMS72QAhc+qrJ8w==
+node-loader@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/node-loader/-/node-loader-1.0.1.tgz#1bfd47245a83b6a20c1d8df7f28c9c83e999d1ac"
+  integrity sha512-0So+BicZSQaY4sLqeutdkXWiTsmr+QrlGtm5dn4OPJBcnZRmjupFbWnZbDLec95KQTZHAwt8+vk+nEIXzPHxGw==
   dependencies:
     loader-utils "^2.0.0"
     schema-utils "^2.7.0"
