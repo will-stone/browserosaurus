@@ -1370,6 +1370,11 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/opera-gx/-/opera-gx-1.0.7.tgz#d17086c8543e00064b98539a83b83b2afd54ed68"
   integrity sha512-l4+O1hu189oyBDB60rYzZ7jLXjG0gGGBCCZr0BeKIrZ1M1SGUhLclib5e710t6hGKkKMVLx298Iyz89/fhPC0w==
 
+"@browser-logos/opera-neon@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@browser-logos/opera-neon/-/opera-neon-1.0.8.tgz#30da3994e8ce794cda95011ede7fbee8aadbd882"
+  integrity sha512-TFXCjLa4MXM2RVrbiAjQVqb3oxSdcwjzI6ywE6WkW58+JqpLgqE0uyZzlMucLVN9QnXyxUgbqSguSXpUfGv/dA==
+
 "@browser-logos/opera@^1.1.8":
   version "1.1.10"
   resolved "https://registry.yarnpkg.com/@browser-logos/opera/-/opera-1.1.10.tgz#1634fea3ead5f5ee8ea3a08236c4372a35b63830"
