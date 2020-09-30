@@ -98,6 +98,10 @@ export const apps: App[] = [
     id: 'com.operasoftware.OperaGX',
   },
   {
+    name: 'Opera Neon',
+    id: 'com.opera.Neon',
+  },
+  {
     name: 'Pocket',
     id: 'com.readitlater.PocketMac',
     urlTemplate: 'pocket://add?url={{URL}}',
