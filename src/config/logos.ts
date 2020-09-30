@@ -57,7 +57,7 @@ export const logos: { [key: string]: string } = {
   'com.operasoftware.OperaGX': operaGX,
   'com.operasoftware.OperaNext': operaBeta,
   'com.operasoftware.OperaDeveloper': operaDeveloper,
-  'com.opera.Neon': operaNeon
+  'com.opera.Neon': operaNeon,
   'com.readitlater.PocketMac': pocket,
   'com.firstversionist.polypane': polypane,
   'org.qt-project.Qt.QtWebEngineCore': qutebrowser,
