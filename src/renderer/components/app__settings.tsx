@@ -347,7 +347,9 @@ const Settings: React.FC = () => {
                             value: event.currentTarget.value,
                           })
                         }}
-                        onFocus={(event) => event.target.select()}
+                        onFocus={(event) => {
+                          event.target.select()
+                        }}
                         type="text"
                         value={hotkey}
                       />
