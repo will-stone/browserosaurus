@@ -219,7 +219,7 @@
     "lint-staged": "^10.2.2",
     "mini-css-extract-plugin": "^0.9.0",
     "node-loader": "^1.0.1",
-    "pino-pretty": "^4.0.0",
+    "pino-pretty": "^4.2.1",
     "postcss-cli": "^7.1.0",
     "postcss-discard-comments": "^4.0.2",
     "postcss-import": "^12.0.1",

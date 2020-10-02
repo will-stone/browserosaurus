@@ -9192,14 +9192,14 @@ pinkie@^2.0.0:
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
   integrity sha1-clVrgM+g1IqXToDnckjoDtT3+HA=
 
-pino-pretty@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/pino-pretty/-/pino-pretty-4.0.0.tgz#afbff81f946342b9d6eabc434942fe490e02faa9"
-  integrity sha512-YLy/n3dMXYWOodSm530gelkSAJGmEp29L9pqiycInlIae5FEJPWAkMRO3JFMbIFtjD2Ve4SH2aBcz2aRreGpBQ==
+pino-pretty@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/pino-pretty/-/pino-pretty-4.2.1.tgz#fb2508d0d77cae00dc5fe5006755bfd454a73c32"
+  integrity sha512-WyO/n6c6T2gj0ioYGFUFbrvyUoERK37Lu0liLxMIJnp1YaaG+XZBU2TAQB0yVJNb+7T+oDh9t8HGMzk00jy+tw==
   dependencies:
     "@hapi/bourne" "^2.0.0"
     args "^5.0.1"
-    chalk "^3.0.0"
+    chalk "^4.0.0"
     dateformat "^3.0.3"
     fast-safe-stringify "^2.0.7"
     jmespath "^0.15.0"
@@ -9207,7 +9207,7 @@ pino-pretty@^4.0.0:
     pump "^3.0.0"
     readable-stream "^3.6.0"
     split2 "^3.1.1"
-    strip-json-comments "^3.0.1"
+    strip-json-comments "^3.1.1"
 
 pirates@^4.0.1:
   version "4.0.1"
@@ -10946,12 +10946,7 @@ strip-indent@^3.0.0:
   dependencies:
     min-indent "^1.0.0"
 
-strip-json-comments@^3.0.1, strip-json-comments@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.0.tgz#7638d31422129ecf4457440009fba03f9f9ac180"
-  integrity sha512-e6/d0eBu7gHtdCqFt0xJr642LdToM5/cN4Qb9DbHjVx1CP5RyeM+zH7pbecEmDv/lBqb0QH+6Uqq75rxFPkM0w==
-
-strip-json-comments@^3.1.1:
+strip-json-comments@^3.1.0, strip-json-comments@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
