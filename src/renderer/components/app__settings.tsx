@@ -34,35 +34,6 @@ const {
   clickedVersionButton,
 } = events
 
-function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
-  event.target.select()
-}
-
-function handleClickThemeButton(
-  event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-) {
-  clickedThemeButton(event.currentTarget.value as MainStore['theme'])
-}
-
-function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-  changedHotkey({
-    appId: event.currentTarget.dataset.appId || '',
-    value: event.currentTarget.value,
-  })
-}
-
-function handleFavClick(
-  event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-) {
-  clickedFavButton(event.currentTarget.dataset.appId || '')
-}
-
-function handleVisibilityClick(
-  event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-) {
-  clickedEyeButton(event.currentTarget.dataset.appId || '')
-}
-
 const Settings: React.FC = () => {
   const apps = useStore((state) => state.apps, shallow)
   const hotkeys = useStore((state) => state.mainStore.hotkeys, shallow)
@@ -197,7 +168,11 @@ const Settings: React.FC = () => {
                     <Button
                       key={themeKey}
                       className="relative pr-8"
-                      onClick={handleClickThemeButton}
+                      onClick={(event) =>
+                        clickedThemeButton(
+                          event.currentTarget.value as MainStore['theme'],
+                        )
+                      }
                       value={themeKey}
                     >
                       <span>{themeKey.toUpperCase()}</span>
@@ -294,7 +269,11 @@ const Settings: React.FC = () => {
                       aria-label={`Favourite ${app.name}`}
                       className="flex-shrink-0 focus:outline-none"
                       data-app-id={app.id}
-                      onClick={handleFavClick}
+                      onClick={(event) =>
+                        clickedFavButton(
+                          event.currentTarget.dataset.appId || '',
+                        )
+                      }
                       tabIndex={-1}
                       type="button"
                     >
@@ -313,7 +292,11 @@ const Settings: React.FC = () => {
                       aria-label={`Toggle Visibility ${app.name}`}
                       className="flex-shrink-0 focus:outline-none"
                       data-app-id={app.id}
-                      onClick={handleVisibilityClick}
+                      onClick={(event) =>
+                        clickedEyeButton(
+                          event.currentTarget.dataset.appId || '',
+                        )
+                      }
                       tabIndex={-1}
                       type="button"
                     >
@@ -358,8 +341,13 @@ const Settings: React.FC = () => {
                         data-app-id={app.id}
                         maxLength={1}
                         minLength={0}
-                        onChange={handleInputChange}
-                        onFocus={handleFocus}
+                        onChange={(event) => {
+                          changedHotkey({
+                            appId: event.currentTarget.dataset.appId || '',
+                            value: event.currentTarget.value,
+                          })
+                        }}
+                        onFocus={(event) => event.target.select()}
                         type="text"
                         value={hotkey}
                       />

@@ -2,7 +2,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import { css } from 'emotion'
-import React, { useCallback } from 'react'
+import React from 'react'
 import ReactTooltip from 'react-tooltip'
 
 import { logos } from '../../../config/logos'
@@ -23,13 +23,6 @@ interface Props {
 const Tile: React.FC<Props> = ({ app, isFav, className }) => {
   const hotkeys = useStore((state) => state.mainStore.hotkeys)
   const theme = useStore((state) => state.mainStore.theme)
-
-  const handleClick = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      clickedTileButton({ appId: app.id, isAlt: event.altKey })
-    },
-    [app.id],
-  )
 
   const hotkey = getHotkeyByAppId(hotkeys, app.id)
 
@@ -52,7 +45,9 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         )}
         data-for={app.id}
         data-tip
-        onClick={handleClick}
+        onClick={(event) =>
+          clickedTileButton({ appId: app.id, isAlt: event.altKey })
+        }
         style={{
           maxWidth: '100px',
           minWidth: '50px',
