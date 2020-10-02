@@ -212,7 +212,7 @@
     "css-loader": "^3.4.2",
     "dotenv": "^8.2.0",
     "electron": "^10.1.2",
-    "eslint": "^7.9.0",
+    "eslint": "^7.10.0",
     "fork-ts-checker-webpack-plugin": "^5.0.14",
     "husky": "^4.2.5",
     "jest": "^26.2.2",
