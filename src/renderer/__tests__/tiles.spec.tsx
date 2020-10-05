@@ -44,6 +44,7 @@ test('tiles', () => {
     url: DEFAULT_URL,
     appId: 'org.mozilla.firefox',
     isAlt: false,
+    isShift: false,
   })
   expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 
@@ -59,6 +60,7 @@ test('tiles', () => {
     url,
     appId: 'com.brave.Browser.nightly',
     isAlt: true,
+    isShift: false,
   })
   expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 })
@@ -120,6 +122,7 @@ test('use hotkey with alt', () => {
     url,
     appId: 'com.apple.Safari',
     isAlt: true,
+    isShift: false,
   })
   expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 })
