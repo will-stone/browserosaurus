@@ -175,10 +175,10 @@ electron.ipcMain.on(
     const openArguments: string[] = [
       '-b',
       appId,
-      isAlt ? '--background' : '',
+      ...(isAlt ? ['--background'] : []),
       ...(isShift && app.privateArg ? ['--new', '--args', app.privateArg] : []),
       processedUrlTemplate,
-    ].filter(Boolean)
+    ]
 
     execFile('open', openArguments)
   },
