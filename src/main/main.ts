@@ -158,7 +158,7 @@ electron.ipcMain.on(RENDERER_STARTED, async () => {
 
 electron.ipcMain.on(
   APP_SELECTED,
-  (_: Event, { url, appId, isAlt }: OpenAppArguments) => {
+  (_: Event, { url, appId, isAlt, isShift }: OpenAppArguments) => {
     // Bail if app's bundle id is missing
     if (!appId) return
 
@@ -173,10 +173,11 @@ electron.ipcMain.on(
       : urlString
 
     const openArguments: string[] = [
-      processedUrlTemplate,
       '-b',
       appId,
       isAlt ? '--background' : '',
+      ...(isShift && app.privateArg ? ['--new', '--args', app.privateArg] : []),
+      processedUrlTemplate,
     ].filter(Boolean)
 
     execFile('open', openArguments)
