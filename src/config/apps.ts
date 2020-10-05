@@ -40,10 +40,12 @@ export const apps: App[] = [
   {
     name: 'Firefox Nightly',
     id: 'org.mozilla.nightly',
+    privateArg: '--private-window',
   },
   {
     name: 'Google Chrome',
     id: 'com.google.Chrome',
+    privateArg: '--incognito',
   },
   {
     name: 'Google Chrome Canary',
