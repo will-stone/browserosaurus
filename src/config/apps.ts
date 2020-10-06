@@ -20,6 +20,7 @@ export const apps: App[] = [
   {
     name: 'Chromium',
     id: 'org.chromium.Chromium',
+    privateArg: '--incognito',
   },
   {
     name: 'Dissenter',
@@ -32,22 +33,27 @@ export const apps: App[] = [
   {
     name: 'Firefox',
     id: 'org.mozilla.firefox',
+    privateArg: '--private-window',
   },
   {
     name: 'Firefox Developer Edition',
     id: 'org.mozilla.firefoxdeveloperedition',
+    privateArg: '--private-window',
   },
   {
     name: 'Firefox Nightly',
     id: 'org.mozilla.nightly',
+    privateArg: '--private-window',
   },
   {
     name: 'Google Chrome',
     id: 'com.google.Chrome',
+    privateArg: '--incognito',
   },
   {
     name: 'Google Chrome Canary',
     id: 'com.google.Chrome.canary',
+    privateArg: '--incognito',
   },
   {
     name: 'Iridium',

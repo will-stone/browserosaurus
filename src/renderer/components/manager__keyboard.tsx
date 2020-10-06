@@ -53,14 +53,18 @@ const KeyboardManager: React.FC = () => {
       // App hotkey
       if (matchAlphaNumeric) {
         const key = matchAlphaNumeric[1]
-        pressedAppKey({ key, isAlt: event.altKey })
+        pressedAppKey({ key, isAlt: event.altKey, isShift: event.shiftKey })
         return
       }
 
       // Open favourite app
       if (event.code === 'Space' || event.code === 'Enter') {
         event.preventDefault()
-        pressedAppKey({ key: event.code, isAlt: event.altKey })
+        pressedAppKey({
+          key: event.code,
+          isAlt: event.altKey,
+          isShift: event.shiftKey,
+        })
       }
     }
 

@@ -57,13 +57,21 @@ interface Events {
   clickedSponsorButton: () => void
   clickedVersionButton: () => void
   clickedThemeButton: (payload: MainStore['theme']) => void
-  clickedTileButton: (payload: { appId: string; isAlt: boolean }) => void
+  clickedTileButton: (payload: {
+    appId: string
+    isAlt: boolean
+    isShift: boolean
+  }) => void
   clickedUpdateButton: () => void
   clickedUrlBackspaceButton: () => void
 
   changedHotkey: (payload: { appId: string; value: string }) => void
 
-  pressedAppKey: (payload: { key: string; isAlt: boolean }) => void
+  pressedAppKey: (payload: {
+    key: string
+    isAlt: boolean
+    isShift: boolean
+  }) => void
   pressedBackspaceKey: () => void
   pressedCopyKey: () => void
   pressedEscapeKey: () => void
@@ -208,9 +216,9 @@ export const useStore = create<State>(
           state.mainStore.theme = payload
           changeTheme(payload)
         }),
-      clickedTileButton: ({ appId, isAlt }) => {
+      clickedTileButton: ({ appId, isAlt, isShift }) => {
         const { url } = get().ui
-        selectApp({ url, appId, isAlt })
+        selectApp({ url, appId, isAlt, isShift })
         hideWindow()
       },
       clickedUpdateButton: () => {
@@ -232,13 +240,13 @@ export const useStore = create<State>(
           updateHotkeys(updatedHotkeys)
         }),
 
-      pressedAppKey: ({ key, isAlt }) => {
+      pressedAppKey: ({ key, isAlt, isShift }) => {
         const { url } = get().ui
 
         // Favourite
         if (key === 'Space' || key === 'Enter') {
           const { fav } = get().mainStore
-          selectApp({ url, appId: fav, isAlt })
+          selectApp({ url, appId: fav, isAlt, isShift })
           hideWindow()
         }
         // Hotkey
@@ -246,7 +254,7 @@ export const useStore = create<State>(
           const { hotkeys } = get().mainStore
           const appId = hotkeys[key]
           if (appId) {
-            selectApp({ url, appId, isAlt })
+            selectApp({ url, appId, isAlt, isShift })
             hideWindow()
           }
         }
