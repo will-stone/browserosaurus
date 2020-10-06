@@ -44,6 +44,7 @@ test('tiles', () => {
     url: DEFAULT_URL,
     appId: 'org.mozilla.firefox',
     isAlt: false,
+    isShift: false,
   })
   expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 
@@ -59,6 +60,7 @@ test('tiles', () => {
     url,
     appId: 'com.brave.Browser.nightly',
     isAlt: true,
+    isShift: false,
   })
   expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 })
@@ -87,6 +89,7 @@ test('use hotkey', () => {
     url,
     appId: 'com.apple.Safari',
     isAlt: false,
+    isShift: false,
   })
   expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 })
@@ -120,6 +123,31 @@ test('use hotkey with alt', () => {
     url,
     appId: 'com.apple.Safari',
     isAlt: true,
+    isShift: false,
+  })
+  expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
+})
+
+test('hold shift', () => {
+  render(<App />)
+  const win = new electron.remote.BrowserWindow()
+  act(() => {
+    win.webContents.send(INSTALLED_APPS_FOUND, [
+      { name: 'Firefox', id: 'org.mozilla.firefox' },
+    ])
+  })
+  const url = 'http://example.com'
+  act(() => {
+    win.webContents.send(URL_UPDATED, url)
+  })
+  fireEvent.click(screen.getByRole('button', { name: 'Firefox Tile' }), {
+    shiftKey: true,
+  })
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
+    url,
+    appId: 'org.mozilla.firefox',
+    isAlt: false,
+    isShift: true,
   })
   expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 })

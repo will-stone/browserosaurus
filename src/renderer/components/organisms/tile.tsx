@@ -46,7 +46,11 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         data-for={app.id}
         data-tip
         onClick={(event) =>
-          clickedTileButton({ appId: app.id, isAlt: event.altKey })
+          clickedTileButton({
+            appId: app.id,
+            isAlt: event.altKey,
+            isShift: event.shiftKey,
+          })
         }
         style={{
           maxWidth: '100px',

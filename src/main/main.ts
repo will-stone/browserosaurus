@@ -158,7 +158,7 @@ electron.ipcMain.on(RENDERER_STARTED, async () => {
 
 electron.ipcMain.on(
   APP_SELECTED,
-  (_: Event, { url, appId, isAlt }: OpenAppArguments) => {
+  (_: Event, { url, appId, isAlt, isShift }: OpenAppArguments) => {
     // Bail if app's bundle id is missing
     if (!appId) return
 
@@ -173,11 +173,13 @@ electron.ipcMain.on(
       : urlString
 
     const openArguments: string[] = [
-      processedUrlTemplate,
       '-b',
       appId,
-      isAlt ? '--background' : '',
-    ].filter(Boolean)
+      isAlt ? '--background' : [],
+      isShift && app.privateArg ? ['--new', '--args', app.privateArg] : [],
+      // In order for private/incognito mode to work the URL needs to be passed at last, _after_ the respective app.privateArg flag
+      processedUrlTemplate,
+    ].flat()
 
     execFile('open', openArguments)
   },
