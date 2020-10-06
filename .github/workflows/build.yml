@@ -6,7 +6,7 @@ jobs:
       FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
     strategy:
       matrix:
-        os: [macos-latest]
+        os: [macos-10.15]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
