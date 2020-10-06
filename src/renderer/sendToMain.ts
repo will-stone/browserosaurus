@@ -9,7 +9,7 @@ export interface OpenAppArguments {
   url: string
   appId: App['id'] | undefined
   isAlt: boolean
-  isShift?: boolean
+  isShift: boolean
 }
 export function selectApp(arguments_: OpenAppArguments): void {
   ipcRenderer.send(APP_SELECTED, arguments_)
