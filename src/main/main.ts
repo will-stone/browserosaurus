@@ -175,10 +175,11 @@ electron.ipcMain.on(
     const openArguments: string[] = [
       '-b',
       appId,
-      ...(isAlt ? ['--background'] : []),
-      ...(isShift && app.privateArg ? ['--new', '--args', app.privateArg] : []),
+      isAlt ? '--background' : [],
+      isShift && app.privateArg ? ['--new', '--args', app.privateArg] : [],
+      // In order for private/incognito mode to work the URL needs to be passed at last, _after_ the respective app.privateArg flag
       processedUrlTemplate,
-    ]
+    ].flat()
 
     execFile('open', openArguments)
   },
