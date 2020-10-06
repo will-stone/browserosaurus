@@ -1375,10 +1375,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/opera-neon/-/opera-neon-1.0.8.tgz#30da3994e8ce794cda95011ede7fbee8aadbd882"
   integrity sha512-TFXCjLa4MXM2RVrbiAjQVqb3oxSdcwjzI6ywE6WkW58+JqpLgqE0uyZzlMucLVN9QnXyxUgbqSguSXpUfGv/dA==
 
-"@browser-logos/opera@^1.1.8":
-  version "1.1.10"
-  resolved "https://registry.yarnpkg.com/@browser-logos/opera/-/opera-1.1.10.tgz#1634fea3ead5f5ee8ea3a08236c4372a35b63830"
-  integrity sha512-bRyflyvp+4MENokiXucrO3HIRjCw+uYKAmdSrr9cr3zUiW58SnlFAwZ0i87+b4QQamBJOF4DwTaBexdB01xbkA==
+"@browser-logos/opera@^1.1.11":
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/@browser-logos/opera/-/opera-1.1.11.tgz#9aa438cd43f6e6bd31e03878b037167d51115b4d"
+  integrity sha512-vfQvWhLf7iGuHRe+8l9NjWp1U9DTucoaOlN1Dmwll5UCcjcMzKV1GkxNsCPuojHecqXqtJBHgE0LmXncgheqQA==
 
 "@browser-logos/qutebrowser@^1.0.2":
   version "1.0.4"
