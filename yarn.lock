@@ -1340,10 +1340,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/firefox-nightly/-/firefox-nightly-3.0.4.tgz#d05ebb4e77d9e41deded78ba868473c2b5095b6c"
   integrity sha512-yZRHSCcYzDmoMnYiMUmyHX8K/4eoXCPcHTPJ3duBXqvZv8gaPzkzkh3QhnFEQg0045rswJSd1hGxZkmLsjzW+A==
 
-"@browser-logos/firefox@^3.0.4":
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/@browser-logos/firefox/-/firefox-3.0.8.tgz#f6ce370711b41c885023c7c13455fc55c189bad1"
-  integrity sha512-5oU1fMPSNmjeBPCarO4DanLg7T1RpTi8ffsOfS2fWvaXF9GOUNccMQ6/+XFrzKf7FY76OcSN+BeK/L6qYHEAEw==
+"@browser-logos/firefox@^3.0.9":
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/@browser-logos/firefox/-/firefox-3.0.9.tgz#3cfee7f8e40cbd60af5ea9faa16e2f8bfbdab199"
+  integrity sha512-meqjnDFsUz0XLqMvda2ymr9FIUo+fdGQzwXkOGbgvPi9A9ZHhJewRWAlhsv7TKVG2g9gUgiITEn5bfrorp6BoQ==
 
 "@browser-logos/iridium@^2.0.5":
   version "2.0.5"
