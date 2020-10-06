@@ -17,6 +17,7 @@ import maxthon from '@browser-logos/maxthon/maxthon_128x128.png'
 import operaBeta from '@browser-logos/opera-beta/opera-beta_128x128.png'
 import operaDeveloper from '@browser-logos/opera-developer/opera-developer_128x128.png'
 import operaGX from '@browser-logos/opera-gx/opera-gx_128x128.png'
+import operaNeon from '@browser-logos/opera-neon/opera-neon_128x128.png'
 import opera from '@browser-logos/opera/opera_128x128.png'
 import qutebrowser from '@browser-logos/qutebrowser/qutebrowser_128x128.png'
 import safariTechnologyPreview from '@browser-logos/safari-technology-preview/safari-technology-preview_128x128.png'
@@ -56,6 +57,7 @@ export const logos: { [key: string]: string } = {
   'com.operasoftware.OperaGX': operaGX,
   'com.operasoftware.OperaNext': operaBeta,
   'com.operasoftware.OperaDeveloper': operaDeveloper,
+  'com.opera.Neon': operaNeon,
   'com.readitlater.PocketMac': pocket,
   'com.firstversionist.polypane': polypane,
   'org.qt-project.Qt.QtWebEngineCore': qutebrowser,
