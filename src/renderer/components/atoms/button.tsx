@@ -4,7 +4,7 @@ import React from 'react'
 import ReactTooltip from 'react-tooltip'
 import toLetters from 'tings/toLetters'
 
-import { useStore } from '../../store'
+import { useTheme } from '../../store/selector-hooks'
 import { themes } from '../../themes'
 
 interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
@@ -23,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({
   type,
   ...restProperties
 }) => {
-  const theme = useStore((state) => state.mainStore.theme)
+  const theme = useTheme()
 
   let textSize = 'text-xs'
   let padding = 'px-3 py-2'

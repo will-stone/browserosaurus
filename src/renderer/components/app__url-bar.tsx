@@ -3,31 +3,43 @@ import { faCog } from '@fortawesome/free-solid-svg-icons/faCog'
 import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { createAction } from '@reduxjs/toolkit'
 import clsx from 'clsx'
 import { css } from 'emotion'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import Url from 'url'
 
 import { SPONSOR_URL } from '../../config/CONSTANTS'
-import { events, useStore } from '../store'
+import { copyUrl, hideWindow } from '../sendToMain'
+import { useSelector } from '../store'
+import { useTheme } from '../store/selector-hooks'
 import { themes } from '../themes'
 import Button from './atoms/button'
 import MouseDiv from './organisms/mouse-div'
 
-const {
-  clickedCopyButton,
-  clickedSettingsButton,
-  clickedUrlBackspaceButton,
-} = events
+export const clickedSettingsButton = createAction(
+  'urlBar/clickedSettingsButton',
+)
+export const clickedUrlBackspaceButton = createAction(
+  'urlBar/clickedUrlBackspaceButton',
+)
+const clickedCopyButton = (url: string) => {
+  if (url) {
+    copyUrl(url)
+    hideWindow()
+  }
+}
 
 interface Props {
   className?: string
 }
 
 const UrlBar: React.FC<Props> = ({ className }) => {
-  const url = useStore((state) => state.ui.url)
-  const updateStatus = useStore((state) => state.ui.updateStatus)
-  const theme = useStore((state) => state.mainStore.theme)
+  const dispatch = useDispatch()
+  const url = useSelector((state) => state.ui.url)
+  const updateStatus = useSelector((state) => state.ui.updateStatus)
+  const theme = useTheme()
 
   const isSponsorUrl = url === SPONSOR_URL
   const isEmpty = url.length === 0
@@ -100,7 +112,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       <div className="flex-shrink-0 space-x-2">
         <Button
           disabled={isEmpty}
-          onClick={clickedUrlBackspaceButton}
+          onClick={() => dispatch(clickedUrlBackspaceButton())}
           tip="Delete section of URL (Backspace)"
         >
           <FontAwesomeIcon fixedWidth icon={faBackspace} />
@@ -108,7 +120,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
 
         <Button
           disabled={isEmpty}
-          onClick={clickedCopyButton}
+          onClick={() => clickedCopyButton(url)}
           tip="Copy (<kbd>⌘+C</kbd>)"
         >
           <FontAwesomeIcon fixedWidth icon={faCopy} />
@@ -116,7 +128,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
 
         <Button
           aria-label="Settings menu"
-          onClick={clickedSettingsButton}
+          onClick={() => dispatch(clickedSettingsButton())}
           tip="Settings"
           tone={updateStatus === 'downloaded' ? 'primary' : undefined}
         >

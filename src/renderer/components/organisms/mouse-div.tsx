@@ -1,9 +1,7 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React from 'react'
 
-import { events } from '../../store'
-
-const { mouseIn, mouseOut } = events
+import { catchMouse, releaseMouse } from '../../sendToMain'
 
 interface Props extends React.ComponentPropsWithoutRef<'div'> {
   capture?: boolean
@@ -21,7 +19,7 @@ const MouseDiv: React.FC<Props> = ({
         event.stopPropagation()
 
         if (capture) {
-          mouseIn()
+          catchMouse()
         }
 
         if (onMouseEnter) {
@@ -32,7 +30,7 @@ const MouseDiv: React.FC<Props> = ({
         event.stopPropagation()
 
         if (!capture) {
-          mouseOut()
+          releaseMouse()
         }
 
         if (onMouseOver) {

@@ -1,5 +1,7 @@
+import { createAction } from '@reduxjs/toolkit'
 import electron from 'electron'
 import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
 import { App } from '../../config/types'
 import {
@@ -12,28 +14,33 @@ import {
   URL_UPDATED,
 } from '../../main/events'
 import { Store as MainStore } from '../../main/store'
-import { events } from '../store'
+import { startRenderer } from '../sendToMain'
 import Noop from './atoms/noop'
 
-const {
-  appStarted,
-  receivedApps,
-  receivedDefaultProtocolClientStatus,
-  receivedStore,
-  receivedUpdateAvailable,
-  receivedUpdateDownloaded,
-  receivedUrl,
-  receivedVersion,
-} = events
+export const receivedStore = createAction<MainStore>('main/receivedStore')
+export const receivedApps = createAction<App[]>('main/receivedApps')
+export const receivedVersion = createAction<string>('main/receivedVersion')
+export const receivedUpdateAvailable = createAction(
+  'main/receivedUpdateAvailable',
+)
+export const receivedUpdateDownloaded = createAction(
+  'main/receivedUpdateDownloaded',
+)
+export const receivedUrl = createAction<string>('main/receivedUrl')
+export const receivedDefaultProtocolClientStatus = createAction<boolean>(
+  'main/receivedDefaultProtocolClientStatus',
+)
 
 const MainEventsManager: React.FC = () => {
+  const dispatch = useDispatch()
+
   useEffect(() => {
     /**
      * Receive version
      * main -> renderer
      */
-    electron.ipcRenderer.on(APP_VERSION, (_: unknown, string: string) => {
-      receivedVersion(string)
+    electron.ipcRenderer.on(APP_VERSION, (_: unknown, version: string) => {
+      dispatch(receivedVersion(version))
     })
 
     /**
@@ -41,7 +48,7 @@ const MainEventsManager: React.FC = () => {
      * main -> renderer
      */
     electron.ipcRenderer.on(UPDATE_AVAILABLE, () => {
-      receivedUpdateAvailable()
+      dispatch(receivedUpdateAvailable())
     })
 
     /**
@@ -49,7 +56,7 @@ const MainEventsManager: React.FC = () => {
      * main -> renderer
      */
     electron.ipcRenderer.on(UPDATE_DOWNLOADED, () => {
-      receivedUpdateDownloaded()
+      dispatch(receivedUpdateDownloaded())
     })
 
     /**
@@ -59,7 +66,7 @@ const MainEventsManager: React.FC = () => {
     electron.ipcRenderer.on(
       INSTALLED_APPS_FOUND,
       (_: unknown, installedApps: App[]) => {
-        receivedApps(installedApps)
+        dispatch(receivedApps(installedApps))
       },
     )
 
@@ -68,7 +75,7 @@ const MainEventsManager: React.FC = () => {
      * main -> renderer
      */
     electron.ipcRenderer.on(URL_UPDATED, (_: unknown, url: string) => {
-      receivedUrl(url)
+      dispatch(receivedUrl(url))
     })
 
     /**
@@ -76,7 +83,7 @@ const MainEventsManager: React.FC = () => {
      * main -> renderer
      */
     electron.ipcRenderer.on(STORE_RETRIEVED, (_: unknown, store: MainStore) => {
-      receivedStore(store)
+      dispatch(receivedStore(store))
     })
 
     /**
@@ -86,7 +93,7 @@ const MainEventsManager: React.FC = () => {
     electron.ipcRenderer.on(
       PROTOCOL_STATUS_RETRIEVED,
       (_: unknown, bool: boolean) => {
-        receivedDefaultProtocolClientStatus(bool)
+        dispatch(receivedDefaultProtocolClientStatus(bool))
       },
     )
 
@@ -94,7 +101,7 @@ const MainEventsManager: React.FC = () => {
      * Tell main that App component has mounted
      * renderer -> main
      */
-    appStarted()
+    startRenderer()
 
     return function cleanup() {
       electron.ipcRenderer.removeAllListeners(APP_VERSION)
@@ -105,7 +112,7 @@ const MainEventsManager: React.FC = () => {
       electron.ipcRenderer.removeAllListeners(STORE_RETRIEVED)
       electron.ipcRenderer.removeAllListeners(PROTOCOL_STATUS_RETRIEVED)
     }
-  }, [])
+  }, [dispatch])
 
   return <Noop />
 }

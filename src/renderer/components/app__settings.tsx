@@ -7,48 +7,57 @@ import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { faSync } from '@fortawesome/free-solid-svg-icons/faSync'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { createAction } from '@reduxjs/toolkit'
 import { Transition } from '@tailwindui/react'
 import clsx from 'clsx'
 import { css } from 'emotion'
 import React from 'react'
-import shallow from 'zustand/shallow'
+import { useDispatch } from 'react-redux'
 
 import { Store as MainStore } from '../../main/store'
-import { events, useStore } from '../store'
+import { quit, reload, setAsDefaultBrowser, updateRestart } from '../sendToMain'
+import { useSelector } from '../store'
+import { useApps, useTheme } from '../store/selector-hooks'
 import { themes } from '../themes'
 import Button from './atoms/button'
 import Kbd from './atoms/kbd'
 import MouseDiv from './organisms/mouse-div'
 
-const {
-  changedHotkey,
-  clickedCloseMenuButton,
-  clickedEyeButton,
-  clickedFavButton,
-  clickedQuitButton,
-  clickedReloadButton,
-  clickedSetAsDefaultButton,
-  clickedSponsorButton,
-  clickedThemeButton,
-  clickedUpdateButton,
-  clickedVersionButton,
-} = events
+export const changedHotkey = createAction<{ appId: string; value: string }>(
+  'settings/changedHotkey',
+)
+export const clickedCloseMenuButton = createAction(
+  'settings/clickedCloseMenuButton',
+)
+export const clickedEyeButton = createAction<string>(
+  'settings/clickedEyeButton',
+)
+export const clickedFavButton = createAction<string>(
+  'settings/clickedFavButton',
+)
+export const clickedSetAsDefaultButton = createAction(
+  'settings/clickedSetAsDefaultButton',
+)
+export const clickedSponsorButton = createAction(
+  'settings/clickedSponsorButton',
+)
+export const clickedThemeButton = createAction<MainStore['theme']>(
+  'settings/clickedThemeButton',
+)
+export const clickedVersionButton = createAction(
+  'settings/clickedVersionButton',
+)
 
 const Settings: React.FC = () => {
-  const apps = useStore((state) => state.apps, shallow)
-  const hotkeys = useStore((state) => state.mainStore.hotkeys, shallow)
-  const favAppId = useStore((state) => state.mainStore.fav)
-  const theme = useStore((state) => state.mainStore.theme)
-  const hiddenTileIds = useStore(
-    (state) => state.mainStore.hiddenTileIds,
-    shallow,
-  )
-  const isDefaultProtocolClient = useStore(
+  const dispatch = useDispatch()
+  const apps = useApps()
+  const theme = useTheme()
+  const isDefaultProtocolClient = useSelector(
     (state) => state.ui.isDefaultProtocolClient,
   )
-  const updateStatus = useStore((state) => state.ui.updateStatus)
-  const menu = useStore((state) => state.ui.menu)
-  const version = useStore((state) => state.ui.version)
+  const updateStatus = useSelector((state) => state.ui.updateStatus)
+  const menu = useSelector((state) => state.ui.menu)
+  const version = useSelector((state) => state.ui.version)
 
   return (
     <Transition
@@ -85,7 +94,7 @@ const Settings: React.FC = () => {
           >
             <Button
               aria-label="Close menu"
-              onClick={clickedCloseMenuButton}
+              onClick={() => dispatch(clickedCloseMenuButton())}
               tip="Close menu"
             >
               <FontAwesomeIcon fixedWidth icon={faTimes} />
@@ -95,7 +104,10 @@ const Settings: React.FC = () => {
               {!isDefaultProtocolClient && (
                 <Button
                   aria-label="Set as default browser"
-                  onClick={clickedSetAsDefaultButton}
+                  onClick={() => {
+                    dispatch(clickedSetAsDefaultButton())
+                    setAsDefaultBrowser()
+                  }}
                 >
                   Set As Default Browser
                 </Button>
@@ -105,7 +117,7 @@ const Settings: React.FC = () => {
                 <Button
                   aria-label="Restart and update"
                   className="space-x-2"
-                  onClick={clickedUpdateButton}
+                  onClick={updateRestart}
                   tone="primary"
                 >
                   <FontAwesomeIcon icon={faGift} />
@@ -128,18 +140,14 @@ const Settings: React.FC = () => {
               {updateStatus === 'no-update' && (
                 <Button
                   aria-label="Reload"
-                  onClick={clickedReloadButton}
+                  onClick={reload}
                   tip="Reload Browserosaurus"
                 >
                   <FontAwesomeIcon fixedWidth icon={faSync} />
                 </Button>
               )}
 
-              <Button
-                aria-label="Quit"
-                className="space-x-2"
-                onClick={clickedQuitButton}
-              >
+              <Button aria-label="Quit" className="space-x-2" onClick={quit}>
                 <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
                 <span>Quit</span>
               </Button>
@@ -155,7 +163,7 @@ const Settings: React.FC = () => {
               <Button
                 aria-label="Sponsor"
                 className="w-full mb-8 space-x-1"
-                onClick={clickedSponsorButton}
+                onClick={() => dispatch(clickedSponsorButton())}
                 size="md"
                 tone="sponsor"
               >
@@ -169,8 +177,10 @@ const Settings: React.FC = () => {
                       key={themeKey}
                       className="relative pr-8"
                       onClick={(event) =>
-                        clickedThemeButton(
-                          event.currentTarget.value as MainStore['theme'],
+                        dispatch(
+                          clickedThemeButton(
+                            event.currentTarget.value as MainStore['theme'],
+                          ),
                         )
                       }
                       value={themeKey}
@@ -216,7 +226,7 @@ const Settings: React.FC = () => {
                 backgroundColor: themes[theme].settings.border,
               }),
             )}
-            onClick={clickedVersionButton}
+            onClick={() => dispatch(clickedVersionButton())}
             type="button"
           >
             {version}
@@ -256,11 +266,6 @@ const Settings: React.FC = () => {
           <div className="flex-grow overflow-y-auto">
             <div className="p-4 space-y-2">
               {apps.map((app) => {
-                const hotkey =
-                  Object.keys(hotkeys).find((key) => hotkeys[key] === app.id) ||
-                  ''
-                const isFav = favAppId === app.id
-                const isVisible = !hiddenTileIds.includes(app.id)
                 return (
                   <div key={app.id} className="space-x-3 flex items-center">
                     <span className="inline-block mr-auto">{app.name}</span>
@@ -270,8 +275,10 @@ const Settings: React.FC = () => {
                       className="flex-shrink-0 focus:outline-none"
                       data-app-id={app.id}
                       onClick={(event) =>
-                        clickedFavButton(
-                          event.currentTarget.dataset.appId || '',
+                        dispatch(
+                          clickedFavButton(
+                            event.currentTarget.dataset.appId || '',
+                          ),
                         )
                       }
                       tabIndex={-1}
@@ -279,7 +286,7 @@ const Settings: React.FC = () => {
                     >
                       <FontAwesomeIcon
                         className={css({
-                          color: isFav
+                          color: app.isFav
                             ? themes[theme].icons.star
                             : themes[theme].button.text.disabled,
                         })}
@@ -293,8 +300,10 @@ const Settings: React.FC = () => {
                       className="flex-shrink-0 focus:outline-none"
                       data-app-id={app.id}
                       onClick={(event) =>
-                        clickedEyeButton(
-                          event.currentTarget.dataset.appId || '',
+                        dispatch(
+                          clickedEyeButton(
+                            event.currentTarget.dataset.appId || '',
+                          ),
                         )
                       }
                       tabIndex={-1}
@@ -302,12 +311,12 @@ const Settings: React.FC = () => {
                     >
                       <FontAwesomeIcon
                         className={css({
-                          color: isVisible
+                          color: app.isVisible
                             ? themes[theme].icons.eye
                             : themes[theme].button.text.disabled,
                         })}
                         fixedWidth
-                        icon={isVisible ? faEye : faEyeSlash}
+                        icon={app.isVisible ? faEye : faEyeSlash}
                       />
                     </button>
 
@@ -319,7 +328,7 @@ const Settings: React.FC = () => {
                         }),
                       )}
                     >
-                      {!hotkey && (
+                      {!app.hotkey && (
                         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none">
                           <FontAwesomeIcon
                             className={css({
@@ -342,16 +351,18 @@ const Settings: React.FC = () => {
                         maxLength={1}
                         minLength={0}
                         onChange={(event) => {
-                          changedHotkey({
-                            appId: event.currentTarget.dataset.appId || '',
-                            value: event.currentTarget.value,
-                          })
+                          dispatch(
+                            changedHotkey({
+                              appId: event.currentTarget.dataset.appId || '',
+                              value: event.currentTarget.value,
+                            }),
+                          )
                         }}
                         onFocus={(event) => {
                           event.target.select()
                         }}
                         type="text"
-                        value={hotkey}
+                        value={app.hotkey || ''}
                       />
                     </div>
                   </div>

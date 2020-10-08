@@ -176,18 +176,15 @@ test('tiles order', () => {
   fireEvent.change(screen.getByLabelText('Opera hotkey'), {
     target: { value: '1' },
   })
-  fireEvent.change(screen.getByLabelText('Microsoft Edge hotkey'), {
-    target: { value: '2' },
-  })
   fireEvent.change(screen.getByLabelText('Brave hotkey'), {
-    target: { value: '3' },
+    target: { value: '2' },
   })
   fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
 
   const updatedTiles = screen.getAllByRole('button', { name: /[A-z]+ Tile/u })
   expect(updatedTiles[0]).toHaveAttribute('aria-label', 'Safari Tile')
   expect(updatedTiles[1]).toHaveAttribute('aria-label', 'Opera Tile')
-  expect(updatedTiles[2]).toHaveAttribute('aria-label', 'Microsoft Edge Tile')
-  expect(updatedTiles[3]).toHaveAttribute('aria-label', 'Brave Tile')
-  expect(updatedTiles[4]).toHaveAttribute('aria-label', 'Firefox Tile')
+  expect(updatedTiles[2]).toHaveAttribute('aria-label', 'Brave Tile')
+  expect(updatedTiles[3]).toHaveAttribute('aria-label', 'Firefox Tile')
+  expect(updatedTiles[4]).toHaveAttribute('aria-label', 'Microsoft Edge Tile')
 })

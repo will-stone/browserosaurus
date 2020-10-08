@@ -3,28 +3,38 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import { css } from 'emotion'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
 
 import { logos } from '../../../config/logos'
-import { App } from '../../../config/types'
-import { getHotkeyByAppId } from '../../../utils/getHotkeyByAppId'
-import { events, useStore } from '../../store'
+import { hideWindow, selectApp } from '../../sendToMain'
+import { AppThunk } from '../../store'
+import { ExtendedApp, useTheme } from '../../store/selector-hooks'
 import { themes } from '../../themes'
 import Kbd from '../atoms/kbd'
 
-const { clickedTileButton } = events
+const clickedTileButton = (
+  appId: string,
+  event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+): AppThunk => (_, getState) => {
+  selectApp({
+    url: getState().ui.url,
+    appId,
+    isAlt: event.altKey,
+    isShift: event.shiftKey,
+  })
+  hideWindow()
+}
 
 interface Props {
-  app: App
+  app: ExtendedApp
   isFav?: boolean
   className?: string
 }
 
 const Tile: React.FC<Props> = ({ app, isFav, className }) => {
-  const hotkeys = useStore((state) => state.mainStore.hotkeys)
-  const theme = useStore((state) => state.mainStore.theme)
-
-  const hotkey = getHotkeyByAppId(hotkeys, app.id)
+  const dispatch = useDispatch()
+  const theme = useTheme()
 
   return (
     <>
@@ -45,13 +55,7 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         )}
         data-for={app.id}
         data-tip
-        onClick={(event) =>
-          clickedTileButton({
-            appId: app.id,
-            isAlt: event.altKey,
-            isShift: event.shiftKey,
-          })
-        }
+        onClick={(event) => dispatch(clickedTileButton(app.id, event))}
         style={{
           maxWidth: '100px',
           minWidth: '50px',
@@ -73,7 +77,7 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
             />
           )}
           {/* Prevents box collapse when hotkey not set */}
-          {hotkey || <span className="opacity-0">.</span>}
+          {app.hotkey || <span className="opacity-0">.</span>}
         </Kbd>
       </button>
       <ReactTooltip
