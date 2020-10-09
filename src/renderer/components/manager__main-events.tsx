@@ -1,3 +1,4 @@
+// TODO turn this into a hook
 import { createAction } from '@reduxjs/toolkit'
 import electron from 'electron'
 import React, { useEffect } from 'react'
