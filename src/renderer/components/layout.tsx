@@ -7,7 +7,7 @@ import Settings from './settings'
 import Tiles from './tiles'
 import UrlBar from './url-bar'
 
-const App: React.FC = () => {
+const Layout: React.FC = () => {
   useKeyboardEvents()
   useMainEvents()
 
@@ -20,4 +20,4 @@ const App: React.FC = () => {
   )
 }
 
-export default App
+export default Layout
