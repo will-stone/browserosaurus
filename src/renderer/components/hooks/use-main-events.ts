@@ -1,10 +1,9 @@
-// TODO turn this into a hook
 import { createAction } from '@reduxjs/toolkit'
 import electron from 'electron'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { App } from '../../config/types'
+import { App } from '../../../config/types'
 import {
   APP_VERSION,
   INSTALLED_APPS_FOUND,
@@ -13,10 +12,9 @@ import {
   UPDATE_AVAILABLE,
   UPDATE_DOWNLOADED,
   URL_UPDATED,
-} from '../../main/events'
-import { Store as MainStore } from '../../main/store'
-import { startRenderer } from '../sendToMain'
-import Noop from './atoms/noop'
+} from '../../../main/events'
+import { Store as MainStore } from '../../../main/store'
+import { startRenderer } from '../../sendToMain'
 
 export const receivedStore = createAction<MainStore>('main/receivedStore')
 export const receivedApps = createAction<App[]>('main/receivedApps')
@@ -32,7 +30,7 @@ export const receivedDefaultProtocolClientStatus = createAction<boolean>(
   'main/receivedDefaultProtocolClientStatus',
 )
 
-const MainEventsManager: React.FC = () => {
+export const useMainEvents = (): void => {
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -114,8 +112,4 @@ const MainEventsManager: React.FC = () => {
       electron.ipcRenderer.removeAllListeners(PROTOCOL_STATUS_RETRIEVED)
     }
   }, [dispatch])
-
-  return <Noop />
 }
-
-export default MainEventsManager

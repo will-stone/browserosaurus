@@ -4,11 +4,11 @@ import React from 'react'
 
 import { DEFAULT_URL } from '../../config/CONSTANTS'
 import { INSTALLED_APPS_FOUND, URL_UPDATED } from '../../main/events'
-import App from '../components/app'
+import Bootstrap from '../components/_Bootstrap'
 import { APP_SELECTED, HIDE_WINDOW } from '../sendToMain'
 
 test('tiles', () => {
-  render(<App />)
+  render(<Bootstrap />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
     win.webContents.send(INSTALLED_APPS_FOUND, [
@@ -66,7 +66,7 @@ test('tiles', () => {
 })
 
 test('use hotkey', () => {
-  render(<App />)
+  render(<Bootstrap />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
     win.webContents.send(INSTALLED_APPS_FOUND, [
@@ -95,7 +95,7 @@ test('use hotkey', () => {
 })
 
 test('use hotkey with alt', () => {
-  render(<App />)
+  render(<Bootstrap />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
     win.webContents.send(INSTALLED_APPS_FOUND, [
@@ -129,7 +129,7 @@ test('use hotkey with alt', () => {
 })
 
 test('hold shift', () => {
-  render(<App />)
+  render(<Bootstrap />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
     win.webContents.send(INSTALLED_APPS_FOUND, [
@@ -153,7 +153,7 @@ test('hold shift', () => {
 })
 
 test('tiles order', () => {
-  render(<App />)
+  render(<Bootstrap />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
     win.webContents.send(INSTALLED_APPS_FOUND, [

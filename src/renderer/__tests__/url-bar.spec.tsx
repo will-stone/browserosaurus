@@ -3,7 +3,7 @@ import electron from 'electron'
 import React from 'react'
 
 import { URL_UPDATED } from '../../main/events'
-import App from '../components/app'
+import Bootstrap from '../components/_Bootstrap'
 
 const multiElementText = (text: string) => (_: string, node: HTMLElement) => {
   const hasText = (n: HTMLElement) => Boolean(n.textContent?.startsWith(text))
@@ -16,7 +16,7 @@ const multiElementText = (text: string) => (_: string, node: HTMLElement) => {
 }
 
 test('url bar', () => {
-  render(<App />)
+  render(<Bootstrap />)
   const win = new electron.remote.BrowserWindow()
   const protocol = 'http:'
   const host = 'example.com:8000'

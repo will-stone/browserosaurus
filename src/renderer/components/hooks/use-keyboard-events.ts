@@ -1,11 +1,9 @@
-// TODO turn this into a hook
 import { createAction } from '@reduxjs/toolkit'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { copyUrl, hideWindow, selectApp } from '../sendToMain'
-import { AppThunk } from '../store'
-import Noop from './atoms/noop'
+import { copyUrl, hideWindow, selectApp } from '../../sendToMain'
+import { AppThunk } from '../../store'
 
 export const pressedEscapeKey = createAction('keyboardManager/pressedEscapeKey')
 export const pressedBackspaceKey = createAction(
@@ -80,11 +78,13 @@ const keyboardEvent = (event: KeyboardEvent): AppThunk => (
   }
 }
 
-const KeyboardManager: React.FC = () => {
+export const useKeyboardEvents = (): void => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const handler = (event: KeyboardEvent) => dispatch(keyboardEvent(event))
+    const handler = (event: KeyboardEvent) => {
+      dispatch(keyboardEvent(event))
+    }
 
     document.addEventListener('keydown', handler)
 
@@ -92,8 +92,4 @@ const KeyboardManager: React.FC = () => {
       document.removeEventListener('keydown', handler)
     }
   }, [dispatch])
-
-  return <Noop />
 }
-
-export default KeyboardManager

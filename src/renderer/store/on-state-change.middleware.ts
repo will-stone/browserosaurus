@@ -4,7 +4,7 @@ import {
   shallowEqualArrays,
   shallowEqualObjects,
 } from '../../utils/shallow-equal'
-import { receivedStore } from '../components/manager__main-events'
+import { receivedStore } from '../components/hooks/use-main-events'
 import {
   changeTheme,
   selectFav,

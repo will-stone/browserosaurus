@@ -6,23 +6,9 @@ import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'
 import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 import {
-  changedHotkey,
-  clickedCloseMenuButton,
-  clickedEyeButton,
-  clickedFavButton,
-  clickedSetAsDefaultButton,
-  clickedSponsorButton,
-  clickedThemeButton,
-  clickedVersionButton,
-} from '../components/app__settings'
-import {
-  clickedSettingsButton,
-  clickedUrlBackspaceButton,
-} from '../components/app__url-bar'
-import {
   pressedBackspaceKey,
   pressedEscapeKey,
-} from '../components/manager__keyboard'
+} from '../components/hooks/use-keyboard-events'
 import {
   receivedApps,
   receivedDefaultProtocolClientStatus,
@@ -31,7 +17,21 @@ import {
   receivedUpdateDownloaded,
   receivedUrl,
   receivedVersion,
-} from '../components/manager__main-events'
+} from '../components/hooks/use-main-events'
+import {
+  changedHotkey,
+  clickedCloseMenuButton,
+  clickedEyeButton,
+  clickedFavButton,
+  clickedSetAsDefaultButton,
+  clickedSponsorButton,
+  clickedThemeButton,
+  clickedVersionButton,
+} from '../components/settings'
+import {
+  clickedSettingsButton,
+  clickedUrlBackspaceButton,
+} from '../components/url-bar'
 
 /**
  * Apps Reducer

@@ -16,7 +16,7 @@ import { useSelector } from '../store'
 import { useTheme } from '../store/selector-hooks'
 import { themes } from '../themes'
 import Button from './atoms/button'
-import MouseDiv from './organisms/mouse-div'
+import MouseDiv from './molecules/mouse-div'
 
 export const clickedSettingsButton = createAction(
   'urlBar/clickedSettingsButton',

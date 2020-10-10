@@ -21,7 +21,7 @@ import { useApps, useTheme } from '../store/selector-hooks'
 import { themes } from '../themes'
 import Button from './atoms/button'
 import Kbd from './atoms/kbd'
-import MouseDiv from './organisms/mouse-div'
+import MouseDiv from './molecules/mouse-div'
 
 export const changedHotkey = createAction<{ appId: string; value: string }>(
   'settings/changedHotkey',

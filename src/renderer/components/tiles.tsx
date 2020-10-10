@@ -4,8 +4,8 @@ import React from 'react'
 
 import { useFavTile, useNormalTiles, useTheme } from '../store/selector-hooks'
 import { themes } from '../themes'
-import MouseDiv from './organisms/mouse-div'
-import Tile from './organisms/tile'
+import MouseDiv from './molecules/mouse-div'
+import Tile from './molecules/tile'
 
 const Tiles: React.FC = () => {
   const favTile = useFavTile()
