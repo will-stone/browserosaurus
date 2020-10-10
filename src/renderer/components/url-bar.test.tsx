@@ -3,7 +3,7 @@ import electron from 'electron'
 import React from 'react'
 
 import { URL_UPDATED } from '../../main/events'
-import Bootstrap from '../components/_Bootstrap'
+import Bootstrap from './_Bootstrap'
 
 const multiElementText = (text: string) => (_: string, node: HTMLElement) => {
   const hasText = (n: HTMLElement) => Boolean(n.textContent?.startsWith(text))

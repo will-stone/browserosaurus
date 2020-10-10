@@ -4,8 +4,8 @@ import React from 'react'
 
 import { DEFAULT_URL } from '../../config/CONSTANTS'
 import { INSTALLED_APPS_FOUND, URL_UPDATED } from '../../main/events'
-import Bootstrap from '../components/_Bootstrap'
 import { APP_SELECTED, HIDE_WINDOW } from '../sendToMain'
+import Bootstrap from './_Bootstrap'
 
 test('tiles', () => {
   render(<Bootstrap />)
