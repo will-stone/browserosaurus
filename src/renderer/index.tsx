@@ -3,6 +3,6 @@ import './index.css'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
-import Bootstrap from './components/_Bootstrap'
+import App from './components/app'
 
-ReactDOM.render(<Bootstrap />, document.querySelector('#app'))
+ReactDOM.render(<App />, document.querySelector('#app'))
