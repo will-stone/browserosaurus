@@ -1395,10 +1395,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/safari/-/safari-2.0.0.tgz#2a0590346f66e39d890b85b222b7a60f2adb6034"
   integrity sha512-5dBeN6uWgzipvEYHC36+vlxStByWG/hmqzs/eBcX7rD09OcDkahTtctx+tGMXsg3VroIivUKxD/4iyqj2Gc+ng==
 
-"@browser-logos/tor@^2.0.2":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@browser-logos/tor/-/tor-2.0.3.tgz#61825d09e071ade1683aa91701d58555c20bf939"
-  integrity sha512-c0wDinRV7TMuFwdTzB18HgF+syUy5yRZViKS7UGgtz6ly4+YZGC6MDx9FYwHiTdoj0EX9C+ftrhjPysjZJrO7w==
+"@browser-logos/tor@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@browser-logos/tor/-/tor-2.0.4.tgz#f16f614a5f1d583fb30c5ddda283f4fb707adcd0"
+  integrity sha512-jN5W9BgSdh5w/a5zAmmEDm9qmXhcYK8J22VCacjww+oxT7xBMjSwMYscX1NbdGjfz+b7LHd4OLHGsdnAaZ305A==
 
 "@browser-logos/vivaldi-snapshot@^1.0.6":
   version "1.0.6"
