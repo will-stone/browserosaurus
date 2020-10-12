@@ -185,7 +185,7 @@
     "react-redux": "^7.2.1",
     "react-tooltip": "^4.2.9",
     "redux": "^4.0.5",
-    "tailwindcss": "^1.8.10",
+    "tailwindcss": "^1.8.13",
     "tings": "^0.0.23"
   },
   "devDependencies": {
