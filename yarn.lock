@@ -1300,10 +1300,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/chrome-canary/-/chrome-canary-1.1.9.tgz#0a5182cc77958fac843982b0f47234d621754557"
   integrity sha512-F7qPBEQ8ipNCP65adUR1X5kAIZpEBywHxdgVODLyB5z0xpUiML+kfyPQuDHVfunGilBIZlXkzfI5ATaaMiQK8Q==
 
-"@browser-logos/chrome@^1.0.15":
-  version "1.0.17"
-  resolved "https://registry.yarnpkg.com/@browser-logos/chrome/-/chrome-1.0.17.tgz#69577e7eb1d55c901e48ae843b3e0cd08b1787d6"
-  integrity sha512-kpRi4jKmouyXvcX3BYoqUR51phIehA3+IavUTB5nr2QdwT6Ak0UME415Sb+WW4P56aemRk2z7NBh7sVUHneV7A==
+"@browser-logos/chrome@^1.0.18":
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/@browser-logos/chrome/-/chrome-1.0.18.tgz#f031ac3e182d96e395305ba868618d1f18cf9e91"
+  integrity sha512-pr1/ULC2F2/Wvhf/1d3gGTgP4zYAOwHHxcEUUXEIWoYjoiH6X8ly37HRdp/uoilY4OMY45uRBDdJ+8yzh5w6rw==
 
 "@browser-logos/chromium@^1.0.6":
   version "1.1.1"
