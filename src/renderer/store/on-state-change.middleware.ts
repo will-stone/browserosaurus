@@ -4,7 +4,6 @@ import {
   shallowEqualArrays,
   shallowEqualObjects,
 } from '../../utils/shallow-equal'
-import { receivedStore } from '../components/hooks/use-main-events'
 import {
   changeTheme,
   selectFav,
@@ -13,6 +12,7 @@ import {
   updateHotkeys,
 } from '../sendToMain'
 import { RootState } from '.'
+import { receivedStore } from './actions'
 
 /**
  * Act on state changes

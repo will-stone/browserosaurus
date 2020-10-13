@@ -4,6 +4,7 @@ import {
   configureStore,
   ThunkAction,
 } from '@reduxjs/toolkit'
+import electron from 'electron'
 import deepEqual from 'fast-deep-equal'
 import {
   shallowEqual,
@@ -11,7 +12,27 @@ import {
   useSelector as useReduxSelector,
 } from 'react-redux'
 
-import { appStarted } from './actions'
+import { App } from '../../config/types'
+import {
+  APP_VERSION,
+  INSTALLED_APPS_FOUND,
+  PROTOCOL_STATUS_RETRIEVED,
+  STORE_RETRIEVED,
+  UPDATE_AVAILABLE,
+  UPDATE_DOWNLOADED,
+  URL_UPDATED,
+} from '../../main/events'
+import { Store as MainStore } from '../../main/store'
+import {
+  appStarted,
+  receivedApps,
+  receivedDefaultProtocolClientStatus,
+  receivedStore,
+  receivedUpdateAvailable,
+  receivedUpdateDownloaded,
+  receivedUrl,
+  receivedVersion,
+} from './actions'
 import { onStateChangeMiddleware } from './on-state-change.middleware'
 import * as reducers from './reducers'
 
@@ -44,6 +65,72 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >
+
+// -----------------------------------------------------------------------------
+// Main event listeners
+// -----------------------------------------------------------------------------
+
+/**
+ * Receive version
+ * main -> renderer
+ */
+electron.ipcRenderer.on(APP_VERSION, (_: unknown, version: string) => {
+  store.dispatch(receivedVersion(version))
+})
+
+/**
+ * Receive update available
+ * main -> renderer
+ */
+electron.ipcRenderer.on(UPDATE_AVAILABLE, () => {
+  store.dispatch(receivedUpdateAvailable())
+})
+
+/**
+ * Receive update downloaded
+ * main -> renderer
+ */
+electron.ipcRenderer.on(UPDATE_DOWNLOADED, () => {
+  store.dispatch(receivedUpdateDownloaded())
+})
+
+/**
+ * Receive apps
+ * main -> renderer
+ */
+electron.ipcRenderer.on(
+  INSTALLED_APPS_FOUND,
+  (_: unknown, installedApps: App[]) => {
+    store.dispatch(receivedApps(installedApps))
+  },
+)
+
+/**
+ * Receive URL
+ * main -> renderer
+ */
+electron.ipcRenderer.on(URL_UPDATED, (_: unknown, url: string) => {
+  store.dispatch(receivedUrl(url))
+})
+
+/**
+ * Receive main's store
+ * main -> renderer
+ */
+electron.ipcRenderer.on(STORE_RETRIEVED, (_: unknown, mainStore: MainStore) => {
+  store.dispatch(receivedStore(mainStore))
+})
+
+/**
+ * Receive protocol status
+ * main -> renderer
+ */
+electron.ipcRenderer.on(
+  PROTOCOL_STATUS_RETRIEVED,
+  (_: unknown, bool: boolean) => {
+    store.dispatch(receivedDefaultProtocolClientStatus(bool))
+  },
+)
 
 /*
  * Tell main that renderer has started

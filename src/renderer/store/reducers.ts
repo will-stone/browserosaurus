@@ -10,15 +10,6 @@ import {
   pressedEscapeKey,
 } from '../components/hooks/use-keyboard-events'
 import {
-  receivedApps,
-  receivedDefaultProtocolClientStatus,
-  receivedStore,
-  receivedUpdateAvailable,
-  receivedUpdateDownloaded,
-  receivedUrl,
-  receivedVersion,
-} from '../components/hooks/use-main-events'
-import {
   changedHotkey,
   clickedCloseMenuButton,
   clickedEyeButton,
@@ -32,7 +23,16 @@ import {
   clickedSettingsButton,
   clickedUrlBackspaceButton,
 } from '../components/url-bar'
-import { appStarted } from './actions'
+import {
+  appStarted,
+  receivedApps,
+  receivedDefaultProtocolClientStatus,
+  receivedStore,
+  receivedUpdateAvailable,
+  receivedUpdateDownloaded,
+  receivedUrl,
+  receivedVersion,
+} from './actions'
 
 /**
  * Apps Reducer

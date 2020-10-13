@@ -4,7 +4,6 @@ import { Provider } from 'react-redux'
 import store from '../store'
 import Noop from './atoms/noop'
 import { useKeyboardEvents } from './hooks/use-keyboard-events'
-import { useMainEvents } from './hooks/use-main-events'
 import MouseDiv from './molecules/mouse-div'
 import Settings from './settings'
 import Tiles from './tiles'
@@ -12,7 +11,6 @@ import UrlBar from './url-bar'
 
 const Hooks = () => {
   useKeyboardEvents()
-  useMainEvents()
   return <Noop />
 }
 
