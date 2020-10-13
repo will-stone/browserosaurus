@@ -14,7 +14,6 @@ import {
   URL_UPDATED,
 } from '../../../main/events'
 import { Store as MainStore } from '../../../main/store'
-import { startRenderer } from '../../sendToMain'
 
 export const receivedStore = createAction<MainStore>('main/receivedStore')
 export const receivedApps = createAction<App[]>('main/receivedApps')
@@ -95,12 +94,6 @@ export const useMainEvents = (): void => {
         dispatch(receivedDefaultProtocolClientStatus(bool))
       },
     )
-
-    /**
-     * Tell main that App component has mounted
-     * renderer -> main
-     */
-    startRenderer()
 
     return function cleanup() {
       electron.ipcRenderer.removeAllListeners(APP_VERSION)

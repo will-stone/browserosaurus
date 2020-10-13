@@ -11,6 +11,7 @@ import {
   useSelector as useReduxSelector,
 } from 'react-redux'
 
+import { appStarted } from './actions'
 import { onStateChangeMiddleware } from './on-state-change.middleware'
 import * as reducers from './reducers'
 
@@ -43,3 +44,8 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >
+
+/*
+ * Tell main that renderer has started
+ */
+store.dispatch(appStarted())

@@ -32,6 +32,7 @@ import {
   clickedSettingsButton,
   clickedUrlBackspaceButton,
 } from '../components/url-bar'
+import { appStarted } from './actions'
 
 /**
  * Apps Reducer
@@ -44,6 +45,7 @@ const apps = createReducer<App[]>([], (builder) =>
  * UI Reducer
  */
 interface UiState {
+  appStarted: boolean
   menu: false | 'tiles'
   url: string
   version: string
@@ -59,6 +61,7 @@ interface UiState {
 
 const ui = createReducer<UiState>(
   {
+    appStarted: false,
     menu: false,
     version: '',
     updateStatus: 'no-update',
@@ -73,6 +76,9 @@ const ui = createReducer<UiState>(
   },
   (builder) =>
     builder
+      .addCase(appStarted, (state) => {
+        state.appStarted = true
+      })
       .addCase(changedHotkey, (state, action) => {
         const updatedHotkeys = alterHotkeys(
           state.hotkeys,
