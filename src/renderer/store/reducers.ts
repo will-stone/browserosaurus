@@ -6,10 +6,6 @@ import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'
 import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 import {
-  pressedBackspaceKey,
-  pressedEscapeKey,
-} from '../components/hooks/use-keyboard-events'
-import {
   changedHotkey,
   clickedCloseMenuButton,
   clickedEyeButton,
@@ -25,6 +21,8 @@ import {
 } from '../components/url-bar'
 import {
   appStarted,
+  pressedBackspaceKey,
+  pressedEscapeKey,
   receivedApps,
   receivedDefaultProtocolClientStatus,
   receivedStore,

@@ -24,3 +24,17 @@ export const receivedUrl = createAction<string>('main/receivedUrl')
 export const receivedDefaultProtocolClientStatus = createAction<boolean>(
   'main/receivedDefaultProtocolClientStatus',
 )
+
+// -----------------------------------------------------------------------------
+// Keyboard
+// -----------------------------------------------------------------------------
+export const keydown = createAction<{
+  isAlt: boolean
+  isCmd: boolean
+  isShift: boolean
+  code: string
+  key: string
+  keyCode: number
+}>('keyboard/keydown')
+export const pressedEscapeKey = createAction('keyboard/escapeKey')
+export const pressedBackspaceKey = createAction('keyboard/backspaceKey')
