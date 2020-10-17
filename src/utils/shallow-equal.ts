@@ -16,8 +16,8 @@ export function shallowEqualArrays(
     return false
   }
 
-  for (let i = 0; i < length_; i = i + 1) {
-    if (arrayA[i] !== arrayB[i]) {
+  for (let index = 0; index < length_; index = index + 1) {
+    if (arrayA[index] !== arrayB[index]) {
       return false
     }
   }
@@ -47,8 +47,8 @@ export function shallowEqualObjects(
     return false
   }
 
-  for (let i = 0; i < length_; i = i + 1) {
-    const key = aKeys[i]
+  for (let index = 0; index < length_; index = index + 1) {
+    const key = aKeys[index]
 
     if (
       objectA[key] !== objectB[key] ||

@@ -2712,10 +2712,10 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
-"@will-stone/eslint-config@^1.27.2":
-  version "1.27.2"
-  resolved "https://registry.yarnpkg.com/@will-stone/eslint-config/-/eslint-config-1.27.2.tgz#b0d08cd58a78766a6f8e798d3454582b16e21950"
-  integrity sha512-xjZR+48Xv9I0R5ruJo4X3YYGQpkOXsuetSyLtcclvYv+xIct6JB3BLJJoxK3S2+hB491Qu8MraRKT3xfIdazGw==
+"@will-stone/eslint-config@^1.28.0":
+  version "1.28.0"
+  resolved "https://registry.yarnpkg.com/@will-stone/eslint-config/-/eslint-config-1.28.0.tgz#8f27d91adce6463a60f1b7299694ac4cba6ff563"
+  integrity sha512-bwnyChr4tp2yeOa8kvqNGYOWgFi0FGqfew0BJLorbaOqD+ls2VdMwY9E0CJB02fAglVd8zyhar/MvGFj/kj8bA==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^4.4.1"
     "@typescript-eslint/parser" "^4.4.1"
@@ -2730,7 +2730,7 @@
     eslint-plugin-react-hooks "^4.1.2"
     eslint-plugin-simple-import-sort "^5.0.3"
     eslint-plugin-switch-case "^1.1.2"
-    eslint-plugin-unicorn "^22.0.0"
+    eslint-plugin-unicorn "^23.0.0"
 
 "@will-stone/prettier-config@^3.1.1":
   version "3.1.1"
@@ -5306,10 +5306,10 @@ eslint-plugin-switch-case@^1.1.2:
     lodash.last "^3.0.0"
     lodash.zipobject "^4.0.0"
 
-eslint-plugin-unicorn@^22.0.0:
-  version "22.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-unicorn/-/eslint-plugin-unicorn-22.0.0.tgz#46a93d8de393b865e04c2057a4ed3510864dd3be"
-  integrity sha512-jXPOauNiVFYLr+AeU3l21Ao+iDl/G08vUWui21RCI2L1TJIIoJvAMjMR6I+QPKr8FgIumzuR6gzDKCtEx2IkzA==
+eslint-plugin-unicorn@^23.0.0:
+  version "23.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-unicorn/-/eslint-plugin-unicorn-23.0.0.tgz#b2820212874735f9d91ecc8678b263ecfa6cf5f6"
+  integrity sha512-Vabo3cjl6cjyhcf+76CdQEY6suOFzK0Xh3xo0uL9VDYrDJP5+B6PjV0tHTYm82WZmFWniugFJM3ywHSNYTi/ZQ==
   dependencies:
     ci-info "^2.0.0"
     clean-regexp "^1.0.0"

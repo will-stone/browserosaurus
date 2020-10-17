@@ -96,7 +96,7 @@ electron.app.on('ready', async () => {
     })
 
     // 1000 * 60 * 60 * 24
-    const ONE_DAY_MS = 86400000
+    const ONE_DAY_MS = 86_400_000
     // Check for updates every day. The first check is done on load: in the
     // RENDERER_LOADED listener.
     setInterval(() => {

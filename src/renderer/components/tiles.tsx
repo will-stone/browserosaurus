@@ -37,8 +37,8 @@ const Tiles: React.FC = () => {
       )}
     >
       {favTile && <Tile app={favTile} className={p} isFav />}
-      {normalTiles.map((app, i) => {
-        const key = app.id + i
+      {normalTiles.map((app, index) => {
+        const key = app.id + index
         return <Tile key={key} app={app} className={p} />
       })}
     </MouseDiv>
