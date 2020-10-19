@@ -3,27 +3,24 @@ import { faCog } from '@fortawesome/free-solid-svg-icons/faCog'
 import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { createAction } from '@reduxjs/toolkit'
 import clsx from 'clsx'
 import { css } from 'emotion'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import Url from 'url'
 
-import { SPONSOR_URL } from '../../config/CONSTANTS'
-import { copyUrl, hideWindow } from '../sendToMain'
-import { useSelector } from '../store'
-import { useTheme } from '../store/selector-hooks'
-import { themes } from '../themes'
-import Button from './atoms/button'
-import MouseDiv from './molecules/mouse-div'
+import { SPONSOR_URL } from '../../../config/CONSTANTS'
+import { copyUrl, hideWindow } from '../../sendToMain'
+import { useSelector } from '../../store'
+import {
+  clickedSettingsButton,
+  clickedUrlBackspaceButton,
+} from '../../store/actions'
+import { useTheme } from '../../store/selector-hooks'
+import { themes } from '../../themes'
+import Button from '../atoms/button'
+import MouseDiv from '../molecules/mouse-div'
 
-export const clickedSettingsButton = createAction(
-  'urlBar/clickedSettingsButton',
-)
-export const clickedUrlBackspaceButton = createAction(
-  'urlBar/clickedUrlBackspaceButton',
-)
 const clickedCopyButton = (url: string) => {
   if (url) {
     copyUrl(url)

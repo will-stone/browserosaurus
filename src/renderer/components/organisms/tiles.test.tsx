@@ -2,13 +2,13 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import electron from 'electron'
 import React from 'react'
 
-import { DEFAULT_URL } from '../../config/CONSTANTS'
-import { INSTALLED_APPS_FOUND, URL_UPDATED } from '../../main/events'
-import { APP_SELECTED, HIDE_WINDOW } from '../sendToMain'
-import App from './app'
+import Wrapper from '../_bootstrap'
+import { DEFAULT_URL } from '../../../config/CONSTANTS'
+import { INSTALLED_APPS_FOUND, URL_UPDATED } from '../../../main/events'
+import { APP_SELECTED, HIDE_WINDOW } from '../../sendToMain'
 
 test('tiles', () => {
-  render(<App />)
+  render(<Wrapper />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
     win.webContents.send(INSTALLED_APPS_FOUND, [
@@ -66,7 +66,7 @@ test('tiles', () => {
 })
 
 test('use hotkey', () => {
-  render(<App />)
+  render(<Wrapper />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
     win.webContents.send(INSTALLED_APPS_FOUND, [
@@ -95,7 +95,7 @@ test('use hotkey', () => {
 })
 
 test('use hotkey with alt', () => {
-  render(<App />)
+  render(<Wrapper />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
     win.webContents.send(INSTALLED_APPS_FOUND, [
@@ -129,7 +129,7 @@ test('use hotkey with alt', () => {
 })
 
 test('hold shift', () => {
-  render(<App />)
+  render(<Wrapper />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
     win.webContents.send(INSTALLED_APPS_FOUND, [
@@ -153,7 +153,7 @@ test('hold shift', () => {
 })
 
 test('tiles order', () => {
-  render(<App />)
+  render(<Wrapper />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
     win.webContents.send(INSTALLED_APPS_FOUND, [

@@ -2,10 +2,14 @@ import clsx from 'clsx'
 import { css } from 'emotion'
 import React from 'react'
 
-import { useFavTile, useNormalTiles, useTheme } from '../store/selector-hooks'
-import { themes } from '../themes'
-import MouseDiv from './molecules/mouse-div'
-import Tile from './molecules/tile'
+import {
+  useFavTile,
+  useNormalTiles,
+  useTheme,
+} from '../../store/selector-hooks'
+import { themes } from '../../themes'
+import MouseDiv from '../molecules/mouse-div'
+import Tile from '../molecules/tile'
 
 const Tiles: React.FC = () => {
   const favTile = useFavTile()

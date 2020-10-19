@@ -38,3 +38,41 @@ export const keydown = createAction<{
 }>('keyboard/keydown')
 export const pressedEscapeKey = createAction('keyboard/escapeKey')
 export const pressedBackspaceKey = createAction('keyboard/backspaceKey')
+
+// -----------------------------------------------------------------------------
+// Settings
+// -----------------------------------------------------------------------------
+export const changedHotkey = createAction<{ appId: string; value: string }>(
+  'settings/changedHotkey',
+)
+export const clickedCloseMenuButton = createAction(
+  'settings/clickedCloseMenuButton',
+)
+export const clickedEyeButton = createAction<string>(
+  'settings/clickedEyeButton',
+)
+export const clickedFavButton = createAction<string>(
+  'settings/clickedFavButton',
+)
+export const clickedSetAsDefaultButton = createAction(
+  'settings/clickedSetAsDefaultButton',
+)
+export const clickedSponsorButton = createAction(
+  'settings/clickedSponsorButton',
+)
+export const clickedThemeButton = createAction<MainStore['theme']>(
+  'settings/clickedThemeButton',
+)
+export const clickedVersionButton = createAction(
+  'settings/clickedVersionButton',
+)
+
+// -----------------------------------------------------------------------------
+// URL bar
+// -----------------------------------------------------------------------------
+export const clickedSettingsButton = createAction(
+  'urlBar/clickedSettingsButton',
+)
+export const clickedUrlBackspaceButton = createAction(
+  'urlBar/clickedUrlBackspaceButton',
+)

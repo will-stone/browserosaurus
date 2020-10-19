@@ -7,46 +7,35 @@ import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { faSync } from '@fortawesome/free-solid-svg-icons/faSync'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { createAction } from '@reduxjs/toolkit'
 import { Transition } from '@tailwindui/react'
 import clsx from 'clsx'
 import { css } from 'emotion'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import { Store as MainStore } from '../../main/store'
-import { quit, reload, setAsDefaultBrowser, updateRestart } from '../sendToMain'
-import { useSelector } from '../store'
-import { useApps, useTheme } from '../store/selector-hooks'
-import { themes } from '../themes'
-import Button from './atoms/button'
-import Kbd from './atoms/kbd'
-import MouseDiv from './molecules/mouse-div'
-
-export const changedHotkey = createAction<{ appId: string; value: string }>(
-  'settings/changedHotkey',
-)
-export const clickedCloseMenuButton = createAction(
-  'settings/clickedCloseMenuButton',
-)
-export const clickedEyeButton = createAction<string>(
-  'settings/clickedEyeButton',
-)
-export const clickedFavButton = createAction<string>(
-  'settings/clickedFavButton',
-)
-export const clickedSetAsDefaultButton = createAction(
-  'settings/clickedSetAsDefaultButton',
-)
-export const clickedSponsorButton = createAction(
-  'settings/clickedSponsorButton',
-)
-export const clickedThemeButton = createAction<MainStore['theme']>(
-  'settings/clickedThemeButton',
-)
-export const clickedVersionButton = createAction(
-  'settings/clickedVersionButton',
-)
+import { Store as MainStore } from '../../../main/store'
+import {
+  quit,
+  reload,
+  setAsDefaultBrowser,
+  updateRestart,
+} from '../../sendToMain'
+import { useSelector } from '../../store'
+import {
+  changedHotkey,
+  clickedCloseMenuButton,
+  clickedEyeButton,
+  clickedFavButton,
+  clickedSetAsDefaultButton,
+  clickedSponsorButton,
+  clickedThemeButton,
+  clickedVersionButton,
+} from '../../store/actions'
+import { useApps, useTheme } from '../../store/selector-hooks'
+import { themes } from '../../themes'
+import Button from '../atoms/button'
+import Kbd from '../atoms/kbd'
+import MouseDiv from '../molecules/mouse-div'
 
 const Settings: React.FC = () => {
   const dispatch = useDispatch()

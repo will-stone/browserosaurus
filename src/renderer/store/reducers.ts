@@ -6,21 +6,17 @@ import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'
 import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 import {
+  appStarted,
   changedHotkey,
   clickedCloseMenuButton,
   clickedEyeButton,
   clickedFavButton,
   clickedSetAsDefaultButton,
+  clickedSettingsButton,
   clickedSponsorButton,
   clickedThemeButton,
-  clickedVersionButton,
-} from '../components/settings'
-import {
-  clickedSettingsButton,
   clickedUrlBackspaceButton,
-} from '../components/url-bar'
-import {
-  appStarted,
+  clickedVersionButton,
   pressedBackspaceKey,
   pressedEscapeKey,
   receivedApps,

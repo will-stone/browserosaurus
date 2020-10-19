@@ -2,8 +2,8 @@ import { act, render, screen } from '@testing-library/react'
 import electron from 'electron'
 import React from 'react'
 
-import { URL_UPDATED } from '../../main/events'
-import App from './app'
+import Wrapper from '../_bootstrap'
+import { URL_UPDATED } from '../../../main/events'
 
 const multiElementText = (text: string) => (_: string, node: HTMLElement) => {
   const hasText = (n: HTMLElement) => Boolean(n.textContent?.startsWith(text))
@@ -16,7 +16,7 @@ const multiElementText = (text: string) => (_: string, node: HTMLElement) => {
 }
 
 test('url bar', () => {
-  render(<App />)
+  render(<Wrapper />)
   const win = new electron.remote.BrowserWindow()
   const protocol = 'http:'
   const host = 'example.com:8000'
