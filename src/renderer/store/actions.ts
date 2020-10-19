@@ -1,4 +1,4 @@
-import { createAction } from '@reduxjs/toolkit'
+import { createAction as cA } from '@reduxjs/toolkit'
 
 import { App } from '../../config/types'
 import { Store as MainStore } from '../../main/store'
@@ -6,29 +6,25 @@ import { Store as MainStore } from '../../main/store'
 // -----------------------------------------------------------------------------
 // App
 // -----------------------------------------------------------------------------
-export const appStarted = createAction('app/started')
+const appStarted = cA('app/started')
 
 // -----------------------------------------------------------------------------
 // Main events
 // -----------------------------------------------------------------------------
-export const receivedStore = createAction<MainStore>('main/receivedStore')
-export const receivedApps = createAction<App[]>('main/receivedApps')
-export const receivedVersion = createAction<string>('main/receivedVersion')
-export const receivedUpdateAvailable = createAction(
-  'main/receivedUpdateAvailable',
-)
-export const receivedUpdateDownloaded = createAction(
-  'main/receivedUpdateDownloaded',
-)
-export const receivedUrl = createAction<string>('main/receivedUrl')
-export const receivedDefaultProtocolClientStatus = createAction<boolean>(
+const receivedStore = cA<MainStore>('main/receivedStore')
+const receivedApps = cA<App[]>('main/receivedApps')
+const receivedVersion = cA<string>('main/receivedVersion')
+const receivedUpdateAvailable = cA('main/receivedUpdateAvailable')
+const receivedUpdateDownloaded = cA('main/receivedUpdateDownloaded')
+const receivedUrl = cA<string>('main/receivedUrl')
+const receivedDefaultProtocolClientStatus = cA<boolean>(
   'main/receivedDefaultProtocolClientStatus',
 )
 
 // -----------------------------------------------------------------------------
 // Keyboard
 // -----------------------------------------------------------------------------
-export const keydown = createAction<{
+const keydown = cA<{
   isAlt: boolean
   isCmd: boolean
   isShift: boolean
@@ -36,43 +32,49 @@ export const keydown = createAction<{
   key: string
   keyCode: number
 }>('keyboard/keydown')
-export const pressedEscapeKey = createAction('keyboard/escapeKey')
-export const pressedBackspaceKey = createAction('keyboard/backspaceKey')
+const pressedEscapeKey = cA('keyboard/escapeKey')
+const pressedBackspaceKey = cA('keyboard/backspaceKey')
 
 // -----------------------------------------------------------------------------
 // Settings
 // -----------------------------------------------------------------------------
-export const changedHotkey = createAction<{ appId: string; value: string }>(
+const changedHotkey = cA<{ appId: string; value: string }>(
   'settings/changedHotkey',
 )
-export const clickedCloseMenuButton = createAction(
-  'settings/clickedCloseMenuButton',
-)
-export const clickedEyeButton = createAction<string>(
-  'settings/clickedEyeButton',
-)
-export const clickedFavButton = createAction<string>(
-  'settings/clickedFavButton',
-)
-export const clickedSetAsDefaultButton = createAction(
-  'settings/clickedSetAsDefaultButton',
-)
-export const clickedSponsorButton = createAction(
-  'settings/clickedSponsorButton',
-)
-export const clickedThemeButton = createAction<MainStore['theme']>(
-  'settings/clickedThemeButton',
-)
-export const clickedVersionButton = createAction(
-  'settings/clickedVersionButton',
-)
+const clickedCloseMenuButton = cA('settings/clickedCloseMenuButton')
+const clickedEyeButton = cA<string>('settings/clickedEyeButton')
+const clickedFavButton = cA<string>('settings/clickedFavButton')
+const clickedSetAsDefaultButton = cA('settings/clickedSetAsDefaultButton')
+const clickedSponsorButton = cA('settings/clickedSponsorButton')
+const clickedThemeButton = cA<MainStore['theme']>('settings/clickedThemeButton')
+const clickedVersionButton = cA('settings/clickedVersionButton')
 
 // -----------------------------------------------------------------------------
 // URL bar
 // -----------------------------------------------------------------------------
-export const clickedSettingsButton = createAction(
-  'urlBar/clickedSettingsButton',
-)
-export const clickedUrlBackspaceButton = createAction(
-  'urlBar/clickedUrlBackspaceButton',
-)
+const clickedSettingsButton = cA('urlBar/clickedSettingsButton')
+const clickedUrlBackspaceButton = cA('urlBar/clickedUrlBackspaceButton')
+
+export {
+  appStarted,
+  receivedStore,
+  receivedApps,
+  receivedVersion,
+  receivedUpdateAvailable,
+  receivedUpdateDownloaded,
+  receivedUrl,
+  receivedDefaultProtocolClientStatus,
+  keydown,
+  pressedEscapeKey,
+  pressedBackspaceKey,
+  changedHotkey,
+  clickedCloseMenuButton,
+  clickedEyeButton,
+  clickedFavButton,
+  clickedSetAsDefaultButton,
+  clickedSponsorButton,
+  clickedThemeButton,
+  clickedVersionButton,
+  clickedSettingsButton,
+  clickedUrlBackspaceButton,
+}
