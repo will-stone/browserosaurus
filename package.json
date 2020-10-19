@@ -183,7 +183,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
-    "react-tooltip": "^4.2.9",
+    "react-tooltip": "^4.2.10",
     "redux": "^4.0.5",
     "tailwindcss": "^1.8.13",
     "tings": "^0.0.23"
