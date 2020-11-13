@@ -9,7 +9,6 @@ import { apps } from '../config/apps'
 import { App } from '../config/types'
 import {
   APP_SELECTED,
-  CATCH_MOUSE,
   CHANGE_THEME,
   COPY_TO_CLIPBOARD,
   FAV_SELECTED,
@@ -18,7 +17,6 @@ import {
   MAIN_LOG,
   OpenAppArguments,
   QUIT,
-  RELEASE_MOUSE,
   RELOAD,
   RENDERER_STARTED,
   SET_AS_DEFAULT_BROWSER,
@@ -227,12 +225,4 @@ electron.ipcMain.on(QUIT, () => {
 
 electron.ipcMain.on(MAIN_LOG, (_, string: string) => {
   logger('Renderer', string)
-})
-
-electron.ipcMain.on(CATCH_MOUSE, () => {
-  bWindow?.setIgnoreMouseEvents(false)
-})
-
-electron.ipcMain.on(RELEASE_MOUSE, () => {
-  bWindow?.setIgnoreMouseEvents(true, { forward: true })
 })

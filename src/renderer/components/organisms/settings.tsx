@@ -35,7 +35,6 @@ import { useApps, useTheme } from '../../store/selector-hooks'
 import { themes } from '../../themes'
 import Button from '../atoms/button'
 import Kbd from '../atoms/kbd'
-import MouseDiv from '../molecules/mouse-div'
 
 const Settings: React.FC = () => {
   const dispatch = useDispatch()
@@ -58,8 +57,7 @@ const Settings: React.FC = () => {
       leaveTo="opacity-0"
       show={menu === 'tiles'}
     >
-      <MouseDiv
-        capture
+      <div
         className={clsx(
           'absolute inset-0 rounded border-2 shadow-xl z-30 grid grid-cols-2',
           css({
@@ -360,7 +358,7 @@ const Settings: React.FC = () => {
             </div>
           </div>
         </div>
-      </MouseDiv>
+      </div>
     </Transition>
   )
 }

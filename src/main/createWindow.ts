@@ -19,7 +19,7 @@ function createWindow(): Promise<electron.BrowserWindow> {
         preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
         enableRemoteModule: false,
       },
-      height: 300,
+      height: 230,
       width: 1000,
       show: false,
       minimizable: false,
@@ -28,8 +28,11 @@ function createWindow(): Promise<electron.BrowserWindow> {
       fullscreenable: false,
       movable: false,
       resizable: false,
-      transparent: true,
-      hasShadow: false,
+      transparent: false,
+      hasShadow: true,
+      vibrancy: 'hud',
+      titleBarStyle: 'default',
+      darkTheme: true,
     })
 
     bWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
@@ -63,7 +66,7 @@ function createWindow(): Promise<electron.BrowserWindow> {
     })
 
     bWindow.webContents.on('did-finish-load', () => {
-      // pickerWindow.webContents.openDevTools()
+      // bWindow.webContents.openDevTools()
       resolve(bWindow)
     })
 

@@ -19,7 +19,6 @@ import {
 import { useTheme } from '../../store/selector-hooks'
 import { themes } from '../../themes'
 import Button from '../atoms/button'
-import MouseDiv from '../molecules/mouse-div'
 
 const clickedCopyButton = (url: string) => {
   if (url) {
@@ -43,22 +42,14 @@ const UrlBar: React.FC<Props> = ({ className }) => {
   const parsedUrl = Url.parse(url)
 
   return (
-    <MouseDiv
-      capture
+    <div
       className={clsx(
         className,
         'flex-shrink-0',
         'w-full',
         'flex items-center space-x-4',
-        'border-2 rounded-md shadow',
         'px-4',
         'h-12',
-        css({
-          backgroundColor: themes[theme].url.bg,
-          borderColor: isSponsorUrl
-            ? themes[theme].url.border.sponsor
-            : themes[theme].url.border.base,
-        }),
       )}
       style={{ minWidth: '300px' }}
     >
@@ -136,7 +127,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           />
         </Button>
       </div>
-    </MouseDiv>
+    </div>
   )
 }
 

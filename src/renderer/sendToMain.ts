@@ -57,12 +57,6 @@ export const updateHiddenTileIds = (tileIds: string[]): void =>
 export const RENDERER_STARTED = 'RENDERER_STARTED'
 export const startRenderer = (): void => ipcRenderer.send(RENDERER_STARTED)
 
-export const CATCH_MOUSE = 'CATCH_MOUSE'
-export const catchMouse = (): void => ipcRenderer.send(CATCH_MOUSE)
-
-export const RELEASE_MOUSE = 'RELEASE_MOUSE'
-export const releaseMouse = (): void => ipcRenderer.send(RELEASE_MOUSE)
-
 export const CHANGE_THEME = 'CHANGE_THEME'
 export const changeTheme = (theme: MainStore['theme']): void =>
   ipcRenderer.send(CHANGE_THEME, theme)

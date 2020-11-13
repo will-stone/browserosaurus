@@ -42,6 +42,7 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         key={app.id}
         aria-label={`${app.name} Tile`}
         className={clsx(
+          '-mt-4',
           'flex flex-col items-center justify-center max-h-full',
           'rounded',
           'focus:outline-none',
@@ -57,7 +58,7 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         data-tip
         onClick={(event) => dispatch(clickedTileButton(app.id, event))}
         style={{
-          maxWidth: '100px',
+          maxWidth: '90px',
           minWidth: '50px',
         }}
         type="button"
@@ -81,9 +82,10 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         </Kbd>
       </button>
       <ReactTooltip
-        backgroundColor={themes[theme].tooltip.bg}
+        backgroundColor="transparent"
         effect="solid"
         id={app.id}
+        overridePosition={({ left, top }) => ({ left, top: top - 12 })}
         place="bottom"
         textColor={themes[theme].tooltip.text}
       >
