@@ -49,7 +49,7 @@ const keyboardEvent = (event: KeyboardEvent): AppThunk => (
     }
 
     // App hotkey
-    else if (stringFromCharCode.match(/^([a-z0-9])$/u)) {
+    else if (!event.metaKey && stringFromCharCode.match(/^([a-z0-9])$/u)) {
       event.preventDefault()
       const appId = hotkeys[stringFromCharCode]
       if (appId) {
