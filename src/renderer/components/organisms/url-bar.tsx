@@ -48,17 +48,19 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         'flex-shrink-0',
         'w-full',
         'flex items-center space-x-4',
-        'px-4',
+        'px-1',
         'h-12',
       )}
       style={{ minWidth: '300px' }}
     >
       <div
         className={clsx(
+          'pl-3',
           'flex-grow',
           'text-xs tracking-wider',
           'flex items-center justify-between',
           'overflow-hidden',
+          'draggable',
           css({
             color: isSponsorUrl
               ? themes[theme].url.text.sponsorBase

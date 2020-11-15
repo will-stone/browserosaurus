@@ -9,7 +9,7 @@ import { themes } from '../../themes'
 
 interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   tone?: 'primary' | 'sponsor'
-  size?: 'xxs' | 'xs' | 'md'
+  size?: 'xs' | 'md'
   tip?: string
 }
 
@@ -28,10 +28,7 @@ const Button: React.FC<ButtonProps> = ({
   let textSize = 'text-xs'
   let padding = 'px-3 py-2'
 
-  if (size === 'xxs') {
-    textSize = 'text-xxs'
-    padding = 'px-2 py-2'
-  } else if (size === 'md') {
+  if (size === 'md') {
     textSize = 'text-base'
     padding = 'px-4 py-3'
   }
@@ -45,8 +42,6 @@ const Button: React.FC<ButtonProps> = ({
     color = themes[theme].button.text.sponsor
   }
 
-  const backgroundColor = disabled ? 'bg-transparent' : themes[theme].button.bg
-
   const tipId = toLetters(tip)
 
   return (
@@ -59,7 +54,7 @@ const Button: React.FC<ButtonProps> = ({
           'rounded-md',
           textSize,
           'leading-none',
-          css({ color, backgroundColor }),
+          css({ color }),
         )}
         data-for={tipId}
         data-tip

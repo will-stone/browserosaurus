@@ -13,8 +13,8 @@ const concrete = '#f8f8f2'
 
 export const dracula: Theme = {
   sample: { a: purple1, b: purple2, c: green },
+  bg: purple1,
   url: {
-    bg: purple1,
     text: {
       base: purple3,
       host: green,
@@ -29,11 +29,9 @@ export const dracula: Theme = {
   },
   settings: {
     text: concrete,
-    bg: purple1,
     border: purple2,
   },
   tiles: {
-    bg: purple1,
     border: purple2,
   },
   tile: {

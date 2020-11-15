@@ -4,8 +4,8 @@ export interface Theme {
     b: string
     c: string
   }
+  bg: string
   url: {
-    bg: string
     text: {
       base: string
       host: string
@@ -19,7 +19,6 @@ export interface Theme {
     }
   }
   tiles: {
-    bg: string
     border: string
   }
   tile: {
@@ -30,7 +29,6 @@ export interface Theme {
   }
   settings: {
     text: string
-    bg: string
     border: string
   }
   tooltip: {

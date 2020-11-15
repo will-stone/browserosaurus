@@ -19,8 +19,8 @@ const purple = '#805AD5'
 
 export const light: Theme = {
   sample: { a: grey1, b: grey2, c: grey4 },
+  bg: grey1,
   url: {
-    bg: grey1,
     text: {
       base: grey4,
       host: grey6,
@@ -35,11 +35,9 @@ export const light: Theme = {
   },
   settings: {
     text: grey5,
-    bg: grey1,
     border: grey2,
   },
   tiles: {
-    bg: grey1,
     border: grey2,
   },
   tile: {
@@ -49,8 +47,8 @@ export const light: Theme = {
     text: grey6,
   },
   tooltip: {
-    bg: grey2,
-    text: grey6,
+    bg: grey6,
+    text: grey1,
   },
   button: {
     bg: grey2,

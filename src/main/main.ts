@@ -135,8 +135,6 @@ electron.app.on('open-url', (event, url) => {
 electron.ipcMain.on(RENDERER_STARTED, async () => {
   installedApps = await filterAppsByInstalled(apps)
 
-  bWindow?.center()
-
   // Send all info down to renderer
   bWindow?.webContents.send(STORE_RETRIEVED, store.store)
   bWindow?.webContents.send(INSTALLED_APPS_FOUND, installedApps)

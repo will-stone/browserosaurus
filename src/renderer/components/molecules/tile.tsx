@@ -37,61 +37,52 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
   const theme = useTheme()
 
   return (
-    <>
-      <button
-        key={app.id}
-        aria-label={`${app.name} Tile`}
-        className={clsx(
-          '-mt-4',
-          'flex flex-col items-center justify-center max-h-full',
-          'rounded',
-          'focus:outline-none',
-          css({
-            color: themes[theme].tile.text,
-            '&:hover': {
-              backgroundColor: themes[theme].tile.bg.hover,
-            },
-          }),
-          className,
+    <button
+      key={app.id}
+      aria-label={`${app.name} Tile`}
+      className={clsx(
+        'w-32 h-32 p-8',
+        'flex flex-col items-center justify-center max-h-full',
+        'rounded',
+        'focus:outline-none',
+        css({
+          color: themes[theme].tile.text,
+        }),
+        className,
+      )}
+      data-for={app.id}
+      data-tip
+      onClick={(event) => dispatch(clickedTileButton(app.id, event))}
+      type="button"
+    >
+      <img
+        alt={app.name}
+        className="w-full object-contain"
+        src={logos[app.id]}
+      />
+      <Kbd className="flex-shrink-0 flex justify-center items-center mt-2">
+        {isFav && (
+          <FontAwesomeIcon
+            aria-label="Favourite"
+            className={clsx('mr-2', css({ color: themes[theme].icons.star }))}
+            icon={faStar}
+            role="img"
+          />
         )}
-        data-for={app.id}
-        data-tip
-        onClick={(event) => dispatch(clickedTileButton(app.id, event))}
-        style={{
-          maxWidth: '90px',
-          minWidth: '50px',
-        }}
-        type="button"
-      >
-        <img
-          alt={app.name}
-          className="w-full object-contain"
-          src={logos[app.id]}
-        />
-        <Kbd className="flex-shrink-0 flex justify-center items-center mt-2">
-          {isFav && (
-            <FontAwesomeIcon
-              aria-label="Favourite"
-              className={clsx('mr-2', css({ color: themes[theme].icons.star }))}
-              icon={faStar}
-              role="img"
-            />
-          )}
-          {/* Prevents box collapse when hotkey not set */}
-          {app.hotkey || <span className="opacity-0">.</span>}
-        </Kbd>
-      </button>
+        {/* Prevents box collapse when hotkey not set */}
+        {app.hotkey || <span className="opacity-0">.</span>}
+      </Kbd>
       <ReactTooltip
-        backgroundColor="transparent"
+        backgroundColor={themes[theme].tooltip.bg}
         effect="solid"
         id={app.id}
-        overridePosition={({ left, top }) => ({ left, top: top - 12 })}
+        offset={{ top: 24 }}
         place="bottom"
         textColor={themes[theme].tooltip.text}
       >
         {app.name}
       </ReactTooltip>
-    </>
+    </button>
   )
 }
 

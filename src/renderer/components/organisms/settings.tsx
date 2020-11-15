@@ -59,11 +59,10 @@ const Settings: React.FC = () => {
     >
       <div
         className={clsx(
-          'absolute inset-0 rounded border-2 shadow-xl z-30 grid grid-cols-2',
+          'absolute inset-0 rounded shadow-xl z-30 grid grid-cols-2',
           css({
             color: themes[theme].settings.text,
-            backgroundColor: themes[theme].settings.bg,
-            borderColor: themes[theme].settings.border,
+            backgroundColor: themes[theme].bg,
           }),
         )}
       >

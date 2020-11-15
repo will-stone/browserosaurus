@@ -19,20 +19,20 @@ function createWindow(): Promise<electron.BrowserWindow> {
         preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
         enableRemoteModule: false,
       },
-      height: 230,
-      width: 1000,
+      height: 210,
+      minHeight: 210,
+      width: 790,
+      minWidth: 790,
       show: false,
       minimizable: false,
       maximizable: false,
       fullscreen: false,
       fullscreenable: false,
-      movable: false,
-      resizable: false,
-      transparent: false,
+      movable: true,
+      resizable: true,
+      transparent: true,
       hasShadow: true,
-      vibrancy: 'hud',
-      titleBarStyle: 'default',
-      darkTheme: true,
+      backgroundColor: '#1A202C',
     })
 
     bWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
@@ -49,8 +49,6 @@ function createWindow(): Promise<electron.BrowserWindow> {
     })
 
     bWindow.on('show', () => {
-      bWindow.setIgnoreMouseEvents(false)
-      bWindow.center()
       // There isn't a listener for default protocol client, therefore the check
       // is made each time the app is brought into focus.
       bWindow.webContents.send(

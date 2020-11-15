@@ -9,18 +9,12 @@ const Tiles: React.FC = () => {
   const normalTiles = useNormalTiles()
 
   return (
-    <div
-      className={clsx(
-        'relative flex-grow',
-        'flex justify-start items-center',
-        'max-w-full overflow-x-auto',
-      )}
-    >
-      <div className="px-20 flex justify-start items-center space-x-4">
-        {favTile && <Tile app={favTile} className="p-1" isFav />}
+    <div className={clsx('relative flex-grow w-full', 'overflow-y-scroll')}>
+      <div className="pb-8 flex justify-center items-center flex-wrap">
+        {favTile && <Tile app={favTile} isFav />}
         {normalTiles.map((app, index) => {
           const key = app.id + index
-          return <Tile key={key} app={app} className="p-1" />
+          return <Tile key={key} app={app} />
         })}
       </div>
     </div>
