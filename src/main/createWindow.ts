@@ -2,11 +2,14 @@ import electron from 'electron'
 import path from 'path'
 
 import { PROTOCOL_STATUS_RETRIEVED } from './events'
+import { store } from './store'
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 
 function createWindow(): Promise<electron.BrowserWindow> {
+  const bounds = store.get('bounds')
+
   return new Promise((resolve, reject) => {
     const bWindow = new electron.BrowserWindow({
       frame: true,
@@ -20,9 +23,11 @@ function createWindow(): Promise<electron.BrowserWindow> {
         preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
         enableRemoteModule: false,
       },
-      height: 168,
+      x: bounds?.x,
+      y: bounds?.y,
+      height: bounds?.height || 168,
       minHeight: 168,
-      width: 790,
+      width: bounds?.width || 790,
       minWidth: 790,
       show: false,
       minimizable: true,
@@ -62,6 +67,14 @@ function createWindow(): Promise<electron.BrowserWindow> {
     })
 
     bWindow.once('unresponsive', () => reject(new Error('Window did not load')))
+
+    bWindow.on('resize', () => {
+      store.set('bounds', bWindow.getBounds())
+    })
+
+    bWindow.on('moved', () => {
+      store.set('bounds', bWindow.getBounds())
+    })
   })
 }
 
