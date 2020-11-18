@@ -5,6 +5,7 @@ export interface Theme {
     c: string
   }
   bg: string
+  titleBarBg: string
   url: {
     text: {
       base: string
@@ -12,10 +13,6 @@ export interface Theme {
       sponsorBase: string
       sponsorHost: string
       disabled: string
-    }
-    border: {
-      base: string
-      sponsor: string
     }
   }
   tiles: {
@@ -30,10 +27,6 @@ export interface Theme {
   settings: {
     text: string
     border: string
-  }
-  tooltip: {
-    bg: string
-    text: string
   }
   button: {
     bg: string

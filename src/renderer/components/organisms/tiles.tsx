@@ -10,7 +10,7 @@ const Tiles: React.FC = () => {
 
   return (
     <div className={clsx('relative flex-grow w-full', 'overflow-y-scroll')}>
-      <div className="pb-8 flex justify-center items-center flex-wrap">
+      <div className="flex justify-center items-center flex-wrap">
         {favTile && <Tile app={favTile} isFav />}
         {normalTiles.map((app, index) => {
           const key = app.id + index

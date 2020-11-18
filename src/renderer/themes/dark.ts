@@ -7,7 +7,6 @@ const grey3 = '#848C9B'
 const grey2 = '#A9B2C3'
 const grey1 = '#C6CCD7'
 
-const pink3 = '#ED64A6'
 const pink2 = '#F687B3'
 const pink1 = '#FED7E2'
 
@@ -20,6 +19,7 @@ const purple = '#9F7AEA'
 export const dark: Theme = {
   sample: { a: grey5, b: grey4, c: grey1 },
   bg: grey5,
+  titleBarBg: grey6,
   url: {
     text: {
       base: grey3,
@@ -27,10 +27,6 @@ export const dark: Theme = {
       sponsorBase: pink1,
       sponsorHost: pink2,
       disabled: grey4,
-    },
-    border: {
-      base: grey4,
-      sponsor: pink3,
     },
   },
   settings: {
@@ -44,10 +40,6 @@ export const dark: Theme = {
     bg: {
       hover: grey6,
     },
-    text: grey1,
-  },
-  tooltip: {
-    bg: grey6,
     text: grey1,
   },
   button: {

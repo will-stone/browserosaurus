@@ -4,7 +4,6 @@ import clsx from 'clsx'
 import { css } from 'emotion'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import ReactTooltip from 'react-tooltip'
 
 import { logos } from '../../../config/logos'
 import { hideWindow, selectApp } from '../../sendToMain'
@@ -53,6 +52,7 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
       data-for={app.id}
       data-tip
       onClick={(event) => dispatch(clickedTileButton(app.id, event))}
+      title={app.name}
       type="button"
     >
       <img
@@ -72,16 +72,6 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         {/* Prevents box collapse when hotkey not set */}
         {app.hotkey || <span className="opacity-0">.</span>}
       </Kbd>
-      <ReactTooltip
-        backgroundColor={themes[theme].tooltip.bg}
-        effect="solid"
-        id={app.id}
-        offset={{ top: 24 }}
-        place="bottom"
-        textColor={themes[theme].tooltip.text}
-      >
-        {app.name}
-      </ReactTooltip>
     </button>
   )
 }

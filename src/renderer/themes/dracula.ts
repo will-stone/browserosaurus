@@ -14,6 +14,7 @@ const concrete = '#f8f8f2'
 export const dracula: Theme = {
   sample: { a: purple1, b: purple2, c: green },
   bg: purple1,
+  titleBarBg: purple0,
   url: {
     text: {
       base: purple3,
@@ -21,10 +22,6 @@ export const dracula: Theme = {
       sponsorBase: pink,
       sponsorHost: green,
       disabled: purple2,
-    },
-    border: {
-      base: purple2,
-      sponsor: pink,
     },
   },
   settings: {
@@ -38,10 +35,6 @@ export const dracula: Theme = {
     bg: {
       hover: purple0,
     },
-    text: concrete,
-  },
-  tooltip: {
-    bg: purple0,
     text: concrete,
   },
   button: {

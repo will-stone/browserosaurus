@@ -1,5 +1,4 @@
 import { ipcRenderer } from 'electron'
-import ReactTooltip from 'react-tooltip'
 
 import { App } from '../config/types'
 import { Hotkeys, Store as MainStore } from '../main/store'
@@ -29,7 +28,6 @@ export const updateHotkeys = (hotkeys: Hotkeys): void =>
 
 export const HIDE_WINDOW = 'HIDE_WINDOW'
 export const hideWindow = (): void => {
-  ReactTooltip.hide()
   ipcRenderer.send(HIDE_WINDOW)
 }
 

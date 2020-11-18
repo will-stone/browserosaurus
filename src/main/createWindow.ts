@@ -1,5 +1,4 @@
 import electron from 'electron'
-import isDev from 'electron-is-dev'
 import path from 'path'
 
 import { PROTOCOL_STATUS_RETRIEVED } from './events'
@@ -10,34 +9,34 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 function createWindow(): Promise<electron.BrowserWindow> {
   return new Promise((resolve, reject) => {
     const bWindow = new electron.BrowserWindow({
-      frame: false,
+      frame: true,
+      titleBarStyle: 'hiddenInset',
       icon: path.join(__dirname, '/static/icon/icon.png'),
       title: 'Browserosaurus',
       webPreferences: {
         additionalArguments: [],
         nodeIntegration: true,
+        contextIsolation: false,
         preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
         enableRemoteModule: false,
       },
-      height: 210,
-      minHeight: 210,
+      height: 168,
+      minHeight: 168,
       width: 790,
       minWidth: 790,
       show: false,
-      minimizable: false,
-      maximizable: false,
-      fullscreen: false,
+      minimizable: true,
+      maximizable: true,
+      fullscreen: true,
       fullscreenable: false,
       movable: true,
       resizable: true,
-      transparent: true,
+      transparent: false,
       hasShadow: true,
       backgroundColor: '#1A202C',
     })
 
     bWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
-
-    bWindow.setVisibleOnAllWorkspaces(true)
 
     bWindow.on('hide', () => {
       electron.app.hide()
@@ -55,12 +54,6 @@ function createWindow(): Promise<electron.BrowserWindow> {
         PROTOCOL_STATUS_RETRIEVED,
         electron.app.isDefaultProtocolClient('http'),
       )
-    })
-
-    bWindow.on('blur', () => {
-      if (!isDev) {
-        bWindow.hide()
-      }
     })
 
     bWindow.webContents.on('did-finish-load', () => {

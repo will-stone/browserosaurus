@@ -48,14 +48,13 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         'flex-shrink-0',
         'w-full',
         'flex items-center space-x-4',
-        'px-1',
-        'h-12',
+        'pl-20 pr-1',
+        css({ backgroundColor: themes[theme].titleBarBg }),
       )}
-      style={{ minWidth: '300px' }}
+      style={{ height: '39px' }}
     >
       <div
         className={clsx(
-          'pl-3',
           'flex-grow',
           'text-xs tracking-wider',
           'flex items-center justify-between',
@@ -103,7 +102,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         <Button
           disabled={isEmpty}
           onClick={() => dispatch(clickedUrlBackspaceButton())}
-          tip="Delete section of URL (Backspace)"
+          title="Delete section of URL (Backspace)"
         >
           <FontAwesomeIcon fixedWidth icon={faBackspace} />
         </Button>
@@ -111,7 +110,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         <Button
           disabled={isEmpty}
           onClick={() => clickedCopyButton(url)}
-          tip="Copy (<kbd>⌘+C</kbd>)"
+          title="Copy (<kbd>⌘+C</kbd>)"
         >
           <FontAwesomeIcon fixedWidth icon={faCopy} />
         </Button>
@@ -119,7 +118,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         <Button
           aria-label="Settings menu"
           onClick={() => dispatch(clickedSettingsButton())}
-          tip="Settings"
+          title="Settings"
           tone={updateStatus === 'downloaded' ? 'primary' : undefined}
         >
           <FontAwesomeIcon
