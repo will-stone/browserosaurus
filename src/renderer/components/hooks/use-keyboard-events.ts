@@ -44,7 +44,6 @@ const keyboardEvent = (event: KeyboardEvent): AppThunk => (
       event.preventDefault()
       if (url) {
         copyUrl(url)
-        hideWindow()
       }
     }
 
@@ -54,7 +53,6 @@ const keyboardEvent = (event: KeyboardEvent): AppThunk => (
       const appId = hotkeys[stringFromCharCode]
       if (appId) {
         selectApp({ url, appId, isAlt: event.altKey, isShift: event.shiftKey })
-        hideWindow()
       }
     }
 
@@ -67,7 +65,6 @@ const keyboardEvent = (event: KeyboardEvent): AppThunk => (
         isAlt: event.altKey,
         isShift: event.shiftKey,
       })
-      hideWindow()
     }
   }
 }

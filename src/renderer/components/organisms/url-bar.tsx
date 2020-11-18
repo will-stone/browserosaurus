@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux'
 import Url from 'url'
 
 import { SPONSOR_URL } from '../../../config/CONSTANTS'
-import { copyUrl, hideWindow } from '../../sendToMain'
+import { copyUrl } from '../../sendToMain'
 import { useSelector } from '../../store'
 import {
   clickedSettingsButton,
@@ -23,7 +23,6 @@ import Button from '../atoms/button'
 const clickedCopyButton = (url: string) => {
   if (url) {
     copyUrl(url)
-    hideWindow()
   }
 }
 

@@ -6,7 +6,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import { logos } from '../../../config/logos'
-import { hideWindow, selectApp } from '../../sendToMain'
+import { selectApp } from '../../sendToMain'
 import { AppThunk } from '../../store'
 import { ExtendedApp, useTheme } from '../../store/selector-hooks'
 import { themes } from '../../themes'
@@ -22,7 +22,6 @@ const clickedTileButton = (
     isAlt: event.altKey,
     isShift: event.shiftKey,
   })
-  hideWindow()
 }
 
 interface Props {
