@@ -13,6 +13,18 @@ like to continue opening the link with.
 
 **Currently supports macOS 10.15.6**
 
+## Installation
+
+Installation alternatives:
+
+Download [the latest release](https://github.com/will-stone/browserosaurus/releases).
+- dmg installation: double click the DMG and drag the `Browserosaurus.app` into the application folder.
+- Zip installation: unzip and put `Browserosaurus.app` in your application folder.
+  
+**OR**
+
+Install with [homebrew-cask](https://github.com/Homebrew/homebrew-cask): `brew install browserosaurus --cask` and let the magic happen.
+
 ## Development
 
 Ensure you are running the correct version of Node. The repo includes an
