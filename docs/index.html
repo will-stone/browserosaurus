@@ -63,11 +63,6 @@
           font-size: calc(1.475rem + 2.7vw);
         }
       }
-      code.brew {
-        background: #343a40;
-        padding: 0.75em; 
-        border-radius: .3rem;
-      }
     </style>
 
     <link
@@ -261,16 +256,6 @@
               </svg>
               <span>Download Browserosaurus for macOS</span>
             </button>
-            <div class="text-center">OR
-                <p>Install via 
-                  <a 
-                    href="https://github.com/Homebrew/homebrew-cask"
-                    target="_blank"
-                    rel="noopener noreferrer nofollow"
-                    >Homebrew Cask</a>
-                </p>
-                <code class="brew">brew install browserosaurus --cask</code>
-            </div>
           </p>
 
           <div class="text-center">
@@ -511,7 +496,7 @@
       aria-labelledby="downloadModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-body">
             <blockquote class="blockquote">
@@ -567,12 +552,19 @@
             >
               Download Browserosaurus for macOS
             </a>
+            <button
+             id="js-homebrew-cask-button"
+             class="btn btn-light"
+             data-toggle="tooltip"
+             data-placement="top"
+             title="Copy to clipboard"
+            >
+             Install via Homebrew Cask
+            </a>
           </div>
         </div>
       </div>
     </div>
-
-    <script src="./version.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -588,5 +580,7 @@
       integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
       crossorigin="anonymous"
     ></script>
+
+    <script src="./version.js"></script>
   </body>
 </html>
