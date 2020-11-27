@@ -1,9 +1,0 @@
-{
-  "env": {
-    "es6": true,
-    "jquery": true
-  },
-  "parserOptions": {
-    "ecmaVersion": 2017
-  }
-}
