@@ -5,11 +5,11 @@ downloadButton.href = `https://github.com/will-stone/browserosaurus/releases/dow
 
 downloadButton.innerHTML = `Download Browserosaurus v${version}`
 
-const homebrewCaskCommand = "brew install browserosaurus --cask"
-const homebrewCaskButton = document.querySelector("#js-homebrew-cask-button")
-homebrewCaskButton.onclick = function () {
+const homebrewCaskCommand = 'brew install browserosaurus --cask'
+const homebrewCaskButton = document.querySelector('#js-homebrew-cask-button')
+homebrewCaskButton.addEventListener('click', function () {
   navigator.clipboard.writeText(homebrewCaskCommand)
-}
+})
 
 $().ready(function () {
   $('[data-toggle="tooltip"]').tooltip()
