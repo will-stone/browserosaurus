@@ -176,7 +176,7 @@ const Settings: React.FC = () => {
             </div>
           </div>
 
-          <div className="p-4 grid grid-cols-3 gap-4 text-sm">
+          <div className="p-4 text-sm space-y-2">
             {apps.map((app) => (
               <div
                 key={app.id}
@@ -285,16 +285,6 @@ const Settings: React.FC = () => {
               support I can continue to maintain projects such as this one,
               which is free and always will be.
             </p>
-            <Button
-              aria-label="Sponsor"
-              className="w-full mb-8 space-x-1"
-              onClick={() => dispatch(clickedSponsorButton())}
-              size="md"
-              tone="sponsor"
-            >
-              <span>Please consider sponsorship</span>
-            </Button>
-
             <p className="flex flex-wrap gap-2 justify-center">
               {Object.entries(themes).map(([themeKey, themeInfo]) => {
                 return (
@@ -341,38 +331,6 @@ const Settings: React.FC = () => {
                 )
               })}
             </p>
-          </div>
-          <div className="text-sm flex">
-            <div className="p-4 space-y-3 text-xs w-48">
-              <div className="space-x-2">
-                <FontAwesomeIcon
-                  className={css({ color: themes[theme].icons.star })}
-                  fixedWidth
-                  icon={faStar}
-                />
-                <span>
-                  Assign <Kbd>space</Kbd> key
-                </span>
-              </div>
-              <div className="space-x-2">
-                <FontAwesomeIcon
-                  className={css({ color: themes[theme].icons.eye })}
-                  fixedWidth
-                  icon={faEye}
-                />
-                <span>Show / hide</span>
-              </div>
-              <div className="flex items-center  space-x-2">
-                <FontAwesomeIcon
-                  className={css({ color: themes[theme].icons.keyboard })}
-                  fixedWidth
-                  icon={faKeyboard}
-                />
-                <span>Assign single letters or numbers as hotkeys</span>
-              </div>
-            </div>
-
-            <div className="flex-grow" />
           </div>
 
           <button
