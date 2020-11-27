@@ -15,7 +15,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14.6.x
-      - run: yarn add eslint-config-jquery
       - run: yarn install --network-timeout 300000
       - run: yarn lint
       - run: yarn typecheck
