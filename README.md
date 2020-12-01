@@ -13,6 +13,10 @@ like to continue opening the link with.
 
 **Currently supports macOS 10.15.6**
 
+## Installation
+
+Installation instructions and alternatives are available on [browserosaurus.com](https://browserosaurus.com)
+
 ## Development
 
 Ensure you are running the correct version of Node. The repo includes an
