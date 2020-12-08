@@ -148,4 +148,8 @@ export const apps: App[] = [
     name: 'Yandex',
     id: 'ru.yandex.desktop.yandex-browser',
   },
+  {
+    name: 'Spotify',
+    id: 'com.spotify.client',
+  },
 ]
