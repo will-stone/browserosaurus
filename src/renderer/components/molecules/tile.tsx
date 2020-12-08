@@ -63,13 +63,17 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         {isFav && (
           <FontAwesomeIcon
             aria-label="Favourite"
-            className={clsx('mr-2', css({ color: themes[theme].icons.star }))}
+            className={css({ color: themes[theme].icons.star })}
             icon={faStar}
             role="img"
           />
         )}
-        {/* Prevents box collapse when hotkey not set */}
-        {app.hotkey || <span className="opacity-0">.</span>}
+        {app.hotkey ? (
+          <span className="ml-2">{app.hotkey}</span>
+        ) : (
+          // Prevents box collapse when hotkey not set
+          <span className="opacity-0 w-0">.</span>
+        )}
       </Kbd>
     </button>
   )
