@@ -1,6 +1,6 @@
 {
   "name": "browserosaurus",
-  "version": "12.3.1",
+  "version": "13.0.0",
   "description": "The browser prompter for macOS",
   "keywords": [
     "macOS",
@@ -20,10 +20,13 @@
     "icns": "cd ./src/images/icon && ./scripts/png2icns.sh icon.png",
     "lint": "eslint . --ignore-path .gitignore",
     "list-apps": "ts-node ./scripts/listInstalledApps",
-    "make": "electron-forge make --skip-package",
+    "make": "yarn make:arm && yarn make:intel",
+    "make:arm": "electron-forge make --skip-package --arch=arm64",
+    "make:intel": "electron-forge make --skip-package --arch=x64",
     "notarize": "ts-node ./scripts/notarize.ts",
-    "prepackage": "rimraf ./out/",
-    "package": "NODE_ENV=production electron-forge package --platform=darwin --arch=x64",
+    "package": "rimraf out && yarn package:arm && yarn package:intel",
+    "package:arm": "NODE_ENV=production electron-forge package --platform=darwin --arch=arm64",
+    "package:intel": "NODE_ENV=production electron-forge package --platform=darwin --arch=x64",
     "release": "yarn version && yarn package && yarn notarize && yarn make",
     "start": "ENV=DEV ELECTRON_DISABLE_SECURITY_WARNINGS=true electron-forge start",
     "test": "jest",
@@ -79,12 +82,6 @@
           "platforms": [
             "darwin"
           ]
-        },
-        {
-          "name": "@electron-forge/maker-dmg",
-          "config": {
-            "format": "ULFO"
-          }
         }
       ],
       "plugins": [

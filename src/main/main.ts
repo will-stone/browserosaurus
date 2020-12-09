@@ -70,9 +70,11 @@ electron.app.on('ready', async () => {
   // Auto update on production
   if (!electronIsDev) {
     electron.autoUpdater.setFeedURL({
-      url: `https://update.electronjs.org/will-stone/browserosaurus/darwin-x64/${electron.app.getVersion()}`,
+      url: `https://update.electronjs.org/will-stone/browserosaurus/darwin-${
+        process.arch
+      }/${electron.app.getVersion()}`,
       headers: {
-        'User-Agent': `${package_.name}/${package_.version} (darwin: x64)`,
+        'User-Agent': `${package_.name}/${package_.version} (darwin: ${process.arch})`,
       },
     })
 
