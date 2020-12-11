@@ -1,3 +1,4 @@
+import { AnyAction } from '@reduxjs/toolkit'
 import { execFile } from 'child_process'
 import electron from 'electron'
 import electronIsDev from 'electron-is-dev'
@@ -6,27 +7,27 @@ import sleep from 'tings/sleep'
 
 import package_ from '../../package.json'
 import { apps } from '../config/apps'
-import { App } from '../config/types'
 import {
   APP_SELECTED,
   CHANGE_THEME,
-  COPY_TO_CLIPBOARD,
   FAV_SELECTED,
   HIDE_WINDOW,
   HOTKEYS_UPDATED,
-  MAIN_LOG,
   OpenAppArguments,
-  QUIT,
-  RELOAD,
   RENDERER_STARTED,
-  SET_AS_DEFAULT_BROWSER,
   UPDATE_HIDDEN_TILE_IDS,
-  UPDATE_RESTART,
 } from '../renderer/sendToMain'
+import {
+  clickedCopyButton,
+  clickedQuitButton,
+  clickedReloadButton,
+  clickedSetAsDefaultBrowserButton,
+  clickedUpdateRestartButton,
+  pressedCopyKey,
+} from '../renderer/store/actions'
 import copyToClipboard from '../utils/copyToClipboard'
 import { filterAppsByInstalled } from '../utils/filterAppsByInstalled'
 import { logger } from '../utils/logger'
-import createWindow from './createWindow'
 import {
   APP_VERSION,
   INSTALLED_APPS_FOUND,
@@ -38,6 +39,9 @@ import {
 } from './events'
 import { Hotkeys, Store, store } from './store'
 
+declare const MAIN_WINDOW_WEBPACK_ENTRY: string
+declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
+
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
 electron.app.commandLine.appendArgument('--enable-features=Metal')
 
@@ -48,12 +52,73 @@ if (store.get('firstRun')) {
 
 // Prevents garbage collection
 let bWindow: electron.BrowserWindow | undefined
+// let sWindow: electron.BrowserWindow | undefined
 let tray: electron.Tray | undefined
-let installedApps: App[] = []
 
 electron.app.on('ready', async () => {
-  bWindow = await createWindow()
+  const bounds = store.get('bounds')
 
+  bWindow = new electron.BrowserWindow({
+    frame: true,
+    titleBarStyle: 'hiddenInset',
+    icon: path.join(__dirname, '/static/icon/icon.png'),
+    title: 'Browserosaurus',
+    webPreferences: {
+      additionalArguments: [],
+      nodeIntegration: true,
+      contextIsolation: false,
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      enableRemoteModule: false,
+    },
+    x: bounds?.x,
+    y: bounds?.y,
+    height: bounds?.height || 168,
+    minHeight: 168,
+    width: bounds?.width || 500,
+    minWidth: 500,
+    show: false,
+    minimizable: true,
+    maximizable: true,
+    fullscreen: true,
+    fullscreenable: false,
+    movable: true,
+    resizable: true,
+    transparent: false,
+    hasShadow: true,
+    backgroundColor: '#1A202C',
+  })
+
+  await bWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
+
+  bWindow.on('hide', () => {
+    electron.app.hide()
+  })
+
+  bWindow.on('close', (event_) => {
+    event_.preventDefault()
+    bWindow?.hide()
+  })
+
+  bWindow.on('show', () => {
+    // There isn't a listener for default protocol client, therefore the check
+    // is made each time the app is brought into focus.
+    bWindow?.webContents.send(
+      PROTOCOL_STATUS_RETRIEVED,
+      electron.app.isDefaultProtocolClient('http'),
+    )
+  })
+
+  bWindow.on('resize', () => {
+    store.set('bounds', bWindow?.getBounds())
+  })
+
+  bWindow.on('moved', () => {
+    store.set('bounds', bWindow?.getBounds())
+  })
+
+  /**
+   * Menubar icon
+   */
   tray = new electron.Tray(
     path.join(__dirname, '/static/icon/tray_iconTemplate.png'),
   )
@@ -61,9 +126,7 @@ electron.app.on('ready', async () => {
     path.join(__dirname, '/static/icon/tray_iconHighlight.png'),
   )
   tray.setToolTip('Browserosaurus')
-  tray.addListener('click', () => {
-    bWindow?.show()
-  })
+  tray.addListener('click', () => bWindow?.show())
 
   store.set('firstRun', false)
 
@@ -135,7 +198,7 @@ electron.app.on('open-url', (event, url) => {
  */
 
 electron.ipcMain.on(RENDERER_STARTED, async () => {
-  installedApps = await filterAppsByInstalled(apps)
+  const installedApps = await filterAppsByInstalled(apps)
 
   // Send all info down to renderer
   bWindow?.webContents.send(STORE_RETRIEVED, store.store)
@@ -183,10 +246,6 @@ electron.ipcMain.on(
   },
 )
 
-electron.ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, url: string) => {
-  copyToClipboard(url)
-})
-
 electron.ipcMain.on(HIDE_WINDOW, () => {
   bWindow?.hide()
 })
@@ -207,22 +266,62 @@ electron.ipcMain.on(UPDATE_HIDDEN_TILE_IDS, (_, hiddenTileIds: string[]) => {
   store.set('hiddenTileIds', hiddenTileIds)
 })
 
-electron.ipcMain.on(SET_AS_DEFAULT_BROWSER, () => {
-  electron.app.setAsDefaultProtocolClient('http')
-})
+// electron.ipcMain.on(OPEN_SETTINGS, async () => {
+//   if (!bWindow) {
+//     sWindow = new electron.BrowserWindow({
+//       frame: true,
+//       titleBarStyle: 'hiddenInset',
+//       icon: path.join(__dirname, '/static/icon/icon.png'),
+//       title: 'Settings',
+//       webPreferences: {
+//         additionalArguments: [],
+//         nodeIntegration: true,
+//         contextIsolation: false,
+//         preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+//         enableRemoteModule: false,
+//       },
+//       center: true,
+//       height: 500,
+//       width: 500,
+//       show: true,
+//       minimizable: false,
+//       maximizable: false,
+//       fullscreen: false,
+//       fullscreenable: false,
+//       movable: true,
+//       resizable: false,
+//       transparent: false,
+//       hasShadow: true,
+//       backgroundColor: '#1A202C',
+//     })
 
-electron.ipcMain.on(RELOAD, () => {
-  bWindow?.reload()
-})
+//     await sWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
+//   }
+// })
 
-electron.ipcMain.on(UPDATE_RESTART, () => {
-  electron.autoUpdater.quitAndInstall()
-})
+electron.ipcMain.on('FROM_RENDERER', (_, action: AnyAction) => {
+  // Copy to clipboard
+  if (clickedCopyButton.match(action) || pressedCopyKey.match(action)) {
+    copyToClipboard(action.payload)
+  }
 
-electron.ipcMain.on(QUIT, () => {
-  electron.app.quit()
-})
+  // Quit
+  else if (clickedQuitButton.match(action)) {
+    electron.app.quit()
+  }
 
-electron.ipcMain.on(MAIN_LOG, (_, string: string) => {
-  logger('Renderer', string)
+  // Reload
+  else if (clickedReloadButton.match(action)) {
+    bWindow?.reload()
+  }
+
+  // Set as default browser
+  else if (clickedSetAsDefaultBrowserButton.match(action)) {
+    electron.app.setAsDefaultProtocolClient('http')
+  }
+
+  // Update and restart
+  else if (clickedUpdateRestartButton.match(action)) {
+    electron.autoUpdater.quitAndInstall()
+  }
 })

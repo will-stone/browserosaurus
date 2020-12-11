@@ -1,9 +1,13 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { copyUrl, hideWindow, selectApp } from '../../sendToMain'
+import { hideWindow, selectApp } from '../../sendToMain'
 import { AppThunk } from '../../store'
-import { pressedBackspaceKey, pressedEscapeKey } from '../../store/actions'
+import {
+  pressedBackspaceKey,
+  pressedCopyKey,
+  pressedEscapeKey,
+} from '../../store/actions'
 
 const keyboardEvent = (event: KeyboardEvent): AppThunk => (
   dispatch,
@@ -43,7 +47,7 @@ const keyboardEvent = (event: KeyboardEvent): AppThunk => (
     else if (event.metaKey && event.key.toLowerCase() === 'c') {
       event.preventDefault()
       if (url) {
-        copyUrl(url)
+        dispatch(pressedCopyKey(url))
       }
     }
 

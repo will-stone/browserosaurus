@@ -15,21 +15,18 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import { Store as MainStore } from '../../../main/store'
-import {
-  quit,
-  reload,
-  setAsDefaultBrowser,
-  updateRestart,
-} from '../../sendToMain'
 import { useSelector } from '../../store'
 import {
   changedHotkey,
   clickedCloseMenuButton,
   clickedEyeButton,
   clickedFavButton,
-  clickedSetAsDefaultButton,
+  clickedQuitButton,
+  clickedReloadButton,
+  clickedSetAsDefaultBrowserButton,
   clickedSponsorButton,
   clickedThemeButton,
+  clickedUpdateRestartButton,
   clickedVersionButton,
 } from '../../store/actions'
 import { useApps, useTheme } from '../../store/selector-hooks'
@@ -91,10 +88,8 @@ const Settings: React.FC = () => {
             {!isDefaultProtocolClient && (
               <Button
                 aria-label="Set as default browser"
-                onClick={() => {
-                  dispatch(clickedSetAsDefaultButton())
-                  setAsDefaultBrowser()
-                }}
+                onClick={() => () =>
+                  dispatch(clickedSetAsDefaultBrowserButton())}
               >
                 Set As Default Browser
               </Button>
@@ -104,7 +99,7 @@ const Settings: React.FC = () => {
               <Button
                 aria-label="Restart and update"
                 className="space-x-2"
-                onClick={updateRestart}
+                onClick={() => dispatch(clickedUpdateRestartButton())}
                 tone="primary"
               >
                 <FontAwesomeIcon icon={faGift} />
@@ -127,14 +122,18 @@ const Settings: React.FC = () => {
             {updateStatus === 'no-update' && (
               <Button
                 aria-label="Reload"
-                onClick={reload}
+                onClick={() => dispatch(clickedReloadButton())}
                 title="Reload Browserosaurus"
               >
                 <FontAwesomeIcon fixedWidth icon={faSync} />
               </Button>
             )}
 
-            <Button aria-label="Quit" className="space-x-2" onClick={quit}>
+            <Button
+              aria-label="Quit"
+              className="space-x-2"
+              onClick={() => dispatch(clickedQuitButton())}
+            >
               <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
               <span>Quit</span>
             </Button>

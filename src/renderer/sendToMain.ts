@@ -14,10 +14,6 @@ export function selectApp(arguments_: OpenAppArguments): void {
   ipcRenderer.send(APP_SELECTED, arguments_)
 }
 
-export const COPY_TO_CLIPBOARD = 'COPY_TO_CLIPBOARD'
-export const copyUrl = (url: string): void =>
-  ipcRenderer.send(COPY_TO_CLIPBOARD, url)
-
 export const FAV_SELECTED = 'FAV_SELECTED'
 export const selectFav = (id: App['id']): void =>
   ipcRenderer.send(FAV_SELECTED, id)
@@ -30,23 +26,6 @@ export const HIDE_WINDOW = 'HIDE_WINDOW'
 export const hideWindow = (): void => {
   ipcRenderer.send(HIDE_WINDOW)
 }
-
-export const MAIN_LOG = 'MAIN_LOG'
-export const mainLog = (string: string): void =>
-  ipcRenderer.send(MAIN_LOG, string)
-
-export const UPDATE_RESTART = 'UPDATE_RESTART'
-export const updateRestart = (): void => ipcRenderer.send(UPDATE_RESTART)
-
-export const QUIT = 'QUIT'
-export const quit = (): void => ipcRenderer.send(QUIT)
-
-export const SET_AS_DEFAULT_BROWSER = 'SET_AS_DEFAULT_BROWSER'
-export const setAsDefaultBrowser = (): void =>
-  ipcRenderer.send(SET_AS_DEFAULT_BROWSER)
-
-export const RELOAD = 'RELOAD'
-export const reload = (): void => ipcRenderer.send(RELOAD)
 
 export const UPDATE_HIDDEN_TILE_IDS = 'UPDATE_HIDDEN_TILE_IDS'
 export const updateHiddenTileIds = (tileIds: string[]): void =>

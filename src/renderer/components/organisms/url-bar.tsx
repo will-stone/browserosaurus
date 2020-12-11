@@ -10,21 +10,15 @@ import { useDispatch } from 'react-redux'
 import Url from 'url'
 
 import { SPONSOR_URL } from '../../../config/CONSTANTS'
-import { copyUrl } from '../../sendToMain'
 import { useSelector } from '../../store'
 import {
+  clickedCopyButton,
   clickedSettingsButton,
   clickedUrlBackspaceButton,
 } from '../../store/actions'
 import { useTheme } from '../../store/selector-hooks'
 import { themes } from '../../themes'
 import Button from '../atoms/button'
-
-const clickedCopyButton = (url: string) => {
-  if (url) {
-    copyUrl(url)
-  }
-}
 
 interface Props {
   className?: string
@@ -108,7 +102,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
 
         <Button
           disabled={isEmpty}
-          onClick={() => clickedCopyButton(url)}
+          onClick={() => dispatch(clickedCopyButton(url))}
           title="Copy (<kbd>⌘+C</kbd>)"
         >
           <FontAwesomeIcon fixedWidth icon={faCopy} />

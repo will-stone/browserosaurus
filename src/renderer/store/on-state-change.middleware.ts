@@ -1,4 +1,4 @@
-import { Middleware } from '@reduxjs/toolkit'
+import { AnyAction, Middleware } from '@reduxjs/toolkit'
 
 import {
   shallowEqualArrays,
@@ -21,7 +21,7 @@ export const onStateChangeMiddleware = (): Middleware<
   // legacy type parameter added to satisfy interface signature
   Record<string, unknown>,
   RootState
-> => (store) => (next) => (action) => {
+> => (store) => (next) => (action: AnyAction) => {
   const previousState = store.getState()
   // eslint-disable-next-line node/callback-return -- must flush to get nextState
   const result = next(action)

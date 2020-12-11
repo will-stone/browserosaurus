@@ -11,7 +11,6 @@ import {
   clickedCloseMenuButton,
   clickedEyeButton,
   clickedFavButton,
-  clickedSetAsDefaultButton,
   clickedSettingsButton,
   clickedSponsorButton,
   clickedThemeButton,
@@ -108,9 +107,6 @@ const ui = createReducer<UiState>(
           state.menu = 'tiles'
         }
       })
-      .addCase(clickedSetAsDefaultButton, (state) => {
-        state.menu = false
-      })
       .addCase(clickedThemeButton, (state, action) => {
         state.theme = action.payload
       })
@@ -126,7 +122,9 @@ const ui = createReducer<UiState>(
         state.menu = false
       })
       .addCase(pressedEscapeKey, (state) => {
-        state.menu = false
+        if (state.menu === 'tiles') {
+          state.menu = false
+        }
       })
       .addCase(pressedBackspaceKey, (state) => {
         state.url = backspaceUrlParse(state.url)

@@ -35,6 +35,7 @@ import {
 } from './actions'
 import { onStateChangeMiddleware } from './on-state-change.middleware'
 import * as reducers from './reducers'
+import { sendToMainMiddleware } from './send-to-main.middleware'
 
 // Root Reducer
 const rootReducer = combineReducers(reducers)
@@ -44,7 +45,10 @@ export type RootState = ReturnType<typeof rootReducer>
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(onStateChangeMiddleware()),
+    getDefaultMiddleware().concat(
+      onStateChangeMiddleware(),
+      sendToMainMiddleware(),
+    ),
 })
 
 export default store

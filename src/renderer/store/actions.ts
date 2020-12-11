@@ -34,6 +34,7 @@ const keydown = cA<{
 }>('keyboard/keydown')
 const pressedEscapeKey = cA('keyboard/escapeKey')
 const pressedBackspaceKey = cA('keyboard/backspaceKey')
+const pressedCopyKey = cA<string>('keyboard/copyKey')
 
 // -----------------------------------------------------------------------------
 // Settings
@@ -44,16 +45,22 @@ const changedHotkey = cA<{ appId: string; value: string }>(
 const clickedCloseMenuButton = cA('settings/clickedCloseMenuButton')
 const clickedEyeButton = cA<string>('settings/clickedEyeButton')
 const clickedFavButton = cA<string>('settings/clickedFavButton')
-const clickedSetAsDefaultButton = cA('settings/clickedSetAsDefaultButton')
 const clickedSponsorButton = cA('settings/clickedSponsorButton')
 const clickedThemeButton = cA<MainStore['theme']>('settings/clickedThemeButton')
 const clickedVersionButton = cA('settings/clickedVersionButton')
+const clickedQuitButton = cA('settings/clickedQuitButton')
+const clickedReloadButton = cA('settings/clickedReloadButton')
+const clickedSetAsDefaultBrowserButton = cA(
+  'settings/clickedSetAsDefaultBrowserButton',
+)
+const clickedUpdateRestartButton = cA('settings/clickedUpdateRestartButton')
 
 // -----------------------------------------------------------------------------
 // URL bar
 // -----------------------------------------------------------------------------
 const clickedSettingsButton = cA('urlBar/clickedSettingsButton')
 const clickedUrlBackspaceButton = cA('urlBar/clickedUrlBackspaceButton')
+const clickedCopyButton = cA<string>('urlBar/clickedCopyButton')
 
 export {
   appStarted,
@@ -67,14 +74,19 @@ export {
   keydown,
   pressedEscapeKey,
   pressedBackspaceKey,
+  pressedCopyKey,
   changedHotkey,
   clickedCloseMenuButton,
   clickedEyeButton,
   clickedFavButton,
-  clickedSetAsDefaultButton,
   clickedSponsorButton,
   clickedThemeButton,
   clickedVersionButton,
   clickedSettingsButton,
   clickedUrlBackspaceButton,
+  clickedCopyButton,
+  clickedQuitButton,
+  clickedReloadButton,
+  clickedSetAsDefaultBrowserButton,
+  clickedUpdateRestartButton,
 }
