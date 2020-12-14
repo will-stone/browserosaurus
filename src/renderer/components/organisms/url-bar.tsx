@@ -41,18 +41,18 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         'flex-shrink-0',
         'w-full',
         'flex items-center space-x-4',
-        'pl-20 pr-1',
         css({ backgroundColor: themes[theme].titleBarBg }),
       )}
       style={{ height: '39px' }}
     >
       <div
         className={clsx(
-          'flex-grow',
+          'flex-grow h-full',
           'text-xs tracking-wider',
           'flex items-center justify-between',
           'overflow-hidden',
           'draggable',
+          'pl-4 pr-1',
           css({
             color: isSponsorUrl
               ? themes[theme].url.text.sponsorBase
