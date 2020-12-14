@@ -22,6 +22,7 @@ import {
   clickedQuitButton,
   clickedReloadButton,
   clickedSetAsDefaultBrowserButton,
+  clickedSettingsButton,
   clickedUpdateRestartButton,
   pressedCopyKey,
 } from '../renderer/store/actions'
@@ -41,6 +42,8 @@ import { Hotkeys, Store, store } from './store'
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
+declare const SETTINGS_WINDOW_WEBPACK_ENTRY: string
+declare const SETTINGS_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
 electron.app.commandLine.appendArgument('--enable-features=Metal')
@@ -52,15 +55,51 @@ if (store.get('firstRun')) {
 
 // Prevents garbage collection
 let bWindow: electron.BrowserWindow | undefined
-// let sWindow: electron.BrowserWindow | undefined
+let sWindow: electron.BrowserWindow | undefined
 let tray: electron.Tray | undefined
+
+function showBWindow() {
+  if (bWindow) {
+    const displayBounds = electron.screen.getDisplayNearestPoint(
+      electron.screen.getCursorScreenPoint(),
+    ).bounds
+
+    const displayEnd = {
+      x: displayBounds.x + displayBounds.width,
+      y: displayBounds.y + displayBounds.height,
+    }
+
+    const mousePoint = electron.screen.getCursorScreenPoint()
+
+    const bWindowBounds = bWindow.getBounds()
+
+    const bWindowEdges = {
+      right: mousePoint.x + bWindowBounds.width,
+      bottom: mousePoint.y + bWindowBounds.height,
+    }
+
+    const inWindowPosition = {
+      x:
+        bWindowEdges.right > displayEnd.x
+          ? displayEnd.x - bWindowBounds.width
+          : mousePoint.x,
+      y:
+        bWindowEdges.bottom > displayEnd.y
+          ? displayEnd.y - bWindowBounds.height
+          : mousePoint.y,
+    }
+
+    bWindow.setPosition(inWindowPosition.x, inWindowPosition.y, false)
+
+    bWindow.show()
+  }
+}
 
 electron.app.on('ready', async () => {
   const bounds = store.get('bounds')
 
   bWindow = new electron.BrowserWindow({
-    frame: true,
-    titleBarStyle: 'hiddenInset',
+    frame: false,
     icon: path.join(__dirname, '/static/icon/icon.png'),
     title: 'Browserosaurus',
     webPreferences: {
@@ -77,9 +116,9 @@ electron.app.on('ready', async () => {
     width: bounds?.width || 500,
     minWidth: 500,
     show: false,
-    minimizable: true,
-    maximizable: true,
-    fullscreen: true,
+    minimizable: false,
+    maximizable: false,
+    fullscreen: false,
     fullscreenable: false,
     movable: true,
     resizable: true,
@@ -116,6 +155,12 @@ electron.app.on('ready', async () => {
     store.set('bounds', bWindow?.getBounds())
   })
 
+  bWindow.on('blur', () => {
+    // if (!electronIsDev) {
+    bWindow?.hide()
+    // }
+  })
+
   /**
    * Menubar icon
    */
@@ -126,7 +171,7 @@ electron.app.on('ready', async () => {
     path.join(__dirname, '/static/icon/tray_iconHighlight.png'),
   )
   tray.setToolTip('Browserosaurus')
-  tray.addListener('click', () => bWindow?.show())
+  tray.addListener('click', () => showBWindow())
 
   store.set('firstRun', false)
 
@@ -179,7 +224,7 @@ electron.app.on('before-quit', () => {
 async function sendUrl(url: string) {
   if (bWindow) {
     bWindow.webContents.send(URL_UPDATED, url)
-    bWindow.show()
+    showBWindow()
   } else {
     await sleep(500)
     sendUrl(url)
@@ -266,40 +311,7 @@ electron.ipcMain.on(UPDATE_HIDDEN_TILE_IDS, (_, hiddenTileIds: string[]) => {
   store.set('hiddenTileIds', hiddenTileIds)
 })
 
-// electron.ipcMain.on(OPEN_SETTINGS, async () => {
-//   if (!bWindow) {
-//     sWindow = new electron.BrowserWindow({
-//       frame: true,
-//       titleBarStyle: 'hiddenInset',
-//       icon: path.join(__dirname, '/static/icon/icon.png'),
-//       title: 'Settings',
-//       webPreferences: {
-//         additionalArguments: [],
-//         nodeIntegration: true,
-//         contextIsolation: false,
-//         preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-//         enableRemoteModule: false,
-//       },
-//       center: true,
-//       height: 500,
-//       width: 500,
-//       show: true,
-//       minimizable: false,
-//       maximizable: false,
-//       fullscreen: false,
-//       fullscreenable: false,
-//       movable: true,
-//       resizable: false,
-//       transparent: false,
-//       hasShadow: true,
-//       backgroundColor: '#1A202C',
-//     })
-
-//     await sWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
-//   }
-// })
-
-electron.ipcMain.on('FROM_RENDERER', (_, action: AnyAction) => {
+electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
   // Copy to clipboard
   if (clickedCopyButton.match(action) || pressedCopyKey.match(action)) {
     copyToClipboard(action.payload)
@@ -323,5 +335,43 @@ electron.ipcMain.on('FROM_RENDERER', (_, action: AnyAction) => {
   // Update and restart
   else if (clickedUpdateRestartButton.match(action)) {
     electron.autoUpdater.quitAndInstall()
+  }
+
+  // Open settings
+  else if (clickedSettingsButton.match(action)) {
+    sWindow = new electron.BrowserWindow({
+      parent: bWindow,
+      modal: true,
+      show: false,
+      frame: true,
+      titleBarStyle: 'hiddenInset',
+      icon: path.join(__dirname, '/static/icon/icon.png'),
+      title: 'Settings',
+      webPreferences: {
+        additionalArguments: [],
+        nodeIntegration: true,
+        contextIsolation: false,
+        preload: SETTINGS_WINDOW_PRELOAD_WEBPACK_ENTRY,
+        enableRemoteModule: false,
+      },
+      // center: true,
+      height: 500,
+      width: 500,
+      minimizable: false,
+      maximizable: false,
+      fullscreen: false,
+      fullscreenable: false,
+      movable: true,
+      resizable: false,
+      transparent: false,
+      hasShadow: true,
+      backgroundColor: '#1A202C',
+    })
+
+    await sWindow.loadURL(SETTINGS_WINDOW_WEBPACK_ENTRY)
+
+    sWindow.once('ready-to-show', () => {
+      sWindow?.show()
+    })
   }
 })
