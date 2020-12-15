@@ -14,10 +14,10 @@ import {
   HIDE_WINDOW,
   HOTKEYS_UPDATED,
   OpenAppArguments,
-  RENDERER_STARTED,
   UPDATE_HIDDEN_TILE_IDS,
 } from '../renderer/sendToMain'
 import {
+  appStarted,
   clickedCopyButton,
   clickedQuitButton,
   clickedReloadButton,
@@ -242,26 +242,6 @@ electron.app.on('open-url', (event, url) => {
  * ------------------
  */
 
-electron.ipcMain.on(RENDERER_STARTED, async () => {
-  const installedApps = await filterAppsByInstalled(apps)
-
-  // Send all info down to renderer
-  bWindow?.webContents.send(STORE_RETRIEVED, store.store)
-  bWindow?.webContents.send(INSTALLED_APPS_FOUND, installedApps)
-  bWindow?.webContents.send(
-    APP_VERSION,
-    `v${electron.app.getVersion()}${electronIsDev ? ' DEV' : ''}`,
-  )
-
-  // Is default browser?
-  bWindow?.webContents.send(
-    PROTOCOL_STATUS_RETRIEVED,
-    electron.app.isDefaultProtocolClient('http'),
-  )
-
-  electron.autoUpdater.checkForUpdates()
-})
-
 electron.ipcMain.on(
   APP_SELECTED,
   (_: Event, { url, appId, isAlt, isShift }: OpenAppArguments) => {
@@ -312,8 +292,28 @@ electron.ipcMain.on(UPDATE_HIDDEN_TILE_IDS, (_, hiddenTileIds: string[]) => {
 })
 
 electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
+  // App started
+  if (appStarted.match(action)) {
+    const installedApps = await filterAppsByInstalled(apps)
+
+    // Send all info down to renderer
+    bWindow?.webContents.send(STORE_RETRIEVED, store.store)
+    bWindow?.webContents.send(INSTALLED_APPS_FOUND, installedApps)
+    bWindow?.webContents.send(
+      APP_VERSION,
+      `v${electron.app.getVersion()}${electronIsDev ? ' DEV' : ''}`,
+    )
+
+    // Is default browser?
+    bWindow?.webContents.send(
+      PROTOCOL_STATUS_RETRIEVED,
+      electron.app.isDefaultProtocolClient('http'),
+    )
+
+    electron.autoUpdater.checkForUpdates()
+  }
   // Copy to clipboard
-  if (clickedCopyButton.match(action) || pressedCopyKey.match(action)) {
+  else if (clickedCopyButton.match(action) || pressedCopyKey.match(action)) {
     copyToClipboard(action.payload)
   }
 

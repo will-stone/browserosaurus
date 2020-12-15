@@ -31,9 +31,6 @@ export const UPDATE_HIDDEN_TILE_IDS = 'UPDATE_HIDDEN_TILE_IDS'
 export const updateHiddenTileIds = (tileIds: string[]): void =>
   ipcRenderer.send(UPDATE_HIDDEN_TILE_IDS, tileIds)
 
-export const RENDERER_STARTED = 'RENDERER_STARTED'
-export const startRenderer = (): void => ipcRenderer.send(RENDERER_STARTED)
-
 export const CHANGE_THEME = 'CHANGE_THEME'
 export const changeTheme = (theme: MainStore['theme']): void =>
   ipcRenderer.send(CHANGE_THEME, theme)

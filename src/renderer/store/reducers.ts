@@ -6,7 +6,6 @@ import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'
 import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 import {
-  appStarted,
   changedHotkey,
   clickedCloseMenuButton,
   clickedEyeButton,
@@ -38,7 +37,6 @@ const apps = createReducer<App[]>([], (builder) =>
  * UI Reducer
  */
 interface UiState {
-  appStarted: boolean
   menu: false | 'tiles'
   url: string
   version: string
@@ -54,7 +52,6 @@ interface UiState {
 
 const ui = createReducer<UiState>(
   {
-    appStarted: false,
     menu: false,
     version: '',
     updateStatus: 'no-update',
@@ -69,9 +66,6 @@ const ui = createReducer<UiState>(
   },
   (builder) =>
     builder
-      .addCase(appStarted, (state) => {
-        state.appStarted = true
-      })
       .addCase(changedHotkey, (state, action) => {
         const updatedHotkeys = alterHotkeys(
           state.hotkeys,

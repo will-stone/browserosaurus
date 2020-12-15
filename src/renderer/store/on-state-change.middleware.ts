@@ -7,7 +7,6 @@ import {
 import {
   changeTheme,
   selectFav,
-  startRenderer,
   updateHiddenTileIds,
   updateHotkeys,
 } from '../sendToMain'
@@ -26,11 +25,6 @@ export const onStateChangeMiddleware = (): Middleware<
   // eslint-disable-next-line node/callback-return -- must flush to get nextState
   const result = next(action)
   const nextState = store.getState()
-
-  // Tell main that renderer is good to go
-  if (previousState.ui.appStarted !== nextState.ui.appStarted) {
-    startRenderer()
-  }
 
   // Send main store changes back to main, but ignore initial hydration
   if (!receivedStore.match(action)) {
