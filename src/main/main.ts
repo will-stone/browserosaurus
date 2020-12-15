@@ -10,7 +10,6 @@ import { apps } from '../config/apps'
 import {
   APP_SELECTED,
   CHANGE_THEME,
-  FAV_SELECTED,
   HIDE_WINDOW,
   HOTKEYS_UPDATED,
   OpenAppArguments,
@@ -19,6 +18,7 @@ import {
 import {
   appStarted,
   clickedCopyButton,
+  clickedFavButton,
   clickedQuitButton,
   clickedReloadButton,
   clickedSetAsDefaultBrowserButton,
@@ -275,10 +275,6 @@ electron.ipcMain.on(HIDE_WINDOW, () => {
   bWindow?.hide()
 })
 
-electron.ipcMain.on(FAV_SELECTED, (_, favAppId) => {
-  store.set('fav', favAppId)
-})
-
 electron.ipcMain.on(HOTKEYS_UPDATED, (_, hotkeys: Hotkeys) => {
   store.set('hotkeys', hotkeys)
 })
@@ -373,5 +369,10 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
     sWindow.once('ready-to-show', () => {
       sWindow?.show()
     })
+  }
+
+  // Change fav
+  else if (clickedFavButton.match(action)) {
+    store.set('fav', action.payload)
   }
 })

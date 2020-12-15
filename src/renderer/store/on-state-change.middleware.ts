@@ -4,12 +4,7 @@ import {
   shallowEqualArrays,
   shallowEqualObjects,
 } from '../../utils/shallow-equal'
-import {
-  changeTheme,
-  selectFav,
-  updateHiddenTileIds,
-  updateHotkeys,
-} from '../sendToMain'
+import { changeTheme, updateHiddenTileIds, updateHotkeys } from '../sendToMain'
 import { RootState } from '.'
 import { receivedStore } from './actions'
 
@@ -28,11 +23,6 @@ export const onStateChangeMiddleware = (): Middleware<
 
   // Send main store changes back to main, but ignore initial hydration
   if (!receivedStore.match(action)) {
-    // Fav
-    if (previousState.ui.fav !== nextState.ui.fav) {
-      selectFav(nextState.ui.fav)
-    }
-
     // Hidden tiles
     if (
       !shallowEqualArrays(

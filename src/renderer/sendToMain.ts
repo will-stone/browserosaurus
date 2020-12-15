@@ -14,10 +14,6 @@ export function selectApp(arguments_: OpenAppArguments): void {
   ipcRenderer.send(APP_SELECTED, arguments_)
 }
 
-export const FAV_SELECTED = 'FAV_SELECTED'
-export const selectFav = (id: App['id']): void =>
-  ipcRenderer.send(FAV_SELECTED, id)
-
 export const HOTKEYS_UPDATED = 'HOTKEYS_UPDATED'
 export const updateHotkeys = (hotkeys: Hotkeys): void =>
   ipcRenderer.send(HOTKEYS_UPDATED, hotkeys)
