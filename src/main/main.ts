@@ -2,6 +2,7 @@ import { AnyAction } from '@reduxjs/toolkit'
 import { execFile } from 'child_process'
 import electron from 'electron'
 import electronIsDev from 'electron-is-dev'
+import xor from 'lodash/xor'
 import path from 'path'
 import sleep from 'tings/sleep'
 
@@ -13,11 +14,11 @@ import {
   HIDE_WINDOW,
   HOTKEYS_UPDATED,
   OpenAppArguments,
-  UPDATE_HIDDEN_TILE_IDS,
 } from '../renderer/sendToMain'
 import {
   appStarted,
   clickedCopyButton,
+  clickedEyeButton,
   clickedFavButton,
   clickedQuitButton,
   clickedReloadButton,
@@ -283,10 +284,6 @@ electron.ipcMain.on(CHANGE_THEME, (_, theme: Store['theme']) => {
   store.set('theme', theme)
 })
 
-electron.ipcMain.on(UPDATE_HIDDEN_TILE_IDS, (_, hiddenTileIds: string[]) => {
-  store.set('hiddenTileIds', hiddenTileIds)
-})
-
 electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
   // App started
   if (appStarted.match(action)) {
@@ -374,5 +371,13 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
   // Change fav
   else if (clickedFavButton.match(action)) {
     store.set('fav', action.payload)
+  }
+
+  // Update hidden tiles
+  else if (clickedEyeButton.match(action)) {
+    store.set(
+      'hiddenTileIds',
+      xor(store.get('hiddenTileIds'), [action.payload]),
+    )
   }
 })

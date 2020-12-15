@@ -1,4 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
+import xor from 'lodash/xor'
 
 import { DEFAULT_URL, SPONSOR_URL } from '../../config/CONSTANTS'
 import { App } from '../../config/types'
@@ -79,17 +80,8 @@ const ui = createReducer<UiState>(
       })
       .addCase(clickedEyeButton, (state, action) => {
         const { hiddenTileIds } = state
-        // Remove the id if it exists in the array
-        const updatedHiddenTileIds = hiddenTileIds.filter(
-          (id) => id !== action.payload,
-        )
-
-        // If no id was removed, it didn't exist to begin with and should be added
-        if (updatedHiddenTileIds.length === hiddenTileIds.length) {
-          updatedHiddenTileIds.push(action.payload)
-        }
-
-        state.hiddenTileIds = updatedHiddenTileIds
+        // Remove the id if it exists in the array, or add it if it doesn't
+        state.hiddenTileIds = xor(hiddenTileIds, [action.payload])
       })
       .addCase(clickedFavButton, (state, action) => {
         state.fav = action.payload

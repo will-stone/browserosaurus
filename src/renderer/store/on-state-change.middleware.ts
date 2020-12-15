@@ -1,10 +1,7 @@
 import { AnyAction, Middleware } from '@reduxjs/toolkit'
 
-import {
-  shallowEqualArrays,
-  shallowEqualObjects,
-} from '../../utils/shallow-equal'
-import { changeTheme, updateHiddenTileIds, updateHotkeys } from '../sendToMain'
+import { shallowEqualObjects } from '../../utils/shallow-equal'
+import { changeTheme, updateHotkeys } from '../sendToMain'
 import { RootState } from '.'
 import { receivedStore } from './actions'
 
@@ -23,16 +20,6 @@ export const onStateChangeMiddleware = (): Middleware<
 
   // Send main store changes back to main, but ignore initial hydration
   if (!receivedStore.match(action)) {
-    // Hidden tiles
-    if (
-      !shallowEqualArrays(
-        previousState.ui.hiddenTileIds,
-        nextState.ui.hiddenTileIds,
-      )
-    ) {
-      updateHiddenTileIds(nextState.ui.hiddenTileIds)
-    }
-
     // Hotkeys
     if (!shallowEqualObjects(previousState.ui.hotkeys, nextState.ui.hotkeys)) {
       updateHotkeys(nextState.ui.hotkeys)
