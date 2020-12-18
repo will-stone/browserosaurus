@@ -123,9 +123,8 @@ electron.app.on('ready', async () => {
     fullscreenable: false,
     movable: true,
     resizable: true,
-    transparent: false,
+    transparent: true,
     hasShadow: true,
-    backgroundColor: '#1A202C',
   })
 
   await bWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
