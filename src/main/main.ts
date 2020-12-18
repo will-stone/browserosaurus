@@ -10,7 +10,6 @@ import package_ from '../../package.json'
 import { apps } from '../config/apps'
 import {
   APP_SELECTED,
-  CHANGE_THEME,
   HIDE_WINDOW,
   HOTKEYS_UPDATED,
   OpenAppArguments,
@@ -24,6 +23,7 @@ import {
   clickedReloadButton,
   clickedSetAsDefaultBrowserButton,
   clickedSettingsButton,
+  clickedThemeButton,
   clickedUpdateRestartButton,
   pressedCopyKey,
 } from '../renderer/store/actions'
@@ -39,7 +39,7 @@ import {
   UPDATE_DOWNLOADED,
   URL_UPDATED,
 } from './events'
-import { Hotkeys, Store, store } from './store'
+import { Hotkeys, store } from './store'
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
@@ -279,10 +279,6 @@ electron.ipcMain.on(HOTKEYS_UPDATED, (_, hotkeys: Hotkeys) => {
   store.set('hotkeys', hotkeys)
 })
 
-electron.ipcMain.on(CHANGE_THEME, (_, theme: Store['theme']) => {
-  store.set('theme', theme)
-})
-
 electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
   // App started
   if (appStarted.match(action)) {
@@ -378,5 +374,10 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
       'hiddenTileIds',
       xor(store.get('hiddenTileIds'), [action.payload]),
     )
+  }
+
+  // Update theme
+  else if (clickedThemeButton.match(action)) {
+    store.set('theme', action.payload)
   }
 })

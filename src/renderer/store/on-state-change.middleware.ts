@@ -1,7 +1,7 @@
 import { AnyAction, Middleware } from '@reduxjs/toolkit'
 
 import { shallowEqualObjects } from '../../utils/shallow-equal'
-import { changeTheme, updateHotkeys } from '../sendToMain'
+import { updateHotkeys } from '../sendToMain'
 import { RootState } from '.'
 import { receivedStore } from './actions'
 
@@ -23,11 +23,6 @@ export const onStateChangeMiddleware = (): Middleware<
     // Hotkeys
     if (!shallowEqualObjects(previousState.ui.hotkeys, nextState.ui.hotkeys)) {
       updateHotkeys(nextState.ui.hotkeys)
-    }
-
-    // Theme
-    if (previousState.ui.theme !== nextState.ui.theme) {
-      changeTheme(nextState.ui.theme)
     }
   }
 
