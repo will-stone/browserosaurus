@@ -3,10 +3,22 @@ import { createAction as cA } from '@reduxjs/toolkit'
 import { App } from '../../config/types'
 import { Store as MainStore } from '../../main/store'
 
+interface OpenAppArguments {
+  url: string
+  appId: App['id'] | undefined
+  isAlt: boolean
+  isShift: boolean
+}
+
 // -----------------------------------------------------------------------------
 // App
 // -----------------------------------------------------------------------------
 const appStarted = cA('app/started')
+
+// -----------------------------------------------------------------------------
+// Tiles
+// -----------------------------------------------------------------------------
+const clickedTile = cA<OpenAppArguments>('tiles/clickTile')
 
 // -----------------------------------------------------------------------------
 // Main events
@@ -35,6 +47,7 @@ const keydown = cA<{
 const pressedEscapeKey = cA('keyboard/escapeKey')
 const pressedBackspaceKey = cA('keyboard/backspaceKey')
 const pressedCopyKey = cA<string>('keyboard/copyKey')
+const pressedAppKey = cA<OpenAppArguments>('keyboard/appKey')
 
 // -----------------------------------------------------------------------------
 // Settings
@@ -64,6 +77,7 @@ const clickedCopyButton = cA<string>('urlBar/clickedCopyButton')
 
 export {
   appStarted,
+  clickedTile,
   receivedStore,
   receivedApps,
   receivedVersion,
@@ -75,6 +89,7 @@ export {
   pressedEscapeKey,
   pressedBackspaceKey,
   pressedCopyKey,
+  pressedAppKey,
   changedHotkey,
   clickedCloseMenuButton,
   clickedEyeButton,

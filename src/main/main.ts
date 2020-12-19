@@ -8,14 +8,10 @@ import sleep from 'tings/sleep'
 
 import package_ from '../../package.json'
 import { apps } from '../config/apps'
-import {
-  APP_SELECTED,
-  HIDE_WINDOW,
-  HOTKEYS_UPDATED,
-  OpenAppArguments,
-} from '../renderer/sendToMain'
+import { HIDE_WINDOW } from '../renderer/sendToMain'
 import {
   appStarted,
+  changedHotkey,
   clickedCopyButton,
   clickedEyeButton,
   clickedFavButton,
@@ -24,9 +20,12 @@ import {
   clickedSetAsDefaultBrowserButton,
   clickedSettingsButton,
   clickedThemeButton,
+  clickedTile,
   clickedUpdateRestartButton,
+  pressedAppKey,
   pressedCopyKey,
 } from '../renderer/store/actions'
+import { alterHotkeys } from '../utils/alterHotkeys'
 import copyToClipboard from '../utils/copyToClipboard'
 import { filterAppsByInstalled } from '../utils/filterAppsByInstalled'
 import { logger } from '../utils/logger'
@@ -39,7 +38,7 @@ import {
   UPDATE_DOWNLOADED,
   URL_UPDATED,
 } from './events'
-import { Hotkeys, store } from './store'
+import { store } from './store'
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
@@ -242,41 +241,8 @@ electron.app.on('open-url', (event, url) => {
  * ------------------
  */
 
-electron.ipcMain.on(
-  APP_SELECTED,
-  (_: Event, { url, appId, isAlt, isShift }: OpenAppArguments) => {
-    // Bail if app's bundle id is missing
-    if (!appId) return
-
-    const app = apps.find((b) => b.id === appId)
-
-    // Bail if app cannot be found in config (this, in theory, can't happen)
-    if (!app) return
-
-    const urlString = url || ''
-    const processedUrlTemplate = app.urlTemplate
-      ? app.urlTemplate.replace(/\{\{URL\}\}/u, urlString)
-      : urlString
-
-    const openArguments: string[] = [
-      '-b',
-      appId,
-      isAlt ? '--background' : [],
-      isShift && app.privateArg ? ['--new', '--args', app.privateArg] : [],
-      // In order for private/incognito mode to work the URL needs to be passed at last, _after_ the respective app.privateArg flag
-      processedUrlTemplate,
-    ].flat()
-
-    execFile('open', openArguments)
-  },
-)
-
 electron.ipcMain.on(HIDE_WINDOW, () => {
   bWindow?.hide()
-})
-
-electron.ipcMain.on(HOTKEYS_UPDATED, (_, hotkeys: Hotkeys) => {
-  store.set('hotkeys', hotkeys)
 })
 
 electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
@@ -379,5 +345,44 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
   // Update theme
   else if (clickedThemeButton.match(action)) {
     store.set('theme', action.payload)
+  }
+
+  // Update hotkeys
+  else if (changedHotkey.match(action)) {
+    const updatedHotkeys = alterHotkeys(
+      store.get('hotkeys'),
+      action.payload.appId,
+      action.payload.value,
+    )
+    store.set('hotkeys', updatedHotkeys)
+  }
+
+  // Open app
+  else if (pressedAppKey.match(action) || clickedTile.match(action)) {
+    const { appId, url, isAlt, isShift } = action.payload
+
+    // Bail if app's bundle id is missing
+    if (!appId) return
+
+    const app = apps.find((b) => b.id === appId)
+
+    // Bail if app cannot be found in config (this, in theory, can't happen)
+    if (!app) return
+
+    const urlString = url || ''
+    const processedUrlTemplate = app.urlTemplate
+      ? app.urlTemplate.replace(/\{\{URL\}\}/u, urlString)
+      : urlString
+
+    const openArguments: string[] = [
+      '-b',
+      appId,
+      isAlt ? '--background' : [],
+      isShift && app.privateArg ? ['--new', '--args', app.privateArg] : [],
+      // In order for private/incognito mode to work the URL needs to be passed at last, _after_ the respective app.privateArg flag
+      processedUrlTemplate,
+    ].flat()
+
+    execFile('open', openArguments)
   }
 })

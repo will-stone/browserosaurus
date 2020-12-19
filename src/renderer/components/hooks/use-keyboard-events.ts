@@ -1,9 +1,10 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { hideWindow, selectApp } from '../../sendToMain'
+import { hideWindow } from '../../sendToMain'
 import { AppThunk } from '../../store'
 import {
+  pressedAppKey,
   pressedBackspaceKey,
   pressedCopyKey,
   pressedEscapeKey,
@@ -56,19 +57,28 @@ const keyboardEvent = (event: KeyboardEvent): AppThunk => (
       event.preventDefault()
       const appId = hotkeys[stringFromCharCode]
       if (appId) {
-        selectApp({ url, appId, isAlt: event.altKey, isShift: event.shiftKey })
+        dispatch(
+          pressedAppKey({
+            url,
+            appId,
+            isAlt: event.altKey,
+            isShift: event.shiftKey,
+          }),
+        )
       }
     }
 
     // Favourite hotkeys
     else if (event.code === 'Space' || event.code === 'Enter') {
       event.preventDefault()
-      selectApp({
-        url,
-        appId: fav,
-        isAlt: event.altKey,
-        isShift: event.shiftKey,
-      })
+      dispatch(
+        pressedAppKey({
+          url,
+          appId: fav,
+          isAlt: event.altKey,
+          isShift: event.shiftKey,
+        }),
+      )
     }
   }
 }

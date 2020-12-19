@@ -5,7 +5,8 @@ import React from 'react'
 import Wrapper from '../_bootstrap'
 import { DEFAULT_URL } from '../../../config/CONSTANTS'
 import { INSTALLED_APPS_FOUND, URL_UPDATED } from '../../../main/events'
-import { APP_SELECTED, HIDE_WINDOW } from '../../sendToMain'
+import { HIDE_WINDOW } from '../../sendToMain'
+import { clickedTile, pressedAppKey } from '../../store/actions'
 
 test('tiles', () => {
   render(<Wrapper />)
@@ -40,12 +41,15 @@ test('tiles', () => {
 
   // Correct info sent to main when tile clicked
   fireEvent.click(screen.getByRole('button', { name: 'Firefox Tile' }))
-  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
-    url: DEFAULT_URL,
-    appId: 'org.mozilla.firefox',
-    isAlt: false,
-    isShift: false,
-  })
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
+    'FROM_RENDERER',
+    clickedTile({
+      url: DEFAULT_URL,
+      appId: 'org.mozilla.firefox',
+      isAlt: false,
+      isShift: false,
+    }),
+  )
   expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 
   // Correct info sent to main when tile clicked
@@ -56,12 +60,15 @@ test('tiles', () => {
   fireEvent.click(screen.getByRole('button', { name: 'Brave Nightly Tile' }), {
     altKey: true,
   })
-  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
-    url,
-    appId: 'com.brave.Browser.nightly',
-    isAlt: true,
-    isShift: false,
-  })
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
+    'FROM_RENDERER',
+    clickedTile({
+      url,
+      appId: 'com.brave.Browser.nightly',
+      isAlt: true,
+      isShift: false,
+    }),
+  )
   expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 })
 
@@ -85,12 +92,15 @@ test('use hotkey', () => {
     win.webContents.send(URL_UPDATED, url)
   })
   fireEvent.keyDown(document, { key: 'S', code: 'KeyS', keyCode: 83 })
-  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
-    url,
-    appId: 'com.apple.Safari',
-    isAlt: false,
-    isShift: false,
-  })
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
+    'FROM_RENDERER',
+    pressedAppKey({
+      url,
+      appId: 'com.apple.Safari',
+      isAlt: false,
+      isShift: false,
+    }),
+  )
   expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 })
 
@@ -119,12 +129,15 @@ test('use hotkey with alt', () => {
     keyCode: 83,
     altKey: true,
   })
-  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
-    url,
-    appId: 'com.apple.Safari',
-    isAlt: true,
-    isShift: false,
-  })
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
+    'FROM_RENDERER',
+    pressedAppKey({
+      url,
+      appId: 'com.apple.Safari',
+      isAlt: true,
+      isShift: false,
+    }),
+  )
   expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 })
 
@@ -143,12 +156,15 @@ test('hold shift', () => {
   fireEvent.click(screen.getByRole('button', { name: 'Firefox Tile' }), {
     shiftKey: true,
   })
-  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
-    url,
-    appId: 'org.mozilla.firefox',
-    isAlt: false,
-    isShift: true,
-  })
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
+    'FROM_RENDERER',
+    clickedTile({
+      url,
+      appId: 'org.mozilla.firefox',
+      isAlt: false,
+      isShift: true,
+    }),
+  )
   expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 })
 

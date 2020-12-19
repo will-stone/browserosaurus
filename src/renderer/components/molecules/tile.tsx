@@ -6,23 +6,11 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import { logos } from '../../../config/logos'
-import { selectApp } from '../../sendToMain'
-import { AppThunk } from '../../store'
+import { useSelector } from '../../store'
+import { clickedTile } from '../../store/actions'
 import { ExtendedApp, useTheme } from '../../store/selector-hooks'
 import { themes } from '../../themes'
 import Kbd from '../atoms/kbd'
-
-const clickedTileButton = (
-  appId: string,
-  event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-): AppThunk => (_, getState) => {
-  selectApp({
-    url: getState().ui.url,
-    appId,
-    isAlt: event.altKey,
-    isShift: event.shiftKey,
-  })
-}
 
 interface Props {
   app: ExtendedApp
@@ -33,6 +21,7 @@ interface Props {
 const Tile: React.FC<Props> = ({ app, isFav, className }) => {
   const dispatch = useDispatch()
   const theme = useTheme()
+  const url = useSelector((state) => state.ui.url)
 
   return (
     <button
@@ -50,7 +39,16 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
       )}
       data-for={app.id}
       data-tip
-      onClick={(event) => dispatch(clickedTileButton(app.id, event))}
+      onClick={(event) =>
+        dispatch(
+          clickedTile({
+            url,
+            appId: app.id,
+            isAlt: event.altKey,
+            isShift: event.shiftKey,
+          }),
+        )
+      }
       title={app.name}
       type="button"
     >

@@ -33,7 +33,6 @@ import {
   receivedUrl,
   receivedVersion,
 } from './actions'
-import { onStateChangeMiddleware } from './on-state-change.middleware'
 import * as reducers from './reducers'
 import { sendToMainMiddleware } from './send-to-main.middleware'
 
@@ -45,10 +44,7 @@ export type RootState = ReturnType<typeof rootReducer>
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
-      onStateChangeMiddleware(),
-      sendToMainMiddleware(),
-    ),
+    getDefaultMiddleware().concat(sendToMainMiddleware()),
 })
 
 export default store
