@@ -73,8 +73,6 @@ function getTheme(): ThemeState {
     // Accent
     accent: `#${electron.systemPreferences.getAccentColor()}`,
   }
-  console.log(theme)
-
   return theme
 }
 
@@ -155,8 +153,8 @@ electron.app.on('ready', async () => {
       enableRemoteModule: false,
     },
     center: true,
-    height: bounds?.height || 214,
-    minHeight: 214,
+    height: bounds?.height || 198,
+    minHeight: 198,
     width: bounds?.width || 500,
     minWidth: 500,
     show: false,
