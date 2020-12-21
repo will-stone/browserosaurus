@@ -18,7 +18,6 @@ import {
   clickedQuitButton,
   clickedReloadButton,
   clickedSetAsDefaultBrowserButton,
-  clickedSettingsButton,
   clickedTile,
   clickedUpdateRestartButton,
   pressedAppKey,
@@ -78,8 +77,6 @@ function getTheme(): ThemeState {
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
-declare const SETTINGS_WINDOW_WEBPACK_ENTRY: string
-declare const SETTINGS_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
 electron.app.commandLine.appendArgument('--enable-features=Metal')
@@ -91,7 +88,6 @@ if (store.get('firstRun')) {
 
 // Prevents garbage collection
 let bWindow: electron.BrowserWindow | undefined
-let sWindow: electron.BrowserWindow | undefined
 let tray: electron.Tray | undefined
 
 // TODO due to this issue: https://github.com/electron/electron/issues/18699
@@ -333,44 +329,6 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
   // Update and restart
   else if (clickedUpdateRestartButton.match(action)) {
     electron.autoUpdater.quitAndInstall()
-  }
-
-  // Open settings
-  else if (clickedSettingsButton.match(action)) {
-    sWindow = new electron.BrowserWindow({
-      parent: bWindow,
-      modal: true,
-      show: false,
-      frame: true,
-      titleBarStyle: 'hiddenInset',
-      icon: path.join(__dirname, '/static/icon/icon.png'),
-      title: 'Settings',
-      webPreferences: {
-        additionalArguments: [],
-        nodeIntegration: true,
-        contextIsolation: false,
-        preload: SETTINGS_WINDOW_PRELOAD_WEBPACK_ENTRY,
-        enableRemoteModule: false,
-      },
-      // center: true,
-      height: 500,
-      width: 500,
-      minimizable: false,
-      maximizable: false,
-      fullscreen: false,
-      fullscreenable: false,
-      movable: true,
-      resizable: false,
-      transparent: false,
-      hasShadow: true,
-      backgroundColor: '#1A202C',
-    })
-
-    await sWindow.loadURL(SETTINGS_WINDOW_WEBPACK_ENTRY)
-
-    sWindow.once('ready-to-show', () => {
-      sWindow?.show()
-    })
   }
 
   // Change fav

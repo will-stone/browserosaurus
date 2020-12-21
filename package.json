@@ -96,11 +96,6 @@
                   "html": "./src/renderer/index.html",
                   "js": "./src/renderer/index.tsx",
                   "name": "main_window"
-                },
-                {
-                  "html": "./src/renderer/settings.html",
-                  "js": "./src/renderer/settings.tsx",
-                  "name": "settings_window"
                 }
               ]
             }
