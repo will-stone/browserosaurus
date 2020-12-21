@@ -13,7 +13,6 @@ import {
   clickedFavButton,
   clickedSettingsButton,
   clickedSponsorButton,
-  clickedThemeButton,
   clickedUrlBackspaceButton,
   clickedVersionButton,
   pressedBackspaceKey,
@@ -21,6 +20,7 @@ import {
   receivedApps,
   receivedDefaultProtocolClientStatus,
   receivedStore,
+  receivedTheme,
   receivedUpdateAvailable,
   receivedUpdateDownloaded,
   receivedUrl,
@@ -32,6 +32,28 @@ import {
  */
 const apps = createReducer<App[]>([], (builder) =>
   builder.addCase(receivedApps, (_, action) => action.payload),
+)
+
+/**
+ * Theme Reducer
+ */
+export interface ThemeState {
+  textBackground: string
+  windowBackground: string
+  controlBackground: string
+  control: string
+}
+
+const theme = createReducer<ThemeState>(
+  {
+    textBackground: '',
+    windowBackground: '',
+    controlBackground: '',
+    control: '',
+  },
+  (builder) => {
+    builder.addCase(receivedTheme, (_, action) => action.payload)
+  },
 )
 
 /**
@@ -48,7 +70,6 @@ interface UiState {
   fav: MainStore['fav']
   hiddenTileIds: MainStore['hiddenTileIds']
   hotkeys: MainStore['hotkeys']
-  theme: MainStore['theme']
 }
 
 const ui = createReducer<UiState>(
@@ -63,7 +84,6 @@ const ui = createReducer<UiState>(
     fav: '',
     hiddenTileIds: [],
     hotkeys: {},
-    theme: 'dark',
   },
   (builder) =>
     builder
@@ -93,9 +113,6 @@ const ui = createReducer<UiState>(
           state.menu = 'tiles'
         }
       })
-      .addCase(clickedThemeButton, (state, action) => {
-        state.theme = action.payload
-      })
       .addCase(clickedUrlBackspaceButton, (state) => {
         state.url = backspaceUrlParse(state.url)
       })
@@ -122,7 +139,6 @@ const ui = createReducer<UiState>(
         state.fav = action.payload.fav
         state.hiddenTileIds = action.payload.hiddenTileIds
         state.hotkeys = action.payload.hotkeys
-        state.theme = action.payload.theme
       })
       .addCase(receivedUpdateAvailable, (state) => {
         state.updateStatus = 'available'
@@ -139,4 +155,4 @@ const ui = createReducer<UiState>(
       }),
 )
 
-export { apps, ui }
+export { apps, theme, ui }

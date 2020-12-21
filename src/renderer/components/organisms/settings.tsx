@@ -14,7 +14,6 @@ import { css } from 'emotion'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import { Store as MainStore } from '../../../main/store'
 import { useSelector } from '../../store'
 import {
   changedHotkey,
@@ -25,19 +24,17 @@ import {
   clickedReloadButton,
   clickedSetAsDefaultBrowserButton,
   clickedSponsorButton,
-  clickedThemeButton,
   clickedUpdateRestartButton,
   clickedVersionButton,
 } from '../../store/actions'
-import { useApps, useTheme } from '../../store/selector-hooks'
-import { themes } from '../../themes'
+import { useApps } from '../../store/selector-hooks'
 import Button from '../atoms/button'
 import Kbd from '../atoms/kbd'
 
 const Settings: React.FC = () => {
   const dispatch = useDispatch()
   const apps = useApps()
-  const theme = useTheme()
+  const theme = useSelector((state) => state.theme)
   const isDefaultProtocolClient = useSelector(
     (state) => state.ui.isDefaultProtocolClient,
   )
@@ -59,8 +56,7 @@ const Settings: React.FC = () => {
         className={clsx(
           'absolute inset-0 rounded shadow-xl z-30 flex flex-col',
           css({
-            color: themes[theme].settings.text,
-            backgroundColor: themes[theme].bg,
+            backgroundColor: theme.windowBackground,
           }),
         )}
       >
@@ -70,7 +66,6 @@ const Settings: React.FC = () => {
             'w-full',
             'flex items-center justify-between',
             'pl-20 pr-1',
-            css({ backgroundColor: themes[theme].titleBarBg }),
           )}
           style={{ height: '39px' }}
         >
@@ -78,7 +73,6 @@ const Settings: React.FC = () => {
             aria-label="Sponsor"
             className="space-x-2"
             onClick={() => dispatch(clickedSponsorButton())}
-            tone="sponsor"
           >
             <FontAwesomeIcon icon={faHeart} />
             <span>Sponsor</span>
@@ -100,7 +94,6 @@ const Settings: React.FC = () => {
                 aria-label="Restart and update"
                 className="space-x-2"
                 onClick={() => dispatch(clickedUpdateRestartButton())}
-                tone="primary"
               >
                 <FontAwesomeIcon icon={faGift} />
                 <span>Restart & Update</span>
@@ -112,7 +105,6 @@ const Settings: React.FC = () => {
                 aria-label="Downloading update"
                 className="space-x-2"
                 disabled
-                tone="primary"
               >
                 <FontAwesomeIcon icon={faGift} />
                 <span>Downloading update…</span>
@@ -151,26 +143,17 @@ const Settings: React.FC = () => {
         <div className={clsx('overflow-y-auto')}>
           <div className="p-4 space-x-8 text-xs flex justify-center">
             <div className="flex items-center space-x-2">
-              <FontAwesomeIcon
-                className={css({ color: themes[theme].icons.star })}
-                icon={faStar}
-              />
+              <FontAwesomeIcon icon={faStar} />
               <span>
                 Assign <Kbd>space</Kbd> key
               </span>
             </div>
             <div className="flex items-center space-x-2">
-              <FontAwesomeIcon
-                className={css({ color: themes[theme].icons.eye })}
-                icon={faEye}
-              />
+              <FontAwesomeIcon icon={faEye} />
               <span>Show / hide</span>
             </div>
             <div className="flex items-center space-x-2">
-              <FontAwesomeIcon
-                className={css({ color: themes[theme].icons.keyboard })}
-                icon={faKeyboard}
-              />
+              <FontAwesomeIcon icon={faKeyboard} />
               <span>Assign single letters or numbers as hotkeys</span>
             </div>
           </div>
@@ -195,15 +178,7 @@ const Settings: React.FC = () => {
                   tabIndex={-1}
                   type="button"
                 >
-                  <FontAwesomeIcon
-                    className={css({
-                      color: app.isFav
-                        ? themes[theme].icons.star
-                        : themes[theme].button.text.disabled,
-                    })}
-                    fixedWidth
-                    icon={faStar}
-                  />
+                  <FontAwesomeIcon fixedWidth icon={faStar} />
                 </button>
 
                 <button
@@ -219,11 +194,6 @@ const Settings: React.FC = () => {
                   type="button"
                 >
                   <FontAwesomeIcon
-                    className={css({
-                      color: app.isVisible
-                        ? themes[theme].icons.eye
-                        : themes[theme].button.text.disabled,
-                    })}
                     fixedWidth
                     icon={app.isVisible ? faEye : faEyeSlash}
                   />
@@ -232,29 +202,17 @@ const Settings: React.FC = () => {
                 <div
                   className={clsx(
                     'flex-shrink-0 relative w-10 h-8 rounded-full',
-                    css({
-                      backgroundColor: themes[theme].button.bg,
-                    }),
                   )}
                 >
                   {!app.hotkey && (
                     <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none">
-                      <FontAwesomeIcon
-                        className={css({
-                          color: themes[theme].icons.keyboard,
-                        })}
-                        fixedWidth
-                        icon={faKeyboard}
-                      />
+                      <FontAwesomeIcon fixedWidth icon={faKeyboard} />
                     </div>
                   )}
                   <input
                     aria-label={`${app.name} hotkey`}
                     className={clsx(
                       'bg-transparent w-full h-full absolute z-10 text-center uppercase focus:outline-none',
-                      css({
-                        color: themes[theme].button.text.base,
-                      }),
                     )}
                     data-app-id={app.id}
                     maxLength={1}
@@ -284,61 +242,12 @@ const Settings: React.FC = () => {
               support I can continue to maintain projects such as this one,
               which is free and always will be.
             </p>
-            <p className="flex flex-wrap gap-2 justify-center">
-              {Object.entries(themes).map(([themeKey, themeInfo]) => {
-                return (
-                  <Button
-                    key={themeKey}
-                    className="relative pr-8"
-                    onClick={(event) =>
-                      dispatch(
-                        clickedThemeButton(
-                          event.currentTarget.value as MainStore['theme'],
-                        ),
-                      )
-                    }
-                    value={themeKey}
-                  >
-                    <span>{themeKey.toUpperCase()}</span>
-                    <span className="absolute top-0 right-0 bottom-0 flex flex-col h-full w-6">
-                      <span
-                        className={clsx(
-                          'flex-grow',
-                          css({
-                            backgroundColor: themeInfo.sample.a,
-                          }),
-                        )}
-                      />
-                      <span
-                        className={clsx(
-                          'flex-grow',
-                          css({
-                            backgroundColor: themeInfo.sample.b,
-                          }),
-                        )}
-                      />
-                      <span
-                        className={clsx(
-                          'flex-grow',
-                          css({
-                            backgroundColor: themeInfo.sample.c,
-                          }),
-                        )}
-                      />
-                    </span>
-                  </Button>
-                )
-              })}
-            </p>
           </div>
 
           <button
             className={clsx(
               'text-xxs pt-2 pr-2 pb-1 pl-1 rounded-tr',
               'active:shadow-none focus:outline-none active:opacity-75',
-              css({
-                backgroundColor: themes[theme].settings.border,
-              }),
             )}
             onClick={() => dispatch(clickedVersionButton())}
             type="button"

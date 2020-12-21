@@ -19,12 +19,12 @@ import {
   clickedReloadButton,
   clickedSetAsDefaultBrowserButton,
   clickedSettingsButton,
-  clickedThemeButton,
   clickedTile,
   clickedUpdateRestartButton,
   pressedAppKey,
   pressedCopyKey,
 } from '../renderer/store/actions'
+import type { ThemeState } from '../renderer/store/reducers'
 import { alterHotkeys } from '../utils/alterHotkeys'
 import copyToClipboard from '../utils/copyToClipboard'
 import { filterAppsByInstalled } from '../utils/filterAppsByInstalled'
@@ -34,11 +34,24 @@ import {
   INSTALLED_APPS_FOUND,
   PROTOCOL_STATUS_RETRIEVED,
   STORE_RETRIEVED,
+  THEME,
   UPDATE_AVAILABLE,
   UPDATE_DOWNLOADED,
   URL_UPDATED,
 } from './events'
 import { store } from './store'
+
+function getTheme(): ThemeState {
+  const theme = {
+    textBackground: electron.systemPreferences.getColor('text-background'),
+    windowBackground: electron.systemPreferences.getColor('window-background'),
+    controlBackground: electron.systemPreferences.getColor(
+      'control-background',
+    ),
+    control: electron.systemPreferences.getColor('control'),
+  }
+  return theme
+}
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
@@ -57,6 +70,13 @@ if (store.get('firstRun')) {
 let bWindow: electron.BrowserWindow | undefined
 let sWindow: electron.BrowserWindow | undefined
 let tray: electron.Tray | undefined
+
+// TODO due to this issue: https://github.com/electron/electron/issues/18699
+// this does not work as advertised. It will detect the change but getColor()
+// doesn't fetch updated values. Hopefully this will work in time.
+electron.nativeTheme.on('updated', () => {
+  bWindow?.webContents.send(THEME, getTheme())
+})
 
 function showBWindow() {
   if (bWindow) {
@@ -124,6 +144,7 @@ electron.app.on('ready', async () => {
     resizable: true,
     transparent: true,
     hasShadow: true,
+    backgroundColor: getTheme().windowBackground,
   })
 
   await bWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
@@ -147,10 +168,6 @@ electron.app.on('ready', async () => {
   })
 
   bWindow.on('resize', () => {
-    store.set('bounds', bWindow?.getBounds())
-  })
-
-  bWindow.on('moved', () => {
     store.set('bounds', bWindow?.getBounds())
   })
 
@@ -251,6 +268,7 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
     const installedApps = await filterAppsByInstalled(apps)
 
     // Send all info down to renderer
+    bWindow?.webContents.send(THEME, getTheme())
     bWindow?.webContents.send(STORE_RETRIEVED, store.store)
     bWindow?.webContents.send(INSTALLED_APPS_FOUND, installedApps)
     bWindow?.webContents.send(
@@ -340,11 +358,6 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
       'hiddenTileIds',
       xor(store.get('hiddenTileIds'), [action.payload]),
     )
-  }
-
-  // Update theme
-  else if (clickedThemeButton.match(action)) {
-    store.set('theme', action.payload)
   }
 
   // Update hotkeys

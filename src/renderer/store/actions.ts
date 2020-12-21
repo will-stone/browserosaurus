@@ -2,6 +2,7 @@ import { createAction as cA } from '@reduxjs/toolkit'
 
 import { App } from '../../config/types'
 import { Store as MainStore } from '../../main/store'
+import type { ThemeState } from './reducers'
 
 interface OpenAppArguments {
   url: string
@@ -23,6 +24,7 @@ const clickedTile = cA<OpenAppArguments>('tiles/clickTile')
 // -----------------------------------------------------------------------------
 // Main events
 // -----------------------------------------------------------------------------
+const receivedTheme = cA<ThemeState>('main/receivedTheme')
 const receivedStore = cA<MainStore>('main/receivedStore')
 const receivedApps = cA<App[]>('main/receivedApps')
 const receivedVersion = cA<string>('main/receivedVersion')
@@ -59,7 +61,6 @@ const clickedCloseMenuButton = cA('settings/clickedCloseMenuButton')
 const clickedEyeButton = cA<string>('settings/clickedEyeButton')
 const clickedFavButton = cA<string>('settings/clickedFavButton')
 const clickedSponsorButton = cA('settings/clickedSponsorButton')
-const clickedThemeButton = cA<MainStore['theme']>('settings/clickedThemeButton')
 const clickedVersionButton = cA('settings/clickedVersionButton')
 const clickedQuitButton = cA('settings/clickedQuitButton')
 const clickedReloadButton = cA('settings/clickedReloadButton')
@@ -78,6 +79,7 @@ const clickedCopyButton = cA<string>('urlBar/clickedCopyButton')
 export {
   appStarted,
   clickedTile,
+  receivedTheme,
   receivedStore,
   receivedApps,
   receivedVersion,
@@ -95,7 +97,6 @@ export {
   clickedEyeButton,
   clickedFavButton,
   clickedSponsorButton,
-  clickedThemeButton,
   clickedVersionButton,
   clickedSettingsButton,
   clickedUrlBackspaceButton,

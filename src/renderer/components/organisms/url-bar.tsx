@@ -9,15 +9,12 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import Url from 'url'
 
-import { SPONSOR_URL } from '../../../config/CONSTANTS'
 import { useSelector } from '../../store'
 import {
   clickedCopyButton,
   clickedSettingsButton,
   clickedUrlBackspaceButton,
 } from '../../store/actions'
-import { useTheme } from '../../store/selector-hooks'
-import { themes } from '../../themes'
 import Button from '../atoms/button'
 
 interface Props {
@@ -28,9 +25,8 @@ const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
   const updateStatus = useSelector((state) => state.ui.updateStatus)
-  const theme = useTheme()
+  const theme = useSelector((state) => state.theme)
 
-  const isSponsorUrl = url === SPONSOR_URL
   const isEmpty = url.length === 0
   const parsedUrl = Url.parse(url)
 
@@ -41,7 +37,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         'flex-shrink-0',
         'w-full',
         'flex items-center space-x-4',
-        css({ backgroundColor: themes[theme].titleBarBg }),
+        css({ backgroundColor: theme.controlBackground }),
       )}
       style={{ height: '39px' }}
     >
@@ -53,34 +49,14 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           'overflow-hidden',
           'draggable',
           'pl-4 pr-1',
-          css({
-            color: isSponsorUrl
-              ? themes[theme].url.text.sponsorBase
-              : themes[theme].url.text.base,
-          }),
         )}
       >
         <div className="truncate">
           <span>{parsedUrl.protocol}</span>
           {parsedUrl.slashes && '//'}
-          <span
-            className={clsx(
-              'text-base',
-              css({
-                color: isSponsorUrl
-                  ? themes[theme].url.text.sponsorHost
-                  : themes[theme].url.text.host,
-              }),
-            )}
-          >
+          <span className={clsx('text-base')}>
             {parsedUrl.host || (
-              <FontAwesomeIcon
-                className={css({
-                  color: themes[theme].url.text.disabled,
-                })}
-                fixedWidth
-                icon={faEllipsisH}
-              />
+              <FontAwesomeIcon fixedWidth icon={faEllipsisH} />
             )}
           </span>
           <span>
@@ -112,7 +88,6 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           aria-label="Settings menu"
           onClick={() => dispatch(clickedSettingsButton())}
           title="Settings"
-          tone={updateStatus === 'downloaded' ? 'primary' : undefined}
         >
           <FontAwesomeIcon
             fixedWidth

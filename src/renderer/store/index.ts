@@ -18,6 +18,7 @@ import {
   INSTALLED_APPS_FOUND,
   PROTOCOL_STATUS_RETRIEVED,
   STORE_RETRIEVED,
+  THEME,
   UPDATE_AVAILABLE,
   UPDATE_DOWNLOADED,
   URL_UPDATED,
@@ -28,16 +29,17 @@ import {
   receivedApps,
   receivedDefaultProtocolClientStatus,
   receivedStore,
+  receivedTheme,
   receivedUpdateAvailable,
   receivedUpdateDownloaded,
   receivedUrl,
   receivedVersion,
 } from './actions'
-import * as reducers from './reducers'
+import { apps, theme, ThemeState, ui } from './reducers'
 import { sendToMainMiddleware } from './send-to-main.middleware'
 
 // Root Reducer
-const rootReducer = combineReducers(reducers)
+const rootReducer = combineReducers({ ui, apps, theme })
 export type RootState = ReturnType<typeof rootReducer>
 
 // Store
@@ -76,6 +78,14 @@ export type AppThunk<ReturnType = void> = ThunkAction<
  */
 electron.ipcRenderer.on(APP_VERSION, (_: unknown, version: string) => {
   store.dispatch(receivedVersion(version))
+})
+
+/**
+ * Receive update available
+ * main -> renderer
+ */
+electron.ipcRenderer.on(THEME, (_: unknown, recievedTheme: ThemeState) => {
+  store.dispatch(receivedTheme(recievedTheme))
 })
 
 /**

@@ -2,11 +2,9 @@ import clsx from 'clsx'
 import { css } from 'emotion'
 import React from 'react'
 
-import { useTheme } from '../../store/selector-hooks'
-import { themes } from '../../themes'
+import { useSelector } from '../../store'
 
 interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
-  tone?: 'primary' | 'sponsor'
   size?: 'xs' | 'md'
 }
 
@@ -14,12 +12,11 @@ const Button: React.FC<ButtonProps> = ({
   className,
   disabled,
   size,
-  tone,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- type is hardcoded
   type,
   ...restProperties
 }) => {
-  const theme = useTheme()
+  const theme = useSelector((state) => state.theme)
 
   let textSize = 'text-xs'
   let padding = 'px-3 py-2'
@@ -27,15 +24,6 @@ const Button: React.FC<ButtonProps> = ({
   if (size === 'md') {
     textSize = 'text-base'
     padding = 'px-4 py-3'
-  }
-
-  let color = themes[theme].button.text.base
-  if (tone === 'primary') {
-    color = themes[theme].button.text.update
-  } else if (disabled) {
-    color = themes[theme].button.text.disabled
-  } else if (tone === 'sponsor') {
-    color = themes[theme].button.text.sponsor
   }
 
   return (
@@ -48,7 +36,7 @@ const Button: React.FC<ButtonProps> = ({
         textSize,
         'leading-none',
         'inline-flex items-center',
-        css({ color }),
+        css({ backgroundColor: theme.control }),
       )}
       disabled={disabled}
       type="button"

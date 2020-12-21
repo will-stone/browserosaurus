@@ -1,5 +1,4 @@
 import { App } from '../../config/types'
-import { Store as MainStore } from '../../main/store'
 import { getHotkeyByAppId } from '../../utils/getHotkeyByAppId'
 import { useDeepEqualSelector, useSelector, useShallowEqualSelector } from '.'
 
@@ -51,6 +50,3 @@ export const useNormalTiles = (): ExtendedApp[] => {
     })
   return normalTiles
 }
-
-export const useTheme = (): MainStore['theme'] =>
-  useSelector((state) => state.ui.theme)
