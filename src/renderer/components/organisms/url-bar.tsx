@@ -1,6 +1,8 @@
 import { faBackspace } from '@fortawesome/free-solid-svg-icons/faBackspace'
+import { faCog } from '@fortawesome/free-solid-svg-icons/faCog'
 import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import { css } from 'emotion'
@@ -10,7 +12,9 @@ import Url from 'url'
 
 import { useSelector } from '../../store'
 import {
+  clickedCloseMenuButton,
   clickedCopyButton,
+  clickedSettingsButton,
   clickedUrlBackspaceButton,
 } from '../../store/actions'
 import Button from '../atoms/button'
@@ -23,6 +27,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
   const theme = useSelector((state) => state.theme)
+  const editMode = useSelector((state) => state.ui.editMode)
 
   const isEmpty = url.length === 0
   const parsedUrl = Url.parse(url)
@@ -94,6 +99,24 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         >
           <FontAwesomeIcon fixedWidth icon={faCopy} />
         </Button>
+
+        {editMode ? (
+          <Button
+            aria-label="Close menu"
+            onClick={() => dispatch(clickedCloseMenuButton())}
+            title="Close menu"
+          >
+            <FontAwesomeIcon fixedWidth icon={faTimes} />
+          </Button>
+        ) : (
+          <Button
+            aria-label="Settings menu"
+            onClick={() => dispatch(clickedSettingsButton())}
+            title="Settings"
+          >
+            <FontAwesomeIcon fixedWidth icon={faCog} />
+          </Button>
+        )}
       </div>
     </div>
   )

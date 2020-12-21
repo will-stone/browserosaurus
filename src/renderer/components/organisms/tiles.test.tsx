@@ -5,7 +5,6 @@ import React from 'react'
 import Wrapper from '../_bootstrap'
 import { DEFAULT_URL } from '../../../config/CONSTANTS'
 import { INSTALLED_APPS_FOUND, URL_UPDATED } from '../../../main/events'
-import { HIDE_WINDOW } from '../../sendToMain'
 import { clickedTile, pressedAppKey } from '../../store/actions'
 
 test('tiles', () => {
@@ -50,7 +49,6 @@ test('tiles', () => {
       isShift: false,
     }),
   )
-  expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 
   // Correct info sent to main when tile clicked
   const url = 'http://example.com'
@@ -69,7 +67,6 @@ test('tiles', () => {
       isShift: false,
     }),
   )
-  expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 })
 
 test('use hotkey', () => {
@@ -101,7 +98,6 @@ test('use hotkey', () => {
       isShift: false,
     }),
   )
-  expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 })
 
 test('use hotkey with alt', () => {
@@ -138,7 +134,6 @@ test('use hotkey with alt', () => {
       isShift: false,
     }),
   )
-  expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 })
 
 test('hold shift', () => {
@@ -165,7 +160,6 @@ test('hold shift', () => {
       isShift: true,
     }),
   )
-  expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
 })
 
 test('tiles order', () => {

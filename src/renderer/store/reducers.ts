@@ -64,7 +64,7 @@ const theme = createReducer<ThemeState>(
  * UI Reducer
  */
 interface UiState {
-  menu: false | 'tiles'
+  editMode: boolean
   url: string
   version: string
   updateStatus: 'no-update' | 'available' | 'downloaded'
@@ -78,7 +78,7 @@ interface UiState {
 
 const ui = createReducer<UiState>(
   {
-    menu: false,
+    editMode: false,
     version: '',
     updateStatus: 'no-update',
     isDefaultProtocolClient: true,
@@ -100,7 +100,7 @@ const ui = createReducer<UiState>(
         state.hotkeys = updatedHotkeys
       })
       .addCase(clickedCloseMenuButton, (state) => {
-        state.menu = false
+        state.editMode = false
       })
       .addCase(clickedEyeButton, (state, action) => {
         const { hiddenTileIds } = state
@@ -111,26 +111,22 @@ const ui = createReducer<UiState>(
         state.fav = action.payload
       })
       .addCase(clickedSettingsButton, (state) => {
-        if (state.menu) {
-          state.menu = false
-        } else {
-          state.menu = 'tiles'
-        }
+        state.editMode = true
       })
       .addCase(clickedUrlBackspaceButton, (state) => {
         state.url = backspaceUrlParse(state.url)
       })
       .addCase(clickedSponsorButton, (state) => {
         state.url = SPONSOR_URL
-        state.menu = false
+        state.editMode = false
       })
       .addCase(clickedVersionButton, (state) => {
         state.url = DEFAULT_URL
-        state.menu = false
+        state.editMode = false
       })
       .addCase(pressedEscapeKey, (state) => {
-        if (state.menu === 'tiles') {
-          state.menu = false
+        if (state.editMode) {
+          state.editMode = false
         }
       })
       .addCase(pressedBackspaceKey, (state) => {
@@ -151,7 +147,7 @@ const ui = createReducer<UiState>(
         state.updateStatus = 'downloaded'
       })
       .addCase(receivedUrl, (state, action) => {
-        state.menu = false
+        state.editMode = false
         state.url = action.payload
       })
       .addCase(receivedVersion, (state, action) => {

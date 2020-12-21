@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { hideWindow } from '../../sendToMain'
 import { AppThunk } from '../../store'
 import {
   pressedAppKey,
@@ -14,7 +13,7 @@ const keyboardEvent = (event: KeyboardEvent): AppThunk => (
   dispatch,
   getState,
 ) => {
-  const { url, menu, hotkeys, fav } = getState().ui
+  const { url, editMode, hotkeys, fav } = getState().ui
 
   // Using `fromCharCode` allows detection to be keyboard layout agnostic
   const stringFromCharCode = String.fromCharCode(event.keyCode).toLowerCase()
@@ -31,15 +30,10 @@ const keyboardEvent = (event: KeyboardEvent): AppThunk => (
     dispatch(pressedEscapeKey())
   }
 
-  // Only capture the following when menu is closed
-  if (!menu) {
-    // Escape
-    if (event.code === 'Escape') {
-      hideWindow()
-    }
-
+  // Only capture the following when not in edit mode
+  if (!editMode) {
     // Backspace
-    else if (event.key === 'Backspace') {
+    if (event.key === 'Backspace') {
       event.preventDefault()
       dispatch(pressedBackspaceKey())
     }

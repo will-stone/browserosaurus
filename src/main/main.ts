@@ -8,20 +8,22 @@ import sleep from 'tings/sleep'
 
 import package_ from '../../package.json'
 import { apps } from '../config/apps'
-import { HIDE_WINDOW } from '../renderer/sendToMain'
 import {
   appStarted,
   changedHotkey,
+  clickedCloseMenuButton,
   clickedCopyButton,
   clickedEyeButton,
   clickedFavButton,
   clickedQuitButton,
   clickedReloadButton,
   clickedSetAsDefaultBrowserButton,
+  clickedSettingsButton,
   clickedTile,
   clickedUpdateRestartButton,
   pressedAppKey,
   pressedCopyKey,
+  pressedEscapeKey,
 } from '../renderer/store/actions'
 import type { ThemeState } from '../renderer/store/reducers'
 import { alterHotkeys } from '../utils/alterHotkeys'
@@ -80,6 +82,7 @@ if (store.get('firstRun')) {
 // Prevents garbage collection
 let bWindow: electron.BrowserWindow | undefined
 let tray: electron.Tray | undefined
+let editMode = false
 
 // TODO due to this issue: https://github.com/electron/electron/issues/18699
 // this does not work as advertised. It will detect the change but getColor()
@@ -276,13 +279,12 @@ electron.app.on('open-url', (event, url) => {
  * ------------------
  */
 
-electron.ipcMain.on(HIDE_WINDOW, () => {
-  bWindow?.hide()
-})
-
 electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
   // App started
   if (appStarted.match(action)) {
+    // Resets edit-mode if renderer was restarted whilst in edit-mode
+    editMode = false
+
     const installedApps = await filterAppsByInstalled(apps)
 
     // Send all info down to renderer
@@ -377,5 +379,24 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
     ].flat()
 
     execFile('open', openArguments)
+  }
+
+  // Go into edit mode
+  else if (clickedSettingsButton.match(action)) {
+    editMode = true
+  }
+
+  // Click close edit mode
+  else if (clickedCloseMenuButton.match(action)) {
+    editMode = false
+  }
+
+  // Escape key
+  else if (pressedEscapeKey.match(action)) {
+    if (editMode) {
+      editMode = false
+    } else {
+      bWindow?.hide()
+    }
   }
 })
