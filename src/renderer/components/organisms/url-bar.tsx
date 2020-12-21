@@ -32,18 +32,19 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       className={clsx(
         className,
         'flex-shrink-0',
-        'w-full p-4',
+        'w-full px-4',
         'flex items-center space-x-4',
         'bg-black bg-opacity-10',
         css({
           color: theme.windowFrameText,
+          height: '74px',
         }),
       )}
     >
       <div
         className={clsx(
           'flex-grow h-full',
-          'text-xs tracking-wider',
+          'text-sm tracking-wider',
           'flex items-center justify-between',
           'overflow-hidden',
           'draggable',
@@ -51,10 +52,20 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           css({ color: theme.secondaryLabel }),
         )}
       >
-        <div className="truncate">
+        <div
+          style={{
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            overflowWrap: 'break-word',
+            wordBreak: 'break-all',
+            textOverflow: 'ellipsis',
+          }}
+        >
           <span>{parsedUrl.protocol}</span>
           {parsedUrl.slashes && '//'}
-          <span className={clsx('text-base', css({ color: theme.label }))}>
+          <span className={clsx(css({ color: theme.label }))}>
             {parsedUrl.host || (
               <FontAwesomeIcon fixedWidth icon={faEllipsisH} />
             )}
