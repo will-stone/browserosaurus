@@ -117,15 +117,20 @@ function showBWindow() {
       bottom: mousePoint.y + bWindowBounds.height,
     }
 
+    const nudge = {
+      x: 50,
+      y: 10,
+    }
+
     const inWindowPosition = {
       x:
-        bWindowEdges.right > displayEnd.x
+        bWindowEdges.right > displayEnd.x + nudge.x
           ? displayEnd.x - bWindowBounds.width
-          : mousePoint.x,
+          : mousePoint.x - nudge.x,
       y:
-        bWindowEdges.bottom > displayEnd.y
+        bWindowEdges.bottom > displayEnd.y + nudge.y
           ? displayEnd.y - bWindowBounds.height
-          : mousePoint.y,
+          : mousePoint.y + nudge.y,
     }
 
     bWindow.setPosition(inWindowPosition.x, inWindowPosition.y, false)

@@ -29,8 +29,8 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
       className={clsx(
         'w-28 p-8',
         'flex flex-col items-center justify-center max-h-full',
-        'rounded',
         'focus:outline-none',
+        'hover:bg-black hover:bg-opacity-25',
         className,
       )}
       data-for={app.id}
