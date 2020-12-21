@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron'
 import ReactTooltip from 'react-tooltip'
 
-import { App } from '../config/types'
+import { App, Profile } from '../config/types'
 import { Hotkeys, Store as MainStore } from '../main/store'
 
 export const APP_SELECTED = 'APP_SELECTED'
@@ -10,6 +10,7 @@ export interface OpenAppArguments {
   appId: App['id'] | undefined
   isAlt: boolean
   isShift: boolean
+  profileName?: Profile['profileName']
 }
 export function selectApp(arguments_: OpenAppArguments): void {
   ipcRenderer.send(APP_SELECTED, arguments_)

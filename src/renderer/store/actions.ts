@@ -1,6 +1,6 @@
 import { createAction as cA } from '@reduxjs/toolkit'
 
-import { App } from '../../config/types'
+import { App, Profile } from '../../config/types'
 import { Store as MainStore } from '../../main/store'
 
 // -----------------------------------------------------------------------------
@@ -13,6 +13,7 @@ const appStarted = cA('app/started')
 // -----------------------------------------------------------------------------
 const receivedStore = cA<MainStore>('main/receivedStore')
 const receivedApps = cA<App[]>('main/receivedApps')
+const receivedProfiles = cA<Profile[]>('main/receivedProfiles')
 const receivedVersion = cA<string>('main/receivedVersion')
 const receivedUpdateAvailable = cA('main/receivedUpdateAvailable')
 const receivedUpdateDownloaded = cA('main/receivedUpdateDownloaded')
@@ -59,6 +60,7 @@ export {
   appStarted,
   receivedStore,
   receivedApps,
+  receivedProfiles,
   receivedVersion,
   receivedUpdateAvailable,
   receivedUpdateDownloaded,

@@ -12,9 +12,10 @@ import {
   useSelector as useReduxSelector,
 } from 'react-redux'
 
-import { App } from '../../config/types'
+import { App, Profile } from '../../config/types'
 import {
   APP_VERSION,
+  AVAILABLE_PROFILES_FOUND,
   INSTALLED_APPS_FOUND,
   PROTOCOL_STATUS_RETRIEVED,
   STORE_RETRIEVED,
@@ -27,6 +28,7 @@ import {
   appStarted,
   receivedApps,
   receivedDefaultProtocolClientStatus,
+  receivedProfiles,
   receivedStore,
   receivedUpdateAvailable,
   receivedUpdateDownloaded,
@@ -102,6 +104,17 @@ electron.ipcRenderer.on(
   INSTALLED_APPS_FOUND,
   (_: unknown, installedApps: App[]) => {
     store.dispatch(receivedApps(installedApps))
+  },
+)
+
+/**
+ * Receive profiles
+ * main -> renderer
+ */
+electron.ipcRenderer.on(
+  AVAILABLE_PROFILES_FOUND,
+  (_: unknown, profiles: Profile[]) => {
+    store.dispatch(receivedProfiles(profiles))
   },
 )
 

@@ -6,7 +6,8 @@ import sleep from 'tings/sleep'
 
 import package_ from '../../package.json'
 import { apps } from '../config/apps'
-import { App } from '../config/types'
+import { profiles } from '../config/profiles'
+import { App, Profile } from '../config/types'
 import {
   APP_SELECTED,
   CATCH_MOUSE,
@@ -31,6 +32,7 @@ import { logger } from '../utils/logger'
 import createWindow from './createWindow'
 import {
   APP_VERSION,
+  AVAILABLE_PROFILES_FOUND,
   INSTALLED_APPS_FOUND,
   PROTOCOL_STATUS_RETRIEVED,
   STORE_RETRIEVED,
@@ -52,6 +54,7 @@ if (store.get('firstRun')) {
 let bWindow: electron.BrowserWindow | undefined
 let tray: electron.Tray | undefined
 let installedApps: App[] = []
+let availableProfiles: Profile[] = []
 
 electron.app.on('ready', async () => {
   bWindow = await createWindow()
@@ -137,11 +140,16 @@ electron.app.on('open-url', (event, url) => {
 electron.ipcMain.on(RENDERER_STARTED, async () => {
   installedApps = await filterAppsByInstalled(apps)
 
+  availableProfiles = profiles.filter(
+    ({ appId }) => installedApps.findIndex((app) => app.id === appId) > -1,
+  )
+
   bWindow?.center()
 
   // Send all info down to renderer
   bWindow?.webContents.send(STORE_RETRIEVED, store.store)
   bWindow?.webContents.send(INSTALLED_APPS_FOUND, installedApps)
+  bWindow?.webContents.send(AVAILABLE_PROFILES_FOUND, availableProfiles)
   bWindow?.webContents.send(
     APP_VERSION,
     `v${electron.app.getVersion()}${electronIsDev ? ' DEV' : ''}`,
@@ -158,7 +166,7 @@ electron.ipcMain.on(RENDERER_STARTED, async () => {
 
 electron.ipcMain.on(
   APP_SELECTED,
-  (_: Event, { url, appId, isAlt, isShift }: OpenAppArguments) => {
+  (_: Event, { url, appId, profileName, isAlt, isShift }: OpenAppArguments) => {
     // Bail if app's bundle id is missing
     if (!appId) return
 
@@ -172,15 +180,21 @@ electron.ipcMain.on(
       ? app.urlTemplate.replace(/\{\{URL\}\}/u, urlString)
       : urlString
 
+    const customArguments: string[] = [
+      profileName ? `--profile-directory="${profileName}"` : [],
+      isShift && app.privateArg ? [app.privateArg] : [],
+    ].flat()
+
     const openArguments: string[] = [
       '-b',
       appId,
-      isAlt ? '--background' : [],
-      isShift && app.privateArg ? ['--new', '--args', app.privateArg] : [],
+      isAlt ? '--background' : '--new',
+      customArguments.length > 0 ? ['--args', ...customArguments] : [],
       // In order for private/incognito mode to work the URL needs to be passed at last, _after_ the respective app.privateArg flag
       processedUrlTemplate,
     ].flat()
 
+    logger('Renderer', openArguments.join(' '))
     execFile('open', openArguments)
   },
 )

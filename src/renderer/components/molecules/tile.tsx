@@ -16,10 +16,12 @@ import Kbd from '../atoms/kbd'
 const clickedTileButton = (
   appId: string,
   event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  profileName?: string,
 ): AppThunk => (_, getState) => {
   selectApp({
     url: getState().ui.url,
     appId,
+    profileName,
     isAlt: event.altKey,
     isShift: event.shiftKey,
   })
@@ -35,12 +37,12 @@ interface Props {
 const Tile: React.FC<Props> = ({ app, isFav, className }) => {
   const dispatch = useDispatch()
   const theme = useTheme()
-
+  const title = `${app.name} ${app.profileName || ''}`
   return (
     <>
       <button
         key={app.id}
-        aria-label={`${app.name} Tile`}
+        aria-label={`${title} Tile`}
         className={clsx(
           'flex flex-col items-center justify-center max-h-full',
           'rounded',
@@ -53,9 +55,11 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
           }),
           className,
         )}
-        data-for={app.id}
+        data-for={title}
         data-tip
-        onClick={(event) => dispatch(clickedTileButton(app.id, event))}
+        onClick={(event) =>
+          dispatch(clickedTileButton(app.id, event, app.profileName))
+        }
         style={{
           maxWidth: '100px',
           minWidth: '50px',
@@ -63,7 +67,7 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         type="button"
       >
         <img
-          alt={app.name}
+          alt={title}
           className="w-full object-contain"
           src={logos[app.id]}
         />
@@ -83,11 +87,11 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
       <ReactTooltip
         backgroundColor={themes[theme].tooltip.bg}
         effect="solid"
-        id={app.id}
+        id={title}
         place="bottom"
         textColor={themes[theme].tooltip.text}
       >
-        {app.name}
+        {title}
       </ReactTooltip>
     </>
   )

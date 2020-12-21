@@ -7,21 +7,38 @@ export interface ExtendedApp extends App {
   isVisible: boolean
   isFav: boolean
   hotkey: App['id'] | undefined
+  profileName?: string
 }
 
 export const useApps = (): ExtendedApp[] => {
   const apps = useDeepEqualSelector((state) => state.apps)
+  const profiles = useDeepEqualSelector((state) => state.profiles)
+  const profiledApps: ExtendedApp[] = profiles.map((p) => {
+    const { id, name } = apps.find((a) => a.id === p.appId)!
+    return {
+      id,
+      name,
+      isFav: false,
+      isVisible: true,
+      hotkey: undefined,
+      profileName: p.profileName,
+    }
+  })
+
   const hiddenTileIds = useShallowEqualSelector(
     (state) => state.ui.hiddenTileIds,
   )
   const favId = useSelector((state) => state.ui.fav)
   const hotkeys = useShallowEqualSelector((state) => state.ui.hotkeys)
-  return apps.map((app) => ({
-    ...app,
-    isVisible: !hiddenTileIds.includes(app.id),
-    isFav: app.id === favId,
-    hotkey: getHotkeyByAppId(hotkeys, app.id),
-  }))
+
+  return apps
+    .map((app) => ({
+      ...app,
+      isVisible: !hiddenTileIds.includes(app.id),
+      isFav: app.id === favId,
+      hotkey: getHotkeyByAppId(hotkeys, app.id),
+    }))
+    .concat(...profiledApps)
 }
 
 /**

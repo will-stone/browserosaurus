@@ -4,3 +4,8 @@ export interface App {
   urlTemplate?: string
   privateArg?: string
 }
+
+export interface Profile {
+  appId: string
+  profileName: string
+}

@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 
 import { DEFAULT_URL, SPONSOR_URL } from '../../config/CONSTANTS'
-import { App } from '../../config/types'
+import { App, Profile } from '../../config/types'
 import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'
 import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
@@ -21,6 +21,7 @@ import {
   pressedEscapeKey,
   receivedApps,
   receivedDefaultProtocolClientStatus,
+  receivedProfiles,
   receivedStore,
   receivedUpdateAvailable,
   receivedUpdateDownloaded,
@@ -33,6 +34,13 @@ import {
  */
 const apps = createReducer<App[]>([], (builder) =>
   builder.addCase(receivedApps, (_, action) => action.payload),
+)
+
+/**
+ * Profiles Reducer
+ */
+const profiles = createReducer<Profile[]>([], (builder) =>
+  builder.addCase(receivedProfiles, (_, action) => action.payload),
 )
 
 /**
@@ -155,4 +163,4 @@ const ui = createReducer<UiState>(
       }),
 )
 
-export { apps, ui }
+export { apps, profiles, ui }
