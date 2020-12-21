@@ -24,6 +24,9 @@ module.exports = {
       sans: 'SF Pro Text, Helvetica, Arial, sans-serif',
       rounded: 'SF Pro Rounded, Helvetica, Arial, sans-serif',
     },
+    extend: {
+      opacity: { 10: '0.1' },
+    },
   },
   variants: {
     boxShadow: ['responsive', 'hover', 'focus', 'active'],

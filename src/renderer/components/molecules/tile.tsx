@@ -30,7 +30,7 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         'w-28 p-8',
         'flex flex-col items-center justify-center max-h-full',
         'focus:outline-none',
-        'hover:bg-black hover:bg-opacity-25',
+        'hover:bg-black hover:bg-opacity-10',
         className,
       )}
       data-for={app.id}
