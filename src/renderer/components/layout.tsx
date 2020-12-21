@@ -16,7 +16,6 @@ const App: React.FC = () => {
       className={clsx(
         'h-screen w-screen select-none flex flex-col items-center relative',
         css({
-          // backgroundColor: theme.windowBackground,
           color: theme.text,
         }),
       )}

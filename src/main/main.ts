@@ -45,21 +45,13 @@ function getTheme(): ThemeState {
   // Remove manual alpha when this has been upgraded.
   const theme = {
     // Window
-    windowBackground: electron.systemPreferences.getColor('window-background'),
     windowFrameText: `${electron.systemPreferences.getColor(
       'window-frame-text',
     )}D9`,
-    underPageBackground: electron.systemPreferences.getColor(
-      'under-page-background',
-    ),
 
     text: electron.systemPreferences.getColor('text'),
 
     // Controls
-    controlBackground: electron.systemPreferences.getColor(
-      'control-background',
-    ),
-    control: `${electron.systemPreferences.getColor('control')}40`,
     controlText: `${electron.systemPreferences.getColor('control-text')}D9`,
 
     // Labels
@@ -67,7 +59,6 @@ function getTheme(): ThemeState {
     secondaryLabel: `${electron.systemPreferences.getColor(
       'secondary-label',
     )}8C`,
-    tertiaryLabel: `${electron.systemPreferences.getColor('tertiary-label')}40`,
 
     // Accent
     accent: `#${electron.systemPreferences.getAccentColor()}`,

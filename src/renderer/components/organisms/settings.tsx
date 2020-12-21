@@ -10,7 +10,6 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@tailwindui/react'
 import clsx from 'clsx'
-import { css } from 'emotion'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -34,7 +33,6 @@ import Kbd from '../atoms/kbd'
 const Settings: React.FC = () => {
   const dispatch = useDispatch()
   const apps = useApps()
-  const theme = useSelector((state) => state.theme)
   const isDefaultProtocolClient = useSelector(
     (state) => state.ui.isDefaultProtocolClient,
   )
@@ -55,9 +53,6 @@ const Settings: React.FC = () => {
       <div
         className={clsx(
           'absolute inset-0 rounded shadow-xl z-30 flex flex-col',
-          css({
-            backgroundColor: theme.windowBackground,
-          }),
         )}
       >
         <div

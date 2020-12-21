@@ -38,32 +38,22 @@ const apps = createReducer<App[]>([], (builder) =>
  * Theme Reducer
  */
 export interface ThemeState {
-  windowBackground: string
   windowFrameText: string
-  underPageBackground: string
-  controlBackground: string
-  control: string
   controlText: string
   text: string
   accent: string
   label: string
   secondaryLabel: string
-  tertiaryLabel: string
 }
 
 const theme = createReducer<ThemeState>(
   {
-    windowBackground: '',
     windowFrameText: '',
-    underPageBackground: '',
-    controlBackground: '',
-    control: '',
     controlText: '',
     text: '',
     accent: '',
     label: '',
     secondaryLabel: '',
-    tertiaryLabel: '',
   },
   (builder) => {
     builder.addCase(receivedTheme, (_, action) => action.payload)
