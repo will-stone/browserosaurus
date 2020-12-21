@@ -42,14 +42,39 @@ import {
 import { store } from './store'
 
 function getTheme(): ThemeState {
+  // TODO colours returned are missing alpha, tracked here: https://github.com/electron/electron/issues/26628
+  // Remove manual alpha when this has been upgraded.
   const theme = {
-    textBackground: electron.systemPreferences.getColor('text-background'),
+    // Window
     windowBackground: electron.systemPreferences.getColor('window-background'),
+    windowFrameText: `${electron.systemPreferences.getColor(
+      'window-frame-text',
+    )}D9`,
+    underPageBackground: electron.systemPreferences.getColor(
+      'under-page-background',
+    ),
+
+    text: electron.systemPreferences.getColor('text'),
+
+    // Controls
     controlBackground: electron.systemPreferences.getColor(
       'control-background',
     ),
-    control: electron.systemPreferences.getColor('control'),
+    control: `${electron.systemPreferences.getColor('control')}40`,
+    controlText: `${electron.systemPreferences.getColor('control-text')}D9`,
+
+    // Labels
+    label: `${electron.systemPreferences.getColor('label')}D9`,
+    secondaryLabel: `${electron.systemPreferences.getColor(
+      'secondary-label',
+    )}8C`,
+    tertiaryLabel: `${electron.systemPreferences.getColor('tertiary-label')}40`,
+
+    // Accent
+    accent: `#${electron.systemPreferences.getAccentColor()}`,
   }
+  console.log(theme)
+
   return theme
 }
 
@@ -119,7 +144,7 @@ electron.app.on('ready', async () => {
   const bounds = store.get('bounds')
 
   bWindow = new electron.BrowserWindow({
-    frame: false,
+    frame: true,
     icon: path.join(__dirname, '/static/icon/icon.png'),
     title: 'Browserosaurus',
     webPreferences: {
@@ -129,10 +154,9 @@ electron.app.on('ready', async () => {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       enableRemoteModule: false,
     },
-    x: bounds?.x,
-    y: bounds?.y,
-    height: bounds?.height || 168,
-    minHeight: 168,
+    center: true,
+    height: bounds?.height || 214,
+    minHeight: 214,
     width: bounds?.width || 500,
     minWidth: 500,
     show: false,
@@ -144,7 +168,11 @@ electron.app.on('ready', async () => {
     resizable: true,
     transparent: true,
     hasShadow: true,
-    backgroundColor: getTheme().windowBackground,
+    vibrancy: 'popover',
+    visualEffectState: 'active',
+    // TODO required until this bug is fixed: https://github.com/electron/electron/issues/27080
+    titleBarStyle: 'customButtonsOnHover',
+    alwaysOnTop: true,
   })
 
   await bWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)

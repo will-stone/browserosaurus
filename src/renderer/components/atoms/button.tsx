@@ -36,7 +36,7 @@ const Button: React.FC<ButtonProps> = ({
         textSize,
         'leading-none',
         'inline-flex items-center',
-        css({ backgroundColor: theme.control }),
+        css({ color: theme.controlText }),
       )}
       disabled={disabled}
       type="button"

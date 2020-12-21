@@ -1,5 +1,4 @@
 import { faBackspace } from '@fortawesome/free-solid-svg-icons/faBackspace'
-import { faCog } from '@fortawesome/free-solid-svg-icons/faCog'
 import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,7 +11,6 @@ import Url from 'url'
 import { useSelector } from '../../store'
 import {
   clickedCopyButton,
-  clickedSettingsButton,
   clickedUrlBackspaceButton,
 } from '../../store/actions'
 import Button from '../atoms/button'
@@ -24,7 +22,6 @@ interface Props {
 const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
-  const updateStatus = useSelector((state) => state.ui.updateStatus)
   const theme = useSelector((state) => state.theme)
 
   const isEmpty = url.length === 0
@@ -35,11 +32,13 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       className={clsx(
         className,
         'flex-shrink-0',
-        'w-full',
+        'w-full p-4',
         'flex items-center space-x-4',
-        css({ backgroundColor: theme.controlBackground }),
+        'bg-black bg-opacity-25',
+        css({
+          color: theme.windowFrameText,
+        }),
       )}
-      style={{ height: '39px' }}
     >
       <div
         className={clsx(
@@ -48,13 +47,14 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           'flex items-center justify-between',
           'overflow-hidden',
           'draggable',
-          'pl-4 pr-1',
+          'pr-1',
+          css({ color: theme.secondaryLabel }),
         )}
       >
         <div className="truncate">
           <span>{parsedUrl.protocol}</span>
           {parsedUrl.slashes && '//'}
-          <span className={clsx('text-base')}>
+          <span className={clsx('text-base', css({ color: theme.label }))}>
             {parsedUrl.host || (
               <FontAwesomeIcon fixedWidth icon={faEllipsisH} />
             )}
@@ -82,18 +82,6 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           title="Copy (<kbd>⌘+C</kbd>)"
         >
           <FontAwesomeIcon fixedWidth icon={faCopy} />
-        </Button>
-
-        <Button
-          aria-label="Settings menu"
-          onClick={() => dispatch(clickedSettingsButton())}
-          title="Settings"
-        >
-          <FontAwesomeIcon
-            fixedWidth
-            icon={faCog}
-            spin={updateStatus === 'available'}
-          />
         </Button>
       </div>
     </div>

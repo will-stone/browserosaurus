@@ -1,6 +1,7 @@
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
+import { css } from 'emotion'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -19,13 +20,14 @@ interface Props {
 const Tile: React.FC<Props> = ({ app, isFav, className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
+  const theme = useSelector((state) => state.theme)
 
   return (
     <button
       key={app.id}
       aria-label={`${app.name} Tile`}
       className={clsx(
-        'w-32 h-32 p-8',
+        'w-28 p-8',
         'flex flex-col items-center justify-center max-h-full',
         'rounded',
         'focus:outline-none',
@@ -53,7 +55,12 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
       />
       <Kbd className="flex-shrink-0 flex justify-center items-center mt-2">
         {isFav && (
-          <FontAwesomeIcon aria-label="Favourite" icon={faStar} role="img" />
+          <FontAwesomeIcon
+            aria-label="Favourite"
+            className={css({ color: theme.accent })}
+            icon={faStar}
+            role="img"
+          />
         )}
         {app.hotkey ? (
           <span className="ml-2">{app.hotkey}</span>
