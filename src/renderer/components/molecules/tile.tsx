@@ -1,6 +1,6 @@
-import { faCircle } from '@fortawesome/free-solid-svg-icons/faCircle'
 import { faEye } from '@fortawesome/free-solid-svg-icons/faEye'
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons/faEyeSlash'
+import { faKeyboard } from '@fortawesome/free-solid-svg-icons/faKeyboard'
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
@@ -10,7 +10,12 @@ import { useDispatch } from 'react-redux'
 
 import { logos } from '../../../config/logos'
 import { useSelector } from '../../store'
-import { clickedEyeButton, clickedTile } from '../../store/actions'
+import {
+  changedHotkey,
+  clickedEyeButton,
+  clickedFavButton,
+  clickedTile,
+} from '../../store/actions'
 import { ExtendedApp } from '../../store/selector-hooks'
 import Kbd from '../atoms/kbd'
 
@@ -57,39 +62,91 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
     >
       <img
         alt={app.name}
-        className={clsx('w-full object-contain', editMode && 'animate-pulse')}
+        className={clsx('w-full object-contain', editMode && 'animate-wiggle')}
         src={logos[app.id]}
       />
-      <Kbd className="flex-shrink-0 flex justify-center items-center mt-2">
-        {isFav && (
+
+      {editMode ? (
+        <div
+          className={clsx(
+            'flex-shrink-0 flex justify-center items-center mt-2 space-x-1',
+          )}
+        >
           <FontAwesomeIcon
-            aria-label="Favourite"
-            className={css({ color: theme.accent })}
-            icon={faStar}
-            role="img"
+            className="opacity-50"
+            fixedWidth
+            icon={faKeyboard}
+            size="xs"
           />
-        )}
-        {app.hotkey ? (
-          <span className="ml-2">{app.hotkey}</span>
-        ) : (
-          // Prevents box collapse when hotkey not set
-          <span className="opacity-0 w-0">.</span>
-        )}
-      </Kbd>
+          <input
+            aria-label={`${app.name} hotkey`}
+            className={clsx(
+              'text-xs text-white bg-black uppercase focus:outline-none min-w-0 w-full text-center rounded',
+            )}
+            data-app-id={app.id}
+            maxLength={1}
+            minLength={0}
+            onChange={(event) => {
+              dispatch(
+                changedHotkey({
+                  appId: app.id,
+                  value: event.currentTarget.value,
+                }),
+              )
+            }}
+            onFocus={(event) => {
+              event.target.select()
+            }}
+            type="text"
+            value={app.hotkey || ''}
+          />
+        </div>
+      ) : (
+        <Kbd className="flex-shrink-0 flex justify-center items-center mt-2">
+          {isFav && (
+            <FontAwesomeIcon
+              aria-label="Favourite"
+              className={css({ color: theme.accent })}
+              icon={faStar}
+              role="img"
+            />
+          )}
+          {app.hotkey ? (
+            <span className="ml-2">{app.hotkey}</span>
+          ) : (
+            // Prevents box collapse when hotkey not set
+            <span className="opacity-0 w-0">.</span>
+          )}
+        </Kbd>
+      )}
+
       {editMode && (
         <button
-          className="absolute top-3 right-3 fa-layers fa-fw fa-2x focus:outline-none"
+          className="absolute top-5 left-5 focus:outline-none shadow bg-black flex justify-center items-center rounded-full h-6 w-6"
+          onClick={() => dispatch(clickedFavButton(app.id))}
+          type="button"
+        >
+          <FontAwesomeIcon
+            className={clsx(!app.isFav && 'opacity-25')}
+            fixedWidth
+            icon={faStar}
+            size="xs"
+            style={{ color: app.isFav ? theme.accent : 'white' }}
+          />
+        </button>
+      )}
+
+      {editMode && (
+        <button
+          className="absolute top-5 right-5 focus:outline-none shadow bg-black flex justify-center items-center rounded-full h-6 w-6"
           onClick={() => dispatch(clickedEyeButton(app.id))}
           type="button"
         >
           <FontAwesomeIcon
-            className={clsx('opacity-75', css({ filter: 'invert(1)' }))}
-            icon={faCircle}
-          />
-          <FontAwesomeIcon
-            className={clsx(!app.isVisible && 'opacity-50')}
+            className={clsx(!app.isVisible && 'opacity-25', 'text-white')}
+            fixedWidth
             icon={app.isVisible ? faEye : faEyeSlash}
-            transform="shrink-8"
+            size="xs"
           />
         </button>
       )}
