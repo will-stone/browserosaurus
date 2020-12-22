@@ -2,6 +2,6 @@ Browserosaurus is now considered _Public Feature Complete_. I started this proje
 
 A big thank-you to all that have been involved in helping make Browserosaurus through PRs and bug spotting, and to all the projects that it relies upon.
 
-If you were going to request a new feature or ask for support of a new browser, you are probably disappointed to read the notice above. Please fork the project, that is what Open Source is all about. Make something with your own personality, strip out the stuff you don’t like, have fun with your own brand (I once suggested the name Browseratops to someone who wanted to make a Linux port… they didn’t, by the way, in case you fancied trying that too). Be sure to tell me how you get on; I'm always interested to know of new projects.
+If you were going to request a new feature or ask for support of a new browser, you are probably disappointed to read the notice above. Please fork the project, that is what Open Source is all about. Make something for your own personality, strip out the stuff you don’t like, have fun with your own brand (I once suggested the name Browseratops to someone who wanted to make a Linux port… they didn’t, by the way, in case you fancied trying that too). Be sure to tell me how you get on; I'm always interested to know of new projects.
 
 😘
