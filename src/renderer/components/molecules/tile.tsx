@@ -62,7 +62,11 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
     >
       <img
         alt={app.name}
-        className={clsx('w-full object-contain', editMode && 'animate-wiggle')}
+        className={clsx(
+          'w-full object-contain',
+          !app.isVisible && 'opacity-25',
+          editMode && 'animate-wiggle',
+        )}
         src={logos[app.id]}
       />
 

@@ -14,6 +14,7 @@ import { useSelector } from '../../store'
 import {
   clickedCloseMenuButton,
   clickedCopyButton,
+  clickedSetAsDefaultBrowserButton,
   clickedSettingsButton,
   clickedUrlBackspaceButton,
 } from '../../store/actions'
@@ -28,6 +29,9 @@ const UrlBar: React.FC<Props> = ({ className }) => {
   const url = useSelector((state) => state.ui.url)
   const theme = useSelector((state) => state.theme)
   const editMode = useSelector((state) => state.ui.editMode)
+  const isDefaultProtocolClient = useSelector(
+    (state) => state.ui.isDefaultProtocolClient,
+  )
 
   const isEmpty = url.length === 0
   const parsedUrl = Url.parse(url)
@@ -49,56 +53,71 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       <div
         className={clsx(
           'flex-grow h-full',
-          'text-sm tracking-wider',
           'flex items-center justify-between',
           'overflow-hidden',
-          'draggable',
           'pr-1',
-          css({ color: theme.secondaryLabel }),
         )}
       >
-        <div
-          style={{
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            overflow: 'hidden',
-            overflowWrap: 'break-word',
-            wordBreak: 'break-all',
-            textOverflow: 'ellipsis',
-          }}
-        >
-          <span>{parsedUrl.protocol}</span>
-          {parsedUrl.slashes && '//'}
-          <span className={clsx(css({ color: theme.label }))}>
-            {parsedUrl.host || (
-              <FontAwesomeIcon fixedWidth icon={faEllipsisH} />
+        {!isDefaultProtocolClient && editMode && (
+          <Button
+            aria-label="Set as default browser"
+            onClick={() => () => dispatch(clickedSetAsDefaultBrowserButton())}
+          >
+            Set As Default Browser
+          </Button>
+        )}
+        {!editMode && (
+          <div
+            className={clsx(
+              'text-sm tracking-wider',
+              css({ color: theme.secondaryLabel }),
             )}
-          </span>
-          <span>
-            {parsedUrl.pathname}
-            {parsedUrl.search}
-            {parsedUrl.hash}
-          </span>
-        </div>
+            style={{
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              overflowWrap: 'break-word',
+              wordBreak: 'break-all',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            <span>{parsedUrl.protocol}</span>
+            {parsedUrl.slashes && '//'}
+            <span className={clsx(css({ color: theme.label }))}>
+              {parsedUrl.host || (
+                <FontAwesomeIcon fixedWidth icon={faEllipsisH} />
+              )}
+            </span>
+            <span>
+              {parsedUrl.pathname}
+              {parsedUrl.search}
+              {parsedUrl.hash}
+            </span>
+          </div>
+        )}
       </div>
 
       <div className="flex-shrink-0 space-x-2">
-        <Button
-          disabled={isEmpty}
-          onClick={() => dispatch(clickedUrlBackspaceButton())}
-          title="Delete section of URL (Backspace)"
-        >
-          <FontAwesomeIcon fixedWidth icon={faBackspace} />
-        </Button>
+        {!editMode && (
+          <Button
+            disabled={isEmpty}
+            onClick={() => dispatch(clickedUrlBackspaceButton())}
+            title="Delete section of URL (Backspace)"
+          >
+            <FontAwesomeIcon fixedWidth icon={faBackspace} />
+          </Button>
+        )}
 
-        <Button
-          disabled={isEmpty}
-          onClick={() => dispatch(clickedCopyButton(url))}
-          title="Copy (<kbd>⌘+C</kbd>)"
-        >
-          <FontAwesomeIcon fixedWidth icon={faCopy} />
-        </Button>
+        {!editMode && (
+          <Button
+            disabled={isEmpty}
+            onClick={() => dispatch(clickedCopyButton(url))}
+            title="Copy (<kbd>⌘+C</kbd>)"
+          >
+            <FontAwesomeIcon fixedWidth icon={faCopy} />
+          </Button>
+        )}
 
         {editMode ? (
           <Button
