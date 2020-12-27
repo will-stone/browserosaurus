@@ -161,7 +161,7 @@ electron.app.on('ready', async () => {
     resizable: true,
     transparent: true,
     hasShadow: true,
-    vibrancy: 'popover',
+    vibrancy: 'tooltip',
     visualEffectState: 'active',
     // TODO required until this bug is fixed: https://github.com/electron/electron/issues/27080
     titleBarStyle: 'customButtonsOnHover',
