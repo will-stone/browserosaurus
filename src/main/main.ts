@@ -21,6 +21,7 @@ import {
   clickedSettingsButton,
   clickedTile,
   clickedUpdateRestartButton,
+  clickedVersionButton,
   pressedAppKey,
   pressedCopyKey,
   pressedEscapeKey,
@@ -150,8 +151,8 @@ electron.app.on('ready', async () => {
     center: true,
     height: bounds?.height || 212,
     minHeight: 212,
-    width: bounds?.width || 500,
-    minWidth: 500,
+    width: bounds?.width || 458,
+    minWidth: 458,
     show: false,
     minimizable: false,
     maximizable: false,
@@ -388,6 +389,11 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
 
   // Click close edit mode
   else if (clickedCloseMenuButton.match(action)) {
+    editMode = false
+  }
+
+  // Click version
+  else if (clickedVersionButton.match(action)) {
     editMode = false
   }
 

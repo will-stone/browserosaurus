@@ -2,6 +2,7 @@ import { faBackspace } from '@fortawesome/free-solid-svg-icons/faBackspace'
 import { faCog } from '@fortawesome/free-solid-svg-icons/faCog'
 import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons/faSignOutAlt'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
@@ -14,9 +15,11 @@ import { useSelector } from '../../store'
 import {
   clickedCloseMenuButton,
   clickedCopyButton,
+  clickedQuitButton,
   clickedSetAsDefaultBrowserButton,
   clickedSettingsButton,
   clickedUrlBackspaceButton,
+  clickedVersionButton,
 } from '../../store/actions'
 import Button from '../atoms/button'
 
@@ -32,6 +35,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
   const isDefaultProtocolClient = useSelector(
     (state) => state.ui.isDefaultProtocolClient,
   )
+  const version = useSelector((state) => state.ui.version)
 
   const isEmpty = url.length === 0
   const parsedUrl = Url.parse(url)
@@ -56,8 +60,18 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           'flex items-center justify-between',
           'overflow-hidden',
           'pr-1',
+          'text-sm tracking-wider',
         )}
       >
+        {editMode && (
+          <Button
+            aria-label="Version"
+            onClick={() => dispatch(clickedVersionButton())}
+          >
+            {version}
+          </Button>
+        )}
+
         {!isDefaultProtocolClient && editMode && (
           <Button
             aria-label="Set as default browser"
@@ -66,6 +80,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             Set As Default Browser
           </Button>
         )}
+
         {!editMode && (
           <div
             className={clsx(
@@ -99,6 +114,16 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       </div>
 
       <div className="flex-shrink-0 space-x-2">
+        {editMode && (
+          <Button
+            aria-label="Quit"
+            onClick={() => dispatch(clickedQuitButton())}
+            title="Quit"
+          >
+            <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
+          </Button>
+        )}
+
         {!editMode && (
           <Button
             disabled={isEmpty}
@@ -113,7 +138,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           <Button
             disabled={isEmpty}
             onClick={() => dispatch(clickedCopyButton(url))}
-            title="Copy (<kbd>⌘+C</kbd>)"
+            title="Copy (⌘+C)"
           >
             <FontAwesomeIcon fixedWidth icon={faCopy} />
           </Button>
@@ -123,7 +148,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           <Button
             aria-label="Close menu"
             onClick={() => dispatch(clickedCloseMenuButton())}
-            title="Close menu"
+            title="Close menu (escape)"
           >
             <FontAwesomeIcon fixedWidth icon={faTimes} />
           </Button>

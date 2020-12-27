@@ -32,97 +32,97 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
   const editMode = useSelector((state) => state.ui.editMode)
 
   return (
-    <button
-      key={app.id}
-      aria-label={`${app.name} Tile`}
-      className={clsx(
-        'relative',
-        'w-28 p-8',
-        'flex flex-col items-center justify-center max-h-full',
-        'focus:outline-none',
-        !editMode && 'hover:bg-black hover:bg-opacity-10',
-        className,
-      )}
-      data-for={app.id}
-      data-tip
-      disabled={editMode}
-      onClick={(event) =>
-        !editMode &&
-        dispatch(
-          clickedTile({
-            url,
-            appId: app.id,
-            isAlt: event.altKey,
-            isShift: event.shiftKey,
-          }),
-        )
-      }
-      title={app.name}
-      type="button"
-    >
-      <img
-        alt={app.name}
+    <div className={clsx('relative', 'w-28', className)}>
+      <button
+        key={app.id}
+        aria-label={`${app.name} Tile`}
         className={clsx(
-          'w-full object-contain',
-          !app.isVisible && 'opacity-25',
-          editMode && 'animate-wiggle',
+          'w-28 p-8',
+          'flex flex-col items-center justify-center max-h-full',
+          'focus:outline-none',
+          !editMode && 'hover:bg-black hover:bg-opacity-10',
         )}
-        src={logos[app.id]}
-      />
-
-      {editMode ? (
-        <div
+        data-for={app.id}
+        data-tip
+        disabled={editMode}
+        onClick={(event) =>
+          !editMode &&
+          dispatch(
+            clickedTile({
+              url,
+              appId: app.id,
+              isAlt: event.altKey,
+              isShift: event.shiftKey,
+            }),
+          )
+        }
+        title={app.name}
+        type="button"
+      >
+        <img
+          alt={app.name}
           className={clsx(
-            'flex-shrink-0 flex justify-center items-center mt-2 space-x-1',
+            'w-full object-contain',
+            !app.isVisible && 'opacity-25',
+            editMode && 'animate-wiggle',
           )}
-        >
-          <FontAwesomeIcon
-            className="opacity-50"
-            fixedWidth
-            icon={faKeyboard}
-            size="xs"
-          />
-          <input
-            aria-label={`${app.name} hotkey`}
+          src={logos[app.id]}
+        />
+
+        {editMode ? (
+          <div
             className={clsx(
-              'text-xs text-white bg-black uppercase focus:outline-none min-w-0 w-full text-center rounded',
+              'flex-shrink-0 flex justify-center items-center mt-2 space-x-1',
             )}
-            data-app-id={app.id}
-            maxLength={1}
-            minLength={0}
-            onChange={(event) => {
-              dispatch(
-                changedHotkey({
-                  appId: app.id,
-                  value: event.currentTarget.value,
-                }),
-              )
-            }}
-            onFocus={(event) => {
-              event.target.select()
-            }}
-            type="text"
-            value={app.hotkey || ''}
-          />
-        </div>
-      ) : (
-        <Kbd className="flex-shrink-0 flex justify-center items-center mt-2">
-          {isFav && (
+          >
             <FontAwesomeIcon
-              aria-label="Favourite"
-              className={css({ color: theme.accent })}
-              icon={faStar}
-              role="img"
+              className="opacity-50"
+              fixedWidth
+              icon={faKeyboard}
+              size="xs"
             />
-          )}
-          {app.hotkey ? (
-            <span className="ml-2">{app.hotkey}</span>
-          ) : (
-            // Prevents box collapse when hotkey not set
-            <span className="opacity-0 w-0">.</span>
-          )}
-        </Kbd>
-      )}
+            <input
+              aria-label={`${app.name} hotkey`}
+              className={clsx(
+                'text-xs text-white bg-black uppercase focus:outline-none min-w-0 w-full text-center rounded',
+              )}
+              data-app-id={app.id}
+              maxLength={1}
+              minLength={0}
+              onChange={(event) => {
+                dispatch(
+                  changedHotkey({
+                    appId: app.id,
+                    value: event.currentTarget.value,
+                  }),
+                )
+              }}
+              onFocus={(event) => {
+                event.target.select()
+              }}
+              type="text"
+              value={app.hotkey || ''}
+            />
+          </div>
+        ) : (
+          <Kbd className="flex-shrink-0 flex justify-center items-center mt-2">
+            {isFav && (
+              <FontAwesomeIcon
+                aria-label="Favourite"
+                className={css({ color: theme.accent })}
+                icon={faStar}
+                role="img"
+              />
+            )}
+            {app.hotkey ? (
+              <span className="ml-2">{app.hotkey}</span>
+            ) : (
+              // Prevents box collapse when hotkey not set
+              <span className="opacity-0 w-0">.</span>
+            )}
+          </Kbd>
+        )}
+      </button>
 
       {editMode && (
         <button
@@ -154,7 +154,7 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
           />
         </button>
       )}
-    </button>
+    </div>
   )
 }
 
