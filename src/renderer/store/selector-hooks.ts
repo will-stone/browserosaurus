@@ -50,9 +50,3 @@ export const useNormalTiles = (): ExtendedApp[] => {
     })
   return normalTiles
 }
-
-/**
- * Dark mode
- */
-export const useIsDarkMode = (): boolean =>
-  useSelector((state) => state.theme.isDarkMode)
