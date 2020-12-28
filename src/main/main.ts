@@ -179,9 +179,7 @@ electron.app.on('ready', async () => {
   })
 
   bWindow.on('blur', () => {
-    // if (!electronIsDev) {
     bWindow?.hide()
-    // }
   })
 
   /**
@@ -246,6 +244,7 @@ electron.app.on('before-quit', () => {
 
 async function sendUrl(url: string) {
   if (bWindow) {
+    isEditMode = false
     bWindow.webContents.send(URL_UPDATED, url)
     showBWindow()
   } else {
