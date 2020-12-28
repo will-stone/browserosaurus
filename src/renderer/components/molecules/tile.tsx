@@ -41,8 +41,6 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
           'focus:outline-none',
           !isEditMode && 'hover:bg-black hover:bg-opacity-10',
         )}
-        data-for={app.id}
-        data-tip
         disabled={isEditMode}
         onClick={(event) =>
           !isEditMode &&
