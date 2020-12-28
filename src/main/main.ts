@@ -290,9 +290,11 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
 
     electron.autoUpdater.checkForUpdates()
   }
+
   // Copy to clipboard
   else if (clickedCopyButton.match(action) || pressedCopyKey.match(action)) {
     copyToClipboard(action.payload)
+    bWindow?.hide()
   }
 
   // Quit
