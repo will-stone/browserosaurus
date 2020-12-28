@@ -1,8 +1,5 @@
 import clsx from 'clsx'
-import { css } from 'emotion'
 import React from 'react'
-
-import { useSelector } from '../../store'
 
 interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   size?: 'xs' | 'md'
@@ -16,8 +13,6 @@ const Button: React.FC<ButtonProps> = ({
   type,
   ...restProperties
 }) => {
-  const theme = useSelector((state) => state.theme)
-
   let textSize = 'text-xs'
   let padding = 'px-3 py-2'
 
@@ -36,7 +31,6 @@ const Button: React.FC<ButtonProps> = ({
         textSize,
         'leading-none',
         'inline-flex items-center',
-        css({ color: theme.controlText }),
       )}
       disabled={disabled}
       type="button"

@@ -15,7 +15,7 @@ import {
   clickedFavButton,
   clickedTile,
 } from '../../store/actions'
-import { ExtendedApp } from '../../store/selector-hooks'
+import { ExtendedApp, useIsDarkMode } from '../../store/selector-hooks'
 import Kbd from '../atoms/kbd'
 
 interface Props {
@@ -28,6 +28,7 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
   const editMode = useSelector((state) => state.ui.editMode)
+  const isDarkMode = useIsDarkMode()
 
   return (
     <div className={clsx('relative', 'w-28', className)}>
@@ -82,7 +83,8 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
             <input
               aria-label={`${app.name} hotkey`}
               className={clsx(
-                'text-xs text-white bg-black uppercase focus:outline-none min-w-0 w-full text-center rounded',
+                'text-xs uppercase focus:outline-none min-w-0 w-full text-center rounded',
+                isDarkMode ? 'text-white bg-black' : 'text-black bg-white',
               )}
               data-app-id={app.id}
               maxLength={1}
@@ -127,8 +129,8 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
             'absolute top-5 left-5',
             'flex justify-center items-center',
             'focus:outline-none shadow rounded-full h-6 w-6',
-            'bg-black bg-opacity-50',
-            'text-white',
+            isDarkMode ? 'bg-black' : 'bg-white',
+            'bg-opacity-50',
             !app.isFav && 'text-sm',
           )}
           onClick={() => dispatch(clickedFavButton(app.id))}
@@ -149,8 +151,8 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
             'absolute top-5 right-5',
             'flex justify-center items-center',
             'focus:outline-none shadow rounded-full h-6 w-6',
-            'bg-black bg-opacity-50',
-            'text-white',
+            isDarkMode ? 'bg-black' : 'bg-white',
+            'bg-opacity-50',
             !app.isVisible && 'text-sm',
           )}
           onClick={() => dispatch(clickedEyeButton(app.id))}

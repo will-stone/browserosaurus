@@ -44,24 +44,9 @@ import {
 import { store } from './store'
 
 function getTheme(): ThemeState {
-  // TODO colours returned are missing alpha, tracked here: https://github.com/electron/electron/issues/26628
-  // Remove manual alpha when this has been upgraded.
   const theme = {
-    // Window
-    windowFrameText: `${electron.systemPreferences.getColor(
-      'window-frame-text',
-    )}D9`,
-
-    text: electron.systemPreferences.getColor('text'),
-
-    // Controls
-    controlText: `${electron.systemPreferences.getColor('control-text')}D9`,
-
-    // Labels
-    label: `${electron.systemPreferences.getColor('label')}D9`,
-    secondaryLabel: `${electron.systemPreferences.getColor(
-      'secondary-label',
-    )}8C`,
+    // Is dark mode?
+    shouldUseDarkColors: electron.nativeTheme.shouldUseDarkColors,
 
     // Accent
     accent: `#${electron.systemPreferences.getAccentColor()}`,

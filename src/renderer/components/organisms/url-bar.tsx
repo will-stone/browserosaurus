@@ -30,7 +30,6 @@ interface Props {
 const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
-  const theme = useSelector((state) => state.theme)
   const editMode = useSelector((state) => state.ui.editMode)
   const isDefaultProtocolClient = useSelector(
     (state) => state.ui.isDefaultProtocolClient,
@@ -49,7 +48,6 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         'flex items-center space-x-4',
         'bg-black bg-opacity-10',
         css({
-          color: theme.windowFrameText,
           height: '74px',
         }),
       )}
@@ -83,10 +81,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
 
         {!editMode && (
           <div
-            className={clsx(
-              'text-sm tracking-wider',
-              css({ color: theme.secondaryLabel }),
-            )}
+            className="text-sm tracking-wider"
             style={{
               display: '-webkit-box',
               WebkitLineClamp: 2,
@@ -97,14 +92,14 @@ const UrlBar: React.FC<Props> = ({ className }) => {
               textOverflow: 'ellipsis',
             }}
           >
-            <span>{parsedUrl.protocol}</span>
-            {parsedUrl.slashes && '//'}
-            <span className={clsx(css({ color: theme.label }))}>
+            <span className="opacity-50">{parsedUrl.protocol}</span>
+            <span className="opacity-50">{parsedUrl.slashes && '//'}</span>
+            <span>
               {parsedUrl.host || (
                 <FontAwesomeIcon fixedWidth icon={faEllipsisH} />
               )}
             </span>
-            <span>
+            <span className="opacity-50">
               {parsedUrl.pathname}
               {parsedUrl.search}
               {parsedUrl.hash}
