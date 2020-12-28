@@ -39,8 +39,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
     (state) => state.ui.isDefaultProtocolClient,
   )
   const version = useSelector((state) => state.ui.version)
-  const updateStatus = 'downloaded' as 'no-update' | 'available' | 'downloaded'
-  // const updateStatus = useSelector((state) => state.ui.updateStatus)
+  const updateStatus = useSelector((state) => state.ui.updateStatus)
 
   const isEmpty = url.length === 0
   const parsedUrl = Url.parse(url)
