@@ -15,7 +15,7 @@ import {
   clickedFavButton,
   clickedTile,
 } from '../../store/actions'
-import { ExtendedApp, useIsDarkMode } from '../../store/selector-hooks'
+import { ExtendedApp } from '../../store/selector-hooks'
 import Kbd from '../atoms/kbd'
 
 interface Props {
@@ -27,8 +27,8 @@ interface Props {
 const Tile: React.FC<Props> = ({ app, isFav, className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
-  const editMode = useSelector((state) => state.ui.editMode)
-  const isDarkMode = useIsDarkMode()
+  const isEditMode = useSelector((state) => state.ui.isEditMode)
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode)
 
   return (
     <div className={clsx('relative', 'w-28', className)}>
@@ -39,13 +39,13 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
           'w-28 p-8',
           'flex flex-col items-center justify-center max-h-full',
           'focus:outline-none',
-          !editMode && 'hover:bg-black hover:bg-opacity-10',
+          !isEditMode && 'hover:bg-black hover:bg-opacity-10',
         )}
         data-for={app.id}
         data-tip
-        disabled={editMode}
+        disabled={isEditMode}
         onClick={(event) =>
-          !editMode &&
+          !isEditMode &&
           dispatch(
             clickedTile({
               url,
@@ -63,12 +63,12 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
           className={clsx(
             'w-full object-contain',
             !app.isVisible && 'opacity-25',
-            editMode && 'animate-wiggle',
+            isEditMode && 'animate-wiggle',
           )}
           src={logos[app.id]}
         />
 
-        {editMode ? (
+        {isEditMode ? (
           <div
             className={clsx(
               'flex-shrink-0 flex justify-center items-center mt-2 space-x-1',
@@ -123,7 +123,7 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         )}
       </button>
 
-      {editMode && (
+      {isEditMode && (
         <button
           className={clsx(
             'absolute top-5 left-5',
@@ -145,7 +145,7 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
         </button>
       )}
 
-      {editMode && (
+      {isEditMode && (
         <button
           className={clsx(
             'absolute top-5 right-5',

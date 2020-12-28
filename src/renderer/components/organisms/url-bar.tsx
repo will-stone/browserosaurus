@@ -30,7 +30,7 @@ interface Props {
 const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
-  const editMode = useSelector((state) => state.ui.editMode)
+  const isEditMode = useSelector((state) => state.ui.isEditMode)
   const isDefaultProtocolClient = useSelector(
     (state) => state.ui.isDefaultProtocolClient,
   )
@@ -61,7 +61,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           'text-sm tracking-wider',
         )}
       >
-        {editMode && (
+        {isEditMode && (
           <Button
             aria-label="Version"
             onClick={() => dispatch(clickedVersionButton())}
@@ -70,7 +70,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           </Button>
         )}
 
-        {!isDefaultProtocolClient && editMode && (
+        {!isDefaultProtocolClient && isEditMode && (
           <Button
             aria-label="Set as default browser"
             onClick={() => () => dispatch(clickedSetAsDefaultBrowserButton())}
@@ -79,7 +79,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           </Button>
         )}
 
-        {!editMode && (
+        {!isEditMode && (
           <div
             className="text-sm tracking-wider"
             style={{
@@ -109,7 +109,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       </div>
 
       <div className="flex-shrink-0 space-x-2">
-        {editMode && (
+        {isEditMode && (
           <Button
             aria-label="Quit"
             onClick={() => dispatch(clickedQuitButton())}
@@ -119,7 +119,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           </Button>
         )}
 
-        {!editMode && (
+        {!isEditMode && (
           <Button
             disabled={isEmpty}
             onClick={() => dispatch(clickedUrlBackspaceButton())}
@@ -129,7 +129,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           </Button>
         )}
 
-        {!editMode && (
+        {!isEditMode && (
           <Button
             disabled={isEmpty}
             onClick={() => dispatch(clickedCopyButton(url))}
@@ -139,7 +139,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           </Button>
         )}
 
-        {editMode ? (
+        {isEditMode ? (
           <Button
             aria-label="Close menu"
             onClick={() => dispatch(clickedCloseMenuButton())}

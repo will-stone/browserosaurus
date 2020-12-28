@@ -13,7 +13,7 @@ const keyboardEvent = (event: KeyboardEvent): AppThunk => (
   dispatch,
   getState,
 ) => {
-  const { url, editMode, hotkeys, fav } = getState().ui
+  const { url, isEditMode, hotkeys, fav } = getState().ui
 
   // Using `fromCharCode` allows detection to be keyboard layout agnostic
   const stringFromCharCode = String.fromCharCode(event.keyCode).toLowerCase()
@@ -31,7 +31,7 @@ const keyboardEvent = (event: KeyboardEvent): AppThunk => (
   }
 
   // Only capture the following when not in edit mode
-  if (!editMode) {
+  if (!isEditMode) {
     // Backspace
     if (event.key === 'Backspace') {
       event.preventDefault()

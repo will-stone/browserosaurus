@@ -1,14 +1,14 @@
 import clsx from 'clsx'
 import React from 'react'
 
-import { useIsDarkMode } from '../store/selector-hooks'
+import { useSelector } from '../store'
 import { useKeyboardEvents } from './hooks/use-keyboard-events'
 import Tiles from './organisms/tiles'
 import UrlBar from './organisms/url-bar'
 
 const App: React.FC = () => {
   useKeyboardEvents()
-  const isDarkMode = useIsDarkMode()
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode)
 
   return (
     <div

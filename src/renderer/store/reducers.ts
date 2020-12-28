@@ -38,13 +38,13 @@ const apps = createReducer<App[]>([], (builder) =>
  * Theme Reducer
  */
 export interface ThemeState {
-  shouldUseDarkColors: boolean
+  isDarkMode: boolean
   accent: string
 }
 
 const theme = createReducer<ThemeState>(
   {
-    shouldUseDarkColors: false,
+    isDarkMode: false,
     accent: '',
   },
   (builder) => {
@@ -56,7 +56,7 @@ const theme = createReducer<ThemeState>(
  * UI Reducer
  */
 interface UiState {
-  editMode: boolean
+  isEditMode: boolean
   url: string
   version: string
   updateStatus: 'no-update' | 'available' | 'downloaded'
@@ -70,7 +70,7 @@ interface UiState {
 
 const ui = createReducer<UiState>(
   {
-    editMode: false,
+    isEditMode: false,
     version: '',
     updateStatus: 'no-update',
     isDefaultProtocolClient: true,
@@ -92,7 +92,7 @@ const ui = createReducer<UiState>(
         state.hotkeys = updatedHotkeys
       })
       .addCase(clickedCloseMenuButton, (state) => {
-        state.editMode = false
+        state.isEditMode = false
       })
       .addCase(clickedEyeButton, (state, action) => {
         const { hiddenTileIds } = state
@@ -103,22 +103,22 @@ const ui = createReducer<UiState>(
         state.fav = action.payload
       })
       .addCase(clickedSettingsButton, (state) => {
-        state.editMode = true
+        state.isEditMode = true
       })
       .addCase(clickedUrlBackspaceButton, (state) => {
         state.url = backspaceUrlParse(state.url)
       })
       .addCase(clickedSponsorButton, (state) => {
         state.url = SPONSOR_URL
-        state.editMode = false
+        state.isEditMode = false
       })
       .addCase(clickedVersionButton, (state) => {
         state.url = DEFAULT_URL
-        state.editMode = false
+        state.isEditMode = false
       })
       .addCase(pressedEscapeKey, (state) => {
-        if (state.editMode) {
-          state.editMode = false
+        if (state.isEditMode) {
+          state.isEditMode = false
         }
       })
       .addCase(pressedBackspaceKey, (state) => {
@@ -139,7 +139,7 @@ const ui = createReducer<UiState>(
         state.updateStatus = 'downloaded'
       })
       .addCase(receivedUrl, (state, action) => {
-        state.editMode = false
+        state.isEditMode = false
         state.url = action.payload
       })
       .addCase(receivedVersion, (state, action) => {

@@ -46,7 +46,7 @@ import { store } from './store'
 function getTheme(): ThemeState {
   const theme = {
     // Is dark mode?
-    shouldUseDarkColors: electron.nativeTheme.shouldUseDarkColors,
+    isDarkMode: electron.nativeTheme.shouldUseDarkColors,
 
     // Accent
     accent: `#${electron.systemPreferences.getAccentColor()}`,
@@ -68,7 +68,7 @@ if (store.get('firstRun')) {
 // Prevents garbage collection
 let bWindow: electron.BrowserWindow | undefined
 let tray: electron.Tray | undefined
-let editMode = false
+let isEditMode = false
 
 // TODO due to this issue: https://github.com/electron/electron/issues/18699
 // this does not work as advertised. It will detect the change but getColor()
@@ -269,7 +269,7 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
   // App started
   if (appStarted.match(action)) {
     // Resets edit-mode if renderer was restarted whilst in edit-mode
-    editMode = false
+    isEditMode = false
 
     const installedApps = await filterAppsByInstalled(apps)
 
@@ -369,23 +369,23 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
 
   // Go into edit mode
   else if (clickedSettingsButton.match(action)) {
-    editMode = true
+    isEditMode = true
   }
 
   // Click close edit mode
   else if (clickedCloseMenuButton.match(action)) {
-    editMode = false
+    isEditMode = false
   }
 
   // Click version
   else if (clickedVersionButton.match(action)) {
-    editMode = false
+    isEditMode = false
   }
 
   // Escape key
   else if (pressedEscapeKey.match(action)) {
-    if (editMode) {
-      editMode = false
+    if (isEditMode) {
+      isEditMode = false
     } else {
       bWindow?.hide()
     }

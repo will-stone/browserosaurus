@@ -37,7 +37,7 @@ const Settings: React.FC = () => {
     (state) => state.ui.isDefaultProtocolClient,
   )
   const updateStatus = useSelector((state) => state.ui.updateStatus)
-  const editMode = useSelector((state) => state.ui.editMode)
+  const isEditMode = useSelector((state) => state.ui.isEditMode)
   const version = useSelector((state) => state.ui.version)
 
   return (
@@ -48,7 +48,7 @@ const Settings: React.FC = () => {
       leave="transition-opacity duration-150"
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
-      show={editMode}
+      show={isEditMode}
     >
       <div
         className={clsx(

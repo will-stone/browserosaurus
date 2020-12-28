@@ -9,14 +9,14 @@ const Tiles: React.FC = () => {
   const favTile = useFavTile()
   const normalTiles = useNormalTiles()
   const allApps = useApps()
-  const editMode = useSelector((state) => state.ui.editMode)
+  const isEditMode = useSelector((state) => state.ui.isEditMode)
 
-  const tiles = editMode ? allApps : normalTiles
+  const tiles = isEditMode ? allApps : normalTiles
 
   return (
     <div className={clsx('relative flex-grow w-full', 'overflow-y-scroll')}>
       <div className="flex justify-start items-center flex-wrap">
-        {!editMode && favTile && <Tile app={favTile} isFav />}
+        {!isEditMode && favTile && <Tile app={favTile} isFav />}
         {tiles.map((app, index) => {
           const key = app.id + index
           return <Tile key={key} app={app} />

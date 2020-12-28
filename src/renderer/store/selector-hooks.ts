@@ -55,4 +55,4 @@ export const useNormalTiles = (): ExtendedApp[] => {
  * Dark mode
  */
 export const useIsDarkMode = (): boolean =>
-  useSelector((state) => state.theme.shouldUseDarkColors)
+  useSelector((state) => state.theme.isDarkMode)
