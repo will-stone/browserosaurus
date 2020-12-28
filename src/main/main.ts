@@ -279,7 +279,7 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
     bWindow?.webContents.send(INSTALLED_APPS_FOUND, installedApps)
     bWindow?.webContents.send(
       APP_VERSION,
-      `v${electron.app.getVersion()}${electronIsDev ? ' DEV' : ''}`,
+      `${electron.app.getVersion()}${electronIsDev ? ' DEV' : ''}`,
     )
 
     // Is default browser?

@@ -2,7 +2,9 @@ import { faBackspace } from '@fortawesome/free-solid-svg-icons/faBackspace'
 import { faCog } from '@fortawesome/free-solid-svg-icons/faCog'
 import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
+import { faGift } from '@fortawesome/free-solid-svg-icons/faGift'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons/faSignOutAlt'
+import { faSync } from '@fortawesome/free-solid-svg-icons/faSync'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
@@ -16,8 +18,10 @@ import {
   clickedCloseMenuButton,
   clickedCopyButton,
   clickedQuitButton,
+  clickedReloadButton,
   clickedSetAsDefaultBrowserButton,
   clickedSettingsButton,
+  clickedUpdateRestartButton,
   clickedUrlBackspaceButton,
   clickedVersionButton,
 } from '../../store/actions'
@@ -35,6 +39,8 @@ const UrlBar: React.FC<Props> = ({ className }) => {
     (state) => state.ui.isDefaultProtocolClient,
   )
   const version = useSelector((state) => state.ui.version)
+  const updateStatus = 'downloaded' as 'no-update' | 'available' | 'downloaded'
+  // const updateStatus = useSelector((state) => state.ui.updateStatus)
 
   const isEmpty = url.length === 0
   const parsedUrl = Url.parse(url)
@@ -66,7 +72,9 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             aria-label="Version"
             onClick={() => dispatch(clickedVersionButton())}
           >
-            {version}
+            {isEditMode && updateStatus === 'available'
+              ? 'Downloading update...'
+              : `Browserosaurus ${version}`}
           </Button>
         )}
 
@@ -109,6 +117,27 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       </div>
 
       <div className="flex-shrink-0 space-x-2">
+        {isEditMode && updateStatus === 'downloaded' && (
+          <Button
+            aria-label="Restart and update"
+            className="space-x-2"
+            onClick={() => dispatch(clickedUpdateRestartButton())}
+          >
+            <FontAwesomeIcon icon={faGift} />
+            <span>Update</span>
+          </Button>
+        )}
+
+        {isEditMode && updateStatus === 'no-update' && (
+          <Button
+            aria-label="Reload"
+            onClick={() => dispatch(clickedReloadButton())}
+            title="Reload Browserosaurus"
+          >
+            <FontAwesomeIcon fixedWidth icon={faSync} />
+          </Button>
+        )}
+
         {isEditMode && (
           <Button
             aria-label="Quit"
@@ -153,7 +182,14 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             onClick={() => dispatch(clickedSettingsButton())}
             title="Settings"
           >
-            <FontAwesomeIcon fixedWidth icon={faCog} />
+            <FontAwesomeIcon
+              className={clsx(
+                updateStatus === 'downloaded' && 'text-green-600',
+              )}
+              fixedWidth
+              icon={faCog}
+              spin={updateStatus === 'available'}
+            />
           </Button>
         )}
       </div>
