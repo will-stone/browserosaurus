@@ -84,6 +84,7 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
               aria-label={`${app.name} hotkey`}
               className={clsx(
                 'text-xs uppercase focus:outline-none min-w-0 w-full text-center rounded',
+                'shadow',
                 isDarkMode ? 'text-white bg-black' : 'text-black bg-white',
               )}
               data-app-id={app.id}
