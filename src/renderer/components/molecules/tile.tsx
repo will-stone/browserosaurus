@@ -107,6 +107,7 @@ const Tile: React.FC<Props> = ({ app }) => {
 
       {isEditMode && (
         <button
+          aria-label={`Favourite ${app.name}`}
           className={clsx(
             'absolute top-5 left-5',
             'flex justify-center items-center',
