@@ -4,7 +4,6 @@ import { faKeyboard } from '@fortawesome/free-solid-svg-icons/faKeyboard'
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
-import { css } from 'emotion'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -28,7 +27,6 @@ interface Props {
 const Tile: React.FC<Props> = ({ app, isFav, className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
-  const theme = useSelector((state) => state.theme)
   const editMode = useSelector((state) => state.ui.editMode)
 
   return (
@@ -109,7 +107,6 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
             {isFav && (
               <FontAwesomeIcon
                 aria-label="Favourite"
-                className={css({ color: theme.accent })}
                 icon={faStar}
                 role="img"
               />
@@ -126,7 +123,14 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
 
       {editMode && (
         <button
-          className="absolute top-5 left-5 focus:outline-none shadow bg-black flex justify-center items-center rounded-full h-6 w-6"
+          className={clsx(
+            'absolute top-5 left-5',
+            'flex justify-center items-center',
+            'focus:outline-none shadow rounded-full h-6 w-6',
+            'bg-black bg-opacity-50',
+            'text-white',
+            !app.isFav && 'text-sm',
+          )}
           onClick={() => dispatch(clickedFavButton(app.id))}
           type="button"
         >
@@ -135,19 +139,25 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
             fixedWidth
             icon={faStar}
             size="xs"
-            style={{ color: app.isFav ? theme.accent : 'white' }}
           />
         </button>
       )}
 
       {editMode && (
         <button
-          className="absolute top-5 right-5 focus:outline-none shadow bg-black flex justify-center items-center rounded-full h-6 w-6"
+          className={clsx(
+            'absolute top-5 right-5',
+            'flex justify-center items-center',
+            'focus:outline-none shadow rounded-full h-6 w-6',
+            'bg-black bg-opacity-50',
+            'text-white',
+            !app.isVisible && 'text-sm',
+          )}
           onClick={() => dispatch(clickedEyeButton(app.id))}
           type="button"
         >
           <FontAwesomeIcon
-            className={clsx(!app.isVisible && 'opacity-25', 'text-white')}
+            className={clsx(!app.isVisible && 'opacity-25')}
             fixedWidth
             icon={app.isVisible ? faEye : faEyeSlash}
             size="xs"
