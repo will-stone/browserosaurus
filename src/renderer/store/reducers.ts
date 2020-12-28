@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import xor from 'lodash/xor'
 
-import { DEFAULT_URL, SPONSOR_URL } from '../../config/CONSTANTS'
+import { AFFLIATE_URL, DEFAULT_URL, SPONSOR_URL } from '../../config/CONSTANTS'
 import { App } from '../../config/types'
 import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'
@@ -11,6 +11,7 @@ import {
   clickedCloseMenuButton,
   clickedEyeButton,
   clickedFavButton,
+  clickedOkToAffliateButton,
   clickedSettingsButton,
   clickedSponsorButton,
   clickedUrlBackspaceButton,
@@ -115,6 +116,9 @@ const ui = createReducer<UiState>(
       .addCase(clickedVersionButton, (state) => {
         state.url = DEFAULT_URL
         state.isEditMode = false
+      })
+      .addCase(clickedOkToAffliateButton, (state) => {
+        state.url = AFFLIATE_URL
       })
       .addCase(pressedEscapeKey, (state) => {
         if (state.isEditMode) {

@@ -7,7 +7,6 @@ import clsx from 'clsx'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import { logos } from '../../../config/logos'
 import { useSelector } from '../../store'
 import {
   changedHotkey,
@@ -16,34 +15,26 @@ import {
   clickedTile,
 } from '../../store/actions'
 import { ExtendedApp } from '../../store/selector-hooks'
+import AppButton from '../atoms/app-button'
+import AppLogo from '../atoms/app-logo'
 import Kbd from '../atoms/kbd'
 
 interface Props {
   app: ExtendedApp
-  isFav?: boolean
-  className?: string
 }
 
-const Tile: React.FC<Props> = ({ app, isFav, className }) => {
+const Tile: React.FC<Props> = ({ app }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
   const isEditMode = useSelector((state) => state.ui.isEditMode)
   const isDarkMode = useSelector((state) => state.theme.isDarkMode)
 
   return (
-    <div className={clsx('relative', 'w-28', className)}>
-      <button
-        key={app.id}
-        aria-label={`${app.name} Tile`}
-        className={clsx(
-          'w-28 p-8',
-          'flex flex-col items-center justify-center max-h-full',
-          'focus:outline-none',
-          !isEditMode && 'hover:bg-black hover:bg-opacity-10',
-        )}
+    <div className={clsx('relative', 'w-28')}>
+      <AppButton
+        app={app}
         disabled={isEditMode}
         onClick={(event) =>
-          !isEditMode &&
           dispatch(
             clickedTile({
               url,
@@ -53,23 +44,13 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
             }),
           )
         }
-        title={app.name}
-        type="button"
       >
-        <img
-          alt={app.name}
-          className={clsx(
-            'w-full object-contain',
-            !app.isVisible && 'opacity-25',
-            isEditMode && 'animate-wiggle',
-          )}
-          src={logos[app.id]}
-        />
+        <AppLogo app={app} wiggle={isEditMode} />
 
         {isEditMode ? (
           <div
             className={clsx(
-              'flex-shrink-0 flex justify-center items-center mt-2 space-x-1',
+              'flex-shrink-0 flex justify-center items-center space-x-1',
             )}
           >
             <FontAwesomeIcon
@@ -104,23 +85,25 @@ const Tile: React.FC<Props> = ({ app, isFav, className }) => {
             />
           </div>
         ) : (
-          <Kbd className="flex-shrink-0 flex justify-center items-center mt-2">
-            {isFav && (
+          <Kbd className="flex-shrink-0 flex justify-center items-center space-x-2">
+            {app.isFav && (
               <FontAwesomeIcon
                 aria-label="Favourite"
                 icon={faStar}
                 role="img"
               />
             )}
-            {app.hotkey ? (
-              <span className="ml-2">{app.hotkey}</span>
-            ) : (
+            {app.hotkey && <span>{app.hotkey}</span>}
+
+            {
               // Prevents box collapse when hotkey not set
-              <span className="opacity-0 w-0">.</span>
-            )}
+              !app.hotkey && !app.hotkey && (
+                <span className="opacity-0 w-0">.</span>
+              )
+            }
           </Kbd>
         )}
-      </button>
+      </AppButton>
 
       {isEditMode && (
         <button

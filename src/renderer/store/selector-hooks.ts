@@ -50,3 +50,20 @@ export const useNormalTiles = (): ExtendedApp[] => {
     })
   return normalTiles
 }
+
+export const usePolypaneApp = (): undefined | ExtendedApp => {
+  const apps = useApps()
+  const isInstalled = apps.some(
+    (app) => app.id === 'com.firstversionist.polypane',
+  )
+
+  if (!isInstalled) {
+    return {
+      name: 'Polypane',
+      id: 'com.firstversionist.polypane',
+      isVisible: true,
+      isFav: false,
+      hotkey: undefined,
+    }
+  }
+}
