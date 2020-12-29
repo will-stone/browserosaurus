@@ -80,7 +80,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         {!isDefaultProtocolClient && isEditMode && (
           <Button
             aria-label="Set as default browser"
-            onClick={() => () => dispatch(clickedSetAsDefaultBrowserButton())}
+            onClick={() => dispatch(clickedSetAsDefaultBrowserButton())}
           >
             Set As Default Browser
           </Button>
