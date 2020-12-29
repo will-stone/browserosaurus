@@ -31,3 +31,5 @@ test('url bar', () => {
   expect(screen.getByText(host)).not.toHaveClass('opacity-50')
   expect(screen.getByText(rest)).toHaveClass('opacity-50')
 })
+
+test.todo('Set as default browser')
