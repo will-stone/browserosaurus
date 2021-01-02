@@ -1,4 +1,4 @@
-<img src="./docs/icon_squooshed.png" alt="logo" width="100" height="100" align="right" />
+<img src="./designs/icon_squooshed.png" alt="logo" width="100" height="100" align="right" />
 
 # Browserosaurus
 
@@ -73,5 +73,4 @@ number, package, notarize, and make installers:
 yarn release
 ```
 
-The dmg and zip files can then be added to a GitHub release. **Remember to bump
-the docs (website) version number too.**
+The dmg and zip files can then be added to a GitHub release.

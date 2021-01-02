@@ -16,7 +16,6 @@
   "author": "Will Stone",
   "main": ".webpack/main",
   "scripts": {
-    "docs": "npx http-server ./docs",
     "icns": "cd ./src/images/icon && ./scripts/png2icns.sh icon.png",
     "lint": "eslint . --ignore-path .gitignore",
     "list-apps": "ts-node ./scripts/listInstalledApps",
@@ -120,7 +119,6 @@
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
     },
     "modulePathIgnorePatterns": [
-      "<rootDir>/docs/",
       "<rootDir>/out/"
     ],
     "setupFilesAfterEnv": [
@@ -128,7 +126,6 @@
     ],
     "testPathIgnorePatterns": [
       "<rootDir>/node_modules/",
-      "<rootDir>/docs/",
       "<rootDir>/out/"
     ]
   },
