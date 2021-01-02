@@ -11,11 +11,12 @@ in non-browser apps are now sent to Browserosaurus where it’ll present you wit
 a menu of all your installed browsers. You may now decide which browser you’d
 like to continue opening the link with.
 
-**Currently supports macOS 10.15.6**
+**Currently supports macOS 11.1.0**
 
 ## Installation
 
-Installation instructions and alternatives are available on [browserosaurus.com](https://browserosaurus.com)
+Installation instructions and alternatives are available on
+[browserosaurus.com](https://browserosaurus.com)
 
 ## Development
 
