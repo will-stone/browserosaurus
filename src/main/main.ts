@@ -382,7 +382,7 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
     isEditMode = false
   }
 
-  // Click version
+  // Click carrot
   else if (clickedCarrotButton.match(action)) {
     isEditMode = false
   }
