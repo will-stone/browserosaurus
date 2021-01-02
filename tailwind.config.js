@@ -24,6 +24,18 @@ module.exports = {
       sans: 'SF Pro Text, Helvetica, Arial, sans-serif',
       rounded: 'SF Pro Rounded, Helvetica, Arial, sans-serif',
     },
+    extend: {
+      opacity: { 10: '0.1' },
+      keyframes: {
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-6deg)' },
+          '50%': { transform: 'rotate(6deg)' },
+        },
+      },
+      animation: {
+        wiggle: 'wiggle 0.4s infinite',
+      },
+    },
   },
   variants: {
     boxShadow: ['responsive', 'hover', 'focus', 'active'],

@@ -1,44 +1,61 @@
+import { AnyAction } from '@reduxjs/toolkit'
 import { execFile } from 'child_process'
 import electron from 'electron'
 import electronIsDev from 'electron-is-dev'
+import xor from 'lodash/xor'
 import path from 'path'
 import sleep from 'tings/sleep'
 
 import package_ from '../../package.json'
 import { apps } from '../config/apps'
-import { App } from '../config/types'
 import {
-  APP_SELECTED,
-  CATCH_MOUSE,
-  CHANGE_THEME,
-  COPY_TO_CLIPBOARD,
-  FAV_SELECTED,
-  HIDE_WINDOW,
-  HOTKEYS_UPDATED,
-  MAIN_LOG,
-  OpenAppArguments,
-  QUIT,
-  RELEASE_MOUSE,
-  RELOAD,
-  RENDERER_STARTED,
-  SET_AS_DEFAULT_BROWSER,
-  UPDATE_HIDDEN_TILE_IDS,
-  UPDATE_RESTART,
-} from '../renderer/sendToMain'
+  appStarted,
+  changedHotkey,
+  clickedCarrotButton,
+  clickedCloseMenuButton,
+  clickedCopyButton,
+  clickedEyeButton,
+  clickedFavButton,
+  clickedQuitButton,
+  clickedReloadButton,
+  clickedSetAsDefaultBrowserButton,
+  clickedSettingsButton,
+  clickedTile,
+  clickedUpdateRestartButton,
+  pressedAppKey,
+  pressedCopyKey,
+  pressedEscapeKey,
+} from '../renderer/store/actions'
+import type { ThemeState } from '../renderer/store/reducers'
+import { alterHotkeys } from '../utils/alterHotkeys'
 import copyToClipboard from '../utils/copyToClipboard'
 import { filterAppsByInstalled } from '../utils/filterAppsByInstalled'
 import { logger } from '../utils/logger'
-import createWindow from './createWindow'
 import {
   APP_VERSION,
   INSTALLED_APPS_FOUND,
   PROTOCOL_STATUS_RETRIEVED,
   STORE_RETRIEVED,
+  THEME,
   UPDATE_AVAILABLE,
   UPDATE_DOWNLOADED,
   URL_UPDATED,
 } from './events'
-import { Hotkeys, Store, store } from './store'
+import { store } from './store'
+
+function getTheme(): ThemeState {
+  const theme = {
+    // Is dark mode?
+    isDarkMode: electron.nativeTheme.shouldUseDarkColors,
+
+    // Accent
+    accent: `#${electron.systemPreferences.getAccentColor()}`,
+  }
+  return theme
+}
+
+declare const MAIN_WINDOW_WEBPACK_ENTRY: string
+declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
 electron.app.commandLine.appendArgument('--enable-features=Metal')
@@ -51,11 +68,127 @@ if (store.get('firstRun')) {
 // Prevents garbage collection
 let bWindow: electron.BrowserWindow | undefined
 let tray: electron.Tray | undefined
-let installedApps: App[] = []
+let isEditMode = false
+
+// TODO due to this issue: https://github.com/electron/electron/issues/18699
+// this does not work as advertised. It will detect the change but getColor()
+// doesn't fetch updated values. Hopefully this will work in time.
+electron.nativeTheme.on('updated', () => {
+  bWindow?.webContents.send(THEME, getTheme())
+})
+
+function showBWindow() {
+  if (bWindow) {
+    const displayBounds = electron.screen.getDisplayNearestPoint(
+      electron.screen.getCursorScreenPoint(),
+    ).bounds
+
+    const displayEnd = {
+      x: displayBounds.x + displayBounds.width,
+      y: displayBounds.y + displayBounds.height,
+    }
+
+    const mousePoint = electron.screen.getCursorScreenPoint()
+
+    const bWindowBounds = bWindow.getBounds()
+
+    const bWindowEdges = {
+      right: mousePoint.x + bWindowBounds.width,
+      bottom: mousePoint.y + bWindowBounds.height,
+    }
+
+    const nudge = {
+      x: 50,
+      y: 10,
+    }
+
+    const inWindowPosition = {
+      x:
+        bWindowEdges.right > displayEnd.x + nudge.x
+          ? displayEnd.x - bWindowBounds.width
+          : mousePoint.x - nudge.x,
+      y:
+        bWindowEdges.bottom > displayEnd.y + nudge.y
+          ? displayEnd.y - bWindowBounds.height
+          : mousePoint.y + nudge.y,
+    }
+
+    bWindow.setPosition(inWindowPosition.x, inWindowPosition.y, false)
+
+    bWindow.show()
+  }
+}
 
 electron.app.on('ready', async () => {
-  bWindow = await createWindow()
+  const bounds = store.get('bounds')
 
+  bWindow = new electron.BrowserWindow({
+    frame: true,
+    icon: path.join(__dirname, '/static/icon/icon.png'),
+    title: 'Browserosaurus',
+    webPreferences: {
+      additionalArguments: [],
+      nodeIntegration: true,
+      contextIsolation: false,
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      enableRemoteModule: false,
+    },
+    center: true,
+    height: bounds?.height || 212,
+    minHeight: 212,
+    width: bounds?.width || 458,
+    minWidth: 458,
+    show: false,
+    minimizable: false,
+    maximizable: false,
+    fullscreen: false,
+    fullscreenable: false,
+    movable: true,
+    resizable: true,
+    transparent: true,
+    hasShadow: true,
+    vibrancy: 'tooltip',
+    visualEffectState: 'active',
+    // TODO required until this bug is fixed: https://github.com/electron/electron/issues/27080
+    titleBarStyle: 'customButtonsOnHover',
+    alwaysOnTop: true,
+  })
+
+  await bWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
+
+  // TODO [electron@>=12] visibleOnFullScreen not currently working on Electron 11, need to wait for 12:
+  // https://github.com/electron/electron/issues/10078#issuecomment-747901576
+  bWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
+
+  bWindow.on('hide', () => {
+    electron.app.hide()
+  })
+
+  bWindow.on('close', (event_) => {
+    event_.preventDefault()
+    bWindow?.hide()
+  })
+
+  bWindow.on('show', () => {
+    // There isn't a listener for default protocol client, therefore the check
+    // is made each time the app is brought into focus.
+    bWindow?.webContents.send(
+      PROTOCOL_STATUS_RETRIEVED,
+      electron.app.isDefaultProtocolClient('http'),
+    )
+  })
+
+  bWindow.on('resize', () => {
+    store.set('bounds', bWindow?.getBounds())
+  })
+
+  bWindow.on('blur', () => {
+    bWindow?.hide()
+  })
+
+  /**
+   * Menubar icon
+   */
   tray = new electron.Tray(
     path.join(__dirname, '/static/icon/tray_iconTemplate.png'),
   )
@@ -63,18 +196,18 @@ electron.app.on('ready', async () => {
     path.join(__dirname, '/static/icon/tray_iconHighlight.png'),
   )
   tray.setToolTip('Browserosaurus')
-  tray.addListener('click', () => {
-    bWindow?.show()
-  })
+  tray.addListener('click', () => showBWindow())
 
   store.set('firstRun', false)
 
   // Auto update on production
   if (!electronIsDev) {
     electron.autoUpdater.setFeedURL({
-      url: `https://update.electronjs.org/will-stone/browserosaurus/darwin-x64/${electron.app.getVersion()}`,
+      url: `https://update.electronjs.org/will-stone/browserosaurus/darwin-${
+        process.arch
+      }/${electron.app.getVersion()}`,
       headers: {
-        'User-Agent': `${package_.name}/${package_.version} (darwin: x64)`,
+        'User-Agent': `${package_.name}/${package_.version} (darwin: ${process.arch})`,
       },
     })
 
@@ -115,8 +248,9 @@ electron.app.on('before-quit', () => {
 
 async function sendUrl(url: string) {
   if (bWindow) {
+    isEditMode = false
     bWindow.webContents.send(URL_UPDATED, url)
-    bWindow.show()
+    showBWindow()
   } else {
     await sleep(500)
     sendUrl(url)
@@ -134,31 +268,85 @@ electron.app.on('open-url', (event, url) => {
  * ------------------
  */
 
-electron.ipcMain.on(RENDERER_STARTED, async () => {
-  installedApps = await filterAppsByInstalled(apps)
+electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
+  // App started
+  if (appStarted.match(action)) {
+    // Resets edit-mode if renderer was restarted whilst in edit-mode
+    isEditMode = false
 
-  bWindow?.center()
+    const installedApps = await filterAppsByInstalled(apps)
 
-  // Send all info down to renderer
-  bWindow?.webContents.send(STORE_RETRIEVED, store.store)
-  bWindow?.webContents.send(INSTALLED_APPS_FOUND, installedApps)
-  bWindow?.webContents.send(
-    APP_VERSION,
-    `v${electron.app.getVersion()}${electronIsDev ? ' DEV' : ''}`,
-  )
+    // Send all info down to renderer
+    bWindow?.webContents.send(THEME, getTheme())
+    bWindow?.webContents.send(STORE_RETRIEVED, store.store)
+    bWindow?.webContents.send(INSTALLED_APPS_FOUND, installedApps)
+    bWindow?.webContents.send(
+      APP_VERSION,
+      `${electron.app.getVersion()}${electronIsDev ? ' DEV' : ''}`,
+    )
 
-  // Is default browser?
-  bWindow?.webContents.send(
-    PROTOCOL_STATUS_RETRIEVED,
-    electron.app.isDefaultProtocolClient('http'),
-  )
+    // Is default browser?
+    bWindow?.webContents.send(
+      PROTOCOL_STATUS_RETRIEVED,
+      electron.app.isDefaultProtocolClient('http'),
+    )
 
-  electron.autoUpdater.checkForUpdates()
-})
+    electron.autoUpdater.checkForUpdates()
+  }
 
-electron.ipcMain.on(
-  APP_SELECTED,
-  (_: Event, { url, appId, isAlt, isShift }: OpenAppArguments) => {
+  // Copy to clipboard
+  else if (clickedCopyButton.match(action) || pressedCopyKey.match(action)) {
+    copyToClipboard(action.payload)
+    bWindow?.hide()
+  }
+
+  // Quit
+  else if (clickedQuitButton.match(action)) {
+    electron.app.quit()
+  }
+
+  // Reload
+  else if (clickedReloadButton.match(action)) {
+    bWindow?.reload()
+  }
+
+  // Set as default browser
+  else if (clickedSetAsDefaultBrowserButton.match(action)) {
+    electron.app.setAsDefaultProtocolClient('http')
+  }
+
+  // Update and restart
+  else if (clickedUpdateRestartButton.match(action)) {
+    electron.autoUpdater.quitAndInstall()
+  }
+
+  // Change fav
+  else if (clickedFavButton.match(action)) {
+    store.set('fav', action.payload)
+  }
+
+  // Update hidden tiles
+  else if (clickedEyeButton.match(action)) {
+    store.set(
+      'hiddenTileIds',
+      xor(store.get('hiddenTileIds'), [action.payload]),
+    )
+  }
+
+  // Update hotkeys
+  else if (changedHotkey.match(action)) {
+    const updatedHotkeys = alterHotkeys(
+      store.get('hotkeys'),
+      action.payload.appId,
+      action.payload.value,
+    )
+    store.set('hotkeys', updatedHotkeys)
+  }
+
+  // Open app
+  else if (pressedAppKey.match(action) || clickedTile.match(action)) {
+    const { appId, url, isAlt, isShift } = action.payload
+
     // Bail if app's bundle id is missing
     if (!appId) return
 
@@ -182,57 +370,29 @@ electron.ipcMain.on(
     ].flat()
 
     execFile('open', openArguments)
-  },
-)
+  }
 
-electron.ipcMain.on(COPY_TO_CLIPBOARD, (_: Event, url: string) => {
-  copyToClipboard(url)
-})
+  // Go into edit mode
+  else if (clickedSettingsButton.match(action)) {
+    isEditMode = true
+  }
 
-electron.ipcMain.on(HIDE_WINDOW, () => {
-  bWindow?.hide()
-})
+  // Click close edit mode
+  else if (clickedCloseMenuButton.match(action)) {
+    isEditMode = false
+  }
 
-electron.ipcMain.on(FAV_SELECTED, (_, favAppId) => {
-  store.set('fav', favAppId)
-})
+  // Click carrot
+  else if (clickedCarrotButton.match(action)) {
+    isEditMode = false
+  }
 
-electron.ipcMain.on(HOTKEYS_UPDATED, (_, hotkeys: Hotkeys) => {
-  store.set('hotkeys', hotkeys)
-})
-
-electron.ipcMain.on(CHANGE_THEME, (_, theme: Store['theme']) => {
-  store.set('theme', theme)
-})
-
-electron.ipcMain.on(UPDATE_HIDDEN_TILE_IDS, (_, hiddenTileIds: string[]) => {
-  store.set('hiddenTileIds', hiddenTileIds)
-})
-
-electron.ipcMain.on(SET_AS_DEFAULT_BROWSER, () => {
-  electron.app.setAsDefaultProtocolClient('http')
-})
-
-electron.ipcMain.on(RELOAD, () => {
-  bWindow?.reload()
-})
-
-electron.ipcMain.on(UPDATE_RESTART, () => {
-  electron.autoUpdater.quitAndInstall()
-})
-
-electron.ipcMain.on(QUIT, () => {
-  electron.app.quit()
-})
-
-electron.ipcMain.on(MAIN_LOG, (_, string: string) => {
-  logger('Renderer', string)
-})
-
-electron.ipcMain.on(CATCH_MOUSE, () => {
-  bWindow?.setIgnoreMouseEvents(false)
-})
-
-electron.ipcMain.on(RELEASE_MOUSE, () => {
-  bWindow?.setIgnoreMouseEvents(true, { forward: true })
+  // Escape key
+  else if (pressedEscapeKey.match(action)) {
+    if (isEditMode) {
+      isEditMode = false
+    } else {
+      bWindow?.hide()
+    }
+  }
 })

@@ -2,6 +2,10 @@ import { faBackspace } from '@fortawesome/free-solid-svg-icons/faBackspace'
 import { faCog } from '@fortawesome/free-solid-svg-icons/faCog'
 import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
+import { faGift } from '@fortawesome/free-solid-svg-icons/faGift'
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons/faSignOutAlt'
+import { faSync } from '@fortawesome/free-solid-svg-icons/faSync'
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import { css } from 'emotion'
@@ -9,24 +13,19 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import Url from 'url'
 
-import { SPONSOR_URL } from '../../../config/CONSTANTS'
-import { copyUrl, hideWindow } from '../../sendToMain'
 import { useSelector } from '../../store'
 import {
+  clickedCarrotButton,
+  clickedCloseMenuButton,
+  clickedCopyButton,
+  clickedQuitButton,
+  clickedReloadButton,
+  clickedSetAsDefaultBrowserButton,
   clickedSettingsButton,
+  clickedUpdateRestartButton,
   clickedUrlBackspaceButton,
 } from '../../store/actions'
-import { useTheme } from '../../store/selector-hooks'
-import { themes } from '../../themes'
 import Button from '../atoms/button'
-import MouseDiv from '../molecules/mouse-div'
-
-const clickedCopyButton = (url: string) => {
-  if (url) {
-    copyUrl(url)
-    hideWindow()
-  }
-}
 
 interface Props {
   className?: string
@@ -35,108 +34,174 @@ interface Props {
 const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
+  const isEditMode = useSelector((state) => state.ui.isEditMode)
+  const isDefaultProtocolClient = useSelector(
+    (state) => state.ui.isDefaultProtocolClient,
+  )
+  const version = useSelector((state) => state.ui.version)
   const updateStatus = useSelector((state) => state.ui.updateStatus)
-  const theme = useTheme()
 
-  const isSponsorUrl = url === SPONSOR_URL
   const isEmpty = url.length === 0
   const parsedUrl = Url.parse(url)
 
   return (
-    <MouseDiv
-      capture
+    <div
       className={clsx(
         className,
         'flex-shrink-0',
-        'w-full',
+        'w-full px-4',
         'flex items-center space-x-4',
-        'border-2 rounded-md shadow',
-        'px-4',
-        'h-12',
+        'bg-black bg-opacity-10',
         css({
-          backgroundColor: themes[theme].url.bg,
-          borderColor: isSponsorUrl
-            ? themes[theme].url.border.sponsor
-            : themes[theme].url.border.base,
+          height: '74px',
         }),
       )}
-      style={{ minWidth: '300px' }}
     >
       <div
         className={clsx(
-          'flex-grow',
-          'text-xs tracking-wider',
+          'flex-grow h-full',
           'flex items-center justify-between',
           'overflow-hidden',
-          css({
-            color: isSponsorUrl
-              ? themes[theme].url.text.sponsorBase
-              : themes[theme].url.text.base,
-          }),
+          'pr-1',
+          'text-sm tracking-wider',
         )}
       >
-        <div className="truncate">
-          <span>{parsedUrl.protocol}</span>
-          {parsedUrl.slashes && '//'}
-          <span
-            className={clsx(
-              'text-base',
-              css({
-                color: isSponsorUrl
-                  ? themes[theme].url.text.sponsorHost
-                  : themes[theme].url.text.host,
-              }),
-            )}
+        {isEditMode && (
+          <Button
+            aria-label="Version"
+            className="space-x-2"
+            onClick={() => dispatch(clickedCarrotButton())}
+            title={version}
           >
-            {parsedUrl.host || (
-              <FontAwesomeIcon
-                className={css({
-                  color: themes[theme].url.text.disabled,
-                })}
-                fixedWidth
-                icon={faEllipsisH}
-              />
+            {isEditMode && updateStatus === 'available' ? (
+              'Downloading update...'
+            ) : (
+              <>
+                <span aria-label="Carrot" className="text-xl" role="img">
+                  🥕
+                </span>
+                <span className="font-bold">Buy me a carrot</span>
+              </>
             )}
-          </span>
-          <span>
-            {parsedUrl.pathname}
-            {parsedUrl.search}
-            {parsedUrl.hash}
-          </span>
-        </div>
+          </Button>
+        )}
+
+        {!isDefaultProtocolClient && isEditMode && (
+          <Button
+            aria-label="Set as default browser"
+            onClick={() => dispatch(clickedSetAsDefaultBrowserButton())}
+          >
+            Set As Default Browser
+          </Button>
+        )}
+
+        {!isEditMode && (
+          <div
+            className="text-sm tracking-wider"
+            style={{
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              overflowWrap: 'break-word',
+              wordBreak: 'break-all',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            <span className="opacity-50">{parsedUrl.protocol}</span>
+            <span className="opacity-50">{parsedUrl.slashes && '//'}</span>
+            <span>
+              {parsedUrl.host || (
+                <FontAwesomeIcon fixedWidth icon={faEllipsisH} />
+              )}
+            </span>
+            <span className="opacity-50">
+              {parsedUrl.pathname}
+              {parsedUrl.search}
+              {parsedUrl.hash}
+            </span>
+          </div>
+        )}
       </div>
 
       <div className="flex-shrink-0 space-x-2">
-        <Button
-          disabled={isEmpty}
-          onClick={() => dispatch(clickedUrlBackspaceButton())}
-          tip="Delete section of URL (Backspace)"
-        >
-          <FontAwesomeIcon fixedWidth icon={faBackspace} />
-        </Button>
+        {isEditMode && updateStatus === 'downloaded' && (
+          <Button
+            aria-label="Restart and update"
+            className="space-x-2"
+            onClick={() => dispatch(clickedUpdateRestartButton())}
+          >
+            <FontAwesomeIcon icon={faGift} />
+            <span>Update</span>
+          </Button>
+        )}
 
-        <Button
-          disabled={isEmpty}
-          onClick={() => clickedCopyButton(url)}
-          tip="Copy (<kbd>⌘+C</kbd>)"
-        >
-          <FontAwesomeIcon fixedWidth icon={faCopy} />
-        </Button>
+        {isEditMode && updateStatus === 'no-update' && (
+          <Button
+            aria-label="Reload"
+            onClick={() => dispatch(clickedReloadButton())}
+            title="Reload Browserosaurus"
+          >
+            <FontAwesomeIcon fixedWidth icon={faSync} />
+          </Button>
+        )}
 
-        <Button
-          aria-label="Settings menu"
-          onClick={() => dispatch(clickedSettingsButton())}
-          tip="Settings"
-          tone={updateStatus === 'downloaded' ? 'primary' : undefined}
-        >
-          <FontAwesomeIcon
-            fixedWidth
-            icon={faCog}
-            spin={updateStatus === 'available'}
-          />
-        </Button>
+        {isEditMode && (
+          <Button
+            aria-label="Quit"
+            onClick={() => dispatch(clickedQuitButton())}
+            title="Quit"
+          >
+            <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
+          </Button>
+        )}
+
+        {!isEditMode && (
+          <Button
+            disabled={isEmpty}
+            onClick={() => dispatch(clickedUrlBackspaceButton())}
+            title="Delete section of URL (Backspace)"
+          >
+            <FontAwesomeIcon fixedWidth icon={faBackspace} />
+          </Button>
+        )}
+
+        {!isEditMode && (
+          <Button
+            disabled={isEmpty}
+            onClick={() => dispatch(clickedCopyButton(url))}
+            title="Copy (⌘+C)"
+          >
+            <FontAwesomeIcon fixedWidth icon={faCopy} />
+          </Button>
+        )}
+
+        {isEditMode ? (
+          <Button
+            aria-label="Close menu"
+            onClick={() => dispatch(clickedCloseMenuButton())}
+            title="Close menu (escape)"
+          >
+            <FontAwesomeIcon fixedWidth icon={faTimes} />
+          </Button>
+        ) : (
+          <Button
+            aria-label="Settings menu"
+            onClick={() => dispatch(clickedSettingsButton())}
+            title="Settings"
+          >
+            <FontAwesomeIcon
+              className={clsx(
+                updateStatus === 'downloaded' && 'text-green-600',
+              )}
+              fixedWidth
+              icon={faCog}
+              spin={updateStatus === 'available'}
+            />
+          </Button>
+        )}
       </div>
-    </MouseDiv>
+    </div>
   )
 }
 

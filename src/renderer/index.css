@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 /*! purgecss start ignore */
+
 /* Save adding font-bold classes everywhere */
 * {
   font-weight: bold;
@@ -13,8 +14,6 @@
 *::before,
 button {
   -webkit-user-select: none;
-  -webkit-user-drag: none;
-  -webkit-app-region: no-drag;
   cursor: default;
 }
 
@@ -33,12 +32,4 @@ button {
   background: #ffffff09;
 }
 
-/* Override React-Tooltip's default style */
-.__react_component_tooltip {
-  transition-property: none !important;
-}
-
-.__react_component_tooltip.show {
-  opacity: 1 !important;
-}
 /*! purgecss end ignore */

@@ -1,51 +1,71 @@
 import clsx from 'clsx'
-import { css } from 'emotion'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 
+import { useSelector } from '../../store'
+import { clickedOkToAffliateButton } from '../../store/actions'
 import {
+  useAffliateApp,
+  useApps,
   useFavTile,
   useNormalTiles,
-  useTheme,
 } from '../../store/selector-hooks'
-import { themes } from '../../themes'
-import MouseDiv from '../molecules/mouse-div'
 import Tile from '../molecules/tile'
 
 const Tiles: React.FC = () => {
+  const dispatch = useDispatch()
   const favTile = useFavTile()
   const normalTiles = useNormalTiles()
-  const theme = useTheme()
+  const allApps = useApps()
+  const isEditMode = useSelector((state) => state.ui.isEditMode)
+  const affliateApp = useAffliateApp()
 
-  let p = 'p-1'
-
-  if (normalTiles.length < 8) {
-    p = 'p-4'
-  } else if (normalTiles.length < 16) {
-    p = 'p-2'
-  }
+  const tiles = isEditMode ? allApps : normalTiles
 
   return (
-    <MouseDiv
-      capture
-      className={clsx(
-        'relative',
-        'border-2',
-        'p-2',
-        'flex justify-start',
-        'rounded-md shadow',
-        'max-w-full overflow-x-auto',
-        css({
-          borderColor: themes[theme].tiles.border,
-          backgroundColor: themes[theme].tiles.bg,
-        }),
-      )}
-    >
-      {favTile && <Tile app={favTile} className={p} isFav />}
-      {normalTiles.map((app, index) => {
-        const key = app.id + index
-        return <Tile key={key} app={app} className={p} />
-      })}
-    </MouseDiv>
+    <div className={clsx('relative flex-grow w-full', 'overflow-y-scroll')}>
+      <div className="flex justify-start items-center flex-wrap">
+        {/* Favourite */}
+        {!isEditMode && favTile && (
+          <Tile
+            app={favTile}
+            controls={{ favourite: true, hotkey: true, visibility: true }}
+          />
+        )}
+
+        {/* Affliate */}
+        {affliateApp && ((!isEditMode && affliateApp.isVisible) || isEditMode) && (
+          <Tile
+            app={affliateApp}
+            controls={{ favourite: false, hotkey: false, visibility: true }}
+            onClick={() => {
+              // eslint-disable-next-line no-alert
+              const confirmResult = window.confirm(
+                `Browserosaurus is free and funded by only a few. We have partnered with Polypane and would be grateful if you could check out this innovative browser made for web development by following the affiliate link in your chosen browser`,
+              )
+
+              if (confirmResult) {
+                dispatch(clickedOkToAffliateButton())
+              }
+            }}
+          >
+            <div className="text-xs opacity-50">Affliate</div>
+          </Tile>
+        )}
+
+        {/* Rest of the tiles */}
+        {tiles.map((app, index) => {
+          const key = app.id + index
+          return (
+            <Tile
+              key={key}
+              app={app}
+              controls={{ favourite: true, hotkey: true, visibility: true }}
+            />
+          )
+        })}
+      </div>
+    </div>
   )
 }
 

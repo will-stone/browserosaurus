@@ -1,5 +1,4 @@
 import { App } from '../../config/types'
-import { Store as MainStore } from '../../main/store'
 import { getHotkeyByAppId } from '../../utils/getHotkeyByAppId'
 import { useDeepEqualSelector, useSelector, useShallowEqualSelector } from '.'
 
@@ -52,5 +51,21 @@ export const useNormalTiles = (): ExtendedApp[] => {
   return normalTiles
 }
 
-export const useTheme = (): MainStore['theme'] =>
-  useSelector((state) => state.ui.theme)
+export const useAffliateApp = (): undefined | ExtendedApp => {
+  const polypaneId = 'com.firstversionist.polypane'
+  const apps = useApps()
+  const isInstalled = apps.find((app) => app.id === polypaneId)
+  const hiddenTileIds = useShallowEqualSelector(
+    (state) => state.ui.hiddenTileIds,
+  )
+
+  if (!isInstalled) {
+    return {
+      name: 'Polypane',
+      id: polypaneId,
+      isVisible: !hiddenTileIds.includes(polypaneId),
+      isFav: false,
+      hotkey: undefined,
+    }
+  }
+}

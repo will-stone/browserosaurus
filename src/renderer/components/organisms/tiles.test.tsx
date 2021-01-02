@@ -3,9 +3,9 @@ import electron from 'electron'
 import React from 'react'
 
 import Wrapper from '../_bootstrap'
-import { DEFAULT_URL } from '../../../config/CONSTANTS'
+import { CARROT_URL } from '../../../config/CONSTANTS'
 import { INSTALLED_APPS_FOUND, URL_UPDATED } from '../../../main/events'
-import { APP_SELECTED, HIDE_WINDOW } from '../../sendToMain'
+import { clickedTile, pressedAppKey } from '../../store/actions'
 
 test('tiles', () => {
   render(<Wrapper />)
@@ -28,7 +28,8 @@ test('tiles', () => {
   ).toBeVisible()
 
   expect(screen.getAllByRole('button', { name: /[A-z]+ Tile/u })).toHaveLength(
-    3,
+    // Includes affliate
+    4,
   )
 
   // Set Safari as favourite
@@ -40,13 +41,15 @@ test('tiles', () => {
 
   // Correct info sent to main when tile clicked
   fireEvent.click(screen.getByRole('button', { name: 'Firefox Tile' }))
-  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
-    url: DEFAULT_URL,
-    appId: 'org.mozilla.firefox',
-    isAlt: false,
-    isShift: false,
-  })
-  expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
+    'FROM_RENDERER',
+    clickedTile({
+      url: CARROT_URL,
+      appId: 'org.mozilla.firefox',
+      isAlt: false,
+      isShift: false,
+    }),
+  )
 
   // Correct info sent to main when tile clicked
   const url = 'http://example.com'
@@ -56,13 +59,15 @@ test('tiles', () => {
   fireEvent.click(screen.getByRole('button', { name: 'Brave Nightly Tile' }), {
     altKey: true,
   })
-  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
-    url,
-    appId: 'com.brave.Browser.nightly',
-    isAlt: true,
-    isShift: false,
-  })
-  expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
+    'FROM_RENDERER',
+    clickedTile({
+      url,
+      appId: 'com.brave.Browser.nightly',
+      isAlt: true,
+      isShift: false,
+    }),
+  )
 })
 
 test('use hotkey', () => {
@@ -85,13 +90,15 @@ test('use hotkey', () => {
     win.webContents.send(URL_UPDATED, url)
   })
   fireEvent.keyDown(document, { key: 'S', code: 'KeyS', keyCode: 83 })
-  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
-    url,
-    appId: 'com.apple.Safari',
-    isAlt: false,
-    isShift: false,
-  })
-  expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
+    'FROM_RENDERER',
+    pressedAppKey({
+      url,
+      appId: 'com.apple.Safari',
+      isAlt: false,
+      isShift: false,
+    }),
+  )
 })
 
 test('use hotkey with alt', () => {
@@ -119,13 +126,15 @@ test('use hotkey with alt', () => {
     keyCode: 83,
     altKey: true,
   })
-  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
-    url,
-    appId: 'com.apple.Safari',
-    isAlt: true,
-    isShift: false,
-  })
-  expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
+    'FROM_RENDERER',
+    pressedAppKey({
+      url,
+      appId: 'com.apple.Safari',
+      isAlt: true,
+      isShift: false,
+    }),
+  )
 })
 
 test('hold shift', () => {
@@ -143,13 +152,15 @@ test('hold shift', () => {
   fireEvent.click(screen.getByRole('button', { name: 'Firefox Tile' }), {
     shiftKey: true,
   })
-  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(APP_SELECTED, {
-    url,
-    appId: 'org.mozilla.firefox',
-    isAlt: false,
-    isShift: true,
-  })
-  expect(electron.ipcRenderer.send).toHaveBeenLastCalledWith(HIDE_WINDOW)
+  expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
+    'FROM_RENDERER',
+    clickedTile({
+      url,
+      appId: 'org.mozilla.firefox',
+      isAlt: false,
+      isShift: true,
+    }),
+  )
 })
 
 test('tiles order', () => {
@@ -167,7 +178,8 @@ test('tiles order', () => {
   // Check tiles and tile logos shown
   const tiles = screen.getAllByRole('button', { name: /[A-z]+ Tile/u })
 
-  expect(tiles).toHaveLength(5)
+  // Includes affliate
+  expect(tiles).toHaveLength(6)
 
   // Set hotkeys
   fireEvent.click(screen.getByRole('button', { name: 'Settings menu' }))
@@ -183,8 +195,10 @@ test('tiles order', () => {
 
   const updatedTiles = screen.getAllByRole('button', { name: /[A-z]+ Tile/u })
   expect(updatedTiles[0]).toHaveAttribute('aria-label', 'Safari Tile')
-  expect(updatedTiles[1]).toHaveAttribute('aria-label', 'Opera Tile')
-  expect(updatedTiles[2]).toHaveAttribute('aria-label', 'Brave Tile')
-  expect(updatedTiles[3]).toHaveAttribute('aria-label', 'Firefox Tile')
-  expect(updatedTiles[4]).toHaveAttribute('aria-label', 'Microsoft Edge Tile')
+  // Affliate
+  expect(updatedTiles[1]).toHaveAttribute('aria-label', 'Polypane Tile')
+  expect(updatedTiles[2]).toHaveAttribute('aria-label', 'Opera Tile')
+  expect(updatedTiles[3]).toHaveAttribute('aria-label', 'Brave Tile')
+  expect(updatedTiles[4]).toHaveAttribute('aria-label', 'Firefox Tile')
+  expect(updatedTiles[5]).toHaveAttribute('aria-label', 'Microsoft Edge Tile')
 })

@@ -1,15 +1,19 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { copyUrl, hideWindow, selectApp } from '../../sendToMain'
 import { AppThunk } from '../../store'
-import { pressedBackspaceKey, pressedEscapeKey } from '../../store/actions'
+import {
+  pressedAppKey,
+  pressedBackspaceKey,
+  pressedCopyKey,
+  pressedEscapeKey,
+} from '../../store/actions'
 
 const keyboardEvent = (event: KeyboardEvent): AppThunk => (
   dispatch,
   getState,
 ) => {
-  const { url, menu, hotkeys, fav } = getState().ui
+  const { url, isEditMode, hotkeys, fav } = getState().ui
 
   // Using `fromCharCode` allows detection to be keyboard layout agnostic
   const stringFromCharCode = String.fromCharCode(event.keyCode).toLowerCase()
@@ -26,15 +30,10 @@ const keyboardEvent = (event: KeyboardEvent): AppThunk => (
     dispatch(pressedEscapeKey())
   }
 
-  // Only capture the following when menu is closed
-  if (!menu) {
-    // Escape
-    if (event.code === 'Escape') {
-      hideWindow()
-    }
-
+  // Only capture the following when not in edit mode
+  if (!isEditMode) {
     // Backspace
-    else if (event.key === 'Backspace') {
+    if (event.key === 'Backspace') {
       event.preventDefault()
       dispatch(pressedBackspaceKey())
     }
@@ -43,31 +42,37 @@ const keyboardEvent = (event: KeyboardEvent): AppThunk => (
     else if (event.metaKey && event.key.toLowerCase() === 'c') {
       event.preventDefault()
       if (url) {
-        copyUrl(url)
-        hideWindow()
+        dispatch(pressedCopyKey(url))
       }
     }
 
     // App hotkey
-    else if (stringFromCharCode.match(/^([a-z0-9])$/u)) {
+    else if (!event.metaKey && stringFromCharCode.match(/^([a-z0-9])$/u)) {
       event.preventDefault()
       const appId = hotkeys[stringFromCharCode]
       if (appId) {
-        selectApp({ url, appId, isAlt: event.altKey, isShift: event.shiftKey })
-        hideWindow()
+        dispatch(
+          pressedAppKey({
+            url,
+            appId,
+            isAlt: event.altKey,
+            isShift: event.shiftKey,
+          }),
+        )
       }
     }
 
     // Favourite hotkeys
     else if (event.code === 'Space' || event.code === 'Enter') {
       event.preventDefault()
-      selectApp({
-        url,
-        appId: fav,
-        isAlt: event.altKey,
-        isShift: event.shiftKey,
-      })
-      hideWindow()
+      dispatch(
+        pressedAppKey({
+          url,
+          appId: fav,
+          isAlt: event.altKey,
+          isShift: event.shiftKey,
+        }),
+      )
     }
   }
 }

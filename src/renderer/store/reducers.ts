@@ -1,27 +1,27 @@
 import { createReducer } from '@reduxjs/toolkit'
+import xor from 'lodash/xor'
 
-import { DEFAULT_URL, SPONSOR_URL } from '../../config/CONSTANTS'
+import { AFFLIATE_URL, CARROT_URL, SPONSOR_URL } from '../../config/CONSTANTS'
 import { App } from '../../config/types'
 import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'
 import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 import {
-  appStarted,
   changedHotkey,
+  clickedCarrotButton,
   clickedCloseMenuButton,
   clickedEyeButton,
   clickedFavButton,
-  clickedSetAsDefaultButton,
+  clickedOkToAffliateButton,
   clickedSettingsButton,
   clickedSponsorButton,
-  clickedThemeButton,
   clickedUrlBackspaceButton,
-  clickedVersionButton,
   pressedBackspaceKey,
   pressedEscapeKey,
   receivedApps,
   receivedDefaultProtocolClientStatus,
   receivedStore,
+  receivedTheme,
   receivedUpdateAvailable,
   receivedUpdateDownloaded,
   receivedUrl,
@@ -36,11 +36,28 @@ const apps = createReducer<App[]>([], (builder) =>
 )
 
 /**
+ * Theme Reducer
+ */
+export interface ThemeState {
+  isDarkMode: boolean
+  accent: string
+}
+
+const theme = createReducer<ThemeState>(
+  {
+    isDarkMode: false,
+    accent: '',
+  },
+  (builder) => {
+    builder.addCase(receivedTheme, (_, action) => action.payload)
+  },
+)
+
+/**
  * UI Reducer
  */
 interface UiState {
-  appStarted: boolean
-  menu: false | 'tiles'
+  isEditMode: boolean
   url: string
   version: string
   updateStatus: 'no-update' | 'available' | 'downloaded'
@@ -50,29 +67,23 @@ interface UiState {
   fav: MainStore['fav']
   hiddenTileIds: MainStore['hiddenTileIds']
   hotkeys: MainStore['hotkeys']
-  theme: MainStore['theme']
 }
 
 const ui = createReducer<UiState>(
   {
-    appStarted: false,
-    menu: false,
+    isEditMode: false,
     version: '',
     updateStatus: 'no-update',
     isDefaultProtocolClient: true,
-    url: DEFAULT_URL,
+    url: CARROT_URL,
 
     // From main's store
     fav: '',
     hiddenTileIds: [],
     hotkeys: {},
-    theme: 'dark',
   },
   (builder) =>
     builder
-      .addCase(appStarted, (state) => {
-        state.appStarted = true
-      })
       .addCase(changedHotkey, (state, action) => {
         const updatedHotkeys = alterHotkeys(
           state.hotkeys,
@@ -82,51 +93,37 @@ const ui = createReducer<UiState>(
         state.hotkeys = updatedHotkeys
       })
       .addCase(clickedCloseMenuButton, (state) => {
-        state.menu = false
+        state.isEditMode = false
       })
       .addCase(clickedEyeButton, (state, action) => {
         const { hiddenTileIds } = state
-        // Remove the id if it exists in the array
-        const updatedHiddenTileIds = hiddenTileIds.filter(
-          (id) => id !== action.payload,
-        )
-
-        // If no id was removed, it didn't exist to begin with and should be added
-        if (updatedHiddenTileIds.length === hiddenTileIds.length) {
-          updatedHiddenTileIds.push(action.payload)
-        }
-
-        state.hiddenTileIds = updatedHiddenTileIds
+        // Remove the id if it exists in the array, or add it if it doesn't
+        state.hiddenTileIds = xor(hiddenTileIds, [action.payload])
       })
       .addCase(clickedFavButton, (state, action) => {
         state.fav = action.payload
       })
       .addCase(clickedSettingsButton, (state) => {
-        if (state.menu) {
-          state.menu = false
-        } else {
-          state.menu = 'tiles'
-        }
-      })
-      .addCase(clickedSetAsDefaultButton, (state) => {
-        state.menu = false
-      })
-      .addCase(clickedThemeButton, (state, action) => {
-        state.theme = action.payload
+        state.isEditMode = true
       })
       .addCase(clickedUrlBackspaceButton, (state) => {
         state.url = backspaceUrlParse(state.url)
       })
       .addCase(clickedSponsorButton, (state) => {
         state.url = SPONSOR_URL
-        state.menu = false
+        state.isEditMode = false
       })
-      .addCase(clickedVersionButton, (state) => {
-        state.url = DEFAULT_URL
-        state.menu = false
+      .addCase(clickedCarrotButton, (state) => {
+        state.url = CARROT_URL
+        state.isEditMode = false
+      })
+      .addCase(clickedOkToAffliateButton, (state) => {
+        state.url = AFFLIATE_URL
       })
       .addCase(pressedEscapeKey, (state) => {
-        state.menu = false
+        if (state.isEditMode) {
+          state.isEditMode = false
+        }
       })
       .addCase(pressedBackspaceKey, (state) => {
         state.url = backspaceUrlParse(state.url)
@@ -138,7 +135,6 @@ const ui = createReducer<UiState>(
         state.fav = action.payload.fav
         state.hiddenTileIds = action.payload.hiddenTileIds
         state.hotkeys = action.payload.hotkeys
-        state.theme = action.payload.theme
       })
       .addCase(receivedUpdateAvailable, (state) => {
         state.updateStatus = 'available'
@@ -147,7 +143,7 @@ const ui = createReducer<UiState>(
         state.updateStatus = 'downloaded'
       })
       .addCase(receivedUrl, (state, action) => {
-        state.menu = false
+        state.isEditMode = false
         state.url = action.payload
       })
       .addCase(receivedVersion, (state, action) => {
@@ -155,4 +151,4 @@ const ui = createReducer<UiState>(
       }),
 )
 
-export { apps, ui }
+export { apps, theme, ui }

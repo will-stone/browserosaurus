@@ -33,6 +33,7 @@ import min from './logos/min.png'
 import naverWhale from './logos/NAVER_whale.png'
 import pocket from './logos/pocket.png'
 import polypane from './logos/polypane.png'
+import spotify from './logos/spotify.png'
 import waterfox from './logos/waterfox.png'
 
 export const logos: { [key: string]: string } = {
@@ -71,4 +72,5 @@ export const logos: { [key: string]: string } = {
   'com.naver.Whale': naverWhale,
   'com.gab.Dissenter': dissenter,
   'net.kassett.finicky': finicky,
+  'com.spotify.client': spotify,
 }

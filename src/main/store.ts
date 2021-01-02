@@ -1,3 +1,4 @@
+import { Rectangle } from 'electron'
 import ElectronStore from 'electron-store'
 
 import { App } from '../config/types'
@@ -13,6 +14,7 @@ export interface Store {
   hotkeys: Hotkeys
   hiddenTileIds: string[]
   theme: 'light' | 'dark' | 'dracula'
+  bounds?: Rectangle
 }
 
 export const store = new ElectronStore<Store>({

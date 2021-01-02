@@ -2,6 +2,14 @@ import { createAction as cA } from '@reduxjs/toolkit'
 
 import { App } from '../../config/types'
 import { Store as MainStore } from '../../main/store'
+import type { ThemeState } from './reducers'
+
+interface OpenAppArguments {
+  url: string
+  appId: App['id'] | undefined
+  isAlt: boolean
+  isShift: boolean
+}
 
 // -----------------------------------------------------------------------------
 // App
@@ -9,8 +17,14 @@ import { Store as MainStore } from '../../main/store'
 const appStarted = cA('app/started')
 
 // -----------------------------------------------------------------------------
+// Tiles
+// -----------------------------------------------------------------------------
+const clickedTile = cA<OpenAppArguments>('tiles/clickTile')
+
+// -----------------------------------------------------------------------------
 // Main events
 // -----------------------------------------------------------------------------
+const receivedTheme = cA<ThemeState>('main/receivedTheme')
 const receivedStore = cA<MainStore>('main/receivedStore')
 const receivedApps = cA<App[]>('main/receivedApps')
 const receivedVersion = cA<string>('main/receivedVersion')
@@ -34,6 +48,8 @@ const keydown = cA<{
 }>('keyboard/keydown')
 const pressedEscapeKey = cA('keyboard/escapeKey')
 const pressedBackspaceKey = cA('keyboard/backspaceKey')
+const pressedCopyKey = cA<string>('keyboard/copyKey')
+const pressedAppKey = cA<OpenAppArguments>('keyboard/appKey')
 
 // -----------------------------------------------------------------------------
 // Settings
@@ -44,19 +60,27 @@ const changedHotkey = cA<{ appId: string; value: string }>(
 const clickedCloseMenuButton = cA('settings/clickedCloseMenuButton')
 const clickedEyeButton = cA<string>('settings/clickedEyeButton')
 const clickedFavButton = cA<string>('settings/clickedFavButton')
-const clickedSetAsDefaultButton = cA('settings/clickedSetAsDefaultButton')
 const clickedSponsorButton = cA('settings/clickedSponsorButton')
-const clickedThemeButton = cA<MainStore['theme']>('settings/clickedThemeButton')
-const clickedVersionButton = cA('settings/clickedVersionButton')
+const clickedOkToAffliateButton = cA('settings/clickedOkToAffliateButton')
+const clickedCarrotButton = cA('settings/clickedCarrotButton')
+const clickedQuitButton = cA('settings/clickedQuitButton')
+const clickedReloadButton = cA('settings/clickedReloadButton')
+const clickedSetAsDefaultBrowserButton = cA(
+  'settings/clickedSetAsDefaultBrowserButton',
+)
+const clickedUpdateRestartButton = cA('settings/clickedUpdateRestartButton')
 
 // -----------------------------------------------------------------------------
 // URL bar
 // -----------------------------------------------------------------------------
 const clickedSettingsButton = cA('urlBar/clickedSettingsButton')
 const clickedUrlBackspaceButton = cA('urlBar/clickedUrlBackspaceButton')
+const clickedCopyButton = cA<string>('urlBar/clickedCopyButton')
 
 export {
   appStarted,
+  clickedTile,
+  receivedTheme,
   receivedStore,
   receivedApps,
   receivedVersion,
@@ -67,14 +91,20 @@ export {
   keydown,
   pressedEscapeKey,
   pressedBackspaceKey,
+  pressedCopyKey,
+  pressedAppKey,
   changedHotkey,
   clickedCloseMenuButton,
   clickedEyeButton,
   clickedFavButton,
-  clickedSetAsDefaultButton,
   clickedSponsorButton,
-  clickedThemeButton,
-  clickedVersionButton,
+  clickedCarrotButton,
+  clickedOkToAffliateButton,
   clickedSettingsButton,
   clickedUrlBackspaceButton,
+  clickedCopyButton,
+  clickedQuitButton,
+  clickedReloadButton,
+  clickedSetAsDefaultBrowserButton,
+  clickedUpdateRestartButton,
 }
