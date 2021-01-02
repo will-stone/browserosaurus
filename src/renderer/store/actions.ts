@@ -62,7 +62,7 @@ const clickedEyeButton = cA<string>('settings/clickedEyeButton')
 const clickedFavButton = cA<string>('settings/clickedFavButton')
 const clickedSponsorButton = cA('settings/clickedSponsorButton')
 const clickedOkToAffliateButton = cA('settings/clickedOkToAffliateButton')
-const clickedVersionButton = cA('settings/clickedVersionButton')
+const clickedCarrotButton = cA('settings/clickedCarrotButton')
 const clickedQuitButton = cA('settings/clickedQuitButton')
 const clickedReloadButton = cA('settings/clickedReloadButton')
 const clickedSetAsDefaultBrowserButton = cA(
@@ -98,7 +98,7 @@ export {
   clickedEyeButton,
   clickedFavButton,
   clickedSponsorButton,
-  clickedVersionButton,
+  clickedCarrotButton,
   clickedOkToAffliateButton,
   clickedSettingsButton,
   clickedUrlBackspaceButton,

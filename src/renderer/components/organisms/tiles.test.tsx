@@ -3,7 +3,7 @@ import electron from 'electron'
 import React from 'react'
 
 import Wrapper from '../_bootstrap'
-import { DEFAULT_URL } from '../../../config/CONSTANTS'
+import { CARROT_URL } from '../../../config/CONSTANTS'
 import { INSTALLED_APPS_FOUND, URL_UPDATED } from '../../../main/events'
 import { clickedTile, pressedAppKey } from '../../store/actions'
 
@@ -44,7 +44,7 @@ test('tiles', () => {
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     'FROM_RENDERER',
     clickedTile({
-      url: DEFAULT_URL,
+      url: CARROT_URL,
       appId: 'org.mozilla.firefox',
       isAlt: false,
       isShift: false,

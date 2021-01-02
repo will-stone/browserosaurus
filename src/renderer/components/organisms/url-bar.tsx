@@ -15,6 +15,7 @@ import Url from 'url'
 
 import { useSelector } from '../../store'
 import {
+  clickedCarrotButton,
   clickedCloseMenuButton,
   clickedCopyButton,
   clickedQuitButton,
@@ -23,7 +24,6 @@ import {
   clickedSettingsButton,
   clickedUpdateRestartButton,
   clickedUrlBackspaceButton,
-  clickedVersionButton,
 } from '../../store/actions'
 import Button from '../atoms/button'
 
@@ -69,11 +69,20 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         {isEditMode && (
           <Button
             aria-label="Version"
-            onClick={() => dispatch(clickedVersionButton())}
+            className="space-x-2"
+            onClick={() => dispatch(clickedCarrotButton())}
+            title={version}
           >
-            {isEditMode && updateStatus === 'available'
-              ? 'Downloading update...'
-              : `Browserosaurus ${version}`}
+            {isEditMode && updateStatus === 'available' ? (
+              'Downloading update...'
+            ) : (
+              <>
+                <span aria-label="Carrot" className="text-xl" role="img">
+                  🥕
+                </span>
+                <span className="font-bold">Buy me a carrot</span>
+              </>
+            )}
           </Button>
         )}
 

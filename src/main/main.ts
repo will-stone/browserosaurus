@@ -11,6 +11,7 @@ import { apps } from '../config/apps'
 import {
   appStarted,
   changedHotkey,
+  clickedCarrotButton,
   clickedCloseMenuButton,
   clickedCopyButton,
   clickedEyeButton,
@@ -21,7 +22,6 @@ import {
   clickedSettingsButton,
   clickedTile,
   clickedUpdateRestartButton,
-  clickedVersionButton,
   pressedAppKey,
   pressedCopyKey,
   pressedEscapeKey,
@@ -383,7 +383,7 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
   }
 
   // Click version
-  else if (clickedVersionButton.match(action)) {
+  else if (clickedCarrotButton.match(action)) {
     isEditMode = false
   }
 
