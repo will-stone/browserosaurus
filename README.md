@@ -16,7 +16,7 @@ like to continue opening the link with.
 ## Installation
 
 Installation instructions and alternatives are available on
-[browserosaurus.com](https://browserosaurus.com)
+[https://wstone.io/browserosaurus](https://wstone.io/browserosaurus)
 
 ## Development
 
