@@ -5,13 +5,11 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from '../../store'
 import { clickedOkToAffliateButton } from '../../store/actions'
 import {
+  useAffliateApp,
   useApps,
   useFavTile,
   useNormalTiles,
-  usePolypaneApp,
 } from '../../store/selector-hooks'
-import AppButton from '../atoms/app-button'
-import AppLogo from '../atoms/app-logo'
 import Tile from '../molecules/tile'
 
 const Tiles: React.FC = () => {
@@ -20,7 +18,7 @@ const Tiles: React.FC = () => {
   const normalTiles = useNormalTiles()
   const allApps = useApps()
   const isEditMode = useSelector((state) => state.ui.isEditMode)
-  const polypaneApp = usePolypaneApp()
+  const affliateApp = useAffliateApp()
 
   const tiles = isEditMode ? allApps : normalTiles
 
@@ -28,13 +26,18 @@ const Tiles: React.FC = () => {
     <div className={clsx('relative flex-grow w-full', 'overflow-y-scroll')}>
       <div className="flex justify-start items-center flex-wrap">
         {/* Favourite */}
-        {!isEditMode && favTile && <Tile app={favTile} />}
+        {!isEditMode && favTile && (
+          <Tile
+            app={favTile}
+            controls={{ favourite: true, hotkey: true, visibility: true }}
+          />
+        )}
 
-        {/* Polypane Affliate */}
-        {!isEditMode && polypaneApp && (
-          <AppButton
-            app={polypaneApp}
-            disabled={isEditMode}
+        {/* Affliate */}
+        {affliateApp && ((!isEditMode && affliateApp.isVisible) || isEditMode) && (
+          <Tile
+            app={affliateApp}
+            controls={{ favourite: false, hotkey: false, visibility: true }}
             onClick={() => {
               // eslint-disable-next-line no-alert
               const confirmResult = window.confirm(
@@ -46,15 +49,20 @@ const Tiles: React.FC = () => {
               }
             }}
           >
-            <AppLogo app={polypaneApp} />
             <div className="text-xs opacity-50">Affliate</div>
-          </AppButton>
+          </Tile>
         )}
 
         {/* Rest of the tiles */}
         {tiles.map((app, index) => {
           const key = app.id + index
-          return <Tile key={key} app={app} />
+          return (
+            <Tile
+              key={key}
+              app={app}
+              controls={{ favourite: true, hotkey: true, visibility: true }}
+            />
+          )
         })}
       </div>
     </div>

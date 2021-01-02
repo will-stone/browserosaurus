@@ -51,17 +51,19 @@ export const useNormalTiles = (): ExtendedApp[] => {
   return normalTiles
 }
 
-export const usePolypaneApp = (): undefined | ExtendedApp => {
+export const useAffliateApp = (): undefined | ExtendedApp => {
+  const polypaneId = 'com.firstversionist.polypane'
   const apps = useApps()
-  const isInstalled = apps.some(
-    (app) => app.id === 'com.firstversionist.polypane',
+  const isInstalled = apps.find((app) => app.id === polypaneId)
+  const hiddenTileIds = useShallowEqualSelector(
+    (state) => state.ui.hiddenTileIds,
   )
 
   if (!isInstalled) {
     return {
       name: 'Polypane',
-      id: 'com.firstversionist.polypane',
-      isVisible: true,
+      id: polypaneId,
+      isVisible: !hiddenTileIds.includes(polypaneId),
       isFav: false,
       hotkey: undefined,
     }

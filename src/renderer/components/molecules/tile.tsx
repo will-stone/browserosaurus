@@ -21,9 +21,11 @@ import Kbd from '../atoms/kbd'
 
 interface Props {
   app: ExtendedApp
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  controls: { favourite: boolean; hotkey: boolean; visibility: boolean }
 }
 
-const Tile: React.FC<Props> = ({ app }) => {
+const Tile: React.FC<Props> = ({ app, onClick, controls, children }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
   const isEditMode = useSelector((state) => state.ui.isEditMode)
@@ -35,19 +37,21 @@ const Tile: React.FC<Props> = ({ app }) => {
         app={app}
         disabled={isEditMode}
         onClick={(event) =>
-          dispatch(
-            clickedTile({
-              url,
-              appId: app.id,
-              isAlt: event.altKey,
-              isShift: event.shiftKey,
-            }),
-          )
+          onClick
+            ? onClick(event)
+            : dispatch(
+                clickedTile({
+                  url,
+                  appId: app.id,
+                  isAlt: event.altKey,
+                  isShift: event.shiftKey,
+                }),
+              )
         }
       >
         <AppLogo app={app} wiggle={isEditMode} />
 
-        {isEditMode ? (
+        {isEditMode && controls.hotkey && (
           <div
             className={clsx(
               'flex-shrink-0 flex justify-center items-center space-x-1',
@@ -84,7 +88,9 @@ const Tile: React.FC<Props> = ({ app }) => {
               value={app.hotkey || ''}
             />
           </div>
-        ) : (
+        )}
+
+        {!isEditMode && !children && (
           <Kbd className="flex-shrink-0 flex justify-center items-center space-x-2">
             {app.isFav && (
               <FontAwesomeIcon
@@ -103,9 +109,11 @@ const Tile: React.FC<Props> = ({ app }) => {
             }
           </Kbd>
         )}
+
+        {children}
       </AppButton>
 
-      {isEditMode && (
+      {isEditMode && controls.favourite && (
         <button
           aria-label={`Favourite ${app.name}`}
           className={clsx(
@@ -128,7 +136,7 @@ const Tile: React.FC<Props> = ({ app }) => {
         </button>
       )}
 
-      {isEditMode && (
+      {isEditMode && controls.visibility && (
         <button
           className={clsx(
             'absolute top-5 right-5',
