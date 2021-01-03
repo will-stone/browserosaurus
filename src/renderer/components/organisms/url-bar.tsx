@@ -3,6 +3,7 @@ import { faCog } from '@fortawesome/free-solid-svg-icons/faCog'
 import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
 import { faGift } from '@fortawesome/free-solid-svg-icons/faGift'
+import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons/faSignOutAlt'
 import { faSync } from '@fortawesome/free-solid-svg-icons/faSync'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
@@ -13,6 +14,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import Url from 'url'
 
+import { AFFLIATE_URL, CARROT_URL } from '../../../config/CONSTANTS'
 import { useSelector } from '../../store'
 import {
   clickedCarrotButton,
@@ -30,6 +32,12 @@ import Button from '../atoms/button'
 interface Props {
   className?: string
 }
+
+const Carrot = ({ className = '' }) => (
+  <span aria-label="Carrot" className={className} role="img">
+    🥕
+  </span>
+)
 
 const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
@@ -77,9 +85,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
               'Downloading update...'
             ) : (
               <>
-                <span aria-label="Carrot" className="text-xl" role="img">
-                  🥕
-                </span>
+                <Carrot className="text-xl" />
                 <span className="font-bold">Buy me a carrot</span>
               </>
             )}
@@ -108,6 +114,11 @@ const UrlBar: React.FC<Props> = ({ className }) => {
               textOverflow: 'ellipsis',
             }}
           >
+            {url === AFFLIATE_URL && (
+              <div className="opacity-50">
+                <FontAwesomeIcon fixedWidth icon={faHeart} /> Affliate
+              </div>
+            )}
             <span className="opacity-50">{parsedUrl.protocol}</span>
             <span className="opacity-50">{parsedUrl.slashes && '//'}</span>
             <span>
@@ -120,6 +131,17 @@ const UrlBar: React.FC<Props> = ({ className }) => {
               {parsedUrl.search}
               {parsedUrl.hash}
             </span>
+            {url === CARROT_URL && (
+              <span className="ml-2">
+                <Carrot />
+                <Carrot />
+                <Carrot />
+                <Carrot />
+                <Carrot />
+                <Carrot />
+                <Carrot />
+              </span>
+            )}
           </div>
         )}
       </div>
