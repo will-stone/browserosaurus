@@ -202,3 +202,5 @@ test('tiles order', () => {
   expect(updatedTiles[4]).toHaveAttribute('aria-label', 'Firefox Tile')
   expect(updatedTiles[5]).toHaveAttribute('aria-label', 'Microsoft Edge Tile')
 })
+
+test.todo('affliate not shown when affliate is installed')
