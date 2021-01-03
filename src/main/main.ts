@@ -313,6 +313,7 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
   // Set as default browser
   else if (clickedSetAsDefaultBrowserButton.match(action)) {
     electron.app.setAsDefaultProtocolClient('http')
+    isEditMode = false
   }
 
   // Update and restart

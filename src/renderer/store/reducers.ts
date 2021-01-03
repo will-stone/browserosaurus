@@ -13,6 +13,7 @@ import {
   clickedEyeButton,
   clickedFavButton,
   clickedOkToAffliateButton,
+  clickedSetAsDefaultBrowserButton,
   clickedSettingsButton,
   clickedSponsorButton,
   clickedUrlBackspaceButton,
@@ -148,6 +149,9 @@ const ui = createReducer<UiState>(
       })
       .addCase(receivedVersion, (state, action) => {
         state.version = action.payload
+      })
+      .addCase(clickedSetAsDefaultBrowserButton, (state) => {
+        state.isEditMode = false
       }),
 )
 
