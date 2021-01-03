@@ -365,7 +365,8 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
       appId,
       isAlt ? '--background' : [],
       isShift && app.privateArg ? ['--new', '--args', app.privateArg] : [],
-      // In order for private/incognito mode to work the URL needs to be passed at last, _after_ the respective app.privateArg flag
+      // In order for private/incognito mode to work the URL needs to be passed
+      // in last, _after_ the respective app.privateArg flag
       processedUrlTemplate,
     ].flat()
 
