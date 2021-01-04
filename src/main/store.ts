@@ -13,7 +13,7 @@ export interface Store {
   firstRun?: boolean
   hotkeys: Hotkeys
   hiddenTileIds: string[]
-  theme: 'light' | 'dark' | 'dracula'
+  theme: 'dark' | 'dracula' | 'light'
   bounds?: Rectangle
 }
 

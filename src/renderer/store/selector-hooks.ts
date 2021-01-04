@@ -51,7 +51,7 @@ export const useNormalTiles = (): ExtendedApp[] => {
   return normalTiles
 }
 
-export const useAffliateApp = (): undefined | ExtendedApp => {
+export const useAffliateApp = (): ExtendedApp | undefined => {
   const polypaneId = 'com.firstversionist.polypane'
   const apps = useApps()
   const isInstalled = apps.find((app) => app.id === polypaneId)

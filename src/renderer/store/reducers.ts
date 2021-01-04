@@ -61,7 +61,7 @@ interface UiState {
   isEditMode: boolean
   url: string
   version: string
-  updateStatus: 'no-update' | 'available' | 'downloaded'
+  updateStatus: 'available' | 'downloaded' | 'no-update'
   isDefaultProtocolClient: boolean
 
   // From main's store
