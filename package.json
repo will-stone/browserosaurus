@@ -232,7 +232,7 @@
     "webpack": "^4.44.1"
   },
   "engines": {
-    "node": ">=14.6.0"
+    "node": ">=15.5.0"
   },
   "productName": "Browserosaurus"
 }
