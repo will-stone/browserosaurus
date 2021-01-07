@@ -48,6 +48,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
   )
   const version = useSelector((state) => state.ui.version)
   const updateStatus = useSelector((state) => state.ui.updateStatus)
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode)
 
   const isEmpty = url.length === 0
   const parsedUrl = Url.parse(url)
@@ -103,7 +104,10 @@ const UrlBar: React.FC<Props> = ({ className }) => {
 
         {!isEditMode && (
           <div
-            className="text-sm tracking-wider"
+            className={clsx(
+              'text-sm tracking-wider text-opacity-50',
+              isDarkMode ? 'text-white' : 'text-black',
+            )}
             style={{
               display: '-webkit-box',
               WebkitLineClamp: 2,
@@ -115,24 +119,34 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             }}
           >
             {url === AFFLIATE_URL && (
-              <div className="opacity-50">
+              <div>
                 <FontAwesomeIcon fixedWidth icon={faHeart} /> Affliate
               </div>
             )}
-            <span className="opacity-50">{parsedUrl.protocol}</span>
-            <span className="opacity-50">{parsedUrl.slashes && '//'}</span>
-            <span>
+            <span>{parsedUrl.protocol}</span>
+            <span>{parsedUrl.slashes && '//'}</span>
+            <span
+              className={clsx(
+                'text-opacity-100',
+                isDarkMode ? 'text-white' : 'text-black',
+              )}
+            >
               {parsedUrl.host || (
                 <FontAwesomeIcon fixedWidth icon={faEllipsisH} />
               )}
             </span>
-            <span className="opacity-50">
+            <span>
               {parsedUrl.pathname}
               {parsedUrl.search}
               {parsedUrl.hash}
             </span>
             {url === CARROT_URL && (
-              <span className="ml-2">
+              <span
+                className={clsx(
+                  'ml-2 text-opacity-100',
+                  isDarkMode ? 'text-white' : 'text-black',
+                )}
+              >
                 <Carrot />
                 <Carrot />
                 <Carrot />
