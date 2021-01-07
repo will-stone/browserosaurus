@@ -1,10 +1,10 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "eslint.enable": true,
   "workbench.colorCustomizations": {
-    "statusBar.background": "#234870",
-    "statusBar.foreground": "#e7e7e7",
-    "statusBarItem.hoverBackground": "#2f6197"
+    "titleBar.activeBackground": "#234870",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#23487099",
+    "titleBar.inactiveForeground": "#e7e7e799"
   },
   "peacock.color": "#234870"
 }
