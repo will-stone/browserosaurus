@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/prefer-regexp-test -- rtk uses .match */
+
 import { AnyAction } from '@reduxjs/toolkit'
 import { execFile } from 'child_process'
 import electron from 'electron'
