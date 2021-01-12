@@ -142,7 +142,7 @@ export const apps: App[] = [
   },
   {
     name: 'Waterfox',
-    id: 'net.waterfox.waterfoxcurrent',
+    id: 'net.waterfox.waterfox',
   },
   {
     name: 'Yandex',
