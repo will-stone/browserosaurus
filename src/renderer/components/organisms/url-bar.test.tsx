@@ -27,9 +27,11 @@ test('url bar', () => {
   })
   expect(screen.getByText(multiElementText(url))).toBeVisible()
   expect(screen.queryByText('https://blah.com')).not.toBeInTheDocument()
-  expect(screen.getByText(protocol)).toHaveClass('opacity-50')
-  expect(screen.getByText(host)).not.toHaveClass('opacity-50')
-  expect(screen.getByText(rest)).toHaveClass('opacity-50')
+
+  const hostHighlightClass = 'text-opacity-100'
+  expect(screen.getByText(protocol)).not.toHaveClass(hostHighlightClass)
+  expect(screen.getByText(host)).toHaveClass(hostHighlightClass)
+  expect(screen.getByText(rest)).not.toHaveClass(hostHighlightClass)
 })
 
 test.todo('Set as default browser')
