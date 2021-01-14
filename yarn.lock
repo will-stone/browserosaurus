@@ -1057,6 +1057,11 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/brave/-/brave-3.0.13.tgz#e5c761b299c5f212e0376c266d98b102bd2ad952"
   integrity sha512-Dvd3INXrmtenzdDRl0QFL5UFiK+Rg/225dYzMevczfTdNBzuA5Z6w8OO8btTrQ7BLez6zl9JaicNhVakusKqsg==
 
+"@browser-logos/chrome-beta@^2.1.10":
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/@browser-logos/chrome-beta/-/chrome-beta-2.1.10.tgz#70eb9def1abeb65888148a4edbaf8d0ff1d85524"
+  integrity sha512-rWDgJCBc0/SOeLvaMyAcgdAga2Dznw5pWMHTWKiQ1btSM/X4my9cdR/8VdrINruuYP4lc5YB0ejuc3RicEt/kg==
+
 "@browser-logos/chrome-canary@^1.1.7":
   version "1.1.9"
   resolved "https://registry.yarnpkg.com/@browser-logos/chrome-canary/-/chrome-canary-1.1.9.tgz#0a5182cc77958fac843982b0f47234d621754557"
