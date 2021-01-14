@@ -51,6 +51,11 @@ export const apps: App[] = [
     privateArg: '--incognito',
   },
   {
+    name: 'Google Chrome Beta',
+    id: 'com.google.Chrome.beta',
+    privateArg: '--incognito',
+  },
+  {
     name: 'Google Chrome Canary',
     id: 'com.google.Chrome.canary',
     privateArg: '--incognito',
