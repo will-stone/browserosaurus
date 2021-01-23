@@ -16,9 +16,10 @@ export function backspaceUrlParse(url: string): string {
     if (search) {
       const searchParameters = new URLSearchParams(search)
       const searchParametersArray: string[] = []
-      searchParameters.forEach((value, key) => {
+      for (const [key, value] of searchParameters.entries()) {
         searchParametersArray.push(`${key}=${value}`)
-      })
+      }
+
       if (searchParametersArray.length > 1) {
         const minusLast = searchParametersArray.slice(0, -1)
         const searchParametersString = minusLast.join('&')

@@ -2520,10 +2520,10 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
-"@will-stone/eslint-config@^1.31.0":
-  version "1.31.0"
-  resolved "https://registry.yarnpkg.com/@will-stone/eslint-config/-/eslint-config-1.31.0.tgz#b6d893a658d5448581a8b9e286fb40512e926066"
-  integrity sha512-ZprMQQoq0bNFenyodwrRzk19m2cguC1bB2hyW5QnjT47IXwvn1LNWAxQc4JMljVjK6vq38K0hOGhw8A5OauDRA==
+"@will-stone/eslint-config@^1.32.0":
+  version "1.32.0"
+  resolved "https://registry.yarnpkg.com/@will-stone/eslint-config/-/eslint-config-1.32.0.tgz#b45e2a811f50907a367ce03f3e74c1f473f74d9c"
+  integrity sha512-m3oxHpZAo17cTuisVSZULVCL+EPbbyEKmzZ+HWCao6YZ8OpKCFrX+H6Cd68axcsz8jLAM32EN9tvgdMe2j9x6g==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^4.13.0"
     "@typescript-eslint/parser" "^4.13.0"
@@ -2538,7 +2538,7 @@
     eslint-plugin-react-hooks "^4.1.2"
     eslint-plugin-simple-import-sort "^5.0.3"
     eslint-plugin-switch-case "^1.1.2"
-    eslint-plugin-unicorn "^26.0.0"
+    eslint-plugin-unicorn "^27.0.0"
 
 "@will-stone/prettier-config@^3.1.1":
   version "3.1.1"
@@ -5016,14 +5016,6 @@ escodegen@^1.14.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-ast-utils@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-ast-utils/-/eslint-ast-utils-1.1.0.tgz#3d58ba557801cfb1c941d68131ee9f8c34bd1586"
-  integrity sha512-otzzTim2/1+lVrlH19EfQQJEhVJSu0zOb9ygb3iapN6UlyaDtyRq4b5U1FuW0v1lRa9Fp/GJyHkSwm6NqABgCA==
-  dependencies:
-    lodash.get "^4.4.2"
-    lodash.zip "^4.2.0"
-
 eslint-config-prettier@^6.13.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-6.13.0.tgz#207d88796b5624e5bb815bbbdfc5891ceb9ebffa"
@@ -5152,21 +5144,20 @@ eslint-plugin-switch-case@^1.1.2:
     lodash.last "^3.0.0"
     lodash.zipobject "^4.0.0"
 
-eslint-plugin-unicorn@^26.0.0:
-  version "26.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-unicorn/-/eslint-plugin-unicorn-26.0.0.tgz#d34b93c6822d37f38fa322dc8490a4cc81d66110"
-  integrity sha512-7eBSBJ2SnPwmhXczn7vfBLKbVIJtgmmv5ohxi4H2gKmZrjswkBXt2ydPKi5wmQTvHUPk564VCBbw1kfrlwCe7Q==
+eslint-plugin-unicorn@^27.0.0:
+  version "27.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-unicorn/-/eslint-plugin-unicorn-27.0.0.tgz#d12436409e399ab75c826bbb17b202846a276e5a"
+  integrity sha512-uUvlueTa4SpkvLjbkqx08JbB0tY6XxOAa8vlfwbTzITfVNy3go3QzPCus49fO5M/mfooOuraIDVkaqan/pLAHg==
   dependencies:
     ci-info "^2.0.0"
     clean-regexp "^1.0.0"
-    eslint-ast-utils "^1.1.0"
     eslint-template-visitor "^2.2.2"
     eslint-utils "^2.1.0"
     import-modules "^2.1.0"
     lodash "^4.17.20"
     pluralize "^8.0.0"
     read-pkg-up "^7.0.1"
-    regexp-tree "^0.1.21"
+    regexp-tree "^0.1.22"
     reserved-words "^0.1.2"
     safe-regex "^2.1.1"
     semver "^7.3.4"
@@ -7875,11 +7866,6 @@ lodash.toarray@^4.4.0:
   resolved "https://registry.yarnpkg.com/lodash.toarray/-/lodash.toarray-4.4.0.tgz#24c4bfcd6b2fba38bfd0594db1179d8e9b656561"
   integrity sha1-JMS/zWsvuji/0FlNsRedjptlZWE=
 
-lodash.zip@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/lodash.zip/-/lodash.zip-4.2.0.tgz#ec6662e4896408ed4ab6c542a3990b72cc080020"
-  integrity sha1-7GZi5IlkCO1KtsVCo5kLcswIACA=
-
 lodash.zipobject@^4.0.0:
   version "4.1.3"
   resolved "https://registry.yarnpkg.com/lodash.zipobject/-/lodash.zipobject-4.1.3.tgz#b399f5aba8ff62a746f6979bf20b214f964dbef8"
@@ -10029,7 +10015,12 @@ regex-not@^1.0.0, regex-not@^1.0.2:
     extend-shallow "^3.0.2"
     safe-regex "^1.1.0"
 
-regexp-tree@^0.1.21, regexp-tree@~0.1.1:
+regexp-tree@^0.1.22:
+  version "0.1.23"
+  resolved "https://registry.yarnpkg.com/regexp-tree/-/regexp-tree-0.1.23.tgz#8a8ce1cc5e971acef62213a7ecdb1f6e18a1f1b2"
+  integrity sha512-+7HWfb4Bvu8Rs2eQTUIpX9I/PlQkYOuTNbRpKLJlQpSgwSkzFYh+pUj0gtvglnOZLKB6YgnIgRuJ2/IlpL48qw==
+
+regexp-tree@~0.1.1:
   version "0.1.21"
   resolved "https://registry.yarnpkg.com/regexp-tree/-/regexp-tree-0.1.21.tgz#55e2246b7f7d36f1b461490942fa780299c400d7"
   integrity sha512-kUUXjX4AnqnR8KRTCrayAo9PzYMRKmVoGgaz2tBuz0MF3g1ZbGebmtW0yFHfFK9CmBjQKeYIgoL22pFLBJY7sw==

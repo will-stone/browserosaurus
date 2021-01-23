@@ -45,8 +45,10 @@ export type RootState = ReturnType<typeof rootReducer>
 // Store
 const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(sendToMainMiddleware()),
+  middleware: (getDefaultMiddleware) => [
+    ...getDefaultMiddleware(),
+    sendToMainMiddleware(),
+  ],
 })
 
 export default store

@@ -11,7 +11,9 @@
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "downlevelIteration": true
   },
   "include": ["src/**/*", "@types/*"]
 }

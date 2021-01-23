@@ -15,7 +15,7 @@ const purgecss = require('@fullhuman/postcss-purgecss')({
     // Capture classes within other delimiters like .block(class="w-1/2") in Pug
     const innerMatches = content.match(/[^<>"'`\s.()]*[^<>"'`\s.():]/gu) || []
 
-    return broadMatches.concat(innerMatches)
+    return [...broadMatches, ...innerMatches]
   },
 })
 
