@@ -16,6 +16,7 @@
   "author": "Will Stone",
   "main": ".webpack/main",
   "scripts": {
+    "doctor": "yarn lint && yarn typecheck && yarn test",
     "icns": "cd ./src/images/icon && ./scripts/png2icns.sh icon.png",
     "lint": "eslint . --ignore-path .gitignore",
     "list-apps": "ts-node ./scripts/listInstalledApps",
@@ -26,7 +27,7 @@
     "package": "rimraf out && yarn package:arm && yarn package:intel",
     "package:arm": "NODE_ENV=production electron-forge package --platform=darwin --arch=arm64",
     "package:intel": "NODE_ENV=production electron-forge package --platform=darwin --arch=x64",
-    "release": "yarn version && yarn package && yarn notarize && yarn make",
+    "release": "yarn version && yarn doctor && yarn package && yarn notarize && yarn make",
     "start": "ENV=DEV ELECTRON_DISABLE_SECURITY_WARNINGS=true electron-forge start",
     "test": "jest",
     "typecheck": "tsc --noEmit --skipLibCheck"
