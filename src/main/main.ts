@@ -374,6 +374,8 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
     ].flat()
 
     execFile('open', openArguments)
+
+    bWindow?.hide()
   }
 
   // Go into edit mode
