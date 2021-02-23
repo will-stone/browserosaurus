@@ -60,8 +60,6 @@ const changedHotkey = cA<{ appId: string; value: string }>(
 const clickedCloseMenuButton = cA('settings/clickedCloseMenuButton')
 const clickedEyeButton = cA<string>('settings/clickedEyeButton')
 const clickedFavButton = cA<string>('settings/clickedFavButton')
-const clickedSponsorButton = cA('settings/clickedSponsorButton')
-const clickedOkToAffliateButton = cA('settings/clickedOkToAffliateButton')
 const clickedCarrotButton = cA('settings/clickedCarrotButton')
 const clickedQuitButton = cA('settings/clickedQuitButton')
 const clickedReloadButton = cA('settings/clickedReloadButton')
@@ -97,9 +95,7 @@ export {
   clickedCloseMenuButton,
   clickedEyeButton,
   clickedFavButton,
-  clickedSponsorButton,
   clickedCarrotButton,
-  clickedOkToAffliateButton,
   clickedSettingsButton,
   clickedUrlBackspaceButton,
   clickedCopyButton,

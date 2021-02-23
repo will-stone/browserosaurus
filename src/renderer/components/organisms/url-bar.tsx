@@ -3,7 +3,6 @@ import { faCog } from '@fortawesome/free-solid-svg-icons/faCog'
 import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
 import { faGift } from '@fortawesome/free-solid-svg-icons/faGift'
-import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons/faSignOutAlt'
 import { faSync } from '@fortawesome/free-solid-svg-icons/faSync'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
@@ -14,7 +13,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import Url from 'url'
 
-import { AFFLIATE_URL, CARROT_URL } from '../../../config/CONSTANTS'
+import { CARROT_URL } from '../../../config/CONSTANTS'
 import { useSelector } from '../../store'
 import {
   clickedCarrotButton,
@@ -28,16 +27,11 @@ import {
   clickedUrlBackspaceButton,
 } from '../../store/actions'
 import Button from '../atoms/button'
+import { Carrot } from '../atoms/carrot'
 
 interface Props {
   className?: string
 }
-
-const Carrot = ({ className = '' }) => (
-  <span aria-label="Carrot" className={className} role="img">
-    🥕
-  </span>
-)
 
 const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
@@ -118,9 +112,9 @@ const UrlBar: React.FC<Props> = ({ className }) => {
               textOverflow: 'ellipsis',
             }}
           >
-            {url === AFFLIATE_URL && (
+            {url === CARROT_URL && (
               <div>
-                <FontAwesomeIcon fixedWidth icon={faHeart} /> Affliate
+                <Carrot /> Contribute
               </div>
             )}
             <span>{parsedUrl.protocol}</span>
@@ -140,22 +134,6 @@ const UrlBar: React.FC<Props> = ({ className }) => {
               {parsedUrl.search}
               {parsedUrl.hash}
             </span>
-            {url === CARROT_URL && (
-              <span
-                className={clsx(
-                  'ml-2 text-opacity-100',
-                  isDarkMode ? 'text-white' : 'text-black',
-                )}
-              >
-                <Carrot />
-                <Carrot />
-                <Carrot />
-                <Carrot />
-                <Carrot />
-                <Carrot />
-                <Carrot />
-              </span>
-            )}
           </div>
         )}
       </div>

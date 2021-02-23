@@ -3,9 +3,9 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import { useSelector } from '../../store'
-import { clickedOkToAffliateButton } from '../../store/actions'
+import { clickedCarrotButton } from '../../store/actions'
 import {
-  useAffliateApp,
+  useAffiliateApp,
   useApps,
   useFavTile,
   useNormalTiles,
@@ -18,7 +18,7 @@ const Tiles: React.FC = () => {
   const normalTiles = useNormalTiles()
   const allApps = useApps()
   const isEditMode = useSelector((state) => state.ui.isEditMode)
-  const affliateApp = useAffliateApp()
+  const affiliateApp = useAffiliateApp()
 
   const tiles = isEditMode ? allApps : normalTiles
 
@@ -33,25 +33,22 @@ const Tiles: React.FC = () => {
           />
         )}
 
-        {/* Affliate */}
-        {affliateApp && ((!isEditMode && affliateApp.isVisible) || isEditMode) && (
-          <Tile
-            app={affliateApp}
-            controls={{ favourite: false, hotkey: false, visibility: true }}
-            onClick={() => {
-              // eslint-disable-next-line no-alert
-              const confirmResult = window.confirm(
-                `Browserosaurus is free and funded by only a few. We have partnered with Polypane and would be grateful if you could check out this innovative browser made for web development by following the affiliate link in your chosen browser`,
-              )
+        {/* Affiliate */}
+        {affiliateApp &&
+          ((!isEditMode && affiliateApp.isVisible) || isEditMode) && (
+            <Tile
+              app={affiliateApp}
+              controls={{ favourite: false, hotkey: false, visibility: true }}
+              onClick={() => {
+                // eslint-disable-next-line no-alert
+                window.alert(
+                  `Browserosaurus is free and funded by only a few. If you find Browserosaurus useful, please consider a contribution by following the Buy Me A Coffee link in your chosen browser.`,
+                )
 
-              if (confirmResult) {
-                dispatch(clickedOkToAffliateButton())
-              }
-            }}
-          >
-            <div className="text-xs opacity-50">Affliate</div>
-          </Tile>
-        )}
+                dispatch(clickedCarrotButton())
+              }}
+            />
+          )}
 
         {/* Rest of the tiles */}
         {tiles.map((app, index) => {

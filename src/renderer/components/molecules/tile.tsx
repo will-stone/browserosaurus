@@ -17,6 +17,7 @@ import {
 import { ExtendedApp } from '../../store/selector-hooks'
 import AppButton from '../atoms/app-button'
 import AppLogo from '../atoms/app-logo'
+import { Carrot } from '../atoms/carrot'
 import Kbd from '../atoms/kbd'
 
 interface Props {
@@ -25,7 +26,7 @@ interface Props {
   controls: { favourite: boolean; hotkey: boolean; visibility: boolean }
 }
 
-const Tile: React.FC<Props> = ({ app, onClick, controls, children }) => {
+const Tile: React.FC<Props> = ({ app, onClick, controls }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
   const isEditMode = useSelector((state) => state.ui.isEditMode)
@@ -49,7 +50,14 @@ const Tile: React.FC<Props> = ({ app, onClick, controls, children }) => {
               )
         }
       >
-        <AppLogo app={app} wiggle={isEditMode} />
+        {
+          // TODO what can be done so this isn't hardcoded?
+          app.id === 'carrot' ? (
+            <Carrot className="text-3xl" />
+          ) : (
+            <AppLogo app={app} wiggle={isEditMode} />
+          )
+        }
 
         {isEditMode && controls.hotkey && (
           <div
@@ -90,7 +98,7 @@ const Tile: React.FC<Props> = ({ app, onClick, controls, children }) => {
           </div>
         )}
 
-        {!isEditMode && !children && (
+        {!isEditMode && controls.hotkey && (
           <Kbd className="flex-shrink-0 flex justify-center items-center space-x-2">
             {app.isFav && (
               <FontAwesomeIcon
@@ -103,14 +111,14 @@ const Tile: React.FC<Props> = ({ app, onClick, controls, children }) => {
 
             {
               // Prevents box collapse when hotkey not set
-              !app.hotkey && !app.hotkey && (
-                <span className="opacity-0 w-0">.</span>
-              )
+              !app.hotkey && <span className="opacity-0 w-0">.</span>
             }
           </Kbd>
         )}
 
-        {children}
+        {!controls.hotkey && (
+          <div className="text-xs opacity-50">{app.name}</div>
+        )}
       </AppButton>
 
       {isEditMode && controls.favourite && (
