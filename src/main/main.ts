@@ -158,8 +158,6 @@ electron.app.on('ready', async () => {
 
   await bWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
-  // TODO [electron@>=12] visibleOnFullScreen not currently working on Electron 11, need to wait for 12:
-  // https://github.com/electron/electron/issues/10078#issuecomment-747901576
   bWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
 
   bWindow.on('hide', () => {
