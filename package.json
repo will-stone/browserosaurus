@@ -27,7 +27,7 @@
     "package": "rimraf out && npm run package:arm && npm run package:intel",
     "package:arm": "NODE_ENV=production electron-forge package --platform=darwin --arch=arm64",
     "package:intel": "NODE_ENV=production electron-forge package --platform=darwin --arch=x64",
-    "release": "npm version && npm run doctor && npm run package && npm run notarize && npm run make",
+    "release": "yarn version && npm run doctor && npm run package && npm run notarize && npm run make",
     "start": "ENV=DEV ELECTRON_DISABLE_SECURITY_WARNINGS=true electron-forge start",
     "test": "jest",
     "typecheck": "tsc --noEmit --skipLibCheck",
