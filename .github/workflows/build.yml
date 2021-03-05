@@ -15,8 +15,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 15.5.x
-      - run: yarn install --network-timeout 300000
-      - run: yarn lint
-      - run: yarn typecheck
-      - run: yarn test
-      - run: yarn package
+      - run: npm install --no-audit
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run test
+      - run: npm run package

@@ -38,13 +38,13 @@ cd browserosaurus
 Install dependencies:
 
 ```
-yarn
+npm i
 ```
 
 Run Browserosaurus in dev mode:
 
 ```
-yarn start
+npm start
 ```
 
 ### Finding bundle identifier for an app
@@ -62,7 +62,7 @@ https://github.com/alrra/browser-logos
 ### Make icon.icns
 
 To build an icns file (app icon) from `src/images/icon/icon.png`, simply run
-`yarn run icns`.
+`npm run icns`.
 
 ## Publishing
 
@@ -70,7 +70,7 @@ App is published on GitHub, the following command will prompt to bump version
 number, package, notarize, and make installers:
 
 ```
-yarn release
+npm run release
 ```
 
 The dmg and zip files can then be added to a GitHub release.
