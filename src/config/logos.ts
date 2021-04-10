@@ -69,7 +69,7 @@ export const logos: { [key: string]: string } = {
   'org.torproject.torbrowser': tor,
   'com.vivaldi.Vivaldi': vivaldi,
   'com.vivaldi.Vivaldi.snapshot': vivaldiSnapshot,
-  'net.waterfox.waterfoxcurrent': waterfox,
+  'net.waterfox.waterfox': waterfox,
   'ru.yandex.desktop.yandex-browser': yandex,
   'com.naver.Whale': naverWhale,
   'com.gab.Dissenter': dissenter,
