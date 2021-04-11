@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -23,7 +22,7 @@ const Tiles: React.FC = () => {
   const tiles = isEditMode ? allApps : normalTiles
 
   return (
-    <div className={clsx('relative flex-grow w-full', 'overflow-y-scroll')}>
+    <div className="relative flex-grow w-full overflow-y-scroll mr-1">
       <div className="flex justify-start items-center flex-wrap">
         {/* Favourite */}
         {!isEditMode && favTile && (
