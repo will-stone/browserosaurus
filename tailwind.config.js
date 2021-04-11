@@ -1,11 +1,7 @@
 const plugin = require('tailwindcss/plugin')
 
 module.exports = {
-  future: {
-    removeDeprecatedGapUtilities: true,
-    purgeLayersByDefault: true,
-  },
-  purge: false,
+  purge: ['./src/**/*.tsx', './src/**/*.html'],
   theme: {
     fontSize: {
       'xxs': '.6rem',
