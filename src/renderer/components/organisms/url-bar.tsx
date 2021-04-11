@@ -8,7 +8,6 @@ import { faSync } from '@fortawesome/free-solid-svg-icons/faSync'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
-import { css } from 'emotion'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import Url from 'url'
@@ -55,10 +54,8 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         'w-full px-4',
         'flex items-center space-x-4',
         'bg-black bg-opacity-10',
-        css({
-          height: '74px',
-        }),
       )}
+      style={{ height: '74px' }}
     >
       <div
         className={clsx(
