@@ -1,16 +1,15 @@
-import { act, render, screen } from '@testing-library/react'
+import { act, MatcherFunction, render, screen } from '@testing-library/react'
 import electron from 'electron'
 import React from 'react'
 
 import { URL_UPDATED } from '../../../main/events'
 import Wrapper from '../_bootstrap'
 
-const multiElementText = (text: string) => (_: string, node: HTMLElement) => {
-  const hasText = (n: HTMLElement) => Boolean(n.textContent?.startsWith(text))
-  const nodeHasText = hasText(node)
+const multiElementText = (text: string): MatcherFunction => (_, node) => {
+  const nodeHasText = Boolean(node?.textContent?.startsWith(text))
   const childrenDontHaveText = [
-    ...((node.children as unknown) as HTMLElement[]),
-  ].every((child) => !hasText(child))
+    ...((node?.children as unknown) as HTMLElement[]),
+  ].every((child) => Boolean(child?.textContent?.startsWith(text)))
 
   return nodeHasText && childrenDontHaveText
 }
