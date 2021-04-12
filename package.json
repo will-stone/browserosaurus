@@ -32,7 +32,7 @@
     "start": "ENV=DEV ELECTRON_DISABLE_SECURITY_WARNINGS=true electron-forge start",
     "test": "jest",
     "typecheck": "tsc --noEmit --skipLibCheck",
-    "postinstall": "husky install"
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.{css,json,md}": [
