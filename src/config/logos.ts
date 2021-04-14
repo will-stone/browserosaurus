@@ -5,6 +5,7 @@ import braveNightly from '@browser-logos/brave-nightly/brave-nightly_128x128.png
 import chrome from '@browser-logos/chrome/chrome_128x128.png'
 import chromeBeta from '@browser-logos/chrome-beta/chrome-beta_128x128.png'
 import chromeCanary from '@browser-logos/chrome-canary/chrome-canary_128x128.png'
+import chromeDev from '@browser-logos/chrome-dev/chrome-dev_128x128.png'
 import chromium from '@browser-logos/chromium/chromium_128x128.png'
 import edge from '@browser-logos/edge/edge_128x128.png'
 import edgeBeta from '@browser-logos/edge-beta/edge-beta_128x128.png'
@@ -49,6 +50,7 @@ export const logos: { [key: string]: string } = {
   'com.google.Chrome': chrome,
   'com.google.Chrome.beta': chromeBeta,
   'com.google.Chrome.canary': chromeCanary,
+  'com.google.Chrome.dev': chromeDev,
   'de.iridiumbrowser': iridium,
   'com.maxthon.mac.Maxthon': maxthon,
   'com.microsoft.edgemac': edge,
