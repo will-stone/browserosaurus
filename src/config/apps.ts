@@ -61,6 +61,11 @@ export const apps: App[] = [
     privateArg: '--incognito',
   },
   {
+    name: 'Google Chrome Dev',
+    id: 'com.google.Chrome.dev',
+    privateArg: '--incognito',
+  },
+  {
     name: 'Iridium',
     id: 'de.iridiumbrowser',
   },

@@ -134,6 +134,7 @@
     "@browser-logos/chrome": "^1.0.18",
     "@browser-logos/chrome-beta": "^2.1.10",
     "@browser-logos/chrome-canary": "^1.1.7",
+    "@browser-logos/chrome-dev": "^2.1.11",
     "@browser-logos/chromium": "^1.0.6",
     "@browser-logos/edge": "^2.0.5",
     "@browser-logos/edge-beta": "^2.0.2",
