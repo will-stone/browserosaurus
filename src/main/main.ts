@@ -355,7 +355,7 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
 
   // Open app
   else if (pressedAppKey.match(action) || clickedTile.match(action)) {
-    const { appId, url, isAlt, isShift } = action.payload
+    const { appId, url = '', isAlt, isShift } = action.payload
 
     // Bail if app's bundle id is missing
     if (!appId) return
@@ -365,10 +365,9 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
     // Bail if app cannot be found in config (this, in theory, can't happen)
     if (!app) return
 
-    const urlString = url || ''
     const processedUrlTemplate = app.urlTemplate
-      ? app.urlTemplate.replace(/\{\{URL\}\}/u, urlString)
-      : urlString
+      ? app.urlTemplate.replace(/\{\{URL\}\}/u, url)
+      : url
 
     const openArguments: string[] = [
       '-b',
@@ -378,7 +377,9 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
       // In order for private/incognito mode to work the URL needs to be passed
       // in last, _after_ the respective app.privateArg flag
       processedUrlTemplate,
-    ].flat()
+    ]
+      .filter(Boolean)
+      .flat()
 
     execFile('open', openArguments)
 
