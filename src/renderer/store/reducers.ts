@@ -74,7 +74,7 @@ const ui = createReducer<UiState>(
     version: '',
     updateStatus: 'no-update',
     isDefaultProtocolClient: true,
-    url: CARROT_URL,
+    url: '',
 
     // From main's store
     fav: '',

@@ -123,7 +123,11 @@ const UrlBar: React.FC<Props> = ({ className }) => {
               )}
             >
               {parsedUrl.host || (
-                <FontAwesomeIcon fixedWidth icon={faEllipsisH} />
+                <FontAwesomeIcon
+                  className="opacity-30"
+                  fixedWidth
+                  icon={faEllipsisH}
+                />
               )}
             </span>
             <span>
