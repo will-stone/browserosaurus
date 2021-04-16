@@ -69,6 +69,10 @@ if (store.get('firstRun')) {
 
 // Prevents garbage collection
 let bWindow: electron.BrowserWindow | undefined
+// There appears to be some kind of race condition where the window is created
+// but not yet ready, so the sent URL on startup gets lost. This tracks the
+// ready-to-show event.
+let bWindowIsReadyToShow = false
 let tray: electron.Tray | undefined
 let isEditMode = false
 
@@ -161,6 +165,10 @@ electron.app.on('ready', async () => {
 
   bWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
 
+  bWindow.on('ready-to-show', () => {
+    bWindowIsReadyToShow = true
+  })
+
   bWindow.on('hide', () => {
     electron.app.hide()
   })
@@ -248,7 +256,7 @@ electron.app.on('before-quit', () => {
 })
 
 async function sendUrl(url: string) {
-  if (bWindow) {
+  if (bWindow && bWindowIsReadyToShow) {
     isEditMode = false
     bWindow.webContents.send(URL_UPDATED, url)
     showBWindow()
