@@ -25,7 +25,7 @@
     "make:intel": "electron-forge make --skip-package --arch=x64",
     "notarize": "ts-node ./scripts/notarize.ts",
     "prepackage": "rimraf out",
-    "package": "concurrently \"npm:package:*\" --kill-others-on-fail",
+    "package": "npm run package:arm && npm run package:intel",
     "package:arm": "NODE_ENV=production electron-forge package --platform=darwin --arch=arm64",
     "package:intel": "NODE_ENV=production electron-forge package --platform=darwin --arch=x64",
     "release": "bump --commit && npm run doctor && npm run package && npm run notarize && npm run make",
