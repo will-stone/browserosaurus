@@ -23,6 +23,6 @@ that is what Open Source is all about. Make something for your own personality,
 strip out the stuff you don’t like, have fun with your own brand (I once
 suggested the name Browseratops to someone who wanted to make a Linux port… they
 didn’t, by the way, in case you fancied trying that too). Be sure to tell me how
-you get on; I'm always interested to know of new projects.
+you get on; I'm always interested to hear of new projects.
 
 😘
