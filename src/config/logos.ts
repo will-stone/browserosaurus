@@ -37,8 +37,11 @@ import pocket from './logos/pocket.png'
 import polypane from './logos/polypane.png'
 import spotify from './logos/spotify.png'
 import waterfox from './logos/waterfox.png'
+import openin from './logos/OpenIn.png'
 
 export const logos: { [key: string]: string } = {
+  'app.loshadki.OpenIn-setapp': openin,
+  'app.loshadki.OpenIn': openin,
   'com.brave.Browser': brave,
   'com.brave.Browser.beta': braveBeta,
   'com.brave.Browser.dev': braveDev,
