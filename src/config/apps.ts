@@ -4,18 +4,22 @@ export const apps: App[] = [
   {
     name: 'Brave',
     id: 'com.brave.Browser',
+    privateArg: '--incognito',
   },
   {
     name: 'Brave Beta',
     id: 'com.brave.Browser.beta',
+    privateArg: '--incognito',
   },
   {
     name: 'Brave Dev',
     id: 'com.brave.Browser.dev',
+    privateArg: '--incognito',
   },
   {
     name: 'Brave Nightly',
     id: 'com.brave.Browser.nightly',
+    privateArg: '--incognito',
   },
   {
     name: 'Chromium',
@@ -96,6 +100,14 @@ export const apps: App[] = [
   {
     name: 'NAVER Whale',
     id: 'com.naver.Whale',
+  },
+  {
+    name: 'OpenIn',
+    id: 'app.loshadki.OpenIn',
+  },
+  {
+    name: 'OpenIn SetApp',
+    id: 'app.loshadki.OpenIn-setapp',
   },
   {
     name: 'Opera',
