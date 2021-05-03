@@ -102,14 +102,6 @@ export const apps: App[] = [
     id: 'com.naver.Whale',
   },
   {
-    name: 'OpenIn',
-    id: 'app.loshadki.OpenIn',
-  },
-  {
-    name: 'OpenIn SetApp',
-    id: 'app.loshadki.OpenIn-setapp',
-  },
-  {
     name: 'Opera',
     id: 'com.operasoftware.Opera',
   },
