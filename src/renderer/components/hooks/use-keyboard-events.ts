@@ -15,31 +15,32 @@ const keyboardEvent = (event: KeyboardEvent): AppThunk => (
 ) => {
   const { url, isEditMode, hotkeys, fav } = getState().ui
 
-  // Using `fromCharCode` allows detection to be keyboard layout agnostic
-  const stringFromCharCode = String.fromCharCode(event.keyCode).toLowerCase()
+  const virtualKey = event.key.toLowerCase()
+  // Not needed at the moment but useful to know
+  // const physicalKey = event.code.toLowerCase()
 
   // Favourite hotkeys
   // Enter and space can cause previously focussed items to activate so are
   // therefore always disabled.
-  if (event.code === 'Space' || event.code === 'Enter') {
+  if (virtualKey === ' ' || virtualKey === 'enter') {
     event.preventDefault()
   }
 
   // Escape
-  if (event.code === 'Escape') {
+  if (virtualKey === 'escape') {
     dispatch(pressedEscapeKey())
   }
 
   // Only capture the following when not in edit mode
   if (!isEditMode) {
     // Backspace
-    if (event.key === 'Backspace') {
+    if (virtualKey === 'backspace') {
       event.preventDefault()
       dispatch(pressedBackspaceKey())
     }
 
     // ⌘C
-    else if (event.metaKey && event.key.toLowerCase() === 'c') {
+    else if (event.metaKey && virtualKey === 'c') {
       event.preventDefault()
       if (url) {
         dispatch(pressedCopyKey(url))
@@ -47,9 +48,9 @@ const keyboardEvent = (event: KeyboardEvent): AppThunk => (
     }
 
     // App hotkey
-    else if (!event.metaKey && /^([a-z0-9])$/u.test(stringFromCharCode)) {
+    else if (!event.metaKey && /^([a-z0-9])$/u.test(virtualKey)) {
       event.preventDefault()
-      const appId = hotkeys[stringFromCharCode]
+      const appId = hotkeys[virtualKey]
       if (appId) {
         dispatch(
           pressedAppKey({
@@ -63,7 +64,7 @@ const keyboardEvent = (event: KeyboardEvent): AppThunk => (
     }
 
     // Favourite hotkeys
-    else if (event.code === 'Space' || event.code === 'Enter') {
+    else if (virtualKey === ' ' || virtualKey === 'enter') {
       event.preventDefault()
       dispatch(
         pressedAppKey({
