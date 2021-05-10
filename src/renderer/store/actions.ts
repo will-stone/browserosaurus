@@ -38,14 +38,15 @@ const receivedDefaultProtocolClientStatus = cA<boolean>(
 // -----------------------------------------------------------------------------
 // Keyboard
 // -----------------------------------------------------------------------------
-const keydown = cA<{
-  isAlt: boolean
-  isCmd: boolean
-  isShift: boolean
-  code: string
-  key: string
-  keyCode: number
-}>('keyboard/keydown')
+const keydown =
+  cA<{
+    isAlt: boolean
+    isCmd: boolean
+    isShift: boolean
+    code: string
+    key: string
+    keyCode: number
+  }>('keyboard/keydown')
 const pressedEscapeKey = cA('keyboard/escapeKey')
 const pressedBackspaceKey = cA('keyboard/backspaceKey')
 const pressedCopyKey = cA<string>('keyboard/copyKey')

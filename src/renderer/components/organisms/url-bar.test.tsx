@@ -5,14 +5,16 @@ import React from 'react'
 import { URL_UPDATED } from '../../../main/events'
 import Wrapper from '../_bootstrap'
 
-const multiElementText = (text: string): MatcherFunction => (_, node) => {
-  const nodeHasText = Boolean(node?.textContent?.startsWith(text))
-  const childrenDontHaveText = [
-    ...((node?.children as unknown) as HTMLElement[]),
-  ].every((child) => Boolean(child?.textContent?.startsWith(text)))
+const multiElementText =
+  (text: string): MatcherFunction =>
+  (_, node) => {
+    const nodeHasText = Boolean(node?.textContent?.startsWith(text))
+    const childrenDontHaveText = [
+      ...(node?.children as unknown as HTMLElement[]),
+    ].every((child) => Boolean(child?.textContent?.startsWith(text)))
 
-  return nodeHasText && childrenDontHaveText
-}
+    return nodeHasText && childrenDontHaveText
+  }
 
 test('url bar', () => {
   render(<Wrapper />)
