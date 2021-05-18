@@ -203,7 +203,7 @@
     "@will-stone/prettier-config": "^4.0.0",
     "concurrently": "^6.0.1",
     "copy-webpack-plugin": "^6.0.3",
-    "css-loader": "^4.2.1",
+    "css-loader": "^5.2.4",
     "dotenv": "^8.2.0",
     "electron": "^13.0.0-beta.27",
     "eslint": "^7.24.0",
