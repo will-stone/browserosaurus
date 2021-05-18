@@ -65,6 +65,7 @@ electron.app.commandLine.appendArgument('--enable-features=Metal')
 if (store.get('firstRun')) {
   // Prompt to set as default browser
   electron.app.setAsDefaultProtocolClient('http')
+  electron.app.setAsDefaultProtocolClient('https')
 }
 
 // Prevents garbage collection
@@ -322,6 +323,7 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
   // Set as default browser
   else if (clickedSetAsDefaultBrowserButton.match(action)) {
     electron.app.setAsDefaultProtocolClient('http')
+    electron.app.setAsDefaultProtocolClient('https')
     isEditMode = false
   }
 
