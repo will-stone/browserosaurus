@@ -161,7 +161,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@reduxjs/toolkit": "^1.5.1",
-    "app-exists": "^2.1.0",
+    "app-exists": "^2.1.1",
     "clsx": "^1.1.1",
     "electron-is-dev": "^1.1.0",
     "electron-notarize": "^1.0.0",
