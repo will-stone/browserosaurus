@@ -32,11 +32,6 @@ module.exports = [
   },
   {
     test: /\.css$/u,
-    use: [
-      'style-loader',
-      MiniCssExtractPlugin.loader,
-      'css-loader',
-      'postcss-loader',
-    ],
+    use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
   },
 ]
