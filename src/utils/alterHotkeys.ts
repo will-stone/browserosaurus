@@ -8,10 +8,13 @@ export function alterHotkeys(
   hotkey: string,
 ): Hotkeys {
   const lowerHotkey = hotkey.toLowerCase()
+
   // Do not alter original hotkeys object
   const hotkeysCopy = { ...hotkeys }
+
   // Find the previous key for this app
   const oldKey = getHotkeyByAppId(hotkeysCopy, appId)
+
   // If the new hotkey is empty, it's a deletion and so remove the current entry
   if (!lowerHotkey) {
     delete hotkeysCopy[oldKey || '']
