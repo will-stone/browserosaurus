@@ -68,6 +68,7 @@ const clickedSetAsDefaultBrowserButton = cA(
   'settings/clickedSetAsDefaultBrowserButton',
 )
 const clickedUpdateRestartButton = cA('settings/clickedUpdateRestartButton')
+const clickedBWebsiteButton = cA('settings/clickedBWebsiteButton')
 
 // -----------------------------------------------------------------------------
 // URL bar
@@ -79,6 +80,7 @@ const clickedCopyButton = cA<string>('urlBar/clickedCopyButton')
 export {
   appStarted,
   changedHotkey,
+  clickedBWebsiteButton,
   clickedCarrotButton,
   clickedCloseMenuButton,
   clickedCopyButton,

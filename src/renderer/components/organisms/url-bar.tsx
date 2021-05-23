@@ -15,7 +15,7 @@ import Url from 'url'
 import { CARROT_URL } from '../../../config/CONSTANTS'
 import { useSelector } from '../../store'
 import {
-  clickedCarrotButton,
+  clickedBWebsiteButton,
   clickedCloseMenuButton,
   clickedCopyButton,
   clickedQuitButton,
@@ -68,20 +68,20 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       >
         {isEditMode && (
           <Button
-            aria-label="Version"
-            className="space-x-2"
-            onClick={() => dispatch(clickedCarrotButton())}
-            title={version}
+            aria-label="Select Browserosaurus website"
+            className="space-x-2 flex flex-col !items-start"
+            onClick={() => dispatch(clickedBWebsiteButton())}
           >
-            {isEditMode && updateStatus === 'available' ? (
-              'Downloading update...'
-            ) : (
-              <>
-                <Carrot className="text-xl" />
-                <span className="font-bold">Buy me a carrot</span>
-              </>
-            )}
+            {isEditMode && updateStatus === 'available'
+              ? 'Downloading update...'
+              : 'wstone.io/browserosaurus'}
           </Button>
+        )}
+
+        {isEditMode && (
+          <span className="absolute bottom-0 left-1 text-xxs opacity-30">
+            {version}
+          </span>
         )}
 
         {!isDefaultProtocolClient && isEditMode && (

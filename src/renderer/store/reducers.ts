@@ -1,13 +1,14 @@
 import { createReducer } from '@reduxjs/toolkit'
 import xor from 'lodash/xor'
 
-import { CARROT_URL } from '../../config/CONSTANTS'
+import { B_URL, CARROT_URL } from '../../config/CONSTANTS'
 import { App } from '../../config/types'
 import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'
 import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 import {
   changedHotkey,
+  clickedBWebsiteButton,
   clickedCarrotButton,
   clickedCloseMenuButton,
   clickedEyeButton,
@@ -110,6 +111,10 @@ const ui = createReducer<UiState>(
       })
       .addCase(clickedCarrotButton, (state) => {
         state.url = CARROT_URL
+        state.isEditMode = false
+      })
+      .addCase(clickedBWebsiteButton, (state) => {
+        state.url = B_URL
         state.isEditMode = false
       })
       .addCase(pressedEscapeKey, (state) => {

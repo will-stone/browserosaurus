@@ -13,6 +13,7 @@ import { apps } from '../config/apps'
 import {
   appStarted,
   changedHotkey,
+  clickedBWebsiteButton,
   clickedCarrotButton,
   clickedCloseMenuButton,
   clickedCopyButton,
@@ -400,6 +401,11 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
 
   // Click carrot
   else if (clickedCarrotButton.match(action)) {
+    isEditMode = false
+  }
+
+  // Click B's website button in settings
+  else if (clickedBWebsiteButton.match(action)) {
     isEditMode = false
   }
 
