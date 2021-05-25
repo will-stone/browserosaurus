@@ -157,8 +157,6 @@ electron.app.on('ready', async () => {
     hasShadow: true,
     vibrancy: 'tooltip',
     visualEffectState: 'active',
-    // TODO required until this bug is fixed: https://github.com/electron/electron/issues/27080
-    // Looks to be broken again in Electron 12: https://github.com/electron/electron/issues/27061
     titleBarStyle: 'hidden',
     alwaysOnTop: true,
   })
