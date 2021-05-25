@@ -69,7 +69,6 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         {isEditMode && (
           <Button
             aria-label="Select Browserosaurus website"
-            className="space-x-2 flex flex-col !items-start"
             onClick={() => dispatch(clickedBWebsiteButton())}
           >
             {isEditMode && updateStatus === 'available'
@@ -82,15 +81,6 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           <span className="absolute bottom-0 left-1 text-xxs opacity-30">
             {version}
           </span>
-        )}
-
-        {!isDefaultProtocolClient && isEditMode && (
-          <Button
-            aria-label="Set as default browser"
-            onClick={() => dispatch(clickedSetAsDefaultBrowserButton())}
-          >
-            Set As Default Browser
-          </Button>
         )}
 
         {!isEditMode && (
@@ -139,7 +129,16 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         )}
       </div>
 
-      <div className="flex-shrink-0 space-x-2">
+      <div className="flex-shrink-0 space-x-2 flex items-center">
+        {!isDefaultProtocolClient && isEditMode && (
+          <Button
+            aria-label="Set as default browser"
+            onClick={() => dispatch(clickedSetAsDefaultBrowserButton())}
+          >
+            Set As Default Browser
+          </Button>
+        )}
+
         {isEditMode && updateStatus === 'downloaded' && (
           <Button
             aria-label="Restart and update"
