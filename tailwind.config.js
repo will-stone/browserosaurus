@@ -17,8 +17,7 @@ module.exports = {
       '6xl': '4rem',
     },
     fontFamily: {
-      sans: 'SF Pro Text, Helvetica, Arial, sans-serif',
-      rounded: 'SF Pro Rounded, Helvetica, Arial, sans-serif',
+      sans: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont',
     },
     extend: {
       opacity: { 10: '0.1' },
