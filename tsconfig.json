@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "downlevelIteration": true,
     "esModuleInterop": true,
     "jsx": "react",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "commonjs",
     "noImplicitAny": true,
     "outDir": "dist",
@@ -11,9 +13,7 @@
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "downlevelIteration": true
+    "strict": true
   },
   "include": ["src/**/*", "@types/*"]
 }
