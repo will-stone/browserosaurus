@@ -19,7 +19,7 @@ const AppButton: React.FC<Props> = ({
       key={app.id}
       aria-label={`${app.name} Tile`}
       className={clsx(
-        'w-28 p-8',
+        'w-full p-8',
         'flex flex-col items-center justify-center max-h-full',
         'focus:outline-none',
         'space-y-2',

@@ -33,7 +33,7 @@ const Tile: React.FC<Props> = ({ app, onClick, controls }) => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode)
 
   return (
-    <div className={clsx('relative', 'w-28')}>
+    <div className="relative w-32">
       <AppButton
         app={app}
         disabled={isEditMode}
@@ -53,7 +53,7 @@ const Tile: React.FC<Props> = ({ app, onClick, controls }) => {
         {
           // TODO what can be done so this isn't hardcoded?
           app.id === 'carrot' ? (
-            <Carrot className="text-3xl" />
+            <Carrot className="text-5xl" />
           ) : (
             <AppLogo app={app} wiggle={isEditMode} />
           )
@@ -62,19 +62,18 @@ const Tile: React.FC<Props> = ({ app, onClick, controls }) => {
         {isEditMode && controls.hotkey && (
           <div
             className={clsx(
-              'flex-shrink-0 flex justify-center items-center space-x-1',
+              'flex-shrink-0 flex justify-center items-center space-x-2',
             )}
           >
             <FontAwesomeIcon
               className="opacity-50"
               fixedWidth
               icon={faKeyboard}
-              size="xs"
             />
             <input
               aria-label={`${app.name} hotkey`}
               className={clsx(
-                'text-xs uppercase focus:outline-none min-w-0 w-full text-center rounded',
+                'uppercase focus:outline-none min-w-0 w-full text-center rounded',
                 'shadow bg-opacity-50',
                 isDarkMode ? 'text-white bg-black' : 'text-black bg-white',
               )}
@@ -116,9 +115,7 @@ const Tile: React.FC<Props> = ({ app, onClick, controls }) => {
           </Kbd>
         )}
 
-        {!controls.hotkey && (
-          <div className="text-xs opacity-50">{app.name}</div>
-        )}
+        {!controls.hotkey && <div className="opacity-50">{app.name}</div>}
       </AppButton>
 
       {isEditMode && controls.favourite && (
@@ -127,7 +124,7 @@ const Tile: React.FC<Props> = ({ app, onClick, controls }) => {
           className={clsx(
             'absolute top-5 left-5',
             'flex justify-center items-center',
-            'focus:outline-none shadow rounded-full h-6 w-6',
+            'focus:outline-none shadow rounded-full h-8 w-8',
             isDarkMode ? 'bg-black' : 'bg-white',
             'bg-opacity-50',
             !app.isFav && 'text-sm',
@@ -139,7 +136,6 @@ const Tile: React.FC<Props> = ({ app, onClick, controls }) => {
             className={clsx(!app.isFav && 'opacity-25')}
             fixedWidth
             icon={faStar}
-            size="xs"
           />
         </button>
       )}
@@ -149,7 +145,7 @@ const Tile: React.FC<Props> = ({ app, onClick, controls }) => {
           className={clsx(
             'absolute top-5 right-5',
             'flex justify-center items-center',
-            'focus:outline-none shadow rounded-full h-6 w-6',
+            'focus:outline-none shadow rounded-full h-8 w-8',
             isDarkMode ? 'bg-black' : 'bg-white',
             'bg-opacity-50',
             !app.isVisible && 'text-sm',
@@ -161,7 +157,6 @@ const Tile: React.FC<Props> = ({ app, onClick, controls }) => {
             className={clsx(!app.isVisible && 'opacity-25')}
             fixedWidth
             icon={app.isVisible ? faEye : faEyeSlash}
-            size="xs"
           />
         </button>
       )}

@@ -63,7 +63,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           'flex items-center justify-between',
           'overflow-hidden',
           'pr-1',
-          'text-sm tracking-wider',
+          'tracking-wider',
         )}
       >
         {isEditMode && (
@@ -86,12 +86,12 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         {!isEditMode && (
           <div
             className={clsx(
-              'text-sm tracking-wider text-opacity-50',
+              'tracking-wider text-opacity-50',
               isDarkMode ? 'text-white' : 'text-black',
             )}
             style={{
               display: '-webkit-box',
-              WebkitLineClamp: 2,
+              WebkitLineClamp: 3,
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
               overflowWrap: 'break-word',
