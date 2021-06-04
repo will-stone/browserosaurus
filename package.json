@@ -206,7 +206,7 @@
     "copy-webpack-plugin": "^6.0.3",
     "css-loader": "^5.2.4",
     "dotenv": "^8.2.0",
-    "electron": "^13.0.0",
+    "electron": "^13.1.1",
     "eslint": "^7.27.0",
     "fork-ts-checker-webpack-plugin": "^5.2.0",
     "husky": "^6.0.0",
