@@ -15,7 +15,6 @@ import {
   clickedTile,
 } from '../../store/actions'
 import { ExtendedApp } from '../../store/selector-hooks'
-import AppButton from '../atoms/app-button'
 import AppLogo from '../atoms/app-logo'
 import { Carrot } from '../atoms/carrot'
 import Kbd from '../atoms/kbd'
@@ -34,11 +33,19 @@ const Tile: React.FC<Props> = ({ app, onClick, controls }) => {
 
   return (
     <div className="relative w-32">
-      <AppButton
-        app={app}
+      <button
+        key={app.id}
+        aria-label={`${app.name} Tile`}
+        className={clsx(
+          'w-full p-8',
+          'flex flex-col items-center justify-center max-h-full',
+          'focus:outline-none',
+          'space-y-2',
+          !isEditMode && 'hover:bg-black hover:bg-opacity-10',
+        )}
         disabled={isEditMode}
         onClick={(event) =>
-          onClick
+          !isEditMode && onClick
             ? onClick(event)
             : dispatch(
                 clickedTile({
@@ -49,11 +56,13 @@ const Tile: React.FC<Props> = ({ app, onClick, controls }) => {
                 }),
               )
         }
+        title={app.name}
+        type="button"
       >
         {
           // TODO what can be done so this isn't hardcoded?
           app.id === 'carrot' ? (
-            <Carrot className="text-5xl" />
+            <Carrot className="text-4xl" />
           ) : (
             <AppLogo app={app} wiggle={isEditMode} />
           )
@@ -116,7 +125,7 @@ const Tile: React.FC<Props> = ({ app, onClick, controls }) => {
         )}
 
         {!controls.hotkey && <div className="opacity-50">{app.name}</div>}
-      </AppButton>
+      </button>
 
       {isEditMode && controls.favourite && (
         <button
