@@ -14,7 +14,6 @@ import {
   appStarted,
   changedHotkey,
   clickedBWebsiteButton,
-  clickedCarrotButton,
   clickedCloseMenuButton,
   clickedCopyButton,
   clickedEyeButton,
@@ -396,11 +395,6 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
 
   // Click close edit mode
   else if (clickedCloseMenuButton.match(action)) {
-    isEditMode = false
-  }
-
-  // Click carrot
-  else if (clickedCarrotButton.match(action)) {
     isEditMode = false
   }
 

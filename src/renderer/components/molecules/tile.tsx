@@ -21,11 +21,10 @@ import Kbd from '../atoms/kbd'
 
 interface Props {
   app: ExtendedApp
-  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
   controls: { favourite: boolean; hotkey: boolean; visibility: boolean }
 }
 
-const Tile: React.FC<Props> = ({ app, onClick, controls }) => {
+const Tile: React.FC<Props> = ({ app, controls }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.ui.url)
   const isEditMode = useSelector((state) => state.ui.isEditMode)
@@ -45,16 +44,15 @@ const Tile: React.FC<Props> = ({ app, onClick, controls }) => {
         )}
         disabled={isEditMode}
         onClick={(event) =>
-          !isEditMode && onClick
-            ? onClick(event)
-            : dispatch(
-                clickedTile({
-                  url,
-                  appId: app.id,
-                  isAlt: event.altKey,
-                  isShift: event.shiftKey,
-                }),
-              )
+          !isEditMode &&
+          dispatch(
+            clickedTile({
+              url,
+              appId: app.id,
+              isAlt: event.altKey,
+              isShift: event.shiftKey,
+            }),
+          )
         }
         title={app.name}
         type="button"
