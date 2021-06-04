@@ -12,7 +12,7 @@ const Button: React.FC<React.ComponentPropsWithoutRef<'button'>> = ({
     <button
       className={clsx(
         className,
-        'active:shadow-none focus:outline-none active:opacity-75',
+        'focus:outline-none active:opacity-75',
         'px-3 py-2',
         'rounded-md',
         'leading-none',

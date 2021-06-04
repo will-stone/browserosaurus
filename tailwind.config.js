@@ -1,8 +1,10 @@
 const plugin = require('tailwindcss/plugin')
+const colors = require('tailwindcss/colors')
 
 module.exports = {
   purge: ['./src/**/*.tsx', './src/**/*.html'],
   theme: {
+    colors,
     fontSize: {
       'xxs': '.6rem',
       'xs': '.75rem',

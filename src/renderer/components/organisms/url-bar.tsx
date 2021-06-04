@@ -100,7 +100,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           >
             {url === CARROT_URL && (
               <div>
-                <Carrot /> Contribute
+                <Carrot /> Donation URL:
               </div>
             )}
             <span>{parsedUrl.protocol}</span>

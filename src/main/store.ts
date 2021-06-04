@@ -9,7 +9,7 @@ import { App } from '../config/types'
 export type Hotkeys = { [key in string]: App['id'] }
 
 export interface Store {
-  supportMessage: number | 'hidden'
+  supportMessage: number
   fav: string
   firstRun?: boolean
   hotkeys: Hotkeys

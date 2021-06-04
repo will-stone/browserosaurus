@@ -76,14 +76,24 @@ const clickedSettingsButton = cA('urlBar/clickedSettingsButton')
 const clickedUrlBackspaceButton = cA('urlBar/clickedUrlBackspaceButton')
 const clickedCopyButton = cA<string>('urlBar/clickedCopyButton')
 
+// -----------------------------------------------------------------------------
+// Support Message
+// -----------------------------------------------------------------------------
+const clickedDonate = cA('urlBar/clickedDonate')
+const clickedMaybeLater = cA('urlBar/clickedMaybeLater')
+const clickedAlreadyDonated = cA('urlBar/clickedAlreadyDonated')
+
 export {
   appStarted,
   changedHotkey,
+  clickedAlreadyDonated,
   clickedBWebsiteButton,
   clickedCloseMenuButton,
   clickedCopyButton,
+  clickedDonate,
   clickedEyeButton,
   clickedFavButton,
+  clickedMaybeLater,
   clickedQuitButton,
   clickedReloadButton,
   clickedSetAsDefaultBrowserButton,

@@ -3,6 +3,7 @@ import React from 'react'
 
 import { useSelector } from '../store'
 import { useKeyboardEvents } from './hooks/use-keyboard-events'
+import SupportMessage from './organisms/support-message'
 import Tiles from './organisms/tiles'
 import UrlBar from './organisms/url-bar'
 
@@ -19,6 +20,7 @@ const App: React.FC = () => {
     >
       <Tiles />
       <UrlBar />
+      <SupportMessage />
     </div>
   )
 }

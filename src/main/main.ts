@@ -13,11 +13,14 @@ import { apps } from '../config/apps'
 import {
   appStarted,
   changedHotkey,
+  clickedAlreadyDonated,
   clickedBWebsiteButton,
   clickedCloseMenuButton,
   clickedCopyButton,
+  clickedDonate,
   clickedEyeButton,
   clickedFavButton,
+  clickedMaybeLater,
   clickedQuitButton,
   clickedReloadButton,
   clickedSetAsDefaultBrowserButton,
@@ -410,5 +413,15 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
     } else {
       bWindow?.hide()
     }
+  }
+
+  // Donate button or maybe later buttons clicked
+  else if (clickedDonate.match(action) || clickedMaybeLater.match(action)) {
+    store.set('supportMessage', Date.now())
+  }
+
+  // Already donated button clicked
+  else if (clickedAlreadyDonated.match(action)) {
+    store.set('supportMessage', -1)
   }
 })

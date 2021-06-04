@@ -1,17 +1,20 @@
 import { createReducer } from '@reduxjs/toolkit'
 import xor from 'lodash/xor'
 
-import { B_URL } from '../../config/CONSTANTS'
+import { B_URL, CARROT_URL } from '../../config/CONSTANTS'
 import { App } from '../../config/types'
 import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'
 import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 import {
   changedHotkey,
+  clickedAlreadyDonated,
   clickedBWebsiteButton,
   clickedCloseMenuButton,
+  clickedDonate,
   clickedEyeButton,
   clickedFavButton,
+  clickedMaybeLater,
   clickedSetAsDefaultBrowserButton,
   clickedSettingsButton,
   clickedUrlBackspaceButton,
@@ -66,6 +69,7 @@ interface UiState {
   fav: MainStore['fav']
   hiddenTileIds: MainStore['hiddenTileIds']
   hotkeys: MainStore['hotkeys']
+  supportMessage: MainStore['supportMessage']
 }
 
 const ui = createReducer<UiState>(
@@ -80,6 +84,8 @@ const ui = createReducer<UiState>(
     fav: '',
     hiddenTileIds: [],
     hotkeys: {},
+    // Hide by default to prevent flash of message on reload
+    supportMessage: -1,
   },
   (builder) =>
     builder
@@ -127,6 +133,7 @@ const ui = createReducer<UiState>(
         state.fav = action.payload.fav
         state.hiddenTileIds = action.payload.hiddenTileIds
         state.hotkeys = action.payload.hotkeys
+        state.supportMessage = action.payload.supportMessage
       })
       .addCase(receivedUpdateAvailable, (state) => {
         state.updateStatus = 'available'
@@ -143,6 +150,16 @@ const ui = createReducer<UiState>(
       })
       .addCase(clickedSetAsDefaultBrowserButton, (state) => {
         state.isEditMode = false
+      })
+      .addCase(clickedDonate, (state) => {
+        state.url = CARROT_URL
+        state.supportMessage = Date.now()
+      })
+      .addCase(clickedMaybeLater, (state) => {
+        state.supportMessage = Date.now()
+      })
+      .addCase(clickedAlreadyDonated, (state) => {
+        state.supportMessage = -1
       }),
 )
 

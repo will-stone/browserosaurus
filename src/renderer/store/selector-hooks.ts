@@ -51,16 +51,15 @@ export const useNormalTiles = (): ExtendedApp[] => {
   return normalTiles
 }
 
-export const useAffiliateApp = (): ExtendedApp | undefined => {
-  const hiddenTileIds = useShallowEqualSelector(
-    (state) => state.ui.hiddenTileIds,
-  )
+export const useIsSupportMessageHidden = (): boolean => {
+  const supportMessageNumber = useSelector((state) => state.ui.supportMessage)
 
-  return {
-    name: 'Contribute',
-    id: 'carrot',
-    isVisible: !hiddenTileIds.includes('carrot'),
-    isFav: false,
-    hotkey: undefined,
-  }
+  const ONE_WEEK = 604_800_000
+
+  return (
+    // Hidden by user
+    supportMessageNumber === -1 ||
+    // Snoozing
+    supportMessageNumber > Date.now() - ONE_WEEK
+  )
 }
