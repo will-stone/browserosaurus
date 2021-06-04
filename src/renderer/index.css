@@ -17,6 +17,10 @@ button {
   cursor: default;
 }
 
+html {
+  font-size: 13px;
+}
+
 :root {
   --animate-duration: 0.5s;
 }

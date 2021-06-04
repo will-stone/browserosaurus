@@ -13,12 +13,14 @@ import { apps } from '../config/apps'
 import {
   appStarted,
   changedHotkey,
+  clickedAlreadyDonated,
   clickedBWebsiteButton,
-  clickedCarrotButton,
   clickedCloseMenuButton,
   clickedCopyButton,
+  clickedDonate,
   clickedEyeButton,
   clickedFavButton,
+  clickedMaybeLater,
   clickedQuitButton,
   clickedReloadButton,
   clickedSetAsDefaultBrowserButton,
@@ -142,10 +144,10 @@ electron.app.on('ready', async () => {
       enableRemoteModule: false,
     },
     center: true,
-    height: bounds?.height || 212,
-    minHeight: 212,
-    width: bounds?.width || 458,
-    minWidth: 458,
+    height: bounds?.height || 204,
+    minHeight: 204,
+    width: bounds?.width || 424,
+    minWidth: 424,
     show: false,
     minimizable: false,
     maximizable: false,
@@ -399,11 +401,6 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
     isEditMode = false
   }
 
-  // Click carrot
-  else if (clickedCarrotButton.match(action)) {
-    isEditMode = false
-  }
-
   // Click B's website button in settings
   else if (clickedBWebsiteButton.match(action)) {
     isEditMode = false
@@ -416,5 +413,15 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
     } else {
       bWindow?.hide()
     }
+  }
+
+  // Donate button or maybe later buttons clicked
+  else if (clickedDonate.match(action) || clickedMaybeLater.match(action)) {
+    store.set('supportMessage', Date.now())
+  }
+
+  // Already donated button clicked
+  else if (clickedAlreadyDonated.match(action)) {
+    store.set('supportMessage', -1)
   }
 })

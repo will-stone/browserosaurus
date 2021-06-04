@@ -61,7 +61,6 @@ const changedHotkey = cA<{ appId: string; value: string }>(
 const clickedCloseMenuButton = cA('settings/clickedCloseMenuButton')
 const clickedEyeButton = cA<string>('settings/clickedEyeButton')
 const clickedFavButton = cA<string>('settings/clickedFavButton')
-const clickedCarrotButton = cA('settings/clickedCarrotButton')
 const clickedQuitButton = cA('settings/clickedQuitButton')
 const clickedReloadButton = cA('settings/clickedReloadButton')
 const clickedSetAsDefaultBrowserButton = cA(
@@ -77,15 +76,24 @@ const clickedSettingsButton = cA('urlBar/clickedSettingsButton')
 const clickedUrlBackspaceButton = cA('urlBar/clickedUrlBackspaceButton')
 const clickedCopyButton = cA<string>('urlBar/clickedCopyButton')
 
+// -----------------------------------------------------------------------------
+// Support Message
+// -----------------------------------------------------------------------------
+const clickedDonate = cA('urlBar/clickedDonate')
+const clickedMaybeLater = cA('urlBar/clickedMaybeLater')
+const clickedAlreadyDonated = cA('urlBar/clickedAlreadyDonated')
+
 export {
   appStarted,
   changedHotkey,
+  clickedAlreadyDonated,
   clickedBWebsiteButton,
-  clickedCarrotButton,
   clickedCloseMenuButton,
   clickedCopyButton,
+  clickedDonate,
   clickedEyeButton,
   clickedFavButton,
+  clickedMaybeLater,
   clickedQuitButton,
   clickedReloadButton,
   clickedSetAsDefaultBrowserButton,

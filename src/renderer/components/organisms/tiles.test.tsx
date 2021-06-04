@@ -27,8 +27,7 @@ test('tiles', () => {
   ).toBeVisible()
 
   expect(screen.getAllByRole('button', { name: /[A-z]+ Tile/u })).toHaveLength(
-    // Includes affiliate
-    4,
+    3,
   )
 
   // Set Safari as favourite
@@ -177,8 +176,7 @@ test('tiles order', () => {
   // Check tiles and tile logos shown
   const tiles = screen.getAllByRole('button', { name: /[A-z]+ Tile/u })
 
-  // Includes affiliate
-  expect(tiles).toHaveLength(6)
+  expect(tiles).toHaveLength(5)
 
   // Set hotkeys
   fireEvent.click(screen.getByRole('button', { name: 'Settings menu' }))
@@ -194,10 +192,8 @@ test('tiles order', () => {
 
   const updatedTiles = screen.getAllByRole('button', { name: /[A-z]+ Tile/u })
   expect(updatedTiles[0]).toHaveAttribute('aria-label', 'Safari Tile')
-  // Affiliate
-  expect(updatedTiles[1]).toHaveAttribute('aria-label', 'Contribute Tile')
-  expect(updatedTiles[2]).toHaveAttribute('aria-label', 'Opera Tile')
-  expect(updatedTiles[3]).toHaveAttribute('aria-label', 'Brave Tile')
-  expect(updatedTiles[4]).toHaveAttribute('aria-label', 'Firefox Tile')
-  expect(updatedTiles[5]).toHaveAttribute('aria-label', 'Microsoft Edge Tile')
+  expect(updatedTiles[1]).toHaveAttribute('aria-label', 'Opera Tile')
+  expect(updatedTiles[2]).toHaveAttribute('aria-label', 'Brave Tile')
+  expect(updatedTiles[3]).toHaveAttribute('aria-label', 'Firefox Tile')
+  expect(updatedTiles[4]).toHaveAttribute('aria-label', 'Microsoft Edge Tile')
 })

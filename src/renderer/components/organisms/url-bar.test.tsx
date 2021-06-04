@@ -8,10 +8,10 @@ import Wrapper from '../_bootstrap'
 const multiElementText =
   (text: string): MatcherFunction =>
   (_, node) => {
-    const nodeHasText = Boolean(node?.textContent?.startsWith(text))
+    const nodeHasText = node?.textContent === text
     const childrenDontHaveText = [
       ...(node?.children as unknown as HTMLElement[]),
-    ].every((child) => Boolean(child?.textContent?.startsWith(text)))
+    ].every((child) => child?.textContent !== text)
 
     return nodeHasText && childrenDontHaveText
   }
