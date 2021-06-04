@@ -9,6 +9,7 @@ import { App } from '../config/types'
 export type Hotkeys = { [key in string]: App['id'] }
 
 export interface Store {
+  supportMessage: number | 'hidden'
   fav: string
   firstRun?: boolean
   hotkeys: Hotkeys
@@ -21,6 +22,7 @@ export interface Store {
 export const store = new ElectronStore<Store>({
   name: 'store',
   defaults: {
+    supportMessage: 0,
     fav: 'com.apple.Safari',
     firstRun: true,
     hotkeys: {},
