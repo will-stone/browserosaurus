@@ -1,7 +1,6 @@
 import { faBackspace } from '@fortawesome/free-solid-svg-icons/faBackspace'
 import { faCog } from '@fortawesome/free-solid-svg-icons/faCog'
 import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
 import { faGift } from '@fortawesome/free-solid-svg-icons/faGift'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons/faSignOutAlt'
 import { faSync } from '@fortawesome/free-solid-svg-icons/faSync'
@@ -113,11 +112,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
               )}
             >
               {parsedUrl.host || (
-                <FontAwesomeIcon
-                  className="opacity-30"
-                  fixedWidth
-                  icon={faEllipsisH}
-                />
+                <span className="opacity-30">Browserosaurus</span>
               )}
             </span>
             <span>
