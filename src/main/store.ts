@@ -13,7 +13,8 @@ export interface Store {
   firstRun?: boolean
   hotkeys: Hotkeys
   hiddenTileIds: string[]
-  theme: 'dark' | 'dracula' | 'light'
+  // TODO [>=15] Deprecated, remove when reach v15
+  theme?: 'dark' | 'dracula' | 'light'
   bounds?: Rectangle
 }
 
@@ -24,6 +25,10 @@ export const store = new ElectronStore<Store>({
     firstRun: true,
     hotkeys: {},
     hiddenTileIds: [],
-    theme: 'dark',
+  },
+  migrations: {
+    '>=14.2.2': (storeInstance) => {
+      storeInstance.delete('theme')
+    },
   },
 })
