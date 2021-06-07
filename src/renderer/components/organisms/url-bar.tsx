@@ -2,6 +2,7 @@ import { faBackspace } from '@fortawesome/free-solid-svg-icons/faBackspace'
 import { faCog } from '@fortawesome/free-solid-svg-icons/faCog'
 import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
 import { faGift } from '@fortawesome/free-solid-svg-icons/faGift'
+import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons/faSignOutAlt'
 import { faSync } from '@fortawesome/free-solid-svg-icons/faSync'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
@@ -67,12 +68,15 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       >
         {isEditMode && (
           <Button
-            aria-label="Select Browserosaurus website"
+            aria-label="Goto Browserosaurus website"
             onClick={() => dispatch(clickedBWebsiteButton())}
+            title="Goto Browserosaurus website"
           >
-            {isEditMode && updateStatus === 'available'
-              ? 'Downloading update...'
-              : 'wstone.io/browserosaurus'}
+            {isEditMode && updateStatus === 'available' ? (
+              'Downloading update...'
+            ) : (
+              <FontAwesomeIcon icon={faHome} />
+            )}
           </Button>
         )}
 
