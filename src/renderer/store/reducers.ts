@@ -26,6 +26,7 @@ import {
   receivedTheme,
   receivedUpdateAvailable,
   receivedUpdateDownloaded,
+  receivedUpdateDownloading,
   receivedUrl,
   receivedVersion,
 } from './actions'
@@ -62,7 +63,7 @@ interface UiState {
   isEditMode: boolean
   url: string
   version: string
-  updateStatus: 'available' | 'downloaded' | 'no-update'
+  updateStatus: 'available' | 'downloaded' | 'downloading' | 'no-update'
   isDefaultProtocolClient: boolean
 
   // From main's store
@@ -137,6 +138,9 @@ const ui = createReducer<UiState>(
       })
       .addCase(receivedUpdateAvailable, (state) => {
         state.updateStatus = 'available'
+      })
+      .addCase(receivedUpdateDownloading, (state) => {
+        state.updateStatus = 'downloading'
       })
       .addCase(receivedUpdateDownloaded, (state) => {
         state.updateStatus = 'downloaded'

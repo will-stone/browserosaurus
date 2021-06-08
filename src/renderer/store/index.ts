@@ -21,6 +21,7 @@ import {
   THEME,
   UPDATE_AVAILABLE,
   UPDATE_DOWNLOADED,
+  UPDATE_DOWNLOADING,
   URL_UPDATED,
 } from '../../main/events'
 import { Store as MainStore } from '../../main/store'
@@ -32,6 +33,7 @@ import {
   receivedTheme,
   receivedUpdateAvailable,
   receivedUpdateDownloaded,
+  receivedUpdateDownloading,
   receivedUrl,
   receivedVersion,
 } from './actions'
@@ -96,6 +98,14 @@ electron.ipcRenderer.on(THEME, (_: unknown, recievedTheme: ThemeState) => {
  */
 electron.ipcRenderer.on(UPDATE_AVAILABLE, () => {
   store.dispatch(receivedUpdateAvailable())
+})
+
+/**
+ * Receive update downloading
+ * main -> renderer
+ */
+electron.ipcRenderer.on(UPDATE_DOWNLOADING, () => {
+  store.dispatch(receivedUpdateDownloading())
 })
 
 /**

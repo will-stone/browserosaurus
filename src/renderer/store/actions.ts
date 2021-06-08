@@ -29,6 +29,7 @@ const receivedStore = cA<MainStore>('main/receivedStore')
 const receivedApps = cA<App[]>('main/receivedApps')
 const receivedVersion = cA<string>('main/receivedVersion')
 const receivedUpdateAvailable = cA('main/receivedUpdateAvailable')
+const receivedUpdateDownloading = cA('main/receivedUpdateDownloading')
 const receivedUpdateDownloaded = cA('main/receivedUpdateDownloaded')
 const receivedUrl = cA<string>('main/receivedUrl')
 const receivedDefaultProtocolClientStatus = cA<boolean>(
@@ -66,6 +67,7 @@ const clickedReloadButton = cA('settings/clickedReloadButton')
 const clickedSetAsDefaultBrowserButton = cA(
   'settings/clickedSetAsDefaultBrowserButton',
 )
+const clickedUpdateButton = cA('settings/clickedUpdateButton')
 const clickedUpdateRestartButton = cA('settings/clickedUpdateRestartButton')
 const clickedBWebsiteButton = cA('settings/clickedBWebsiteButton')
 
@@ -99,6 +101,7 @@ export {
   clickedSetAsDefaultBrowserButton,
   clickedSettingsButton,
   clickedTile,
+  clickedUpdateButton,
   clickedUpdateRestartButton,
   clickedUrlBackspaceButton,
   keydown,
@@ -112,6 +115,7 @@ export {
   receivedTheme,
   receivedUpdateAvailable,
   receivedUpdateDownloaded,
+  receivedUpdateDownloading,
   receivedUrl,
   receivedVersion,
 }

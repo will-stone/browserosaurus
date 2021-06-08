@@ -13,6 +13,7 @@ import {
   clickedReloadButton,
   clickedSetAsDefaultBrowserButton,
   clickedSettingsButton,
+  clickedUpdateButton,
   clickedUpdateRestartButton,
   clickedUrlBackspaceButton,
 } from '../../store/actions'
@@ -74,11 +75,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             onClick={() => dispatch(clickedBWebsiteButton())}
             title="Goto Browserosaurus website"
           >
-            {isEditMode && updateStatus === 'available' ? (
-              'Downloading update...'
-            ) : (
-              <HomeIcon className="h-5 w-5" />
-            )}
+            <HomeIcon className="h-5 w-5" />
           </Button>
         )}
 
@@ -131,89 +128,113 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       </div>
 
       <div className="flex-shrink-0 space-x-2 flex items-center">
-        {!isDefaultProtocolClient && isEditMode && (
-          <Button
-            aria-label="Set as default browser"
-            onClick={() => dispatch(clickedSetAsDefaultBrowserButton())}
-            title="Set as default browser"
-          >
-            <GlobeIcon className="h-5 w-5" />
-          </Button>
-        )}
-
-        {isEditMode && updateStatus === 'downloaded' && (
-          <Button
-            aria-label="Restart and update"
-            className="space-x-2"
-            onClick={() => dispatch(clickedUpdateRestartButton())}
-          >
-            <GiftIcon className="h--5 w-5" />
-            <span>Update</span>
-          </Button>
-        )}
-
-        {isEditMode && updateStatus === 'no-update' && (
-          <Button
-            aria-label="Reload"
-            onClick={() => dispatch(clickedReloadButton())}
-            title="Reload Browserosaurus"
-          >
-            <RefreshIcon className="h-5 w-5" />
-          </Button>
-        )}
-
         {isEditMode && (
-          <Button
-            aria-label="Quit"
-            onClick={() => dispatch(clickedQuitButton())}
-            title="Quit"
-          >
-            <LogoutIcon className="h-5 w-5" />
-          </Button>
+          <>
+            {updateStatus === 'available' && (
+              <Button
+                aria-label="Update"
+                className="space-x-2"
+                onClick={() => dispatch(clickedUpdateButton())}
+              >
+                <GiftIcon className="h-5 w-5 animate-pulse" />
+                <span>Download Update</span>
+              </Button>
+            )}
+
+            {updateStatus === 'downloading' && (
+              <Button
+                aria-label="Update downloading"
+                className="space-x-2 opacity-50"
+                disabled
+              >
+                <GiftIcon className="h-5 w-5" />
+                <span>Downloading</span>
+              </Button>
+            )}
+
+            {updateStatus === 'downloaded' && (
+              <Button
+                aria-label="Restart and update"
+                className="space-x-2"
+                onClick={() => dispatch(clickedUpdateRestartButton())}
+              >
+                <GiftIcon className="h-5 w-5" />
+                <span>Update</span>
+              </Button>
+            )}
+
+            {updateStatus === 'no-update' && (
+              <Button
+                aria-label="Reload"
+                onClick={() => dispatch(clickedReloadButton())}
+                title="Reload Browserosaurus"
+              >
+                <RefreshIcon className="h-5 w-5" />
+              </Button>
+            )}
+
+            {!isDefaultProtocolClient && (
+              <Button
+                aria-label="Set as default browser"
+                onClick={() => dispatch(clickedSetAsDefaultBrowserButton())}
+                title="Set as default browser"
+              >
+                <GlobeIcon className="h-5 w-5" />
+              </Button>
+            )}
+
+            <Button
+              aria-label="Quit"
+              onClick={() => dispatch(clickedQuitButton())}
+              title="Quit"
+            >
+              <LogoutIcon className="h-5 w-5" />
+            </Button>
+
+            <Button
+              aria-label="Close menu"
+              onClick={() => dispatch(clickedCloseMenuButton())}
+              title="Close menu (escape)"
+            >
+              <XIcon className="h-5 w-5" />
+            </Button>
+          </>
         )}
 
         {!isEditMode && (
-          <Button
-            disabled={isEmpty}
-            onClick={() => dispatch(clickedUrlBackspaceButton())}
-            title="Delete section of URL (Backspace)"
-          >
-            <BackspaceIcon className="h-5 w-5" />
-          </Button>
-        )}
+          <>
+            <Button
+              disabled={isEmpty}
+              onClick={() => dispatch(clickedUrlBackspaceButton())}
+              title="Delete section of URL (Backspace)"
+            >
+              <BackspaceIcon className="h-5 w-5" />
+            </Button>
 
-        {!isEditMode && (
-          <Button
-            disabled={isEmpty}
-            onClick={() => dispatch(clickedCopyButton(url))}
-            title="Copy (⌘+C)"
-          >
-            <ClipboardCopyIcon className="h-5 w-5" />
-          </Button>
-        )}
+            <Button
+              disabled={isEmpty}
+              onClick={() => dispatch(clickedCopyButton(url))}
+              title="Copy (⌘+C)"
+            >
+              <ClipboardCopyIcon className="h-5 w-5" />
+            </Button>
 
-        {isEditMode ? (
-          <Button
-            aria-label="Close menu"
-            onClick={() => dispatch(clickedCloseMenuButton())}
-            title="Close menu (escape)"
-          >
-            <XIcon className="h-5 w-5" />
-          </Button>
-        ) : (
-          <Button
-            aria-label="Settings menu"
-            onClick={() => dispatch(clickedSettingsButton())}
-            title="Settings"
-          >
-            <CogIcon
-              className={clsx(
-                'h-5 w-5',
-                updateStatus === 'downloaded' && 'text-green-600',
-                updateStatus === 'available' && 'animate-spin',
-              )}
-            />
-          </Button>
+            <Button
+              aria-label="Settings menu"
+              onClick={() => dispatch(clickedSettingsButton())}
+              title="Settings"
+            >
+              <CogIcon
+                className={clsx(
+                  'h-5 w-5',
+                  (updateStatus === 'available' ||
+                    updateStatus === 'downloaded') &&
+                    'text-green-500',
+                  updateStatus === 'downloading' && 'animate-spin',
+                )}
+              />
+            </Button>
+          </>
         )}
       </div>
     </div>
