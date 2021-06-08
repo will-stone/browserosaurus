@@ -27,6 +27,7 @@ import {
 } from '../../store/actions'
 import Button from '../atoms/button'
 import { Carrot } from '../atoms/carrot'
+import { GlobeIcon } from '../atoms/icon-globe'
 
 interface Props {
   className?: string
@@ -133,8 +134,9 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           <Button
             aria-label="Set as default browser"
             onClick={() => dispatch(clickedSetAsDefaultBrowserButton())}
+            title="Set as default browser"
           >
-            Set As Default Browser
+            <GlobeIcon className="h-5 w-5" />
           </Button>
         )}
 
