@@ -18,7 +18,6 @@ import {
   clickedUrlBackspaceButton,
 } from '../../store/actions'
 import Button from '../atoms/button'
-import { Carrot } from '../atoms/carrot'
 import {
   BackspaceIcon,
   ClipboardCopyIcon,
@@ -103,7 +102,10 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           >
             {url === CARROT_URL && (
               <div>
-                <Carrot /> Donation URL:
+                <span aria-label="Coffee emoji" role="img">
+                  ☕️
+                </span>{' '}
+                Choose a browser to open URL:
               </div>
             )}
             <span>{parsedUrl.protocol}</span>
