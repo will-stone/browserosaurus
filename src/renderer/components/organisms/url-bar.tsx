@@ -1,12 +1,3 @@
-import { faBackspace } from '@fortawesome/free-solid-svg-icons/faBackspace'
-import { faCog } from '@fortawesome/free-solid-svg-icons/faCog'
-import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
-import { faGift } from '@fortawesome/free-solid-svg-icons/faGift'
-import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons/faSignOutAlt'
-import { faSync } from '@fortawesome/free-solid-svg-icons/faSync'
-import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import React from 'react'
 import { useDispatch } from 'react-redux'
@@ -27,7 +18,17 @@ import {
 } from '../../store/actions'
 import Button from '../atoms/button'
 import { Carrot } from '../atoms/carrot'
-import { GlobeIcon } from '../atoms/icon-globe'
+import {
+  BackspaceIcon,
+  ClipboardCopyIcon,
+  CogIcon,
+  GiftIcon,
+  GlobeIcon,
+  HomeIcon,
+  LogoutIcon,
+  RefreshIcon,
+  XIcon,
+} from '../atoms/icons'
 
 interface Props {
   className?: string
@@ -76,7 +77,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             {isEditMode && updateStatus === 'available' ? (
               'Downloading update...'
             ) : (
-              <FontAwesomeIcon icon={faHome} />
+              <HomeIcon className="h-5 w-5" />
             )}
           </Button>
         )}
@@ -146,7 +147,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             className="space-x-2"
             onClick={() => dispatch(clickedUpdateRestartButton())}
           >
-            <FontAwesomeIcon icon={faGift} />
+            <GiftIcon className="h--5 w-5" />
             <span>Update</span>
           </Button>
         )}
@@ -157,7 +158,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             onClick={() => dispatch(clickedReloadButton())}
             title="Reload Browserosaurus"
           >
-            <FontAwesomeIcon fixedWidth icon={faSync} />
+            <RefreshIcon className="h-5 w-5" />
           </Button>
         )}
 
@@ -167,7 +168,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             onClick={() => dispatch(clickedQuitButton())}
             title="Quit"
           >
-            <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
+            <LogoutIcon className="h-5 w-5" />
           </Button>
         )}
 
@@ -177,7 +178,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             onClick={() => dispatch(clickedUrlBackspaceButton())}
             title="Delete section of URL (Backspace)"
           >
-            <FontAwesomeIcon fixedWidth icon={faBackspace} />
+            <BackspaceIcon className="h-5 w-5" />
           </Button>
         )}
 
@@ -187,7 +188,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             onClick={() => dispatch(clickedCopyButton(url))}
             title="Copy (⌘+C)"
           >
-            <FontAwesomeIcon fixedWidth icon={faCopy} />
+            <ClipboardCopyIcon className="h-5 w-5" />
           </Button>
         )}
 
@@ -197,7 +198,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             onClick={() => dispatch(clickedCloseMenuButton())}
             title="Close menu (escape)"
           >
-            <FontAwesomeIcon fixedWidth icon={faTimes} />
+            <XIcon className="h-5 w-5" />
           </Button>
         ) : (
           <Button
@@ -205,13 +206,12 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             onClick={() => dispatch(clickedSettingsButton())}
             title="Settings"
           >
-            <FontAwesomeIcon
+            <CogIcon
               className={clsx(
+                'h-5 w-5',
                 updateStatus === 'downloaded' && 'text-green-600',
+                updateStatus === 'available' && 'animate-spin',
               )}
-              fixedWidth
-              icon={faCog}
-              spin={updateStatus === 'available'}
             />
           </Button>
         )}

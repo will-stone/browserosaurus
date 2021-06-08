@@ -1,8 +1,3 @@
-import { faEye } from '@fortawesome/free-solid-svg-icons/faEye'
-import { faEyeSlash } from '@fortawesome/free-solid-svg-icons/faEyeSlash'
-import { faKeyboard } from '@fortawesome/free-solid-svg-icons/faKeyboard'
-import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import React from 'react'
 import { useDispatch } from 'react-redux'
@@ -17,6 +12,7 @@ import {
 import { ExtendedApp } from '../../store/selector-hooks'
 import AppLogo from '../atoms/app-logo'
 import { Carrot } from '../atoms/carrot'
+import { EyeIcon, EyeOffIcon, StarIcon } from '../atoms/icons'
 import Kbd from '../atoms/kbd'
 
 interface Props {
@@ -67,16 +63,7 @@ const Tile: React.FC<Props> = ({ app, controls }) => {
         }
 
         {isEditMode && controls.hotkey && (
-          <div
-            className={clsx(
-              'flex-shrink-0 flex justify-center items-center space-x-2',
-            )}
-          >
-            <FontAwesomeIcon
-              className="opacity-50"
-              fixedWidth
-              icon={faKeyboard}
-            />
+          <div className={clsx('flex-shrink-0')}>
             <input
               aria-label={`${app.name} hotkey`}
               className={clsx(
@@ -98,6 +85,7 @@ const Tile: React.FC<Props> = ({ app, controls }) => {
               onFocus={(event) => {
                 event.target.select()
               }}
+              placeholder="Key"
               type="text"
               value={app.hotkey || ''}
             />
@@ -106,13 +94,7 @@ const Tile: React.FC<Props> = ({ app, controls }) => {
 
         {!isEditMode && controls.hotkey && (
           <Kbd className="flex-shrink-0 flex justify-center items-center space-x-2">
-            {app.isFav && (
-              <FontAwesomeIcon
-                aria-label="Favourite"
-                icon={faStar}
-                role="img"
-              />
-            )}
+            {app.isFav && <StarIcon className="h-5 w-5" />}
             {app.hotkey && <span>{app.hotkey}</span>}
 
             {
@@ -134,16 +116,11 @@ const Tile: React.FC<Props> = ({ app, controls }) => {
             'focus:outline-none shadow rounded-full h-8 w-8',
             isDarkMode ? 'bg-black' : 'bg-white',
             'bg-opacity-50',
-            !app.isFav && 'text-sm',
           )}
           onClick={() => dispatch(clickedFavButton(app.id))}
           type="button"
         >
-          <FontAwesomeIcon
-            className={clsx(!app.isFav && 'opacity-25')}
-            fixedWidth
-            icon={faStar}
-          />
+          <StarIcon className={clsx('h-5 w-5', !app.isFav && 'opacity-25')} />
         </button>
       )}
 
@@ -160,11 +137,11 @@ const Tile: React.FC<Props> = ({ app, controls }) => {
           onClick={() => dispatch(clickedEyeButton(app.id))}
           type="button"
         >
-          <FontAwesomeIcon
-            className={clsx(!app.isVisible && 'opacity-25')}
-            fixedWidth
-            icon={app.isVisible ? faEye : faEyeSlash}
-          />
+          {app.isVisible ? (
+            <EyeIcon className="h-5 w-5" />
+          ) : (
+            <EyeOffIcon className="h-5 w-5 opacity-25" />
+          )}
         </button>
       )}
     </div>
