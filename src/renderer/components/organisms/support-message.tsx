@@ -23,8 +23,8 @@ const SupportMessage = (): JSX.Element => {
     >
       <div className="flex flex-col justify-center space-y-2">
         <p>
-          Browserosaurus is freely available but funded by only a few. If you
-          use Browserosaurus in your day-to-day, please consider a contribution.
+          If you enjoy using Browserosaurus or any other of my open source
+          tools, I would love a token of your appreciation.
         </p>
         <p>
           Thank you{' '}
@@ -41,7 +41,7 @@ const SupportMessage = (): JSX.Element => {
           onClick={() => dispatch(clickedDonate())}
           type="button"
         >
-          Donate
+          Buy Me a Coffee
         </button>
         <button
           className="bg-blueGray-900 text-blueGray-300 p-2 rounded focus:outline-none active:opacity-75"
