@@ -2,7 +2,7 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import electron from 'electron'
 import React from 'react'
 
-import { INSTALLED_APPS_FOUND, URL_UPDATED } from '../../../main/events'
+import { gotInstalledApps, MAIN_EVENT, urlUpdated } from '../../../main/events'
 import { clickedTile, pressedAppKey } from '../../store/actions'
 import Wrapper from '../_bootstrap'
 
@@ -10,11 +10,14 @@ test('tiles', () => {
   render(<Wrapper />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
-    win.webContents.send(INSTALLED_APPS_FOUND, [
-      { name: 'Firefox', id: 'org.mozilla.firefox' },
-      { name: 'Safari', id: 'com.apple.Safari' },
-      { name: 'Brave Nightly', id: 'com.brave.Browser.nightly' },
-    ])
+    win.webContents.send(
+      MAIN_EVENT,
+      gotInstalledApps([
+        { name: 'Firefox', id: 'org.mozilla.firefox' },
+        { name: 'Safari', id: 'com.apple.Safari' },
+        { name: 'Brave Nightly', id: 'com.brave.Browser.nightly' },
+      ]),
+    )
   })
   // Check tiles and tile logos shown
   expect(screen.getByAltText('Firefox')).toBeVisible()
@@ -52,7 +55,7 @@ test('tiles', () => {
   // Correct info sent to main when tile clicked
   const url = 'http://example.com'
   act(() => {
-    win.webContents.send(URL_UPDATED, url)
+    win.webContents.send(MAIN_EVENT, urlUpdated(url))
   })
   fireEvent.click(screen.getByRole('button', { name: 'Brave Nightly Tile' }), {
     altKey: true,
@@ -72,9 +75,10 @@ test('use hotkey', () => {
   render(<Wrapper />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
-    win.webContents.send(INSTALLED_APPS_FOUND, [
-      { name: 'Safari', id: 'com.apple.Safari' },
-    ])
+    win.webContents.send(
+      MAIN_EVENT,
+      gotInstalledApps([{ name: 'Safari', id: 'com.apple.Safari' }]),
+    )
   })
   // Set hotkeys
   fireEvent.click(screen.getByRole('button', { name: 'Settings menu' }))
@@ -85,7 +89,7 @@ test('use hotkey', () => {
   fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
   const url = 'http://example.com'
   act(() => {
-    win.webContents.send(URL_UPDATED, url)
+    win.webContents.send(MAIN_EVENT, urlUpdated(url))
   })
   fireEvent.keyDown(document, { key: 'S', code: 'KeyS', keyCode: 83 })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
@@ -103,9 +107,10 @@ test('use hotkey with alt', () => {
   render(<Wrapper />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
-    win.webContents.send(INSTALLED_APPS_FOUND, [
-      { name: 'Safari', id: 'com.apple.Safari' },
-    ])
+    win.webContents.send(
+      MAIN_EVENT,
+      gotInstalledApps([{ name: 'Safari', id: 'com.apple.Safari' }]),
+    )
   })
   // Set hotkeys
   fireEvent.click(screen.getByRole('button', { name: 'Settings menu' }))
@@ -116,7 +121,7 @@ test('use hotkey with alt', () => {
   fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
   const url = 'http://example.com'
   act(() => {
-    win.webContents.send(URL_UPDATED, url)
+    win.webContents.send(MAIN_EVENT, urlUpdated(url))
   })
   fireEvent.keyDown(document, {
     key: 's',
@@ -139,13 +144,14 @@ test('hold shift', () => {
   render(<Wrapper />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
-    win.webContents.send(INSTALLED_APPS_FOUND, [
-      { name: 'Firefox', id: 'org.mozilla.firefox' },
-    ])
+    win.webContents.send(
+      MAIN_EVENT,
+      gotInstalledApps([{ name: 'Firefox', id: 'org.mozilla.firefox' }]),
+    )
   })
   const url = 'http://example.com'
   act(() => {
-    win.webContents.send(URL_UPDATED, url)
+    win.webContents.send(MAIN_EVENT, urlUpdated(url))
   })
   fireEvent.click(screen.getByRole('button', { name: 'Firefox Tile' }), {
     shiftKey: true,
@@ -165,13 +171,16 @@ test('tiles order', () => {
   render(<Wrapper />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
-    win.webContents.send(INSTALLED_APPS_FOUND, [
-      { name: 'Firefox', id: 'org.mozilla.firefox' },
-      { name: 'Safari', id: 'com.apple.Safari' },
-      { name: 'Opera', id: 'com.operasoftware.Opera' },
-      { name: 'Microsoft Edge', id: 'com.microsoft.edgemac' },
-      { name: 'Brave', id: 'com.brave.Browser' },
-    ])
+    win.webContents.send(
+      MAIN_EVENT,
+      gotInstalledApps([
+        { name: 'Firefox', id: 'org.mozilla.firefox' },
+        { name: 'Safari', id: 'com.apple.Safari' },
+        { name: 'Opera', id: 'com.operasoftware.Opera' },
+        { name: 'Microsoft Edge', id: 'com.microsoft.edgemac' },
+        { name: 'Brave', id: 'com.brave.Browser' },
+      ]),
+    )
   })
   // Check tiles and tile logos shown
   const tiles = screen.getAllByRole('button', { name: /[A-z]+ Tile/u })
