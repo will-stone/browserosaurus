@@ -1,9 +1,31 @@
-export const APP_VERSION = 'APP_VERSION'
-export const INSTALLED_APPS_FOUND = 'INSTALLED_APPS_FOUND'
-export const PROTOCOL_STATUS_RETRIEVED = 'PROTOCOL_STATUS_RETRIEVED'
-export const STORE_RETRIEVED = 'STORE_RETRIEVED'
-export const UPDATE_AVAILABLE = 'UPDATE_AVAILABLE'
-export const UPDATE_DOWNLOADING = 'UPDATE_DOWNLOADING'
-export const UPDATE_DOWNLOADED = 'UPDATE_DOWNLOADED'
-export const URL_UPDATED = 'URL_UPDATED'
-export const THEME = 'theme'
+import { createAction as cA } from '@reduxjs/toolkit'
+
+import type { App } from '../config/types'
+import type { ThemeState } from '../renderer/store/reducers'
+import type { Store } from './store'
+
+export const MAIN_EVENT = 'MAIN_EVENT'
+
+const urlUpdated = cA<string>('main/urlUpdated')
+
+const gotTheme = cA<ThemeState>('main/gotTheme')
+const gotAppVersion = cA<string>('main/gotAppVersion')
+const gotInstalledApps = cA<App[]>('main/gotInstalledApps')
+const gotDefaultBrowserStatus = cA<boolean>('main/gotDefaultBrowserStatus')
+const gotStore = cA<Store>('main/gotStore')
+
+const updateAvailable = cA('main/updateAvailable')
+const updateDownloading = cA('main/updateDownloading')
+const updateDownloaded = cA('main/updateDownloaded')
+
+export {
+  gotAppVersion,
+  gotDefaultBrowserStatus,
+  gotInstalledApps,
+  gotStore,
+  gotTheme,
+  updateAvailable,
+  updateDownloaded,
+  updateDownloading,
+  urlUpdated,
+}

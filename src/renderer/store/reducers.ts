@@ -3,6 +3,17 @@ import xor from 'lodash/xor'
 
 import { B_URL, CARROT_URL } from '../../config/CONSTANTS'
 import { App } from '../../config/types'
+import {
+  gotAppVersion,
+  gotDefaultBrowserStatus,
+  gotInstalledApps,
+  gotStore,
+  gotTheme,
+  updateAvailable,
+  updateDownloaded,
+  updateDownloading,
+  urlUpdated,
+} from '../../main/events'
 import { Store as MainStore } from '../../main/store'
 import { alterHotkeys } from '../../utils/alterHotkeys'
 import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
@@ -20,22 +31,13 @@ import {
   clickedUrlBackspaceButton,
   pressedBackspaceKey,
   pressedEscapeKey,
-  receivedApps,
-  receivedDefaultProtocolClientStatus,
-  receivedStore,
-  receivedTheme,
-  receivedUpdateAvailable,
-  receivedUpdateDownloaded,
-  receivedUpdateDownloading,
-  receivedUrl,
-  receivedVersion,
 } from './actions'
 
 /**
  * Apps Reducer
  */
 const apps = createReducer<App[]>([], (builder) =>
-  builder.addCase(receivedApps, (_, action) => action.payload),
+  builder.addCase(gotInstalledApps, (_, action) => action.payload),
 )
 
 /**
@@ -52,7 +54,7 @@ const theme = createReducer<ThemeState>(
     accent: '',
   },
   (builder) => {
-    builder.addCase(receivedTheme, (_, action) => action.payload)
+    builder.addCase(gotTheme, (_, action) => action.payload)
   },
 )
 
@@ -127,29 +129,29 @@ const ui = createReducer<UiState>(
       .addCase(pressedBackspaceKey, (state) => {
         state.url = backspaceUrlParse(state.url)
       })
-      .addCase(receivedDefaultProtocolClientStatus, (state, action) => {
+      .addCase(gotDefaultBrowserStatus, (state, action) => {
         state.isDefaultProtocolClient = action.payload
       })
-      .addCase(receivedStore, (state, action) => {
+      .addCase(gotStore, (state, action) => {
         state.fav = action.payload.fav
         state.hiddenTileIds = action.payload.hiddenTileIds
         state.hotkeys = action.payload.hotkeys
         state.supportMessage = action.payload.supportMessage
       })
-      .addCase(receivedUpdateAvailable, (state) => {
+      .addCase(updateAvailable, (state) => {
         state.updateStatus = 'available'
       })
-      .addCase(receivedUpdateDownloading, (state) => {
+      .addCase(updateDownloading, (state) => {
         state.updateStatus = 'downloading'
       })
-      .addCase(receivedUpdateDownloaded, (state) => {
+      .addCase(updateDownloaded, (state) => {
         state.updateStatus = 'downloaded'
       })
-      .addCase(receivedUrl, (state, action) => {
+      .addCase(urlUpdated, (state, action) => {
         state.isEditMode = false
         state.url = action.payload
       })
-      .addCase(receivedVersion, (state, action) => {
+      .addCase(gotAppVersion, (state, action) => {
         state.version = action.payload
       })
       .addCase(clickedSetAsDefaultBrowserButton, (state) => {

@@ -1,8 +1,6 @@
 import { createAction as cA } from '@reduxjs/toolkit'
 
 import { App } from '../../config/types'
-import { Store as MainStore } from '../../main/store'
-import type { ThemeState } from './reducers'
 
 interface OpenAppArguments {
   url: string
@@ -20,21 +18,6 @@ const appStarted = cA('app/started')
 // Tiles
 // -----------------------------------------------------------------------------
 const clickedTile = cA<OpenAppArguments>('tiles/clickTile')
-
-// -----------------------------------------------------------------------------
-// Main events
-// -----------------------------------------------------------------------------
-const receivedTheme = cA<ThemeState>('main/receivedTheme')
-const receivedStore = cA<MainStore>('main/receivedStore')
-const receivedApps = cA<App[]>('main/receivedApps')
-const receivedVersion = cA<string>('main/receivedVersion')
-const receivedUpdateAvailable = cA('main/receivedUpdateAvailable')
-const receivedUpdateDownloading = cA('main/receivedUpdateDownloading')
-const receivedUpdateDownloaded = cA('main/receivedUpdateDownloaded')
-const receivedUrl = cA<string>('main/receivedUrl')
-const receivedDefaultProtocolClientStatus = cA<boolean>(
-  'main/receivedDefaultProtocolClientStatus',
-)
 
 // -----------------------------------------------------------------------------
 // Keyboard
@@ -109,13 +92,4 @@ export {
   pressedBackspaceKey,
   pressedCopyKey,
   pressedEscapeKey,
-  receivedApps,
-  receivedDefaultProtocolClientStatus,
-  receivedStore,
-  receivedTheme,
-  receivedUpdateAvailable,
-  receivedUpdateDownloaded,
-  receivedUpdateDownloading,
-  receivedUrl,
-  receivedVersion,
 }

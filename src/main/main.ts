@@ -39,15 +39,16 @@ import copyToClipboard from '../utils/copyToClipboard'
 import { filterAppsByInstalled } from '../utils/filterAppsByInstalled'
 import { logger } from '../utils/logger'
 import {
-  APP_VERSION,
-  INSTALLED_APPS_FOUND,
-  PROTOCOL_STATUS_RETRIEVED,
-  STORE_RETRIEVED,
-  THEME,
-  UPDATE_AVAILABLE,
-  UPDATE_DOWNLOADED,
-  UPDATE_DOWNLOADING,
-  URL_UPDATED,
+  gotAppVersion,
+  gotDefaultBrowserStatus,
+  gotInstalledApps,
+  gotStore,
+  gotTheme,
+  MAIN_EVENT,
+  updateAvailable,
+  updateDownloaded,
+  updateDownloading,
+  urlUpdated,
 } from './events'
 import { store } from './store'
 
@@ -94,11 +95,18 @@ async function isUpdateAvailable(): Promise<boolean> {
   return Boolean(data)
 }
 
+/**
+ * Announces a main event to the renderer(s)
+ */
+function mainEvent(action: AnyAction) {
+  bWindow?.webContents.send(MAIN_EVENT, action)
+}
+
 // TODO due to this issue: https://github.com/electron/electron/issues/18699
 // this does not work as advertised. It will detect the change but getColor()
 // doesn't fetch updated values. Hopefully this will work in time.
 electron.nativeTheme.on('updated', () => {
-  bWindow?.webContents.send(THEME, getTheme())
+  mainEvent(gotTheme(getTheme()))
 })
 
 function showBWindow() {
@@ -199,9 +207,8 @@ electron.app.on('ready', async () => {
   bWindow.on('show', () => {
     // There isn't a listener for default protocol client, therefore the check
     // is made each time the app is brought into focus.
-    bWindow?.webContents.send(
-      PROTOCOL_STATUS_RETRIEVED,
-      electron.app.isDefaultProtocolClient('http'),
+    mainEvent(
+      gotDefaultBrowserStatus(electron.app.isDefaultProtocolClient('http')),
     )
   })
 
@@ -242,11 +249,11 @@ electron.app.on('ready', async () => {
     })
 
     electron.autoUpdater.on('update-available', () => {
-      bWindow?.webContents.send(UPDATE_DOWNLOADING)
+      mainEvent(updateDownloading())
     })
 
     electron.autoUpdater.on('update-downloaded', () => {
-      bWindow?.webContents.send(UPDATE_DOWNLOADED)
+      mainEvent(updateDownloaded())
     })
 
     electron.autoUpdater.on('error', () => {
@@ -259,7 +266,7 @@ electron.app.on('ready', async () => {
     // RENDERER_LOADED listener.
     setInterval(async () => {
       if (await isUpdateAvailable()) {
-        bWindow?.webContents.send(UPDATE_AVAILABLE)
+        mainEvent(updateAvailable())
       }
     }, ONE_DAY_MS)
   }
@@ -276,7 +283,7 @@ electron.app.on('before-quit', () => {
 async function sendUrl(url: string) {
   if (bWindow && bWindowIsReadyToShow) {
     isEditMode = false
-    bWindow.webContents.send(URL_UPDATED, url)
+    mainEvent(urlUpdated(url))
     showBWindow()
   } else {
     await sleep(500)
@@ -304,22 +311,22 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
     const installedApps = await filterAppsByInstalled(apps)
 
     // Send all info down to renderer
-    bWindow?.webContents.send(THEME, getTheme())
-    bWindow?.webContents.send(STORE_RETRIEVED, store.store)
-    bWindow?.webContents.send(INSTALLED_APPS_FOUND, installedApps)
-    bWindow?.webContents.send(
-      APP_VERSION,
-      `${electron.app.getVersion()}${electronIsDev ? ' DEV' : ''}`,
+    mainEvent(gotTheme(getTheme()))
+    mainEvent(gotStore(store.store))
+    mainEvent(gotInstalledApps(installedApps))
+    mainEvent(
+      gotAppVersion(
+        `${electron.app.getVersion()}${electronIsDev ? ' DEV' : ''}`,
+      ),
     )
 
     // Is default browser?
-    bWindow?.webContents.send(
-      PROTOCOL_STATUS_RETRIEVED,
-      electron.app.isDefaultProtocolClient('http'),
+    mainEvent(
+      gotDefaultBrowserStatus(electron.app.isDefaultProtocolClient('http')),
     )
 
     if (!electronIsDev && (await isUpdateAvailable())) {
-      bWindow?.webContents.send(UPDATE_AVAILABLE)
+      mainEvent(updateAvailable())
     }
   }
 

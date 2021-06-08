@@ -1,5 +1,8 @@
+/* eslint-disable unicorn/prefer-regexp-test -- rtk uses .match */
+
 import {
   Action,
+  AnyAction,
   combineReducers,
   configureStore,
   ThunkAction,
@@ -12,32 +15,8 @@ import {
   useSelector as useReduxSelector,
 } from 'react-redux'
 
-import { App } from '../../config/types'
-import {
-  APP_VERSION,
-  INSTALLED_APPS_FOUND,
-  PROTOCOL_STATUS_RETRIEVED,
-  STORE_RETRIEVED,
-  THEME,
-  UPDATE_AVAILABLE,
-  UPDATE_DOWNLOADED,
-  UPDATE_DOWNLOADING,
-  URL_UPDATED,
-} from '../../main/events'
-import { Store as MainStore } from '../../main/store'
-import {
-  appStarted,
-  receivedApps,
-  receivedDefaultProtocolClientStatus,
-  receivedStore,
-  receivedTheme,
-  receivedUpdateAvailable,
-  receivedUpdateDownloaded,
-  receivedUpdateDownloading,
-  receivedUrl,
-  receivedVersion,
-} from './actions'
-import { apps, theme, ThemeState, ui } from './reducers'
+import { MAIN_EVENT } from '../../main/events'
+import { apps, theme, ui } from './reducers'
 import { sendToMainMiddleware } from './send-to-main.middleware'
 
 // Root Reducer
@@ -76,85 +55,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 // Main event listeners
 // -----------------------------------------------------------------------------
 
-/**
- * Receive version
- * main -> renderer
- */
-electron.ipcRenderer.on(APP_VERSION, (_: unknown, version: string) => {
-  store.dispatch(receivedVersion(version))
+electron.ipcRenderer.on(MAIN_EVENT, (_: unknown, action: AnyAction) => {
+  store.dispatch(action)
 })
-
-/**
- * Receive update available
- * main -> renderer
- */
-electron.ipcRenderer.on(THEME, (_: unknown, recievedTheme: ThemeState) => {
-  store.dispatch(receivedTheme(recievedTheme))
-})
-
-/**
- * Receive update available
- * main -> renderer
- */
-electron.ipcRenderer.on(UPDATE_AVAILABLE, () => {
-  store.dispatch(receivedUpdateAvailable())
-})
-
-/**
- * Receive update downloading
- * main -> renderer
- */
-electron.ipcRenderer.on(UPDATE_DOWNLOADING, () => {
-  store.dispatch(receivedUpdateDownloading())
-})
-
-/**
- * Receive update downloaded
- * main -> renderer
- */
-electron.ipcRenderer.on(UPDATE_DOWNLOADED, () => {
-  store.dispatch(receivedUpdateDownloaded())
-})
-
-/**
- * Receive apps
- * main -> renderer
- */
-electron.ipcRenderer.on(
-  INSTALLED_APPS_FOUND,
-  (_: unknown, installedApps: App[]) => {
-    store.dispatch(receivedApps(installedApps))
-  },
-)
-
-/**
- * Receive URL
- * main -> renderer
- */
-electron.ipcRenderer.on(URL_UPDATED, (_: unknown, url: string) => {
-  store.dispatch(receivedUrl(url))
-})
-
-/**
- * Receive main's store
- * main -> renderer
- */
-electron.ipcRenderer.on(STORE_RETRIEVED, (_: unknown, mainStore: MainStore) => {
-  store.dispatch(receivedStore(mainStore))
-})
-
-/**
- * Receive protocol status
- * main -> renderer
- */
-electron.ipcRenderer.on(
-  PROTOCOL_STATUS_RETRIEVED,
-  (_: unknown, bool: boolean) => {
-    store.dispatch(receivedDefaultProtocolClientStatus(bool))
-  },
-)
-
-/*
- * Tell main that renderer has started
- */
-store.dispatch(appStarted())
