@@ -1,12 +1,3 @@
-import { faBackspace } from '@fortawesome/free-solid-svg-icons/faBackspace'
-import { faCog } from '@fortawesome/free-solid-svg-icons/faCog'
-import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
-import { faGift } from '@fortawesome/free-solid-svg-icons/faGift'
-import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons/faSignOutAlt'
-import { faSync } from '@fortawesome/free-solid-svg-icons/faSync'
-import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import React from 'react'
 import { useDispatch } from 'react-redux'
@@ -22,11 +13,22 @@ import {
   clickedReloadButton,
   clickedSetAsDefaultBrowserButton,
   clickedSettingsButton,
+  clickedUpdateButton,
   clickedUpdateRestartButton,
   clickedUrlBackspaceButton,
 } from '../../store/actions'
 import Button from '../atoms/button'
-import { Carrot } from '../atoms/carrot'
+import {
+  BackspaceIcon,
+  ClipboardCopyIcon,
+  CogIcon,
+  GiftIcon,
+  GlobeIcon,
+  HomeIcon,
+  LogoutIcon,
+  RefreshIcon,
+  XIcon,
+} from '../atoms/icons'
 
 interface Props {
   className?: string
@@ -72,11 +74,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             onClick={() => dispatch(clickedBWebsiteButton())}
             title="Goto Browserosaurus website"
           >
-            {isEditMode && updateStatus === 'available' ? (
-              'Downloading update...'
-            ) : (
-              <FontAwesomeIcon icon={faHome} />
-            )}
+            <HomeIcon className="h-5 w-5" />
           </Button>
         )}
 
@@ -104,7 +102,10 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           >
             {url === CARROT_URL && (
               <div>
-                <Carrot /> Donation URL:
+                <span aria-label="Coffee emoji" role="img">
+                  ☕️
+                </span>{' '}
+                Choose a browser to open URL:
               </div>
             )}
             <span>{parsedUrl.protocol}</span>
@@ -129,89 +130,113 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       </div>
 
       <div className="flex-shrink-0 space-x-2 flex items-center">
-        {!isDefaultProtocolClient && isEditMode && (
-          <Button
-            aria-label="Set as default browser"
-            onClick={() => dispatch(clickedSetAsDefaultBrowserButton())}
-          >
-            Set As Default Browser
-          </Button>
-        )}
-
-        {isEditMode && updateStatus === 'downloaded' && (
-          <Button
-            aria-label="Restart and update"
-            className="space-x-2"
-            onClick={() => dispatch(clickedUpdateRestartButton())}
-          >
-            <FontAwesomeIcon icon={faGift} />
-            <span>Update</span>
-          </Button>
-        )}
-
-        {isEditMode && updateStatus === 'no-update' && (
-          <Button
-            aria-label="Reload"
-            onClick={() => dispatch(clickedReloadButton())}
-            title="Reload Browserosaurus"
-          >
-            <FontAwesomeIcon fixedWidth icon={faSync} />
-          </Button>
-        )}
-
         {isEditMode && (
-          <Button
-            aria-label="Quit"
-            onClick={() => dispatch(clickedQuitButton())}
-            title="Quit"
-          >
-            <FontAwesomeIcon fixedWidth icon={faSignOutAlt} />
-          </Button>
+          <>
+            {updateStatus === 'available' && (
+              <Button
+                aria-label="Update"
+                className="space-x-2"
+                onClick={() => dispatch(clickedUpdateButton())}
+              >
+                <GiftIcon className="h-5 w-5 animate-pulse" />
+                <span>Download Update</span>
+              </Button>
+            )}
+
+            {updateStatus === 'downloading' && (
+              <Button
+                aria-label="Update downloading"
+                className="space-x-2 opacity-50"
+                disabled
+              >
+                <GiftIcon className="h-5 w-5" />
+                <span>Downloading</span>
+              </Button>
+            )}
+
+            {updateStatus === 'downloaded' && (
+              <Button
+                aria-label="Restart and update"
+                className="space-x-2"
+                onClick={() => dispatch(clickedUpdateRestartButton())}
+              >
+                <GiftIcon className="h-5 w-5" />
+                <span>Update</span>
+              </Button>
+            )}
+
+            {updateStatus === 'no-update' && (
+              <Button
+                aria-label="Reload"
+                onClick={() => dispatch(clickedReloadButton())}
+                title="Reload Browserosaurus"
+              >
+                <RefreshIcon className="h-5 w-5" />
+              </Button>
+            )}
+
+            {!isDefaultProtocolClient && (
+              <Button
+                aria-label="Set as default browser"
+                onClick={() => dispatch(clickedSetAsDefaultBrowserButton())}
+                title="Set as default browser"
+              >
+                <GlobeIcon className="h-5 w-5" />
+              </Button>
+            )}
+
+            <Button
+              aria-label="Quit"
+              onClick={() => dispatch(clickedQuitButton())}
+              title="Quit"
+            >
+              <LogoutIcon className="h-5 w-5" />
+            </Button>
+
+            <Button
+              aria-label="Close menu"
+              onClick={() => dispatch(clickedCloseMenuButton())}
+              title="Close menu (escape)"
+            >
+              <XIcon className="h-5 w-5" />
+            </Button>
+          </>
         )}
 
         {!isEditMode && (
-          <Button
-            disabled={isEmpty}
-            onClick={() => dispatch(clickedUrlBackspaceButton())}
-            title="Delete section of URL (Backspace)"
-          >
-            <FontAwesomeIcon fixedWidth icon={faBackspace} />
-          </Button>
-        )}
+          <>
+            <Button
+              disabled={isEmpty}
+              onClick={() => dispatch(clickedUrlBackspaceButton())}
+              title="Delete section of URL (Backspace)"
+            >
+              <BackspaceIcon className="h-5 w-5" />
+            </Button>
 
-        {!isEditMode && (
-          <Button
-            disabled={isEmpty}
-            onClick={() => dispatch(clickedCopyButton(url))}
-            title="Copy (⌘+C)"
-          >
-            <FontAwesomeIcon fixedWidth icon={faCopy} />
-          </Button>
-        )}
+            <Button
+              disabled={isEmpty}
+              onClick={() => dispatch(clickedCopyButton(url))}
+              title="Copy (⌘+C)"
+            >
+              <ClipboardCopyIcon className="h-5 w-5" />
+            </Button>
 
-        {isEditMode ? (
-          <Button
-            aria-label="Close menu"
-            onClick={() => dispatch(clickedCloseMenuButton())}
-            title="Close menu (escape)"
-          >
-            <FontAwesomeIcon fixedWidth icon={faTimes} />
-          </Button>
-        ) : (
-          <Button
-            aria-label="Settings menu"
-            onClick={() => dispatch(clickedSettingsButton())}
-            title="Settings"
-          >
-            <FontAwesomeIcon
-              className={clsx(
-                updateStatus === 'downloaded' && 'text-green-600',
-              )}
-              fixedWidth
-              icon={faCog}
-              spin={updateStatus === 'available'}
-            />
-          </Button>
+            <Button
+              aria-label="Settings menu"
+              onClick={() => dispatch(clickedSettingsButton())}
+              title="Settings"
+            >
+              <CogIcon
+                className={clsx(
+                  'h-5 w-5',
+                  (updateStatus === 'available' ||
+                    updateStatus === 'downloaded') &&
+                    'text-green-500',
+                  updateStatus === 'downloading' && 'animate-spin',
+                )}
+              />
+            </Button>
+          </>
         )}
       </div>
     </div>

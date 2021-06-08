@@ -16,23 +16,12 @@ const Tiles: React.FC = () => {
     <div className="relative flex-grow w-full overflow-y-scroll mr-1">
       <div className="flex justify-start items-center flex-wrap">
         {/* Favourite is first */}
-        {!isEditMode && favTile && (
-          <Tile
-            app={favTile}
-            controls={{ favourite: true, hotkey: true, visibility: true }}
-          />
-        )}
+        {!isEditMode && favTile && <Tile app={favTile} />}
 
         {/* Rest of the tiles */}
         {tiles.map((app, index) => {
           const key = app.id + index
-          return (
-            <Tile
-              key={key}
-              app={app}
-              controls={{ favourite: true, hotkey: true, visibility: true }}
-            />
-          )
+          return <Tile key={key} app={app} />
         })}
       </div>
     </div>

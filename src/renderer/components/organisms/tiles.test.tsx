@@ -35,7 +35,7 @@ test('tiles', () => {
   fireEvent.click(screen.getByRole('button', { name: 'Favourite Safari' }))
   fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
   const safariTile = screen.getByRole('button', { name: 'Safari Tile' })
-  expect(within(safariTile).getByLabelText('Favourite')).toBeVisible()
+  expect(within(safariTile).getByLabelText('Star')).toBeVisible()
 
   // Correct info sent to main when tile clicked
   fireEvent.click(screen.getByRole('button', { name: 'Firefox Tile' }))

@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/prefer-regexp-test -- rtk uses .match */
 
 import { AnyAction } from '@reduxjs/toolkit'
+import axios from 'axios'
 import { execFile } from 'child_process'
 import electron from 'electron'
 import electronIsDev from 'electron-is-dev'
@@ -26,6 +27,7 @@ import {
   clickedSetAsDefaultBrowserButton,
   clickedSettingsButton,
   clickedTile,
+  clickedUpdateButton,
   clickedUpdateRestartButton,
   pressedAppKey,
   pressedCopyKey,
@@ -44,6 +46,7 @@ import {
   THEME,
   UPDATE_AVAILABLE,
   UPDATE_DOWNLOADED,
+  UPDATE_DOWNLOADING,
   URL_UPDATED,
 } from './events'
 import { store } from './store'
@@ -79,6 +82,17 @@ let bWindow: electron.BrowserWindow | undefined
 let bWindowIsReadyToShow = false
 let tray: electron.Tray | undefined
 let isEditMode = false
+
+function getUpdateUrl(): string {
+  return `https://update.electronjs.org/will-stone/browserosaurus/darwin-${
+    process.arch
+  }/${electron.app.getVersion()}`
+}
+
+async function isUpdateAvailable(): Promise<boolean> {
+  const { data } = await axios(getUpdateUrl())
+  return Boolean(data)
+}
 
 // TODO due to this issue: https://github.com/electron/electron/issues/18699
 // this does not work as advertised. It will detect the change but getColor()
@@ -216,9 +230,7 @@ electron.app.on('ready', async () => {
   // Auto update on production
   if (!electronIsDev) {
     electron.autoUpdater.setFeedURL({
-      url: `https://update.electronjs.org/will-stone/browserosaurus/darwin-${
-        process.arch
-      }/${electron.app.getVersion()}`,
+      url: getUpdateUrl(),
       headers: {
         'User-Agent': `${package_.name}/${package_.version} (darwin: ${process.arch})`,
       },
@@ -230,7 +242,7 @@ electron.app.on('ready', async () => {
     })
 
     electron.autoUpdater.on('update-available', () => {
-      bWindow?.webContents.send(UPDATE_AVAILABLE)
+      bWindow?.webContents.send(UPDATE_DOWNLOADING)
     })
 
     electron.autoUpdater.on('update-downloaded', () => {
@@ -245,8 +257,10 @@ electron.app.on('ready', async () => {
     const ONE_DAY_MS = 86_400_000
     // Check for updates every day. The first check is done on load: in the
     // RENDERER_LOADED listener.
-    setInterval(() => {
-      electron.autoUpdater.checkForUpdates()
+    setInterval(async () => {
+      if (await isUpdateAvailable()) {
+        bWindow?.webContents.send(UPDATE_AVAILABLE)
+      }
     }, ONE_DAY_MS)
   }
 
@@ -304,7 +318,9 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
       electron.app.isDefaultProtocolClient('http'),
     )
 
-    electron.autoUpdater.checkForUpdates()
+    if (!electronIsDev && (await isUpdateAvailable())) {
+      bWindow?.webContents.send(UPDATE_AVAILABLE)
+    }
   }
 
   // Copy to clipboard
@@ -328,6 +344,11 @@ electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
     electron.app.setAsDefaultProtocolClient('http')
     electron.app.setAsDefaultProtocolClient('https')
     isEditMode = false
+  }
+
+  // Update and restart
+  else if (clickedUpdateButton.match(action)) {
+    electron.autoUpdater.checkForUpdates()
   }
 
   // Update and restart
