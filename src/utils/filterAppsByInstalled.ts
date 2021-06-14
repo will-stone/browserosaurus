@@ -1,7 +1,7 @@
 import appExists from 'app-exists'
 import pFilter from 'p-filter'
 
-import { App } from '../config/types'
+import type { App } from '../config/apps'
 
 /**
  * Finds installed whitelisted apps.

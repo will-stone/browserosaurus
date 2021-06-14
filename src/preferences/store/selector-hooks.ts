@@ -1,4 +1,4 @@
-import { App } from '../../config/types'
+import type { App } from '../../config/apps'
 import { getHotkeyByAppId } from '../../utils/getHotkeyByAppId'
 import { useDeepEqualSelector, useSelector, useShallowEqualSelector } from '.'
 
