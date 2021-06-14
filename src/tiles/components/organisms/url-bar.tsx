@@ -6,12 +6,11 @@ import Url from 'url'
 import { CARROT_URL } from '../../../config/CONSTANTS'
 import {
   clickedCopyButton,
-  clickedSettingsButton,
   clickedUrlBackspaceButton,
 } from '../../../shared-state/actions'
 import { useSelector } from '../../../shared-state/hooks'
 import Button from '../atoms/button'
-import { BackspaceIcon, ClipboardCopyIcon, CogIcon } from '../atoms/icons'
+import { BackspaceIcon, ClipboardCopyIcon } from '../atoms/icons'
 
 interface Props {
   className?: string
@@ -20,7 +19,6 @@ interface Props {
 const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.data.url)
-  const updateStatus = useSelector((state) => state.data.updateStatus)
   const isDarkMode = useSelector((state) => state.theme.isDarkMode)
 
   const isEmpty = url.length === 0
@@ -104,21 +102,6 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           title="Copy (⌘+C)"
         >
           <ClipboardCopyIcon className="h-5 w-5" />
-        </Button>
-
-        <Button
-          aria-label="Settings menu"
-          onClick={() => dispatch(clickedSettingsButton())}
-          title="Settings"
-        >
-          <CogIcon
-            className={clsx(
-              'h-5 w-5',
-              (updateStatus === 'available' || updateStatus === 'downloaded') &&
-                'text-green-500',
-              updateStatus === 'downloading' && 'animate-spin',
-            )}
-          />
         </Button>
       </div>
     </div>
