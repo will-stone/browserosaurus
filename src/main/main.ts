@@ -165,7 +165,7 @@ function createPWindow() {
     maximizable: false,
     fullscreen: false,
     fullscreenable: false,
-    titleBarStyle: 'hidden',
+    titleBarStyle: 'hiddenInset',
     vibrancy: 'content',
 
     // Meta
