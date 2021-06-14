@@ -1,9 +1,6 @@
 import React from 'react'
 
-import {
-  useFavTile,
-  useNormalTiles,
-} from '../../../shared-state/selector-hooks'
+import { useFavTile, useNormalTiles } from '../../../shared-state/hooks'
 import Tile from '../molecules/tile'
 
 const Tiles: React.FC = () => {

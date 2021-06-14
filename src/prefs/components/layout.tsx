@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useApps } from '../../shared-state/selector-hooks'
+import { useApps } from '../../shared-state/hooks'
 
 const Layout = (): JSX.Element => {
   const apps = useApps()

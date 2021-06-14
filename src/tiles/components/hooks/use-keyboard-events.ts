@@ -7,7 +7,7 @@ import {
   pressedCopyKey,
   pressedEscapeKey,
 } from '../../../shared-state/actions'
-import type { AppThunk } from '../../../shared-state/hooks'
+import type { AppThunk } from '../../../shared-state/root.reducer'
 
 const keyboardEvent =
   (event: KeyboardEvent): AppThunk =>
