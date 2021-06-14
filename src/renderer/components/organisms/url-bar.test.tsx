@@ -2,7 +2,8 @@ import { act, MatcherFunction, render, screen } from '@testing-library/react'
 import electron from 'electron'
 import React from 'react'
 
-import { MAIN_EVENT, urlUpdated } from '../../../main/events'
+import { urlUpdated } from '../../../actions'
+import { Channel } from '../../../channels'
 import Wrapper from '../_bootstrap'
 
 const multiElementText =
@@ -24,7 +25,7 @@ test('url bar', () => {
   const rest = '/foo?bar=moo'
   const url = `${protocol}//${host}${rest}`
   act(() => {
-    win.webContents.send(MAIN_EVENT, urlUpdated(url))
+    win.webContents.send(Channel.MAIN, urlUpdated(url))
   })
   expect(screen.getByText(multiElementText(url))).toBeVisible()
   expect(screen.queryByText('https://blah.com')).not.toBeInTheDocument()

@@ -2,13 +2,13 @@ import clsx from 'clsx'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import { useSelector } from '../../store'
 import {
   changedHotkey,
   clickedEyeButton,
   clickedFavButton,
   clickedTile,
-} from '../../store/actions'
+} from '../../../actions'
+import { useSelector } from '../../store'
 import { ExtendedApp } from '../../store/selector-hooks'
 import AppLogo from '../atoms/app-logo'
 import { EyeIcon, EyeOffIcon, StarIcon } from '../atoms/icons'

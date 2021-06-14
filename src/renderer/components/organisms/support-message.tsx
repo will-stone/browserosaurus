@@ -6,7 +6,7 @@ import {
   clickedAlreadyDonated,
   clickedDonate,
   clickedMaybeLater,
-} from '../../store/actions'
+} from '../../../actions'
 import { useIsSupportMessageHidden } from '../../store/selector-hooks'
 
 const SupportMessage = (): JSX.Element => {

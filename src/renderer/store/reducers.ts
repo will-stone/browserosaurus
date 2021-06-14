@@ -1,22 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
 import xor from 'lodash/xor'
 
-import { B_URL, CARROT_URL } from '../../config/CONSTANTS'
-import { App } from '../../config/types'
-import {
-  gotAppVersion,
-  gotDefaultBrowserStatus,
-  gotInstalledApps,
-  gotStore,
-  gotTheme,
-  updateAvailable,
-  updateDownloaded,
-  updateDownloading,
-  urlUpdated,
-} from '../../main/events'
-import { Store as MainStore } from '../../main/store'
-import { alterHotkeys } from '../../utils/alterHotkeys'
-import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 import {
   changedHotkey,
   clickedAlreadyDonated,
@@ -29,9 +13,24 @@ import {
   clickedSetAsDefaultBrowserButton,
   clickedSettingsButton,
   clickedUrlBackspaceButton,
+  gotAppVersion,
+  gotDefaultBrowserStatus,
+  gotInstalledApps,
+  gotStore,
+  gotTheme,
   pressedBackspaceKey,
   pressedEscapeKey,
-} from './actions'
+  updateAvailable,
+  updateDownloaded,
+  updateDownloading,
+  urlUpdated,
+} from '../../actions'
+import type { App } from '../../config/apps'
+import { B_URL, CARROT_URL } from '../../config/CONSTANTS'
+import type { Store as MainStore } from '../../main/store'
+import type { ThemeState } from '../../model'
+import { alterHotkeys } from '../../utils/alterHotkeys'
+import { backspaceUrlParse } from '../../utils/backspaceUrlParse'
 
 /**
  * Apps Reducer
@@ -39,14 +38,6 @@ import {
 const apps = createReducer<App[]>([], (builder) =>
   builder.addCase(gotInstalledApps, (_, action) => action.payload),
 )
-
-/**
- * Theme Reducer
- */
-export interface ThemeState {
-  isDarkMode: boolean
-  accent: string
-}
 
 const theme = createReducer<ThemeState>(
   {

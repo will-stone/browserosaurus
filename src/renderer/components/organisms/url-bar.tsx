@@ -3,8 +3,6 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import Url from 'url'
 
-import { CARROT_URL } from '../../../config/CONSTANTS'
-import { useSelector } from '../../store'
 import {
   clickedBWebsiteButton,
   clickedCloseMenuButton,
@@ -16,7 +14,9 @@ import {
   clickedUpdateButton,
   clickedUpdateRestartButton,
   clickedUrlBackspaceButton,
-} from '../../store/actions'
+} from '../../../actions'
+import { CARROT_URL } from '../../../config/CONSTANTS'
+import { useSelector } from '../../store'
 import Button from '../atoms/button'
 import {
   BackspaceIcon,

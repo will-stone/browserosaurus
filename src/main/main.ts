@@ -10,7 +10,6 @@ import path from 'path'
 import sleep from 'tings/sleep'
 
 import package_ from '../../package.json'
-import { apps } from '../config/apps'
 import {
   appStarted,
   changedHotkey,
@@ -29,27 +28,26 @@ import {
   clickedTile,
   clickedUpdateButton,
   clickedUpdateRestartButton,
-  pressedAppKey,
-  pressedCopyKey,
-  pressedEscapeKey,
-} from '../renderer/store/actions'
-import type { ThemeState } from '../renderer/store/reducers'
-import { alterHotkeys } from '../utils/alterHotkeys'
-import copyToClipboard from '../utils/copyToClipboard'
-import { filterAppsByInstalled } from '../utils/filterAppsByInstalled'
-import { logger } from '../utils/logger'
-import {
   gotAppVersion,
   gotDefaultBrowserStatus,
   gotInstalledApps,
   gotStore,
   gotTheme,
-  MAIN_EVENT,
+  pressedAppKey,
+  pressedCopyKey,
+  pressedEscapeKey,
   updateAvailable,
   updateDownloaded,
   updateDownloading,
   urlUpdated,
-} from './events'
+} from '../actions'
+import { Channel } from '../channels'
+import { apps } from '../config/apps'
+import type { ThemeState } from '../model'
+import { alterHotkeys } from '../utils/alterHotkeys'
+import copyToClipboard from '../utils/copyToClipboard'
+import { filterAppsByInstalled } from '../utils/filterAppsByInstalled'
+import { logger } from '../utils/logger'
 import { store } from './store'
 
 function getTheme(): ThemeState {
@@ -64,7 +62,7 @@ function getTheme(): ThemeState {
 }
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
-declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
+declare const PREFERENCES_WINDOW_WEBPACK_ENTRY: string
 
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
 electron.app.commandLine.appendArgument('--enable-features=Metal')
@@ -77,6 +75,7 @@ if (store.get('firstRun')) {
 
 // Prevents garbage collection
 let bWindow: electron.BrowserWindow | undefined
+let pWindow: electron.BrowserWindow | undefined
 // There appears to be some kind of race condition where the window is created
 // but not yet ready, so the sent URL on startup gets lost. This tracks the
 // ready-to-show event.
@@ -99,7 +98,8 @@ async function isUpdateAvailable(): Promise<boolean> {
  * Announces a main event to the renderer(s)
  */
 function mainEvent(action: AnyAction) {
-  bWindow?.webContents.send(MAIN_EVENT, action)
+  bWindow?.webContents.send(Channel.MAIN, action)
+  pWindow?.webContents.send(Channel.MAIN, action)
 }
 
 // TODO due to this issue: https://github.com/electron/electron/issues/18699
@@ -151,6 +151,42 @@ function showBWindow() {
   }
 }
 
+function createPWindow() {
+  pWindow = new electron.BrowserWindow({
+    // Only show on demand
+    show: false,
+
+    // Chrome
+    height: 600,
+    width: 800,
+    resizable: false,
+    center: true,
+    minimizable: false,
+    maximizable: false,
+    fullscreen: false,
+    fullscreenable: false,
+    titleBarStyle: 'hidden',
+    vibrancy: 'content',
+
+    // Meta
+    icon: path.join(__dirname, '/static/icon/icon.png'),
+    title: 'Preferences',
+
+    webPreferences: {
+      // TODO only until this is fixed: https://github.com/will-stone/browserosaurus/issues/408
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
+  })
+
+  pWindow.loadURL(PREFERENCES_WINDOW_WEBPACK_ENTRY)
+
+  pWindow.on('close', (event_) => {
+    event_.preventDefault()
+    pWindow?.hide()
+  })
+}
+
 electron.app.on('ready', async () => {
   const bounds = store.get('bounds')
 
@@ -159,11 +195,9 @@ electron.app.on('ready', async () => {
     icon: path.join(__dirname, '/static/icon/icon.png'),
     title: 'Browserosaurus',
     webPreferences: {
-      additionalArguments: [],
+      // TODO only until this is fixed: https://github.com/will-stone/browserosaurus/issues/408
       nodeIntegration: true,
       contextIsolation: false,
-      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-      enableRemoteModule: false,
     },
     center: true,
     height: bounds?.height || 204,
@@ -185,6 +219,8 @@ electron.app.on('ready', async () => {
     alwaysOnTop: true,
   })
 
+  createPWindow()
+
   bWindow.setWindowButtonVisibility(false)
 
   await bWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
@@ -196,7 +232,7 @@ electron.app.on('ready', async () => {
   })
 
   bWindow.on('hide', () => {
-    electron.app.hide()
+    bWindow?.hide()
   })
 
   bWindow.on('close', (event_) => {
@@ -226,11 +262,35 @@ electron.app.on('ready', async () => {
   tray = new electron.Tray(
     path.join(__dirname, '/static/icon/tray_iconTemplate.png'),
   )
+
   tray.setPressedImage(
     path.join(__dirname, '/static/icon/tray_iconHighlight.png'),
   )
+
   tray.setToolTip('Browserosaurus')
-  tray.addListener('click', () => showBWindow())
+
+  tray.setContextMenu(
+    electron.Menu.buildFromTemplate([
+      {
+        label: 'Restore recently closed URL',
+        click: () => showBWindow(),
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: 'Preferences...',
+        click: () => pWindow?.show(),
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: 'Quit',
+        click: () => electron.app.exit(),
+      },
+    ]),
+  )
 
   store.set('firstRun', false)
 
@@ -302,7 +362,15 @@ electron.app.on('open-url', (event, url) => {
  * ------------------
  */
 
-electron.ipcMain.on('FROM_RENDERER', async (_, action: AnyAction) => {
+electron.ipcMain.on(Channel.PREFS, (_, action: AnyAction) => {
+  // Send on all actions to Tiles
+  pWindow?.webContents.send(Channel.MAIN, action)
+})
+
+electron.ipcMain.on(Channel.TILES, async (_, action: AnyAction) => {
+  // Send on all actions to Prefs
+  pWindow?.webContents.send(Channel.MAIN, action)
+
   // App started
   if (appStarted.match(action)) {
     // Resets edit-mode if renderer was restarted whilst in edit-mode

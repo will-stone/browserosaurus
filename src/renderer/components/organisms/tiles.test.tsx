@@ -2,8 +2,13 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import electron from 'electron'
 import React from 'react'
 
-import { gotInstalledApps, MAIN_EVENT, urlUpdated } from '../../../main/events'
-import { clickedTile, pressedAppKey } from '../../store/actions'
+import {
+  clickedTile,
+  gotInstalledApps,
+  pressedAppKey,
+  urlUpdated,
+} from '../../../actions'
+import { Channel } from '../../../channels'
 import Wrapper from '../_bootstrap'
 
 test('tiles', () => {
@@ -11,7 +16,7 @@ test('tiles', () => {
   const win = new electron.remote.BrowserWindow()
   act(() => {
     win.webContents.send(
-      MAIN_EVENT,
+      Channel.MAIN,
       gotInstalledApps([
         { name: 'Firefox', id: 'org.mozilla.firefox' },
         { name: 'Safari', id: 'com.apple.Safari' },
@@ -55,7 +60,7 @@ test('tiles', () => {
   // Correct info sent to main when tile clicked
   const url = 'http://example.com'
   act(() => {
-    win.webContents.send(MAIN_EVENT, urlUpdated(url))
+    win.webContents.send(Channel.MAIN, urlUpdated(url))
   })
   fireEvent.click(screen.getByRole('button', { name: 'Brave Nightly Tile' }), {
     altKey: true,
@@ -76,7 +81,7 @@ test('use hotkey', () => {
   const win = new electron.remote.BrowserWindow()
   act(() => {
     win.webContents.send(
-      MAIN_EVENT,
+      Channel.MAIN,
       gotInstalledApps([{ name: 'Safari', id: 'com.apple.Safari' }]),
     )
   })
@@ -89,7 +94,7 @@ test('use hotkey', () => {
   fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
   const url = 'http://example.com'
   act(() => {
-    win.webContents.send(MAIN_EVENT, urlUpdated(url))
+    win.webContents.send(Channel.MAIN, urlUpdated(url))
   })
   fireEvent.keyDown(document, { key: 'S', code: 'KeyS', keyCode: 83 })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
@@ -108,7 +113,7 @@ test('use hotkey with alt', () => {
   const win = new electron.remote.BrowserWindow()
   act(() => {
     win.webContents.send(
-      MAIN_EVENT,
+      Channel.MAIN,
       gotInstalledApps([{ name: 'Safari', id: 'com.apple.Safari' }]),
     )
   })
@@ -121,7 +126,7 @@ test('use hotkey with alt', () => {
   fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
   const url = 'http://example.com'
   act(() => {
-    win.webContents.send(MAIN_EVENT, urlUpdated(url))
+    win.webContents.send(Channel.MAIN, urlUpdated(url))
   })
   fireEvent.keyDown(document, {
     key: 's',
@@ -145,13 +150,13 @@ test('hold shift', () => {
   const win = new electron.remote.BrowserWindow()
   act(() => {
     win.webContents.send(
-      MAIN_EVENT,
+      Channel.MAIN,
       gotInstalledApps([{ name: 'Firefox', id: 'org.mozilla.firefox' }]),
     )
   })
   const url = 'http://example.com'
   act(() => {
-    win.webContents.send(MAIN_EVENT, urlUpdated(url))
+    win.webContents.send(Channel.MAIN, urlUpdated(url))
   })
   fireEvent.click(screen.getByRole('button', { name: 'Firefox Tile' }), {
     shiftKey: true,
@@ -172,7 +177,7 @@ test('tiles order', () => {
   const win = new electron.remote.BrowserWindow()
   act(() => {
     win.webContents.send(
-      MAIN_EVENT,
+      Channel.MAIN,
       gotInstalledApps([
         { name: 'Firefox', id: 'org.mozilla.firefox' },
         { name: 'Safari', id: 'com.apple.Safari' },

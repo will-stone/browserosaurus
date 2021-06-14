@@ -1,13 +1,16 @@
 import { AnyAction, Middleware } from '@reduxjs/toolkit'
 import { ipcRenderer } from 'electron'
 
-import { RootState } from '.'
+import { Channel } from '../channels'
+import { RootState } from '../preferences/store'
 
 /**
  * Act on state changes
  */
 export const sendToMainMiddleware =
-  (): Middleware<
+  (
+    channel: Channel,
+  ): Middleware<
     // legacy type parameter added to satisfy interface signature
     Record<string, unknown>,
     RootState
@@ -21,7 +24,7 @@ export const sendToMainMiddleware =
     // eslint-disable-next-line node/callback-return -- must flush to get nextState
     const result = next(action)
 
-    ipcRenderer.send('FROM_RENDERER', action)
+    ipcRenderer.send(channel, action)
 
     return result
   }

@@ -93,6 +93,11 @@
                   "html": "./src/renderer/index.html",
                   "js": "./src/renderer/index.tsx",
                   "name": "main_window"
+                },
+                {
+                  "html": "./src/preferences/index.html",
+                  "js": "./src/preferences/index.tsx",
+                  "name": "preferences_window"
                 }
               ]
             }
@@ -198,7 +203,7 @@
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
     "@types/react-redux": "^7.1.16",
-    "@will-stone/eslint-config": "^2.9.0",
+    "@will-stone/eslint-config": "^2.9.1",
     "@will-stone/prettier-config": "^4.0.0",
     "concurrently": "^6.0.1",
     "copy-webpack-plugin": "^6.0.3",

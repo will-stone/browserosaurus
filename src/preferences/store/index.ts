@@ -26,7 +26,7 @@ const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) => [
     ...getDefaultMiddleware(),
-    sendToMainMiddleware(Channel.TILES),
+    sendToMainMiddleware(Channel.PREFS),
   ],
 })
 

@@ -1,4 +1,4 @@
-import type { App } from '../../config/apps'
+import { App } from '../../config/types'
 import { getHotkeyByAppId } from '../../utils/getHotkeyByAppId'
 import { useDeepEqualSelector, useSelector, useShallowEqualSelector } from '.'
 
@@ -49,17 +49,4 @@ export const useNormalTiles = (): ExtendedApp[] => {
       return 0
     })
   return normalTiles
-}
-
-export const useIsSupportMessageHidden = (): boolean => {
-  const supportMessageNumber = useSelector((state) => state.ui.supportMessage)
-
-  const ONE_WEEK = 604_800_000
-
-  return (
-    // Hidden by user
-    supportMessageNumber === -1 ||
-    // Snoozing
-    supportMessageNumber > Date.now() - ONE_WEEK
-  )
 }
