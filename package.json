@@ -90,14 +90,14 @@
               "config": "./webpack.renderer.config.js",
               "entryPoints": [
                 {
-                  "html": "./src/renderer/index.html",
-                  "js": "./src/renderer/index.tsx",
-                  "name": "main_window"
+                  "html": "./src/tiles/index.html",
+                  "js": "./src/tiles/index.tsx",
+                  "name": "tiles_window"
                 },
                 {
-                  "html": "./src/preferences/index.html",
-                  "js": "./src/preferences/index.tsx",
-                  "name": "preferences_window"
+                  "html": "./src/prefs/index.html",
+                  "js": "./src/prefs/index.tsx",
+                  "name": "prefs_window"
                 }
               ]
             }

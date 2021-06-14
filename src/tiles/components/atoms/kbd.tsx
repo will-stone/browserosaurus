@@ -2,11 +2,12 @@ import clsx from 'clsx'
 import React from 'react'
 
 interface Props {
+  children: React.ReactNode
   className?: string
   style?: React.CSSProperties
 }
 
-const Kbd: React.FC<Props> = ({ children, className, style }) => {
+const Kbd = ({ children, className, style }: Props): JSX.Element => {
   return (
     <kbd
       className={clsx(

@@ -1,6 +1,10 @@
-import type { App } from '../../config/apps'
-import { getHotkeyByAppId } from '../../utils/getHotkeyByAppId'
-import { useDeepEqualSelector, useSelector, useShallowEqualSelector } from '.'
+import { getHotkeyByAppId } from '../utils/getHotkeyByAppId'
+import type { App } from './apps.reducer'
+import {
+  useDeepEqualSelector,
+  useSelector,
+  useShallowEqualSelector,
+} from './hooks'
 
 export interface ExtendedApp extends App {
   isVisible: boolean
@@ -11,10 +15,10 @@ export interface ExtendedApp extends App {
 export const useApps = (): ExtendedApp[] => {
   const apps = useDeepEqualSelector((state) => state.apps)
   const hiddenTileIds = useShallowEqualSelector(
-    (state) => state.ui.hiddenTileIds,
+    (state) => state.storage.hiddenTileIds,
   )
-  const favId = useSelector((state) => state.ui.fav)
-  const hotkeys = useShallowEqualSelector((state) => state.ui.hotkeys)
+  const favId = useSelector((state) => state.storage.fav)
+  const hotkeys = useShallowEqualSelector((state) => state.storage.hotkeys)
   return apps.map((app) => ({
     ...app,
     isVisible: !hiddenTileIds.includes(app.id),
@@ -52,7 +56,9 @@ export const useNormalTiles = (): ExtendedApp[] => {
 }
 
 export const useIsSupportMessageHidden = (): boolean => {
-  const supportMessageNumber = useSelector((state) => state.ui.supportMessage)
+  const supportMessageNumber = useSelector(
+    (state) => state.storage.supportMessage,
+  )
 
   const ONE_WEEK = 604_800_000
 

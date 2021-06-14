@@ -6,13 +6,14 @@ import {
   pressedBackspaceKey,
   pressedCopyKey,
   pressedEscapeKey,
-} from '../../../actions'
-import { AppThunk } from '../../store'
+} from '../../../shared-state/actions'
+import type { AppThunk } from '../../../shared-state/hooks'
 
 const keyboardEvent =
   (event: KeyboardEvent): AppThunk =>
   (dispatch, getState) => {
-    const { url, isEditMode, hotkeys, fav } = getState().ui
+    const { url } = getState().data
+    const { hotkeys, fav } = getState().storage
 
     const virtualKey = event.key.toLowerCase()
     // Not needed at the moment but useful to know
@@ -30,50 +31,47 @@ const keyboardEvent =
       dispatch(pressedEscapeKey())
     }
 
-    // Only capture the following when not in edit mode
-    if (!isEditMode) {
-      // Backspace
-      if (virtualKey === 'backspace') {
-        event.preventDefault()
-        dispatch(pressedBackspaceKey())
-      }
+    // Backspace
+    if (virtualKey === 'backspace') {
+      event.preventDefault()
+      dispatch(pressedBackspaceKey())
+    }
 
-      // ⌘C
-      else if (event.metaKey && virtualKey === 'c') {
-        event.preventDefault()
-        if (url) {
-          dispatch(pressedCopyKey(url))
-        }
+    // ⌘C
+    else if (event.metaKey && virtualKey === 'c') {
+      event.preventDefault()
+      if (url) {
+        dispatch(pressedCopyKey(url))
       }
+    }
 
-      // App hotkey
-      else if (!event.metaKey && /^([a-z0-9])$/u.test(virtualKey)) {
-        event.preventDefault()
-        const appId = hotkeys[virtualKey]
-        if (appId) {
-          dispatch(
-            pressedAppKey({
-              url,
-              appId,
-              isAlt: event.altKey,
-              isShift: event.shiftKey,
-            }),
-          )
-        }
-      }
-
-      // Favourite hotkeys
-      else if (virtualKey === ' ' || virtualKey === 'enter') {
-        event.preventDefault()
+    // App hotkey
+    else if (!event.metaKey && /^([a-z0-9])$/u.test(virtualKey)) {
+      event.preventDefault()
+      const appId = hotkeys[virtualKey]
+      if (appId) {
         dispatch(
           pressedAppKey({
             url,
-            appId: fav,
+            appId,
             isAlt: event.altKey,
             isShift: event.shiftKey,
           }),
         )
       }
+    }
+
+    // Favourite hotkeys
+    else if (virtualKey === ' ' || virtualKey === 'enter') {
+      event.preventDefault()
+      dispatch(
+        pressedAppKey({
+          url,
+          appId: fav,
+          isAlt: event.altKey,
+          isShift: event.shiftKey,
+        }),
+      )
     }
   }
 

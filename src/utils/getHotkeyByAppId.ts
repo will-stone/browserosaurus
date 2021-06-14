@@ -1,5 +1,5 @@
-import type { App } from '../config/apps'
 import { Hotkeys } from '../main/store'
+import type { App } from '../shared-state/apps.reducer'
 
 export function getHotkeyByAppId(
   hotkeys: Hotkeys,

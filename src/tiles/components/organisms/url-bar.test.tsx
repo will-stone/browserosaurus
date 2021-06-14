@@ -2,8 +2,8 @@ import { act, MatcherFunction, render, screen } from '@testing-library/react'
 import electron from 'electron'
 import React from 'react'
 
-import { urlUpdated } from '../../../actions'
-import { Channel } from '../../../channels'
+import { urlUpdated } from '../../../shared-state/actions'
+import { Channel } from '../../../shared-state/channels'
 import Wrapper from '../_bootstrap'
 
 const multiElementText =

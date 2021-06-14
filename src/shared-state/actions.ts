@@ -1,8 +1,8 @@
 import { createAction as cA } from '@reduxjs/toolkit'
 
-import type { App } from './config/apps'
-import type { Store as MainStore } from './main/store'
-import type { ThemeState } from './model'
+import type { Store as MainStore } from '../main/store'
+import type { App } from './apps.reducer'
+import type { ThemeState } from './theme.reducer'
 
 // -----------------------------------------------------------------------------
 // MAIN

@@ -1,7 +1,7 @@
 import { Rectangle } from 'electron'
 import ElectronStore from 'electron-store'
 
-import type { App } from '../config/apps'
+import type { App } from '../shared-state/apps.reducer'
 
 /**
  * Keyboard shortcuts

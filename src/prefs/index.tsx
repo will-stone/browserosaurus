@@ -1,4 +1,4 @@
-import '../renderer/index.css'
+import '../tiles/index.css'
 
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'

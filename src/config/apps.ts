@@ -1,9 +1,4 @@
-export interface App {
-  name: string
-  id: string
-  urlTemplate?: string
-  privateArg?: string
-}
+import type { App } from '../shared-state/apps.reducer'
 
 export const apps: App[] = [
   {

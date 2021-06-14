@@ -6,8 +6,8 @@ import {
   clickedAlreadyDonated,
   clickedDonate,
   clickedMaybeLater,
-} from '../../../actions'
-import { useIsSupportMessageHidden } from '../../store/selector-hooks'
+} from '../../../shared-state/actions'
+import { useIsSupportMessageHidden } from '../../../shared-state/selector-hooks'
 
 const SupportMessage = (): JSX.Element => {
   const dispatch = useDispatch()

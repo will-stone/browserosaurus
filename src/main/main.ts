@@ -10,6 +10,7 @@ import path from 'path'
 import sleep from 'tings/sleep'
 
 import package_ from '../../package.json'
+import { apps } from '../config/apps'
 import {
   appStarted,
   changedHotkey,
@@ -40,10 +41,9 @@ import {
   updateDownloaded,
   updateDownloading,
   urlUpdated,
-} from '../actions'
-import { Channel } from '../channels'
-import { apps } from '../config/apps'
-import type { ThemeState } from '../model'
+} from '../shared-state/actions'
+import { Channel } from '../shared-state/channels'
+import type { ThemeState } from '../shared-state/theme.reducer'
 import { alterHotkeys } from '../utils/alterHotkeys'
 import copyToClipboard from '../utils/copyToClipboard'
 import { filterAppsByInstalled } from '../utils/filterAppsByInstalled'
@@ -61,8 +61,8 @@ function getTheme(): ThemeState {
   return theme
 }
 
-declare const MAIN_WINDOW_WEBPACK_ENTRY: string
-declare const PREFERENCES_WINDOW_WEBPACK_ENTRY: string
+declare const TILES_WINDOW_WEBPACK_ENTRY: string
+declare const PREFS_WINDOW_WEBPACK_ENTRY: string
 
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
 electron.app.commandLine.appendArgument('--enable-features=Metal')
@@ -179,7 +179,7 @@ function createPWindow() {
     },
   })
 
-  pWindow.loadURL(PREFERENCES_WINDOW_WEBPACK_ENTRY)
+  pWindow.loadURL(PREFS_WINDOW_WEBPACK_ENTRY)
 
   pWindow.on('close', (event_) => {
     event_.preventDefault()
@@ -223,7 +223,7 @@ electron.app.on('ready', async () => {
 
   bWindow.setWindowButtonVisibility(false)
 
-  await bWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
+  await bWindow.loadURL(TILES_WINDOW_WEBPACK_ENTRY)
 
   bWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
 
