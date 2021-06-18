@@ -1,65 +1,26 @@
-/* eslint-disable unicorn/prefer-regexp-test -- rtk uses .match */
-
 import { AnyAction } from '@reduxjs/toolkit'
-import axios from 'axios'
-import { execFile } from 'child_process'
 import electron from 'electron'
 import electronIsDev from 'electron-is-dev'
-import xor from 'lodash/xor'
 import path from 'path'
 import sleep from 'tings/sleep'
 
 import package_ from '../../package.json'
-import { apps } from '../config/apps'
 import {
-  appStarted,
-  changedHotkey,
-  clickedAlreadyDonated,
-  clickedBWebsiteButton,
-  clickedCloseMenuButton,
-  clickedCopyButton,
-  clickedDonate,
-  clickedEyeButton,
-  clickedFavButton,
-  clickedMaybeLater,
-  clickedQuitButton,
-  clickedReloadButton,
-  clickedSetAsDefaultBrowserButton,
-  clickedSettingsButton,
-  clickedTile,
-  clickedUpdateButton,
-  clickedUpdateRestartButton,
-  gotAppVersion,
   gotDefaultBrowserStatus,
-  gotInstalledApps,
-  gotStore,
   gotTheme,
-  pressedAppKey,
-  pressedCopyKey,
-  pressedEscapeKey,
   updateAvailable,
   updateDownloaded,
   updateDownloading,
   urlUpdated,
 } from '../shared-state/actions'
 import { Channel } from '../shared-state/channels'
-import type { ThemeState } from '../shared-state/theme.reducer'
-import { alterHotkeys } from '../utils/alterHotkeys'
-import copyToClipboard from '../utils/copyToClipboard'
-import { filterAppsByInstalled } from '../utils/filterAppsByInstalled'
 import { logger } from '../utils/logger'
-import { store } from './store'
-
-function getTheme(): ThemeState {
-  const theme = {
-    // Is dark mode?
-    isDarkMode: electron.nativeTheme.shouldUseDarkColors,
-
-    // Accent
-    accent: `#${electron.systemPreferences.getAccentColor()}`,
-  }
-  return theme
-}
+import { getUpdateUrl } from './get-update-url'
+import { getTheme } from './getTheme'
+import { isUpdateAvailable } from './is-update-available'
+import { permaStore } from './perma-store'
+import { dispatch } from './store'
+import { bWindow, createWindows, pWindow } from './windows'
 
 declare const TILES_WINDOW_WEBPACK_ENTRY: string
 declare const PREFS_WINDOW_WEBPACK_ENTRY: string
@@ -67,46 +28,23 @@ declare const PREFS_WINDOW_WEBPACK_ENTRY: string
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
 electron.app.commandLine.appendArgument('--enable-features=Metal')
 
-if (store.get('firstRun')) {
+if (permaStore.get('firstRun')) {
   // Prompt to set as default browser
   electron.app.setAsDefaultProtocolClient('http')
   electron.app.setAsDefaultProtocolClient('https')
 }
 
-// Prevents garbage collection
-let bWindow: electron.BrowserWindow | undefined
-let pWindow: electron.BrowserWindow | undefined
 // There appears to be some kind of race condition where the window is created
 // but not yet ready, so the sent URL on startup gets lost. This tracks the
 // ready-to-show event.
 let bWindowIsReadyToShow = false
 let tray: electron.Tray | undefined
-let isEditMode = false
-
-function getUpdateUrl(): string {
-  return `https://update.electronjs.org/will-stone/browserosaurus/darwin-${
-    process.arch
-  }/${electron.app.getVersion()}`
-}
-
-async function isUpdateAvailable(): Promise<boolean> {
-  const { data } = await axios(getUpdateUrl())
-  return Boolean(data)
-}
-
-/**
- * Announces a main event to the renderer(s)
- */
-function mainEvent(action: AnyAction) {
-  bWindow?.webContents.send(Channel.MAIN, action)
-  pWindow?.webContents.send(Channel.MAIN, action)
-}
 
 // TODO due to this issue: https://github.com/electron/electron/issues/18699
 // this does not work as advertised. It will detect the change but getColor()
 // doesn't fetch updated values. Hopefully this will work in time.
 electron.nativeTheme.on('updated', () => {
-  mainEvent(gotTheme(getTheme()))
+  dispatch(gotTheme(getTheme()))
 })
 
 function showBWindow() {
@@ -151,108 +89,48 @@ function showBWindow() {
   }
 }
 
-function createPWindow() {
-  pWindow = new electron.BrowserWindow({
-    // Only show on demand
-    show: false,
+electron.app.on('ready', async () => {
+  createWindows()
 
-    // Chrome
-    height: 600,
-    width: 800,
-    resizable: false,
-    center: true,
-    minimizable: false,
-    maximizable: false,
-    fullscreen: false,
-    fullscreenable: false,
-    titleBarStyle: 'hiddenInset',
-    vibrancy: 'content',
+  await pWindow?.loadURL(PREFS_WINDOW_WEBPACK_ENTRY)
 
-    // Meta
-    icon: path.join(__dirname, '/static/icon/icon.png'),
-    title: 'Preferences',
-
-    webPreferences: {
-      // TODO only until this is fixed: https://github.com/will-stone/browserosaurus/issues/408
-      nodeIntegration: true,
-      contextIsolation: false,
-    },
-  })
-
-  pWindow.loadURL(PREFS_WINDOW_WEBPACK_ENTRY)
-
-  pWindow.on('close', (event_) => {
+  pWindow?.on('close', (event_) => {
     event_.preventDefault()
     pWindow?.hide()
   })
-}
 
-electron.app.on('ready', async () => {
-  const bounds = store.get('bounds')
+  bWindow?.setWindowButtonVisibility(false)
 
-  bWindow = new electron.BrowserWindow({
-    frame: true,
-    icon: path.join(__dirname, '/static/icon/icon.png'),
-    title: 'Browserosaurus',
-    webPreferences: {
-      // TODO only until this is fixed: https://github.com/will-stone/browserosaurus/issues/408
-      nodeIntegration: true,
-      contextIsolation: false,
-    },
-    center: true,
-    height: bounds?.height || 204,
-    minHeight: 204,
-    width: bounds?.width || 424,
-    minWidth: 424,
-    show: false,
-    minimizable: false,
-    maximizable: false,
-    fullscreen: false,
-    fullscreenable: false,
-    movable: true,
-    resizable: true,
-    transparent: true,
-    hasShadow: true,
-    vibrancy: 'tooltip',
-    visualEffectState: 'active',
-    titleBarStyle: 'hidden',
-    alwaysOnTop: true,
-  })
+  await bWindow?.loadURL(TILES_WINDOW_WEBPACK_ENTRY)
 
-  createPWindow()
+  bWindow?.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
 
-  bWindow.setWindowButtonVisibility(false)
-
-  await bWindow.loadURL(TILES_WINDOW_WEBPACK_ENTRY)
-
-  bWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
-
-  bWindow.on('ready-to-show', () => {
+  bWindow?.on('ready-to-show', () => {
     bWindowIsReadyToShow = true
   })
 
-  bWindow.on('hide', () => {
+  bWindow?.on('hide', () => {
     bWindow?.hide()
   })
 
-  bWindow.on('close', (event_) => {
+  bWindow?.on('close', (event_) => {
     event_.preventDefault()
     bWindow?.hide()
   })
 
-  bWindow.on('show', () => {
+  bWindow?.on('show', () => {
     // There isn't a listener for default protocol client, therefore the check
     // is made each time the app is brought into focus.
-    mainEvent(
+    dispatch(
       gotDefaultBrowserStatus(electron.app.isDefaultProtocolClient('http')),
     )
   })
 
-  bWindow.on('resize', () => {
-    store.set('bounds', bWindow?.getBounds())
+  bWindow?.on('resize', () => {
+    permaStore.set('bounds', bWindow?.getBounds())
   })
 
-  bWindow.on('blur', () => {
+  bWindow?.on('blur', () => {
     bWindow?.hide()
   })
 
@@ -292,7 +170,7 @@ electron.app.on('ready', async () => {
     ]),
   )
 
-  store.set('firstRun', false)
+  permaStore.set('firstRun', false)
 
   // Auto update on production
   if (!electronIsDev) {
@@ -309,11 +187,11 @@ electron.app.on('ready', async () => {
     })
 
     electron.autoUpdater.on('update-available', () => {
-      mainEvent(updateDownloading())
+      dispatch(updateDownloading())
     })
 
     electron.autoUpdater.on('update-downloaded', () => {
-      mainEvent(updateDownloaded())
+      dispatch(updateDownloaded())
     })
 
     electron.autoUpdater.on('error', () => {
@@ -326,7 +204,7 @@ electron.app.on('ready', async () => {
     // RENDERER_LOADED listener.
     setInterval(async () => {
       if (await isUpdateAvailable()) {
-        mainEvent(updateAvailable())
+        dispatch(updateAvailable())
       }
     }, ONE_DAY_MS)
   }
@@ -342,8 +220,7 @@ electron.app.on('before-quit', () => {
 
 async function sendUrl(url: string) {
   if (bWindow && bWindowIsReadyToShow) {
-    isEditMode = false
-    mainEvent(urlUpdated(url))
+    dispatch(urlUpdated(url))
     showBWindow()
   } else {
     await sleep(500)
@@ -356,168 +233,10 @@ electron.app.on('open-url', (event, url) => {
   sendUrl(url)
 })
 
-/**
- * ------------------
- * Renderer Listeners
- * ------------------
- */
-
 electron.ipcMain.on(Channel.PREFS, (_, action: AnyAction) => {
-  // Send on all actions to Tiles
-  pWindow?.webContents.send(Channel.MAIN, action)
+  dispatch(action)
 })
 
-electron.ipcMain.on(Channel.TILES, async (_, action: AnyAction) => {
-  // Send on all actions to Prefs
-  pWindow?.webContents.send(Channel.MAIN, action)
-
-  // App started
-  if (appStarted.match(action)) {
-    // Resets edit-mode if renderer was restarted whilst in edit-mode
-    isEditMode = false
-
-    const installedApps = await filterAppsByInstalled(apps)
-
-    // Send all info down to renderer
-    mainEvent(gotTheme(getTheme()))
-    mainEvent(gotStore(store.store))
-    mainEvent(gotInstalledApps(installedApps))
-    mainEvent(
-      gotAppVersion(
-        `${electron.app.getVersion()}${electronIsDev ? ' DEV' : ''}`,
-      ),
-    )
-
-    // Is default browser?
-    mainEvent(
-      gotDefaultBrowserStatus(electron.app.isDefaultProtocolClient('http')),
-    )
-
-    if (!electronIsDev && (await isUpdateAvailable())) {
-      mainEvent(updateAvailable())
-    }
-  }
-
-  // Copy to clipboard
-  else if (clickedCopyButton.match(action) || pressedCopyKey.match(action)) {
-    copyToClipboard(action.payload)
-    bWindow?.hide()
-  }
-
-  // Quit
-  else if (clickedQuitButton.match(action)) {
-    electron.app.quit()
-  }
-
-  // Reload
-  else if (clickedReloadButton.match(action)) {
-    bWindow?.reload()
-  }
-
-  // Set as default browser
-  else if (clickedSetAsDefaultBrowserButton.match(action)) {
-    electron.app.setAsDefaultProtocolClient('http')
-    electron.app.setAsDefaultProtocolClient('https')
-    isEditMode = false
-  }
-
-  // Update and restart
-  else if (clickedUpdateButton.match(action)) {
-    electron.autoUpdater.checkForUpdates()
-  }
-
-  // Update and restart
-  else if (clickedUpdateRestartButton.match(action)) {
-    electron.autoUpdater.quitAndInstall()
-  }
-
-  // Change fav
-  else if (clickedFavButton.match(action)) {
-    store.set('fav', action.payload)
-  }
-
-  // Update hidden tiles
-  else if (clickedEyeButton.match(action)) {
-    store.set(
-      'hiddenTileIds',
-      xor(store.get('hiddenTileIds'), [action.payload]),
-    )
-  }
-
-  // Update hotkeys
-  else if (changedHotkey.match(action)) {
-    const updatedHotkeys = alterHotkeys(
-      store.get('hotkeys'),
-      action.payload.appId,
-      action.payload.value,
-    )
-    store.set('hotkeys', updatedHotkeys)
-  }
-
-  // Open app
-  else if (pressedAppKey.match(action) || clickedTile.match(action)) {
-    const { appId, url = '', isAlt, isShift } = action.payload
-
-    // Bail if app's bundle id is missing
-    if (!appId) return
-
-    const app = apps.find((b) => b.id === appId)
-
-    // Bail if app cannot be found in config (this, in theory, can't happen)
-    if (!app) return
-
-    const processedUrlTemplate = app.urlTemplate
-      ? app.urlTemplate.replace(/\{\{URL\}\}/u, url)
-      : url
-
-    const openArguments: string[] = [
-      '-b',
-      appId,
-      isAlt ? '--background' : [],
-      isShift && app.privateArg ? ['--new', '--args', app.privateArg] : [],
-      // In order for private/incognito mode to work the URL needs to be passed
-      // in last, _after_ the respective app.privateArg flag
-      processedUrlTemplate,
-    ]
-      .filter(Boolean)
-      .flat()
-
-    execFile('open', openArguments)
-
-    bWindow?.hide()
-  }
-
-  // Go into edit mode
-  else if (clickedSettingsButton.match(action)) {
-    isEditMode = true
-  }
-
-  // Click close edit mode
-  else if (clickedCloseMenuButton.match(action)) {
-    isEditMode = false
-  }
-
-  // Click B's website button in settings
-  else if (clickedBWebsiteButton.match(action)) {
-    isEditMode = false
-  }
-
-  // Escape key
-  else if (pressedEscapeKey.match(action)) {
-    if (isEditMode) {
-      isEditMode = false
-    } else {
-      bWindow?.hide()
-    }
-  }
-
-  // Donate button or maybe later buttons clicked
-  else if (clickedDonate.match(action) || clickedMaybeLater.match(action)) {
-    store.set('supportMessage', Date.now())
-  }
-
-  // Already donated button clicked
-  else if (clickedAlreadyDonated.match(action)) {
-    store.set('supportMessage', -1)
-  }
+electron.ipcMain.on(Channel.TILES, (_, action: AnyAction) => {
+  dispatch(action)
 })

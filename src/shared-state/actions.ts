@@ -1,6 +1,6 @@
 import { createAction as cA } from '@reduxjs/toolkit'
 
-import type { Store as MainStore } from '../main/store'
+import type { PermaStore } from '../main/perma-store'
 import type { App } from './apps.reducer'
 import type { ThemeState } from './theme.reducer'
 
@@ -14,7 +14,7 @@ const gotTheme = cA<ThemeState>('MAIN/gotTheme')
 const gotAppVersion = cA<string>('MAIN/gotAppVersion')
 const gotInstalledApps = cA<App[]>('MAIN/gotInstalledApps')
 const gotDefaultBrowserStatus = cA<boolean>('MAIN/gotDefaultBrowserStatus')
-const gotStore = cA<MainStore>('MAIN/gotStore')
+const gotStore = cA<PermaStore>('MAIN/gotStore')
 
 const updateAvailable = cA('MAIN/updateAvailable')
 const updateDownloading = cA('MAIN/updateDownloading')

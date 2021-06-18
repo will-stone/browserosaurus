@@ -1,4 +1,4 @@
-import { Hotkeys } from '../main/store'
+import type { Hotkeys } from '../main/perma-store'
 import type { App } from '../shared-state/apps.reducer'
 
 export function getHotkeyByAppId(

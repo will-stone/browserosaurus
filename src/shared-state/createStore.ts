@@ -1,16 +1,33 @@
+import type {
+  AnyAction,
+  CombinedState,
+  EnhancedStore,
+  Middleware,
+} from '@reduxjs/toolkit'
 import { configureStore } from '@reduxjs/toolkit'
 
-import { sendToMainMiddleware } from '../utils/send-to-main.middleware'
-import { Channel } from './channels'
-import { rootReducer } from './root.reducer'
+import { logMiddleware } from './log.middleware'
+import { rootReducer, RootState } from './root.reducer'
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const createStore = (channel: Channel) =>
+type TypedMiddleware = Middleware<
+  // Legacy type parameter added to satisfy interface signature
+  Record<string, unknown>,
+  RootState
+>
+
+type BoundaryType = EnhancedStore<
+  CombinedState<RootState>,
+  AnyAction,
+  TypedMiddleware[]
+>
+
+const createStore = (middleware: TypedMiddleware[] = []): BoundaryType =>
   configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => [
       ...getDefaultMiddleware(),
-      sendToMainMiddleware(channel),
+      ...middleware,
+      logMiddleware(),
     ],
   })
 

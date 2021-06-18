@@ -6,5 +6,6 @@
     "titleBar.inactiveBackground": "#23487099",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
-  "peacock.color": "#234870"
+  "peacock.color": "#234870",
+  "typescript.preferences.importModuleSpecifier": "relative"
 }

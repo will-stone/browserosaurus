@@ -1,10 +1,11 @@
 import type { AnyAction } from '@reduxjs/toolkit'
 import { ipcRenderer } from 'electron'
 
+import { busMiddleware } from '../renderers/bus.middleware'
 import { Channel } from '../shared-state/channels'
 import createStore from '../shared-state/createStore'
 
-const store = createStore(Channel.PREFS)
+const store = createStore([busMiddleware(Channel.PREFS)])
 
 export default store
 
