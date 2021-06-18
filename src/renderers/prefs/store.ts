@@ -1,9 +1,9 @@
 import type { AnyAction } from '@reduxjs/toolkit'
 import { ipcRenderer } from 'electron'
 
-import { busMiddleware } from '../renderers/bus.middleware'
-import { Channel } from '../shared-state/channels'
-import createStore from '../shared-state/createStore'
+import { Channel } from '../../shared-state/channels'
+import createStore from '../../shared-state/createStore'
+import { busMiddleware } from '../bus.middleware'
 
 const store = createStore([busMiddleware(Channel.PREFS)])
 

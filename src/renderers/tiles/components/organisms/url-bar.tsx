@@ -3,12 +3,12 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import Url from 'url'
 
-import { CARROT_URL } from '../../../config/CONSTANTS'
+import { CARROT_URL } from '../../../../config/CONSTANTS'
 import {
   clickedCopyButton,
   clickedUrlBackspaceButton,
-} from '../../../shared-state/actions'
-import { useSelector } from '../../../shared-state/hooks'
+} from '../../../../shared-state/actions'
+import { useSelector } from '../../../../shared-state/hooks'
 import Button from '../atoms/button'
 import { BackspaceIcon, ClipboardCopyIcon } from '../atoms/icons'
 

@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React from 'react'
 
-import { useSelector } from '../../../shared-state/hooks'
+import { useSelector } from '../../../../shared-state/hooks'
 
 interface Props {
   className?: string

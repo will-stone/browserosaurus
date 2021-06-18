@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React from 'react'
 
-import { useApps, useSelector } from '../../shared-state/hooks'
+import { useApps, useSelector } from '../../../shared-state/hooks'
 import { HeaderBar } from './organisms/header-bar'
 
 const Layout = (): JSX.Element => {
