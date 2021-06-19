@@ -6,7 +6,7 @@ import {
   clickedTile,
   gotInstalledApps,
   pressedAppKey,
-  urlUpdated,
+  urlOpened,
 } from '../../../../shared/state/actions'
 import { Channel } from '../../../../shared/state/channels'
 import Wrapper from '../_bootstrap'
@@ -60,7 +60,7 @@ test('tiles', () => {
   // Correct info sent to main when tile clicked
   const url = 'http://example.com'
   act(() => {
-    win.webContents.send(Channel.MAIN, urlUpdated(url))
+    win.webContents.send(Channel.MAIN, urlOpened(url))
   })
   fireEvent.click(screen.getByRole('button', { name: 'Brave Nightly Tile' }), {
     altKey: true,
@@ -94,7 +94,7 @@ test('use hotkey', () => {
   fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
   const url = 'http://example.com'
   act(() => {
-    win.webContents.send(Channel.MAIN, urlUpdated(url))
+    win.webContents.send(Channel.MAIN, urlOpened(url))
   })
   fireEvent.keyDown(document, { key: 'S', code: 'KeyS', keyCode: 83 })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
@@ -126,7 +126,7 @@ test('use hotkey with alt', () => {
   fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
   const url = 'http://example.com'
   act(() => {
-    win.webContents.send(Channel.MAIN, urlUpdated(url))
+    win.webContents.send(Channel.MAIN, urlOpened(url))
   })
   fireEvent.keyDown(document, {
     key: 's',
@@ -156,7 +156,7 @@ test('hold shift', () => {
   })
   const url = 'http://example.com'
   act(() => {
-    win.webContents.send(Channel.MAIN, urlUpdated(url))
+    win.webContents.send(Channel.MAIN, urlOpened(url))
   })
   fireEvent.click(screen.getByRole('button', { name: 'Firefox Tile' }), {
     shiftKey: true,

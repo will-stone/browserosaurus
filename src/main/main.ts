@@ -9,7 +9,7 @@ import {
   updateAvailable,
   updateDownloaded,
   updateDownloading,
-  urlUpdated,
+  urlOpened,
 } from '../shared/state/actions'
 import { Channel } from '../shared/state/channels'
 import { logger } from '../shared/utils/logger'
@@ -124,7 +124,7 @@ app.on('before-quit', () => app.exit())
 
 app.on('open-url', (event, url) => {
   event.preventDefault()
-  dispatch(urlUpdated(url))
+  dispatch(urlOpened(url))
 })
 
 /**

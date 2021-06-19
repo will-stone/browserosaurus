@@ -14,7 +14,7 @@ import {
   updateAvailable,
   updateDownloaded,
   updateDownloading,
-  urlUpdated,
+  urlOpened,
 } from './actions'
 
 export interface Data {
@@ -64,7 +64,7 @@ export const data = createReducer<Data>(
       .addCase(updateDownloaded, (state) => {
         state.updateStatus = 'downloaded'
       })
-      .addCase(urlUpdated, (state, action) => {
+      .addCase(urlOpened, (state, action) => {
         state.url = action.payload
       })
       .addCase(gotAppVersion, (state, action) => {

@@ -14,7 +14,7 @@ const PREFS = Channel.PREFS
 // MAIN
 // -----------------------------------------------------------------------------
 
-const urlUpdated = cA<string>(`${MAIN}/urlUpdated`)
+const urlOpened = cA<string>(`${MAIN}/urlOpened`)
 
 const gotTheme = cA<ThemeState>(`${MAIN}/gotTheme`)
 const gotAppVersion = cA<string>(`${MAIN}/gotAppVersion`)
@@ -116,5 +116,5 @@ export {
   updateAvailable,
   updateDownloaded,
   updateDownloading,
-  urlUpdated,
+  urlOpened,
 }

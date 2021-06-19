@@ -2,7 +2,7 @@ import { act, MatcherFunction, render, screen } from '@testing-library/react'
 import electron from 'electron'
 import React from 'react'
 
-import { urlUpdated } from '../../../../shared/state/actions'
+import { urlOpened } from '../../../../shared/state/actions'
 import { Channel } from '../../../../shared/state/channels'
 import Wrapper from '../_bootstrap'
 
@@ -25,7 +25,7 @@ test('url bar', () => {
   const rest = '/foo?bar=moo'
   const url = `${protocol}//${host}${rest}`
   act(() => {
-    win.webContents.send(Channel.MAIN, urlUpdated(url))
+    win.webContents.send(Channel.MAIN, urlOpened(url))
   })
   expect(screen.getByText(multiElementText(url))).toBeVisible()
   expect(screen.queryByText('https://blah.com')).not.toBeInTheDocument()

@@ -3,7 +3,6 @@ import { AnyAction, Middleware } from '@reduxjs/toolkit'
 import { execFile } from 'child_process'
 import { app, autoUpdater } from 'electron'
 import electronIsDev from 'electron-is-dev'
-import xor from 'lodash/xor'
 import sleep from 'tings/sleep'
 
 import { apps } from '../../config/apps'
@@ -32,7 +31,7 @@ import {
   pressedEscapeKey,
   tilesStarted,
   updateAvailable,
-  urlUpdated,
+  urlOpened,
 } from '../../shared/state/actions'
 import type { RootState } from '../../shared/state/reducer.root'
 import copyToClipboard from '../utils/copy-to-clipboard'
@@ -124,10 +123,7 @@ export const actionHubMiddleware =
 
     // Update hidden tiles
     else if (clickedEyeButton.match(action)) {
-      permaStore.set(
-        'hiddenTileIds',
-        xor(permaStore.get('hiddenTileIds'), [action.payload]),
-      )
+      permaStore.set('hiddenTileIds', getState().storage.hiddenTileIds)
     }
 
     // Update hotkeys
@@ -175,16 +171,16 @@ export const actionHubMiddleware =
 
     // Donate button or maybe later buttons clicked
     else if (clickedDonate.match(action) || clickedMaybeLater.match(action)) {
-      permaStore.set('supportMessage', Date.now())
+      permaStore.set('supportMessage', getState().storage.supportMessage)
     }
 
     // Already donated button clicked
     else if (clickedAlreadyDonated.match(action)) {
-      permaStore.set('supportMessage', -1)
+      permaStore.set('supportMessage', getState().storage.supportMessage)
     }
 
-    // Already donated button clicked
-    else if (urlUpdated.match(action)) {
+    // Open URL
+    else if (urlOpened.match(action)) {
       if (getState().data.tilesStarted) {
         showBWindow()
       }
@@ -192,7 +188,7 @@ export const actionHubMiddleware =
       // but not yet ready, so the sent URL on startup gets lost.
       else {
         await sleep(500)
-        dispatch(urlUpdated(action.payload))
+        dispatch(urlOpened(action.payload))
       }
     }
 
