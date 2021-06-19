@@ -14,8 +14,6 @@ export interface PermaStore {
   firstRun?: boolean
   hotkeys: Hotkeys
   hiddenTileIds: string[]
-  // TODO [>=15] Deprecated, remove when reach v15
-  theme?: 'dark' | 'dracula' | 'light'
   bounds?: Rectangle
 }
 
@@ -27,10 +25,5 @@ export const permaStore = new ElectronStore<PermaStore>({
     firstRun: true,
     hotkeys: {},
     hiddenTileIds: [],
-  },
-  migrations: {
-    '>=14.2.2': (storeInstance) => {
-      storeInstance.delete('theme')
-    },
   },
 })
