@@ -4,7 +4,12 @@ const colors = require('tailwindcss/colors')
 module.exports = {
   purge: ['./src/**/*.tsx', './src/**/*.html'],
   theme: {
-    colors,
+    colors: {
+      gray: colors.gray,
+      blue: colors.blueGray,
+      white: colors.white,
+      black: colors.black,
+    },
     fontSize: {
       'xxs': '.6rem',
       'xs': '.75rem',
