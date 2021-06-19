@@ -22,7 +22,7 @@ module.exports = {
   plugins: [
     new ForkTsCheckerWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'tiles_window/index.css',
+      filename: 'index.css',
     }),
   ],
   resolve: {

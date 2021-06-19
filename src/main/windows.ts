@@ -1,13 +1,18 @@
-import { BrowserWindow, screen } from 'electron'
+import { app, BrowserWindow, screen } from 'electron'
 import path from 'path'
 
+import { gotDefaultBrowserStatus } from '../shared-state/actions'
 import { permaStore } from './perma-store'
+import { dispatch } from './store'
+
+declare const TILES_WINDOW_WEBPACK_ENTRY: string
+declare const PREFS_WINDOW_WEBPACK_ENTRY: string
 
 // Prevents garbage collection
 export let bWindow: BrowserWindow | undefined
 export let pWindow: BrowserWindow | undefined
 
-export function createWindows(): void {
+export async function createWindows(): Promise<void> {
   pWindow = new BrowserWindow({
     // Only show on demand
     show: false,
@@ -65,6 +70,43 @@ export function createWindows(): void {
     titleBarStyle: 'hidden',
     alwaysOnTop: true,
   })
+
+  pWindow.on('close', (event_) => {
+    event_.preventDefault()
+    pWindow?.hide()
+  })
+
+  pWindow.on('show', () => {
+    // There isn't a listener for default protocol client, therefore the check
+    // is made each time the window is brought into focus.
+    dispatch(gotDefaultBrowserStatus(app.isDefaultProtocolClient('http')))
+  })
+
+  bWindow.setWindowButtonVisibility(false)
+
+  bWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
+
+  bWindow.on('hide', () => {
+    bWindow?.hide()
+  })
+
+  bWindow.on('close', (event_) => {
+    event_.preventDefault()
+    bWindow?.hide()
+  })
+
+  bWindow.on('resize', () => {
+    permaStore.set('bounds', bWindow?.getBounds())
+  })
+
+  bWindow.on('blur', () => {
+    bWindow?.hide()
+  })
+
+  await Promise.all([
+    pWindow.loadURL(PREFS_WINDOW_WEBPACK_ENTRY),
+    bWindow.loadURL(TILES_WINDOW_WEBPACK_ENTRY),
+  ])
 }
 
 export function showBWindow(): void {

@@ -5,7 +5,6 @@ import path from 'path'
 
 import package_ from '../../package.json'
 import {
-  gotDefaultBrowserStatus,
   gotTheme,
   updateAvailable,
   updateDownloaded,
@@ -20,9 +19,6 @@ import { isUpdateAvailable } from './is-update-available'
 import { permaStore } from './perma-store'
 import { dispatch } from './store'
 import { bWindow, createWindows, pWindow, showBWindow } from './windows'
-
-declare const TILES_WINDOW_WEBPACK_ENTRY: string
-declare const PREFS_WINDOW_WEBPACK_ENTRY: string
 
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
 app.commandLine.appendArgument('--enable-features=Metal')
@@ -43,43 +39,7 @@ nativeTheme.on('updated', () => {
 })
 
 app.on('ready', async () => {
-  createWindows()
-
-  await pWindow?.loadURL(PREFS_WINDOW_WEBPACK_ENTRY)
-
-  pWindow?.on('close', (event_) => {
-    event_.preventDefault()
-    pWindow?.hide()
-  })
-
-  bWindow?.setWindowButtonVisibility(false)
-
-  await bWindow?.loadURL(TILES_WINDOW_WEBPACK_ENTRY)
-
-  bWindow?.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
-
-  bWindow?.on('hide', () => {
-    bWindow?.hide()
-  })
-
-  bWindow?.on('close', (event_) => {
-    event_.preventDefault()
-    bWindow?.hide()
-  })
-
-  bWindow?.on('show', () => {
-    // There isn't a listener for default protocol client, therefore the check
-    // is made each time the app is brought into focus.
-    dispatch(gotDefaultBrowserStatus(app.isDefaultProtocolClient('http')))
-  })
-
-  bWindow?.on('resize', () => {
-    permaStore.set('bounds', bWindow?.getBounds())
-  })
-
-  bWindow?.on('blur', () => {
-    bWindow?.hide()
-  })
+  await createWindows()
 
   /**
    * Menubar icon
@@ -129,6 +89,7 @@ app.on('ready', async () => {
     autoUpdater.on('before-quit-for-update', () => {
       // All windows must be closed before an update can be applied using "restart".
       bWindow?.destroy()
+      pWindow?.destroy()
     })
 
     autoUpdater.on('update-available', () => {
@@ -146,7 +107,7 @@ app.on('ready', async () => {
     // 1000 * 60 * 60 * 24
     const ONE_DAY_MS = 86_400_000
     // Check for updates every day. The first check is done on load: in the
-    // RENDERER_LOADED listener.
+    // action-hub.
     setInterval(async () => {
       if (await isUpdateAvailable()) {
         dispatch(updateAvailable())
@@ -159,9 +120,7 @@ app.on('ready', async () => {
 })
 
 // App doesn't always close on ctrl-c in console, this fixes that
-app.on('before-quit', () => {
-  app.exit()
-})
+app.on('before-quit', () => app.exit())
 
 app.on('open-url', (event, url) => {
   event.preventDefault()
@@ -171,13 +130,9 @@ app.on('open-url', (event, url) => {
 /**
  * Enter actions from renderer into main's store's queue
  */
-electron.ipcMain.on(Channel.PREFS, (_, action: AnyAction) => {
-  dispatch(action)
-})
+electron.ipcMain.on(Channel.PREFS, (_, action: AnyAction) => dispatch(action))
 
 /**
  * Enter actions from renderer into main's store's queue
  */
-electron.ipcMain.on(Channel.TILES, (_, action: AnyAction) => {
-  dispatch(action)
-})
+electron.ipcMain.on(Channel.TILES, (_, action: AnyAction) => dispatch(action))
