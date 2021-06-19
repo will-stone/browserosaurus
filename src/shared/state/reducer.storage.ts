@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
-import type { Rectangle } from 'electron'
 import xor from 'lodash/xor'
 
+import type { PermaStore } from '../../main/state/perma-store'
 import { alterHotkeys } from '../utils/alter-hotkeys'
 import {
   changedHotkey,
@@ -13,23 +13,10 @@ import {
   gotStore,
   tWindowBoundsChanged,
 } from './actions'
-import type { App } from './reducer.apps'
 
-type Hotkeys = { [key in string]: App['id'] }
-
-export interface Storage {
-  bounds?: Rectangle
-  fav: string
-  firstRun?: boolean
-  hiddenTileIds: string[]
-  hotkeys: Hotkeys
-  supportMessage: number
-}
-
-export const storage = createReducer<Storage>(
+export const storage = createReducer<PermaStore>(
   {
     fav: '',
-    firstRun: false,
     hiddenTileIds: [],
     hotkeys: {},
     // Hide by default to prevent flash of message on reload
@@ -39,7 +26,6 @@ export const storage = createReducer<Storage>(
     builder
       .addCase(gotStore, (state, action) => {
         state.fav = action.payload.fav
-        state.firstRun = action.payload.firstRun
         state.hiddenTileIds = action.payload.hiddenTileIds
         state.hotkeys = action.payload.hotkeys
         state.supportMessage = action.payload.supportMessage

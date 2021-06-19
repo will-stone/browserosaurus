@@ -29,6 +29,8 @@ if (permaStore.get('firstRun')) {
   app.setAsDefaultProtocolClient('https')
 }
 
+permaStore.set('firstRun', false)
+
 let tray: Tray | undefined
 
 // TODO due to this issue: https://github.com/electron/electron/issues/18699
@@ -74,8 +76,6 @@ app.on('ready', async () => {
       },
     ]),
   )
-
-  permaStore.set('firstRun', false)
 
   // Auto update on production
   if (!electronIsDev) {
