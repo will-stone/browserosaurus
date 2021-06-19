@@ -1,6 +1,15 @@
+/* eslint-disable no-console */
 import { AnyAction, Middleware } from '@reduxjs/toolkit'
+import { blue, bold, magenta, white, yellow } from 'kolorist'
 
+import { Channel } from './channels'
 import { RootState } from './root.reducer'
+
+const colorMap = {
+  [Channel.MAIN]: yellow,
+  [Channel.PREFS]: blue,
+  [Channel.TILES]: magenta,
+}
 
 /**
  * Log all actions to console
@@ -20,8 +29,13 @@ export const logMiddleware =
     // eslint-disable-next-line node/callback-return -- must flush to get nextState
     const result = next(action)
 
-    // eslint-disable-next-line no-console
-    console.log(action.type, action.payload)
+    const [channel, name]: [Channel, string] = action.type.split('/')
+
+    console.log(
+      `${bold(colorMap[channel](channel.padEnd(5)))} ${bold(white(name))}`,
+    )
+    console.log(action.payload)
+    console.log()
 
     return result
   }
