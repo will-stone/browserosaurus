@@ -140,9 +140,6 @@ export const actionHubMiddleware =
 
       const { urlTemplate, privateArg } = apps.find((b) => b.id === appId) || {}
 
-      // Bail if app cannot be found in config (this, in theory, can't happen)
-      if (!app) return
-
       const processedUrlTemplate = urlTemplate
         ? urlTemplate.replace(/\{\{URL\}\}/u, url)
         : url
