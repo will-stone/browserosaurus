@@ -1,8 +1,8 @@
 import { AnyAction, Middleware } from '@reduxjs/toolkit'
 import { ipcRenderer } from 'electron'
 
-import { Channel } from '../shared-state/channels'
-import { RootState } from '../shared-state/reducer.root'
+import { Channel } from '../../../shared/state/channels'
+import { RootState } from '../../../shared/state/reducer.root'
 
 /**
  * Pass actions between main and renderers

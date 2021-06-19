@@ -7,8 +7,8 @@ import {
   gotInstalledApps,
   pressedAppKey,
   urlUpdated,
-} from '../../../../shared-state/actions'
-import { Channel } from '../../../../shared-state/channels'
+} from '../../../../shared/state/actions'
+import { Channel } from '../../../../shared/state/channels'
 import Wrapper from '../_bootstrap'
 
 test('tiles', () => {

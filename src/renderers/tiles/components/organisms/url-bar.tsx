@@ -7,8 +7,8 @@ import { CARROT_URL } from '../../../../config/CONSTANTS'
 import {
   clickedCopyButton,
   clickedUrlBackspaceButton,
-} from '../../../../shared-state/actions'
-import { useSelector } from '../../../../shared-state/hooks'
+} from '../../../../shared/state/actions'
+import { useSelector } from '../../../../shared/state/hooks'
 import Button from '../atoms/button'
 import { BackspaceIcon, ClipboardCopyIcon } from '../atoms/icons'
 

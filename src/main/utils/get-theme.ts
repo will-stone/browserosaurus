@@ -1,6 +1,6 @@
 import { nativeTheme, systemPreferences } from 'electron'
 
-import { ThemeState } from '../shared-state/reducer.theme'
+import { ThemeState } from '../../shared/state/reducer.theme'
 
 export function getTheme(): ThemeState {
   const theme = {

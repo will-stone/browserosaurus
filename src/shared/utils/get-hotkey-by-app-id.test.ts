@@ -1,4 +1,4 @@
-import type { Hotkeys } from '../main/perma-store'
+import type { Hotkeys } from '../../main/state/perma-store'
 import { getHotkeyByAppId } from './get-hotkey-by-app-id'
 
 const cases: [Hotkeys, string, ReturnType<typeof getHotkeyByAppId>][] = [

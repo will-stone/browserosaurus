@@ -1,4 +1,4 @@
-import createStore from '../shared-state/create-store'
+import createStore from '../../shared/state/create-store'
 import { actionHubMiddleware } from './middleware.action-hub'
 import { busMiddleware } from './middleware.bus'
 

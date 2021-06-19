@@ -1,4 +1,4 @@
-import '../index.css'
+import '../shared/index.css'
 
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'

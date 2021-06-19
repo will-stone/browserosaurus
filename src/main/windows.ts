@@ -1,9 +1,9 @@
 import { app, BrowserWindow, screen } from 'electron'
 import path from 'path'
 
-import { gotDefaultBrowserStatus } from '../shared-state/actions'
-import { permaStore } from './perma-store'
-import { dispatch } from './store'
+import { gotDefaultBrowserStatus } from '../shared/state/actions'
+import { permaStore } from './state/perma-store'
+import { dispatch } from './state/store'
 
 declare const TILES_WINDOW_WEBPACK_ENTRY: string
 declare const PREFS_WINDOW_WEBPACK_ENTRY: string

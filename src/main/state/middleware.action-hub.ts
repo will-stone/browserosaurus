@@ -6,7 +6,7 @@ import electronIsDev from 'electron-is-dev'
 import xor from 'lodash/xor'
 import sleep from 'tings/sleep'
 
-import { apps } from '../config/apps'
+import { apps } from '../../config/apps'
 import {
   changedHotkey,
   clickedAlreadyDonated,
@@ -33,15 +33,14 @@ import {
   tilesStarted,
   updateAvailable,
   urlUpdated,
-} from '../shared-state/actions'
-import type { RootState } from '../shared-state/reducer.root'
-import { alterHotkeys } from '../utils/alter-hotkeys'
+} from '../../shared/state/actions'
+import type { RootState } from '../../shared/state/reducer.root'
 import copyToClipboard from '../utils/copy-to-clipboard'
 import { filterAppsByInstalled } from '../utils/filter-apps-by-installed'
-import { getTheme } from './get-theme'
-import { isUpdateAvailable } from './is-update-available'
+import { getTheme } from '../utils/get-theme'
+import { isUpdateAvailable } from '../utils/is-update-available'
+import { bWindow, showBWindow } from '../windows'
 import { permaStore } from './perma-store'
-import { bWindow, showBWindow } from './windows'
 
 /**
  * Actions that need to be dealt with by main.
@@ -133,12 +132,7 @@ export const actionHubMiddleware =
 
     // Update hotkeys
     else if (changedHotkey.match(action)) {
-      const updatedHotkeys = alterHotkeys(
-        permaStore.get('hotkeys'),
-        action.payload.appId,
-        action.payload.value,
-      )
-      permaStore.set('hotkeys', updatedHotkeys)
+      permaStore.set('hotkeys', getState().storage.hotkeys)
     }
 
     // Open app

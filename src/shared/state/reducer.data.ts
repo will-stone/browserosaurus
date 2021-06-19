@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
 
-import { B_URL, CARROT_URL } from '../config/CONSTANTS'
+import { B_URL, CARROT_URL } from '../../config/CONSTANTS'
 import { backspaceUrlParse } from '../utils/backspace-url-parse'
 import {
   clickedBWebsiteButton,

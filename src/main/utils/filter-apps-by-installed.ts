@@ -1,7 +1,7 @@
 import appExists from 'app-exists'
 import pFilter from 'p-filter'
 
-import type { App } from '../shared-state/reducer.apps'
+import type { App } from '../../shared/state/reducer.apps'
 
 /**
  * Finds installed whitelisted apps.

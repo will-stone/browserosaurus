@@ -1,4 +1,4 @@
-import type { Hotkeys } from '../main/perma-store'
+import type { Hotkeys } from '../../main/state/perma-store'
 import { getHotkeyByAppId } from './get-hotkey-by-app-id'
 
 // Update a hotkeys object based on incoming app ID and hotkey combo

@@ -10,14 +10,14 @@ import {
   updateDownloaded,
   updateDownloading,
   urlUpdated,
-} from '../shared-state/actions'
-import { Channel } from '../shared-state/channels'
-import { logger } from '../utils/logger'
-import { getTheme } from './get-theme'
-import { getUpdateUrl } from './get-update-url'
-import { isUpdateAvailable } from './is-update-available'
-import { permaStore } from './perma-store'
-import { dispatch } from './store'
+} from '../shared/state/actions'
+import { Channel } from '../shared/state/channels'
+import { logger } from '../shared/utils/logger'
+import { permaStore } from './state/perma-store'
+import { dispatch } from './state/store'
+import { getTheme } from './utils/get-theme'
+import { getUpdateUrl } from './utils/get-update-url'
+import { isUpdateAvailable } from './utils/is-update-available'
 import { bWindow, createWindows, pWindow, showBWindow } from './windows'
 
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944

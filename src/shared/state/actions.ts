@@ -1,7 +1,7 @@
 /* eslint-disable prefer-destructuring -- enums cannot be destructured */
 import { createAction as cA } from '@reduxjs/toolkit'
 
-import type { PermaStore } from '../main/perma-store'
+import type { PermaStore } from '../../main/state/perma-store'
 import { Channel } from './channels'
 import type { App } from './reducer.apps'
 import type { ThemeState } from './reducer.theme'

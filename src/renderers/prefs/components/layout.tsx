@@ -2,8 +2,8 @@ import clsx from 'clsx'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { prefsStarted } from '../../../shared-state/actions'
-import { useApps, useSelector } from '../../../shared-state/hooks'
+import { prefsStarted } from '../../../shared/state/actions'
+import { useApps, useSelector } from '../../../shared/state/hooks'
 import { HeaderBar } from './organisms/header-bar'
 
 const useAppStarted = () => {
