@@ -22,9 +22,17 @@ export const busMiddleware =
     // eslint-disable-next-line node/callback-return -- must flush to get nextState
     const result = next(action)
 
-    // Only send actions from this channel to prevent an infinite loop
+    // Send actions from main to all renderers
     if (action.type.startsWith(Channel.MAIN)) {
       bWindow?.webContents.send(Channel.MAIN, action)
+      pWindow?.webContents.send(Channel.MAIN, action)
+    }
+    // Send actions from prefs to tiles
+    else if (action.type.startsWith(Channel.PREFS)) {
+      bWindow?.webContents.send(Channel.MAIN, action)
+    }
+    // Send actions from tiles to prefs
+    else if (action.type.startsWith(Channel.TILES)) {
       pWindow?.webContents.send(Channel.MAIN, action)
     }
 

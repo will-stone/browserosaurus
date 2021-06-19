@@ -90,13 +90,13 @@
               "config": "./webpack.renderer.config.js",
               "entryPoints": [
                 {
-                  "html": "./src/tiles/index.html",
-                  "js": "./src/tiles/index.tsx",
+                  "html": "./src/renderers/tiles/index.html",
+                  "js": "./src/renderers/tiles/index.tsx",
                   "name": "tiles_window"
                 },
                 {
-                  "html": "./src/prefs/index.html",
-                  "js": "./src/prefs/index.tsx",
+                  "html": "./src/renderers/prefs/index.html",
+                  "js": "./src/renderers/prefs/index.tsx",
                   "name": "prefs_window"
                 }
               ]

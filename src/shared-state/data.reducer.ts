@@ -9,6 +9,7 @@ import {
   gotAppVersion,
   gotDefaultBrowserStatus,
   pressedBackspaceKey,
+  tilesStarted,
   updateAvailable,
   updateDownloaded,
   updateDownloading,
@@ -20,6 +21,7 @@ export interface Data {
   updateStatus: 'available' | 'downloaded' | 'downloading' | 'no-update'
   isDefaultProtocolClient: boolean
   url: string
+  tilesStarted: boolean
 }
 
 export const data = createReducer<Data>(
@@ -28,9 +30,13 @@ export const data = createReducer<Data>(
     updateStatus: 'no-update',
     isDefaultProtocolClient: true,
     url: '',
+    tilesStarted: false,
   },
   (builder) =>
     builder
+      .addCase(tilesStarted, (state) => {
+        state.tilesStarted = true
+      })
       .addCase(clickedUrlBackspaceButton, (state) => {
         state.url = backspaceUrlParse(state.url)
       })

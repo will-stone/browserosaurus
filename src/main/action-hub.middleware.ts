@@ -4,10 +4,10 @@ import { execFile } from 'child_process'
 import { app, autoUpdater } from 'electron'
 import electronIsDev from 'electron-is-dev'
 import xor from 'lodash/xor'
+import sleep from 'tings/sleep'
 
 import { apps } from '../config/apps'
 import {
-  appStarted,
   changedHotkey,
   clickedAlreadyDonated,
   clickedCopyButton,
@@ -29,7 +29,9 @@ import {
   pressedAppKey,
   pressedCopyKey,
   pressedEscapeKey,
+  tilesStarted,
   updateAvailable,
+  urlUpdated,
 } from '../shared-state/actions'
 import { RootState } from '../shared-state/root.reducer'
 import { alterHotkeys } from '../utils/alterHotkeys'
@@ -38,7 +40,7 @@ import { filterAppsByInstalled } from '../utils/filterAppsByInstalled'
 import { getTheme } from './getTheme'
 import { isUpdateAvailable } from './is-update-available'
 import { permaStore } from './perma-store'
-import { bWindow } from './windows'
+import { bWindow, showBWindow } from './windows'
 
 /**
  * Actions that need to be dealt with by main.
@@ -49,7 +51,7 @@ export const actionHubMiddleware =
     Record<string, unknown>,
     RootState
   > =>
-  ({ dispatch }) =>
+  ({ dispatch, getState }) =>
   (next) =>
   async (action: AnyAction) => {
     /**
@@ -59,7 +61,7 @@ export const actionHubMiddleware =
     const result = next(action)
 
     // App started
-    if (appStarted.match(action)) {
+    if (tilesStarted.match(action)) {
       const installedApps = await filterAppsByInstalled(apps)
 
       // Send all info down to renderer
@@ -180,6 +182,19 @@ export const actionHubMiddleware =
     // Already donated button clicked
     else if (clickedAlreadyDonated.match(action)) {
       permaStore.set('supportMessage', -1)
+    }
+
+    // Already donated button clicked
+    else if (urlUpdated.match(action)) {
+      if (getState().data.tilesStarted) {
+        showBWindow()
+      }
+      // There appears to be some kind of race condition where the window is created
+      // but not yet ready, so the sent URL on startup gets lost.
+      else {
+        await sleep(500)
+        dispatch(urlUpdated(action.payload))
+      }
     }
 
     return result

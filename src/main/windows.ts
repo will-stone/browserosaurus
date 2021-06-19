@@ -1,4 +1,4 @@
-import { BrowserWindow } from 'electron'
+import { BrowserWindow, screen } from 'electron'
 import path from 'path'
 
 import { permaStore } from './perma-store'
@@ -65,4 +65,46 @@ export function createWindows(): void {
     titleBarStyle: 'hidden',
     alwaysOnTop: true,
   })
+}
+
+export function showBWindow(): void {
+  if (bWindow) {
+    const displayBounds = screen.getDisplayNearestPoint(
+      screen.getCursorScreenPoint(),
+    ).bounds
+
+    const displayEnd = {
+      x: displayBounds.x + displayBounds.width,
+      y: displayBounds.y + displayBounds.height,
+    }
+
+    const mousePoint = screen.getCursorScreenPoint()
+
+    const bWindowBounds = bWindow.getBounds()
+
+    const bWindowEdges = {
+      right: mousePoint.x + bWindowBounds.width,
+      bottom: mousePoint.y + bWindowBounds.height,
+    }
+
+    const nudge = {
+      x: 50,
+      y: 10,
+    }
+
+    const inWindowPosition = {
+      x:
+        bWindowEdges.right > displayEnd.x + nudge.x
+          ? displayEnd.x - bWindowBounds.width
+          : mousePoint.x - nudge.x,
+      y:
+        bWindowEdges.bottom > displayEnd.y + nudge.y
+          ? displayEnd.y - bWindowBounds.height
+          : mousePoint.y + nudge.y,
+    }
+
+    bWindow.setPosition(inWindowPosition.x, inWindowPosition.y, false)
+
+    bWindow.show()
+  }
 }

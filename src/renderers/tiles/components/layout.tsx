@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { appStarted } from '../../../shared-state/actions'
+import { tilesStarted } from '../../../shared-state/actions'
 import { useSelector } from '../../../shared-state/hooks'
 import { useKeyboardEvents } from './hooks/use-keyboard-events'
 import SupportMessage from './organisms/support-message'
@@ -12,7 +12,7 @@ import UrlBar from './organisms/url-bar'
 const useAppStarted = () => {
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(appStarted())
+    dispatch(tilesStarted())
   }, [dispatch])
 }
 

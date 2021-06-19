@@ -31,7 +31,7 @@ interface OpenAppArguments {
   isShift: boolean
 }
 
-const appStarted = cA('TILES/started')
+const tilesStarted = cA('TILES/started')
 
 const clickedTile = cA<OpenAppArguments>('TILES/clickTile')
 
@@ -73,7 +73,6 @@ const clickedMaybeLater = cA('TILES/clickedMaybeLater')
 const clickedAlreadyDonated = cA('TILES/clickedAlreadyDonated')
 
 export {
-  appStarted,
   changedHotkey,
   clickedAlreadyDonated,
   clickedBWebsiteButton,
@@ -101,6 +100,7 @@ export {
   pressedBackspaceKey,
   pressedCopyKey,
   pressedEscapeKey,
+  tilesStarted,
   updateAvailable,
   updateDownloaded,
   updateDownloading,

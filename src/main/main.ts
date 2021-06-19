@@ -1,8 +1,7 @@
 import { AnyAction } from '@reduxjs/toolkit'
-import electron from 'electron'
+import electron, { app, autoUpdater, Menu, nativeTheme, Tray } from 'electron'
 import electronIsDev from 'electron-is-dev'
 import path from 'path'
-import sleep from 'tings/sleep'
 
 import package_ from '../../package.json'
 import {
@@ -20,76 +19,30 @@ import { getTheme } from './getTheme'
 import { isUpdateAvailable } from './is-update-available'
 import { permaStore } from './perma-store'
 import { dispatch } from './store'
-import { bWindow, createWindows, pWindow } from './windows'
+import { bWindow, createWindows, pWindow, showBWindow } from './windows'
 
 declare const TILES_WINDOW_WEBPACK_ENTRY: string
 declare const PREFS_WINDOW_WEBPACK_ENTRY: string
 
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
-electron.app.commandLine.appendArgument('--enable-features=Metal')
+app.commandLine.appendArgument('--enable-features=Metal')
 
 if (permaStore.get('firstRun')) {
   // Prompt to set as default browser
-  electron.app.setAsDefaultProtocolClient('http')
-  electron.app.setAsDefaultProtocolClient('https')
+  app.setAsDefaultProtocolClient('http')
+  app.setAsDefaultProtocolClient('https')
 }
 
-// There appears to be some kind of race condition where the window is created
-// but not yet ready, so the sent URL on startup gets lost. This tracks the
-// ready-to-show event.
-let bWindowIsReadyToShow = false
-let tray: electron.Tray | undefined
+let tray: Tray | undefined
 
 // TODO due to this issue: https://github.com/electron/electron/issues/18699
 // this does not work as advertised. It will detect the change but getColor()
 // doesn't fetch updated values. Hopefully this will work in time.
-electron.nativeTheme.on('updated', () => {
+nativeTheme.on('updated', () => {
   dispatch(gotTheme(getTheme()))
 })
 
-function showBWindow() {
-  if (bWindow) {
-    const displayBounds = electron.screen.getDisplayNearestPoint(
-      electron.screen.getCursorScreenPoint(),
-    ).bounds
-
-    const displayEnd = {
-      x: displayBounds.x + displayBounds.width,
-      y: displayBounds.y + displayBounds.height,
-    }
-
-    const mousePoint = electron.screen.getCursorScreenPoint()
-
-    const bWindowBounds = bWindow.getBounds()
-
-    const bWindowEdges = {
-      right: mousePoint.x + bWindowBounds.width,
-      bottom: mousePoint.y + bWindowBounds.height,
-    }
-
-    const nudge = {
-      x: 50,
-      y: 10,
-    }
-
-    const inWindowPosition = {
-      x:
-        bWindowEdges.right > displayEnd.x + nudge.x
-          ? displayEnd.x - bWindowBounds.width
-          : mousePoint.x - nudge.x,
-      y:
-        bWindowEdges.bottom > displayEnd.y + nudge.y
-          ? displayEnd.y - bWindowBounds.height
-          : mousePoint.y + nudge.y,
-    }
-
-    bWindow.setPosition(inWindowPosition.x, inWindowPosition.y, false)
-
-    bWindow.show()
-  }
-}
-
-electron.app.on('ready', async () => {
+app.on('ready', async () => {
   createWindows()
 
   await pWindow?.loadURL(PREFS_WINDOW_WEBPACK_ENTRY)
@@ -105,10 +58,6 @@ electron.app.on('ready', async () => {
 
   bWindow?.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
 
-  bWindow?.on('ready-to-show', () => {
-    bWindowIsReadyToShow = true
-  })
-
   bWindow?.on('hide', () => {
     bWindow?.hide()
   })
@@ -121,9 +70,7 @@ electron.app.on('ready', async () => {
   bWindow?.on('show', () => {
     // There isn't a listener for default protocol client, therefore the check
     // is made each time the app is brought into focus.
-    dispatch(
-      gotDefaultBrowserStatus(electron.app.isDefaultProtocolClient('http')),
-    )
+    dispatch(gotDefaultBrowserStatus(app.isDefaultProtocolClient('http')))
   })
 
   bWindow?.on('resize', () => {
@@ -137,9 +84,7 @@ electron.app.on('ready', async () => {
   /**
    * Menubar icon
    */
-  tray = new electron.Tray(
-    path.join(__dirname, '/static/icon/tray_iconTemplate.png'),
-  )
+  tray = new Tray(path.join(__dirname, '/static/icon/tray_iconTemplate.png'))
 
   tray.setPressedImage(
     path.join(__dirname, '/static/icon/tray_iconHighlight.png'),
@@ -148,7 +93,7 @@ electron.app.on('ready', async () => {
   tray.setToolTip('Browserosaurus')
 
   tray.setContextMenu(
-    electron.Menu.buildFromTemplate([
+    Menu.buildFromTemplate([
       {
         label: 'Restore recently closed URL',
         click: () => showBWindow(),
@@ -165,7 +110,7 @@ electron.app.on('ready', async () => {
       },
       {
         label: 'Quit',
-        click: () => electron.app.exit(),
+        click: () => app.exit(),
       },
     ]),
   )
@@ -174,27 +119,27 @@ electron.app.on('ready', async () => {
 
   // Auto update on production
   if (!electronIsDev) {
-    electron.autoUpdater.setFeedURL({
+    autoUpdater.setFeedURL({
       url: getUpdateUrl(),
       headers: {
         'User-Agent': `${package_.name}/${package_.version} (darwin: ${process.arch})`,
       },
     })
 
-    electron.autoUpdater.on('before-quit-for-update', () => {
+    autoUpdater.on('before-quit-for-update', () => {
       // All windows must be closed before an update can be applied using "restart".
       bWindow?.destroy()
     })
 
-    electron.autoUpdater.on('update-available', () => {
+    autoUpdater.on('update-available', () => {
       dispatch(updateDownloading())
     })
 
-    electron.autoUpdater.on('update-downloaded', () => {
+    autoUpdater.on('update-downloaded', () => {
       dispatch(updateDownloaded())
     })
 
-    electron.autoUpdater.on('error', () => {
+    autoUpdater.on('error', () => {
       logger('AutoUpdater', 'An error has occurred')
     })
 
@@ -210,33 +155,29 @@ electron.app.on('ready', async () => {
   }
 
   // Hide from dock and cmd-tab
-  electron.app.dock.hide()
+  app.dock.hide()
 })
 
 // App doesn't always close on ctrl-c in console, this fixes that
-electron.app.on('before-quit', () => {
-  electron.app.exit()
+app.on('before-quit', () => {
+  app.exit()
 })
 
-async function sendUrl(url: string) {
-  if (bWindow && bWindowIsReadyToShow) {
-    dispatch(urlUpdated(url))
-    showBWindow()
-  } else {
-    await sleep(500)
-    sendUrl(url)
-  }
-}
-
-electron.app.on('open-url', (event, url) => {
+app.on('open-url', (event, url) => {
   event.preventDefault()
-  sendUrl(url)
+  dispatch(urlUpdated(url))
 })
 
+/**
+ * Enter actions from renderer into main's store's queue
+ */
 electron.ipcMain.on(Channel.PREFS, (_, action: AnyAction) => {
   dispatch(action)
 })
 
+/**
+ * Enter actions from renderer into main's store's queue
+ */
 electron.ipcMain.on(Channel.TILES, (_, action: AnyAction) => {
   dispatch(action)
 })
