@@ -1,5 +1,6 @@
 /* eslint-disable prefer-destructuring -- enums cannot be destructured */
 import { createAction as cA } from '@reduxjs/toolkit'
+import type { Rectangle } from 'electron/main'
 
 import type { PermaStore } from '../../main/state/perma-store'
 import { Channel } from './channels'
@@ -15,6 +16,7 @@ const PREFS = Channel.PREFS
 // -----------------------------------------------------------------------------
 
 const urlOpened = cA<string>(`${MAIN}/urlOpened`)
+const tWindowBoundsChanged = cA<Rectangle>(`${MAIN}/tWindowBoundsChanged`)
 
 const gotTheme = cA<ThemeState>(`${MAIN}/gotTheme`)
 const gotAppVersion = cA<string>(`${MAIN}/gotAppVersion`)
@@ -113,6 +115,7 @@ export {
   pressedCopyKey,
   pressedEscapeKey,
   tilesStarted,
+  tWindowBoundsChanged,
   updateAvailable,
   updateDownloaded,
   updateDownloading,

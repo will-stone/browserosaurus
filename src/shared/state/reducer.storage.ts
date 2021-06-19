@@ -11,6 +11,7 @@ import {
   clickedFavButton,
   clickedMaybeLater,
   gotStore,
+  tWindowBoundsChanged,
 } from './actions'
 import type { App } from './reducer.apps'
 
@@ -67,5 +68,8 @@ export const storage = createReducer<Storage>(
       })
       .addCase(clickedAlreadyDonated, (state) => {
         state.supportMessage = -1
+      })
+      .addCase(tWindowBoundsChanged, (state, action) => {
+        state.bounds = action.payload
       }),
 )

@@ -1,19 +1,15 @@
+/* eslint-disable node/callback-return -- must flush middleware to get nextState*/
 /* eslint-disable unicorn/prefer-regexp-test -- rtk uses .match */
 import { AnyAction, Middleware } from '@reduxjs/toolkit'
 import { execFile } from 'child_process'
 import { app, autoUpdater } from 'electron'
 import electronIsDev from 'electron-is-dev'
+import deepEqual from 'fast-deep-equal'
 import sleep from 'tings/sleep'
 
 import { apps } from '../../config/apps'
 import {
-  changedHotkey,
-  clickedAlreadyDonated,
   clickedCopyButton,
-  clickedDonate,
-  clickedEyeButton,
-  clickedFavButton,
-  clickedMaybeLater,
   clickedQuitButton,
   clickedReloadButton,
   clickedSetAsDefaultBrowserButton,
@@ -38,7 +34,7 @@ import copyToClipboard from '../utils/copy-to-clipboard'
 import { filterAppsByInstalled } from '../utils/filter-apps-by-installed'
 import { getTheme } from '../utils/get-theme'
 import { isUpdateAvailable } from '../utils/is-update-available'
-import { bWindow, showBWindow } from '../windows'
+import { showTWindow, tWindow } from '../windows'
 import { permaStore } from './perma-store'
 
 /**
@@ -53,11 +49,19 @@ export const actionHubMiddleware =
   ({ dispatch, getState }) =>
   (next) =>
   async (action: AnyAction) => {
-    /**
-     * Move to next middleware
-     */
-    // eslint-disable-next-line node/callback-return -- must flush to get nextState
+    const previousState = getState()
+
+    // Move to next middleware
     const result = next(action)
+
+    const nextState = getState()
+
+    /**
+     * Update perma store on state.storage changes
+     */
+    if (!deepEqual(previousState.storage, nextState.storage)) {
+      permaStore.set(nextState.storage)
+    }
 
     // Both renderers started, send down all the data
     if (
@@ -87,7 +91,7 @@ export const actionHubMiddleware =
     // Copy to clipboard
     else if (clickedCopyButton.match(action) || pressedCopyKey.match(action)) {
       copyToClipboard(action.payload)
-      bWindow?.hide()
+      tWindow?.hide()
     }
 
     // Quit
@@ -97,7 +101,7 @@ export const actionHubMiddleware =
 
     // Reload
     else if (clickedReloadButton.match(action)) {
-      bWindow?.reload()
+      tWindow?.reload()
     }
 
     // Set as default browser
@@ -114,21 +118,6 @@ export const actionHubMiddleware =
     // Update and restart
     else if (clickedUpdateRestartButton.match(action)) {
       autoUpdater.quitAndInstall()
-    }
-
-    // Change fav
-    else if (clickedFavButton.match(action)) {
-      permaStore.set('fav', action.payload)
-    }
-
-    // Update hidden tiles
-    else if (clickedEyeButton.match(action)) {
-      permaStore.set('hiddenTileIds', getState().storage.hiddenTileIds)
-    }
-
-    // Update hotkeys
-    else if (changedHotkey.match(action)) {
-      permaStore.set('hotkeys', getState().storage.hotkeys)
     }
 
     // Open app
@@ -158,28 +147,18 @@ export const actionHubMiddleware =
 
       execFile('open', openArguments)
 
-      bWindow?.hide()
+      tWindow?.hide()
     }
 
     // Escape key
     else if (pressedEscapeKey.match(action)) {
-      bWindow?.hide()
-    }
-
-    // Donate button or maybe later buttons clicked
-    else if (clickedDonate.match(action) || clickedMaybeLater.match(action)) {
-      permaStore.set('supportMessage', getState().storage.supportMessage)
-    }
-
-    // Already donated button clicked
-    else if (clickedAlreadyDonated.match(action)) {
-      permaStore.set('supportMessage', getState().storage.supportMessage)
+      tWindow?.hide()
     }
 
     // Open URL
     else if (urlOpened.match(action)) {
       if (getState().data.tilesStarted) {
-        showBWindow()
+        showTWindow()
       }
       // There appears to be some kind of race condition where the window is created
       // but not yet ready, so the sent URL on startup gets lost.

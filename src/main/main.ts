@@ -18,7 +18,7 @@ import { dispatch } from './state/store'
 import { getTheme } from './utils/get-theme'
 import { getUpdateUrl } from './utils/get-update-url'
 import { isUpdateAvailable } from './utils/is-update-available'
-import { bWindow, createWindows, pWindow, showBWindow } from './windows'
+import { createWindows, pWindow, showTWindow, tWindow } from './windows'
 
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
 app.commandLine.appendArgument('--enable-features=Metal')
@@ -56,7 +56,7 @@ app.on('ready', async () => {
     Menu.buildFromTemplate([
       {
         label: 'Restore recently closed URL',
-        click: () => showBWindow(),
+        click: () => showTWindow(),
       },
       {
         type: 'separator',
@@ -88,7 +88,7 @@ app.on('ready', async () => {
 
     autoUpdater.on('before-quit-for-update', () => {
       // All windows must be closed before an update can be applied using "restart".
-      bWindow?.destroy()
+      tWindow?.destroy()
       pWindow?.destroy()
     })
 

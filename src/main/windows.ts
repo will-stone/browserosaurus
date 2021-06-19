@@ -1,7 +1,10 @@
 import { app, BrowserWindow, screen } from 'electron'
 import path from 'path'
 
-import { gotDefaultBrowserStatus } from '../shared/state/actions'
+import {
+  gotDefaultBrowserStatus,
+  tWindowBoundsChanged,
+} from '../shared/state/actions'
 import { permaStore } from './state/perma-store'
 import { dispatch } from './state/store'
 
@@ -9,7 +12,7 @@ declare const TILES_WINDOW_WEBPACK_ENTRY: string
 declare const PREFS_WINDOW_WEBPACK_ENTRY: string
 
 // Prevents garbage collection
-export let bWindow: BrowserWindow | undefined
+export let tWindow: BrowserWindow | undefined
 export let pWindow: BrowserWindow | undefined
 
 export async function createWindows(): Promise<void> {
@@ -42,7 +45,7 @@ export async function createWindows(): Promise<void> {
 
   const bounds = permaStore.get('bounds')
 
-  bWindow = new BrowserWindow({
+  tWindow = new BrowserWindow({
     frame: true,
     icon: path.join(__dirname, '/static/icon/icon.png'),
     title: 'Browserosaurus',
@@ -82,35 +85,37 @@ export async function createWindows(): Promise<void> {
     dispatch(gotDefaultBrowserStatus(app.isDefaultProtocolClient('http')))
   })
 
-  bWindow.setWindowButtonVisibility(false)
+  tWindow.setWindowButtonVisibility(false)
 
-  bWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
+  tWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
 
-  bWindow.on('hide', () => {
-    bWindow?.hide()
+  tWindow.on('hide', () => {
+    tWindow?.hide()
   })
 
-  bWindow.on('close', (event_) => {
+  tWindow.on('close', (event_) => {
     event_.preventDefault()
-    bWindow?.hide()
+    tWindow?.hide()
   })
 
-  bWindow.on('resize', () => {
-    permaStore.set('bounds', bWindow?.getBounds())
+  tWindow.on('resize', () => {
+    if (tWindow) {
+      dispatch(tWindowBoundsChanged(tWindow.getBounds()))
+    }
   })
 
-  bWindow.on('blur', () => {
-    bWindow?.hide()
+  tWindow.on('blur', () => {
+    tWindow?.hide()
   })
 
   await Promise.all([
     pWindow.loadURL(PREFS_WINDOW_WEBPACK_ENTRY),
-    bWindow.loadURL(TILES_WINDOW_WEBPACK_ENTRY),
+    tWindow.loadURL(TILES_WINDOW_WEBPACK_ENTRY),
   ])
 }
 
-export function showBWindow(): void {
-  if (bWindow) {
+export function showTWindow(): void {
+  if (tWindow) {
     const displayBounds = screen.getDisplayNearestPoint(
       screen.getCursorScreenPoint(),
     ).bounds
@@ -122,7 +127,7 @@ export function showBWindow(): void {
 
     const mousePoint = screen.getCursorScreenPoint()
 
-    const bWindowBounds = bWindow.getBounds()
+    const bWindowBounds = tWindow.getBounds()
 
     const bWindowEdges = {
       right: mousePoint.x + bWindowBounds.width,
@@ -145,8 +150,8 @@ export function showBWindow(): void {
           : mousePoint.y + nudge.y,
     }
 
-    bWindow.setPosition(inWindowPosition.x, inWindowPosition.y, false)
+    tWindow.setPosition(inWindowPosition.x, inWindowPosition.y, false)
 
-    bWindow.show()
+    tWindow.show()
   }
 }

@@ -2,7 +2,7 @@ import { AnyAction, Middleware } from '@reduxjs/toolkit'
 
 import { Channel } from '../../shared/state/channels'
 import { RootState } from '../../shared/state/reducer.root'
-import { bWindow, pWindow } from '../windows'
+import { pWindow, tWindow } from '../windows'
 
 /**
  * Pass actions between main and renderers
@@ -24,12 +24,12 @@ export const busMiddleware =
 
     // Send actions from main to all renderers
     if (action.type.startsWith(Channel.MAIN)) {
-      bWindow?.webContents.send(Channel.MAIN, action)
+      tWindow?.webContents.send(Channel.MAIN, action)
       pWindow?.webContents.send(Channel.MAIN, action)
     }
     // Send actions from prefs to tiles
     else if (action.type.startsWith(Channel.PREFS)) {
-      bWindow?.webContents.send(Channel.MAIN, action)
+      tWindow?.webContents.send(Channel.MAIN, action)
     }
     // Send actions from tiles to prefs
     else if (action.type.startsWith(Channel.TILES)) {
