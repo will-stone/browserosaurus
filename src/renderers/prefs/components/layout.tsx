@@ -1,10 +1,24 @@
 import clsx from 'clsx'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
+import { prefsStarted } from '../../../shared-state/actions'
 import { useApps, useSelector } from '../../../shared-state/hooks'
 import { HeaderBar } from './organisms/header-bar'
 
+const useAppStarted = () => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(prefsStarted())
+  }, [dispatch])
+}
+
 const Layout = (): JSX.Element => {
+  /**
+   * Tell main that renderer is available
+   */
+  useAppStarted()
+
   const apps = useApps()
   const isDarkMode = useSelector((state) => state.theme.isDarkMode)
 

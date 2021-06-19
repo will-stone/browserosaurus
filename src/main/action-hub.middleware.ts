@@ -26,6 +26,7 @@ import {
   gotInstalledApps,
   gotStore,
   gotTheme,
+  prefsStarted,
   pressedAppKey,
   pressedCopyKey,
   pressedEscapeKey,
@@ -60,8 +61,12 @@ export const actionHubMiddleware =
     // eslint-disable-next-line node/callback-return -- must flush to get nextState
     const result = next(action)
 
-    // App started
-    if (tilesStarted.match(action)) {
+    // Both renderers started, send down all the data
+    if (
+      getState().data.prefsStarted &&
+      getState().data.tilesStarted &&
+      (tilesStarted.match(action) || prefsStarted.match(action))
+    ) {
       const installedApps = await filterAppsByInstalled(apps)
 
       // Send all info down to renderer
