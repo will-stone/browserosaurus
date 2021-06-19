@@ -1,5 +1,5 @@
 import type { Hotkeys } from '../main/perma-store'
-import { alterHotkeys } from './alterHotkeys'
+import { alterHotkeys } from './alter-hotkeys'
 
 const cases: [Hotkeys, string, string, Hotkeys][] = [
   // Add Safari to empty hotkeys

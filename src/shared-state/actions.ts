@@ -2,9 +2,9 @@
 import { createAction as cA } from '@reduxjs/toolkit'
 
 import type { PermaStore } from '../main/perma-store'
-import type { App } from './apps.reducer'
 import { Channel } from './channels'
-import type { ThemeState } from './theme.reducer'
+import type { App } from './reducer.apps'
+import type { ThemeState } from './reducer.theme'
 
 const MAIN = Channel.MAIN
 const TILES = Channel.TILES

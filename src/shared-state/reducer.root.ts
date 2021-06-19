@@ -1,10 +1,10 @@
 import type { Action, ThunkAction } from '@reduxjs/toolkit'
 import { combineReducers } from '@reduxjs/toolkit'
 
-import { apps } from './apps.reducer'
-import { data } from './data.reducer'
-import { storage } from './storage.reducer'
-import { theme } from './theme.reducer'
+import { apps } from './reducer.apps'
+import { data } from './reducer.data'
+import { storage } from './reducer.storage'
+import { theme } from './reducer.theme'
 
 export const rootReducer = combineReducers({ data, storage, apps, theme })
 

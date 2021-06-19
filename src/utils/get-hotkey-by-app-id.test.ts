@@ -1,5 +1,5 @@
 import type { Hotkeys } from '../main/perma-store'
-import { getHotkeyByAppId } from './getHotkeyByAppId'
+import { getHotkeyByAppId } from './get-hotkey-by-app-id'
 
 const cases: [Hotkeys, string, ReturnType<typeof getHotkeyByAppId>][] = [
   // Does not exist

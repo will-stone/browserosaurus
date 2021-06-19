@@ -1,6 +1,6 @@
-import createStore from '../shared-state/createStore'
-import { actionHubMiddleware } from './action-hub.middleware'
-import { busMiddleware } from './bus.middleware'
+import createStore from '../shared-state/create-store'
+import { actionHubMiddleware } from './middleware.action-hub'
+import { busMiddleware } from './middleware.bus'
 
 const { dispatch } = createStore([busMiddleware(), actionHubMiddleware()])
 

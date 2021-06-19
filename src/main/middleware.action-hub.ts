@@ -34,11 +34,11 @@ import {
   updateAvailable,
   urlUpdated,
 } from '../shared-state/actions'
-import { RootState } from '../shared-state/root.reducer'
-import { alterHotkeys } from '../utils/alterHotkeys'
-import copyToClipboard from '../utils/copyToClipboard'
-import { filterAppsByInstalled } from '../utils/filterAppsByInstalled'
-import { getTheme } from './getTheme'
+import type { RootState } from '../shared-state/reducer.root'
+import { alterHotkeys } from '../utils/alter-hotkeys'
+import copyToClipboard from '../utils/copy-to-clipboard'
+import { filterAppsByInstalled } from '../utils/filter-apps-by-installed'
+import { getTheme } from './get-theme'
 import { isUpdateAvailable } from './is-update-available'
 import { permaStore } from './perma-store'
 import { bWindow, showBWindow } from './windows'

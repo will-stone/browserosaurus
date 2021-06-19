@@ -1,8 +1,8 @@
 import { AnyAction, Middleware } from '@reduxjs/toolkit'
 
-import { bWindow, pWindow } from '../main/windows'
 import { Channel } from '../shared-state/channels'
-import { RootState } from '../shared-state/root.reducer'
+import { RootState } from '../shared-state/reducer.root'
+import { bWindow, pWindow } from './windows'
 
 /**
  * Pass actions between main and renderers

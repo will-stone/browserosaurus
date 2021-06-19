@@ -5,9 +5,9 @@ import {
   useSelector as useReduxSelector,
 } from 'react-redux'
 
-import { getHotkeyByAppId } from '../utils/getHotkeyByAppId'
-import type { App } from './apps.reducer'
-import type { RootState } from './root.reducer'
+import { getHotkeyByAppId } from '../utils/get-hotkey-by-app-id'
+import type { App } from './reducer.apps'
+import type { RootState } from './reducer.root'
 
 export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector
 

@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit'
 import type { Rectangle } from 'electron'
 import xor from 'lodash/xor'
 
-import { alterHotkeys } from '../utils/alterHotkeys'
+import { alterHotkeys } from '../utils/alter-hotkeys'
 import {
   changedHotkey,
   clickedAlreadyDonated,
@@ -12,7 +12,7 @@ import {
   clickedMaybeLater,
   gotStore,
 } from './actions'
-import type { App } from './apps.reducer'
+import type { App } from './reducer.apps'
 
 type Hotkeys = { [key in string]: App['id'] }
 
