@@ -126,7 +126,7 @@ export const actionHubMiddleware =
       // Is default browser?
       dispatch(gotDefaultBrowserStatus(app.isDefaultProtocolClient('http')))
 
-      // FIX casting when I know how to correctly type thunks
+      // FIX casting when I know how to correctly type this dispatch to allow thunks
       dispatch(getApps() as unknown as AnyAction)
       dispatch(checkForUpdate() as unknown as AnyAction)
       createWindows()
