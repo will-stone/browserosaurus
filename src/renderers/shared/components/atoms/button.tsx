@@ -1,6 +1,8 @@
 import clsx from 'clsx'
 import React from 'react'
 
+import { useSelector } from '../../../../shared/state/hooks'
+
 const Button: React.FC<React.ComponentPropsWithoutRef<'button'>> = ({
   className,
   disabled,
@@ -8,6 +10,8 @@ const Button: React.FC<React.ComponentPropsWithoutRef<'button'>> = ({
   type,
   ...restProperties
 }) => {
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode)
+
   return (
     <button
       className={clsx(
@@ -17,7 +21,8 @@ const Button: React.FC<React.ComponentPropsWithoutRef<'button'>> = ({
         'rounded-md',
         'leading-none',
         'inline-flex items-center',
-        'bg-black bg-opacity-10',
+        isDarkMode ? 'bg-white' : 'bg-black',
+        'bg-opacity-5',
       )}
       disabled={disabled}
       type="button"

@@ -9,6 +9,8 @@ module.exports = {
       blueGray: colors.blueGray,
       white: colors.white,
       black: colors.black,
+      yellow: colors.yellow,
+      blue: colors.blue,
     },
     fontSize: {
       'xxs': '.6rem',

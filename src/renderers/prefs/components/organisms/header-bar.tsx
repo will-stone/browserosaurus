@@ -12,15 +12,20 @@ export const HeaderBar = ({ className }: Props): JSX.Element => {
 
   return (
     <div
-      className={clsx(
-        'flex justify-center items-center',
-        'h-12',
-        'draggable',
-        isDarkMode ? 'bg-gray-700' : 'bg-gray-200',
-        className,
-      )}
+      className={clsx(isDarkMode ? 'bg-gray-700' : 'bg-gray-300', className)}
     >
-      Apps
+      <div
+        className={clsx('flex justify-center items-center', 'h-8', 'draggable')}
+      >
+        Tiles
+      </div>
+      <div
+        className={clsx('flex justify-center items-center space-x-12', 'h-16')}
+      >
+        <div>General</div>
+        <div className="text-white">Tiles</div>
+        <div>About</div>
+      </div>
     </div>
   )
 }

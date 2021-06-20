@@ -29,8 +29,9 @@ export async function createWindows(): Promise<void> {
     maximizable: false,
     fullscreen: false,
     fullscreenable: false,
-    titleBarStyle: 'hiddenInset',
-    vibrancy: 'content',
+    transparent: true,
+    titleBarStyle: 'hidden',
+    vibrancy: 'window',
 
     // Meta
     icon: path.join(__dirname, '/static/icon/icon.png'),
