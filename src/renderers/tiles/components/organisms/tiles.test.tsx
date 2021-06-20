@@ -4,8 +4,8 @@ import React from 'react'
 
 import {
   clickedTile,
-  gotInstalledApps,
   pressedAppKey,
+  syncApps,
   urlOpened,
 } from '../../../../shared/state/actions'
 import { Channel } from '../../../../shared/state/channels'
@@ -17,7 +17,7 @@ test('tiles', () => {
   act(() => {
     win.webContents.send(
       Channel.MAIN,
-      gotInstalledApps([
+      syncApps([
         { name: 'Firefox', id: 'org.mozilla.firefox' },
         { name: 'Safari', id: 'com.apple.Safari' },
         { name: 'Brave Nightly', id: 'com.brave.Browser.nightly' },
@@ -82,7 +82,7 @@ test('use hotkey', () => {
   act(() => {
     win.webContents.send(
       Channel.MAIN,
-      gotInstalledApps([{ name: 'Safari', id: 'com.apple.Safari' }]),
+      syncApps([{ name: 'Safari', id: 'com.apple.Safari' }]),
     )
   })
   // Set hotkeys
@@ -114,7 +114,7 @@ test('use hotkey with alt', () => {
   act(() => {
     win.webContents.send(
       Channel.MAIN,
-      gotInstalledApps([{ name: 'Safari', id: 'com.apple.Safari' }]),
+      syncApps([{ name: 'Safari', id: 'com.apple.Safari' }]),
     )
   })
   // Set hotkeys
@@ -151,7 +151,7 @@ test('hold shift', () => {
   act(() => {
     win.webContents.send(
       Channel.MAIN,
-      gotInstalledApps([{ name: 'Firefox', id: 'org.mozilla.firefox' }]),
+      syncApps([{ name: 'Firefox', id: 'org.mozilla.firefox' }]),
     )
   })
   const url = 'http://example.com'
@@ -178,7 +178,7 @@ test('tiles order', () => {
   act(() => {
     win.webContents.send(
       Channel.MAIN,
-      gotInstalledApps([
+      syncApps([
         { name: 'Firefox', id: 'org.mozilla.firefox' },
         { name: 'Safari', id: 'com.apple.Safari' },
         { name: 'Opera', id: 'com.operasoftware.Opera' },

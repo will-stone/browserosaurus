@@ -31,6 +31,7 @@ export const logMiddleware =
 
     const [channel, name]: [Channel, string] = action.type.split('/')
 
+    console.log()
     console.log(
       `${bold(colorMap[channel](channel.padEnd(5)))} ${bold(white(name))}`,
     )

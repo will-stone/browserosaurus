@@ -1,4 +1,4 @@
-import type { Action, ThunkAction } from '@reduxjs/toolkit'
+import type { AnyAction, ThunkAction } from '@reduxjs/toolkit'
 import { combineReducers } from '@reduxjs/toolkit'
 
 import { apps } from './reducer.apps'
@@ -15,5 +15,5 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,
   unknown,
-  Action<string>
+  AnyAction
 >

@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
 
-import { gotInstalledApps } from './actions'
+import { syncApps } from './actions'
 
 export interface App {
   name: string
@@ -10,5 +10,5 @@ export interface App {
 }
 
 export const apps = createReducer<App[]>([], (builder) =>
-  builder.addCase(gotInstalledApps, (_, action) => action.payload),
+  builder.addCase(syncApps, (_, action) => action.payload),
 )

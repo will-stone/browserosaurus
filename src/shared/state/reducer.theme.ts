@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
 
-import { gotTheme } from './actions'
+import { syncTheme } from './actions'
 
 export interface ThemeState {
   isDarkMode: boolean
@@ -13,6 +13,6 @@ export const theme = createReducer<ThemeState>(
     accent: '',
   },
   (builder) => {
-    builder.addCase(gotTheme, (_, action) => action.payload)
+    builder.addCase(syncTheme, (_, action) => action.payload)
   },
 )

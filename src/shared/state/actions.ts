@@ -5,6 +5,7 @@ import type { Rectangle } from 'electron/main'
 import type { PermaStore } from '../../main/state/perma-store'
 import { Channel } from './channels'
 import type { App } from './reducer.apps'
+import { Data } from './reducer.data'
 import type { ThemeState } from './reducer.theme'
 
 const MAIN = Channel.MAIN
@@ -15,14 +16,17 @@ const PREFS = Channel.PREFS
 // MAIN
 // -----------------------------------------------------------------------------
 
+const appReady = cA(`${MAIN}/appReady`)
+
 const urlOpened = cA<string>(`${MAIN}/urlOpened`)
 const tWindowBoundsChanged = cA<Rectangle>(`${MAIN}/tWindowBoundsChanged`)
+const syncApps = cA<App[]>(`${MAIN}/syncApps`)
+const syncData = cA<Data>(`${MAIN}/syncData`)
+const syncStorage = cA<PermaStore>(`${MAIN}/syncStorage`)
+const syncTheme = cA<ThemeState>(`${MAIN}/syncTheme`)
 
-const gotTheme = cA<ThemeState>(`${MAIN}/gotTheme`)
 const gotAppVersion = cA<string>(`${MAIN}/gotAppVersion`)
-const gotInstalledApps = cA<App[]>(`${MAIN}/gotInstalledApps`)
 const gotDefaultBrowserStatus = cA<boolean>(`${MAIN}/gotDefaultBrowserStatus`)
-const gotStore = cA<PermaStore>(`${MAIN}/gotStore`)
 
 const updateAvailable = cA(`${MAIN}/updateAvailable`)
 const updateDownloading = cA(`${MAIN}/updateDownloading`)
@@ -80,12 +84,13 @@ const clickedMaybeLater = cA(`${TILES}/clickedMaybeLater`)
 const clickedAlreadyDonated = cA(`${TILES}/clickedAlreadyDonated`)
 
 // -----------------------------------------------------------------------------
-// TILES
+// PREFS
 // -----------------------------------------------------------------------------
 
 const prefsStarted = cA(`${PREFS}/started`)
 
 export {
+  appReady,
   changedHotkey,
   clickedAlreadyDonated,
   clickedBWebsiteButton,
@@ -105,15 +110,16 @@ export {
   clickedUrlBackspaceButton,
   gotAppVersion,
   gotDefaultBrowserStatus,
-  gotInstalledApps,
-  gotStore,
-  gotTheme,
   keydown,
   prefsStarted,
   pressedAppKey,
   pressedBackspaceKey,
   pressedCopyKey,
   pressedEscapeKey,
+  syncApps,
+  syncData,
+  syncStorage,
+  syncTheme,
   tilesStarted,
   tWindowBoundsChanged,
   updateAvailable,

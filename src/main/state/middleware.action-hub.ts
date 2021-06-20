@@ -7,8 +7,10 @@ import electronIsDev from 'electron-is-dev'
 import deepEqual from 'fast-deep-equal'
 import sleep from 'tings/sleep'
 
+import package_ from '../../../package.json'
 import { apps } from '../../config/apps'
 import {
+  appReady,
   clickedCopyButton,
   clickedQuitButton,
   clickedReloadButton,
@@ -18,24 +20,31 @@ import {
   clickedUpdateRestartButton,
   gotAppVersion,
   gotDefaultBrowserStatus,
-  gotInstalledApps,
-  gotStore,
-  gotTheme,
   prefsStarted,
   pressedAppKey,
   pressedCopyKey,
   pressedEscapeKey,
+  syncApps,
+  syncData,
+  syncStorage,
+  syncTheme,
   tilesStarted,
   updateAvailable,
+  updateDownloaded,
+  updateDownloading,
   urlOpened,
 } from '../../shared/state/actions'
 import type { RootState } from '../../shared/state/reducer.root'
+import { logger } from '../../shared/utils/logger'
+import { createTray } from '../tray'
 import copyToClipboard from '../utils/copy-to-clipboard'
-import { filterAppsByInstalled } from '../utils/filter-apps-by-installed'
 import { getTheme } from '../utils/get-theme'
+import { getUpdateUrl } from '../utils/get-update-url'
 import { isUpdateAvailable } from '../utils/is-update-available'
-import { showTWindow, tWindow } from '../windows'
+import { createWindows, pWindow, showTWindow, tWindow } from '../windows'
 import { permaStore } from './perma-store'
+import { checkForUpdate } from './thunk.check-for-update'
+import { getApps } from './thunk.get-apps'
 
 /**
  * Actions that need to be dealt with by main.
@@ -63,19 +72,53 @@ export const actionHubMiddleware =
       permaStore.set(nextState.storage)
     }
 
-    // Both renderers started, send down all the data
-    if (
-      getState().data.prefsStarted &&
-      getState().data.tilesStarted &&
-      (tilesStarted.match(action) || prefsStarted.match(action))
-    ) {
-      const installedApps = await filterAppsByInstalled(apps)
+    // Main's process is ready
+    if (appReady.match(action)) {
+      // Hide from dock and cmd-tab
+      app.dock.hide()
+
+      // Auto update on production
+      if (!electronIsDev) {
+        autoUpdater.setFeedURL({
+          url: getUpdateUrl(),
+          headers: {
+            'User-Agent': `${package_.name}/${package_.version} (darwin: ${process.arch})`,
+          },
+        })
+
+        autoUpdater.on('before-quit-for-update', () => {
+          // All windows must be closed before an update can be applied using "restart".
+          tWindow?.destroy()
+          pWindow?.destroy()
+        })
+
+        autoUpdater.on('update-available', () => {
+          dispatch(updateDownloading())
+        })
+
+        autoUpdater.on('update-downloaded', () => {
+          dispatch(updateDownloaded())
+        })
+
+        autoUpdater.on('error', () => {
+          logger('AutoUpdater', 'An error has occurred')
+        })
+
+        // 1000 * 60 * 60 * 24
+        const ONE_DAY_MS = 86_400_000
+        // Check for updates every day. The first check is done on load: in the
+        // action-hub.
+        setInterval(async () => {
+          if (await isUpdateAvailable()) {
+            dispatch(updateAvailable())
+          }
+        }, ONE_DAY_MS)
+      }
 
       // Send all info down to renderer
-      dispatch(gotTheme(getTheme()))
+      dispatch(syncTheme(getTheme()))
       // Spreading this fixes "A non-serializable value was detected in an action, in the path: `payload`" error
-      dispatch(gotStore({ ...permaStore.store }))
-      dispatch(gotInstalledApps(installedApps))
+      dispatch(syncStorage({ ...permaStore.store }))
       dispatch(
         gotAppVersion(`${app.getVersion()}${electronIsDev ? ' DEV' : ''}`),
       )
@@ -83,9 +126,23 @@ export const actionHubMiddleware =
       // Is default browser?
       dispatch(gotDefaultBrowserStatus(app.isDefaultProtocolClient('http')))
 
-      if (!electronIsDev && (await isUpdateAvailable())) {
-        dispatch(updateAvailable())
-      }
+      // FIX casting when I know how to correctly type thunks
+      dispatch(getApps() as unknown as AnyAction)
+      dispatch(checkForUpdate() as unknown as AnyAction)
+      createWindows()
+      createTray()
+    }
+
+    // Both renderers started, send down all the data
+    else if (
+      getState().data.prefsStarted &&
+      getState().data.tilesStarted &&
+      (tilesStarted.match(action) || prefsStarted.match(action))
+    ) {
+      dispatch(syncApps(nextState.apps))
+      dispatch(syncData(nextState.data))
+      dispatch(syncStorage(nextState.storage))
+      dispatch(syncTheme(nextState.theme))
     }
 
     // Copy to clipboard
@@ -157,7 +214,7 @@ export const actionHubMiddleware =
 
     // Open URL
     else if (urlOpened.match(action)) {
-      if (getState().data.tilesStarted) {
+      if (nextState.data.tilesStarted) {
         showTWindow()
       }
       // There appears to be some kind of race condition where the window is created
