@@ -89,71 +89,69 @@ const Layout = (): JSX.Element => {
               </tr>
             </thead>
             <tbody>
-              {[...apps, ...apps].map(
-                ({ id, name, isVisible, isFav, hotkey }) => (
-                  <tr key={id}>
-                    <td className="p-4 text-left border-b border-gray-500 border-opacity-25">
-                      <div
+              {apps.map(({ id, name, isVisible, isFav, hotkey }) => (
+                <tr key={id}>
+                  <td className="p-4 text-left border-b border-gray-500 border-opacity-25">
+                    <div
+                      className={clsx(
+                        'flex items-center',
+                        !isVisible && 'opacity-50',
+                      )}
+                    >
+                      <img alt="" className="h-8 w-8 mr-4" src={logos[id]} />
+                      <span>{name}</span>
+                    </div>
+                  </td>
+                  <td className="p-4 border-b border-gray-500 border-opacity-25 text-center">
+                    <Button onClick={() => dispatch(clickedFavButton(id))}>
+                      <StarIcon
                         className={clsx(
-                          'flex items-center',
-                          !isVisible && 'opacity-50',
+                          'h-6 w-6',
+                          isFav ? 'text-yellow-500' : 'opacity-50',
                         )}
-                      >
-                        <img alt="" className="h-8 w-8 mr-4" src={logos[id]} />
-                        <span>{name}</span>
-                      </div>
-                    </td>
-                    <td className="p-4 border-b border-gray-500 border-opacity-25 text-center">
-                      <Button onClick={() => dispatch(clickedFavButton(id))}>
-                        <StarIcon
-                          className={clsx(
-                            'h-6 w-6',
-                            isFav ? 'text-yellow-500' : 'opacity-50',
-                          )}
-                        />
-                      </Button>
-                    </td>
-                    <td className="p-4 border-b border-gray-500 border-opacity-25 text-center">
-                      <Button onClick={() => dispatch(clickedEyeButton(id))}>
-                        {isVisible ? (
-                          <EyeIcon className="h-6 w-6 text-blue-500" />
-                        ) : (
-                          <EyeOffIcon className="h-6 w-6 opacity-50" />
-                        )}
-                      </Button>
-                    </td>
-                    <td className="p-4 border-b border-gray-500 border-opacity-25 text-center">
-                      <input
-                        aria-label={`${name} hotkey`}
-                        className={clsx(
-                          'uppercase focus:outline-none min-w-0 h-10 w-12 text-center rounded',
-                          'shadow bg-opacity-50',
-                          isDarkMode
-                            ? 'text-white bg-black'
-                            : 'text-black bg-white',
-                        )}
-                        data-app-id={id}
-                        maxLength={1}
-                        minLength={0}
-                        onChange={(event) => {
-                          dispatch(
-                            changedHotkey({
-                              appId: id,
-                              value: event.currentTarget.value,
-                            }),
-                          )
-                        }}
-                        onFocus={(event) => {
-                          event.target.select()
-                        }}
-                        placeholder="Key"
-                        type="text"
-                        value={hotkey || ''}
                       />
-                    </td>
-                  </tr>
-                ),
-              )}
+                    </Button>
+                  </td>
+                  <td className="p-4 border-b border-gray-500 border-opacity-25 text-center">
+                    <Button onClick={() => dispatch(clickedEyeButton(id))}>
+                      {isVisible ? (
+                        <EyeIcon className="h-6 w-6 text-blue-500" />
+                      ) : (
+                        <EyeOffIcon className="h-6 w-6 opacity-50" />
+                      )}
+                    </Button>
+                  </td>
+                  <td className="p-4 border-b border-gray-500 border-opacity-25 text-center">
+                    <input
+                      aria-label={`${name} hotkey`}
+                      className={clsx(
+                        'uppercase focus:outline-none min-w-0 h-10 w-12 text-center rounded',
+                        'shadow bg-opacity-50',
+                        isDarkMode
+                          ? 'text-white bg-black'
+                          : 'text-black bg-white',
+                      )}
+                      data-app-id={id}
+                      maxLength={1}
+                      minLength={0}
+                      onChange={(event) => {
+                        dispatch(
+                          changedHotkey({
+                            appId: id,
+                            value: event.currentTarget.value,
+                          }),
+                        )
+                      }}
+                      onFocus={(event) => {
+                        event.target.select()
+                      }}
+                      placeholder="Key"
+                      type="text"
+                      value={hotkey || ''}
+                    />
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
