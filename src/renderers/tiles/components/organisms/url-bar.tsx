@@ -9,8 +9,11 @@ import {
   clickedUrlBackspaceButton,
 } from '../../../../shared/state/actions'
 import { useSelector } from '../../../../shared/state/hooks'
-import Button from '../atoms/button'
-import { BackspaceIcon, ClipboardCopyIcon } from '../atoms/icons'
+import Button from '../../../shared/components/atoms/button'
+import {
+  BackspaceIcon,
+  ClipboardCopyIcon,
+} from '../../../shared/components/atoms/icons'
 
 interface Props {
   className?: string

@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux'
 
 import { clickedTile } from '../../../../shared/state/actions'
 import { ExtendedApp, useSelector } from '../../../../shared/state/hooks'
+import { StarIcon } from '../../../shared/components/atoms/icons'
 import AppLogo from '../atoms/app-logo'
-import { StarIcon } from '../atoms/icons'
 import Kbd from '../atoms/kbd'
 
 interface Props {
