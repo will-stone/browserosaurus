@@ -25,6 +25,7 @@ export interface Data {
   url: string
   tilesStarted: boolean
   prefsStarted: boolean
+  prefsTab: 'about' | 'general' | 'tiles'
 }
 
 export const data = createReducer<Data>(
@@ -35,6 +36,7 @@ export const data = createReducer<Data>(
     url: '',
     tilesStarted: false,
     prefsStarted: false,
+    prefsTab: 'general',
   },
   (builder) =>
     builder

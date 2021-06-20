@@ -44,7 +44,7 @@ const Layout = (): JSX.Element => {
       )}
     >
       <HeaderBar className="flex-shrink-0" />
-      <div className="flex-grow overflow-hidden p-8 flex">
+      <div className="flex-grow overflow-hidden p-8 flex flex-col">
         <div
           className={clsx(
             isDarkMode ? 'bg-white border-white' : 'bg-black border-black',
@@ -89,69 +89,96 @@ const Layout = (): JSX.Element => {
               </tr>
             </thead>
             <tbody>
-              {apps.map(({ id, name, isVisible, isFav, hotkey }) => (
-                <tr key={id}>
-                  <td className="p-4 text-left border-b border-gray-500 border-opacity-25">
-                    <div
+              {apps.map(({ id, name, isVisible, isFav, hotkey }, index) => {
+                const isOdd = index % 2 !== 0
+                return (
+                  <tr key={id}>
+                    <td
                       className={clsx(
-                        'flex items-center',
-                        !isVisible && 'opacity-50',
+                        isOdd && isDarkMode && 'bg-white',
+                        isOdd && !isDarkMode && 'bg-black',
+                        'p-4 text-left bg-opacity-5',
                       )}
                     >
-                      <img alt="" className="h-8 w-8 mr-4" src={logos[id]} />
-                      <span>{name}</span>
-                    </div>
-                  </td>
-                  <td className="p-4 border-b border-gray-500 border-opacity-25 text-center">
-                    <Button onClick={() => dispatch(clickedFavButton(id))}>
-                      <StarIcon
+                      <div
                         className={clsx(
-                          'h-6 w-6',
-                          isFav ? 'text-yellow-500' : 'opacity-50',
+                          'flex items-center',
+                          !isVisible && 'opacity-50',
                         )}
-                      />
-                    </Button>
-                  </td>
-                  <td className="p-4 border-b border-gray-500 border-opacity-25 text-center">
-                    <Button onClick={() => dispatch(clickedEyeButton(id))}>
-                      {isVisible ? (
-                        <EyeIcon className="h-6 w-6 text-blue-500" />
-                      ) : (
-                        <EyeOffIcon className="h-6 w-6 opacity-50" />
-                      )}
-                    </Button>
-                  </td>
-                  <td className="p-4 border-b border-gray-500 border-opacity-25 text-center">
-                    <input
-                      aria-label={`${name} hotkey`}
+                      >
+                        <img alt="" className="h-8 w-8 mr-4" src={logos[id]} />
+                        <span>{name}</span>
+                      </div>
+                    </td>
+                    <td
                       className={clsx(
-                        'uppercase focus:outline-none min-w-0 h-10 w-12 text-center rounded',
-                        'shadow bg-opacity-50',
-                        isDarkMode
-                          ? 'text-white bg-black'
-                          : 'text-black bg-white',
+                        isOdd && isDarkMode && 'bg-white',
+                        isOdd && !isDarkMode && 'bg-black',
+                        'p-4 text-center bg-opacity-5',
                       )}
-                      data-app-id={id}
-                      maxLength={1}
-                      minLength={0}
-                      onChange={(event) => {
-                        dispatch(
-                          changedHotkey({
-                            appId: id,
-                            value: event.currentTarget.value,
-                          }),
-                        )
-                      }}
-                      onFocus={(event) => {
-                        event.target.select()
-                      }}
-                      placeholder="Key"
-                      type="text"
-                      value={hotkey || ''}
-                    />
-                  </td>
-                </tr>
-              ))}
+                    >
+                      <Button onClick={() => dispatch(clickedFavButton(id))}>
+                        <StarIcon
+                          className={clsx(
+                            'h-6 w-6',
+                            isFav ? 'text-yellow-500' : 'opacity-50',
+                          )}
+                        />
+                      </Button>
+                    </td>
+                    <td
+                      className={clsx(
+                        isOdd && isDarkMode && 'bg-white',
+                        isOdd && !isDarkMode && 'bg-black',
+                        'p-4 text-center bg-opacity-5',
+                      )}
+                    >
+                      <Button onClick={() => dispatch(clickedEyeButton(id))}>
+                        {isVisible ? (
+                          <EyeIcon className="h-6 w-6 text-blue-500" />
+                        ) : (
+                          <EyeOffIcon className="h-6 w-6 opacity-50" />
+                        )}
+                      </Button>
+                    </td>
+                    <td
+                      className={clsx(
+                        isOdd && isDarkMode && 'bg-white',
+                        isOdd && !isDarkMode && 'bg-black',
+                        'p-4 text-center bg-opacity-5',
+                      )}
+                    >
+                      <input
+                        aria-label={`${name} hotkey`}
+                        className={clsx(
+                          'uppercase focus:outline-none min-w-0 h-10 w-12 text-center rounded',
+                          'shadow bg-opacity-50',
+                          isDarkMode
+                            ? 'text-white bg-black'
+                            : 'text-black bg-white',
+                        )}
+                        data-app-id={id}
+                        maxLength={1}
+                        minLength={0}
+                        onChange={(event) => {
+                          dispatch(
+                            changedHotkey({
+                              appId: id,
+                              value: event.currentTarget.value,
+                            }),
+                          )
+                        }}
+                        onFocus={(event) => {
+                          event.target.select()
+                        }}
+                        placeholder="Key"
+                        type="text"
+                        value={hotkey || ''}
+                      />
+                    </td>
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>
