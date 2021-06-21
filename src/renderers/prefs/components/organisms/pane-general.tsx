@@ -87,6 +87,7 @@ export const GeneralPane = (): JSX.Element => {
               Download Update
             </Button>
           )}
+          {updateStatus === 'downloading' && 'Downloading…'}
           {updateStatus === 'downloaded' && (
             <Button onClick={() => dispatch(clickedUpdateRestartButton())}>
               Restart & Update
