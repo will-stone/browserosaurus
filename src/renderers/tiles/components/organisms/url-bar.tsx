@@ -33,7 +33,6 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         'flex-shrink-0',
         'w-full px-4',
         'flex items-center space-x-4',
-        'bg-black bg-opacity-10',
       )}
       style={{ height: '74px' }}
     >

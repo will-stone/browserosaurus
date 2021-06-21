@@ -13,7 +13,7 @@ import {
   appReady,
   clickedCopyButton,
   clickedQuitButton,
-  clickedReloadButton,
+  clickedRescanApps,
   clickedSetAsDefaultBrowserButton,
   clickedTile,
   clickedUpdateButton,
@@ -152,11 +152,6 @@ export const actionHubMiddleware =
       app.quit()
     }
 
-    // Reload
-    else if (clickedReloadButton.match(action)) {
-      tWindow?.reload()
-    }
-
     // Set as default browser
     else if (clickedSetAsDefaultBrowserButton.match(action)) {
       app.setAsDefaultProtocolClient('http')
@@ -171,6 +166,12 @@ export const actionHubMiddleware =
     // Update and restart
     else if (clickedUpdateRestartButton.match(action)) {
       autoUpdater.quitAndInstall()
+    }
+
+    // Rescan for browsers
+    else if (clickedRescanApps.match(action)) {
+      // FIX casting when I know how to correctly type this dispatch to allow thunks
+      dispatch(getApps() as unknown as AnyAction)
     }
 
     // Open app

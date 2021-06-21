@@ -15,17 +15,17 @@ export const HeaderBar = ({ className }: Props): JSX.Element => {
 
   return (
     <div className={clsx(className)}>
-      <div
-        className={clsx('flex justify-center items-center', 'h-8', 'draggable')}
-      >
-        Tiles
+      <div className="flex justify-center items-center h-8 draggable pt-4 pb-8">
+        Browserosaurus Preferences
       </div>
-      <div
-        className={clsx('flex justify-center items-center space-x-12', 'h-16')}
-      >
+      <div className="flex justify-center items-center space-x-12">
         <button
           className={clsx(
-            prefsTab === 'general' && 'text-black dark:text-white',
+            'bg-black dark:bg-white',
+            prefsTab === 'general'
+              ? 'text-black dark:text-white bg-opacity-10 dark:bg-opacity-10'
+              : 'bg-opacity-0 dark:bg-opacity-0 hover:bg-opacity-5 dark:hover:bg-opacity-5',
+            'px-4 py-2 rounded',
             'focus:outline-none',
           )}
           onClick={() => dispatch(clickedTabButton('general'))}
@@ -35,7 +35,11 @@ export const HeaderBar = ({ className }: Props): JSX.Element => {
         </button>
         <button
           className={clsx(
-            prefsTab === 'tiles' && 'text-black dark:text-white',
+            'bg-black dark:bg-white',
+            prefsTab === 'tiles'
+              ? 'text-black dark:text-white bg-opacity-10 dark:bg-opacity-10'
+              : 'bg-opacity-0 dark:bg-opacity-0 hover:bg-opacity-5 dark:hover:bg-opacity-5',
+            'px-4 py-2 rounded',
             'focus:outline-none',
           )}
           onClick={() => dispatch(clickedTabButton('tiles'))}
@@ -45,7 +49,11 @@ export const HeaderBar = ({ className }: Props): JSX.Element => {
         </button>
         <button
           className={clsx(
-            prefsTab === 'about' && 'text-black dark:text-white',
+            'bg-black dark:bg-white',
+            prefsTab === 'about'
+              ? 'text-black dark:text-white bg-opacity-10 dark:bg-opacity-10'
+              : 'bg-opacity-0 dark:bg-opacity-0 hover:bg-opacity-5 dark:hover:bg-opacity-5',
+            'px-4 py-2 rounded',
             'focus:outline-none',
           )}
           onClick={() => dispatch(clickedTabButton('about'))}

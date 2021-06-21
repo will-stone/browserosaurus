@@ -15,6 +15,7 @@ import {
   EyeOffIcon,
   StarIcon,
 } from '../../../shared/components/atoms/icons'
+import Input from '../../../shared/components/atoms/input'
 import { Pane } from '../molecules/pane'
 
 export function AppsPane(): JSX.Element {
@@ -54,33 +55,31 @@ export function AppsPane(): JSX.Element {
                 <img alt="" className="h-8 w-8 mr-4" src={logos[id]} />
                 <span>{name}</span>
               </div>
-              <div className="p-4 text-center">
+              <div className="p-4 flex items-center justify-center">
                 <Button onClick={() => dispatch(clickedFavButton(id))}>
                   <StarIcon
                     className={clsx(
                       'h-6 w-6',
-                      isFav ? 'text-yellow-500' : 'opacity-50',
+                      isFav
+                        ? 'text-yellow-500 dark:text-yellow-400'
+                        : 'opacity-50',
                     )}
                   />
                 </Button>
               </div>
-              <div className="p-4 text-center">
+              <div className="p-4 flex items-center justify-center">
                 <Button onClick={() => dispatch(clickedEyeButton(id))}>
                   {isVisible ? (
-                    <EyeIcon className="h-6 w-6 text-blue-500" />
+                    <EyeIcon className="h-6 w-6 text-blue-700 dark:text-blue-400" />
                   ) : (
-                    <EyeOffIcon className="h-6 w-6 opacity-50" />
+                    <EyeOffIcon className="h-6 w-6 opacity-40" />
                   )}
                 </Button>
               </div>
-              <div className="p-4 text-center">
-                <input
+              <div className="p-4 flex items-center justify-center">
+                <Input
                   aria-label={`${name} hotkey`}
-                  className={clsx(
-                    'text-center uppercase focus:outline-none min-w-0 h-10 w-12 rounded',
-                    'shadow bg-opacity-50 bg-white dark:bg-black',
-                    'text-black dark:text-white',
-                  )}
+                  className="h-8 w-12"
                   data-app-id={id}
                   maxLength={1}
                   minLength={0}

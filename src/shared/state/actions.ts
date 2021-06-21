@@ -60,7 +60,6 @@ const pressedAppKey = cA<OpenAppArguments>(`${TILES}/appKey`)
 
 const clickedCloseMenuButton = cA(`${TILES}/clickedCloseMenuButton`)
 const clickedQuitButton = cA(`${TILES}/clickedQuitButton`)
-const clickedReloadButton = cA(`${TILES}/clickedReloadButton`)
 
 const clickedUpdateButton = cA(`${TILES}/clickedUpdateButton`)
 const clickedUpdateRestartButton = cA(`${TILES}/clickedUpdateRestartButton`)
@@ -86,6 +85,8 @@ const clickedSetAsDefaultBrowserButton = cA(
   `${PREFS}/clickedSetAsDefaultBrowserButton`,
 )
 
+const clickedRescanApps = cA(`${PREFS}/clickedRescanApps`)
+
 const clickedFavButton = cA<string>(`${PREFS}/clickedFavButton`)
 const clickedEyeButton = cA<string>(`${PREFS}/clickedEyeButton`)
 const changedHotkey = cA<{ appId: string; value: string }>(
@@ -104,7 +105,7 @@ export {
   clickedFavButton,
   clickedMaybeLater,
   clickedQuitButton,
-  clickedReloadButton,
+  clickedRescanApps,
   clickedSetAsDefaultBrowserButton,
   clickedSettingsButton,
   clickedTabButton,

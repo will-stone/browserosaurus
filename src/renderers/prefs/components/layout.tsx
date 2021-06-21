@@ -20,8 +20,8 @@ const Layout = (): JSX.Element => {
   useAppStarted()
 
   return (
-    <div className="flex flex-col max-h-screen text-gray-700 dark:text-gray-300">
-      <HeaderBar className="flex-shrink-0" />
+    <div className="flex flex-col h-screen w-screen text-gray-800 dark:text-gray-300">
+      <HeaderBar className="flex-shrink-0 mb-6" />
       <hr className="border-gray-200 dark:border-gray-900" />
       <div className="flex-grow overflow-hidden p-8 flex flex-col">
         <GeneralPane />
