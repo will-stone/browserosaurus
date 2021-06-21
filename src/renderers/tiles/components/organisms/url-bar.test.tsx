@@ -35,5 +35,3 @@ test('url bar', () => {
   expect(screen.getByText(host)).toHaveClass(hostHighlightClass)
   expect(screen.getByText(rest)).not.toHaveClass(hostHighlightClass)
 })
-
-test.todo('Set as default browser')

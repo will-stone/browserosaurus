@@ -6,6 +6,7 @@ import {
   clickedTile,
   pressedAppKey,
   syncApps,
+  syncStorage,
   urlOpened,
 } from '../../../../shared/state/actions'
 import { Channel } from '../../../../shared/state/channels'
@@ -38,17 +39,26 @@ test('tiles', () => {
     3,
   )
 
+  act(() => {
+    win.webContents.send(
+      Channel.MAIN,
+      syncStorage({
+        supportMessage: -1,
+        fav: 'com.apple.Safari',
+        hiddenTileIds: [],
+        hotkeys: {},
+      }),
+    )
+  })
+
   // Set Safari as favourite
-  fireEvent.click(screen.getByRole('button', { name: 'Settings menu' }))
-  fireEvent.click(screen.getByRole('button', { name: 'Favourite Safari' }))
-  fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
   const safariTile = screen.getByRole('button', { name: 'Safari Tile' })
   expect(within(safariTile).getByLabelText('Star')).toBeVisible()
 
   // Correct info sent to main when tile clicked
   fireEvent.click(screen.getByRole('button', { name: 'Firefox Tile' }))
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
-    'FROM_RENDERER',
+    Channel.TILES,
     clickedTile({
       url: '',
       appId: 'org.mozilla.firefox',
@@ -66,7 +76,7 @@ test('tiles', () => {
     altKey: true,
   })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
-    'FROM_RENDERER',
+    Channel.TILES,
     clickedTile({
       url,
       appId: 'com.brave.Browser.nightly',
@@ -85,20 +95,25 @@ test('use hotkey', () => {
       syncApps([{ name: 'Safari', id: 'com.apple.Safari' }]),
     )
   })
-  // Set hotkeys
-  fireEvent.click(screen.getByRole('button', { name: 'Settings menu' }))
-  // Set Safari as s
-  fireEvent.change(screen.getByLabelText('Safari hotkey'), {
-    target: { value: 'S' },
+  act(() => {
+    win.webContents.send(
+      Channel.MAIN,
+      syncStorage({
+        supportMessage: -1,
+        fav: 'com.apple.Safari',
+        hiddenTileIds: [],
+        hotkeys: { s: 'com.apple.Safari' },
+      }),
+    )
   })
-  fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
+
   const url = 'http://example.com'
   act(() => {
     win.webContents.send(Channel.MAIN, urlOpened(url))
   })
   fireEvent.keyDown(document, { key: 'S', code: 'KeyS', keyCode: 83 })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
-    'FROM_RENDERER',
+    Channel.TILES,
     pressedAppKey({
       url,
       appId: 'com.apple.Safari',
@@ -117,13 +132,19 @@ test('use hotkey with alt', () => {
       syncApps([{ name: 'Safari', id: 'com.apple.Safari' }]),
     )
   })
-  // Set hotkeys
-  fireEvent.click(screen.getByRole('button', { name: 'Settings menu' }))
-  // Set Safari as s
-  fireEvent.change(screen.getByLabelText('Safari hotkey'), {
-    target: { value: 's' },
+
+  act(() => {
+    win.webContents.send(
+      Channel.MAIN,
+      syncStorage({
+        supportMessage: -1,
+        fav: 'com.apple.Safari',
+        hiddenTileIds: [],
+        hotkeys: { s: 'com.apple.Safari' },
+      }),
+    )
   })
-  fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
+
   const url = 'http://example.com'
   act(() => {
     win.webContents.send(Channel.MAIN, urlOpened(url))
@@ -135,7 +156,7 @@ test('use hotkey with alt', () => {
     altKey: true,
   })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
-    'FROM_RENDERER',
+    Channel.TILES,
     pressedAppKey({
       url,
       appId: 'com.apple.Safari',
@@ -162,7 +183,7 @@ test('hold shift', () => {
     shiftKey: true,
   })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
-    'FROM_RENDERER',
+    Channel.TILES,
     clickedTile({
       url,
       appId: 'org.mozilla.firefox',
@@ -192,17 +213,17 @@ test('tiles order', () => {
 
   expect(tiles).toHaveLength(5)
 
-  // Set hotkeys
-  fireEvent.click(screen.getByRole('button', { name: 'Settings menu' }))
-  // Set Safari as favourite
-  fireEvent.click(screen.getByRole('button', { name: 'Favourite Safari' }))
-  fireEvent.change(screen.getByLabelText('Opera hotkey'), {
-    target: { value: '1' },
+  act(() => {
+    win.webContents.send(
+      Channel.MAIN,
+      syncStorage({
+        supportMessage: -1,
+        fav: 'com.apple.Safari',
+        hiddenTileIds: [],
+        hotkeys: { 1: 'com.operasoftware.Opera', 2: 'com.brave.Browser' },
+      }),
+    )
   })
-  fireEvent.change(screen.getByLabelText('Brave hotkey'), {
-    target: { value: '2' },
-  })
-  fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
 
   const updatedTiles = screen.getAllByRole('button', { name: /[A-z]+ Tile/u })
   expect(updatedTiles[0]).toHaveAttribute('aria-label', 'Safari Tile')

@@ -29,7 +29,7 @@
     "package:arm": "NODE_ENV=production electron-forge package --platform=darwin --arch=arm64",
     "package:intel": "NODE_ENV=production electron-forge package --platform=darwin --arch=x64",
     "release": "bump --commit && npm run doctor && npm run package && npm run notarize && npm run make",
-    "start": "ENV=DEV ELECTRON_DISABLE_SECURITY_WARNINGS=true TAILWIND_MODE=watch electron-forge start",
+    "start": "ELECTRON_DISABLE_SECURITY_WARNINGS=true TAILWIND_MODE=watch electron-forge start",
     "test": "jest",
     "typecheck": "tsc --noEmit --skipLibCheck",
     "prepare": "husky install"
@@ -56,7 +56,7 @@
           "entitlements": "config/entitlements.mac.plist",
           "entitlements-inherit": "config/entitlements.mac.plist"
         },
-        "icon": "src/main/static/icon/icon.icns",
+        "icon": "src/shared/static/icon/icon.icns",
         "protocols": [
           {
             "name": "HTTP link",
@@ -123,6 +123,7 @@
     "modulePathIgnorePatterns": [
       "<rootDir>/out/"
     ],
+    "preset": "ts-jest",
     "setupFilesAfterEnv": [
       "@testing-library/jest-dom/extend-expect"
     ],
@@ -183,10 +184,6 @@
     "tings": "^0.0.23"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "@babel/preset-react": "^7.10.4",
-    "@babel/preset-typescript": "^7.10.4",
     "@electron-forge/cli": "6.0.0-beta.56",
     "@electron-forge/maker-deb": "6.0.0-beta.56",
     "@electron-forge/maker-dmg": "^6.0.0-beta.56",
@@ -226,6 +223,7 @@
     "rimraf": "^3.0.2",
     "style-loader": "^1.2.1",
     "tailwindcss": "^2.2.2",
+    "ts-jest": "^27.0.3",
     "ts-loader": "^8.0.2",
     "ts-node": "^8.10.2",
     "typescript": "^4.0.3",

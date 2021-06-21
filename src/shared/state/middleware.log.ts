@@ -29,14 +29,16 @@ export const logMiddleware =
     // eslint-disable-next-line node/callback-return -- must flush to get nextState
     const result = next(action)
 
-    const [channel, name]: [Channel, string] = action.type.split('/')
+    if (process.env.NODE_ENV === 'development') {
+      const [channel, name]: [Channel, string] = action.type.split('/')
 
-    console.log()
-    console.log(
-      `${bold(colorMap[channel](channel.padEnd(5)))} ${bold(white(name))}`,
-    )
-    console.log(action.payload)
-    console.log()
+      console.log()
+      console.log(
+        `${bold(colorMap[channel](channel.padEnd(5)))} ${bold(white(name))}`,
+      )
+      console.log(action.payload)
+      console.log()
+    }
 
     return result
   }
