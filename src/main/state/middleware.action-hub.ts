@@ -27,7 +27,6 @@ import {
   syncApps,
   syncData,
   syncStorage,
-  syncTheme,
   tilesStarted,
   updateAvailable,
   updateDownloaded,
@@ -38,7 +37,6 @@ import type { RootState } from '../../shared/state/reducer.root'
 import { logger } from '../../shared/utils/logger'
 import { createTray } from '../tray'
 import copyToClipboard from '../utils/copy-to-clipboard'
-import { getTheme } from '../utils/get-theme'
 import { getUpdateUrl } from '../utils/get-update-url'
 import { isUpdateAvailable } from '../utils/is-update-available'
 import { createWindows, pWindow, showTWindow, tWindow } from '../windows'
@@ -116,7 +114,6 @@ export const actionHubMiddleware =
       }
 
       // Send all info down to renderer
-      dispatch(syncTheme(getTheme()))
       // Spreading this fixes "A non-serializable value was detected in an action, in the path: `payload`" error
       dispatch(syncStorage({ ...permaStore.store }))
       dispatch(
@@ -142,7 +139,6 @@ export const actionHubMiddleware =
       dispatch(syncApps(nextState.apps))
       dispatch(syncData(nextState.data))
       dispatch(syncStorage(nextState.storage))
-      dispatch(syncTheme(nextState.theme))
     }
 
     // Copy to clipboard

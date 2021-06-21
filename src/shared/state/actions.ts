@@ -6,7 +6,6 @@ import type { PermaStore } from '../../main/state/perma-store'
 import { Channel } from './channels'
 import type { App } from './reducer.apps'
 import { Data, PrefsTab } from './reducer.data'
-import type { ThemeState } from './reducer.theme'
 
 const MAIN = Channel.MAIN
 const TILES = Channel.TILES
@@ -23,7 +22,6 @@ const tWindowBoundsChanged = cA<Rectangle>(`${MAIN}/tWindowBoundsChanged`)
 const syncApps = cA<App[]>(`${MAIN}/syncApps`)
 const syncData = cA<Data>(`${MAIN}/syncData`)
 const syncStorage = cA<PermaStore>(`${MAIN}/syncStorage`)
-const syncTheme = cA<ThemeState>(`${MAIN}/syncTheme`)
 
 const gotAppVersion = cA<string>(`${MAIN}/gotAppVersion`)
 const gotDefaultBrowserStatus = cA<boolean>(`${MAIN}/gotDefaultBrowserStatus`)
@@ -125,7 +123,6 @@ export {
   syncApps,
   syncData,
   syncStorage,
-  syncTheme,
   tilesStarted,
   tWindowBoundsChanged,
   updateAvailable,

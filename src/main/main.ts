@@ -1,11 +1,10 @@
 import { AnyAction } from '@reduxjs/toolkit'
-import electron, { app, nativeTheme } from 'electron'
+import electron, { app } from 'electron'
 
-import { appReady, syncTheme, urlOpened } from '../shared/state/actions'
+import { appReady, urlOpened } from '../shared/state/actions'
 import { Channel } from '../shared/state/channels'
 import { permaStore } from './state/perma-store'
 import { dispatch } from './state/store'
-import { getTheme } from './utils/get-theme'
 
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
 app.commandLine.appendArgument('--enable-features=Metal')
@@ -17,13 +16,6 @@ if (permaStore.get('firstRun')) {
 }
 
 permaStore.set('firstRun', false)
-
-// TODO due to this issue: https://github.com/electron/electron/issues/18699
-// this does not work as advertised. It will detect the change but getColor()
-// doesn't fetch updated values. Hopefully this will work in time.
-nativeTheme.on('updated', () => {
-  dispatch(syncTheme(getTheme()))
-})
 
 app.on('ready', () => dispatch(appReady()))
 

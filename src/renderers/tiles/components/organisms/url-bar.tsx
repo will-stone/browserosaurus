@@ -22,7 +22,6 @@ interface Props {
 const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.data.url)
-  const isDarkMode = useSelector((state) => state.theme.isDarkMode)
 
   const isEmpty = url.length === 0
   const parsedUrl = Url.parse(url)
@@ -48,10 +47,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         )}
       >
         <div
-          className={clsx(
-            'tracking-wider text-opacity-50',
-            isDarkMode ? 'text-white' : 'text-black',
-          )}
+          className="tracking-wider text-opacity-50 text-black dark:text-white"
           style={{
             display: '-webkit-box',
             WebkitLineClamp: 3,
@@ -72,12 +68,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           )}
           <span>{parsedUrl.protocol}</span>
           <span>{parsedUrl.slashes && '//'}</span>
-          <span
-            className={clsx(
-              'text-opacity-100',
-              isDarkMode ? 'text-white' : 'text-black',
-            )}
-          >
+          <span className="text-opacity-100 text-black dark:text-white">
             {parsedUrl.host || (
               <span className="opacity-30">Browserosaurus</span>
             )}
