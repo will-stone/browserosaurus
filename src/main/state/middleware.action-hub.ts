@@ -169,6 +169,13 @@ export const actionHubMiddleware =
     // Update and restart
     else if (clickedUpdateRestartButton.match(action)) {
       autoUpdater.quitAndInstall()
+      // @ts-expect-error -- window must be destroyed to prevent race condition
+      // eslint-disable-next-line unicorn/no-null
+      pWindow = null
+      // @ts-expect-error -- window must be destroyed to prevent race condition
+      // eslint-disable-next-line unicorn/no-null
+      tWindow = null
+      // https://stackoverflow.com/questions/38309240/object-has-been-destroyed-when-open-secondary-child-window-in-electron-js
     }
 
     // Rescan for browsers

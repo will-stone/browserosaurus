@@ -12,8 +12,8 @@ declare const TILES_WINDOW_WEBPACK_ENTRY: string
 declare const PREFS_WINDOW_WEBPACK_ENTRY: string
 
 // Prevents garbage collection
-export let tWindow: BrowserWindow | undefined
-export let pWindow: BrowserWindow | undefined
+export let tWindow: BrowserWindow | null | undefined
+export let pWindow: BrowserWindow | null | undefined
 
 export async function createWindows(): Promise<void> {
   pWindow = new BrowserWindow({
@@ -42,6 +42,21 @@ export async function createWindows(): Promise<void> {
       nodeIntegration: true,
       contextIsolation: false,
     },
+  })
+
+  pWindow.on('hide', () => {
+    pWindow?.hide()
+  })
+
+  pWindow.on('close', (event_) => {
+    event_.preventDefault()
+    pWindow?.hide()
+  })
+
+  pWindow.on('show', () => {
+    // There isn't a listener for default protocol client, therefore the check
+    // is made each time the window is brought into focus.
+    dispatch(gotDefaultBrowserStatus(app.isDefaultProtocolClient('http')))
   })
 
   const bounds = permaStore.get('bounds')
@@ -73,17 +88,6 @@ export async function createWindows(): Promise<void> {
     visualEffectState: 'active',
     titleBarStyle: 'hidden',
     alwaysOnTop: true,
-  })
-
-  pWindow.on('close', (event_) => {
-    event_.preventDefault()
-    pWindow?.hide()
-  })
-
-  pWindow.on('show', () => {
-    // There isn't a listener for default protocol client, therefore the check
-    // is made each time the window is brought into focus.
-    dispatch(gotDefaultBrowserStatus(app.isDefaultProtocolClient('http')))
   })
 
   tWindow.setWindowButtonVisibility(false)
