@@ -5,6 +5,7 @@ import { execFile } from 'child_process'
 import { app, autoUpdater, shell } from 'electron'
 import electronIsDev from 'electron-is-dev'
 import deepEqual from 'fast-deep-equal'
+import path from 'path'
 import sleep from 'tings/sleep'
 
 import package_ from '../../../package.json'
@@ -37,7 +38,7 @@ import {
 } from '../../shared/state/actions'
 import type { RootState } from '../../shared/state/reducer.root'
 import { logger } from '../../shared/utils/logger'
-import { createTray } from '../tray'
+import { createTray, tray } from '../tray'
 import copyToClipboard from '../utils/copy-to-clipboard'
 import { getUpdateUrl } from '../utils/get-update-url'
 import { isUpdateAvailable } from '../utils/is-update-available'
@@ -127,9 +128,9 @@ export const actionHubMiddleware =
 
       // FIX casting when I know how to correctly type this dispatch to allow thunks
       dispatch(getApps() as unknown as AnyAction)
-      dispatch(checkForUpdate() as unknown as AnyAction)
       createWindows()
       createTray()
+      dispatch(checkForUpdate() as unknown as AnyAction)
     }
 
     // Both renderers started, send down all the data
@@ -153,6 +154,11 @@ export const actionHubMiddleware =
     else if (clickedSetAsDefaultBrowserButton.match(action)) {
       app.setAsDefaultProtocolClient('http')
       app.setAsDefaultProtocolClient('https')
+    }
+
+    // Update and restart
+    else if (updateAvailable.match(action)) {
+      tray?.setImage(path.join(__dirname, '/static/icon/tray_iconBlue.png'))
     }
 
     // Update and restart
