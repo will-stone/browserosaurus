@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux'
 import { prefsStarted } from '../../../shared/state/actions'
 import { HeaderBar } from './organisms/header-bar'
 import { AboutPane } from './organisms/pane-about'
-import { AppsPane } from './organisms/pane-apps'
 import { GeneralPane } from './organisms/pane-general'
+import { AppsPane } from './organisms/pane-tiles'
 
 const useAppStarted = () => {
   const dispatch = useDispatch()
