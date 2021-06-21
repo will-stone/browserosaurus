@@ -46,7 +46,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         )}
       >
         <div
-          className="tracking-wider text-opacity-50 text-black dark:text-white"
+          className="tracking-wider text-opacity-50 dark:text-opacity-50 text-black dark:text-white"
           style={{
             display: '-webkit-box',
             WebkitLineClamp: 3,
@@ -67,7 +67,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           )}
           <span>{parsedUrl.protocol}</span>
           <span>{parsedUrl.slashes && '//'}</span>
-          <span className="text-opacity-100 text-black dark:text-white">
+          <span className="text-opacity-100 dark:text-opacity-100 text-black dark:text-white">
             {parsedUrl.host || (
               <span className="opacity-30">Browserosaurus</span>
             )}

@@ -14,7 +14,12 @@ export const HeaderBar = ({ className }: Props): JSX.Element => {
   const prefsTab = useSelector((state) => state.data.prefsTab)
 
   return (
-    <div className={clsx(className)}>
+    <div
+      className={clsx(
+        'bg-black bg-opacity-5 dark:bg-opacity-30 pb-4 border-b border-gray-400 dark:border-black',
+        className,
+      )}
+    >
       <div className="flex justify-center items-center h-8 draggable pt-4 pb-8">
         Browserosaurus Preferences
       </div>

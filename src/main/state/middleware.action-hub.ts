@@ -2,17 +2,19 @@
 /* eslint-disable unicorn/prefer-regexp-test -- rtk uses .match */
 import { AnyAction, Middleware } from '@reduxjs/toolkit'
 import { execFile } from 'child_process'
-import { app, autoUpdater } from 'electron'
+import { app, autoUpdater, shell } from 'electron'
 import electronIsDev from 'electron-is-dev'
 import deepEqual from 'fast-deep-equal'
 import sleep from 'tings/sleep'
 
 import package_ from '../../../package.json'
 import { apps } from '../../config/apps'
+import { B_URL, ISSUES_URL } from '../../config/CONSTANTS'
 import {
   appReady,
   clickedCopyButton,
-  clickedQuitButton,
+  clickedHomepageButton,
+  clickedOpenIssueButton,
   clickedRescanApps,
   clickedSetAsDefaultBrowserButton,
   clickedTile,
@@ -147,11 +149,6 @@ export const actionHubMiddleware =
       tWindow?.hide()
     }
 
-    // Quit
-    else if (clickedQuitButton.match(action)) {
-      app.quit()
-    }
-
     // Set as default browser
     else if (clickedSetAsDefaultBrowserButton.match(action)) {
       app.setAsDefaultProtocolClient('http')
@@ -220,6 +217,16 @@ export const actionHubMiddleware =
         await sleep(500)
         dispatch(urlOpened(action.payload))
       }
+    }
+
+    // Open homepage
+    else if (clickedHomepageButton.match(action)) {
+      shell.openExternal(B_URL)
+    }
+
+    // Open homepage
+    else if (clickedOpenIssueButton.match(action)) {
+      shell.openExternal(ISSUES_URL)
     }
 
     return result

@@ -48,20 +48,20 @@ export const GeneralPane = (): JSX.Element => {
         <Left>Default web browser:</Left>
         <Right>
           {isDefaultProtocolClient ? (
-            'Browserosaurus is the default browser'
+            'Browserosaurus is the default web browser'
           ) : (
-            <>
-              <Button
-                onClick={() => dispatch(clickedSetAsDefaultBrowserButton())}
-              >
-                Set As Default Browser
-              </Button>
-              <p className="text-sm mt-2 opacity-50">
-                Setting Browserosaurus as your default browser means links
-                clicked outside of browsers will open the browser picker window.
-              </p>
-            </>
+            <Button
+              onClick={() => dispatch(clickedSetAsDefaultBrowserButton())}
+            >
+              Set As Default Browser
+            </Button>
           )}
+          <p className="text-sm mt-2 opacity-70">
+            Setting Browserosaurus as your default web browser means links
+            clicked outside of web browsers will open the picker window. This is
+            the primary design of Browserosaurus. However, you can also
+            programmatically send URLs to Browserosaurus.
+          </p>
         </Right>
       </Row>
 
@@ -69,7 +69,7 @@ export const GeneralPane = (): JSX.Element => {
         <Left>Find apps:</Left>
         <Right>
           <Button onClick={() => dispatch(clickedRescanApps())}>Rescan</Button>
-          <p className="text-sm mt-2 opacity-50">
+          <p className="text-sm mt-2 opacity-70">
             {numberOfApps} compatible apps found. Rescan if you have added or
             removed a compatible app whilst Browserosaurus is running.
           </p>

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 
 import { prefsStarted } from '../../../shared/state/actions'
 import { HeaderBar } from './organisms/header-bar'
+import { AboutPane } from './organisms/pane-about'
 import { AppsPane } from './organisms/pane-apps'
 import { GeneralPane } from './organisms/pane-general'
 
@@ -21,11 +22,11 @@ const Layout = (): JSX.Element => {
 
   return (
     <div className="flex flex-col h-screen w-screen text-gray-800 dark:text-gray-300">
-      <HeaderBar className="flex-shrink-0 mb-6" />
-      <hr className="border-gray-200 dark:border-gray-900" />
+      <HeaderBar className="flex-shrink-0" />
       <div className="flex-grow overflow-hidden p-8 flex flex-col">
         <GeneralPane />
         <AppsPane />
+        <AboutPane />
       </div>
     </div>
   )

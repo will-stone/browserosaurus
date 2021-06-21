@@ -17,7 +17,7 @@
   "main": ".webpack/main",
   "scripts": {
     "doctor": "npm run lint && npm run typecheck && npm run test",
-    "icns": "cd ./src/main/static/icon && ../../../../scripts/png2icns.sh icon.png",
+    "icns": "cd ./src/shared/static/icon && ../../../../scripts/png2icns.sh icon.png",
     "lint": "eslint . --ignore-path .gitignore",
     "list-apps": "ts-node ./scripts/listInstalledApps",
     "make": "concurrently \"npm:make:*\" --kill-others-on-fail",

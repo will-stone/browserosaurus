@@ -58,14 +58,10 @@ const pressedBackspaceKey = cA(`${TILES}/backspaceKey`)
 const pressedCopyKey = cA<string>(`${TILES}/copyKey`)
 const pressedAppKey = cA<OpenAppArguments>(`${TILES}/appKey`)
 
-const clickedCloseMenuButton = cA(`${TILES}/clickedCloseMenuButton`)
-const clickedQuitButton = cA(`${TILES}/clickedQuitButton`)
-
 const clickedUpdateButton = cA(`${TILES}/clickedUpdateButton`)
 const clickedUpdateRestartButton = cA(`${TILES}/clickedUpdateRestartButton`)
 const clickedBWebsiteButton = cA(`${TILES}/clickedBWebsiteButton`)
 
-const clickedSettingsButton = cA(`${TILES}/clickedSettingsButton`)
 const clickedUrlBackspaceButton = cA(`${TILES}/clickedUrlBackspaceButton`)
 const clickedCopyButton = cA<string>(`${TILES}/clickedCopyButton`)
 
@@ -93,21 +89,23 @@ const changedHotkey = cA<{ appId: string; value: string }>(
   `${PREFS}/changedHotkey`,
 )
 
+const clickedHomepageButton = cA(`${PREFS}/clickedHomepageButton`)
+const clickedOpenIssueButton = cA(`${PREFS}/clickedOpenIssueButton`)
+
 export {
   appReady,
   changedHotkey,
   clickedAlreadyDonated,
   clickedBWebsiteButton,
-  clickedCloseMenuButton,
   clickedCopyButton,
   clickedDonate,
   clickedEyeButton,
   clickedFavButton,
+  clickedHomepageButton,
   clickedMaybeLater,
-  clickedQuitButton,
+  clickedOpenIssueButton,
   clickedRescanApps,
   clickedSetAsDefaultBrowserButton,
-  clickedSettingsButton,
   clickedTabButton,
   clickedTile,
   clickedUpdateButton,

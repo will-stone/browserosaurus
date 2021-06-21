@@ -17,6 +17,8 @@ module.exports = {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
   },
   plugins: [
-    new CopyPlugin({ patterns: [{ from: 'src/main/static', to: 'static' }] }),
+    new CopyPlugin({
+      patterns: [{ from: 'src/shared/static', to: 'static' }],
+    }),
   ],
 }

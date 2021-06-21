@@ -61,8 +61,8 @@ https://github.com/alrra/browser-logos
 
 ### Make icon.icns
 
-To build an icns file (app icon) from `src/images/icon/icon.png`, simply run
-`npm run icns`.
+To build an icns file (app icon) from `src/shared/static/icon/icon.png`, simply
+run `npm run icns`.
 
 ## Publishing
 
