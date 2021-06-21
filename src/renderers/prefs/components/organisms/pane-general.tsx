@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux'
 import {
   clickedRescanApps,
   clickedSetAsDefaultBrowserButton,
+  clickedUpdateButton,
+  clickedUpdateRestartButton,
 } from '../../../../shared/state/actions'
 import { useSelector } from '../../../../shared/state/hooks'
 import Button from '../../../shared/components/atoms/button'
@@ -39,6 +41,7 @@ export const GeneralPane = (): JSX.Element => {
   const isDefaultProtocolClient = useSelector(
     (state) => state.data.isDefaultProtocolClient,
   )
+  const updateStatus = useSelector((state) => state.data.updateStatus)
 
   const numberOfApps = useSelector((state) => state.apps.length)
 
@@ -73,6 +76,23 @@ export const GeneralPane = (): JSX.Element => {
             {numberOfApps} compatible apps found. Rescan if you have added or
             removed a compatible app whilst Browserosaurus is running.
           </p>
+        </Right>
+      </Row>
+
+      <Row>
+        <Left>Update:</Left>
+        <Right>
+          {updateStatus === 'available' && (
+            <Button onClick={() => dispatch(clickedUpdateButton())}>
+              Download Update
+            </Button>
+          )}
+          {updateStatus === 'downloaded' && (
+            <Button onClick={() => dispatch(clickedUpdateRestartButton())}>
+              Restart & Update
+            </Button>
+          )}
+          {updateStatus === 'no-update' && 'No update available'}
         </Right>
       </Row>
     </Pane>

@@ -58,10 +58,6 @@ const pressedBackspaceKey = cA(`${TILES}/backspaceKey`)
 const pressedCopyKey = cA<string>(`${TILES}/copyKey`)
 const pressedAppKey = cA<OpenAppArguments>(`${TILES}/appKey`)
 
-const clickedUpdateButton = cA(`${TILES}/clickedUpdateButton`)
-const clickedUpdateRestartButton = cA(`${TILES}/clickedUpdateRestartButton`)
-const clickedBWebsiteButton = cA(`${TILES}/clickedBWebsiteButton`)
-
 const clickedUrlBackspaceButton = cA(`${TILES}/clickedUrlBackspaceButton`)
 const clickedCopyButton = cA<string>(`${TILES}/clickedCopyButton`)
 
@@ -80,8 +76,9 @@ const clickedTabButton = cA<PrefsTab>(`${PREFS}/clickedTabButton`)
 const clickedSetAsDefaultBrowserButton = cA(
   `${PREFS}/clickedSetAsDefaultBrowserButton`,
 )
-
 const clickedRescanApps = cA(`${PREFS}/clickedRescanApps`)
+const clickedUpdateButton = cA(`${PREFS}/clickedUpdateButton`)
+const clickedUpdateRestartButton = cA(`${PREFS}/clickedUpdateRestartButton`)
 
 const clickedFavButton = cA<string>(`${PREFS}/clickedFavButton`)
 const clickedEyeButton = cA<string>(`${PREFS}/clickedEyeButton`)
@@ -96,7 +93,6 @@ export {
   appReady,
   changedHotkey,
   clickedAlreadyDonated,
-  clickedBWebsiteButton,
   clickedCopyButton,
   clickedDonate,
   clickedEyeButton,

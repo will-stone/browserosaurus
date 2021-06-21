@@ -1,9 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit'
 
-import { B_URL, CARROT_URL } from '../../config/CONSTANTS'
+import { CARROT_URL } from '../../config/CONSTANTS'
 import { backspaceUrlParse } from '../utils/backspace-url-parse'
 import {
-  clickedBWebsiteButton,
   clickedDonate,
   clickedTabButton,
   clickedUrlBackspaceButton,
@@ -59,10 +58,6 @@ export const data = createReducer<Data>(
 
       .addCase(pressedBackspaceKey, (state) => {
         state.url = backspaceUrlParse(state.url)
-      })
-
-      .addCase(clickedBWebsiteButton, (state) => {
-        state.url = B_URL
       })
 
       .addCase(gotDefaultBrowserStatus, (state, action) => {
