@@ -2,21 +2,11 @@ import clsx from 'clsx'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { logos } from '../../../config/logos'
-import {
-  changedHotkey,
-  clickedEyeButton,
-  clickedFavButton,
-  prefsStarted,
-} from '../../../shared/state/actions'
-import { useApps, useSelector } from '../../../shared/state/hooks'
-import Button from '../../shared/components/atoms/button'
-import {
-  EyeIcon,
-  EyeOffIcon,
-  StarIcon,
-} from '../../shared/components/atoms/icons'
+import { prefsStarted } from '../../../shared/state/actions'
+import { useSelector } from '../../../shared/state/hooks'
 import { HeaderBar } from './organisms/header-bar'
+import { AppsPane } from './organisms/pane-apps'
+import { GeneralPane } from './organisms/pane-general'
 
 const useAppStarted = () => {
   const dispatch = useDispatch()
@@ -31,156 +21,16 @@ const Layout = (): JSX.Element => {
    */
   useAppStarted()
 
-  const dispatch = useDispatch()
-
-  const apps = useApps()
   const isDarkMode = useSelector((state) => state.theme.isDarkMode)
 
   return (
-    <div
-      className={clsx(
-        'flex flex-col max-h-screen',
-        isDarkMode ? 'text-gray-400' : 'text-gray-700',
-      )}
-    >
-      <HeaderBar className="flex-shrink-0" />
-      <div className="flex-grow overflow-hidden p-8 flex flex-col">
-        <div
-          className={clsx(
-            isDarkMode ? 'bg-white border-white' : 'bg-black border-black',
-            'bg-opacity-5 mx-auto overflow-y-auto pb-8 rounded border border-opacity-10',
-          )}
-        >
-          <table className="table-fixed w-full">
-            <thead>
-              <tr>
-                <th
-                  className={clsx(
-                    'sticky top-0 z-10 p-4 text-left w-1/3 bg-opacity-10',
-                    isDarkMode ? 'bg-white' : 'bg-black',
-                  )}
-                >
-                  Tile
-                </th>
-                <th
-                  className={clsx(
-                    'sticky top-0 z-10 p-4 bg-opacity-10',
-                    isDarkMode ? 'bg-white' : 'bg-black',
-                  )}
-                >
-                  Favourite
-                </th>
-                <th
-                  className={clsx(
-                    'sticky top-0 z-10 p-4 bg-opacity-10',
-                    isDarkMode ? 'bg-white' : 'bg-black',
-                  )}
-                >
-                  Visibility
-                </th>
-                <th
-                  className={clsx(
-                    'sticky top-0 z-10 p-4 bg-opacity-10',
-                    isDarkMode ? 'bg-white' : 'bg-black',
-                  )}
-                >
-                  Hotkey
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {apps.map(({ id, name, isVisible, isFav, hotkey }, index) => {
-                const isOdd = index % 2 !== 0
-                return (
-                  <tr key={id}>
-                    <td
-                      className={clsx(
-                        isOdd && isDarkMode && 'bg-white',
-                        isOdd && !isDarkMode && 'bg-black',
-                        'p-4 text-left bg-opacity-5',
-                      )}
-                    >
-                      <div
-                        className={clsx(
-                          'flex items-center',
-                          !isVisible && 'opacity-50',
-                        )}
-                      >
-                        <img alt="" className="h-8 w-8 mr-4" src={logos[id]} />
-                        <span>{name}</span>
-                      </div>
-                    </td>
-                    <td
-                      className={clsx(
-                        isOdd && isDarkMode && 'bg-white',
-                        isOdd && !isDarkMode && 'bg-black',
-                        'p-4 text-center bg-opacity-5',
-                      )}
-                    >
-                      <Button onClick={() => dispatch(clickedFavButton(id))}>
-                        <StarIcon
-                          className={clsx(
-                            'h-6 w-6',
-                            isFav ? 'text-yellow-500' : 'opacity-50',
-                          )}
-                        />
-                      </Button>
-                    </td>
-                    <td
-                      className={clsx(
-                        isOdd && isDarkMode && 'bg-white',
-                        isOdd && !isDarkMode && 'bg-black',
-                        'p-4 text-center bg-opacity-5',
-                      )}
-                    >
-                      <Button onClick={() => dispatch(clickedEyeButton(id))}>
-                        {isVisible ? (
-                          <EyeIcon className="h-6 w-6 text-blue-500" />
-                        ) : (
-                          <EyeOffIcon className="h-6 w-6 opacity-50" />
-                        )}
-                      </Button>
-                    </td>
-                    <td
-                      className={clsx(
-                        isOdd && isDarkMode && 'bg-white',
-                        isOdd && !isDarkMode && 'bg-black',
-                        'p-4 text-center bg-opacity-5',
-                      )}
-                    >
-                      <input
-                        aria-label={`${name} hotkey`}
-                        className={clsx(
-                          'uppercase focus:outline-none min-w-0 h-10 w-12 text-center rounded',
-                          'shadow bg-opacity-50',
-                          isDarkMode
-                            ? 'text-white bg-black'
-                            : 'text-black bg-white',
-                        )}
-                        data-app-id={id}
-                        maxLength={1}
-                        minLength={0}
-                        onChange={(event) => {
-                          dispatch(
-                            changedHotkey({
-                              appId: id,
-                              value: event.currentTarget.value,
-                            }),
-                          )
-                        }}
-                        onFocus={(event) => {
-                          event.target.select()
-                        }}
-                        placeholder="Key"
-                        type="text"
-                        value={hotkey || ''}
-                      />
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
+    <div className={clsx('max-h-screen', isDarkMode && 'dark')}>
+      <div className="flex flex-col max-h-screen text-gray-700 dark:text-gray-300">
+        <HeaderBar className="flex-shrink-0" />
+        <hr className="border-white dark:border-black" />
+        <div className="flex-grow overflow-hidden p-8 flex flex-col">
+          <GeneralPane />
+          <AppsPane />
         </div>
       </div>
     </div>

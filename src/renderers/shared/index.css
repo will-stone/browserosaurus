@@ -4,11 +4,6 @@
 
 /*! purgecss start ignore */
 
-/* Save adding font-bold classes everywhere */
-* {
-  font-weight: bold;
-}
-
 *,
 *::after,
 *::before,

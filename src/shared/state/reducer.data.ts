@@ -5,6 +5,7 @@ import { backspaceUrlParse } from '../utils/backspace-url-parse'
 import {
   clickedBWebsiteButton,
   clickedDonate,
+  clickedTabButton,
   clickedUrlBackspaceButton,
   gotAppVersion,
   gotDefaultBrowserStatus,
@@ -18,6 +19,8 @@ import {
   urlOpened,
 } from './actions'
 
+export type PrefsTab = 'about' | 'general' | 'tiles'
+
 export interface Data {
   version: string
   updateStatus: 'available' | 'downloaded' | 'downloading' | 'no-update'
@@ -25,7 +28,7 @@ export interface Data {
   url: string
   tilesStarted: boolean
   prefsStarted: boolean
-  prefsTab: 'about' | 'general' | 'tiles'
+  prefsTab: PrefsTab
 }
 
 export const data = createReducer<Data>(
@@ -88,5 +91,9 @@ export const data = createReducer<Data>(
 
       .addCase(clickedDonate, (state) => {
         state.url = CARROT_URL
+      })
+
+      .addCase(clickedTabButton, (state, action) => {
+        state.prefsTab = action.payload
       }),
 )

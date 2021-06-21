@@ -21,8 +21,8 @@ export async function createWindows(): Promise<void> {
     show: false,
 
     // Chrome
-    height: 600,
-    width: 800,
+    height: 500,
+    width: 600,
     resizable: false,
     center: true,
     minimizable: false,

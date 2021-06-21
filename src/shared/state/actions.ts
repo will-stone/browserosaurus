@@ -5,7 +5,7 @@ import type { Rectangle } from 'electron/main'
 import type { PermaStore } from '../../main/state/perma-store'
 import { Channel } from './channels'
 import type { App } from './reducer.apps'
-import { Data } from './reducer.data'
+import { Data, PrefsTab } from './reducer.data'
 import type { ThemeState } from './reducer.theme'
 
 const MAIN = Channel.MAIN
@@ -63,9 +63,7 @@ const pressedAppKey = cA<OpenAppArguments>(`${TILES}/appKey`)
 const clickedCloseMenuButton = cA(`${TILES}/clickedCloseMenuButton`)
 const clickedQuitButton = cA(`${TILES}/clickedQuitButton`)
 const clickedReloadButton = cA(`${TILES}/clickedReloadButton`)
-const clickedSetAsDefaultBrowserButton = cA(
-  `${TILES}/clickedSetAsDefaultBrowserButton`,
-)
+
 const clickedUpdateButton = cA(`${TILES}/clickedUpdateButton`)
 const clickedUpdateRestartButton = cA(`${TILES}/clickedUpdateRestartButton`)
 const clickedBWebsiteButton = cA(`${TILES}/clickedBWebsiteButton`)
@@ -83,6 +81,12 @@ const clickedAlreadyDonated = cA(`${TILES}/clickedAlreadyDonated`)
 // -----------------------------------------------------------------------------
 
 const prefsStarted = cA(`${PREFS}/started`)
+
+const clickedTabButton = cA<PrefsTab>(`${PREFS}/clickedTabButton`)
+
+const clickedSetAsDefaultBrowserButton = cA(
+  `${PREFS}/clickedSetAsDefaultBrowserButton`,
+)
 
 const clickedFavButton = cA<string>(`${PREFS}/clickedFavButton`)
 const clickedEyeButton = cA<string>(`${PREFS}/clickedEyeButton`)
@@ -105,6 +109,7 @@ export {
   clickedReloadButton,
   clickedSetAsDefaultBrowserButton,
   clickedSettingsButton,
+  clickedTabButton,
   clickedTile,
   clickedUpdateButton,
   clickedUpdateRestartButton,
