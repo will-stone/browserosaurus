@@ -27,7 +27,7 @@ export function AppsPane(): JSX.Element {
       className="border border-opacity-10 dark:border-opacity-10 border-black dark:border-white rounded"
       pane="tiles"
     >
-      <div className="grid grid-cols-4 bg-black dark:bg-white bg-opacity-10">
+      <div className="grid grid-cols-4 bg-black dark:bg-white bg-opacity-10 dark:bg-opacity-10">
         <div className="p-4">Tile</div>
         <div className="p-4 text-center">Favourite</div>
         <div className="p-4 text-center">Visibility</div>
@@ -42,7 +42,7 @@ export function AppsPane(): JSX.Element {
               className={clsx(
                 'grid grid-cols-4',
                 isOdd && 'bg-black dark:bg-white',
-                'bg-opacity-5',
+                'bg-opacity-5 dark:bg-opacity-5',
               )}
             >
               <div
