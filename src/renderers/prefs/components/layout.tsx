@@ -22,7 +22,7 @@ const Layout = (): JSX.Element => {
   return (
     <div className="flex flex-col max-h-screen text-gray-700 dark:text-gray-300">
       <HeaderBar className="flex-shrink-0" />
-      <hr className="border-white dark:border-black" />
+      <hr className="border-gray-200 dark:border-gray-900" />
       <div className="flex-grow overflow-hidden p-8 flex flex-col">
         <GeneralPane />
         <AppsPane />

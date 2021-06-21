@@ -18,7 +18,7 @@ const Button: React.FC<React.ComponentPropsWithoutRef<'button'>> = ({
         'leading-none',
         'inline-flex items-center',
         'bg-black dark:bg-white ',
-        'bg-opacity-5 dark:bg-opacity-5',
+        'bg-opacity-5',
       )}
       disabled={disabled}
       type="button"
