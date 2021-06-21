@@ -63,7 +63,6 @@ const clickedCopyButton = cA<string>(`${TILES}/clickedCopyButton`)
 
 const clickedDonate = cA(`${TILES}/clickedDonate`)
 const clickedMaybeLater = cA(`${TILES}/clickedMaybeLater`)
-const clickedAlreadyDonated = cA(`${TILES}/clickedAlreadyDonated`)
 
 // -----------------------------------------------------------------------------
 // PREFS
@@ -92,7 +91,6 @@ const clickedOpenIssueButton = cA(`${PREFS}/clickedOpenIssueButton`)
 export {
   appReady,
   changedHotkey,
-  clickedAlreadyDonated,
   clickedCopyButton,
   clickedDonate,
   clickedEyeButton,

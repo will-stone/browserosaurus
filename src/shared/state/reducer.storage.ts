@@ -5,7 +5,6 @@ import type { PermaStore } from '../../main/state/perma-store'
 import { alterHotkeys } from '../utils/alter-hotkeys'
 import {
   changedHotkey,
-  clickedAlreadyDonated,
   clickedDonate,
   clickedEyeButton,
   clickedFavButton,
@@ -52,15 +51,11 @@ export const storage = createReducer<PermaStore>(
       })
 
       .addCase(clickedDonate, (state) => {
-        state.supportMessage = Date.now()
+        state.supportMessage = -1
       })
 
       .addCase(clickedMaybeLater, (state) => {
         state.supportMessage = Date.now()
-      })
-
-      .addCase(clickedAlreadyDonated, (state) => {
-        state.supportMessage = -1
       })
 
       .addCase(tWindowBoundsChanged, (state, action) => {
