@@ -1,4 +1,4 @@
-import { App } from './types'
+import type { App } from '../shared/state/reducer.apps'
 
 export const apps: App[] = [
   {

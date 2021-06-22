@@ -2,9 +2,18 @@ const plugin = require('tailwindcss/plugin')
 const colors = require('tailwindcss/colors')
 
 module.exports = {
+  darkMode: 'media',
+  mode: 'jit',
   purge: ['./src/**/*.tsx', './src/**/*.html'],
   theme: {
-    colors,
+    colors: {
+      gray: colors.gray,
+      blueGray: colors.blueGray,
+      white: colors.white,
+      black: colors.black,
+      yellow: colors.yellow,
+      blue: colors.blue,
+    },
     fontSize: {
       'xxs': '.6rem',
       'xs': '.75rem',
@@ -21,22 +30,6 @@ module.exports = {
     fontFamily: {
       sans: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont',
     },
-    extend: {
-      opacity: { 10: '0.1' },
-      keyframes: {
-        wiggle: {
-          '0%, 100%': { transform: 'rotate(-6deg)' },
-          '50%': { transform: 'rotate(6deg)' },
-        },
-      },
-      animation: {
-        wiggle: 'wiggle 0.4s infinite',
-      },
-    },
-  },
-  variants: {
-    boxShadow: ['responsive', 'hover', 'focus', 'active'],
-    opacity: ['responsive', 'hover', 'focus', 'active'],
   },
   plugins: [
     plugin(({ addUtilities }) => {
