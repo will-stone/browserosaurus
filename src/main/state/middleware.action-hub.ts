@@ -19,6 +19,7 @@ import {
   clickedRescanApps,
   clickedSetAsDefaultBrowserButton,
   clickedTile,
+  clickedUpdateAvailableButton,
   clickedUpdateButton,
   clickedUpdateRestartButton,
   gotAppVersion,
@@ -240,6 +241,11 @@ export const actionHubMiddleware =
     // Open homepage
     else if (clickedOpenIssueButton.match(action)) {
       shell.openExternal(ISSUES_URL)
+    }
+
+    // Open homepage
+    else if (clickedUpdateAvailableButton.match(action)) {
+      pWindow?.show()
     }
 
     return result

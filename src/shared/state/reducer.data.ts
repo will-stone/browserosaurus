@@ -5,6 +5,7 @@ import { backspaceUrlParse } from '../utils/backspace-url-parse'
 import {
   clickedDonate,
   clickedTabButton,
+  clickedUpdateAvailableButton,
   clickedUrlBackspaceButton,
   gotAppVersion,
   gotDefaultBrowserStatus,
@@ -90,5 +91,9 @@ export const data = createReducer<Data>(
 
       .addCase(clickedTabButton, (state, action) => {
         state.prefsTab = action.payload
+      })
+
+      .addCase(clickedUpdateAvailableButton, (state) => {
+        state.prefsTab = 'general'
       }),
 )

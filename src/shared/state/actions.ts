@@ -60,6 +60,7 @@ const pressedAppKey = cA<OpenAppArguments>(`${TILES}/appKey`)
 
 const clickedUrlBackspaceButton = cA(`${TILES}/clickedUrlBackspaceButton`)
 const clickedCopyButton = cA<string>(`${TILES}/clickedCopyButton`)
+const clickedUpdateAvailableButton = cA(`${TILES}/clickedUpdateAvailableButton`)
 
 const clickedDonate = cA(`${TILES}/clickedDonate`)
 const clickedMaybeLater = cA(`${TILES}/clickedMaybeLater`)
@@ -102,6 +103,7 @@ export {
   clickedSetAsDefaultBrowserButton,
   clickedTabButton,
   clickedTile,
+  clickedUpdateAvailableButton,
   clickedUpdateButton,
   clickedUpdateRestartButton,
   clickedUrlBackspaceButton,

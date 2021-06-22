@@ -6,6 +6,7 @@ import Url from 'url'
 import { CARROT_URL } from '../../../../config/CONSTANTS'
 import {
   clickedCopyButton,
+  clickedUpdateAvailableButton,
   clickedUrlBackspaceButton,
 } from '../../../../shared/state/actions'
 import { useSelector } from '../../../../shared/state/hooks'
@@ -22,6 +23,9 @@ interface Props {
 const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.data.url)
+  const isUpdateAvailable = useSelector(
+    (state) => state.data.updateStatus === 'available',
+  )
 
   const isEmpty = url.length === 0
   const parsedUrl = Url.parse(url)
@@ -80,21 +84,30 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         </div>
       </div>
 
-      <div className="flex-shrink-0 space-x-2 flex items-center">
-        <Button
-          disabled={isEmpty}
-          onClick={() => dispatch(clickedUrlBackspaceButton())}
-          title="Delete section of URL (Backspace)"
-        >
-          <BackspaceIcon className="h-5 w-5" />
-        </Button>
+      <div className="flex-shrink-0 space-y-2 flex flex-col items-center justify-center">
+        <div className="flex-shrink-0 space-x-2 flex items-center">
+          <Button
+            disabled={isEmpty}
+            onClick={() => dispatch(clickedUrlBackspaceButton())}
+            title="Delete section of URL (Backspace)"
+          >
+            <BackspaceIcon className="h-5 w-5" />
+          </Button>
+
+          <Button
+            disabled={isEmpty}
+            onClick={() => dispatch(clickedCopyButton(url))}
+            title="Copy (⌘+C)"
+          >
+            <ClipboardCopyIcon className="h-5 w-5" />
+          </Button>
+        </div>
 
         <Button
-          disabled={isEmpty}
-          onClick={() => dispatch(clickedCopyButton(url))}
-          title="Copy (⌘+C)"
+          className={clsx('text-xs', !isUpdateAvailable && 'hidden')}
+          onClick={() => dispatch(clickedUpdateAvailableButton())}
         >
-          <ClipboardCopyIcon className="h-5 w-5" />
+          Update Available
         </Button>
       </div>
     </div>
