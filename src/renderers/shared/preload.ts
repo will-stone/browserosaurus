@@ -5,7 +5,7 @@ import { Channel } from '../../shared/state/channels'
 
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
-contextBridge.exposeInMainWorld('api', {
+contextBridge.exposeInMainWorld('electron', {
   send: (channel: Channel, action: AnyAction) => {
     const validChannels = [Channel.PREFS, Channel.TILES]
     if (validChannels.includes(channel)) {
