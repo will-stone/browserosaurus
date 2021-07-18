@@ -88,17 +88,22 @@
             "mainConfig": "./webpack.main.config.js",
             "renderer": {
               "config": "./webpack.renderer.config.js",
-              "nodeIntegration": true,
               "entryPoints": [
                 {
                   "html": "./src/renderers/tiles/index.html",
                   "js": "./src/renderers/tiles/index.tsx",
-                  "name": "tiles_window"
+                  "name": "tiles_window",
+                  "preload": {
+                    "js": "./src/renderers/shared/preload.ts"
+                  }
                 },
                 {
                   "html": "./src/renderers/prefs/index.html",
                   "js": "./src/renderers/prefs/index.tsx",
-                  "name": "prefs_window"
+                  "name": "prefs_window",
+                  "preload": {
+                    "js": "./src/renderers/shared/preload.ts"
+                  }
                 }
               ]
             }
@@ -201,7 +206,6 @@
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
     "@types/react-redux": "^7.1.16",
-    "@vercel/webpack-asset-relocator-loader": "^1.6.0",
     "@will-stone/eslint-config": "^2.9.1",
     "@will-stone/prettier-config": "^4.0.0",
     "concurrently": "^6.0.1",
@@ -215,7 +219,6 @@
     "jest": "^27.0.4",
     "lint-staged": "^10.5.4",
     "mini-css-extract-plugin": "^1.6.0",
-    "node-loader": "^2.0.0",
     "postcss": "^8.2.13",
     "postcss-cli": "^8.3.1",
     "postcss-import": "^14.0.1",

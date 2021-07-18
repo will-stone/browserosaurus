@@ -9,7 +9,9 @@ import { permaStore } from './state/perma-store'
 import { dispatch } from './state/store'
 
 declare const TILES_WINDOW_WEBPACK_ENTRY: string
+declare const TILES_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 declare const PREFS_WINDOW_WEBPACK_ENTRY: string
+declare const PREFS_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 
 // Prevents garbage collection
 export let tWindow: BrowserWindow | null | undefined
@@ -38,9 +40,12 @@ export async function createWindows(): Promise<void> {
     title: 'Preferences',
 
     webPreferences: {
-      // TODO only until this is fixed: https://github.com/will-stone/browserosaurus/issues/408
-      nodeIntegration: true,
-      contextIsolation: false,
+      preload: PREFS_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      nodeIntegrationInSubFrames: false,
+      contextIsolation: true,
+      enableRemoteModule: false,
     },
   })
 
@@ -66,9 +71,12 @@ export async function createWindows(): Promise<void> {
     icon: path.join(__dirname, '/static/icon/icon.png'),
     title: 'Browserosaurus',
     webPreferences: {
-      // TODO only until this is fixed: https://github.com/will-stone/browserosaurus/issues/408
-      nodeIntegration: true,
-      contextIsolation: false,
+      preload: TILES_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      nodeIntegrationInSubFrames: false,
+      contextIsolation: true,
+      enableRemoteModule: false,
     },
     center: true,
     height: bounds?.height || 204,
