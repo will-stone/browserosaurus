@@ -17,6 +17,8 @@ export interface PermaStore {
   bounds?: Rectangle
 }
 
+// TODO cannot upgrade from electron-store v6 to v8 until it's compatible with
+// npm 7: https://github.com/sindresorhus/electron-store/issues/185
 export const permaStore = new ElectronStore<PermaStore>({
   name: 'store',
   defaults: {
