@@ -12,6 +12,6 @@ export default store
 /**
  * Listen for all actions from main
  */
-customWindow.api.receive(Channel.MAIN, (action: AnyAction) => {
+customWindow.electron.receive(Channel.MAIN, (action: AnyAction) => {
   store.dispatch(action)
 })

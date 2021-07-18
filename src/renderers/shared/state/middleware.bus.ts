@@ -26,7 +26,7 @@ export const busMiddleware =
 
     // Only send actions from this channel to prevent an infinite loop
     if (action.type.startsWith(channel)) {
-      customWindow.api.send(channel, action)
+      customWindow.electron.send(channel, action)
     }
 
     return result
