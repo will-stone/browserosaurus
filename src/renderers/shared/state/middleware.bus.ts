@@ -1,8 +1,8 @@
 import { AnyAction, Middleware } from '@reduxjs/toolkit'
-import { ipcRenderer } from 'electron'
 
 import { Channel } from '../../../shared/state/channels'
 import { RootState } from '../../../shared/state/reducer.root'
+import { customWindow } from '../custom.window'
 
 /**
  * Pass actions between main and renderers
@@ -26,7 +26,7 @@ export const busMiddleware =
 
     // Only send actions from this channel to prevent an infinite loop
     if (action.type.startsWith(channel)) {
-      ipcRenderer.send(channel, action)
+      customWindow.electron.send(channel, action)
     }
 
     return result

@@ -1,3 +1,5 @@
+import '../../../shared/preload'
+
 import { act, MatcherFunction, render, screen } from '@testing-library/react'
 import electron from 'electron'
 import React from 'react'

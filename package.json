@@ -92,12 +92,18 @@
                 {
                   "html": "./src/renderers/tiles/index.html",
                   "js": "./src/renderers/tiles/index.tsx",
-                  "name": "tiles_window"
+                  "name": "tiles_window",
+                  "preload": {
+                    "js": "./src/renderers/shared/preload.ts"
+                  }
                 },
                 {
                   "html": "./src/renderers/prefs/index.html",
                   "js": "./src/renderers/prefs/index.tsx",
-                  "name": "prefs_window"
+                  "name": "prefs_window",
+                  "preload": {
+                    "js": "./src/renderers/shared/preload.ts"
+                  }
                 }
               ]
             }
@@ -184,15 +190,14 @@
     "tings": "^0.0.23"
   },
   "devDependencies": {
-    "@electron-forge/cli": "6.0.0-beta.56",
-    "@electron-forge/maker-deb": "6.0.0-beta.56",
-    "@electron-forge/maker-dmg": "^6.0.0-beta.56",
-    "@electron-forge/maker-rpm": "6.0.0-beta.56",
-    "@electron-forge/maker-squirrel": "6.0.0-beta.56",
-    "@electron-forge/maker-zip": "6.0.0-beta.56",
-    "@electron-forge/plugin-webpack": "6.0.0-beta.56",
+    "@electron-forge/cli": "6.0.0-beta.58",
+    "@electron-forge/maker-deb": "6.0.0-beta.58",
+    "@electron-forge/maker-dmg": "^6.0.0-beta.58",
+    "@electron-forge/maker-rpm": "6.0.0-beta.58",
+    "@electron-forge/maker-squirrel": "6.0.0-beta.58",
+    "@electron-forge/maker-zip": "6.0.0-beta.58",
+    "@electron-forge/plugin-webpack": "6.0.0-beta.58",
     "@fullhuman/postcss-purgecss": "^3.1.3",
-    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
     "@types/jest": "^26.0.23",
@@ -205,26 +210,25 @@
     "@will-stone/prettier-config": "^4.0.0",
     "concurrently": "^6.0.1",
     "copy-webpack-plugin": "^6.0.3",
-    "css-loader": "^5.2.4",
+    "css-loader": "^6.0.0",
     "dotenv": "^8.2.0",
     "electron": "^13.1.3",
     "eslint": "^7.28.0",
-    "fork-ts-checker-webpack-plugin": "^5.2.0",
+    "fork-ts-checker-webpack-plugin": "^6.0.1",
     "husky": "^6.0.0",
     "jest": "^27.0.4",
     "lint-staged": "^10.5.4",
     "mini-css-extract-plugin": "^1.6.0",
-    "node-loader": "^1.0.2",
     "postcss": "^8.2.13",
     "postcss-cli": "^8.3.1",
     "postcss-import": "^14.0.1",
     "postcss-loader": "^4.1.0",
     "prettier": "^2.3.0",
     "rimraf": "^3.0.2",
-    "style-loader": "^1.2.1",
+    "style-loader": "^3.0.0",
     "tailwindcss": "^2.2.2",
     "ts-jest": "^27.0.3",
-    "ts-loader": "^8.0.2",
+    "ts-loader": "^9.2.2",
     "ts-node": "^8.10.2",
     "typescript": "^4.0.3",
     "url-loader": "^4.1.0",
