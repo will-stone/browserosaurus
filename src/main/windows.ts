@@ -5,8 +5,8 @@ import {
   gotDefaultBrowserStatus,
   tWindowBoundsChanged,
 } from '../shared/state/actions'
-import { storage } from './state/perma-store'
 import { dispatch } from './state/store'
+import { storage } from './storage'
 
 declare const TILES_WINDOW_WEBPACK_ENTRY: string
 declare const TILES_WINDOW_PRELOAD_WEBPACK_ENTRY: string

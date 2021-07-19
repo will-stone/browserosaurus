@@ -39,12 +39,12 @@ import {
 } from '../../shared/state/actions'
 import type { RootState } from '../../shared/state/reducer.root'
 import { logger } from '../../shared/utils/logger'
+import { storage } from '../storage'
 import { createTray, tray } from '../tray'
 import copyToClipboard from '../utils/copy-to-clipboard'
 import { getUpdateUrl } from '../utils/get-update-url'
 import { isUpdateAvailable } from '../utils/is-update-available'
 import { createWindows, pWindow, showTWindow, tWindow } from '../windows'
-import { storage } from './perma-store'
 import { checkForUpdate } from './thunk.check-for-update'
 import { getApps } from './thunk.get-apps'
 

@@ -1,4 +1,4 @@
-import type { Hotkeys } from '../../main/state/perma-store'
+import type { Hotkeys } from '../../main/storage'
 import { alterHotkeys } from './alter-hotkeys'
 
 const cases: [Hotkeys, string, string, Hotkeys][] = [

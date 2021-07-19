@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import xor from 'lodash/xor'
 
-import type { Storage } from '../../main/state/perma-store'
+import type { Storage } from '../../main/storage'
 import { alterHotkeys } from '../utils/alter-hotkeys'
 import {
   changedHotkey,

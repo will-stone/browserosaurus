@@ -2,7 +2,7 @@
 import { createAction as cA } from '@reduxjs/toolkit'
 import type { Rectangle } from 'electron/main'
 
-import type { Storage } from '../../main/state/perma-store'
+import type { Storage } from '../../main/storage'
 import { Channel } from './channels'
 import type { App } from './reducer.apps'
 import { Data, PrefsTab } from './reducer.data'
