@@ -2,6 +2,8 @@ const EventEmitter = require('events')
 
 const eventEmitter = new EventEmitter()
 
+let clipboard
+
 module.exports = {
   app: jest.fn(),
   dialog: jest.fn(),
@@ -32,4 +34,13 @@ module.exports = {
     },
   },
   require: jest.fn(),
+  clipboard: {
+    writeText: (string) => (clipboard = string),
+    readText: () => clipboard,
+  },
+  contextBridge: {
+    exposeInMainWorld: jest.fn((apiKey, { send, receive }) => {
+      window[apiKey] = { send, receive }
+    }),
+  },
 }
