@@ -38,4 +38,9 @@ module.exports = {
     writeText: (string) => (clipboard = string),
     readText: () => clipboard,
   },
+  contextBridge: {
+    exposeInMainWorld: jest.fn((apiKey, { send, receive }) => {
+      window[apiKey] = { send, receive }
+    }),
+  },
 }

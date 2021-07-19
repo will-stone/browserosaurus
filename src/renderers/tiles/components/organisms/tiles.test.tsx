@@ -1,3 +1,5 @@
+import '../../../shared/preload'
+
 import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import electron from 'electron'
 import React from 'react'
