@@ -1,7 +1,7 @@
-import { spawn } from 'child_process'
+import { clipboard } from 'electron'
 
 const copyToClipboard = (string: string): void => {
-  spawn('sh', ['-c', `echo "${string}" | tr -d '\n' | pbcopy`])
+  clipboard.writeText(string)
 }
 
 export default copyToClipboard
