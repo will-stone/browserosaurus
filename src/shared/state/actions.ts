@@ -2,7 +2,7 @@
 import { createAction as cA } from '@reduxjs/toolkit'
 import type { Rectangle } from 'electron/main'
 
-import type { PermaStore } from '../../main/state/perma-store'
+import type { Storage } from '../../main/state/perma-store'
 import { Channel } from './channels'
 import type { App } from './reducer.apps'
 import { Data, PrefsTab } from './reducer.data'
@@ -21,7 +21,7 @@ const urlOpened = cA<string>(`${MAIN}/urlOpened`)
 const tWindowBoundsChanged = cA<Rectangle>(`${MAIN}/tWindowBoundsChanged`)
 const syncApps = cA<App[]>(`${MAIN}/syncApps`)
 const syncData = cA<Data>(`${MAIN}/syncData`)
-const syncStorage = cA<PermaStore>(`${MAIN}/syncStorage`)
+const syncStorage = cA<Storage>(`${MAIN}/syncStorage`)
 
 const gotAppVersion = cA<string>(`${MAIN}/gotAppVersion`)
 const gotDefaultBrowserStatus = cA<boolean>(`${MAIN}/gotDefaultBrowserStatus`)

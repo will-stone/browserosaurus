@@ -44,7 +44,7 @@ import copyToClipboard from '../utils/copy-to-clipboard'
 import { getUpdateUrl } from '../utils/get-update-url'
 import { isUpdateAvailable } from '../utils/is-update-available'
 import { createWindows, pWindow, showTWindow, tWindow } from '../windows'
-import { permaStore } from './perma-store'
+import { storage } from './perma-store'
 import { checkForUpdate } from './thunk.check-for-update'
 import { getApps } from './thunk.get-apps'
 
@@ -71,7 +71,7 @@ export const actionHubMiddleware =
      * Update perma store on state.storage changes
      */
     if (!deepEqual(previousState.storage, nextState.storage)) {
-      permaStore.set(nextState.storage)
+      storage.setAll(nextState.storage)
     }
 
     // Main's process is ready
@@ -119,7 +119,7 @@ export const actionHubMiddleware =
 
       // Send all info down to renderer
       // Spreading this fixes "A non-serializable value was detected in an action, in the path: `payload`" error
-      dispatch(syncStorage({ ...permaStore.store }))
+      dispatch(syncStorage({ ...storage.getAll() }))
       dispatch(
         gotAppVersion(`${app.getVersion()}${electronIsDev ? ' DEV' : ''}`),
       )

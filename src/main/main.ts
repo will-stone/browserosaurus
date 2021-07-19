@@ -3,19 +3,19 @@ import electron, { app } from 'electron'
 
 import { appReady, urlOpened } from '../shared/state/actions'
 import { Channel } from '../shared/state/channels'
-import { permaStore } from './state/perma-store'
+import { storage } from './state/perma-store'
 import { dispatch } from './state/store'
 
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
 app.commandLine.appendArgument('--enable-features=Metal')
 
-if (permaStore.get('firstRun')) {
+if (storage.get('firstRun')) {
   // Prompt to set as default browser
   app.setAsDefaultProtocolClient('http')
   app.setAsDefaultProtocolClient('https')
 }
 
-permaStore.set('firstRun', false)
+storage.set('firstRun', false)
 
 app.on('ready', () => dispatch(appReady()))
 

@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import xor from 'lodash/xor'
 
-import type { PermaStore } from '../../main/state/perma-store'
+import type { Storage } from '../../main/state/perma-store'
 import { alterHotkeys } from '../utils/alter-hotkeys'
 import {
   changedHotkey,
@@ -13,7 +13,7 @@ import {
   tWindowBoundsChanged,
 } from './actions'
 
-export const storage = createReducer<PermaStore>(
+export const storage = createReducer<Storage>(
   {
     fav: '',
     hiddenTileIds: [],

@@ -5,7 +5,7 @@ import {
   gotDefaultBrowserStatus,
   tWindowBoundsChanged,
 } from '../shared/state/actions'
-import { permaStore } from './state/perma-store'
+import { storage } from './state/perma-store'
 import { dispatch } from './state/store'
 
 declare const TILES_WINDOW_WEBPACK_ENTRY: string
@@ -64,7 +64,7 @@ export async function createWindows(): Promise<void> {
     dispatch(gotDefaultBrowserStatus(app.isDefaultProtocolClient('http')))
   })
 
-  const bounds = permaStore.get('bounds')
+  const bounds = storage.get('bounds')
 
   tWindow = new BrowserWindow({
     frame: true,
