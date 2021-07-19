@@ -118,8 +118,9 @@ export const actionHubMiddleware =
       }
 
       // Send all info down to renderer
-      // Spreading this fixes "A non-serializable value was detected in an action, in the path: `payload`" error
-      dispatch(syncStorage({ ...storage.getAll() }))
+      dispatch(syncStorage(storage.getAll()))
+
+      // App version
       dispatch(
         gotAppVersion(`${app.getVersion()}${electronIsDev ? ' DEV' : ''}`),
       )

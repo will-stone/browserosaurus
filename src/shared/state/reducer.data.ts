@@ -31,69 +31,69 @@ export interface Data {
   prefsTab: PrefsTab
 }
 
-export const data = createReducer<Data>(
-  {
-    version: '',
-    updateStatus: 'no-update',
-    isDefaultProtocolClient: true,
-    url: '',
-    tilesStarted: false,
-    prefsStarted: false,
-    prefsTab: 'general',
-  },
-  (builder) =>
-    builder
-      .addCase(syncData, (_, action) => action.payload)
+export const defaultData: Data = {
+  version: '',
+  updateStatus: 'no-update',
+  isDefaultProtocolClient: true,
+  url: '',
+  tilesStarted: false,
+  prefsStarted: false,
+  prefsTab: 'general',
+}
 
-      .addCase(tilesStarted, (state) => {
-        state.tilesStarted = true
-      })
+export const data = createReducer<Data>(defaultData, (builder) =>
+  builder
+    .addCase(syncData, (_, action) => action.payload)
 
-      .addCase(prefsStarted, (state) => {
-        state.prefsStarted = true
-      })
+    .addCase(tilesStarted, (state) => {
+      state.tilesStarted = true
+    })
 
-      .addCase(clickedUrlBackspaceButton, (state) => {
-        state.url = backspaceUrlParse(state.url)
-      })
+    .addCase(prefsStarted, (state) => {
+      state.prefsStarted = true
+    })
 
-      .addCase(pressedBackspaceKey, (state) => {
-        state.url = backspaceUrlParse(state.url)
-      })
+    .addCase(clickedUrlBackspaceButton, (state) => {
+      state.url = backspaceUrlParse(state.url)
+    })
 
-      .addCase(gotDefaultBrowserStatus, (state, action) => {
-        state.isDefaultProtocolClient = action.payload
-      })
+    .addCase(pressedBackspaceKey, (state) => {
+      state.url = backspaceUrlParse(state.url)
+    })
 
-      .addCase(updateAvailable, (state) => {
-        state.updateStatus = 'available'
-      })
+    .addCase(gotDefaultBrowserStatus, (state, action) => {
+      state.isDefaultProtocolClient = action.payload
+    })
 
-      .addCase(updateDownloading, (state) => {
-        state.updateStatus = 'downloading'
-      })
+    .addCase(updateAvailable, (state) => {
+      state.updateStatus = 'available'
+    })
 
-      .addCase(updateDownloaded, (state) => {
-        state.updateStatus = 'downloaded'
-      })
+    .addCase(updateDownloading, (state) => {
+      state.updateStatus = 'downloading'
+    })
 
-      .addCase(urlOpened, (state, action) => {
-        state.url = action.payload
-      })
+    .addCase(updateDownloaded, (state) => {
+      state.updateStatus = 'downloaded'
+    })
 
-      .addCase(gotAppVersion, (state, action) => {
-        state.version = action.payload
-      })
+    .addCase(urlOpened, (state, action) => {
+      state.url = action.payload
+    })
 
-      .addCase(clickedDonate, (state) => {
-        state.url = CARROT_URL
-      })
+    .addCase(gotAppVersion, (state, action) => {
+      state.version = action.payload
+    })
 
-      .addCase(clickedTabButton, (state, action) => {
-        state.prefsTab = action.payload
-      })
+    .addCase(clickedDonate, (state) => {
+      state.url = CARROT_URL
+    })
 
-      .addCase(clickedUpdateAvailableButton, (state) => {
-        state.prefsTab = 'general'
-      }),
+    .addCase(clickedTabButton, (state, action) => {
+      state.prefsTab = action.payload
+    })
+
+    .addCase(clickedUpdateAvailableButton, (state) => {
+      state.prefsTab = 'general'
+    }),
 )

@@ -7,7 +7,8 @@ import type {
 import { configureStore } from '@reduxjs/toolkit'
 
 import { logMiddleware } from './middleware.log'
-import { rootReducer, RootState } from './reducer.root'
+import type { RootState } from './reducer.root'
+import { defaultState, rootReducer } from './reducer.root'
 
 type TypedMiddleware = Middleware<
   // Legacy type parameter added to satisfy interface signature
@@ -21,7 +22,10 @@ type BoundaryType = EnhancedStore<
   TypedMiddleware[]
 >
 
-const createStore = (middleware: TypedMiddleware[] = []): BoundaryType =>
+const createStore = (
+  middleware: TypedMiddleware[],
+  preloadedState: Partial<RootState> = {},
+): BoundaryType =>
   configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => [
@@ -29,6 +33,10 @@ const createStore = (middleware: TypedMiddleware[] = []): BoundaryType =>
       ...middleware,
       logMiddleware(),
     ],
+    preloadedState: {
+      ...defaultState,
+      ...preloadedState,
+    },
   })
 
 export default createStore

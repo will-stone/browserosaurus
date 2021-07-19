@@ -1,5 +1,5 @@
-import type { Hotkeys } from '../../main/storage'
 import type { App } from '../state/reducer.apps'
+import type { Hotkeys } from '../state/reducer.storage'
 
 export function getHotkeyByAppId(
   hotkeys: Hotkeys,

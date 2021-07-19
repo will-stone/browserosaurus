@@ -49,6 +49,9 @@ test('tiles', () => {
         fav: 'com.apple.Safari',
         hiddenTileIds: [],
         hotkeys: {},
+        width: 200,
+        height: 200,
+        firstRun: false,
       }),
     )
   })
@@ -105,6 +108,9 @@ test('use hotkey', () => {
         fav: 'com.apple.Safari',
         hiddenTileIds: [],
         hotkeys: { s: 'com.apple.Safari' },
+        width: 200,
+        height: 200,
+        firstRun: false,
       }),
     )
   })
@@ -143,6 +149,9 @@ test('use hotkey with alt', () => {
         fav: 'com.apple.Safari',
         hiddenTileIds: [],
         hotkeys: { s: 'com.apple.Safari' },
+        width: 200,
+        height: 200,
+        firstRun: false,
       }),
     )
   })
@@ -223,6 +232,9 @@ test('tiles order', () => {
         fav: 'com.apple.Safari',
         hiddenTileIds: [],
         hotkeys: { 1: 'com.operasoftware.Opera', 2: 'com.brave.Browser' },
+        width: 200,
+        height: 200,
+        firstRun: false,
       }),
     )
   })

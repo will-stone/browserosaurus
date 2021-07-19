@@ -64,7 +64,8 @@ export async function createWindows(): Promise<void> {
     dispatch(gotDefaultBrowserStatus(app.isDefaultProtocolClient('http')))
   })
 
-  const bounds = storage.get('bounds')
+  const width = storage.get('width')
+  const height = storage.get('height')
 
   tWindow = new BrowserWindow({
     frame: true,
@@ -79,10 +80,10 @@ export async function createWindows(): Promise<void> {
       enableRemoteModule: false,
     },
     center: true,
-    height: bounds?.height || 204,
-    minHeight: 204,
-    width: bounds?.width || 424,
-    minWidth: 424,
+    height,
+    minHeight: height,
+    width,
+    minWidth: width,
     show: false,
     minimizable: false,
     maximizable: false,

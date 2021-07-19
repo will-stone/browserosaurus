@@ -1,4 +1,4 @@
-import type { Hotkeys } from '../../main/storage'
+import type { Hotkeys } from '../state/reducer.storage'
 import { getHotkeyByAppId } from './get-hotkey-by-app-id'
 
 const cases: [Hotkeys, string, ReturnType<typeof getHotkeyByAppId>][] = [

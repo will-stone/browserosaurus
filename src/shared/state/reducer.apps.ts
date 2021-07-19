@@ -9,6 +9,8 @@ export interface App {
   privateArg?: string
 }
 
-export const apps = createReducer<App[]>([], (builder) =>
+export const defaultApps: App[] = []
+
+export const apps = createReducer<App[]>(defaultApps, (builder) =>
   builder.addCase(syncApps, (_, action) => action.payload),
 )
