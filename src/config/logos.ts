@@ -31,13 +31,13 @@ import yandex from '@browser-logos/yandex/yandex_128x128.png'
 
 import dissenter from './logos/dissenter.png'
 import finicky from './logos/finicky.png'
+import librewolf from './logos/librewolf.png'
 import min from './logos/min.png'
 import naverWhale from './logos/NAVER_whale.png'
 import pocket from './logos/pocket.png'
 import polypane from './logos/polypane.png'
 import spotify from './logos/spotify.png'
 import waterfox from './logos/waterfox.png'
-import librewolf from './logos/librewolf.png'
 
 export const logos: { [key: string]: string } = {
   'com.brave.Browser': brave,
