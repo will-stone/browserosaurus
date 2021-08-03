@@ -30,6 +30,7 @@ import vivaldiSnapshot from '@browser-logos/vivaldi-snapshot/vivaldi-snapshot_12
 import yandex from '@browser-logos/yandex/yandex_128x128.png'
 
 import dissenter from './logos/dissenter.png'
+import waterfox from './logos/figma.png'
 import finicky from './logos/finicky.png'
 import librewolf from './logos/librewolf.png'
 import min from './logos/min.png'
