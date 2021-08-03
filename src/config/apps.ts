@@ -31,6 +31,10 @@ export const apps: App[] = [
     id: 'com.gab.Dissenter',
   },
   {
+    name: 'Figma',
+    id: 'com.figma.Desktop',
+  },
+  {
     name: 'Finicky',
     id: 'net.kassett.finicky',
   },
