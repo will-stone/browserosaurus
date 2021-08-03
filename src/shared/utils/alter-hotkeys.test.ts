@@ -82,6 +82,6 @@ const cases: [Hotkeys, string, string, Hotkeys][] = [
 test.each(cases)(
   'given hotkeys %p, app ID %p, and hotkey %p return %p',
   (hotkeys, appId, hotkey, expected) => {
-    return expect(alterHotkeys(hotkeys, appId, hotkey)).toEqual(expected)
+    expect(alterHotkeys(hotkeys, appId, hotkey)).toEqual(expected)
   },
 )
