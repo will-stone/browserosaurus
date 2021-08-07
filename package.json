@@ -1,6 +1,6 @@
 {
   "name": "browserosaurus",
-  "version": "15.1.3-beta.10",
+  "version": "15.1.3-beta.11",
   "description": "The browser prompter for macOS",
   "keywords": [
     "macOS",
@@ -23,7 +23,7 @@
     "make": "concurrently \"npm:make:*\" --kill-others-on-fail",
     "make:arm": "electron-forge make --skip-package --arch=arm64",
     "make:intel": "electron-forge make --skip-package --arch=x64",
-    "notarize": "ts-node ./scripts/notarize.ts",
+    "notarize": "DEBUG=* ts-node ./scripts/notarize.ts",
     "prepackage": "rimraf out",
     "package": "npm run package:arm && npm run package:intel",
     "package:arm": "NODE_ENV=production electron-forge package --platform=darwin --arch=arm64",
