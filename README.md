@@ -72,6 +72,9 @@ Setup Keychain for notarization:
 xcrun notarytool store-credentials "AC_PASSWORD" --apple-id "email@example.com" --team-id "team-id" --password "app-password" --keychain "~/Library/Keychains/login.keychain-db"
 ```
 
+This will create an item called `com.apple.gke.notary.tool` in your `login`
+keychain.
+
 - "AC_PASSWORD" is the name to be given to the keychain profile, and can be left
   as-is.
 - The apple ID is usually your email address associated with your Apple
