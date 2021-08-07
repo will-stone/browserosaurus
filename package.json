@@ -23,7 +23,7 @@
     "make": "concurrently \"npm:make:*\" --kill-others-on-fail",
     "make:arm": "electron-forge make --skip-package --arch=arm64",
     "make:intel": "electron-forge make --skip-package --arch=x64",
-    "notarize": "DEBUG=* ts-node ./scripts/notarize.ts",
+    "notarize": "ts-node ./scripts/notarize.ts",
     "prepackage": "rimraf out",
     "package": "npm run package:arm && npm run package:intel",
     "package:arm": "NODE_ENV=production electron-forge package --platform=darwin --arch=arm64",
