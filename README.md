@@ -88,10 +88,10 @@ keychain.
   the location used above is usually where it is found.
 
 App is published on GitHub, the following command will prompt to bump version
-number, package, notarize, and make installers:
+number, package, notarize, and make ZIP bundle:
 
 ```
 npm run release
 ```
 
-The dmg and zip files can then be added to a GitHub release.
+The zip files can then be added to a GitHub release.
