@@ -74,6 +74,10 @@ export const apps: App[] = [
     id: 'de.iridiumbrowser',
   },
   {
+    name: 'Librewolf',
+    id: 'io.gitlab.librewolf-community.librewolf',
+  },
+  {
     name: 'Maxthon',
     id: 'com.maxthon.mac.Maxthon',
   },
@@ -143,6 +147,10 @@ export const apps: App[] = [
     id: 'com.apple.SafariTechnologyPreview',
   },
   {
+    name: 'Spotify',
+    id: 'com.spotify.client',
+  },
+  {
     name: 'Tor Browser',
     id: 'org.torproject.torbrowser',
   },
@@ -161,13 +169,5 @@ export const apps: App[] = [
   {
     name: 'Yandex',
     id: 'ru.yandex.desktop.yandex-browser',
-  },
-  {
-    name: 'Spotify',
-    id: 'com.spotify.client',
-  },
-  {
-    name: 'Librewolf',
-    id: 'io.gitlab.librewolf-community.librewolf',
   },
 ]
