@@ -205,7 +205,7 @@
     "@types/react": "^17.0.16",
     "@types/react-dom": "^17.0.9",
     "@types/react-redux": "^7.1.18",
-    "@will-stone/eslint-config": "^2.10.0",
+    "@will-stone/eslint-config": "^2.12.0",
     "@will-stone/prettier-config": "^4.0.0",
     "concurrently": "^6.2.0",
     "copy-webpack-plugin": "^9.0.1",
