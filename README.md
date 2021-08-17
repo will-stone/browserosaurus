@@ -1,3 +1,7 @@
+<img src="./screenshot.jpg" alt="screenshot" />
+
+---
+
 <img src="./designs/icon_squooshed.png" alt="logo" width="100" height="100" align="right" />
 
 # Browserosaurus
