@@ -1,13 +1,15 @@
-<img src="./screenshot.jpg" alt="screenshot" />
-
----
-
 <img src="./designs/icon_squooshed.png" alt="logo" width="100" height="100" align="right" />
 
 # Browserosaurus
 
 If you enjoy using Browserosaurus, please consider supporting its continued
 development.
+
+---
+
+<img src="./screenshot.jpg" alt="screenshot" />
+
+---
 
 Browserosaurus is an open-source (MIT license), Electron-based browser prompter
 for macOS. It works by setting itself as the default browser; any clicked links
