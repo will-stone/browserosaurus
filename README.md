@@ -2,8 +2,11 @@
 
 # Browserosaurus
 
-If you enjoy using Browserosaurus, please consider supporting its continued
-development.
+Browserosaurus is an open-source (MIT license), Electron-based browser prompter
+for macOS. It works by setting itself as the default browser; any clicked links
+in non-browser apps are now sent to Browserosaurus where it’ll present you with
+a menu of all your installed browsers. You may now decide which browser you’d
+like to continue opening the link with.
 
 ---
 
@@ -11,14 +14,11 @@ development.
 
 ---
 
-Browserosaurus is an open-source (MIT license), Electron-based browser prompter
-for macOS. It works by setting itself as the default browser; any clicked links
-in non-browser apps are now sent to Browserosaurus where it’ll present you with
-a menu of all your installed browsers. You may now decide which browser you’d
-like to continue opening the link with.
+**Please note that Browserosaurus only officially supports the version of macOS
+that I currently use. Please see [here](docs/Frequently-Asked-Questions.md) for
+details.**
 
-**Browserosaurus only supports the version of macOS that I currently use. Please
-see [here](docs/Frequently-Asked-Questions.md) for details.**
+---
 
 ## Installation
 
