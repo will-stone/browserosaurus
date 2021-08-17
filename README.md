@@ -12,7 +12,7 @@ a menu of all your installed browsers. You may now decide which browser you’d
 like to continue opening the link with.
 
 **Browserosaurus only supports the version of macOS that I currently use. Please
-see [here](docs/Frequently-Asked-Questions) for details.**
+see [here](docs/Frequently-Asked-Questions.md) for details.**
 
 ## Installation
 
