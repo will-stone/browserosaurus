@@ -14,16 +14,18 @@ to continue opening the link with.
 
 ---
 
-**Please note that Browserosaurus only officially supports the version of macOS
-that I currently use. Please see [here](docs/faq.md) for details.**
-
----
+<a href="https://www.buymeacoffee.com/wstone" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" /></a>
 
 ## Installation
 
 Please download Browserosaurus from the
 [GitHub releases page](https://github.com/will-stone/browserosaurus/releases/latest).
 Select **x64** for Intel machines, or **arm64** for Apple Silicon (M1) machines.
+
+---
+
+**Please note that Browserosaurus only officially supports the version of macOS
+that I currently use, see [here](docs/faq.md) for details.**
 
 ---
 
