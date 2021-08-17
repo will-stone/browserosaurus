@@ -31,6 +31,7 @@ that I currently use, see [here](docs/faq.md) for details.**
 
 ## Documentation
 
+- [Changelog](https://github.com/will-stone/browserosaurus/releases)
 - [Frequently asked questions](docs/faq.md)
 - [Adding a browser or app](docs/adding-browser-or-app.md)
 - [Setting up for development](docs/setting-up-for-development.md)
