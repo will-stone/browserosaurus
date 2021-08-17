@@ -1,3 +1,5 @@
+# Frequently Asked Questions
+
 ## Which is the supported version of macOS?
 
 I can only officially support the version of macOS that I am currently using,
