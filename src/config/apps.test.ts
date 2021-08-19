@@ -19,9 +19,6 @@ test.each(getKeys(apps))(
       (key) => !allowedKeys.has(key),
     )
     expect(unknownKeys).toHaveLength(0)
-    // expect([undefined, 'string']).toContain(typeof apps[input]['urlTemplate'])
-    // expect(apps[input]['urlTemplate']).toBe('name')
-    // expect(typeof apps[input].name).toBe('string')
   },
 )
 
