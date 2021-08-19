@@ -1,133 +1,213 @@
+import brave from '@browser-logos/brave/brave_128x128.png'
+import braveBeta from '@browser-logos/brave-beta/brave-beta_128x128.png'
+import braveDev from '@browser-logos/brave-dev/brave-dev_128x128.png'
+import braveNightly from '@browser-logos/brave-nightly/brave-nightly_128x128.png'
+import chrome from '@browser-logos/chrome/chrome_128x128.png'
+import chromeBeta from '@browser-logos/chrome-beta/chrome-beta_128x128.png'
+import chromeCanary from '@browser-logos/chrome-canary/chrome-canary_128x128.png'
+import chromeDev from '@browser-logos/chrome-dev/chrome-dev_128x128.png'
+import chromium from '@browser-logos/chromium/chromium_128x128.png'
+import edge from '@browser-logos/edge/edge_128x128.png'
+import edgeBeta from '@browser-logos/edge-beta/edge-beta_128x128.png'
+import edgeCanary from '@browser-logos/edge-canary/edge-canary_128x128.png'
+import edgeDev from '@browser-logos/edge-dev/edge-dev_128x128.png'
+import firefox from '@browser-logos/firefox/firefox_128x128.png'
+import firefoxDevEdition from '@browser-logos/firefox-developer-edition/firefox-developer-edition_128x128.png'
+import firefoxNightly from '@browser-logos/firefox-nightly/firefox-nightly_128x128.png'
+import iridium from '@browser-logos/iridium/iridium_128x128.png'
+import maxthon from '@browser-logos/maxthon/maxthon_128x128.png'
+import opera from '@browser-logos/opera/opera_128x128.png'
+import operaBeta from '@browser-logos/opera-beta/opera-beta_128x128.png'
+import operaDeveloper from '@browser-logos/opera-developer/opera-developer_128x128.png'
+import operaGX from '@browser-logos/opera-gx/opera-gx_128x128.png'
+import operaNeon from '@browser-logos/opera-neon/opera-neon_128x128.png'
+import qutebrowser from '@browser-logos/qutebrowser/qutebrowser_128x128.png'
+import safari from '@browser-logos/safari/safari_128x128.png'
+import safariTechnologyPreview from '@browser-logos/safari-technology-preview/safari-technology-preview_128x128.png'
+import tor from '@browser-logos/tor/tor_128x128.png'
+import vivaldi from '@browser-logos/vivaldi/vivaldi_128x128.png'
+import vivaldiSnapshot from '@browser-logos/vivaldi-snapshot/vivaldi-snapshot_128x128.png'
+import yandex from '@browser-logos/yandex/yandex_128x128.png'
+
+import dissenter from './logos/dissenter.png'
+import finicky from './logos/finicky.png'
+import librewolf from './logos/librewolf.png'
+import min from './logos/min.png'
+import naverWhale from './logos/NAVER_whale.png'
+import pocket from './logos/pocket.png'
+import polypane from './logos/polypane.png'
+import spotify from './logos/spotify.png'
+import waterfox from './logos/waterfox.png'
+
 export const apps = {
   'com.brave.Browser': {
     name: 'Brave',
     privateArg: '--incognito',
+    logo: brave,
   },
   'com.brave.Browser.beta': {
     name: 'Brave Beta',
     privateArg: '--incognito',
+    logo: braveBeta,
   },
   'com.brave.Browser.dev': {
     name: 'Brave Dev',
     privateArg: '--incognito',
+    logo: braveDev,
   },
   'com.brave.Browser.nightly': {
     name: 'Brave Nightly',
     privateArg: '--incognito',
+    logo: braveNightly,
   },
   'org.chromium.Chromium': {
     name: 'Chromium',
     privateArg: '--incognito',
+    logo: chromium,
   },
   'com.gab.Dissenter': {
     name: 'Dissenter',
+    logo: dissenter,
   },
   'net.kassett.finicky': {
     name: 'Finicky',
+    logo: finicky,
   },
   'org.mozilla.firefox': {
     name: 'Firefox',
     privateArg: '--private-window',
+    logo: firefox,
   },
   'org.mozilla.firefoxdeveloperedition': {
     name: 'Firefox Developer Edition',
     privateArg: '--private-window',
+    logo: firefoxDevEdition,
   },
   'org.mozilla.nightly': {
     name: 'Firefox Nightly',
     privateArg: '--private-window',
+    logo: firefoxNightly,
   },
   'com.google.Chrome': {
     name: 'Google Chrome',
     privateArg: '--incognito',
+    logo: chrome,
   },
   'com.google.Chrome.beta': {
     name: 'Google Chrome Beta',
     privateArg: '--incognito',
+    logo: chromeBeta,
   },
   'com.google.Chrome.canary': {
     name: 'Google Chrome Canary',
     privateArg: '--incognito',
+    logo: chromeCanary,
   },
   'com.google.Chrome.dev': {
     name: 'Google Chrome Dev',
     privateArg: '--incognito',
+    logo: chromeDev,
   },
   'de.iridiumbrowser': {
     name: 'Iridium',
+    logo: iridium,
   },
   'io.gitlab.librewolf-community.librewolf': {
     name: 'Librewolf',
+    logo: librewolf,
   },
   'com.maxthon.mac.Maxthon': {
     name: 'Maxthon',
+    logo: maxthon,
   },
   'com.microsoft.edgemac': {
     name: 'Microsoft Edge',
+    logo: edge,
   },
   'com.microsoft.edgemac.Beta': {
     name: 'Microsoft Edge Beta',
+    logo: edgeBeta,
   },
   'com.microsoft.edgemac.Canary': {
     name: 'Microsoft Edge Canary',
+    logo: edgeCanary,
   },
   'com.microsoft.edgemac.Dev': {
     name: 'Microsoft Edge Dev',
+    logo: edgeDev,
   },
   'com.electron.min': {
     name: 'Min',
+    logo: min,
   },
   'com.naver.Whale': {
     name: 'NAVER Whale',
+    logo: naverWhale,
   },
   'com.operasoftware.Opera': {
     name: 'Opera',
+    logo: opera,
   },
   'com.operasoftware.OperaNext': {
     name: 'Opera Beta',
+    logo: operaBeta,
   },
   'com.operasoftware.OperaDeveloper': {
     name: 'Opera Developer',
+    logo: operaDeveloper,
   },
   'com.operasoftware.OperaGX': {
     name: 'Opera GX',
+    logo: operaGX,
   },
   'com.opera.Neon': {
     name: 'Opera Neon',
+    logo: operaNeon,
   },
   'com.readitlater.PocketMac': {
     name: 'Pocket',
     urlTemplate: 'pocket://add?url={{URL}}',
+    logo: pocket,
   },
   'com.firstversionist.polypane': {
     name: 'Polypane',
+    logo: polypane,
   },
   'org.qt-project.Qt.QtWebEngineCore': {
     name: 'qutebrowser',
+    logo: qutebrowser,
   },
   'com.apple.Safari': {
     name: 'Safari',
+    logo: safari,
   },
   'com.apple.SafariTechnologyPreview': {
     name: 'Safari Technology Preview',
+    logo: safariTechnologyPreview,
   },
   'com.spotify.client': {
     name: 'Spotify',
+    logo: spotify,
   },
   'org.torproject.torbrowser': {
     name: 'Tor Browser',
+    logo: tor,
   },
   'com.vivaldi.Vivaldi': {
     name: 'Vivaldi',
+    logo: vivaldi,
   },
   'com.vivaldi.Vivaldi.snapshot': {
     name: 'Vivaldi Snapshot',
+    logo: vivaldiSnapshot,
   },
   'net.waterfox.waterfox': {
     name: 'Waterfox',
+    logo: waterfox,
   },
   'ru.yandex.desktop.yandex-browser': {
     name: 'Yandex',
+    logo: yandex,
   },
 } as const
 

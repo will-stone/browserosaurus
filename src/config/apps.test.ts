@@ -6,10 +6,15 @@ test.each(getKeys(apps))('%s should have name', (input) => {
   expect(typeof apps[input].name).toBe('string')
 })
 
+test.each(getKeys(apps))('%s should have a logo', (input) => {
+  expect(apps[input]).toHaveProperty('logo')
+  expect(typeof apps[input].name).toBe('string')
+})
+
 test.each(getKeys(apps))(
   '%s should not include anything but allowed keys',
   (input) => {
-    const allowedKeys = new Set(['name', 'urlTemplate', 'privateArg'])
+    const allowedKeys = new Set(['name', 'logo', 'urlTemplate', 'privateArg'])
     const unknownKeys = getKeys(apps[input]).filter(
       (key) => !allowedKeys.has(key),
     )

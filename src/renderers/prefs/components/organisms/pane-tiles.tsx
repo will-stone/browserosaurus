@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import { logos } from '../../../../config/logos'
+import { apps as configApps } from '../../../../config/apps'
 import {
   changedHotkey,
   clickedEyeButton,
@@ -52,7 +52,11 @@ export function AppsPane(): JSX.Element {
                   !isVisible && 'opacity-50',
                 )}
               >
-                <img alt="" className="h-8 w-8 mr-4" src={logos[id]} />
+                <img
+                  alt=""
+                  className="h-8 w-8 mr-4"
+                  src={configApps[id].logo}
+                />
                 <span>{name}</span>
               </div>
               <div className="p-4 flex items-center justify-center">
