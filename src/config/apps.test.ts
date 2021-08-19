@@ -24,3 +24,13 @@ test.each(getKeys(apps))(
     // expect(typeof apps[input].name).toBe('string')
   },
 )
+
+test('should have apps in alphabetical order by name', () => {
+  const isEqual = (a: string[], b: string[]) =>
+    JSON.stringify(a) === JSON.stringify(b)
+  const appNames = Object.values(apps).map((appDetails) =>
+    appDetails.name.toLowerCase(),
+  )
+  const sortedAppNames = [...appNames].sort()
+  expect(isEqual(appNames, sortedAppNames)).toBe(true)
+})
