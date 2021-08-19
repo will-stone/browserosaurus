@@ -1,173 +1,136 @@
-import type { App } from '../shared/state/reducer.apps'
-
-export const apps: App[] = [
-  {
+export const apps = {
+  'com.brave.Browser': {
     name: 'Brave',
-    id: 'com.brave.Browser',
     privateArg: '--incognito',
   },
-  {
+  'com.brave.Browser.beta': {
     name: 'Brave Beta',
-    id: 'com.brave.Browser.beta',
     privateArg: '--incognito',
   },
-  {
+  'com.brave.Browser.dev': {
     name: 'Brave Dev',
-    id: 'com.brave.Browser.dev',
     privateArg: '--incognito',
   },
-  {
+  'com.brave.Browser.nightly': {
     name: 'Brave Nightly',
-    id: 'com.brave.Browser.nightly',
     privateArg: '--incognito',
   },
-  {
+  'org.chromium.Chromium': {
     name: 'Chromium',
-    id: 'org.chromium.Chromium',
     privateArg: '--incognito',
   },
-  {
+  'com.gab.Dissenter': {
     name: 'Dissenter',
-    id: 'com.gab.Dissenter',
   },
-  {
+  'net.kassett.finicky': {
     name: 'Finicky',
-    id: 'net.kassett.finicky',
   },
-  {
+  'org.mozilla.firefox': {
     name: 'Firefox',
-    id: 'org.mozilla.firefox',
     privateArg: '--private-window',
   },
-  {
+  'org.mozilla.firefoxdeveloperedition': {
     name: 'Firefox Developer Edition',
-    id: 'org.mozilla.firefoxdeveloperedition',
     privateArg: '--private-window',
   },
-  {
+  'org.mozilla.nightly': {
     name: 'Firefox Nightly',
-    id: 'org.mozilla.nightly',
     privateArg: '--private-window',
   },
-  {
+  'com.google.Chrome': {
     name: 'Google Chrome',
-    id: 'com.google.Chrome',
     privateArg: '--incognito',
   },
-  {
+  'com.google.Chrome.beta': {
     name: 'Google Chrome Beta',
-    id: 'com.google.Chrome.beta',
     privateArg: '--incognito',
   },
-  {
+  'com.google.Chrome.canary': {
     name: 'Google Chrome Canary',
-    id: 'com.google.Chrome.canary',
     privateArg: '--incognito',
   },
-  {
+  'com.google.Chrome.dev': {
     name: 'Google Chrome Dev',
-    id: 'com.google.Chrome.dev',
     privateArg: '--incognito',
   },
-  {
+  'de.iridiumbrowser': {
     name: 'Iridium',
-    id: 'de.iridiumbrowser',
   },
-  {
+  'io.gitlab.librewolf-community.librewolf': {
     name: 'Librewolf',
-    id: 'io.gitlab.librewolf-community.librewolf',
   },
-  {
+  'com.maxthon.mac.Maxthon': {
     name: 'Maxthon',
-    id: 'com.maxthon.mac.Maxthon',
   },
-  {
+  'com.microsoft.edgemac': {
     name: 'Microsoft Edge',
-    id: 'com.microsoft.edgemac',
   },
-  {
+  'com.microsoft.edgemac.Beta': {
     name: 'Microsoft Edge Beta',
-    id: 'com.microsoft.edgemac.Beta',
   },
-  {
+  'com.microsoft.edgemac.Canary': {
     name: 'Microsoft Edge Canary',
-    id: 'com.microsoft.edgemac.Canary',
   },
-  {
+  'com.microsoft.edgemac.Dev': {
     name: 'Microsoft Edge Dev',
-    id: 'com.microsoft.edgemac.Dev',
   },
-  {
+  'com.electron.min': {
     name: 'Min',
-    id: 'com.electron.min',
   },
-  {
+  'com.naver.Whale': {
     name: 'NAVER Whale',
-    id: 'com.naver.Whale',
   },
-  {
+  'com.operasoftware.Opera': {
     name: 'Opera',
-    id: 'com.operasoftware.Opera',
   },
-  {
+  'com.operasoftware.OperaNext': {
     name: 'Opera Beta',
-    id: 'com.operasoftware.OperaNext',
   },
-  {
+  'com.operasoftware.OperaDeveloper': {
     name: 'Opera Developer',
-    id: 'com.operasoftware.OperaDeveloper',
   },
-  {
+  'com.operasoftware.OperaGX': {
     name: 'Opera GX',
-    id: 'com.operasoftware.OperaGX',
   },
-  {
+  'com.opera.Neon': {
     name: 'Opera Neon',
-    id: 'com.opera.Neon',
   },
-  {
+  'com.readitlater.PocketMac': {
     name: 'Pocket',
-    id: 'com.readitlater.PocketMac',
     urlTemplate: 'pocket://add?url={{URL}}',
   },
-  {
+  'com.firstversionist.polypane': {
     name: 'Polypane',
-    id: 'com.firstversionist.polypane',
   },
-  {
+  'org.qt-project.Qt.QtWebEngineCore': {
     name: 'qutebrowser',
-    id: 'org.qt-project.Qt.QtWebEngineCore',
   },
-  {
+  'com.apple.Safari': {
     name: 'Safari',
-    id: 'com.apple.Safari',
   },
-  {
+  'com.apple.SafariTechnologyPreview': {
     name: 'Safari Technology Preview',
-    id: 'com.apple.SafariTechnologyPreview',
   },
-  {
+  'com.spotify.client': {
     name: 'Spotify',
-    id: 'com.spotify.client',
   },
-  {
+  'org.torproject.torbrowser': {
     name: 'Tor Browser',
-    id: 'org.torproject.torbrowser',
   },
-  {
+  'com.vivaldi.Vivaldi': {
     name: 'Vivaldi',
-    id: 'com.vivaldi.Vivaldi',
   },
-  {
+  'com.vivaldi.Vivaldi.snapshot': {
     name: 'Vivaldi Snapshot',
-    id: 'com.vivaldi.Vivaldi.snapshot',
   },
-  {
+  'net.waterfox.waterfox': {
     name: 'Waterfox',
-    id: 'net.waterfox.waterfox',
   },
-  {
+  'ru.yandex.desktop.yandex-browser': {
     name: 'Yandex',
-    id: 'ru.yandex.desktop.yandex-browser',
   },
-]
+} as const
+
+export type Apps = typeof apps
+
+export type AppId = keyof typeof apps

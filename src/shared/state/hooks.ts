@@ -5,8 +5,9 @@ import {
   useSelector as useReduxSelector,
 } from 'react-redux'
 
+import type { AppId, Apps } from '../../config/apps'
+import { apps as allApps } from '../../config/apps'
 import { getHotkeyByAppId } from '../utils/get-hotkey-by-app-id'
-import type { App } from './reducer.apps'
 import type { RootState } from './reducer.root'
 
 export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector
@@ -19,42 +20,47 @@ export const useDeepEqualSelector: TypedUseSelectorHook<RootState> = (
   selector,
 ) => useSelector(selector, deepEqual)
 
-export interface ExtendedApp extends App {
+export interface App {
+  id: AppId
+  name: Apps[AppId]['name']
+  privateArg?: string
+  urlTemplate?: string
   isVisible: boolean
   isFav: boolean
-  hotkey: App['id'] | undefined
+  hotkey: string | undefined
 }
 
-export const useApps = (): ExtendedApp[] => {
-  const apps = useDeepEqualSelector((state) => state.apps)
+export const useApps = (): App[] => {
+  const appIds = useDeepEqualSelector((state) => state.apps)
   const hiddenTileIds = useShallowEqualSelector(
     (state) => state.storage.hiddenTileIds,
   )
   const favId = useSelector((state) => state.storage.fav)
   const hotkeys = useShallowEqualSelector((state) => state.storage.hotkeys)
-  return apps.map((app) => ({
-    ...app,
-    isVisible: !hiddenTileIds.includes(app.id),
-    isFav: app.id === favId,
-    hotkey: getHotkeyByAppId(hotkeys, app.id),
+  return appIds.map((appId) => ({
+    ...allApps[appId],
+    id: appId,
+    isVisible: !hiddenTileIds.includes(appId),
+    isFav: appId === favId,
+    hotkey: getHotkeyByAppId(hotkeys, appId),
   }))
 }
 
 /**
  * Tiles = visible apps
  */
-const useTiles = (): ExtendedApp[] => {
+const useTiles = (): App[] => {
   const apps = useApps()
   return apps.filter((app) => app.isVisible)
 }
 
-export const useFavTile = (): ExtendedApp | undefined => {
+export const useFavTile = (): App | undefined => {
   const tiles = useTiles()
   const favTile = tiles.find((tile) => tile.isFav)
   return favTile
 }
 
-export const useNormalTiles = (): ExtendedApp[] => {
+export const useNormalTiles = (): App[] => {
   const tiles = useTiles()
   const normalTiles = tiles
     .filter((tile) => !tile.isFav)

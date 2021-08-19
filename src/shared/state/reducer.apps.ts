@@ -1,16 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit'
 
+import { AppId } from '../../config/apps'
 import { syncApps } from './actions'
 
-export interface App {
-  name: string
-  id: string
-  urlTemplate?: string
-  privateArg?: string
-}
+export const defaultApps: AppId[] = []
 
-export const defaultApps: App[] = []
-
-export const apps = createReducer<App[]>(defaultApps, (builder) =>
+export const apps = createReducer<AppId[]>(defaultApps, (builder) =>
   builder.addCase(syncApps, (_, action) => action.payload),
 )

@@ -2,10 +2,10 @@ import clsx from 'clsx'
 import React from 'react'
 
 import { logos } from '../../../../config/logos'
-import { ExtendedApp } from '../../../../shared/state/hooks'
+import type { App } from '../../../../shared/state/hooks'
 
 interface Props extends React.ComponentPropsWithoutRef<'img'> {
-  app: ExtendedApp
+  app: App
 }
 
 const AppLogo = ({ app }: Props): JSX.Element => {

@@ -3,13 +3,14 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import { clickedTile } from '../../../../shared/state/actions'
-import { ExtendedApp, useSelector } from '../../../../shared/state/hooks'
+import type { App } from '../../../../shared/state/hooks'
+import { useSelector } from '../../../../shared/state/hooks'
 import { StarIcon } from '../../../shared/components/atoms/icons'
 import AppLogo from '../atoms/app-logo'
 import Kbd from '../atoms/kbd'
 
 interface Props {
-  app: ExtendedApp
+  app: App
 }
 
 const Tile: React.FC<Props> = ({ app }) => {

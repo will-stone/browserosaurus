@@ -191,17 +191,20 @@ export const actionHubMiddleware =
       // Bail if app's bundle id is missing
       if (!appId) return
 
-      const { urlTemplate, privateArg } = apps.find((b) => b.id === appId) || {}
+      const selectedApp = apps[appId]
 
-      const processedUrlTemplate = urlTemplate
-        ? urlTemplate.replace(/\{\{URL\}\}/u, url)
-        : url
+      const processedUrlTemplate =
+        'urlTemplate' in selectedApp
+          ? selectedApp.urlTemplate.replace(/\{\{URL\}\}/u, url)
+          : url
 
       const openArguments: string[] = [
         '-b',
         appId,
         isAlt ? '--background' : [],
-        isShift && privateArg ? ['--new', '--args', privateArg] : [],
+        isShift && 'privateArg' in selectedApp
+          ? ['--new', '--args', selectedApp.privateArg]
+          : [],
         // In order for private/incognito mode to work the URL needs to be passed
         // in last, _after_ the respective app.privateArg flag
         processedUrlTemplate,
