@@ -20,7 +20,7 @@ export const useDeepEqualSelector: TypedUseSelectorHook<RootState> = (
   selector,
 ) => useSelector(selector, deepEqual)
 
-export interface App {
+export interface InstalledApp {
   id: AppId
   name: Apps[AppId]['name']
   privateArg?: string
@@ -30,14 +30,14 @@ export interface App {
   hotkey: string | undefined
 }
 
-export const useApps = (): App[] => {
-  const appIds = useDeepEqualSelector((state) => state.apps)
+export const useInstalledApps = (): InstalledApp[] => {
+  const installedAppIds = useDeepEqualSelector((state) => state.appIds)
   const hiddenTileIds = useShallowEqualSelector(
     (state) => state.storage.hiddenTileIds,
   )
   const favId = useSelector((state) => state.storage.fav)
   const hotkeys = useShallowEqualSelector((state) => state.storage.hotkeys)
-  return appIds.map((appId) => ({
+  return installedAppIds.map((appId) => ({
     ...allApps[appId],
     id: appId,
     isVisible: !hiddenTileIds.includes(appId),
@@ -47,20 +47,20 @@ export const useApps = (): App[] => {
 }
 
 /**
- * Tiles = visible apps
+ * Tiles = visible installed apps
  */
-const useTiles = (): App[] => {
-  const apps = useApps()
+const useTiles = (): InstalledApp[] => {
+  const apps = useInstalledApps()
   return apps.filter((app) => app.isVisible)
 }
 
-export const useFavTile = (): App | undefined => {
+export const useFavTile = (): InstalledApp | undefined => {
   const tiles = useTiles()
   const favTile = tiles.find((tile) => tile.isFav)
   return favTile
 }
 
-export const useNormalTiles = (): App[] => {
+export const useNormalTiles = (): InstalledApp[] => {
   const tiles = useTiles()
   const normalTiles = tiles
     .filter((tile) => !tile.isFav)

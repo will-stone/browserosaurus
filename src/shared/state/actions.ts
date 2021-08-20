@@ -19,7 +19,7 @@ const appReady = cA(`${MAIN}/appReady`)
 
 const urlOpened = cA<string>(`${MAIN}/urlOpened`)
 const tWindowBoundsChanged = cA<Rectangle>(`${MAIN}/tWindowBoundsChanged`)
-const syncApps = cA<AppId[]>(`${MAIN}/syncApps`)
+const syncAppIds = cA<AppId[]>(`${MAIN}/syncAppIds`)
 const syncData = cA<Data>(`${MAIN}/syncData`)
 const syncStorage = cA<Storage>(`${MAIN}/syncStorage`)
 
@@ -115,7 +115,7 @@ export {
   pressedBackspaceKey,
   pressedCopyKey,
   pressedEscapeKey,
-  syncApps,
+  syncAppIds,
   syncData,
   syncStorage,
   tilesStarted,

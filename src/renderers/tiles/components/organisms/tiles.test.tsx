@@ -7,7 +7,7 @@ import React from 'react'
 import {
   clickedTile,
   pressedAppKey,
-  syncApps,
+  syncAppIds,
   syncStorage,
   urlOpened,
 } from '../../../../shared/state/actions'
@@ -20,7 +20,7 @@ test('tiles', () => {
   act(() => {
     win.webContents.send(
       Channel.MAIN,
-      syncApps([
+      syncAppIds([
         'org.mozilla.firefox',
         'com.apple.Safari',
         'com.brave.Browser.nightly',
@@ -95,7 +95,7 @@ test('use hotkey', () => {
   render(<Wrapper />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
-    win.webContents.send(Channel.MAIN, syncApps(['com.apple.Safari']))
+    win.webContents.send(Channel.MAIN, syncAppIds(['com.apple.Safari']))
   })
   act(() => {
     win.webContents.send(
@@ -132,7 +132,7 @@ test('use hotkey with alt', () => {
   render(<Wrapper />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
-    win.webContents.send(Channel.MAIN, syncApps(['com.apple.Safari']))
+    win.webContents.send(Channel.MAIN, syncAppIds(['com.apple.Safari']))
   })
 
   act(() => {
@@ -175,7 +175,7 @@ test('hold shift', () => {
   render(<Wrapper />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
-    win.webContents.send(Channel.MAIN, syncApps(['org.mozilla.firefox']))
+    win.webContents.send(Channel.MAIN, syncAppIds(['org.mozilla.firefox']))
   })
   const url = 'http://example.com'
   act(() => {
@@ -201,7 +201,7 @@ test('tiles order', () => {
   act(() => {
     win.webContents.send(
       Channel.MAIN,
-      syncApps([
+      syncAppIds([
         'org.mozilla.firefox',
         'com.apple.Safari',
         'com.operasoftware.Opera',
