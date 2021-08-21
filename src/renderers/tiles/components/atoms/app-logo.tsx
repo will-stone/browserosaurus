@@ -1,11 +1,11 @@
 import clsx from 'clsx'
 import React from 'react'
 
-import { logos } from '../../../../config/logos'
-import { ExtendedApp } from '../../../../shared/state/hooks'
+import { apps } from '../../../../config/apps'
+import type { InstalledApp } from '../../../../shared/state/hooks'
 
 interface Props extends React.ComponentPropsWithoutRef<'img'> {
-  app: ExtendedApp
+  app: InstalledApp
 }
 
 const AppLogo = ({ app }: Props): JSX.Element => {
@@ -13,7 +13,7 @@ const AppLogo = ({ app }: Props): JSX.Element => {
     <img
       alt={app.name}
       className={clsx('w-full object-contain', !app.isVisible && 'opacity-25')}
-      src={logos[app.id]}
+      src={apps[app.id].logo}
     />
   )
 }

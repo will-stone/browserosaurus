@@ -1,6 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import xor from 'lodash/xor'
 
+import type { AppId } from '../../config/apps'
 import { alterHotkeys } from '../utils/alter-hotkeys'
 import {
   changedHotkey,
@@ -11,16 +12,15 @@ import {
   syncStorage,
   tWindowBoundsChanged,
 } from './actions'
-import type { App } from './reducer.apps'
 
-export type Hotkeys = { [key: string]: App['id'] }
+export type Hotkeys = { [key: string]: AppId }
 
 export interface Storage {
   supportMessage: number
-  fav: string
+  fav: AppId
   firstRun: boolean
   hotkeys: Hotkeys
-  hiddenTileIds: string[]
+  hiddenTileIds: AppId[]
   width: number
   height: number
 }
