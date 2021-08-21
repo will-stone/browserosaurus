@@ -2,13 +2,13 @@ import clsx from 'clsx'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import { logos } from '../../../../config/logos'
+import { apps } from '../../../../config/apps'
 import {
   changedHotkey,
   clickedEyeButton,
   clickedFavButton,
 } from '../../../../shared/state/actions'
-import { useApps } from '../../../../shared/state/hooks'
+import { useInstalledApps } from '../../../../shared/state/hooks'
 import Button from '../../../shared/components/atoms/button'
 import {
   EyeIcon,
@@ -21,7 +21,7 @@ import { Pane } from '../molecules/pane'
 export function AppsPane(): JSX.Element {
   const dispatch = useDispatch()
 
-  const apps = useApps()
+  const installedApps = useInstalledApps()
 
   return (
     <Pane
@@ -35,7 +35,7 @@ export function AppsPane(): JSX.Element {
         <div className="p-4 text-center">Hotkey</div>
       </div>
       <div className="overflow-y-auto">
-        {apps.map(({ id, name, isVisible, isFav, hotkey }, index) => {
+        {installedApps.map(({ id, name, isVisible, isFav, hotkey }, index) => {
           const isOdd = index % 2 !== 0
           return (
             <div
@@ -52,7 +52,7 @@ export function AppsPane(): JSX.Element {
                   !isVisible && 'opacity-50',
                 )}
               >
-                <img alt="" className="h-8 w-8 mr-4" src={logos[id]} />
+                <img alt="" className="h-8 w-8 mr-4" src={apps[id].logo} />
                 <span>{name}</span>
               </div>
               <div className="p-4 flex items-center justify-center">

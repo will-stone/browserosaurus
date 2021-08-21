@@ -28,7 +28,7 @@ import {
   pressedAppKey,
   pressedCopyKey,
   pressedEscapeKey,
-  syncApps,
+  syncAppIds,
   syncData,
   syncStorage,
   tilesStarted,
@@ -46,7 +46,7 @@ import { getUpdateUrl } from '../utils/get-update-url'
 import { isUpdateAvailable } from '../utils/is-update-available'
 import { createWindows, pWindow, showTWindow, tWindow } from '../windows'
 import { checkForUpdate } from './thunk.check-for-update'
-import { getApps } from './thunk.get-apps'
+import { getInstalledAppIds } from './thunk.get-installed-app-ids'
 
 /**
  * Actions that need to be dealt with by main.
@@ -129,7 +129,7 @@ export const actionHubMiddleware =
       dispatch(gotDefaultBrowserStatus(app.isDefaultProtocolClient('http')))
 
       // FIX casting when I know how to correctly type this dispatch to allow thunks
-      dispatch(getApps() as unknown as AnyAction)
+      dispatch(getInstalledAppIds() as unknown as AnyAction)
       createWindows()
       createTray()
       dispatch(checkForUpdate() as unknown as AnyAction)
@@ -141,7 +141,7 @@ export const actionHubMiddleware =
       getState().data.tilesStarted &&
       (tilesStarted.match(action) || prefsStarted.match(action))
     ) {
-      dispatch(syncApps(nextState.apps))
+      dispatch(syncAppIds(nextState.appIds))
       dispatch(syncData(nextState.data))
       dispatch(syncStorage(nextState.storage))
     }
@@ -172,10 +172,8 @@ export const actionHubMiddleware =
     else if (clickedUpdateRestartButton.match(action)) {
       autoUpdater.quitAndInstall()
       // @ts-expect-error -- window must be destroyed to prevent race condition
-      // eslint-disable-next-line unicorn/no-null
       pWindow = null
       // @ts-expect-error -- window must be destroyed to prevent race condition
-      // eslint-disable-next-line unicorn/no-null
       tWindow = null
       // https://stackoverflow.com/questions/38309240/object-has-been-destroyed-when-open-secondary-child-window-in-electron-js
     }
@@ -183,7 +181,7 @@ export const actionHubMiddleware =
     // Rescan for browsers
     else if (clickedRescanApps.match(action)) {
       // FIX casting when I know how to correctly type this dispatch to allow thunks
-      dispatch(getApps() as unknown as AnyAction)
+      dispatch(getInstalledAppIds() as unknown as AnyAction)
     }
 
     // Open app
@@ -193,17 +191,20 @@ export const actionHubMiddleware =
       // Bail if app's bundle id is missing
       if (!appId) return
 
-      const { urlTemplate, privateArg } = apps.find((b) => b.id === appId) || {}
+      const selectedApp = apps[appId]
 
-      const processedUrlTemplate = urlTemplate
-        ? urlTemplate.replace(/\{\{URL\}\}/u, url)
-        : url
+      const processedUrlTemplate =
+        'urlTemplate' in selectedApp
+          ? selectedApp.urlTemplate.replace(/\{\{URL\}\}/u, url)
+          : url
 
       const openArguments: string[] = [
         '-b',
         appId,
         isAlt ? '--background' : [],
-        isShift && privateArg ? ['--new', '--args', privateArg] : [],
+        isShift && 'privateArg' in selectedApp
+          ? ['--new', '--args', selectedApp.privateArg]
+          : [],
         // In order for private/incognito mode to work the URL needs to be passed
         // in last, _after_ the respective app.privateArg flag
         processedUrlTemplate,

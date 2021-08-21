@@ -7,7 +7,7 @@ import React from 'react'
 import {
   clickedTile,
   pressedAppKey,
-  syncApps,
+  syncAppIds,
   syncStorage,
   urlOpened,
 } from '../../../../shared/state/actions'
@@ -20,10 +20,10 @@ test('tiles', () => {
   act(() => {
     win.webContents.send(
       Channel.MAIN,
-      syncApps([
-        { name: 'Firefox', id: 'org.mozilla.firefox' },
-        { name: 'Safari', id: 'com.apple.Safari' },
-        { name: 'Brave Nightly', id: 'com.brave.Browser.nightly' },
+      syncAppIds([
+        'org.mozilla.firefox',
+        'com.apple.Safari',
+        'com.brave.Browser.nightly',
       ]),
     )
   })
@@ -95,10 +95,7 @@ test('use hotkey', () => {
   render(<Wrapper />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
-    win.webContents.send(
-      Channel.MAIN,
-      syncApps([{ name: 'Safari', id: 'com.apple.Safari' }]),
-    )
+    win.webContents.send(Channel.MAIN, syncAppIds(['com.apple.Safari']))
   })
   act(() => {
     win.webContents.send(
@@ -135,10 +132,7 @@ test('use hotkey with alt', () => {
   render(<Wrapper />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
-    win.webContents.send(
-      Channel.MAIN,
-      syncApps([{ name: 'Safari', id: 'com.apple.Safari' }]),
-    )
+    win.webContents.send(Channel.MAIN, syncAppIds(['com.apple.Safari']))
   })
 
   act(() => {
@@ -181,10 +175,7 @@ test('hold shift', () => {
   render(<Wrapper />)
   const win = new electron.remote.BrowserWindow()
   act(() => {
-    win.webContents.send(
-      Channel.MAIN,
-      syncApps([{ name: 'Firefox', id: 'org.mozilla.firefox' }]),
-    )
+    win.webContents.send(Channel.MAIN, syncAppIds(['org.mozilla.firefox']))
   })
   const url = 'http://example.com'
   act(() => {
@@ -210,12 +201,12 @@ test('tiles order', () => {
   act(() => {
     win.webContents.send(
       Channel.MAIN,
-      syncApps([
-        { name: 'Firefox', id: 'org.mozilla.firefox' },
-        { name: 'Safari', id: 'com.apple.Safari' },
-        { name: 'Opera', id: 'com.operasoftware.Opera' },
-        { name: 'Microsoft Edge', id: 'com.microsoft.edgemac' },
-        { name: 'Brave', id: 'com.brave.Browser' },
+      syncAppIds([
+        'org.mozilla.firefox',
+        'com.apple.Safari',
+        'com.operasoftware.Opera',
+        'com.microsoft.edgemac',
+        'com.brave.Browser',
       ]),
     )
   })

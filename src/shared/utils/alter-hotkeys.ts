@@ -1,10 +1,11 @@
+import type { AppId } from '../../config/apps'
 import type { Hotkeys } from '../state/reducer.storage'
 import { getHotkeyByAppId } from './get-hotkey-by-app-id'
 
 // Update a hotkeys object based on incoming app ID and hotkey combo
 export function alterHotkeys(
   hotkeys: Hotkeys,
-  appId: string,
+  appId: AppId,
   hotkey: string,
 ): Hotkeys {
   const lowerHotkey = hotkey.toLowerCase()

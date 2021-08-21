@@ -2,8 +2,8 @@
 import { createAction as cA } from '@reduxjs/toolkit'
 import type { Rectangle } from 'electron/main'
 
+import type { AppId } from '../../config/apps'
 import { Channel } from './channels'
-import type { App } from './reducer.apps'
 import { Data, PrefsTab } from './reducer.data'
 import type { Storage } from './reducer.storage'
 
@@ -19,7 +19,7 @@ const appReady = cA(`${MAIN}/appReady`)
 
 const urlOpened = cA<string>(`${MAIN}/urlOpened`)
 const tWindowBoundsChanged = cA<Rectangle>(`${MAIN}/tWindowBoundsChanged`)
-const syncApps = cA<App[]>(`${MAIN}/syncApps`)
+const syncAppIds = cA<AppId[]>(`${MAIN}/syncAppIds`)
 const syncData = cA<Data>(`${MAIN}/syncData`)
 const syncStorage = cA<Storage>(`${MAIN}/syncStorage`)
 
@@ -36,7 +36,7 @@ const updateDownloaded = cA(`${MAIN}/updateDownloaded`)
 
 interface OpenAppArguments {
   url: string
-  appId: App['id'] | undefined
+  appId: AppId | undefined
   isAlt: boolean
   isShift: boolean
 }
@@ -80,9 +80,9 @@ const clickedRescanApps = cA(`${PREFS}/clickedRescanApps`)
 const clickedUpdateButton = cA(`${PREFS}/clickedUpdateButton`)
 const clickedUpdateRestartButton = cA(`${PREFS}/clickedUpdateRestartButton`)
 
-const clickedFavButton = cA<string>(`${PREFS}/clickedFavButton`)
-const clickedEyeButton = cA<string>(`${PREFS}/clickedEyeButton`)
-const changedHotkey = cA<{ appId: string; value: string }>(
+const clickedFavButton = cA<AppId>(`${PREFS}/clickedFavButton`)
+const clickedEyeButton = cA<AppId>(`${PREFS}/clickedEyeButton`)
+const changedHotkey = cA<{ appId: AppId; value: string }>(
   `${PREFS}/changedHotkey`,
 )
 
@@ -115,7 +115,7 @@ export {
   pressedBackspaceKey,
   pressedCopyKey,
   pressedEscapeKey,
-  syncApps,
+  syncAppIds,
   syncData,
   syncStorage,
   tilesStarted,

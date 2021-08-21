@@ -43,7 +43,7 @@ export const GeneralPane = (): JSX.Element => {
   )
   const updateStatus = useSelector((state) => state.data.updateStatus)
 
-  const numberOfApps = useSelector((state) => state.apps.length)
+  const numberOfInstalledApps = useSelector((state) => state.appIds.length)
 
   return (
     <Pane className="space-y-8" pane="general">
@@ -73,8 +73,8 @@ export const GeneralPane = (): JSX.Element => {
         <Right>
           <Button onClick={() => dispatch(clickedRescanApps())}>Rescan</Button>
           <p className="text-sm mt-2 opacity-70">
-            {numberOfApps} compatible apps found. Rescan if you have added or
-            removed a compatible app whilst Browserosaurus is running.
+            {numberOfInstalledApps} compatible apps found. Rescan if you have
+            added or removed a compatible app whilst Browserosaurus is running.
           </p>
         </Right>
       </Row>

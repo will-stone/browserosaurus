@@ -1,16 +1,16 @@
 import type { AnyAction, ThunkAction } from '@reduxjs/toolkit'
 import { combineReducers } from '@reduxjs/toolkit'
 
-import { apps, defaultApps } from './reducer.apps'
+import { appIds, defaultAppIds } from './reducer.app-ids'
 import { data, defaultData } from './reducer.data'
 import { defaultStorage, storage } from './reducer.storage'
 
-export const rootReducer = combineReducers({ data, storage, apps })
+export const rootReducer = combineReducers({ data, storage, appIds })
 
 export type RootState = ReturnType<typeof rootReducer>
 
 export const defaultState: RootState = {
-  apps: defaultApps,
+  appIds: defaultAppIds,
   data: defaultData,
   storage: defaultStorage,
 }

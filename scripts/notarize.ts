@@ -6,16 +6,15 @@ config()
 
 const notarizeArch = (arch: 'arm' | 'x') =>
   notarize({
+    tool: 'notarytool',
     appBundleId: 'com.browserosaurus',
     appPath: path.resolve(
       __dirname,
       '..',
       `out/Browserosaurus-darwin-${arch}64/Browserosaurus.app`,
     ),
-    appleId: String(process.env.APPLE_ID),
-    appleIdPassword: '@keychain:AC_PASSWORD',
-    // Team ID
-    ascProvider: 'Z89KPMLTFR',
+    keychain: '~/Library/Keychains/login.keychain-db',
+    keychainProfile: 'AC_PASSWORD',
   }).catch((error) => {
     // eslint-disable-next-line no-console
     console.error("Notarization didn't work :(", error.message)
