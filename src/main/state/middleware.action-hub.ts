@@ -1,4 +1,4 @@
-/* eslint-disable node/callback-return -- must flush middleware to get nextState*/
+/* eslint-disable node/callback-return -- must flush middleware to get nextState */
 /* eslint-disable unicorn/prefer-regexp-test -- rtk uses .match */
 import { AnyAction, Middleware } from '@reduxjs/toolkit'
 import { execFile } from 'child_process'
@@ -6,7 +6,6 @@ import { app, autoUpdater, shell } from 'electron'
 import electronIsDev from 'electron-is-dev'
 import deepEqual from 'fast-deep-equal'
 import path from 'path'
-import sleep from 'tings/sleep'
 
 import package_ from '../../../package.json'
 import { apps } from '../../config/apps'
@@ -59,7 +58,7 @@ export const actionHubMiddleware =
   > =>
   ({ dispatch, getState }) =>
   (next) =>
-  async (action: AnyAction) => {
+  (action: AnyAction) => {
     const previousState = getState()
 
     // Move to next middleware
@@ -117,7 +116,7 @@ export const actionHubMiddleware =
         }, ONE_DAY_MS)
       }
 
-      // Send all info down to renderer
+      // Sync all storage with store
       dispatch(syncStorage(storage.getAll()))
 
       // App version
@@ -135,12 +134,8 @@ export const actionHubMiddleware =
       dispatch(checkForUpdate() as unknown as AnyAction)
     }
 
-    // Both renderers started, send down all the data
-    else if (
-      getState().data.prefsStarted &&
-      getState().data.tilesStarted &&
-      (tilesStarted.match(action) || prefsStarted.match(action))
-    ) {
+    // When a renderer starts, send down all the local store for synchonisation
+    else if (tilesStarted.match(action) || prefsStarted.match(action)) {
       dispatch(syncAppIds(nextState.appIds))
       dispatch(syncData(nextState.data))
       dispatch(syncStorage(nextState.storage))
@@ -224,15 +219,7 @@ export const actionHubMiddleware =
 
     // Open URL
     else if (urlOpened.match(action)) {
-      if (nextState.data.tilesStarted) {
-        showTWindow()
-      }
-      // There appears to be some kind of race condition where the window is created
-      // but not yet ready, so the sent URL on startup gets lost.
-      else {
-        await sleep(500)
-        dispatch(urlOpened(action.payload))
-      }
+      showTWindow()
     }
 
     // Open homepage

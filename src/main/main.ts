@@ -1,9 +1,10 @@
 import { AnyAction } from '@reduxjs/toolkit'
 import electron, { app } from 'electron'
 
-import { appReady, urlOpened } from '../shared/state/actions'
+import { appReady } from '../shared/state/actions'
 import { Channel } from '../shared/state/channels'
 import { dispatch } from './state/store'
+import { urlOpener } from './state/thunk.url-opener'
 import { storage } from './storage'
 
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
@@ -24,7 +25,8 @@ app.on('before-quit', () => app.exit())
 
 app.on('open-url', (event, url) => {
   event.preventDefault()
-  dispatch(urlOpened(url))
+  // FIX casting when I know how to correctly type this dispatch to allow thunks
+  dispatch(urlOpener(url) as unknown as AnyAction)
 })
 
 /**
