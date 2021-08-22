@@ -1,4 +1,4 @@
-import { AnyAction } from '@reduxjs/toolkit'
+import type { AnyAction } from '@reduxjs/toolkit'
 import electron, { app } from 'electron'
 
 import { appReady } from '../shared/state/actions'
