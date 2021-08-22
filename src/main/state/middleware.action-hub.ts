@@ -3,7 +3,6 @@
 import { AnyAction, Middleware } from '@reduxjs/toolkit'
 import { execFile } from 'child_process'
 import { app, autoUpdater, shell } from 'electron'
-import electronIsDev from 'electron-is-dev'
 import deepEqual from 'fast-deep-equal'
 import path from 'path'
 
@@ -79,7 +78,7 @@ export const actionHubMiddleware =
       app.dock.hide()
 
       // Auto update on production
-      if (!electronIsDev) {
+      if (app.isPackaged) {
         autoUpdater.setFeedURL({
           url: getUpdateUrl(),
           headers: {
@@ -121,7 +120,7 @@ export const actionHubMiddleware =
 
       // App version
       dispatch(
-        gotAppVersion(`${app.getVersion()}${electronIsDev ? ' DEV' : ''}`),
+        gotAppVersion(`${app.getVersion()}${app.isPackaged ? '' : ' DEV'}`),
       )
 
       // Is default browser?
