@@ -1,15 +1,7 @@
-/* eslint-disable no-console */
 import { AnyAction, Middleware } from '@reduxjs/toolkit'
-import { blue, bold, magenta, white, yellow } from 'kolorist'
 
-import { Channel } from './channels'
+import { actionLogger } from '../utils/action-logger'
 import { RootState } from './reducer.root'
-
-const colorMap = {
-  [Channel.MAIN]: yellow,
-  [Channel.PREFS]: blue,
-  [Channel.TILES]: magenta,
-}
 
 /**
  * Log all actions to console
@@ -23,22 +15,14 @@ export const logMiddleware =
   () =>
   (next) =>
   (action: AnyAction) => {
+    // TODO figure out how to use `app.isPackaged` in an isomorphic way.
+    if (process.env.NODE_ENV === 'development') {
+      actionLogger(action)
+    }
+
     /**
      * Move to next middleware
      */
-    // eslint-disable-next-line node/callback-return -- must flush to get nextState
-    const result = next(action)
 
-    if (process.env.NODE_ENV === 'development') {
-      const [channel, name]: [Channel, string] = action.type.split('/')
-
-      console.log()
-      console.log(
-        `${bold(colorMap[channel](channel.padEnd(5)))} ${bold(white(name))}`,
-      )
-      console.log(action.payload)
-      console.log()
-    }
-
-    return result
+    return next(action)
   }
