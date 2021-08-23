@@ -12,9 +12,17 @@ opening the link with.
 
 ## Installation
 
-Please download Browserosaurus from the
+Download Browserosaurus from the
 [GitHub releases page](https://github.com/will-stone/browserosaurus/releases/latest).
 Select **x64** for Intel machines, or **arm64** for Apple Silicon (M1) machines.
+
+Or use [Homebrew](https://formulae.brew.sh/cask/browserosaurus#default). Thank
+you very much to [@i0ntempest](https://github.com/i0ntempest) and
+[@tk4k](https://github.com/tk4k) for keeping this cask updated 🙏
+
+```sh
+brew install --cask browserosaurus
+```
 
 > 🚨 **Please note that Browserosaurus only officially supports the version of
 > macOS that I currently use, see [here](docs/faq.md) for details.**
