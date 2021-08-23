@@ -27,11 +27,21 @@ that I currently use, see [here](docs/faq.md) for details.**
 
 ---
 
+## Help
+
+Found a bug? Please log an
+[issue](https://github.com/will-stone/browserosaurus/issues). For anything else,
+please see the documentation below or open a
+[discussion](https://github.com/will-stone/browserosaurus/discussions).
+
 ## Documentation
 
 - [Changelog](https://github.com/will-stone/browserosaurus/releases)
 - [Frequently asked questions](docs/faq.md)
-- [Supporting a browser or app](docs/supporting-a-browser-or-app.md)
+- [Supporting a new browser or app](docs/supporting-a-browser-or-app.md)
 - [Setting up for development](docs/setting-up-for-development.md)
+
+For the maintainer:
+
 - [Creating menubar icon](docs/creating-menubar-icon.md)
 - [Publishing](docs/publishing.md)

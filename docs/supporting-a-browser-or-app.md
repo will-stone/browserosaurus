@@ -1,11 +1,11 @@
 # Supporting a browser or app
 
-Adding and maintaining the available browsers and apps is now a community
-effort; I have now added support for all the browsers that I use, and any newly
-requested apps are either too niche or are behind pay walls. Do not worry, even
-if you've never contributed to Open Source before, I'll take you through the
-steps of how to add support for a new browser, and if something is confusing or
-you'd like a little extra help, please
+Adding and maintaining the available browsers and apps is a community effort; I
+have now added support for all the browsers that I use, and any newly requested
+apps are either too niche or behind pay walls. Don't worry, even if you've never
+contributed to an open source project before, I'll take you through the steps of
+how to add support for a new browser, and if something is confusing or you'd
+like a little extra help, please
 [ask on the discussions forum](https://github.com/will-stone/browserosaurus/discussions/categories/q-a),
 or even send a
 [pull request](https://github.com/will-stone/browserosaurus/pulls) to improve
@@ -16,7 +16,7 @@ this documentation.
 
 ## Prerequisite
 
-Firstly, please make sure you are
+Fork the project to your GitHub account, and then make sure you are
 [set-up for development](./setting-up-for-development.md).
 
 ## Adding a new browser
@@ -52,7 +52,7 @@ Using your text editor (I recommend
 `/src/config/apps.ts` file. After all the import statements, you'll see an
 `apps` object that contains all of the apps that Browserosaurus can find on a
 user's system. The key to each app object is the bundle identifier, so start by
-adding your new app to the list and giving it a name:
+adding your new app to the list, and give it a name:
 
 ```ts
 export const apps = {
@@ -64,7 +64,7 @@ export const apps = {
 } as const
 ```
 
-> ℹ️ The app objects within the root `apps` object should be in Alphabetical
+> ℹ️ The app objects within the root `apps` object should be in alphabetical
 > order by the `name` key. There's a test that will check for this. We'll
 > discuss running tests below.
 
@@ -148,3 +148,16 @@ export const apps = {
   // ...
 } as const
 ```
+
+## Testing
+
+There are a few tests that will check the compatibility of your `apps.ts` file.
+Run `npm test` and make sure all tests successfully pass. If any tests fail, and
+you are unsure about the results, please submit your changes anyway and we can
+discuss it on the pull request page.
+
+## Submit your changes
+
+Commit and push your changes to your GitHub fork of Browserosaurus, then open a
+[pull request](https://github.com/will-stone/browserosaurus/pulls) to merge your
+branch into Browserosaurus' `master` branch.
