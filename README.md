@@ -8,11 +8,7 @@ apps are now sent to Browserosaurus where you are presented with a menu of all
 your installed browsers. You may now decide which app you’d like to continue
 opening the link with.
 
----
-
 <img src="./screenshot.jpg" alt="screenshot" />
-
----
 
 ## Installation
 
@@ -20,12 +16,8 @@ Please download Browserosaurus from the
 [GitHub releases page](https://github.com/will-stone/browserosaurus/releases/latest).
 Select **x64** for Intel machines, or **arm64** for Apple Silicon (M1) machines.
 
----
-
-**Please note that Browserosaurus only officially supports the version of macOS
-that I currently use, see [here](docs/faq.md) for details.**
-
----
+> 🚨 **Please note that Browserosaurus only officially supports the version of
+> macOS that I currently use, see [here](docs/faq.md) for details.**
 
 ## Help
 
