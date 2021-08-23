@@ -16,9 +16,11 @@ menubar icon).
 
 Browserosaurus does not provide a method for automatically selecting browsers,
 rather opting for the consistency that the picker window will show every time.
-If you would like to be able to set rules, I highly recommend Finicky by John
-Sterling which can very easily be used in tandem with Browserosaurus, meaning
-the best of both worlds: a rules engine and a graphical interface.
+If you would like to be able to set rules, I highly recommend
+[Finicky](https://github.com/johnste/finicky) by
+[John Sterling](https://johnste.github.io/) which can very easily be used in
+tandem with Browserosaurus, meaning the best of both worlds: a rules engine and
+a graphical interface.
 
 ## The picker window is very slow to display.
 
