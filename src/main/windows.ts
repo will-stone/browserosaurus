@@ -45,7 +45,6 @@ export async function createWindows(): Promise<void> {
       nodeIntegrationInWorker: false,
       nodeIntegrationInSubFrames: false,
       contextIsolation: true,
-      enableRemoteModule: false,
     },
   })
 
@@ -77,7 +76,6 @@ export async function createWindows(): Promise<void> {
       nodeIntegrationInWorker: false,
       nodeIntegrationInSubFrames: false,
       contextIsolation: true,
-      enableRemoteModule: false,
     },
     center: true,
     height,

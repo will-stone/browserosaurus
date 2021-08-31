@@ -17,16 +17,16 @@ module.exports = {
     send: jest.fn(),
   },
   match: jest.fn(),
+  BrowserWindow: function () {
+    return {
+      webContents: {
+        send: jest.fn((eventName, payload) =>
+          eventEmitter.emit(eventName, payload),
+        ),
+      },
+    }
+  },
   remote: {
-    BrowserWindow: function () {
-      return {
-        webContents: {
-          send: jest.fn((eventName, payload) =>
-            eventEmitter.emit(eventName, payload),
-          ),
-        },
-      }
-    },
     getCurrentWindow() {
       return {
         setIgnoreMouseEvents: jest.fn(),

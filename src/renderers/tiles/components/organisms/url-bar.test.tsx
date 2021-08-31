@@ -21,7 +21,7 @@ const multiElementText =
 
 test('url bar', () => {
   render(<Wrapper />)
-  const win = new electron.remote.BrowserWindow()
+  const win = new electron.BrowserWindow()
   const protocol = 'http:'
   const host = 'example.com:8000'
   const rest = '/foo?bar=moo'
