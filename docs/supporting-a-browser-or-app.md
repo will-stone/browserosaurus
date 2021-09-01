@@ -2,10 +2,11 @@
 
 Adding and maintaining the available browsers and apps is a community effort; I
 have now added support for all the browsers that I use, and any newly requested
-apps are either too niche or behind pay walls. Don't worry, even if you've never
-contributed to an open source project before, I'll take you through the steps of
-how to add support for a new browser, and if something is confusing or you'd
-like a little extra help, please
+apps are either too niche or behind pay walls. However, by following this
+document you can add the browser yourself and submit it to be included in
+Browserosaurus. Don't worry, even if you've never contributed to an open source
+project before, I'll take you through the steps of how to add support for a new
+browser, and if something is confusing or you'd like a little extra help, please
 [ask on the discussions forum](https://github.com/will-stone/browserosaurus/discussions/categories/q-a),
 or even send a
 [pull request](https://github.com/will-stone/browserosaurus/pulls) to improve
