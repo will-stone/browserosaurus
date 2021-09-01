@@ -16,7 +16,7 @@ import Wrapper from '../_bootstrap'
 
 test('tiles', () => {
   render(<Wrapper />)
-  const win = new electron.remote.BrowserWindow()
+  const win = new electron.BrowserWindow()
   act(() => {
     win.webContents.send(
       Channel.MAIN,
@@ -93,7 +93,7 @@ test('tiles', () => {
 
 test('use hotkey', () => {
   render(<Wrapper />)
-  const win = new electron.remote.BrowserWindow()
+  const win = new electron.BrowserWindow()
   act(() => {
     win.webContents.send(Channel.MAIN, syncAppIds(['com.apple.Safari']))
   })
@@ -130,7 +130,7 @@ test('use hotkey', () => {
 
 test('use hotkey with alt', () => {
   render(<Wrapper />)
-  const win = new electron.remote.BrowserWindow()
+  const win = new electron.BrowserWindow()
   act(() => {
     win.webContents.send(Channel.MAIN, syncAppIds(['com.apple.Safari']))
   })
@@ -173,7 +173,7 @@ test('use hotkey with alt', () => {
 
 test('hold shift', () => {
   render(<Wrapper />)
-  const win = new electron.remote.BrowserWindow()
+  const win = new electron.BrowserWindow()
   act(() => {
     win.webContents.send(Channel.MAIN, syncAppIds(['org.mozilla.firefox']))
   })
@@ -197,7 +197,7 @@ test('hold shift', () => {
 
 test('tiles order', () => {
   render(<Wrapper />)
-  const win = new electron.remote.BrowserWindow()
+  const win = new electron.BrowserWindow()
   act(() => {
     win.webContents.send(
       Channel.MAIN,
