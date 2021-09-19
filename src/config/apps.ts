@@ -39,6 +39,7 @@ import pocket from './logos/pocket.png'
 import polypane from './logos/polypane.png'
 import spotify from './logos/spotify.png'
 import waterfox from './logos/waterfox.png'
+import zoom from './logos/zoom.png'
 
 export const apps = {
   'com.brave.Browser': {
@@ -213,6 +214,10 @@ export const apps = {
   'ru.yandex.desktop.yandex-browser': {
     name: 'Yandex',
     logo: yandex,
+  },
+  'us.zoom.xos': {
+    name: 'Zoom',
+    logo: zoom,
   },
 } as const
 
