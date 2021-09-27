@@ -1,6 +1,5 @@
 name: Bug report
 description: File a bug to help us fix any issues happening with Browserosaurus
-title: "[Bug]: "
 labels: [bug]
 body:
   - type: checkboxes
