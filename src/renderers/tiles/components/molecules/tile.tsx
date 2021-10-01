@@ -40,8 +40,7 @@ const Tile: React.FC<Props> = ({ app }) => {
           )
         }
         title={app.name}
-        type="button"
-      >
+        type="button">
         <AppLogo app={app} />
 
         <Kbd className="flex-shrink-0 flex justify-center items-center space-x-2">

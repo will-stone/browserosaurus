@@ -28,11 +28,11 @@
     "package": "npm run package:arm && npm run package:intel",
     "package:arm": "NODE_ENV=production electron-forge package --platform=darwin --arch=arm64",
     "package:intel": "NODE_ENV=production electron-forge package --platform=darwin --arch=x64",
+    "prepare": "husky install",
     "release": "bump --commit && npm run doctor && npm run package && npm run notarize && npm run make",
     "start": "ELECTRON_DISABLE_SECURITY_WARNINGS=true TAILWIND_MODE=watch electron-forge start",
     "test": "jest",
-    "typecheck": "tsc --noEmit --skipLibCheck",
-    "prepare": "husky install"
+    "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "lint-staged": {
     "*.{css,json,md}": [
@@ -205,8 +205,8 @@
     "@types/react": "^17.0.21",
     "@types/react-dom": "^17.0.9",
     "@types/react-redux": "^7.1.18",
-    "@will-stone/eslint-config": "^3.0.5",
-    "@will-stone/prettier-config": "^4.0.0",
+    "@will-stone/eslint-config": "^3.1.0",
+    "@will-stone/prettier-config": "^5.0.0",
     "concurrently": "^6.2.1",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.3.0",

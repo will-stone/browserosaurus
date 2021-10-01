@@ -38,8 +38,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         'w-full px-4',
         'flex items-center space-x-4',
       )}
-      style={{ height: '74px' }}
-    >
+      style={{ height: '74px' }}>
       <div
         className={clsx(
           'flex-grow h-full',
@@ -47,8 +46,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           'overflow-hidden',
           'pr-1',
           'tracking-wider',
-        )}
-      >
+        )}>
         <div
           className="tracking-wider text-opacity-50 dark:text-opacity-50 text-black dark:text-white"
           style={{
@@ -59,8 +57,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             overflowWrap: 'break-word',
             wordBreak: 'break-all',
             textOverflow: 'ellipsis',
-          }}
-        >
+          }}>
           {url === CARROT_URL && (
             <div>
               <span aria-label="Coffee emoji" role="img">
@@ -89,24 +86,21 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           <Button
             disabled={isEmpty}
             onClick={() => dispatch(clickedUrlBackspaceButton())}
-            title="Delete section of URL (Backspace)"
-          >
+            title="Delete section of URL (Backspace)">
             <BackspaceIcon className="h-5 w-5" />
           </Button>
 
           <Button
             disabled={isEmpty}
             onClick={() => dispatch(clickedCopyButton(url))}
-            title="Copy (⌘+C)"
-          >
+            title="Copy (⌘+C)">
             <ClipboardCopyIcon className="h-5 w-5" />
           </Button>
         </div>
 
         <Button
           className={clsx('text-xs', !isUpdateAvailable && 'hidden')}
-          onClick={() => dispatch(clickedUpdateAvailableButton())}
-        >
+          onClick={() => dispatch(clickedUpdateAvailableButton())}>
           Update Available
         </Button>
       </div>
