@@ -1,6 +1,6 @@
 import type { AnyAction } from 'redux'
 
-import { Channel } from '../../shared/state/channels'
+import type { Channel } from '../../shared/state/channels'
 
 interface CustomWindow extends Window {
   electron: {

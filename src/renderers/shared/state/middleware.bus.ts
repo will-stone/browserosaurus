@@ -1,7 +1,7 @@
-import { AnyAction, Middleware } from '@reduxjs/toolkit'
+import type { AnyAction, Middleware } from '@reduxjs/toolkit'
 
-import { Channel } from '../../../shared/state/channels'
-import { RootState } from '../../../shared/state/reducer.root'
+import type { Channel } from '../../../shared/state/channels'
+import type { RootState } from '../../../shared/state/reducer.root'
 import { customWindow } from '../custom.window'
 
 /**

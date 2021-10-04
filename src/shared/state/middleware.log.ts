@@ -1,7 +1,7 @@
-import { AnyAction, Middleware } from '@reduxjs/toolkit'
+import type { AnyAction, Middleware } from '@reduxjs/toolkit'
 
 import { actionLogger } from '../utils/action-logger'
-import { RootState } from './reducer.root'
+import type { RootState } from './reducer.root'
 
 /**
  * Log all actions to console
