@@ -13,7 +13,7 @@ import {
   tWindowBoundsChanged,
 } from './actions'
 
-export type Hotkeys = { [key: string]: AppId }
+export type Hotkeys = Record<string, AppId>
 
 export interface Storage {
   supportMessage: number

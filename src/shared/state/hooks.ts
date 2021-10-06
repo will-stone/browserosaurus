@@ -1,9 +1,6 @@
 import deepEqual from 'fast-deep-equal'
-import {
-  shallowEqual,
-  TypedUseSelectorHook,
-  useSelector as useReduxSelector,
-} from 'react-redux'
+import type { TypedUseSelectorHook } from 'react-redux'
+import { shallowEqual, useSelector as useReduxSelector } from 'react-redux'
 
 import type { AppId, Apps } from '../../config/apps'
 import { apps as allApps } from '../../config/apps'

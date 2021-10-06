@@ -1,6 +1,6 @@
 /* eslint-disable node/callback-return -- must flush middleware to get nextState */
 /* eslint-disable unicorn/prefer-regexp-test -- rtk uses .match */
-import { AnyAction, Middleware } from '@reduxjs/toolkit'
+import type { AnyAction, Middleware } from '@reduxjs/toolkit'
 import { execFile } from 'child_process'
 import { app, autoUpdater, shell } from 'electron'
 import deepEqual from 'fast-deep-equal'

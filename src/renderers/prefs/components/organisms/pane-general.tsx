@@ -54,8 +54,7 @@ export const GeneralPane = (): JSX.Element => {
             'Browserosaurus is the default web browser'
           ) : (
             <Button
-              onClick={() => dispatch(clickedSetAsDefaultBrowserButton())}
-            >
+              onClick={() => dispatch(clickedSetAsDefaultBrowserButton())}>
               Set As Default Browser
             </Button>
           )}

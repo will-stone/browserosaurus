@@ -1,0 +1,66 @@
+name: Bug report
+description: File a bug to help us fix any issues happening with Browserosaurus
+labels: [bug]
+body:
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description:
+        Please search to see if an issue already exists for the bug you
+        encountered.
+      options:
+        - label: I have searched the existing issues
+          required: true
+  - type: textarea
+    attributes:
+      label: Current Behaviour
+      description: A concise description of what you're experiencing.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected Behaviour
+      description: A concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps To Reproduce
+      description: Steps to reproduce the behaviour.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Browserosaurus version
+      description: This can be found in Preferences > About
+      placeholder: "e.g. 15.1.3"
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: macOS version
+      placeholder: "e.g. 11.6"
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: CPU Architecture
+      options:
+        - ARM
+        - Intel
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Anything else?
+      description: |
+        Anything that will give us more context about the issue you are encountering.
+
+        Tip: You can attach screenshots or screen recordings by clicking this area to highlight it and then dragging files in.
+    validations:
+      required: false
