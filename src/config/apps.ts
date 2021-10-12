@@ -21,6 +21,7 @@ import operaBeta from '@browser-logos/opera-beta/opera-beta_128x128.png'
 import operaDeveloper from '@browser-logos/opera-developer/opera-developer_128x128.png'
 import operaGX from '@browser-logos/opera-gx/opera-gx_128x128.png'
 import operaNeon from '@browser-logos/opera-neon/opera-neon_128x128.png'
+import orion from './logos/orion.png'
 import qutebrowser from '@browser-logos/qutebrowser/qutebrowser_128x128.png'
 import safari from '@browser-logos/safari/safari_128x128.png'
 import safariTechnologyPreview from '@browser-logos/safari-technology-preview/safari-technology-preview_128x128.png'
@@ -164,6 +165,10 @@ export const apps = {
   'com.opera.Neon': {
     name: 'Opera Neon',
     logo: operaNeon,
+  },
+  'com.kagi.kagimacOS': {
+    name: 'Orion',
+    
   },
   'com.readitlater.PocketMac': {
     name: 'Pocket',
