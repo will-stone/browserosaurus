@@ -168,7 +168,7 @@ export const apps = {
   },
   'com.kagi.kagimacOS': {
     name: 'Orion',
-    
+    logo: orion, 
   },
   'com.readitlater.PocketMac': {
     name: 'Pocket',
