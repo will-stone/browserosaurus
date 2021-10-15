@@ -7,37 +7,38 @@ import chromeBeta from '@browser-logos/chrome-beta/chrome-beta_128x128.png'
 import chromeCanary from '@browser-logos/chrome-canary/chrome-canary_128x128.png'
 import chromeDev from '@browser-logos/chrome-dev/chrome-dev_128x128.png'
 import chromium from '@browser-logos/chromium/chromium_128x128.png'
-import dissenter from './logos/dissenter.png'
 import edge from '@browser-logos/edge/edge_128x128.png'
 import edgeBeta from '@browser-logos/edge-beta/edge-beta_128x128.png'
 import edgeCanary from '@browser-logos/edge-canary/edge-canary_128x128.png'
 import edgeDev from '@browser-logos/edge-dev/edge-dev_128x128.png'
-import finicky from './logos/finicky.png'
 import firefox from '@browser-logos/firefox/firefox_128x128.png'
 import firefoxDevEdition from '@browser-logos/firefox-developer-edition/firefox-developer-edition_128x128.png'
 import firefoxNightly from '@browser-logos/firefox-nightly/firefox-nightly_128x128.png'
 import iridium from '@browser-logos/iridium/iridium_128x128.png'
-import librewolf from './logos/librewolf.png'
 import maxthon from '@browser-logos/maxthon/maxthon_128x128.png'
-import min from './logos/min.png'
-import naverWhale from './logos/NAVER_whale.png'
 import opera from '@browser-logos/opera/opera_128x128.png'
 import operaBeta from '@browser-logos/opera-beta/opera-beta_128x128.png'
 import operaDeveloper from '@browser-logos/opera-developer/opera-developer_128x128.png'
 import operaGX from '@browser-logos/opera-gx/opera-gx_128x128.png'
 import operaNeon from '@browser-logos/opera-neon/opera-neon_128x128.png'
-import orion from './logos/orion.png'
-import pocket from './logos/pocket.png'
-import polypane from './logos/polypane.png'
 import qutebrowser from '@browser-logos/qutebrowser/qutebrowser_128x128.png'
 import safari from '@browser-logos/safari/safari_128x128.png'
 import safariTechnologyPreview from '@browser-logos/safari-technology-preview/safari-technology-preview_128x128.png'
-import spotify from './logos/spotify.png'
 import tor from '@browser-logos/tor/tor_128x128.png'
 import vivaldi from '@browser-logos/vivaldi/vivaldi_128x128.png'
 import vivaldiSnapshot from '@browser-logos/vivaldi-snapshot/vivaldi-snapshot_128x128.png'
-import waterfox from './logos/waterfox.png'
 import yandex from '@browser-logos/yandex/yandex_128x128.png'
+
+import dissenter from './logos/dissenter.png'
+import finicky from './logos/finicky.png'
+import librewolf from './logos/librewolf.png'
+import min from './logos/min.png'
+import naverWhale from './logos/NAVER_whale.png'
+import orion from './logos/orion.png'
+import pocket from './logos/pocket.png'
+import polypane from './logos/polypane.png'
+import spotify from './logos/spotify.png'
+import waterfox from './logos/waterfox.png'
 import zoom from './logos/zoom.png'
 
 export const apps = {
@@ -167,7 +168,7 @@ export const apps = {
   },
   'com.kagi.kagimacOS': {
     name: 'Orion',
-    logo: orion, 
+    logo: orion,
   },
   'com.readitlater.PocketMac': {
     name: 'Pocket',
