@@ -1,6 +1,6 @@
 {
   "name": "browserosaurus",
-  "version": "15.3.0",
+  "version": "15.3.1",
   "description": "The browser prompter for macOS",
   "keywords": [
     "macOS",
@@ -14,6 +14,7 @@
   "repository": "https://github.com/will-stone/browserosaurus",
   "license": "MIT",
   "author": "Will Stone",
+  "type": "module",
   "main": ".webpack/main",
   "scripts": {
     "doctor": "npm run lint && npm run typecheck && npm run test",
