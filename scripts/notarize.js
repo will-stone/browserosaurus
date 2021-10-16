@@ -1,8 +1,8 @@
 /* eslint-disable unicorn/no-process-exit */
 /* eslint-disable no-console */
-import { config } from 'dotenv'
-import { notarize } from 'electron-notarize'
-import path from 'path'
+const { config } = require('dotenv')
+const { notarize } = require('electron-notarize')
+const path = require('path')
 
 config()
 
