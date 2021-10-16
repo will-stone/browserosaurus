@@ -5,7 +5,8 @@
     "esModuleInterop": true,
     "jsx": "react",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "commonjs",
+    "module": "ESNext",
+    "moduleResolution": "node",
     "noImplicitAny": true,
     "outDir": "dist",
     "paths": {
