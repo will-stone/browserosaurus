@@ -86,9 +86,9 @@
         [
           "@electron-forge/plugin-webpack",
           {
-            "mainConfig": "./webpack.main.config.js",
+            "mainConfig": "./webpack.main.config.cjs",
             "renderer": {
-              "config": "./webpack.renderer.config.js",
+              "config": "./webpack.renderer.config.cjs",
               "entryPoints": [
                 {
                   "html": "./src/renderers/tiles/index.html",
