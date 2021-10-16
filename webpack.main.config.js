@@ -17,6 +17,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
     alias: {
+      // No need for logos in main process
       '@browser-logos': false,
       [path.resolve(__dirname, './src/config/logos')]: false,
     },
