@@ -1,5 +1,5 @@
 const CopyPlugin = require('copy-webpack-plugin')
-const rules = require('./webpack.rules')
+const rules = require('./webpack.rules.cjs')
 const path = require('path')
 
 module.exports = {

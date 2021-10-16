@@ -1,4 +1,4 @@
-const rules = require('./webpack.rules')
+const rules = require('./webpack.rules.cjs')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
