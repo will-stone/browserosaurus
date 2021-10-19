@@ -1,4 +1,4 @@
-import sleep from 'tings/sleep'
+import { sleep } from 'tings'
 
 import { apps } from '../../config/apps'
 import { syncAppIds } from '../../shared/state/actions'

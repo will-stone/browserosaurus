@@ -1,6 +1,6 @@
 {
   "name": "browserosaurus",
-  "version": "15.2.1",
+  "version": "15.3.10",
   "description": "The browser prompter for macOS",
   "keywords": [
     "macOS",
@@ -23,7 +23,7 @@
     "make": "concurrently \"npm:make:*\" --kill-others-on-fail",
     "make:arm": "electron-forge make --skip-package --arch=arm64",
     "make:intel": "electron-forge make --skip-package --arch=x64",
-    "notarize": "ts-node ./scripts/notarize.ts",
+    "notarize": "node ./scripts/notarize.js",
     "prepackage": "rimraf out",
     "package": "npm run package:arm && npm run package:intel",
     "package:arm": "NODE_ENV=production electron-forge package --platform=darwin --arch=arm64",
@@ -85,9 +85,9 @@
         [
           "@electron-forge/plugin-webpack",
           {
-            "mainConfig": "./webpack.main.config.js",
+            "mainConfig": "./webpack.main.config.cjs",
             "renderer": {
-              "config": "./webpack.renderer.config.js",
+              "config": "./webpack.renderer.config.cjs",
               "entryPoints": [
                 {
                   "html": "./src/renderers/tiles/index.html",
@@ -190,7 +190,7 @@
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.5",
     "redux": "^4.1.1",
-    "tings": "^1.0.1"
+    "tings": "^2.0.1"
   },
   "devDependencies": {
     "@electron-forge/cli": "6.0.0-beta.61",
@@ -210,7 +210,6 @@
     "concurrently": "^6.3.0",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.3.0",
-    "dotenv": "^10.0.0",
     "electron": "^15.1.0",
     "eslint": "^7.32.0",
     "fork-ts-checker-webpack-plugin": "^6.3.3",

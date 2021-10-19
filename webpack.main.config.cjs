@@ -1,5 +1,5 @@
 const CopyPlugin = require('copy-webpack-plugin')
-const rules = require('./webpack.rules')
+const rules = require('./webpack.rules.cjs')
 const path = require('path')
 
 module.exports = {
@@ -17,6 +17,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
     alias: {
+      // No need for logos in main process
       '@browser-logos': false,
       [path.resolve(__dirname, './src/config/logos')]: false,
     },

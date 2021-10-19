@@ -35,6 +35,7 @@ import finicky from './logos/finicky.png'
 import librewolf from './logos/librewolf.png'
 import min from './logos/min.png'
 import naverWhale from './logos/NAVER_whale.png'
+import orion from './logos/orion.png'
 import pocket from './logos/pocket.png'
 import polypane from './logos/polypane.png'
 import spotify from './logos/spotify.png'
@@ -169,6 +170,10 @@ export const apps = {
   'com.opera.Neon': {
     name: 'Opera Neon',
     logo: operaNeon,
+  },
+  'com.kagi.kagimacOS': {
+    name: 'Orion',
+    logo: orion,
   },
   'com.readitlater.PocketMac': {
     name: 'Pocket',
