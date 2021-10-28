@@ -11,6 +11,8 @@ body:
       options:
         - label: I have searched the existing issues
           required: true
+        - label: I have checked the [FAQ](https://github.com/will-stone/browserosaurus/blob/master/docs/faq.md)
+          required: true
   - type: textarea
     attributes:
       label: Current Behaviour
