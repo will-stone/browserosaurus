@@ -3,7 +3,7 @@
 ## Which is the supported version of macOS?
 
 I can only officially support the version of macOS that I am currently using,
-which right now is 11.5.2.
+which right now is 12.0.1.
 
 ## How do I set my favourite browser?
 
