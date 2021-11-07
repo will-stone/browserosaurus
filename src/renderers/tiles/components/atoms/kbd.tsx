@@ -14,7 +14,8 @@ const Kbd = ({ children, className, style }: Props): JSX.Element => {
         className,
         'tracking-widest uppercase rounded text-center',
       )}
-      style={style}>
+      style={style}
+    >
       {children}
     </kbd>
   )

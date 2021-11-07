@@ -18,7 +18,8 @@ export const HeaderBar = ({ className }: Props): JSX.Element => {
       className={clsx(
         'bg-black bg-opacity-5 dark:bg-opacity-30 pb-4 border-b border-gray-400 dark:border-black',
         className,
-      )}>
+      )}
+    >
       <div className="flex justify-center items-center h-8 draggable pt-4 pb-8">
         Browserosaurus Preferences
       </div>
@@ -33,7 +34,8 @@ export const HeaderBar = ({ className }: Props): JSX.Element => {
             'focus:outline-none',
           )}
           onClick={() => dispatch(clickedTabButton('general'))}
-          type="button">
+          type="button"
+        >
           General
         </button>
         <button
@@ -46,7 +48,8 @@ export const HeaderBar = ({ className }: Props): JSX.Element => {
             'focus:outline-none',
           )}
           onClick={() => dispatch(clickedTabButton('tiles'))}
-          type="button">
+          type="button"
+        >
           Tiles
         </button>
         <button
@@ -59,7 +62,8 @@ export const HeaderBar = ({ className }: Props): JSX.Element => {
             'focus:outline-none',
           )}
           onClick={() => dispatch(clickedTabButton('about'))}
-          type="button">
+          type="button"
+        >
           About
         </button>
       </div>

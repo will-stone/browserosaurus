@@ -26,7 +26,8 @@ export function AppsPane(): JSX.Element {
   return (
     <Pane
       className="border border-opacity-10 dark:border-opacity-10 border-black dark:border-white rounded"
-      pane="tiles">
+      pane="tiles"
+    >
       <div className="grid grid-cols-4 bg-black dark:bg-white bg-opacity-10 dark:bg-opacity-10">
         <div className="p-4">Tile</div>
         <div className="p-4 text-center">Favourite</div>
@@ -43,12 +44,14 @@ export function AppsPane(): JSX.Element {
                 'grid grid-cols-4',
                 isOdd && 'bg-black dark:bg-white',
                 'bg-opacity-5 dark:bg-opacity-5',
-              )}>
+              )}
+            >
               <div
                 className={clsx(
                   'flex items-center p-4',
                   !isVisible && 'opacity-50',
-                )}>
+                )}
+              >
                 <img alt="" className="h-8 w-8 mr-4" src={apps[id].logo} />
                 <span>{name}</span>
               </div>

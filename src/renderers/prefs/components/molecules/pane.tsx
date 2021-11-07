@@ -19,7 +19,8 @@ export function Pane({ children, pane, className }: Props): JSX.Element {
       className={clsx(
         isVisible ? 'flex-grow flex flex-col overflow-hidden' : 'hidden',
         className,
-      )}>
+      )}
+    >
       {children}
     </div>
   )
