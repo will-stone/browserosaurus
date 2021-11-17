@@ -1,4 +1,4 @@
-import { sleep } from 'tings'
+import sleep from 'tings/sleep'
 
 import { urlOpened } from '../../shared/state/actions'
 import type { AppThunk } from '../../shared/state/reducer.root'
