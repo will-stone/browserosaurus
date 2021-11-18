@@ -72,7 +72,7 @@ export const apps = {
 ### Adding a logo
 
 All apps must have a logo, that you will no doubt have seen displayed in the
-tiles window, when Browserosaurus shows. Most browser logos can be installed
+picker window, when Browserosaurus shows. Most browser logos can be installed
 from an excellent project that contains
 [almost all browser logos](https://github.com/alrra/browser-logos) by
 [Cătălin Mariș](https://github.com/alrra).
@@ -114,8 +114,8 @@ it behaves how you would expect.
 
 Some browsers support opening in a _private_ or _incognito_ mode. Browserosaurus
 can be set to open the given URL in private mode when holding the
-<kbd>shift</kbd> key and clicking the tile or using the hotkey. If you'd like to
-support this with your added browser, you will need to find the
+<kbd>shift</kbd> key and clicking an app icon or using its hotkey. If you'd like
+to support this with your added browser, you will need to find the
 [command-line argument](https://en.wikipedia.org/wiki/Command-line_interface#Arguments)
 that your browser uses when opening URLs from the command-line. In the case of
 Firefox this is `--private-window`:

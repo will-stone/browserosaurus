@@ -12,7 +12,8 @@ const Kbd = ({ children, className, style }: Props): JSX.Element => {
     <kbd
       className={clsx(
         className,
-        'tracking-widest uppercase rounded text-center',
+        'uppercase rounded text-center text-xs font-bold',
+        'bg-black bg-opacity-5 dark:bg-opacity-30 py-1 px-2 border border-gray-400 dark:border-black',
       )}
       style={style}
     >

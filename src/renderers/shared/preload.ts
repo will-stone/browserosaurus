@@ -7,7 +7,7 @@ import { Channel } from '../../shared/state/channels'
 // the ipcRenderer without exposing the entire object
 contextBridge.exposeInMainWorld('electron', {
   send: (channel: Channel, action: AnyAction) => {
-    const validChannels = [Channel.PREFS, Channel.TILES]
+    const validChannels = [Channel.PREFS, Channel.PICKER]
     if (validChannels.includes(channel)) {
       ipcRenderer.send(channel, action)
     }

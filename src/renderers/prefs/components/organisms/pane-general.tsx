@@ -43,7 +43,9 @@ export const GeneralPane = (): JSX.Element => {
   )
   const updateStatus = useSelector((state) => state.data.updateStatus)
 
-  const numberOfInstalledApps = useSelector((state) => state.appIds.length)
+  const numberOfInstalledApps = useSelector(
+    (state) => state.storage.apps.length,
+  )
 
   return (
     <Pane className="space-y-8" pane="general">

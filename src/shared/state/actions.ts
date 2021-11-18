@@ -8,7 +8,7 @@ import type { Data, PrefsTab } from './reducer.data'
 import type { Storage } from './reducer.storage'
 
 const MAIN = Channel.MAIN
-const TILES = Channel.TILES
+const PICKER = Channel.PICKER
 const PREFS = Channel.PREFS
 
 // -----------------------------------------------------------------------------
@@ -18,8 +18,10 @@ const PREFS = Channel.PREFS
 const appReady = cA(`${MAIN}/appReady`)
 
 const urlOpened = cA<string>(`${MAIN}/urlOpened`)
-const tWindowBoundsChanged = cA<Rectangle>(`${MAIN}/tWindowBoundsChanged`)
-const syncAppIds = cA<AppId[]>(`${MAIN}/syncAppIds`)
+const pickerWindowBoundsChanged = cA<Rectangle>(
+  `${MAIN}/pickerWinBoundsChanged`,
+)
+const installedAppsRetrieved = cA<AppId[]>(`${MAIN}/installedAppsRetrieved`)
 const syncData = cA<Data>(`${MAIN}/syncData`)
 const syncStorage = cA<Storage>(`${MAIN}/syncStorage`)
 
@@ -30,8 +32,10 @@ const updateAvailable = cA(`${MAIN}/updateAvailable`)
 const updateDownloading = cA(`${MAIN}/updateDownloading`)
 const updateDownloaded = cA(`${MAIN}/updateDownloaded`)
 
+const clickedRestorePicker = cA(`${MAIN}/clickedRestorePicker`)
+
 // -----------------------------------------------------------------------------
-// TILES
+// PICKER
 // -----------------------------------------------------------------------------
 
 interface OpenAppArguments {
@@ -41,9 +45,9 @@ interface OpenAppArguments {
   isShift: boolean
 }
 
-const tilesStarted = cA(`${TILES}/started`)
+const pickerStarted = cA(`${PICKER}/started`)
 
-const clickedTile = cA<OpenAppArguments>(`${TILES}/clickTile`)
+const clickedApp = cA<OpenAppArguments>(`${PICKER}/clickedApp`)
 
 const keydown = cA<{
   isAlt: boolean
@@ -52,18 +56,16 @@ const keydown = cA<{
   code: string
   key: string
   keyCode: number
-}>(`${TILES}/keydown`)
-const pressedEscapeKey = cA(`${TILES}/escapeKey`)
-const pressedBackspaceKey = cA(`${TILES}/backspaceKey`)
-const pressedCopyKey = cA<string>(`${TILES}/copyKey`)
-const pressedAppKey = cA<OpenAppArguments>(`${TILES}/appKey`)
+}>(`${PICKER}/keydown`)
+const pressedEscapeKey = cA(`${PICKER}/escapeKey`)
+const pressedBackspaceKey = cA(`${PICKER}/backspaceKey`)
+const pressedCopyKey = cA<string>(`${PICKER}/copyKey`)
+const pressedAppKey = cA<OpenAppArguments>(`${PICKER}/appKey`)
 
-const clickedUrlBackspaceButton = cA(`${TILES}/clickedUrlBackspaceButton`)
-const clickedCopyButton = cA<string>(`${TILES}/clickedCopyButton`)
-const clickedUpdateAvailableButton = cA(`${TILES}/clickedUpdateAvailableButton`)
+const clickedUrlBar = cA(`${PICKER}/clickedUrlBar`)
 
-const clickedDonate = cA(`${TILES}/clickedDonate`)
-const clickedMaybeLater = cA(`${TILES}/clickedMaybeLater`)
+const clickedDonate = cA(`${PICKER}/clickedDonate`)
+const clickedMaybeLater = cA(`${PICKER}/clickedMaybeLater`)
 
 // -----------------------------------------------------------------------------
 // PREFS
@@ -80,8 +82,6 @@ const clickedRescanApps = cA(`${PREFS}/clickedRescanApps`)
 const clickedUpdateButton = cA(`${PREFS}/clickedUpdateButton`)
 const clickedUpdateRestartButton = cA(`${PREFS}/clickedUpdateRestartButton`)
 
-const clickedFavButton = cA<AppId>(`${PREFS}/clickedFavButton`)
-const clickedEyeButton = cA<AppId>(`${PREFS}/clickedEyeButton`)
 const changedHotkey = cA<{ appId: AppId; value: string }>(
   `${PREFS}/changedHotkey`,
 )
@@ -89,37 +89,39 @@ const changedHotkey = cA<{ appId: AppId; value: string }>(
 const clickedHomepageButton = cA(`${PREFS}/clickedHomepageButton`)
 const clickedOpenIssueButton = cA(`${PREFS}/clickedOpenIssueButton`)
 
+const reorderedApps = cA<{ source: number; destination: number }>(
+  `${PREFS}/reorderedApps`,
+)
+
 export {
   appReady,
   changedHotkey,
-  clickedCopyButton,
+  clickedApp,
   clickedDonate,
-  clickedEyeButton,
-  clickedFavButton,
   clickedHomepageButton,
   clickedMaybeLater,
   clickedOpenIssueButton,
   clickedRescanApps,
+  clickedRestorePicker,
   clickedSetAsDefaultBrowserButton,
   clickedTabButton,
-  clickedTile,
-  clickedUpdateAvailableButton,
   clickedUpdateButton,
   clickedUpdateRestartButton,
-  clickedUrlBackspaceButton,
+  clickedUrlBar,
   gotAppVersion,
   gotDefaultBrowserStatus,
+  installedAppsRetrieved,
   keydown,
+  pickerStarted,
+  pickerWindowBoundsChanged,
   prefsStarted,
   pressedAppKey,
   pressedBackspaceKey,
   pressedCopyKey,
   pressedEscapeKey,
-  syncAppIds,
+  reorderedApps,
   syncData,
   syncStorage,
-  tilesStarted,
-  tWindowBoundsChanged,
   updateAvailable,
   updateDownloaded,
   updateDownloading,

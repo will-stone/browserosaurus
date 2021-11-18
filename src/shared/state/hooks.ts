@@ -4,7 +4,6 @@ import { shallowEqual, useSelector as useReduxSelector } from 'react-redux'
 
 import type { AppId, Apps } from '../../config/apps'
 import { apps as allApps } from '../../config/apps'
-import { getHotkeyByAppId } from '../utils/get-hotkey-by-app-id'
 import type { RootState } from './reducer.root'
 
 export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector
@@ -22,53 +21,16 @@ export interface InstalledApp {
   name: Apps[AppId]['name']
   privateArg?: string
   urlTemplate?: string
-  isVisible: boolean
-  isFav: boolean
-  hotkey: string | undefined
+  hotkey: string | null
 }
 
 export const useInstalledApps = (): InstalledApp[] => {
-  const installedAppIds = useDeepEqualSelector((state) => state.appIds)
-  const hiddenTileIds = useShallowEqualSelector(
-    (state) => state.storage.hiddenTileIds,
-  )
-  const favId = useSelector((state) => state.storage.fav)
-  const hotkeys = useShallowEqualSelector((state) => state.storage.hotkeys)
-  return installedAppIds.map((appId) => ({
-    ...allApps[appId],
-    id: appId,
-    isVisible: !hiddenTileIds.includes(appId),
-    isFav: appId === favId,
-    hotkey: getHotkeyByAppId(hotkeys, appId),
+  const installedAppIds = useDeepEqualSelector((state) => state.storage.apps)
+  return installedAppIds.map((installedApp) => ({
+    ...allApps[installedApp.id],
+    id: installedApp.id,
+    hotkey: installedApp.hotkey,
   }))
-}
-
-/**
- * Tiles = visible installed apps
- */
-const useTiles = (): InstalledApp[] => {
-  const apps = useInstalledApps()
-  return apps.filter((app) => app.isVisible)
-}
-
-export const useFavTile = (): InstalledApp | undefined => {
-  const tiles = useTiles()
-  const favTile = tiles.find((tile) => tile.isFav)
-  return favTile
-}
-
-export const useNormalTiles = (): InstalledApp[] => {
-  const tiles = useTiles()
-  const normalTiles = tiles
-    .filter((tile) => !tile.isFav)
-    .sort((a, b) => {
-      if (!a.hotkey) return 1
-      if (!b.hotkey) return -1
-      if (a.hotkey < b.hotkey) return -1
-      if (a.hotkey > b.hotkey) return 1
-      return 0
-    })
-  return normalTiles
 }
 
 export const useIsSupportMessageHidden = (): boolean => {

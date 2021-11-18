@@ -2,7 +2,7 @@
 /* eslint-disable unicorn/prefer-regexp-test -- rtk uses .match */
 import type { AnyAction, Middleware } from '@reduxjs/toolkit'
 import { execFile } from 'child_process'
-import { app, autoUpdater, shell } from 'electron'
+import { app, autoUpdater, Notification, shell } from 'electron'
 import deepEqual from 'fast-deep-equal'
 import path from 'path'
 
@@ -11,25 +11,24 @@ import { apps } from '../../config/apps'
 import { B_URL, ISSUES_URL } from '../../config/CONSTANTS'
 import {
   appReady,
-  clickedCopyButton,
+  clickedApp,
   clickedHomepageButton,
   clickedOpenIssueButton,
   clickedRescanApps,
+  clickedRestorePicker,
   clickedSetAsDefaultBrowserButton,
-  clickedTile,
-  clickedUpdateAvailableButton,
   clickedUpdateButton,
   clickedUpdateRestartButton,
+  clickedUrlBar,
   gotAppVersion,
   gotDefaultBrowserStatus,
+  pickerStarted,
   prefsStarted,
   pressedAppKey,
   pressedCopyKey,
   pressedEscapeKey,
-  syncAppIds,
   syncData,
   syncStorage,
-  tilesStarted,
   updateAvailable,
   updateDownloaded,
   updateDownloading,
@@ -42,7 +41,12 @@ import { createTray, tray } from '../tray'
 import copyToClipboard from '../utils/copy-to-clipboard'
 import { getUpdateUrl } from '../utils/get-update-url'
 import { isUpdateAvailable } from '../utils/is-update-available'
-import { createWindows, pWindow, showTWindow, tWindow } from '../windows'
+import {
+  createWindows,
+  pickerWindow,
+  prefsWindow,
+  showPickerWindow,
+} from '../windows'
 import { checkForUpdate } from './thunk.check-for-update'
 import { getInstalledAppIds } from './thunk.get-installed-app-ids'
 
@@ -88,8 +92,8 @@ export const actionHubMiddleware =
 
         autoUpdater.on('before-quit-for-update', () => {
           // All windows must be closed before an update can be applied using "restart".
-          tWindow?.destroy()
-          pWindow?.destroy()
+          pickerWindow?.destroy()
+          prefsWindow?.destroy()
         })
 
         autoUpdater.on('update-available', () => {
@@ -133,17 +137,23 @@ export const actionHubMiddleware =
       dispatch(checkForUpdate() as unknown as AnyAction)
     }
 
-    // When a renderer starts, send down all the local store for synchonisation
-    else if (tilesStarted.match(action) || prefsStarted.match(action)) {
-      dispatch(syncAppIds(nextState.appIds))
+    // When a renderer starts, send down all the local store for synchronisation
+    else if (pickerStarted.match(action) || prefsStarted.match(action)) {
       dispatch(syncData(nextState.data))
       dispatch(syncStorage(nextState.storage))
     }
 
     // Copy to clipboard
-    else if (clickedCopyButton.match(action) || pressedCopyKey.match(action)) {
-      copyToClipboard(action.payload)
-      tWindow?.hide()
+    else if (clickedUrlBar.match(action) || pressedCopyKey.match(action)) {
+      if (nextState.data.url) {
+        copyToClipboard(nextState.data.url)
+        pickerWindow?.hide()
+        new Notification({
+          title: 'Browserosaurus',
+          body: 'URL copied to clipboard',
+          silent: true,
+        }).show()
+      }
     }
 
     // Set as default browser
@@ -166,9 +176,9 @@ export const actionHubMiddleware =
     else if (clickedUpdateRestartButton.match(action)) {
       autoUpdater.quitAndInstall()
       // @ts-expect-error -- window must be destroyed to prevent race condition
-      pWindow = null
+      prefsWindow = null
       // @ts-expect-error -- window must be destroyed to prevent race condition
-      tWindow = null
+      pickerWindow = null
       // https://stackoverflow.com/questions/38309240/object-has-been-destroyed-when-open-secondary-child-window-in-electron-js
     }
 
@@ -179,7 +189,7 @@ export const actionHubMiddleware =
     }
 
     // Open app
-    else if (pressedAppKey.match(action) || clickedTile.match(action)) {
+    else if (pressedAppKey.match(action) || clickedApp.match(action)) {
       const { appId, url = '', isAlt, isShift } = action.payload
 
       // Bail if app's bundle id is missing
@@ -208,17 +218,22 @@ export const actionHubMiddleware =
 
       execFile('open', openArguments)
 
-      tWindow?.hide()
+      pickerWindow?.hide()
     }
 
     // Escape key
     else if (pressedEscapeKey.match(action)) {
-      tWindow?.hide()
+      pickerWindow?.hide()
     }
 
     // Open URL
     else if (urlOpened.match(action)) {
-      showTWindow()
+      showPickerWindow()
+    }
+
+    // Tray: restore picker
+    else if (clickedRestorePicker.match(action)) {
+      showPickerWindow()
     }
 
     // Open homepage
@@ -226,14 +241,9 @@ export const actionHubMiddleware =
       shell.openExternal(B_URL)
     }
 
-    // Open homepage
+    // Open issues page
     else if (clickedOpenIssueButton.match(action)) {
       shell.openExternal(ISSUES_URL)
-    }
-
-    // Open homepage
-    else if (clickedUpdateAvailableButton.match(action)) {
-      pWindow?.show()
     }
 
     return result

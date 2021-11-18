@@ -6,10 +6,10 @@ import type { AppThunk } from '../../shared/state/reducer.root'
 export const urlOpener =
   (url: string): AppThunk =>
   async (dispatch, getState) => {
-    if (getState().data.tilesStarted) {
+    if (getState().data.pickerStarted) {
       dispatch(urlOpened(url))
     }
-    // The `open-url` electron.app event can get fired before the tile window is
+    // The `open-url` electron.app event can get fired before the picker window is
     // ready, if B was opened by sending it a URL. Here we wait before trying again.
     else {
       await sleep(500)

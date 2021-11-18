@@ -41,19 +41,17 @@ export const storage = {
       return defaultStorage
     }
 
-    database.data = {
-      ...defaultStorage,
-      ...database.data,
-    }
-
     // Removes unknown keys in storage
     for (const key of keys(database.data)) {
-      if (typeof defaultStorage[key] === undefined) {
+      if (typeof defaultStorage[key] === 'undefined') {
         delete database.data[key]
       }
     }
 
-    return database.data
+    return {
+      ...defaultStorage,
+      ...database.data,
+    }
   },
 
   setAll: (value: Storage): void => {

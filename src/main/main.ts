@@ -33,4 +33,4 @@ app.on('open-url', (event, url) => {
  * Enter actions from renderer into main's store's queue
  */
 electron.ipcMain.on(Channel.PREFS, (_, action: AnyAction) => dispatch(action))
-electron.ipcMain.on(Channel.TILES, (_, action: AnyAction) => dispatch(action))
+electron.ipcMain.on(Channel.PICKER, (_, action: AnyAction) => dispatch(action))
