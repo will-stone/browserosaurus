@@ -8,5 +8,6 @@
     "sash.hoverBorder": "#2f6197"
   },
   "peacock.color": "#234870",
-  "typescript.preferences.importModuleSpecifier": "relative"
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "cSpell.words": ["fullscreenable", "maximizable", "minimizable"]
 }

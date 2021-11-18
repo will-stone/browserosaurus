@@ -1,7 +1,9 @@
 import { app, Menu, Tray } from 'electron'
 import path from 'path'
 
-import { pWindow, showTWindow } from './windows'
+import { clickedRestorePicker } from '../shared/state/actions'
+import { dispatch } from './state/store'
+import { prefsWindow } from './windows'
 
 export let tray: Tray | undefined
 
@@ -21,14 +23,14 @@ export function createTray(): void {
     Menu.buildFromTemplate([
       {
         label: 'Restore recently closed URL',
-        click: () => showTWindow(),
+        click: () => dispatch(clickedRestorePicker()),
       },
       {
         type: 'separator',
       },
       {
         label: 'Preferences...',
-        click: () => pWindow?.show(),
+        click: () => prefsWindow?.show(),
       },
       {
         type: 'separator',

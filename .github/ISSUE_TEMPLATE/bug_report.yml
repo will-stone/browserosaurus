@@ -11,7 +11,9 @@ body:
       options:
         - label: I have searched the existing issues
           required: true
-        - label: I have checked the [FAQ](https://github.com/will-stone/browserosaurus/blob/master/docs/faq.md)
+        - label:
+            I have checked the
+            [FAQ](https://github.com/will-stone/browserosaurus/blob/master/docs/faq.md)
           required: true
   - type: textarea
     attributes:
@@ -40,13 +42,13 @@ body:
     attributes:
       label: Browserosaurus version
       description: This can be found in Preferences > About
-      placeholder: "e.g. 15.1.3"
+      placeholder: 'e.g. 15.1.3'
     validations:
       required: true
   - type: input
     attributes:
       label: macOS version
-      placeholder: "e.g. 11.6"
+      placeholder: 'e.g. 11.6'
     validations:
       required: true
   - type: dropdown

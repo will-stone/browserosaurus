@@ -22,8 +22,8 @@ const SupportMessage = (): JSX.Element => {
     >
       <div className="col-span-7 flex flex-col justify-center space-y-2">
         <p>
-          Thank you for downloading Browserosaurus. Please consider buying me a
-          coffee.
+          Thank you for downloading Browserosaurus. Please consider supporting
+          my open source projects.
         </p>
         <p>
           Thank you{' '}

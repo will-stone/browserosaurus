@@ -13,18 +13,11 @@ const keyboardEvent =
   (event: KeyboardEvent): AppThunk =>
   (dispatch, getState) => {
     const { url } = getState().data
-    const { hotkeys, fav } = getState().storage
+    const { apps } = getState().storage
 
     const virtualKey = event.key.toLowerCase()
     // Not needed at the moment but useful to know
     // const physicalKey = event.code.toLowerCase()
-
-    // Favourite hotkeys
-    // Enter and space can cause previously focussed items to activate so are
-    // therefore always disabled.
-    if (virtualKey === ' ' || virtualKey === 'enter') {
-      event.preventDefault()
-    }
 
     // Escape
     if (virtualKey === 'escape') {
@@ -48,30 +41,17 @@ const keyboardEvent =
     // App hotkey
     else if (!event.metaKey && /^([a-z0-9])$/u.test(virtualKey)) {
       event.preventDefault()
-      const appId = hotkeys[virtualKey]
-      if (appId) {
+      const foundApp = apps.find((app) => app.hotkey === virtualKey)
+      if (foundApp) {
         dispatch(
           pressedAppKey({
             url,
-            appId,
+            appId: foundApp.id,
             isAlt: event.altKey,
             isShift: event.shiftKey,
           }),
         )
       }
-    }
-
-    // Favourite hotkeys
-    else if (virtualKey === ' ' || virtualKey === 'enter') {
-      event.preventDefault()
-      dispatch(
-        pressedAppKey({
-          url,
-          appId: fav,
-          isAlt: event.altKey,
-          isShift: event.shiftKey,
-        }),
-      )
     }
   }
 

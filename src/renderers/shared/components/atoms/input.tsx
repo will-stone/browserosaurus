@@ -8,7 +8,8 @@ const Input: React.FC<React.ComponentPropsWithoutRef<'input'>> = ({
   return (
     <input
       className={clsx(
-        'text-center uppercase focus:outline-none min-w-0',
+        'text-center uppercase min-w-0',
+        'focus:outline-none focus:bg-white dark:focus:bg-black focus:bg-opacity-70 focus:shadow-xl focus:ring-1 focus:ring-gray-500',
         'shadow-sm bg-white dark:bg-[#56555C]',
         'text-black dark:text-white',
         'border',

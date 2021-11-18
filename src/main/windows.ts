@@ -3,22 +3,22 @@ import path from 'path'
 
 import {
   gotDefaultBrowserStatus,
-  tWindowBoundsChanged,
+  pickerWindowBoundsChanged,
 } from '../shared/state/actions'
 import { dispatch } from './state/store'
 import { storage } from './storage'
 
-declare const TILES_WINDOW_WEBPACK_ENTRY: string
-declare const TILES_WINDOW_PRELOAD_WEBPACK_ENTRY: string
+declare const PICKER_WINDOW_WEBPACK_ENTRY: string
+declare const PICKER_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 declare const PREFS_WINDOW_WEBPACK_ENTRY: string
 declare const PREFS_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 
 // Prevents garbage collection
-export let tWindow: BrowserWindow | null | undefined
-export let pWindow: BrowserWindow | null | undefined
+export let pickerWindow: BrowserWindow | null | undefined
+export let prefsWindow: BrowserWindow | null | undefined
 
 export async function createWindows(): Promise<void> {
-  pWindow = new BrowserWindow({
+  prefsWindow = new BrowserWindow({
     // Only show on demand
     show: false,
 
@@ -48,30 +48,29 @@ export async function createWindows(): Promise<void> {
     },
   })
 
-  pWindow.on('hide', () => {
-    pWindow?.hide()
+  prefsWindow.on('hide', () => {
+    prefsWindow?.hide()
   })
 
-  pWindow.on('close', (event_) => {
+  prefsWindow.on('close', (event_) => {
     event_.preventDefault()
-    pWindow?.hide()
+    prefsWindow?.hide()
   })
 
-  pWindow.on('show', () => {
+  prefsWindow.on('show', () => {
     // There isn't a listener for default protocol client, therefore the check
     // is made each time the window is brought into focus.
     dispatch(gotDefaultBrowserStatus(app.isDefaultProtocolClient('http')))
   })
 
-  const width = storage.get('width')
   const height = storage.get('height')
 
-  tWindow = new BrowserWindow({
+  pickerWindow = new BrowserWindow({
     frame: true,
     icon: path.join(__dirname, '/static/icon/icon.png'),
     title: 'Browserosaurus',
     webPreferences: {
-      preload: TILES_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      preload: PICKER_WINDOW_PRELOAD_WEBPACK_ENTRY,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       nodeIntegrationInSubFrames: false,
@@ -79,9 +78,10 @@ export async function createWindows(): Promise<void> {
     },
     center: true,
     height,
-    minHeight: 204,
-    width,
-    minWidth: 424,
+    minHeight: 250,
+    width: 375,
+    maxWidth: 375,
+    minWidth: 375,
     show: false,
     minimizable: false,
     maximizable: false,
@@ -97,37 +97,37 @@ export async function createWindows(): Promise<void> {
     alwaysOnTop: true,
   })
 
-  tWindow.setWindowButtonVisibility(false)
+  pickerWindow.setWindowButtonVisibility(false)
 
-  tWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
+  pickerWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
 
-  tWindow.on('hide', () => {
-    tWindow?.hide()
+  pickerWindow.on('hide', () => {
+    pickerWindow?.hide()
   })
 
-  tWindow.on('close', (event_) => {
+  pickerWindow.on('close', (event_) => {
     event_.preventDefault()
-    tWindow?.hide()
+    pickerWindow?.hide()
   })
 
-  tWindow.on('resize', () => {
-    if (tWindow) {
-      dispatch(tWindowBoundsChanged(tWindow.getBounds()))
+  pickerWindow.on('resize', () => {
+    if (pickerWindow) {
+      dispatch(pickerWindowBoundsChanged(pickerWindow.getBounds()))
     }
   })
 
-  tWindow.on('blur', () => {
-    tWindow?.hide()
+  pickerWindow.on('blur', () => {
+    pickerWindow?.hide()
   })
 
   await Promise.all([
-    pWindow.loadURL(PREFS_WINDOW_WEBPACK_ENTRY),
-    tWindow.loadURL(TILES_WINDOW_WEBPACK_ENTRY),
+    prefsWindow.loadURL(PREFS_WINDOW_WEBPACK_ENTRY),
+    pickerWindow.loadURL(PICKER_WINDOW_WEBPACK_ENTRY),
   ])
 }
 
-export function showTWindow(): void {
-  if (tWindow) {
+export function showPickerWindow(): void {
+  if (pickerWindow) {
     const displayBounds = screen.getDisplayNearestPoint(
       screen.getCursorScreenPoint(),
     ).bounds
@@ -139,7 +139,7 @@ export function showTWindow(): void {
 
     const mousePoint = screen.getCursorScreenPoint()
 
-    const bWindowBounds = tWindow.getBounds()
+    const bWindowBounds = pickerWindow.getBounds()
 
     const bWindowEdges = {
       right: mousePoint.x + bWindowBounds.width,
@@ -162,8 +162,8 @@ export function showTWindow(): void {
           : mousePoint.y + nudge.y,
     }
 
-    tWindow.setPosition(inWindowPosition.x, inWindowPosition.y, false)
+    pickerWindow.setPosition(inWindowPosition.x, inWindowPosition.y, false)
 
-    tWindow.show()
+    pickerWindow.show()
   }
 }

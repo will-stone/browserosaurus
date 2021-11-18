@@ -1,37 +1,27 @@
 import { createReducer } from '@reduxjs/toolkit'
-import xor from 'lodash/xor'
 
 import type { AppId } from '../../config/apps'
-import { alterHotkeys } from '../utils/alter-hotkeys'
 import {
   changedHotkey,
   clickedDonate,
-  clickedEyeButton,
-  clickedFavButton,
   clickedMaybeLater,
+  installedAppsRetrieved,
+  pickerWindowBoundsChanged,
+  reorderedApps,
   syncStorage,
-  tWindowBoundsChanged,
 } from './actions'
 
-export type Hotkeys = Record<string, AppId>
-
 export interface Storage {
+  apps: { id: AppId; hotkey: string | null }[]
   supportMessage: number
-  fav: AppId
   firstRun: boolean
-  hotkeys: Hotkeys
-  hiddenTileIds: AppId[]
-  width: number
   height: number
 }
 
 export const defaultStorage: Storage = {
+  apps: [],
   supportMessage: 0,
-  fav: 'com.apple.Safari',
   firstRun: true,
-  hotkeys: {},
-  hiddenTileIds: [],
-  width: 424,
   height: 204,
 }
 
@@ -39,23 +29,40 @@ export const storage = createReducer<Storage>(defaultStorage, (builder) =>
   builder
     .addCase(syncStorage, (state, action) => action.payload)
 
-    .addCase(changedHotkey, (state, action) => {
-      const updatedHotkeys = alterHotkeys(
-        state.hotkeys,
-        action.payload.appId,
-        action.payload.value,
+    .addCase(installedAppsRetrieved, (state, action) => {
+      const installedAppIds = action.payload
+
+      const installedStoredApps = state.apps.filter((storedApp) =>
+        installedAppIds.includes(storedApp.id),
       )
-      state.hotkeys = updatedHotkeys
+
+      const notStoredInstalledApps = installedAppIds
+        .filter(
+          (id) =>
+            !installedStoredApps
+              .map((installedStoredApp) => installedStoredApp.id)
+              .includes(id),
+        )
+        .map((id) => ({ id, hotkey: null }))
+
+      state.apps = [...installedStoredApps, ...notStoredInstalledApps]
     })
 
-    .addCase(clickedEyeButton, (state, action) => {
-      const { hiddenTileIds } = state
-      // Remove the id if it exists in the array, or add it if it doesn't
-      state.hiddenTileIds = xor(hiddenTileIds, [action.payload])
-    })
+    .addCase(changedHotkey, (state, action) => {
+      const lowerHotkey = action.payload.value.toLowerCase()
+      const appWithSameHotkeyIndex = state.apps.findIndex(
+        (app) => app.hotkey === lowerHotkey,
+      )
 
-    .addCase(clickedFavButton, (state, action) => {
-      state.fav = action.payload
+      if (appWithSameHotkeyIndex > -1) {
+        state.apps[appWithSameHotkeyIndex].hotkey = null
+      }
+
+      const appIndex = state.apps.findIndex(
+        (app) => app.id === action.payload.appId,
+      )
+
+      state.apps[appIndex].hotkey = lowerHotkey
     })
 
     .addCase(clickedDonate, (state) => {
@@ -66,8 +73,12 @@ export const storage = createReducer<Storage>(defaultStorage, (builder) =>
       state.supportMessage = Date.now()
     })
 
-    .addCase(tWindowBoundsChanged, (state, action) => {
-      state.width = action.payload.width
+    .addCase(pickerWindowBoundsChanged, (state, action) => {
       state.height = action.payload.height
+    })
+
+    .addCase(reorderedApps, (state, action) => {
+      const [removed] = state.apps.splice(action.payload.source, 1)
+      state.apps.splice(action.payload.destination, 0, removed)
     }),
 )

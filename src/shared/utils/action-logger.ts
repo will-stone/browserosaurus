@@ -8,7 +8,7 @@ import { Channel } from '../state/channels'
 const colorMap = {
   [Channel.MAIN]: yellow,
   [Channel.PREFS]: blue,
-  [Channel.TILES]: magenta,
+  [Channel.PICKER]: magenta,
 }
 
 export function actionLogger(action: AnyAction): void {
@@ -16,7 +16,7 @@ export function actionLogger(action: AnyAction): void {
 
   console.log()
   console.log(
-    `${bold(colorMap[channel](channel.padEnd(5)))} ${bold(white(name))}`,
+    `${bold(colorMap[channel](channel.padEnd(6)))} ${bold(white(name))}`,
   )
   console.log(action.payload)
   console.log()

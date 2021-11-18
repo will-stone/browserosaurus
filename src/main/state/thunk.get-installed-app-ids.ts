@@ -1,7 +1,7 @@
 import sleep from 'tings/sleep'
 
 import { apps } from '../../config/apps'
-import { syncAppIds } from '../../shared/state/actions'
+import { installedAppsRetrieved } from '../../shared/state/actions'
 import type { AppThunk } from '../../shared/state/reducer.root'
 import { filterAppsByInstalled } from '../utils/filter-apps-by-installed'
 
@@ -14,6 +14,6 @@ export const getInstalledAppIds = (): AppThunk => async (dispatch) => {
     await sleep(500)
     dispatch(getInstalledAppIds())
   } else {
-    dispatch(syncAppIds(installedApps))
+    dispatch(installedAppsRetrieved(installedApps))
   }
 }

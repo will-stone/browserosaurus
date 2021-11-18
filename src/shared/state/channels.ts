@@ -1,5 +1,5 @@
 export const enum Channel {
   PREFS = 'PREFS',
-  TILES = 'TILES',
+  PICKER = 'PICKER',
   MAIN = 'MAIN',
 }

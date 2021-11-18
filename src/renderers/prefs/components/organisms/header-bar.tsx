@@ -4,15 +4,40 @@ import { useDispatch } from 'react-redux'
 
 import { clickedTabButton } from '../../../../shared/state/actions'
 import { useSelector } from '../../../../shared/state/hooks'
+import type { PrefsTab } from '../../../../shared/state/reducer.data'
 
-interface Props {
-  className?: string
+interface TabButtonProps {
+  tab: PrefsTab
+  children: string
 }
 
-export const HeaderBar = ({ className }: Props): JSX.Element => {
+const TabButton = ({ tab, children }: TabButtonProps) => {
   const dispatch = useDispatch()
   const prefsTab = useSelector((state) => state.data.prefsTab)
 
+  return (
+    <button
+      className={clsx(
+        'bg-black dark:bg-white',
+        prefsTab === tab
+          ? 'text-black dark:text-white bg-opacity-10 dark:bg-opacity-10'
+          : 'bg-opacity-0 dark:bg-opacity-0 hover:bg-opacity-5 dark:hover:bg-opacity-5',
+        'focus-visible:outline-none focus-visible:bg-white dark:focus-visible:bg-black focus-visible:bg-opacity-70 focus-visible:shadow-xl focus-visible:ring-1 focus-visible:ring-gray-500',
+        'px-4 py-2 rounded',
+      )}
+      onClick={() => dispatch(clickedTabButton(tab))}
+      type="button"
+    >
+      {children}
+    </button>
+  )
+}
+
+interface HeaderBarProps {
+  className?: string
+}
+
+export const HeaderBar = ({ className }: HeaderBarProps): JSX.Element => {
   return (
     <div
       className={clsx(
@@ -24,48 +49,9 @@ export const HeaderBar = ({ className }: Props): JSX.Element => {
         Browserosaurus Preferences
       </div>
       <div className="flex justify-center items-center space-x-12">
-        <button
-          className={clsx(
-            'bg-black dark:bg-white',
-            prefsTab === 'general'
-              ? 'text-black dark:text-white bg-opacity-10 dark:bg-opacity-10'
-              : 'bg-opacity-0 dark:bg-opacity-0 hover:bg-opacity-5 dark:hover:bg-opacity-5',
-            'px-4 py-2 rounded',
-            'focus:outline-none',
-          )}
-          onClick={() => dispatch(clickedTabButton('general'))}
-          type="button"
-        >
-          General
-        </button>
-        <button
-          className={clsx(
-            'bg-black dark:bg-white',
-            prefsTab === 'tiles'
-              ? 'text-black dark:text-white bg-opacity-10 dark:bg-opacity-10'
-              : 'bg-opacity-0 dark:bg-opacity-0 hover:bg-opacity-5 dark:hover:bg-opacity-5',
-            'px-4 py-2 rounded',
-            'focus:outline-none',
-          )}
-          onClick={() => dispatch(clickedTabButton('tiles'))}
-          type="button"
-        >
-          Tiles
-        </button>
-        <button
-          className={clsx(
-            'bg-black dark:bg-white',
-            prefsTab === 'about'
-              ? 'text-black dark:text-white bg-opacity-10 dark:bg-opacity-10'
-              : 'bg-opacity-0 dark:bg-opacity-0 hover:bg-opacity-5 dark:hover:bg-opacity-5',
-            'px-4 py-2 rounded',
-            'focus:outline-none',
-          )}
-          onClick={() => dispatch(clickedTabButton('about'))}
-          type="button"
-        >
-          About
-        </button>
+        <TabButton tab="general">General</TabButton>
+        <TabButton tab="apps">Apps</TabButton>
+        <TabButton tab="about">About</TabButton>
       </div>
     </div>
   )
