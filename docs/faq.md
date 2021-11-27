@@ -7,10 +7,11 @@ which right now is 12.0.1.
 
 ## How do I set my favourite browser?
 
-A favourite browser will open when the SPACE key is pressed. It will also move
-to the front of the picker window, and therefore an easier target to click with
-the mouse. You can set your favourite in the Preferences menu (found in the "B"
-menubar icon).
+A favourite browser will show a larger icon than the rest of the apps. It will
+also move to the front of the picker window, and is therefore an easier target
+to click with the mouse. You can set your favourite in the Preferences menu
+(found in the "B" menubar icon), by dragging your favoured app to the top of the
+Apps pane.
 
 ## I would like to open a particular browser automatically for specific URLs.
 
