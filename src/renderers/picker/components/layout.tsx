@@ -39,7 +39,7 @@ const App: React.FC = () => {
             <AppButton
               ref={favAppRef}
               app={favApp}
-              className="flex flex-col items-center justify-start px-8 py-4"
+              className="flex flex-col items-center justify-start px-2 py-4 w-[130px]"
             >
               <AppLogo app={favApp} className="h-20 w-20 mb-2" />
               <span>{favApp.name}</span>
