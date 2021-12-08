@@ -36,8 +36,6 @@ export const storage = {
     database.read()
 
     if (database.data === null) {
-      database.data = defaultStorage
-      database.write()
       return defaultStorage
     }
 
@@ -55,7 +53,6 @@ export const storage = {
   },
 
   setAll: (value: Storage): void => {
-    // Only keep data that is used by the app
     database.data = value
     database.write()
   },

@@ -29,7 +29,7 @@ export interface Data {
   prefsTab: PrefsTab
 }
 
-export const defaultData: Data = {
+const defaultData: Data = {
   version: '',
   updateStatus: 'no-update',
   isDefaultProtocolClient: true,
