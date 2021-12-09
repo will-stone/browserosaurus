@@ -75,7 +75,7 @@ export function AppsPane(): JSX.Element {
             >
               {installedApps.map(({ id, name, hotkey }, index) => (
                 <Draggable key={id} draggableId={id} index={index}>
-                  {(draggableProvided, draggableSnapshop) => (
+                  {(draggableProvided, draggableSnapshot) => (
                     <div
                       ref={draggableProvided.innerRef}
                       className={clsx(
@@ -83,7 +83,7 @@ export function AppsPane(): JSX.Element {
                         'bg-black dark:bg-white bg-opacity-5 dark:bg-opacity-5 shadow',
                         'rounded-xl mb-4',
                         'focus-visible:outline-none focus-visible:bg-white dark:focus-visible:bg-black focus-visible:bg-opacity-70 focus-visible:shadow-xl focus-visible:ring-1 focus-visible:ring-gray-500',
-                        draggableSnapshop.isDragging &&
+                        draggableSnapshot.isDragging &&
                           'focus-visible:ring-2 dark:focus-visible:ring-gray-100 focus-visible:ring-gray-900',
                       )}
                       {...draggableProvided.draggableProps}
@@ -93,7 +93,7 @@ export function AppsPane(): JSX.Element {
                         <DragDirectionArrow
                           className={clsx(
                             'h-4',
-                            draggableSnapshop.isDragging
+                            draggableSnapshot.isDragging
                               ? 'text-black dark:text-white'
                               : 'opacity-30',
                           )}
