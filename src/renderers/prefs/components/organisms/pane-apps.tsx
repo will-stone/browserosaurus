@@ -5,7 +5,7 @@ import {
   SwitchVerticalIcon,
 } from '@heroicons/react/solid'
 import clsx from 'clsx'
-import React, { useCallback } from 'react'
+import React from 'react'
 import type { DropResult } from 'react-beautiful-dnd'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useDispatch } from 'react-redux'
@@ -43,25 +43,22 @@ export function AppsPane(): JSX.Element {
 
   const installedApps = useInstalledApps()
 
-  const onDragEnd = useCallback(
-    (result: DropResult) => {
-      if (!result.destination) {
-        return
-      }
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return
+    }
 
-      if (result.destination.index === result.source.index) {
-        return
-      }
+    if (result.destination.index === result.source.index) {
+      return
+    }
 
-      dispatch(
-        reorderedApps({
-          source: result.source.index,
-          destination: result.destination.index,
-        }),
-      )
-    },
-    [dispatch],
-  )
+    dispatch(
+      reorderedApps({
+        sourceId: installedApps[result.source.index].id,
+        destinationId: installedApps[result.destination.index].id,
+      }),
+    )
+  }
 
   return (
     <Pane pane="apps">

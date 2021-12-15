@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
 
+import type { AppId } from '../../config/apps'
 import { CARROT_URL } from '../../config/CONSTANTS'
 import { backspaceUrlParse } from '../utils/backspace-url-parse'
 import {
@@ -7,6 +8,7 @@ import {
   clickedTabButton,
   gotAppVersion,
   gotDefaultBrowserStatus,
+  installedAppsRetrieved,
   pickerStarted,
   prefsStarted,
   pressedBackspaceKey,
@@ -27,6 +29,7 @@ export interface Data {
   pickerStarted: boolean
   prefsStarted: boolean
   prefsTab: PrefsTab
+  installedApps: AppId[]
 }
 
 const defaultData: Data = {
@@ -37,11 +40,16 @@ const defaultData: Data = {
   pickerStarted: false,
   prefsStarted: false,
   prefsTab: 'general',
+  installedApps: [],
 }
 
 export const data = createReducer<Data>(defaultData, (builder) =>
   builder
     .addCase(syncData, (_, action) => action.payload)
+
+    .addCase(installedAppsRetrieved, (state, action) => {
+      state.installedApps = action.payload
+    })
 
     .addCase(pickerStarted, (state) => {
       state.pickerStarted = true

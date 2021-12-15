@@ -19,18 +19,21 @@ export const useDeepEqualSelector: TypedUseSelectorHook<RootState> = (
 export interface InstalledApp {
   id: AppId
   name: Apps[AppId]['name']
-  privateArg?: string
-  urlTemplate?: string
   hotkey: string | null
 }
 
 export const useInstalledApps = (): InstalledApp[] => {
-  const installedAppIds = useDeepEqualSelector((state) => state.storage.apps)
-  return installedAppIds.map((installedApp) => ({
-    ...allApps[installedApp.id],
-    id: installedApp.id,
-    hotkey: installedApp.hotkey,
-  }))
+  const storedApps = useDeepEqualSelector((state) => state.storage.apps)
+  const installedApps = useDeepEqualSelector(
+    (state) => state.data.installedApps,
+  )
+  return storedApps
+    .filter((storedApp) => installedApps.includes(storedApp.id))
+    .map((storedApp) => ({
+      id: storedApp.id,
+      hotkey: storedApp.hotkey,
+      name: allApps[storedApp.id].name,
+    }))
 }
 
 export const useIsSupportMessageHidden = (): boolean => {

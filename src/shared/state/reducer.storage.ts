@@ -27,25 +27,19 @@ export const defaultStorage: Storage = {
 
 export const storage = createReducer<Storage>(defaultStorage, (builder) =>
   builder
-    .addCase(syncStorage, (state, action) => action.payload)
+    .addCase(syncStorage, (_, action) => action.payload)
 
     .addCase(installedAppsRetrieved, (state, action) => {
       const installedAppIds = action.payload
 
-      const installedStoredApps = state.apps.filter((storedApp) =>
-        installedAppIds.includes(storedApp.id),
-      )
-
-      const notStoredInstalledApps = installedAppIds
-        .filter(
-          (id) =>
-            !installedStoredApps
-              .map((installedStoredApp) => installedStoredApp.id)
-              .includes(id),
+      for (const installedAppId of installedAppIds) {
+        const installedAppInStorage = state.apps.some(
+          ({ id }) => id === installedAppId,
         )
-        .map((id) => ({ id, hotkey: null }))
-
-      state.apps = [...installedStoredApps, ...notStoredInstalledApps]
+        if (!installedAppInStorage) {
+          state.apps.push({ id: installedAppId, hotkey: null })
+        }
+      }
     })
 
     .addCase(changedHotkey, (state, action) => {
@@ -78,7 +72,13 @@ export const storage = createReducer<Storage>(defaultStorage, (builder) =>
     })
 
     .addCase(reorderedApps, (state, action) => {
-      const [removed] = state.apps.splice(action.payload.source, 1)
-      state.apps.splice(action.payload.destination, 0, removed)
+      const sourceIndex = state.apps.findIndex(
+        (app) => app.id === action.payload.sourceId,
+      )
+      const destinationIndex = state.apps.findIndex(
+        (app) => app.id === action.payload.destinationId,
+      )
+      const [removed] = state.apps.splice(sourceIndex, 1)
+      state.apps.splice(destinationIndex, 0, removed)
     }),
 )

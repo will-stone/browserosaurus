@@ -1,9 +1,8 @@
 import { app, Menu, Tray } from 'electron'
 import path from 'path'
 
-import { clickedRestorePicker } from '../shared/state/actions'
+import { clickedOpenPrefs, clickedRestorePicker } from '../shared/state/actions'
 import { dispatch } from './state/store'
-import { prefsWindow } from './windows'
 
 export let tray: Tray | undefined
 
@@ -30,7 +29,7 @@ export function createTray(): void {
       },
       {
         label: 'Preferences...',
-        click: () => prefsWindow?.show(),
+        click: () => dispatch(clickedOpenPrefs()),
       },
       {
         type: 'separator',

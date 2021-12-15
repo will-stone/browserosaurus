@@ -174,7 +174,14 @@ test('hold shift', () => {
 
 test('tiles order', () => {
   render(<Wrapper />)
+
   const win = new electron.BrowserWindow()
+
+  win.webContents.send(
+    Channel.MAIN,
+    syncStorage({ apps: [], supportMessage: -1, height: 200, firstRun: false }),
+  )
+
   win.webContents.send(
     Channel.MAIN,
     installedAppsRetrieved([
@@ -192,18 +199,28 @@ test('tiles order', () => {
 
   win.webContents.send(
     Channel.MAIN,
-    reorderedApps({ source: 1, destination: 0 }),
+    reorderedApps({
+      sourceId: 'com.apple.Safari',
+      destinationId: 'org.mozilla.firefox',
+    }),
   )
   win.webContents.send(
     Channel.MAIN,
-    reorderedApps({ source: 2, destination: 1 }),
+    reorderedApps({
+      sourceId: 'com.operasoftware.Opera',
+      destinationId: 'org.mozilla.firefox',
+    }),
   )
   win.webContents.send(
     Channel.MAIN,
-    reorderedApps({ source: 4, destination: 2 }),
+    reorderedApps({
+      sourceId: 'com.brave.Browser',
+      destinationId: 'org.mozilla.firefox',
+    }),
   )
 
   const updatedApps = screen.getAllByRole('button', { name: /[A-z]+ App/u })
+
   expect(updatedApps[0]).toHaveAttribute('aria-label', 'Safari App')
   expect(updatedApps[1]).toHaveAttribute('aria-label', 'Opera App')
   expect(updatedApps[2]).toHaveAttribute('aria-label', 'Brave App')

@@ -167,3 +167,7 @@ export function showPickerWindow(): void {
     pickerWindow.show()
   }
 }
+
+export function showPrefsWindow(): void {
+  prefsWindow?.show()
+}

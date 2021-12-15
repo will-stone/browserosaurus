@@ -14,6 +14,7 @@ import {
   clickedApp,
   clickedHomepageButton,
   clickedOpenIssueButton,
+  clickedOpenPrefs,
   clickedRescanApps,
   clickedRestorePicker,
   clickedSetAsDefaultBrowserButton,
@@ -46,6 +47,7 @@ import {
   pickerWindow,
   prefsWindow,
   showPickerWindow,
+  showPrefsWindow,
 } from '../windows'
 import { checkForUpdate } from './thunk.check-for-update'
 import { getInstalledAppIds } from './thunk.get-installed-app-ids'
@@ -130,8 +132,6 @@ export const actionHubMiddleware =
       // Is default browser?
       dispatch(gotDefaultBrowserStatus(app.isDefaultProtocolClient('http')))
 
-      // FIX casting when I know how to correctly type this dispatch to allow thunks
-      dispatch(getInstalledAppIds() as unknown as AnyAction)
       createWindows()
       createTray()
       dispatch(checkForUpdate() as unknown as AnyAction)
@@ -228,12 +228,32 @@ export const actionHubMiddleware =
 
     // Open URL
     else if (urlOpened.match(action)) {
+      if (nextState.data.installedApps.length === 0) {
+        // FIX casting when I know how to correctly type this dispatch to allow thunks
+        dispatch(getInstalledAppIds() as unknown as AnyAction)
+      }
+
       showPickerWindow()
     }
 
     // Tray: restore picker
     else if (clickedRestorePicker.match(action)) {
+      if (nextState.data.installedApps.length === 0) {
+        // FIX casting when I know how to correctly type this dispatch to allow thunks
+        dispatch(getInstalledAppIds() as unknown as AnyAction)
+      }
+
       showPickerWindow()
+    }
+
+    // Tray: open prefs
+    else if (clickedOpenPrefs.match(action)) {
+      if (nextState.data.installedApps.length === 0) {
+        // FIX casting when I know how to correctly type this dispatch to allow thunks
+        dispatch(getInstalledAppIds() as unknown as AnyAction)
+      }
+
+      showPrefsWindow()
     }
 
     // Open homepage

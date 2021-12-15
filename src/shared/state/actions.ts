@@ -21,7 +21,10 @@ const urlOpened = cA<string>(`${MAIN}/urlOpened`)
 const pickerWindowBoundsChanged = cA<Rectangle>(
   `${MAIN}/pickerWinBoundsChanged`,
 )
+
+const installedAppsScanning = cA(`${MAIN}/installedAppsScanning`)
 const installedAppsRetrieved = cA<AppId[]>(`${MAIN}/installedAppsRetrieved`)
+
 const syncData = cA<Data>(`${MAIN}/syncData`)
 const syncStorage = cA<Storage>(`${MAIN}/syncStorage`)
 
@@ -33,6 +36,7 @@ const updateDownloading = cA(`${MAIN}/updateDownloading`)
 const updateDownloaded = cA(`${MAIN}/updateDownloaded`)
 
 const clickedRestorePicker = cA(`${MAIN}/clickedRestorePicker`)
+const clickedOpenPrefs = cA(`${MAIN}/clickedOpenPrefs`)
 
 // -----------------------------------------------------------------------------
 // PICKER
@@ -89,7 +93,7 @@ const changedHotkey = cA<{ appId: AppId; value: string }>(
 const clickedHomepageButton = cA(`${PREFS}/clickedHomepageButton`)
 const clickedOpenIssueButton = cA(`${PREFS}/clickedOpenIssueButton`)
 
-const reorderedApps = cA<{ source: number; destination: number }>(
+const reorderedApps = cA<{ sourceId: AppId; destinationId: AppId }>(
   `${PREFS}/reorderedApps`,
 )
 
@@ -101,6 +105,7 @@ export {
   clickedHomepageButton,
   clickedMaybeLater,
   clickedOpenIssueButton,
+  clickedOpenPrefs,
   clickedRescanApps,
   clickedRestorePicker,
   clickedSetAsDefaultBrowserButton,
@@ -111,6 +116,7 @@ export {
   gotAppVersion,
   gotDefaultBrowserStatus,
   installedAppsRetrieved,
+  installedAppsScanning,
   keydown,
   pickerStarted,
   pickerWindowBoundsChanged,
