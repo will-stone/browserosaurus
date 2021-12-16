@@ -225,5 +225,5 @@ test('tiles order', () => {
   expect(updatedApps[1]).toHaveAttribute('aria-label', 'Opera App')
   expect(updatedApps[2]).toHaveAttribute('aria-label', 'Brave App')
   expect(updatedApps[3]).toHaveAttribute('aria-label', 'Firefox App')
-  expect(updatedApps[4]).toHaveAttribute('aria-label', 'Microsoft Edge App')
+  expect(updatedApps[4]).toHaveAttribute('aria-label', 'Edge App')
 })

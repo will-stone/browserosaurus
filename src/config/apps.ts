@@ -62,34 +62,6 @@ export const apps = {
     privateArg: '--incognito',
     logo: braveNightly,
   },
-  'org.chromium.Chromium': {
-    name: 'Chromium',
-    privateArg: '--incognito',
-    logo: chromium,
-  },
-  'com.gab.Dissenter': {
-    name: 'Dissenter',
-    logo: dissenter,
-  },
-  'net.kassett.finicky': {
-    name: 'Finicky',
-    logo: finicky,
-  },
-  'org.mozilla.firefox': {
-    name: 'Firefox',
-    privateArg: '--private-window',
-    logo: firefox,
-  },
-  'org.mozilla.firefoxdeveloperedition': {
-    name: 'Firefox Dev',
-    privateArg: '--private-window',
-    logo: firefoxDevEdition,
-  },
-  'org.mozilla.nightly': {
-    name: 'Firefox Nightly',
-    privateArg: '--private-window',
-    logo: firefoxNightly,
-  },
   'com.google.Chrome': {
     name: 'Chrome',
     privateArg: '--incognito',
@@ -110,17 +82,14 @@ export const apps = {
     privateArg: '--incognito',
     logo: chromeDev,
   },
-  'de.iridiumbrowser': {
-    name: 'Iridium',
-    logo: iridium,
+  'org.chromium.Chromium': {
+    name: 'Chromium',
+    privateArg: '--incognito',
+    logo: chromium,
   },
-  'io.gitlab.librewolf-community.librewolf': {
-    name: 'Librewolf',
-    logo: librewolf,
-  },
-  'com.maxthon.mac.Maxthon': {
-    name: 'Maxthon',
-    logo: maxthon,
+  'com.gab.Dissenter': {
+    name: 'Dissenter',
+    logo: dissenter,
   },
   'com.microsoft.edgemac': {
     name: 'Edge',
@@ -137,6 +106,37 @@ export const apps = {
   'com.microsoft.edgemac.Dev': {
     name: 'Edge Dev',
     logo: edgeDev,
+  },
+  'net.kassett.finicky': {
+    name: 'Finicky',
+    logo: finicky,
+  },
+  'org.mozilla.firefox': {
+    name: 'Firefox',
+    privateArg: '--private-window',
+    logo: firefox,
+  },
+  'org.mozilla.firefoxdeveloperedition': {
+    name: 'Firefox Dev',
+    privateArg: '--private-window',
+    logo: firefoxDevEdition,
+  },
+  'org.mozilla.nightly': {
+    name: 'Firefox Nightly',
+    privateArg: '--private-window',
+    logo: firefoxNightly,
+  },
+  'de.iridiumbrowser': {
+    name: 'Iridium',
+    logo: iridium,
+  },
+  'io.gitlab.librewolf-community.librewolf': {
+    name: 'Librewolf',
+    logo: librewolf,
+  },
+  'com.maxthon.mac.Maxthon': {
+    name: 'Maxthon',
+    logo: maxthon,
   },
   'com.electron.min': {
     name: 'Min',
