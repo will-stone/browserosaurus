@@ -22,7 +22,6 @@ const pickerWindowBoundsChanged = cA<Rectangle>(
   `${MAIN}/pickerWinBoundsChanged`,
 )
 
-const installedAppsScanning = cA(`${MAIN}/installedAppsScanning`)
 const installedAppsRetrieved = cA<AppId[]>(`${MAIN}/installedAppsRetrieved`)
 
 const syncData = cA<Data>(`${MAIN}/syncData`)
@@ -116,7 +115,6 @@ export {
   gotAppVersion,
   gotDefaultBrowserStatus,
   installedAppsRetrieved,
-  installedAppsScanning,
   keydown,
   pickerStarted,
   pickerWindowBoundsChanged,

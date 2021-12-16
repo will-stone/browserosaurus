@@ -14,6 +14,7 @@ import { apps } from '../../../../config/apps'
 import { changedHotkey, reorderedApps } from '../../../../shared/state/actions'
 import { useInstalledApps } from '../../../../shared/state/hooks'
 import Input from '../../../shared/components/atoms/input'
+import { Spinner } from '../../../shared/components/atoms/spinner'
 import { Pane } from '../molecules/pane'
 
 interface DragDirectionArrowProps {
@@ -62,6 +63,12 @@ export function AppsPane(): JSX.Element {
 
   return (
     <Pane pane="apps">
+      {installedApps.length === 0 && (
+        <div className="flex justify-center items-center h-full">
+          <Spinner />
+        </div>
+      )}
+
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(droppableProvided) => (

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 
 import { pickerStarted } from '../../../shared/state/actions'
 import { useInstalledApps } from '../../../shared/state/hooks'
+import { Spinner } from '../../shared/components/atoms/spinner'
 import { favAppRef } from '../refs'
 import AppLogo from './atoms/app-logo'
 import Kbd from './atoms/kbd'
@@ -33,6 +34,11 @@ const App: React.FC = () => {
 
   return (
     <div className="h-screen w-screen select-none flex flex-col items-center relative dark:text-white">
+      {!favApp && (
+        <div className="flex justify-center items-center h-full">
+          <Spinner />
+        </div>
+      )}
       <div className="flex-grow w-full flex relative overflow-hidden px-4 pt-2 space-x-4">
         <div className="flex-shrink-0 pt-2 pb-4">
           {favApp && (

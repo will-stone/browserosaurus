@@ -1,15 +1,11 @@
 import sleep from 'tings/sleep'
 
 import { apps } from '../../config/apps'
-import {
-  installedAppsRetrieved,
-  installedAppsScanning,
-} from '../../shared/state/actions'
+import { installedAppsRetrieved } from '../../shared/state/actions'
 import type { AppThunk } from '../../shared/state/reducer.root'
 import { filterAppsByInstalled } from '../utils/filter-apps-by-installed'
 
 export const getInstalledAppIds = (): AppThunk => async (dispatch) => {
-  dispatch(installedAppsScanning())
   const installedApps = await filterAppsByInstalled(apps)
   // It appears that sometimes the installed app IDs are not fetched, maybe a
   // race with Spotlight index? So if none found, keep retrying.

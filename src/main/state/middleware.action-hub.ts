@@ -228,32 +228,32 @@ export const actionHubMiddleware =
 
     // Open URL
     else if (urlOpened.match(action)) {
+      showPickerWindow()
+
       if (nextState.data.installedApps.length === 0) {
         // FIX casting when I know how to correctly type this dispatch to allow thunks
         dispatch(getInstalledAppIds() as unknown as AnyAction)
       }
-
-      showPickerWindow()
     }
 
     // Tray: restore picker
     else if (clickedRestorePicker.match(action)) {
+      showPickerWindow()
+
       if (nextState.data.installedApps.length === 0) {
         // FIX casting when I know how to correctly type this dispatch to allow thunks
         dispatch(getInstalledAppIds() as unknown as AnyAction)
       }
-
-      showPickerWindow()
     }
 
     // Tray: open prefs
     else if (clickedOpenPrefs.match(action)) {
+      showPrefsWindow()
+
       if (nextState.data.installedApps.length === 0) {
         // FIX casting when I know how to correctly type this dispatch to allow thunks
         dispatch(getInstalledAppIds() as unknown as AnyAction)
       }
-
-      showPrefsWindow()
     }
 
     // Open homepage
