@@ -13,7 +13,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16.13.x
-      - run: npm install --no-audit
+      - run: npm ci --audit false
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run test
