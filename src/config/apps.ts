@@ -81,7 +81,7 @@ export const apps = {
     logo: firefox,
   },
   'org.mozilla.firefoxdeveloperedition': {
-    name: 'Firefox Developer Edition',
+    name: 'Firefox Dev',
     privateArg: '--private-window',
     logo: firefoxDevEdition,
   },
@@ -91,22 +91,22 @@ export const apps = {
     logo: firefoxNightly,
   },
   'com.google.Chrome': {
-    name: 'Google Chrome',
+    name: 'Chrome',
     privateArg: '--incognito',
     logo: chrome,
   },
   'com.google.Chrome.beta': {
-    name: 'Google Chrome Beta',
+    name: 'Chrome Beta',
     privateArg: '--incognito',
     logo: chromeBeta,
   },
   'com.google.Chrome.canary': {
-    name: 'Google Chrome Canary',
+    name: 'Chrome Canary',
     privateArg: '--incognito',
     logo: chromeCanary,
   },
   'com.google.Chrome.dev': {
-    name: 'Google Chrome Dev',
+    name: 'Chrome Dev',
     privateArg: '--incognito',
     logo: chromeDev,
   },
@@ -123,19 +123,19 @@ export const apps = {
     logo: maxthon,
   },
   'com.microsoft.edgemac': {
-    name: 'Microsoft Edge',
+    name: 'Edge',
     logo: edge,
   },
   'com.microsoft.edgemac.Beta': {
-    name: 'Microsoft Edge Beta',
+    name: 'Edge Beta',
     logo: edgeBeta,
   },
   'com.microsoft.edgemac.Canary': {
-    name: 'Microsoft Edge Canary',
+    name: 'Edge Canary',
     logo: edgeCanary,
   },
   'com.microsoft.edgemac.Dev': {
-    name: 'Microsoft Edge Dev',
+    name: 'Edge Dev',
     logo: edgeDev,
   },
   'com.electron.min': {
@@ -155,7 +155,7 @@ export const apps = {
     logo: operaBeta,
   },
   'com.operasoftware.OperaDeveloper': {
-    name: 'Opera Developer',
+    name: 'Opera Dev',
     logo: operaDeveloper,
   },
   'com.operasoftware.OperaGX': {
@@ -188,7 +188,7 @@ export const apps = {
     logo: safari,
   },
   'com.apple.SafariTechnologyPreview': {
-    name: 'Safari Technology Preview',
+    name: 'Safari TP',
     logo: safariTechnologyPreview,
   },
   'com.spotify.client': {
@@ -196,7 +196,7 @@ export const apps = {
     logo: spotify,
   },
   'org.torproject.torbrowser': {
-    name: 'Tor Browser',
+    name: 'Tor',
     logo: tor,
   },
   'com.vivaldi.Vivaldi': {
