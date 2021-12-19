@@ -11,6 +11,9 @@ const STORAGE_FILE = path.join(app.getPath('userData'), 'store.json')
 
 const adapter = new JSONFileSync<Storage>(STORAGE_FILE)
 const database = new LowSync<Storage>(adapter)
+database.read()
+database.data ||= defaultStorage
+database.write()
 
 /**
  * Keyboard shortcuts
