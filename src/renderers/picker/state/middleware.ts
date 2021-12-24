@@ -1,7 +1,11 @@
 /* eslint-disable unicorn/prefer-regexp-test */
 import type { AnyAction, Middleware } from '@reduxjs/toolkit'
 
-import { clickedRestorePicker, urlOpened } from '../../../shared/state/actions'
+import {
+  clickedRestorePicker,
+  installedAppsRetrieved,
+  urlOpened,
+} from '../../../shared/state/actions'
 import type { RootState } from '../../../shared/state/reducer.root'
 import { favAppRef } from '../refs'
 
@@ -23,7 +27,11 @@ export const pickerMiddleware =
     // eslint-disable-next-line node/callback-return -- must flush to get nextState
     const result = next(action)
 
-    if (urlOpened.match(action) || clickedRestorePicker.match(action)) {
+    if (
+      urlOpened.match(action) ||
+      clickedRestorePicker.match(action) ||
+      installedAppsRetrieved.match(action)
+    ) {
       favAppRef.current?.focus()
     }
 
