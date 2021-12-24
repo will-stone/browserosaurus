@@ -4,7 +4,6 @@ open to ideas.
 - [New apps/browsers](docs/supporting-a-browser-or-app.md)
 - [Bugs](https://github.com/will-stone/browserosaurus/issues)
 - [Feature requests](https://github.com/will-stone/browserosaurus/discussions/categories/ideas)
-- [FAQ](docs/faq.md)
 - [Help](https://github.com/will-stone/browserosaurus/discussions/categories/q-a)
 
 If you request a new feature that I do not consider a good fit for the project,

@@ -25,8 +25,8 @@ brew install --cask browserosaurus
 ```
 
 > 🚨 **Please note that Browserosaurus only officially supports the version of
-> macOS that I currently use, see
-> [here](docs/faq.md#which-is-the-supported-version-of-macos) for details.**
+> macOS that I currently use, which you can assume to be the latest stable
+> version.**
 
 ## Help
 
@@ -38,9 +38,10 @@ please see the documentation below or open a
 ## Documentation
 
 - [Changelog](https://github.com/will-stone/browserosaurus/releases)
-- [Frequently asked questions](docs/faq.md)
+- [Help](https://github.com/will-stone/browserosaurus/discussions/categories/q-a)
 - [Supporting a new browser or app](docs/supporting-a-browser-or-app.md)
 - [Setting up for development](docs/setting-up-for-development.md)
+- [Privacy policy](docs/privacy.md)
 
 For the maintainer:
 

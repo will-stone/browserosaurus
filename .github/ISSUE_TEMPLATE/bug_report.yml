@@ -12,12 +12,13 @@ body:
         - label: I have searched the existing issues
           required: true
         - label:
-            I have checked the
-            [FAQ](https://github.com/will-stone/browserosaurus/blob/master/docs/faq.md)
+            I have searched the [discussions
+            forum](https://github.com/will-stone/browserosaurus/discussions)
           required: true
         - label:
-            I understand this form is not for requesting support for new
-            browsers or apps
+            I understand this form is for reporting bugs, and not for requesting
+            [support for new browsers or
+            apps](https://github.com/will-stone/browserosaurus/blob/master/docs/supporting-a-browser-or-app.md).
           required: true
   - type: textarea
     attributes:
