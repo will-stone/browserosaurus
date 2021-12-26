@@ -4,3 +4,4 @@ out
 .webpack
 .env
 .npmrc
+.idea
