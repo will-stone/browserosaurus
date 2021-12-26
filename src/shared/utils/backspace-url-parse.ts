@@ -16,6 +16,7 @@ export function backspaceUrlParse(url: string): string {
     if (search) {
       const searchParameters = new URLSearchParams(search)
       const searchParametersArray: string[] = []
+
       for (const [key, value] of searchParameters.entries()) {
         searchParametersArray.push(`${key}=${value}`)
       }
@@ -39,6 +40,7 @@ export function backspaceUrlParse(url: string): string {
 
     if (pathname && pathname !== '/') {
       const pathnameArray = pathname.split('/').filter(Boolean)
+
       if (pathnameArray.length > 1) {
         const minusLast = pathnameArray.slice(0, -1)
         const pathnameString = minusLast.join('/')

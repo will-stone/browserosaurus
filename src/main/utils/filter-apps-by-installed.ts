@@ -8,6 +8,7 @@ import { getKeys } from '../../shared/utils/get-keys'
  */
 export async function filterAppsByInstalled(apps: Apps): Promise<AppId[]> {
   const installedAppIds: AppId[] = []
+
   for await (const appId of getKeys(apps)) {
     if (await appExists(appId)) {
       installedAppIds.push(appId)

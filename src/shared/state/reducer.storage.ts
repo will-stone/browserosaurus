@@ -36,6 +36,7 @@ export const storage = createReducer<Storage>(defaultStorage, (builder) =>
         const installedAppInStorage = state.apps.some(
           ({ id }) => id === installedAppId,
         )
+
         if (!installedAppInStorage) {
           state.apps.push({ id: installedAppId, hotkey: null })
         }

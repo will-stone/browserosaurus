@@ -33,6 +33,7 @@ const keyboardEvent =
     // ⌘C
     else if (event.metaKey && virtualKey === 'c') {
       event.preventDefault()
+
       if (url) {
         dispatch(pressedCopyKey(url))
       }
@@ -42,6 +43,7 @@ const keyboardEvent =
     else if (!event.metaKey && /^([a-z0-9])$/u.test(virtualKey)) {
       event.preventDefault()
       const foundApp = apps.find((app) => app.hotkey === virtualKey)
+
       if (foundApp) {
         dispatch(
           pressedAppKey({
