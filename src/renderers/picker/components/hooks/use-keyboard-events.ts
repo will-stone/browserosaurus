@@ -39,8 +39,8 @@ const keyboardEvent =
       }
     }
 
-    // App hotkey
-    else if (!event.metaKey && /^([a-z0-9])$/u.test(virtualKey)) {
+    // App hotkey -- no modifier key held AND is alphanumeric
+    else if (!event.metaKey && /[a-z0-9]/u.test(virtualKey)) {
       event.preventDefault()
       const foundApp = apps.find((app) => app.hotkey === virtualKey)
 
