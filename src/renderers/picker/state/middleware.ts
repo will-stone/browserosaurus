@@ -2,6 +2,8 @@
 import type { AnyAction, Middleware } from '@reduxjs/toolkit'
 
 import {
+  clickedDonate,
+  clickedMaybeLater,
   clickedRestorePicker,
   installedAppsRetrieved,
   urlOpened,
@@ -30,7 +32,9 @@ export const pickerMiddleware =
     if (
       urlOpened.match(action) ||
       clickedRestorePicker.match(action) ||
-      installedAppsRetrieved.match(action)
+      installedAppsRetrieved.match(action) ||
+      clickedDonate.match(action) ||
+      clickedMaybeLater.match(action)
     ) {
       favAppRef.current?.focus()
     }
