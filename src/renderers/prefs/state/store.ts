@@ -1,9 +1,9 @@
 import type { AnyAction } from '@reduxjs/toolkit'
 
-import { Channel } from '../../shared/state/channels'
-import createStore from '../../shared/state/create-store'
-import { customWindow } from '../shared/custom.window'
-import { busMiddleware } from '../shared/state/middleware.bus'
+import { Channel } from '../../../shared/state/channels'
+import createStore from '../../../shared/state/create-store'
+import { customWindow } from '../../shared/custom.window'
+import { busMiddleware } from '../../shared/state/middleware.bus'
 
 const store = createStore([busMiddleware(Channel.PREFS)])
 
