@@ -11,10 +11,11 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useDispatch } from 'react-redux'
 
 import { apps } from '../../../../config/apps'
-import { changedHotkey, reorderedApps } from '../../../../shared/state/actions'
+import { changedHotCode, reorderedApps } from '../../../../shared/state/actions'
 import { useInstalledApps } from '../../../../shared/state/hooks'
 import Input from '../../../shared/components/atoms/input'
 import { Spinner } from '../../../shared/components/atoms/spinner'
+import { useKeyCodeMap } from '../../../shared/state/hooks'
 import { Pane } from '../molecules/pane'
 
 interface DragDirectionArrowProps {
@@ -61,6 +62,8 @@ export function AppsPane(): JSX.Element {
     )
   }
 
+  const keyCodeMap = useKeyCodeMap()
+
   return (
     <Pane pane="apps">
       {installedApps.length === 0 && (
@@ -77,7 +80,7 @@ export function AppsPane(): JSX.Element {
               className="overflow-y-auto p-2"
               {...droppableProvided.droppableProps}
             >
-              {installedApps.map(({ id, name, hotkey }, index) => (
+              {installedApps.map(({ id, name, hotCode }, index) => (
                 <Draggable key={id} draggableId={id} index={index}>
                   {(draggableProvided, draggableSnapshot) => (
                     <div
@@ -127,20 +130,20 @@ export function AppsPane(): JSX.Element {
                           data-app-id={id}
                           maxLength={1}
                           minLength={0}
-                          onChange={(event) => {
-                            dispatch(
-                              changedHotkey({
-                                appId: id,
-                                value: event.currentTarget.value,
-                              }),
-                            )
-                          }}
                           onFocus={(event) => {
                             event.target.select()
                           }}
+                          onKeyPress={(event) => {
+                            dispatch(
+                              changedHotCode({
+                                appId: id,
+                                value: event.code,
+                              }),
+                            )
+                          }}
                           placeholder="Key"
                           type="text"
-                          value={hotkey || ''}
+                          value={keyCodeMap[hotCode || ''] || ''}
                         />
                       </div>
                     </div>

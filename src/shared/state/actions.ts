@@ -11,6 +11,8 @@ const MAIN = Channel.MAIN
 const PICKER = Channel.PICKER
 const PREFS = Channel.PREFS
 
+// TODO move channel to an action parameter, and inject it before sending through the buses
+
 // -----------------------------------------------------------------------------
 // MAIN
 // -----------------------------------------------------------------------------
@@ -70,6 +72,10 @@ const clickedUrlBar = cA(`${PICKER}/clickedUrlBar`)
 const clickedDonate = cA(`${PICKER}/clickedDonate`)
 const clickedMaybeLater = cA(`${PICKER}/clickedMaybeLater`)
 
+const gotPickerKeyLayoutMap = cA<Record<string, string>>(
+  `${PICKER}/gotKeyLayoutMap`,
+)
+
 // -----------------------------------------------------------------------------
 // PREFS
 // -----------------------------------------------------------------------------
@@ -85,8 +91,8 @@ const clickedRescanApps = cA(`${PREFS}/clickedRescanApps`)
 const clickedUpdateButton = cA(`${PREFS}/clickedUpdateButton`)
 const clickedUpdateRestartButton = cA(`${PREFS}/clickedUpdateRestartButton`)
 
-const changedHotkey = cA<{ appId: AppId; value: string }>(
-  `${PREFS}/changedHotkey`,
+const changedHotCode = cA<{ appId: AppId; value: string }>(
+  `${PREFS}/changedHotCode`,
 )
 
 const clickedHomepageButton = cA(`${PREFS}/clickedHomepageButton`)
@@ -96,9 +102,13 @@ const reorderedApps = cA<{ sourceId: AppId; destinationId: AppId }>(
   `${PREFS}/reorderedApps`,
 )
 
+const gotPrefsKeyLayoutMap = cA<Record<string, string>>(
+  `${PREFS}/gotKeyLayoutMap`,
+)
+
 export {
   appReady,
-  changedHotkey,
+  changedHotCode,
   clickedApp,
   clickedDonate,
   clickedHomepageButton,
@@ -114,6 +124,8 @@ export {
   clickedUrlBar,
   gotAppVersion,
   gotDefaultBrowserStatus,
+  gotPickerKeyLayoutMap,
+  gotPrefsKeyLayoutMap,
   installedAppsRetrieved,
   keydown,
   pickerStarted,

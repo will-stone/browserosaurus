@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { pickerStarted } from '../../../shared/state/actions'
 import { useInstalledApps } from '../../../shared/state/hooks'
 import { Spinner } from '../../shared/components/atoms/spinner'
+import { useKeyCodeMap } from '../../shared/state/hooks'
 import { favAppRef } from '../refs'
 import AppLogo from './atoms/app-logo'
 import Kbd from './atoms/kbd'
@@ -32,6 +33,8 @@ const App: React.FC = () => {
 
   const [favApp, ...normalApps] = useInstalledApps()
 
+  const keyCodeMap = useKeyCodeMap()
+
   return (
     <div className="h-screen w-screen select-none flex flex-col items-center relative dark:text-white">
       {!favApp && (
@@ -49,7 +52,9 @@ const App: React.FC = () => {
             >
               <AppLogo app={favApp} className="h-20 w-20 mb-2" />
               <span>{favApp.name}</span>
-              {favApp.hotkey && <Kbd className="mt-2">{favApp.hotkey}</Kbd>}
+              {favApp.hotCode && (
+                <Kbd className="mt-2">{keyCodeMap[favApp.hotCode]}</Kbd>
+              )}
             </AppButton>
           )}
         </div>
@@ -64,8 +69,8 @@ const App: React.FC = () => {
                 className="flex-shrink-0 flex items-center text-left px-4 py-3 space-x-4 w-full"
               >
                 <AppLogo app={app} className="flex-shrink-0 h-8 w-8" />
-                {app.hotkey && (
-                  <Kbd className="flex-shrink-0">{app.hotkey}</Kbd>
+                {app.hotCode && (
+                  <Kbd className="flex-shrink-0">{keyCodeMap[app.hotCode]}</Kbd>
                 )}
                 <span>{app.name}</span>
               </AppButton>

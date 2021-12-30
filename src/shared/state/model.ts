@@ -7,6 +7,4 @@ export type Middleware = (api: {
   getState: () => RootState
 }) => (
   next: Dispatch<AnyAction>,
-) => (
-  event: AnyAction,
-) => Promise<ReturnType<Dispatch<AnyAction>>> | ReturnType<Dispatch<AnyAction>>
+) => (event: AnyAction) => ReturnType<Dispatch<AnyAction>>

@@ -2,8 +2,10 @@ import '../../../shared/preload'
 
 import { fireEvent, render, screen } from '@testing-library/react'
 import electron from 'electron'
+import cloneDeep from 'lodash/cloneDeep'
 import React from 'react'
 
+import { keyLayout } from '../../../../../__fixtures__/key-layout'
 import {
   clickedApp,
   installedAppsRetrieved,
@@ -13,7 +15,25 @@ import {
   urlOpened,
 } from '../../../../shared/state/actions'
 import { Channel } from '../../../../shared/state/channels'
+import { customWindow } from '../../../shared/custom.window'
 import Wrapper from '../_bootstrap'
+
+const originalNavigator = cloneDeep(customWindow.navigator)
+
+beforeAll(() => {
+  customWindow.navigator = {
+    ...customWindow.navigator,
+    keyboard: {
+      getLayoutMap: jest
+        .fn()
+        .mockResolvedValue({ entries: jest.fn().mockReturnValue(keyLayout) }),
+    },
+  }
+})
+
+afterAll(() => {
+  customWindow.navigator = originalNavigator
+})
 
 test('apps', () => {
   render(<Wrapper />)
@@ -42,9 +62,9 @@ test('apps', () => {
     Channel.MAIN,
     syncStorage({
       apps: [
-        { id: 'org.mozilla.firefox', hotkey: null },
-        { id: 'com.apple.Safari', hotkey: null },
-        { id: 'com.brave.Browser.nightly', hotkey: null },
+        { id: 'org.mozilla.firefox', hotkey: null, hotCode: null },
+        { id: 'com.apple.Safari', hotkey: null, hotCode: null },
+        { id: 'com.brave.Browser.nightly', hotkey: null, hotCode: null },
       ],
       supportMessage: -1,
       height: 200,
@@ -91,7 +111,7 @@ test('use hotkey', () => {
   win.webContents.send(
     Channel.MAIN,
     syncStorage({
-      apps: [{ id: 'com.apple.Safari', hotkey: 's' }],
+      apps: [{ id: 'com.apple.Safari', hotkey: 's', hotCode: 'KeyS' }],
       supportMessage: -1,
       height: 200,
       firstRun: false,
@@ -123,7 +143,7 @@ test('use hotkey with alt', () => {
   win.webContents.send(
     Channel.MAIN,
     syncStorage({
-      apps: [{ id: 'com.apple.Safari', hotkey: 's' }],
+      apps: [{ id: 'com.apple.Safari', hotkey: 's', hotCode: 'KeyS' }],
       supportMessage: -1,
       height: 200,
       firstRun: false,

@@ -6,7 +6,10 @@ import { customWindow } from '../../shared/custom.window'
 import { busMiddleware } from '../../shared/state/middleware.bus'
 import { pickerMiddleware } from './middleware'
 
-const store = createStore([busMiddleware(Channel.PICKER), pickerMiddleware()])
+const store = createStore([
+  busMiddleware(Channel.PICKER),
+  pickerMiddleware(Channel.PICKER),
+])
 
 export default store
 

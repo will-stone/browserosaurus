@@ -8,6 +8,8 @@ import {
   clickedTabButton,
   gotAppVersion,
   gotDefaultBrowserStatus,
+  gotPickerKeyLayoutMap,
+  gotPrefsKeyLayoutMap,
   installedAppsRetrieved,
   pickerStarted,
   prefsStarted,
@@ -30,6 +32,7 @@ export interface Data {
   prefsStarted: boolean
   prefsTab: PrefsTab
   installedApps: AppId[]
+  keyCodeMap: Record<string, string>
 }
 
 const defaultData: Data = {
@@ -41,6 +44,7 @@ const defaultData: Data = {
   prefsStarted: false,
   prefsTab: 'general',
   installedApps: [],
+  keyCodeMap: {},
 }
 
 export const data = createReducer<Data>(defaultData, (builder) =>
@@ -93,5 +97,13 @@ export const data = createReducer<Data>(defaultData, (builder) =>
 
     .addCase(clickedTabButton, (state, action) => {
       state.prefsTab = action.payload
+    })
+
+    .addCase(gotPickerKeyLayoutMap, (state, action) => {
+      state.keyCodeMap = action.payload
+    })
+
+    .addCase(gotPrefsKeyLayoutMap, (state, action) => {
+      state.keyCodeMap = action.payload
     }),
 )

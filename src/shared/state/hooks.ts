@@ -1,3 +1,4 @@
+// TODO move these to renderer shared
 import deepEqual from 'fast-deep-equal'
 import type { TypedUseSelectorHook } from 'react-redux'
 import { shallowEqual, useSelector as useReduxSelector } from 'react-redux'
@@ -20,6 +21,7 @@ export interface InstalledApp {
   id: AppId
   name: Apps[AppId]['name']
   hotkey: string | null
+  hotCode: string | null
 }
 
 export const useInstalledApps = (): InstalledApp[] => {
@@ -32,6 +34,7 @@ export const useInstalledApps = (): InstalledApp[] => {
     .map((storedApp) => ({
       id: storedApp.id,
       hotkey: storedApp.hotkey,
+      hotCode: storedApp.hotCode,
       name: allApps[storedApp.id].name,
     }))
 }

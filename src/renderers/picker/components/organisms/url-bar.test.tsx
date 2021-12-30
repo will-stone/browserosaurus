@@ -3,10 +3,13 @@ import '../../../shared/preload'
 import type { MatcherFunction } from '@testing-library/react'
 import { act, render, screen } from '@testing-library/react'
 import electron from 'electron'
+import cloneDeep from 'lodash/cloneDeep'
 import React from 'react'
 
+import { keyLayout } from '../../../../../__fixtures__/key-layout'
 import { urlOpened } from '../../../../shared/state/actions'
 import { Channel } from '../../../../shared/state/channels'
+import { customWindow } from '../../../shared/custom.window'
 import Wrapper from '../_bootstrap'
 
 const multiElementText =
@@ -19,6 +22,23 @@ const multiElementText =
 
     return nodeHasText && childrenDontHaveText
   }
+
+const originalNavigator = cloneDeep(customWindow.navigator)
+
+beforeAll(() => {
+  customWindow.navigator = {
+    ...customWindow.navigator,
+    keyboard: {
+      getLayoutMap: jest
+        .fn()
+        .mockResolvedValue({ entries: jest.fn().mockReturnValue(keyLayout) }),
+    },
+  }
+})
+
+afterAll(() => {
+  customWindow.navigator = originalNavigator
+})
 
 test('url bar', () => {
   render(<Wrapper />)

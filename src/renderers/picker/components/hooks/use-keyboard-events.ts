@@ -16,8 +16,7 @@ const keyboardEvent =
     const { apps } = getState().storage
 
     const virtualKey = event.key.toLowerCase()
-    // Not needed at the moment but useful to know
-    // const physicalKey = event.code.toLowerCase()
+    const physicalKey = event.code
 
     // Escape
     if (virtualKey === 'escape') {
@@ -39,12 +38,13 @@ const keyboardEvent =
       }
     }
 
-    // App hotkey -- no modifier key held AND is alphanumeric
-    else if (!event.metaKey && /^[a-z0-9]$/u.test(virtualKey)) {
-      event.preventDefault()
-      const foundApp = apps.find((app) => app.hotkey === virtualKey)
+    // App hotkey
+    else {
+      const foundApp = apps.find((app) => app.hotCode === physicalKey)
 
-      if (foundApp) {
+      if (!event.metaKey && foundApp) {
+        event.preventDefault()
+
         dispatch(
           pressedAppKey({
             url,

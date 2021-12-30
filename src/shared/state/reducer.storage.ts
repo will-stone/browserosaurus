@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit'
 
 import type { AppId } from '../../config/apps'
 import {
-  changedHotkey,
+  changedHotCode,
   clickedDonate,
   clickedMaybeLater,
   installedAppsRetrieved,
@@ -12,7 +12,7 @@ import {
 } from './actions'
 
 export interface Storage {
-  apps: { id: AppId; hotkey: string | null }[]
+  apps: { id: AppId; hotkey: string | null; hotCode: string | null }[]
   supportMessage: number
   firstRun: boolean
   height: number
@@ -38,26 +38,26 @@ export const storage = createReducer<Storage>(defaultStorage, (builder) =>
         )
 
         if (!installedAppInStorage) {
-          state.apps.push({ id: installedAppId, hotkey: null })
+          state.apps.push({ id: installedAppId, hotkey: null, hotCode: null })
         }
       }
     })
 
-    .addCase(changedHotkey, (state, action) => {
-      const lowerHotkey = action.payload.value.toLowerCase()
-      const appWithSameHotkeyIndex = state.apps.findIndex(
-        (app) => app.hotkey === lowerHotkey,
+    .addCase(changedHotCode, (state, action) => {
+      const hotCode = action.payload.value
+      const appWithSameHotCodeIndex = state.apps.findIndex(
+        (app) => app.hotCode === hotCode,
       )
 
-      if (appWithSameHotkeyIndex > -1) {
-        state.apps[appWithSameHotkeyIndex].hotkey = null
+      if (appWithSameHotCodeIndex > -1) {
+        state.apps[appWithSameHotCodeIndex].hotCode = null
       }
 
       const appIndex = state.apps.findIndex(
         (app) => app.id === action.payload.appId,
       )
 
-      state.apps[appIndex].hotkey = lowerHotkey
+      state.apps[appIndex].hotCode = hotCode
     })
 
     .addCase(clickedDonate, (state) => {
