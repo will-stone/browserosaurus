@@ -12,6 +12,6 @@ export type RootState = ReturnType<typeof rootReducer>
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,
-  unknown,
+  undefined,
   AnyAction
 >

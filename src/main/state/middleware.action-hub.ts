@@ -1,6 +1,5 @@
 /* eslint-disable node/callback-return -- must flush middleware to get nextState */
 /* eslint-disable unicorn/prefer-regexp-test -- rtk uses .match */
-import type { AnyAction, Middleware } from '@reduxjs/toolkit'
 import { execFile } from 'child_process'
 import { app, autoUpdater, Notification, shell } from 'electron'
 import deepEqual from 'fast-deep-equal'
@@ -35,7 +34,7 @@ import {
   updateDownloading,
   urlOpened,
 } from '../../shared/state/actions'
-import type { RootState } from '../../shared/state/reducer.root'
+import type { Middleware } from '../../shared/state/model'
 import { logger } from '../../shared/utils/logger'
 import { storage } from '../storage'
 import { createTray, tray } from '../tray'
@@ -56,14 +55,10 @@ import { getInstalledAppIds } from './thunk.get-installed-app-ids'
  * Actions that need to be dealt with by main.
  */
 export const actionHubMiddleware =
-  (): Middleware<
-    // Legacy type parameter added to satisfy interface signature
-    Record<string, unknown>,
-    RootState
-  > =>
+  (): Middleware =>
   ({ dispatch, getState }) =>
   (next) =>
-  (action: AnyAction) => {
+  (action) => {
     const previousState = getState()
 
     // Move to next middleware
@@ -134,7 +129,7 @@ export const actionHubMiddleware =
 
       createWindows()
       createTray()
-      dispatch(checkForUpdate() as unknown as AnyAction)
+      dispatch(checkForUpdate())
     }
 
     // When a renderer starts, send down all the local store for synchronisation
@@ -184,8 +179,7 @@ export const actionHubMiddleware =
 
     // Rescan for browsers
     else if (clickedRescanApps.match(action)) {
-      // FIX casting when I know how to correctly type this dispatch to allow thunks
-      dispatch(getInstalledAppIds() as unknown as AnyAction)
+      dispatch(getInstalledAppIds())
     }
 
     // Open app
@@ -193,7 +187,7 @@ export const actionHubMiddleware =
       const { appId, url = '', isAlt, isShift } = action.payload
 
       // Bail if app's bundle id is missing
-      if (!appId) return
+      if (!appId) return result
 
       const selectedApp = apps[appId]
 
@@ -231,8 +225,7 @@ export const actionHubMiddleware =
       showPickerWindow()
 
       if (nextState.data.installedApps.length === 0) {
-        // FIX casting when I know how to correctly type this dispatch to allow thunks
-        dispatch(getInstalledAppIds() as unknown as AnyAction)
+        dispatch(getInstalledAppIds())
       }
     }
 
@@ -241,8 +234,7 @@ export const actionHubMiddleware =
       showPickerWindow()
 
       if (nextState.data.installedApps.length === 0) {
-        // FIX casting when I know how to correctly type this dispatch to allow thunks
-        dispatch(getInstalledAppIds() as unknown as AnyAction)
+        dispatch(getInstalledAppIds())
       }
     }
 
@@ -251,8 +243,7 @@ export const actionHubMiddleware =
       showPrefsWindow()
 
       if (nextState.data.installedApps.length === 0) {
-        // FIX casting when I know how to correctly type this dispatch to allow thunks
-        dispatch(getInstalledAppIds() as unknown as AnyAction)
+        dispatch(getInstalledAppIds())
       }
     }
 

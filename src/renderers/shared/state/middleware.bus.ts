@@ -1,23 +1,15 @@
-import type { AnyAction, Middleware } from '@reduxjs/toolkit'
-
 import type { Channel } from '../../../shared/state/channels'
-import type { RootState } from '../../../shared/state/reducer.root'
+import type { Middleware } from '../../../shared/state/model'
 import { customWindow } from '../custom.window'
 
 /**
  * Pass actions between main and renderers
  */
 export const busMiddleware =
-  (
-    channel: Channel,
-  ): Middleware<
-    // Legacy type parameter added to satisfy interface signature
-    Record<string, unknown>,
-    RootState
-  > =>
+  (channel: Channel): Middleware =>
   () =>
   (next) =>
-  (action: AnyAction) => {
+  (action) => {
     /**
      * Move to next middleware
      */
