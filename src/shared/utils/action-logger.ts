@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 
 import {
-  bgGreen,
   bgLightBlue,
   bgLightMagenta,
+  bgLightYellow,
   black,
   bold,
   gray,
@@ -14,7 +14,7 @@ import { Channel } from '../state/channels'
 import type { FSA } from '../state/model'
 
 const channelColorMap = {
-  [Channel.MAIN]: bgGreen,
+  [Channel.MAIN]: bgLightYellow,
   [Channel.PREFS]: bgLightBlue,
   [Channel.PICKER]: bgLightMagenta,
 }
