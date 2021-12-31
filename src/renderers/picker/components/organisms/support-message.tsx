@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import { useIsSupportMessageHidden } from '../../../../shared/state/hooks'
+import { useIsSupportMessageHidden } from '../../../shared/state/hooks'
 import { clickedDonate, clickedMaybeLater } from '../../state/actions'
 
 const SupportMessage = (): JSX.Element => {

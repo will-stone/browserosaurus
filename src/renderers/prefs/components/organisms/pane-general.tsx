@@ -1,8 +1,8 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import { useSelector } from '../../../../shared/state/hooks'
 import Button from '../../../shared/components/atoms/button'
+import { useSelector } from '../../../shared/state/hooks'
 import {
   clickedRescanApps,
   clickedSetAsDefaultBrowserButton,

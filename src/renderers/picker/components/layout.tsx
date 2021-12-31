@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { useInstalledApps } from '../../../shared/state/hooks'
 import { Spinner } from '../../shared/components/atoms/spinner'
-import { useKeyCodeMap } from '../../shared/state/hooks'
+import { useInstalledApps, useKeyCodeMap } from '../../shared/state/hooks'
 import { favAppRef } from '../refs'
 import { pickerStarted } from '../state/actions'
 import AppLogo from './atoms/app-logo'

@@ -1,9 +1,9 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import { useSelector } from '../../../../shared/state/hooks'
 import icon from '../../../../shared/static/icon/icon.png'
 import Button from '../../../shared/components/atoms/button'
+import { useSelector } from '../../../shared/state/hooks'
 import {
   clickedHomepageButton,
   clickedOpenIssueButton,
