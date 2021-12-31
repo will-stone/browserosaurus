@@ -45,8 +45,7 @@ import {
   clickedRestorePicker,
   gotAppVersion,
   gotDefaultBrowserStatus,
-  syncData,
-  syncStorage,
+  syncReducers,
   updateAvailable,
   updateDownloaded,
   updateDownloading,
@@ -135,8 +134,7 @@ export const actionHubMiddleware =
 
     // When a renderer starts, send down all the local store for synchronisation
     else if (pickerStarted.match(action) || prefsStarted.match(action)) {
-      dispatch(syncData(nextState.data))
-      dispatch(syncStorage(nextState.storage))
+      dispatch(syncReducers(nextState))
     }
 
     // Copy to clipboard

@@ -1,4 +1,5 @@
 import type { Rectangle } from 'electron/main'
+import type { CombinedState } from 'redux'
 
 import type { AppId } from '../../config/apps'
 import type { Data } from '../../shared/state/reducer.data'
@@ -15,8 +16,8 @@ const pickerWindowBoundsChanged = cA<Rectangle>('picker-window/bounds-changed')
 
 const installedAppsRetrieved = cA<AppId[]>('installed-apps/returned')
 
-const syncData = cA<Data>('sync/data')
-const syncStorage = cA<Storage>('sync/storage')
+const syncReducers =
+  cA<CombinedState<{ data: Data; storage: Storage }>>('sync-reducers')
 
 const gotAppVersion = cA<string>('app-version/returned')
 const gotDefaultBrowserStatus = cA<boolean>('default-browser-status/returned')
@@ -36,8 +37,7 @@ export {
   gotDefaultBrowserStatus,
   installedAppsRetrieved,
   pickerWindowBoundsChanged,
-  syncData,
-  syncStorage,
+  syncReducers,
   updateAvailable,
   updateDownloaded,
   updateDownloading,

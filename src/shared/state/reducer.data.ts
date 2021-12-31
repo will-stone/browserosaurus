@@ -6,7 +6,7 @@ import {
   gotAppVersion,
   gotDefaultBrowserStatus,
   installedAppsRetrieved,
-  syncData,
+  syncReducers,
   updateAvailable,
   updateDownloaded,
   updateDownloading,
@@ -38,7 +38,7 @@ export interface Data {
   keyCodeMap: Record<string, string>
 }
 
-const defaultData: Data = {
+export const defaultData: Data = {
   version: '',
   updateStatus: 'no-update',
   isDefaultProtocolClient: true,
@@ -52,7 +52,7 @@ const defaultData: Data = {
 
 export const data = createReducer<Data>(defaultData, (builder) =>
   builder
-    .addCase(syncData, (_, action) => action.payload)
+    .addCase(syncReducers, (_, action) => action.payload.data)
 
     .addCase(installedAppsRetrieved, (state, action) => {
       state.installedApps = action.payload

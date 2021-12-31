@@ -8,10 +8,11 @@ import React from 'react'
 import { keyLayout } from '../../../../../__fixtures__/key-layout'
 import {
   installedAppsRetrieved,
-  syncStorage,
+  syncReducers,
   urlOpened,
 } from '../../../../main/state/actions'
 import { Channel } from '../../../../shared/state/channels'
+import { defaultData } from '../../../../shared/state/reducer.data'
 import { addChannelToAction } from '../../../../shared/utils/add-channel-to-action'
 import { reorderedApps } from '../../../prefs/state/actions'
 import { customWindow } from '../../../shared/custom.window'
@@ -60,15 +61,25 @@ test('apps', () => {
 
   win.webContents.send(
     Channel.MAIN,
-    syncStorage({
-      apps: [
-        { id: 'org.mozilla.firefox', hotkey: null, hotCode: null },
-        { id: 'com.apple.Safari', hotkey: null, hotCode: null },
-        { id: 'com.brave.Browser.nightly', hotkey: null, hotCode: null },
-      ],
-      supportMessage: -1,
-      height: 200,
-      firstRun: false,
+    syncReducers({
+      storage: {
+        apps: [
+          { id: 'org.mozilla.firefox', hotkey: null, hotCode: null },
+          { id: 'com.apple.Safari', hotkey: null, hotCode: null },
+          { id: 'com.brave.Browser.nightly', hotkey: null, hotCode: null },
+        ],
+        supportMessage: -1,
+        height: 200,
+        firstRun: false,
+      },
+      data: {
+        ...defaultData,
+        installedApps: [
+          'com.brave.Browser.nightly',
+          'org.mozilla.firefox',
+          'com.apple.Safari',
+        ],
+      },
     }),
   )
 
@@ -116,11 +127,14 @@ test('use hotkey', () => {
   )
   win.webContents.send(
     Channel.MAIN,
-    syncStorage({
-      apps: [{ id: 'com.apple.Safari', hotkey: 's', hotCode: 'KeyS' }],
-      supportMessage: -1,
-      height: 200,
-      firstRun: false,
+    syncReducers({
+      storage: {
+        apps: [{ id: 'com.apple.Safari', hotkey: 's', hotCode: 'KeyS' }],
+        supportMessage: -1,
+        height: 200,
+        firstRun: false,
+      },
+      data: defaultData,
     }),
   )
 
@@ -151,11 +165,14 @@ test('use hotkey with alt', () => {
 
   win.webContents.send(
     Channel.MAIN,
-    syncStorage({
-      apps: [{ id: 'com.apple.Safari', hotkey: 's', hotCode: 'KeyS' }],
-      supportMessage: -1,
-      height: 200,
-      firstRun: false,
+    syncReducers({
+      storage: {
+        apps: [{ id: 'com.apple.Safari', hotkey: 's', hotCode: 'KeyS' }],
+        supportMessage: -1,
+        height: 200,
+        firstRun: false,
+      },
+      data: defaultData,
     }),
   )
 
@@ -214,7 +231,15 @@ test('tiles order', () => {
 
   win.webContents.send(
     Channel.MAIN,
-    syncStorage({ apps: [], supportMessage: -1, height: 200, firstRun: false }),
+    syncReducers({
+      storage: {
+        apps: [],
+        supportMessage: -1,
+        height: 200,
+        firstRun: false,
+      },
+      data: defaultData,
+    }),
   )
 
   win.webContents.send(
