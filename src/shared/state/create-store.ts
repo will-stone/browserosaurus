@@ -1,6 +1,7 @@
 import type { AnyAction, CombinedState, EnhancedStore } from '@reduxjs/toolkit'
 import { configureStore } from '@reduxjs/toolkit'
 
+import type { Channel } from './channels'
 import { logMiddleware } from './middleware.log'
 import type { Middleware } from './model'
 import type { RootState } from './reducer.root'
@@ -12,13 +13,16 @@ type BoundaryType = EnhancedStore<
   Middleware[]
 >
 
-const createStore = (middleware: Middleware[]): BoundaryType =>
+const createStore = (
+  channel: Channel,
+  middleware: Middleware[],
+): BoundaryType =>
   configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => [
       ...getDefaultMiddleware(),
       ...middleware,
-      logMiddleware(),
+      logMiddleware(channel),
     ],
   })
 

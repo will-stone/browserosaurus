@@ -4,7 +4,7 @@ import path from 'path'
 import {
   gotDefaultBrowserStatus,
   pickerWindowBoundsChanged,
-} from '../shared/state/actions'
+} from './state/actions'
 import { dispatch } from './state/store'
 import { storage } from './storage'
 

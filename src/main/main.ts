@@ -1,8 +1,8 @@
 import type { AnyAction } from '@reduxjs/toolkit'
 import electron, { app } from 'electron'
 
-import { appReady } from '../shared/state/actions'
 import { Channel } from '../shared/state/channels'
+import { appReady } from './state/actions'
 import { dispatch } from './state/store'
 import { urlOpener } from './state/thunk.url-opener'
 import { storage } from './storage'

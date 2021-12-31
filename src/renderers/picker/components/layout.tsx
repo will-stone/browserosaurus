@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { pickerStarted } from '../../../shared/state/actions'
 import { useInstalledApps } from '../../../shared/state/hooks'
 import { Spinner } from '../../shared/components/atoms/spinner'
 import { useKeyCodeMap } from '../../shared/state/hooks'
 import { favAppRef } from '../refs'
+import { pickerStarted } from '../state/actions'
 import AppLogo from './atoms/app-logo'
 import Kbd from './atoms/kbd'
 import { useKeyboardEvents } from './hooks/use-keyboard-events'

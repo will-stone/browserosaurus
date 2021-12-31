@@ -11,11 +11,11 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useDispatch } from 'react-redux'
 
 import { apps } from '../../../../config/apps'
-import { changedHotCode, reorderedApps } from '../../../../shared/state/actions'
 import { useInstalledApps } from '../../../../shared/state/hooks'
 import Input from '../../../shared/components/atoms/input'
 import { Spinner } from '../../../shared/components/atoms/spinner'
 import { useKeyCodeMap } from '../../../shared/state/hooks'
+import { changedHotCode, reorderedApps } from '../../state/actions'
 import { Pane } from '../molecules/pane'
 
 interface DragDirectionArrowProps {

@@ -1,21 +1,19 @@
 /* eslint-disable unicorn/prefer-regexp-test */
 import {
-  clickedDonate,
-  clickedMaybeLater,
   clickedRestorePicker,
   installedAppsRetrieved,
   urlOpened,
-} from '../../../shared/state/actions'
-import type { Channel } from '../../../shared/state/channels'
+} from '../../../main/state/actions'
 import type { Middleware } from '../../../shared/state/model'
 import { getKeyLayout } from '../../shared/state/thunk.get-key-layout-map'
 import { favAppRef } from '../refs'
+import { clickedDonate, clickedMaybeLater } from './actions'
 
 /**
  * Pass actions between main and renderers
  */
 export const pickerMiddleware =
-  (channel: Channel): Middleware =>
+  (): Middleware =>
   ({ dispatch }) =>
   (next) =>
   (action) => {
@@ -35,7 +33,7 @@ export const pickerMiddleware =
     }
 
     if (doesActionOpenPicker) {
-      dispatch(getKeyLayout(channel))
+      dispatch(getKeyLayout())
     }
 
     return result

@@ -7,15 +7,15 @@ import React from 'react'
 
 import { keyLayout } from '../../../../../__fixtures__/key-layout'
 import {
-  clickedApp,
   installedAppsRetrieved,
-  pressedAppKey,
-  reorderedApps,
   syncStorage,
   urlOpened,
-} from '../../../../shared/state/actions'
+} from '../../../../main/state/actions'
 import { Channel } from '../../../../shared/state/channels'
+import { addChannelToAction } from '../../../../shared/utils/add-channel-to-action'
+import { reorderedApps } from '../../../prefs/state/actions'
 import { customWindow } from '../../../shared/custom.window'
+import { clickedApp, pressedAppKey } from '../../state/actions'
 import Wrapper from '../_bootstrap'
 
 const originalNavigator = cloneDeep(customWindow.navigator)
@@ -76,12 +76,15 @@ test('apps', () => {
   fireEvent.click(screen.getByRole('button', { name: 'Firefox App' }))
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     Channel.PICKER,
-    clickedApp({
-      url: '',
-      appId: 'org.mozilla.firefox',
-      isAlt: false,
-      isShift: false,
-    }),
+    addChannelToAction(
+      clickedApp({
+        url: '',
+        appId: 'org.mozilla.firefox',
+        isAlt: false,
+        isShift: false,
+      }),
+      Channel.PICKER,
+    ),
   )
 
   // Correct info sent to main when app clicked
@@ -92,12 +95,15 @@ test('apps', () => {
   })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     Channel.PICKER,
-    clickedApp({
-      url,
-      appId: 'com.brave.Browser.nightly',
-      isAlt: true,
-      isShift: false,
-    }),
+    addChannelToAction(
+      clickedApp({
+        url,
+        appId: 'com.brave.Browser.nightly',
+        isAlt: true,
+        isShift: false,
+      }),
+      Channel.PICKER,
+    ),
   )
 })
 
@@ -123,12 +129,15 @@ test('use hotkey', () => {
   fireEvent.keyDown(document, { key: 'S', code: 'KeyS', keyCode: 83 })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     Channel.PICKER,
-    pressedAppKey({
-      url,
-      appId: 'com.apple.Safari',
-      isAlt: false,
-      isShift: false,
-    }),
+    addChannelToAction(
+      pressedAppKey({
+        url,
+        appId: 'com.apple.Safari',
+        isAlt: false,
+        isShift: false,
+      }),
+      Channel.PICKER,
+    ),
   )
 })
 
@@ -160,12 +169,15 @@ test('use hotkey with alt', () => {
   })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     Channel.PICKER,
-    pressedAppKey({
-      url,
-      appId: 'com.apple.Safari',
-      isAlt: true,
-      isShift: false,
-    }),
+    addChannelToAction(
+      pressedAppKey({
+        url,
+        appId: 'com.apple.Safari',
+        isAlt: true,
+        isShift: false,
+      }),
+      Channel.PICKER,
+    ),
   )
 })
 
@@ -183,12 +195,15 @@ test('hold shift', () => {
   })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     Channel.PICKER,
-    clickedApp({
-      url,
-      appId: 'org.mozilla.firefox',
-      isAlt: false,
-      isShift: true,
-    }),
+    addChannelToAction(
+      clickedApp({
+        url,
+        appId: 'org.mozilla.firefox',
+        isAlt: false,
+        isShift: true,
+      }),
+      Channel.PICKER,
+    ),
   )
 })
 

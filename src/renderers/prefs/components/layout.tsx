@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { prefsStarted } from '../../../shared/state/actions'
+import { prefsStarted } from '../state/actions'
 import { HeaderBar } from './organisms/header-bar'
 import { AboutPane } from './organisms/pane-about'
 import { AppsPane } from './organisms/pane-apps'

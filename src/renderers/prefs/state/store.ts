@@ -6,10 +6,9 @@ import { customWindow } from '../../shared/custom.window'
 import { busMiddleware } from '../../shared/state/middleware.bus'
 import { prefsMiddleware } from './middleware'
 
-const store = createStore([
-  busMiddleware(Channel.PREFS),
-  prefsMiddleware(Channel.PREFS),
-])
+const middleware = [busMiddleware(Channel.PREFS), prefsMiddleware()]
+
+const store = createStore(Channel.PREFS, middleware)
 
 export default store
 

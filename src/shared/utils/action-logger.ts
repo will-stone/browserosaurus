@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 
-import type { AnyAction } from '@reduxjs/toolkit'
 import { blue, bold, magenta, white, yellow } from 'kolorist'
 
 import { Channel } from '../state/channels'
+import type { FSA } from '../state/model'
 
 const colorMap = {
   [Channel.MAIN]: yellow,
@@ -11,12 +11,12 @@ const colorMap = {
   [Channel.PICKER]: magenta,
 }
 
-export function actionLogger(action: AnyAction): void {
-  const [channel, name]: [Channel, string] = action.type.split('/')
+export function actionLogger(action: FSA): void {
+  const channel = action.meta?.channel as Channel
 
   console.log()
   console.log(
-    `${bold(colorMap[channel](channel.padEnd(6)))} ${bold(white(name))}`,
+    `${bold(colorMap[channel](channel.padEnd(6)))} ${bold(white(action.type))}`,
   )
   console.log(action.payload)
   console.log()

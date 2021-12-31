@@ -21,7 +21,11 @@ module.exports = {
     return {
       webContents: {
         send: jest.fn((eventName, payload) =>
-          eventEmitter.emit(eventName, payload),
+          eventEmitter.emit(eventName, {
+            ...payload,
+            // web contents always sends an action from main
+            meta: { ...payload.meta, channel: 'MAIN' },
+          }),
         ),
       },
     }

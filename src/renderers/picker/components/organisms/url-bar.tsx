@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux'
 import Url from 'url'
 
 import { CARROT_URL } from '../../../../config/CONSTANTS'
-import { clickedUrlBar } from '../../../../shared/state/actions'
 import { useSelector } from '../../../../shared/state/hooks'
+import { clickedUrlBar } from '../../state/actions'
 
 interface Props {
   className?: string

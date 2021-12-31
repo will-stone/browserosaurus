@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
+import type { AppThunk } from '../../../../shared/state/reducer.root'
 import {
   pressedAppKey,
   pressedBackspaceKey,
   pressedCopyKey,
   pressedEscapeKey,
-} from '../../../../shared/state/actions'
-import type { AppThunk } from '../../../../shared/state/reducer.root'
+} from '../../state/actions'
 
 const keyboardEvent =
   (event: KeyboardEvent): AppThunk =>

@@ -9,31 +9,22 @@ import package_ from '../../../package.json'
 import { apps } from '../../config/apps'
 import { B_URL, ISSUES_URL } from '../../config/CONSTANTS'
 import {
-  appReady,
   clickedApp,
-  clickedHomepageButton,
-  clickedOpenIssueButton,
-  clickedOpenPrefs,
-  clickedRescanApps,
-  clickedRestorePicker,
-  clickedSetAsDefaultBrowserButton,
-  clickedUpdateButton,
-  clickedUpdateRestartButton,
   clickedUrlBar,
-  gotAppVersion,
-  gotDefaultBrowserStatus,
   pickerStarted,
-  prefsStarted,
   pressedAppKey,
   pressedCopyKey,
   pressedEscapeKey,
-  syncData,
-  syncStorage,
-  updateAvailable,
-  updateDownloaded,
-  updateDownloading,
-  urlOpened,
-} from '../../shared/state/actions'
+} from '../../renderers/picker/state/actions'
+import {
+  clickedHomepageButton,
+  clickedOpenIssueButton,
+  clickedRescanApps,
+  clickedSetAsDefaultBrowserButton,
+  clickedUpdateButton,
+  clickedUpdateRestartButton,
+  prefsStarted,
+} from '../../renderers/prefs/state/actions'
 import type { Middleware } from '../../shared/state/model'
 import { logger } from '../../shared/utils/logger'
 import { storage } from '../storage'
@@ -48,6 +39,19 @@ import {
   showPickerWindow,
   showPrefsWindow,
 } from '../windows'
+import {
+  appReady,
+  clickedOpenPrefs,
+  clickedRestorePicker,
+  gotAppVersion,
+  gotDefaultBrowserStatus,
+  syncData,
+  syncStorage,
+  updateAvailable,
+  updateDownloaded,
+  updateDownloading,
+  urlOpened,
+} from './actions'
 import { checkForUpdate } from './thunk.check-for-update'
 import { getInstalledAppIds } from './thunk.get-installed-app-ids'
 

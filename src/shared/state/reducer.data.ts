@@ -2,24 +2,27 @@ import { createReducer } from '@reduxjs/toolkit'
 
 import type { AppId } from '../../config/apps'
 import { CARROT_URL } from '../../config/CONSTANTS'
-import { backspaceUrlParse } from '../utils/backspace-url-parse'
 import {
-  clickedDonate,
-  clickedTabButton,
   gotAppVersion,
   gotDefaultBrowserStatus,
-  gotPickerKeyLayoutMap,
-  gotPrefsKeyLayoutMap,
   installedAppsRetrieved,
-  pickerStarted,
-  prefsStarted,
-  pressedBackspaceKey,
   syncData,
   updateAvailable,
   updateDownloaded,
   updateDownloading,
   urlOpened,
-} from './actions'
+} from '../../main/state/actions'
+import {
+  clickedDonate,
+  pickerStarted,
+  pressedBackspaceKey,
+} from '../../renderers/picker/state/actions'
+import {
+  clickedTabButton,
+  prefsStarted,
+} from '../../renderers/prefs/state/actions'
+import { gotKeyLayoutMap } from '../../renderers/shared/state/actions'
+import { backspaceUrlParse } from '../utils/backspace-url-parse'
 
 export type PrefsTab = 'about' | 'apps' | 'general'
 
@@ -99,11 +102,7 @@ export const data = createReducer<Data>(defaultData, (builder) =>
       state.prefsTab = action.payload
     })
 
-    .addCase(gotPickerKeyLayoutMap, (state, action) => {
-      state.keyCodeMap = action.payload
-    })
-
-    .addCase(gotPrefsKeyLayoutMap, (state, action) => {
+    .addCase(gotKeyLayoutMap, (state, action) => {
       state.keyCodeMap = action.payload
     }),
 )

@@ -2,9 +2,9 @@ import clsx from 'clsx'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import { clickedTabButton } from '../../../../shared/state/actions'
 import { useSelector } from '../../../../shared/state/hooks'
 import type { PrefsTab } from '../../../../shared/state/reducer.data'
+import { clickedTabButton } from '../../state/actions'
 
 interface TabButtonProps {
   tab: PrefsTab

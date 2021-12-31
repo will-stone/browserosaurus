@@ -1,6 +1,5 @@
 /* eslint-disable unicorn/prefer-regexp-test */
-import { clickedOpenPrefs } from '../../../shared/state/actions'
-import type { Channel } from '../../../shared/state/channels'
+import { clickedOpenPrefs } from '../../../main/state/actions'
 import type { Middleware } from '../../../shared/state/model'
 import { getKeyLayout } from '../../shared/state/thunk.get-key-layout-map'
 
@@ -8,7 +7,7 @@ import { getKeyLayout } from '../../shared/state/thunk.get-key-layout-map'
  * Pass actions between main and renderers
  */
 export const prefsMiddleware =
-  (channel: Channel): Middleware =>
+  (): Middleware =>
   ({ dispatch }) =>
   (next) =>
   (action) => {
@@ -16,7 +15,7 @@ export const prefsMiddleware =
     const result = next(action)
 
     if (clickedOpenPrefs.match(action)) {
-      dispatch(getKeyLayout(channel))
+      dispatch(getKeyLayout())
     }
 
     return result

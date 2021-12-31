@@ -1,14 +1,14 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
+import { useSelector } from '../../../../shared/state/hooks'
+import Button from '../../../shared/components/atoms/button'
 import {
   clickedRescanApps,
   clickedSetAsDefaultBrowserButton,
   clickedUpdateButton,
   clickedUpdateRestartButton,
-} from '../../../../shared/state/actions'
-import { useSelector } from '../../../../shared/state/hooks'
-import Button from '../../../shared/components/atoms/button'
+} from '../../state/actions'
 import { Pane } from '../molecules/pane'
 
 interface RowProps {

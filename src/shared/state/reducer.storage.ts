@@ -2,14 +2,18 @@ import { createReducer } from '@reduxjs/toolkit'
 
 import type { AppId } from '../../config/apps'
 import {
-  changedHotCode,
-  clickedDonate,
-  clickedMaybeLater,
   installedAppsRetrieved,
   pickerWindowBoundsChanged,
-  reorderedApps,
   syncStorage,
-} from './actions'
+} from '../../main/state/actions'
+import {
+  clickedDonate,
+  clickedMaybeLater,
+} from '../../renderers/picker/state/actions'
+import {
+  changedHotCode,
+  reorderedApps,
+} from '../../renderers/prefs/state/actions'
 
 export interface Storage {
   apps: { id: AppId; hotkey: string | null; hotCode: string | null }[]

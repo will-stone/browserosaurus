@@ -2,9 +2,9 @@ import clsx from 'clsx'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import { clickedApp } from '../../../../shared/state/actions'
 import type { InstalledApp } from '../../../../shared/state/hooks'
 import { useSelector } from '../../../../shared/state/hooks'
+import { clickedApp } from '../../state/actions'
 
 interface Props {
   app: InstalledApp
