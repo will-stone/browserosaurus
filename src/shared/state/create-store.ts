@@ -1,5 +1,11 @@
-import type { AnyAction, CombinedState, EnhancedStore } from '@reduxjs/toolkit'
+import type {
+  AnyAction,
+  CombinedState,
+  EnhancedStore,
+  PreloadedState,
+} from '@reduxjs/toolkit'
 import { configureStore } from '@reduxjs/toolkit'
+import type { NoInfer } from '@reduxjs/toolkit/dist/tsHelpers'
 
 import type { Channel } from './channels'
 import { channelInjectorMiddleware } from './middleware.channel-injector'
@@ -17,6 +23,7 @@ type BoundaryType = EnhancedStore<
 const createStore = (
   channel: Channel,
   middleware: Middleware[],
+  preloadedState?: PreloadedState<CombinedState<NoInfer<RootState>>>,
 ): BoundaryType =>
   configureStore({
     reducer: rootReducer,
@@ -26,6 +33,7 @@ const createStore = (
       ...middleware,
       logMiddleware(),
     ],
+    preloadedState,
   })
 
 export default createStore

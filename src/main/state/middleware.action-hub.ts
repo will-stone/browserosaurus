@@ -120,9 +120,6 @@ export const actionHubMiddleware =
         }, ONE_DAY_MS)
       }
 
-      // Sync all storage with store
-      dispatch(syncStorage(storage.getAll()))
-
       // App version
       dispatch(
         gotAppVersion(`${app.getVersion()}${app.isPackaged ? '' : ' DEV'}`),
