@@ -1,5 +1,4 @@
 import type {
-  AnyAction,
   CombinedState,
   EnhancedStore,
   PreloadedState,
@@ -10,15 +9,11 @@ import type { NoInfer } from '@reduxjs/toolkit/dist/tsHelpers'
 import type { Channel } from './channels'
 import { channelInjectorMiddleware } from './middleware.channel-injector'
 import { logMiddleware } from './middleware.log'
-import type { Middleware } from './model'
+import type { FSA, Middleware } from './model'
 import type { RootState } from './reducer.root'
 import { rootReducer } from './reducer.root'
 
-type BoundaryType = EnhancedStore<
-  CombinedState<RootState>,
-  AnyAction,
-  Middleware[]
->
+type BoundaryType = EnhancedStore<CombinedState<RootState>, FSA, Middleware[]>
 
 const createStore = (
   channel: Channel,
