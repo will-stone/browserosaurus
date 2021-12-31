@@ -1,6 +1,5 @@
 import { Channel } from '../../shared/state/channels'
 import type { Middleware } from '../../shared/state/model'
-import { addChannelToAction } from '../../shared/utils/add-channel-to-action'
 import { pickerWindow, prefsWindow } from '../windows'
 
 /**
@@ -14,10 +13,9 @@ export const busMiddleware = (): Middleware => () => (next) => (action) => {
   const result = next(action)
 
   // Send actions from main to all renderers
-  if (!action.meta?.channel) {
-    const mainChannelAction = addChannelToAction(action, Channel.MAIN)
-    pickerWindow?.webContents.send(Channel.MAIN, mainChannelAction)
-    prefsWindow?.webContents.send(Channel.MAIN, mainChannelAction)
+  if (action.meta?.channel === Channel.MAIN) {
+    pickerWindow?.webContents.send(Channel.MAIN, action)
+    prefsWindow?.webContents.send(Channel.MAIN, action)
   }
   // Send actions from prefs to picker
   else if (action.meta?.channel === Channel.PREFS) {

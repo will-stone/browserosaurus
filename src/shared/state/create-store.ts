@@ -2,6 +2,7 @@ import type { AnyAction, CombinedState, EnhancedStore } from '@reduxjs/toolkit'
 import { configureStore } from '@reduxjs/toolkit'
 
 import type { Channel } from './channels'
+import { channelInjectorMiddleware } from './middleware.channel-injector'
 import { logMiddleware } from './middleware.log'
 import type { Middleware } from './model'
 import type { RootState } from './reducer.root'
@@ -20,9 +21,10 @@ const createStore = (
   configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => [
+      channelInjectorMiddleware(channel),
       ...getDefaultMiddleware(),
       ...middleware,
-      logMiddleware(channel),
+      logMiddleware(),
     ],
   })
 
