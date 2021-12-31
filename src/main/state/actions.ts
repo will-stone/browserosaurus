@@ -1,9 +1,11 @@
-import { createAction as cA } from '@reduxjs/toolkit'
 import type { Rectangle } from 'electron/main'
 
 import type { AppId } from '../../config/apps'
 import type { Data } from '../../shared/state/reducer.data'
 import type { Storage } from '../../shared/state/reducer.storage'
+import { actionNamespacer } from '../../shared/utils/action-namespacer'
+
+const cA = actionNamespacer('main')
 
 const appReady = cA('app/ready')
 

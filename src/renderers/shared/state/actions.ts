@@ -1,4 +1,6 @@
-import { createAction as cA } from '@reduxjs/toolkit'
+import { actionNamespacer } from '../../../shared/utils/action-namespacer'
+
+const cA = actionNamespacer('renderer')
 
 const gotKeyLayoutMap = cA<Record<string, string>>(`gotKeyLayoutMap`)
 

@@ -1,7 +1,8 @@
-import { createAction as cA } from '@reduxjs/toolkit'
-
 import type { AppId } from '../../../config/apps'
 import type { PrefsTab } from '../../../shared/state/reducer.data'
+import { actionNamespacer } from '../../../shared/utils/action-namespacer'
+
+const cA = actionNamespacer('prefs')
 
 const prefsStarted = cA('prefs-window/started')
 

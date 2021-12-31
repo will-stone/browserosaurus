@@ -1,6 +1,7 @@
-import { createAction as cA } from '@reduxjs/toolkit'
-
 import type { AppId } from '../../../config/apps'
+import { actionNamespacer } from '../../../shared/utils/action-namespacer'
+
+const cA = actionNamespacer('picker')
 
 interface OpenAppArguments {
   url: string
