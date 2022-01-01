@@ -5,7 +5,6 @@ import { app, autoUpdater, Notification, shell } from 'electron'
 import deepEqual from 'fast-deep-equal'
 import path from 'path'
 
-import package_ from '../../../package.json'
 import { apps } from '../../config/apps'
 import { B_URL, ISSUES_URL } from '../../config/CONSTANTS'
 import {
@@ -27,11 +26,9 @@ import {
 } from '../../renderers/prefs/state/actions'
 import type { Middleware } from '../../shared/state/model'
 import type { RootState } from '../../shared/state/reducer.root'
-import { logger } from '../../shared/utils/logger'
 import { database } from '../database'
 import { createTray, tray } from '../tray'
 import copyToClipboard from '../utils/copy-to-clipboard'
-import { getUpdateUrl } from '../utils/get-update-url'
 import {
   createWindows,
   pickerWindow,
@@ -43,29 +40,28 @@ import {
   availableUpdate,
   clickedOpenPrefs,
   clickedRestorePicker,
-  downloadedUpdate,
-  downloadingUpdate,
   openedUrl,
   readiedApp,
   syncReducers,
 } from './actions'
-import { checkForUpdate } from './thunk.check-for-update'
+import { initUpdateChecker } from './mid.init-update-checker'
 import { getInstalledAppIds } from './thunk.get-installed-app-ids'
 
 /**
  * Asynchronously update perma store on state.storage changes
  */
-const updateDatabase = (
+function updateDatabase(
   previousState: RootState,
   nextState: RootState,
-): Promise<void> =>
-  new Promise((resolve) => {
+): Promise<void> {
+  return new Promise((resolve) => {
     if (!deepEqual(previousState.storage, nextState.storage)) {
       database.setAll(nextState.storage)
     }
 
     resolve()
   })
+}
 
 /**
  * Actions that need to be dealt with by main.
@@ -96,46 +92,9 @@ export const actionHubMiddleware =
       // Hide from dock and cmd-tab
       app.dock.hide()
 
-      // Auto update on production
-      if (app.isPackaged) {
-        autoUpdater.setFeedURL({
-          url: getUpdateUrl(),
-          headers: {
-            'User-Agent': `${package_.name}/${package_.version} (darwin: ${process.arch})`,
-          },
-        })
-
-        autoUpdater.on('before-quit-for-update', () => {
-          // All windows must be closed before an update can be applied using "restart".
-          pickerWindow?.destroy()
-          prefsWindow?.destroy()
-        })
-
-        autoUpdater.on('update-available', () => {
-          dispatch(downloadingUpdate())
-        })
-
-        autoUpdater.on('update-downloaded', () => {
-          dispatch(downloadedUpdate())
-        })
-
-        autoUpdater.on('error', () => {
-          logger('AutoUpdater', 'An error has occurred')
-        })
-
-        // 1000 * 60 * 60 * 24
-        const ONE_DAY_MS = 86_400_000
-        // Check for updates every day. The first check is done on load: in the
-        // action-hub.
-        setInterval(() => {
-          dispatch(checkForUpdate())
-        }, ONE_DAY_MS)
-      }
-
       createWindows()
       createTray()
-
-      dispatch(checkForUpdate())
+      initUpdateChecker()
     }
 
     // When a renderer starts, send down all the local store for synchronisation
@@ -176,6 +135,7 @@ export const actionHubMiddleware =
     else if (clickedUpdateRestartButton.match(action)) {
       autoUpdater.quitAndInstall()
       // @ts-expect-error -- window must be destroyed to prevent race condition
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       prefsWindow = null
       // @ts-expect-error -- window must be destroyed to prevent race condition
       pickerWindow = null
