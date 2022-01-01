@@ -2,21 +2,12 @@ import type { AnyAction } from '@reduxjs/toolkit'
 import electron, { app } from 'electron'
 
 import { Channel } from '../shared/state/channels'
-import { database } from './database'
 import { readiedApp } from './state/actions'
 import { dispatch } from './state/store'
 import { urlOpener } from './state/thunk.url-opener'
 
 // Attempt to fix this bug: https://github.com/electron/electron/issues/20944
 app.commandLine.appendArgument('--enable-features=Metal')
-
-if (database.get('firstRun')) {
-  // Prompt to set as default browser
-  app.setAsDefaultProtocolClient('http')
-  app.setAsDefaultProtocolClient('https')
-}
-
-database.set('firstRun', false)
 
 app.on('ready', () => dispatch(readiedApp()))
 

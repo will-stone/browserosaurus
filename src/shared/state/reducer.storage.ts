@@ -4,6 +4,7 @@ import type { AppId } from '../../config/apps'
 import {
   changedPickerWindowBounds,
   installedAppsRetrieved,
+  readiedApp,
   syncReducers,
 } from '../../main/state/actions'
 import {
@@ -31,6 +32,10 @@ export const defaultStorage: Storage = {
 
 export const storage = createReducer<Storage>(defaultStorage, (builder) =>
   builder
+    .addCase(readiedApp, (state) => {
+      state.firstRun = false
+    })
+
     .addCase(syncReducers, (_, action) => action.payload.storage)
 
     .addCase(installedAppsRetrieved, (state, action) => {

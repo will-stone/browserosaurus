@@ -78,6 +78,13 @@ export const actionHubMiddleware =
   (action) => {
     const previousState = getState()
 
+    // Initial request to prompt to become default browser
+    // Check must happen before reducer run, before firstRun set to false
+    if (readiedApp.match(action) && previousState.storage.firstRun !== false) {
+      app.setAsDefaultProtocolClient('http')
+      app.setAsDefaultProtocolClient('https')
+    }
+
     // Move to next middleware
     const result = next(action)
 
