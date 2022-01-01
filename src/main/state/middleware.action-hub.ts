@@ -46,7 +46,6 @@ import {
   clickedRestorePicker,
   downloadedUpdate,
   downloadingUpdate,
-  gotDefaultBrowserStatus,
   openedUrl,
   readiedApp,
   syncReducers,
@@ -129,11 +128,9 @@ export const actionHubMiddleware =
         }, ONE_DAY_MS)
       }
 
-      // Is default browser?
-      dispatch(gotDefaultBrowserStatus(app.isDefaultProtocolClient('http')))
-
       createWindows()
       createTray()
+
       dispatch(checkForUpdate())
     }
 
