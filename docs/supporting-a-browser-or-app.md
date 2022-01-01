@@ -161,4 +161,9 @@ discuss it on the pull request page.
 
 Commit and push your changes to your GitHub fork of Browserosaurus, then open a
 [pull request](https://github.com/will-stone/browserosaurus/pulls) to merge your
-branch into Browserosaurus' `master` branch.
+branch into Browserosaurus' `master` branch. Please note that this repository
+now follows the
+[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standard,
+and so please structure your commit messages accordingly. The example above's
+commit message could look something like this:
+`feat: add support for Firefox browser`.
