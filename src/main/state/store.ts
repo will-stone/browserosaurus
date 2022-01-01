@@ -19,6 +19,6 @@ const preloadedState: RootState = {
   },
 }
 
-const { dispatch } = createStore(channel, middleware, preloadedState)
+const { dispatch, getState } = createStore(channel, middleware, preloadedState)
 
-export { dispatch }
+export { dispatch, getState }
