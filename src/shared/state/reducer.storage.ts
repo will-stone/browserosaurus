@@ -19,21 +19,21 @@ import {
 export interface Storage {
   apps: { id: AppId; hotCode: string | null }[]
   supportMessage: number
-  firstRun: boolean
+  isSetup: boolean
   height: number
 }
 
 export const defaultStorage: Storage = {
   apps: [],
   supportMessage: 0,
-  firstRun: true,
+  isSetup: false,
   height: 204,
 }
 
 export const storage = createReducer<Storage>(defaultStorage, (builder) =>
   builder
     .addCase(readiedApp, (state) => {
-      state.firstRun = false
+      state.isSetup = true
     })
 
     .addCase(syncReducers, (_, action) => action.payload.storage)
