@@ -1,6 +1,6 @@
 import { clipboard, Notification } from 'electron'
 
-const copyToClipboard = (string: string): boolean => {
+const copyUrlToClipboard = (string: string): boolean => {
   if (string) {
     clipboard.writeText(string)
     new Notification({
@@ -14,4 +14,4 @@ const copyToClipboard = (string: string): boolean => {
   return false
 }
 
-export default copyToClipboard
+export default copyUrlToClipboard

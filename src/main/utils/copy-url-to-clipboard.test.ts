@@ -1,11 +1,11 @@
 import { clipboard } from 'electron'
 
-import copyToClipboard from './copy-to-clipboard'
+import copyUrlToClipboard from './copy-url-to-clipboard'
 
 jest.mock('child_process')
 
 test('should copy string', () => {
-  copyToClipboard('string')
+  copyUrlToClipboard('string')
   expect(clipboard.readText()).toBe('string')
 })
 

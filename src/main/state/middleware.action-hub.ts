@@ -24,7 +24,7 @@ import type { Middleware } from '../../shared/state/model'
 import type { RootState } from '../../shared/state/reducer.root'
 import { database } from '../database'
 import { createTray, tray } from '../tray'
-import copyToClipboard from '../utils/copy-to-clipboard'
+import copyUrlToClipboard from '../utils/copy-url-to-clipboard'
 import { getInstalledAppIds } from '../utils/get-installed-app-ids'
 import { initUpdateChecker } from '../utils/init-update-checker'
 import { openApp } from '../utils/open-app'
@@ -100,7 +100,7 @@ export const actionHubMiddleware =
 
     // Clicked URL bar
     else if (clickedUrlBar.match(action)) {
-      if (copyToClipboard(nextState.data.url)) {
+      if (copyUrlToClipboard(nextState.data.url)) {
         pickerWindow?.hide()
       }
     }
@@ -156,7 +156,7 @@ export const actionHubMiddleware =
       }
       // Copy key
       else if (action.payload.metaKey && action.payload.virtualKey === 'c') {
-        if (copyToClipboard(nextState.data.url)) {
+        if (copyUrlToClipboard(nextState.data.url)) {
           pickerWindow?.hide()
         }
       }
