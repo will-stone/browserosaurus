@@ -1,6 +1,6 @@
 /* eslint-disable node/callback-return -- must flush middleware to get nextState */
 /* eslint-disable unicorn/prefer-regexp-test -- rtk uses .match */
-import { app, autoUpdater, Notification, shell } from 'electron'
+import { app, autoUpdater, shell } from 'electron'
 import deepEqual from 'fast-deep-equal'
 import path from 'path'
 
@@ -98,21 +98,10 @@ export const actionHubMiddleware =
       dispatch(syncReducers(nextState))
     }
 
-    // Copy to clipboard
-    else if (
-      clickedUrlBar.match(action) ||
-      (pressedKey.match(action) &&
-        action.payload.metaKey &&
-        action.payload.virtualKey === 'c')
-    ) {
-      if (nextState.data.url) {
-        copyToClipboard(nextState.data.url)
+    // Clicked URL bar
+    else if (clickedUrlBar.match(action)) {
+      if (copyToClipboard(nextState.data.url)) {
         pickerWindow?.hide()
-        new Notification({
-          title: 'Browserosaurus',
-          body: 'URL copied to clipboard',
-          silent: true,
-        }).show()
       }
     }
 
@@ -164,6 +153,12 @@ export const actionHubMiddleware =
       // Escape key
       if (action.payload.physicalKey === 'Escape') {
         pickerWindow?.hide()
+      }
+      // Copy key
+      else if (action.payload.metaKey && action.payload.virtualKey === 'c') {
+        if (copyToClipboard(nextState.data.url)) {
+          pickerWindow?.hide()
+        }
       }
       // App hotkey
       else {

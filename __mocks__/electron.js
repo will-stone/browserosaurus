@@ -30,6 +30,11 @@ module.exports = {
       },
     }
   },
+  Notification: function () {
+    return {
+      show: jest.fn,
+    }
+  },
   remote: {
     getCurrentWindow() {
       return {

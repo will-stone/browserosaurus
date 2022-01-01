@@ -8,3 +8,5 @@ test('should copy string', () => {
   copyToClipboard('string')
   expect(clipboard.readText()).toBe('string')
 })
+
+test.todo('should show notification')
