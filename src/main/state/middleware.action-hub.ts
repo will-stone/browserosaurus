@@ -32,7 +32,6 @@ import { database } from '../database'
 import { createTray, tray } from '../tray'
 import copyToClipboard from '../utils/copy-to-clipboard'
 import { getUpdateUrl } from '../utils/get-update-url'
-import { isUpdateAvailable } from '../utils/is-update-available'
 import {
   createWindows,
   pickerWindow,
@@ -128,10 +127,8 @@ export const actionHubMiddleware =
         const ONE_DAY_MS = 86_400_000
         // Check for updates every day. The first check is done on load: in the
         // action-hub.
-        setInterval(async () => {
-          if (await isUpdateAvailable()) {
-            dispatch(availableUpdate())
-          }
+        setInterval(() => {
+          dispatch(checkForUpdate())
         }, ONE_DAY_MS)
       }
 
