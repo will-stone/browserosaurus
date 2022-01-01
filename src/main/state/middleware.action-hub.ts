@@ -26,6 +26,7 @@ import {
   prefsStarted,
 } from '../../renderers/prefs/state/actions'
 import type { Middleware } from '../../shared/state/model'
+import type { RootState } from '../../shared/state/reducer.root'
 import { logger } from '../../shared/utils/logger'
 import { database } from '../database'
 import { createTray, tray } from '../tray'
@@ -55,6 +56,21 @@ import { checkForUpdate } from './thunk.check-for-update'
 import { getInstalledAppIds } from './thunk.get-installed-app-ids'
 
 /**
+ * Asynchronously update perma store on state.storage changes
+ */
+const updateDatabase = (
+  previousState: RootState,
+  nextState: RootState,
+): Promise<void> =>
+  new Promise((resolve) => {
+    if (!deepEqual(previousState.storage, nextState.storage)) {
+      database.setAll(nextState.storage)
+    }
+
+    resolve()
+  })
+
+/**
  * Actions that need to be dealt with by main.
  */
 export const actionHubMiddleware =
@@ -69,12 +85,7 @@ export const actionHubMiddleware =
 
     const nextState = getState()
 
-    /**
-     * Update perma store on state.storage changes
-     */
-    if (!deepEqual(previousState.storage, nextState.storage)) {
-      database.setAll(nextState.storage)
-    }
+    updateDatabase(previousState, nextState)
 
     // Main's process is ready
     if (appReady.match(action)) {
