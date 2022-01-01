@@ -1,6 +1,8 @@
-import type { AppThunk } from '../../../shared/state/reducer.root'
+import type { Dispatch } from '@reduxjs/toolkit'
+
+import type { FSA } from '../../../shared/state/model'
 import { customWindow } from '../custom.window'
-import { gotKeyLayoutMap } from './actions'
+import { gotKeyLayoutMap } from '../state/actions'
 
 const getLayoutObject = async (): Promise<Record<string, string>> => {
   try {
@@ -19,10 +21,10 @@ const getLayoutObject = async (): Promise<Record<string, string>> => {
 }
 
 /**
- * THUNK - Retrieve all code to key mappings.
+ * Retrieve all code to key mappings.
  * Only use in a renderer process, where window object is available.
  */
-export const getKeyLayout = (): AppThunk => async (dispatch) => {
+export const getKeyLayout = async (dispatch: Dispatch<FSA>): Promise<void> => {
   const layoutObject = await getLayoutObject()
   dispatch(gotKeyLayoutMap(layoutObject))
 }

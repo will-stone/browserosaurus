@@ -5,7 +5,7 @@ import {
   openedUrl,
 } from '../../../main/state/actions'
 import type { Middleware } from '../../../shared/state/model'
-import { getKeyLayout } from '../../shared/state/thunk.get-key-layout-map'
+import { getKeyLayout } from '../../shared/utils/get-key-layout-map'
 import { favAppRef } from '../refs'
 import { clickedDonate, clickedMaybeLater } from './actions'
 
@@ -33,7 +33,7 @@ export const pickerMiddleware =
     }
 
     if (doesActionOpenPicker) {
-      dispatch(getKeyLayout())
+      getKeyLayout(dispatch)
     }
 
     return result
