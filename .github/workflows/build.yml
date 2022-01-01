@@ -15,6 +15,7 @@ jobs:
           node-version: 16.13.x
       - run: npm ci --audit false
       - run: npm run lint
+      - run: npx commitlint --from=HEAD~1
       - run: npm run typecheck
       - run: npm run test
       - run: npm run package
