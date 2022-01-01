@@ -7,6 +7,7 @@ import {
   black,
   bold,
   gray,
+  green,
   white,
 } from 'kolorist'
 
@@ -25,9 +26,12 @@ export function actionLogger(action: FSA): void {
   const type = action.type.replace(`${namespace}/`, '')
 
   const channelLog = bold(channelColorMap[channel](black(channel.padEnd(6))))
-  const namespaceLog = bold(gray(namespace))
+  const namespaceLog = bold(green(namespace))
   const typeLog = bold(white(type))
 
   console.log(`${channelLog} ${namespaceLog}/${typeLog}`)
-  if (action.payload) console.log(action.payload)
+
+  if (action.payload) {
+    console.log(gray(JSON.stringify(action.payload, null, 2)))
+  }
 }
