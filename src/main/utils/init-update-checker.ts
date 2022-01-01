@@ -2,11 +2,15 @@ import { app, autoUpdater } from 'electron'
 
 import package_ from '../../../package.json'
 import { logger } from '../../shared/utils/logger'
-import { getUpdateUrl } from '../utils/get-update-url'
-import { isUpdateAvailable } from '../utils/is-update-available'
+import {
+  availableUpdate,
+  downloadedUpdate,
+  downloadingUpdate,
+} from '../state/actions'
+import { dispatch } from '../state/store'
 import { pickerWindow, prefsWindow } from '../windows'
-import { availableUpdate, downloadedUpdate, downloadingUpdate } from './actions'
-import { dispatch } from './store'
+import { getUpdateUrl } from './get-update-url'
+import { isUpdateAvailable } from './is-update-available'
 
 /**
  * Auto update check on production

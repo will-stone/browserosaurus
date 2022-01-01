@@ -1,9 +1,9 @@
 import sleep from 'tings/lib/sleep'
 
 import { apps } from '../../config/apps'
-import { filterAppsByInstalled } from '../utils/filter-apps-by-installed'
-import { installedAppsRetrieved } from './actions'
-import { dispatch } from './store'
+import { installedAppsRetrieved } from '../state/actions'
+import { dispatch } from '../state/store'
+import { filterAppsByInstalled } from './filter-apps-by-installed'
 
 export async function getInstalledAppIds(): Promise<void> {
   const installedApps = await filterAppsByInstalled(apps)

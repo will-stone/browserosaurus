@@ -29,6 +29,8 @@ import type { RootState } from '../../shared/state/reducer.root'
 import { database } from '../database'
 import { createTray, tray } from '../tray'
 import copyToClipboard from '../utils/copy-to-clipboard'
+import { getInstalledAppIds } from '../utils/get-installed-app-ids'
+import { initUpdateChecker } from '../utils/init-update-checker'
 import {
   createWindows,
   pickerWindow,
@@ -44,8 +46,6 @@ import {
   readiedApp,
   syncReducers,
 } from './actions'
-import { getInstalledAppIds } from './mid.get-installed-app-ids'
-import { initUpdateChecker } from './mid.init-update-checker'
 
 /**
  * Asynchronously update perma store on state.storage changes
