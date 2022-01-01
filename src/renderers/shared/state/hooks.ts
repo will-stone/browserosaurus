@@ -19,7 +19,6 @@ export const useDeepEqualSelector: TypedUseSelectorHook<RootState> = (
 export interface InstalledApp {
   id: AppId
   name: Apps[AppId]['name']
-  hotkey: string | null
   hotCode: string | null
 }
 
@@ -32,7 +31,6 @@ export const useInstalledApps = (): InstalledApp[] => {
     .filter((storedApp) => installedApps.includes(storedApp.id))
     .map((storedApp) => ({
       id: storedApp.id,
-      hotkey: storedApp.hotkey,
       hotCode: storedApp.hotCode,
       name: allApps[storedApp.id].name,
     }))

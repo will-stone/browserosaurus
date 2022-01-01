@@ -16,7 +16,7 @@ import {
 } from '../../renderers/prefs/state/actions'
 
 export interface Storage {
-  apps: { id: AppId; hotkey: string | null; hotCode: string | null }[]
+  apps: { id: AppId; hotCode: string | null }[]
   supportMessage: number
   firstRun: boolean
   height: number
@@ -42,7 +42,7 @@ export const storage = createReducer<Storage>(defaultStorage, (builder) =>
         )
 
         if (!installedAppInStorage) {
-          state.apps.push({ id: installedAppId, hotkey: null, hotCode: null })
+          state.apps.push({ id: installedAppId, hotCode: null })
         }
       }
     })

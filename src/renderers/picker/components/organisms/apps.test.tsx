@@ -64,9 +64,9 @@ test('apps', () => {
     syncReducers({
       storage: {
         apps: [
-          { id: 'org.mozilla.firefox', hotkey: null, hotCode: null },
-          { id: 'com.apple.Safari', hotkey: null, hotCode: null },
-          { id: 'com.brave.Browser.nightly', hotkey: null, hotCode: null },
+          { id: 'org.mozilla.firefox', hotCode: null },
+          { id: 'com.apple.Safari', hotCode: null },
+          { id: 'com.brave.Browser.nightly', hotCode: null },
         ],
         supportMessage: -1,
         height: 200,
@@ -129,7 +129,7 @@ test('use hotkey', () => {
     Channel.MAIN,
     syncReducers({
       storage: {
-        apps: [{ id: 'com.apple.Safari', hotkey: 's', hotCode: 'KeyS' }],
+        apps: [{ id: 'com.apple.Safari', hotCode: 'KeyS' }],
         supportMessage: -1,
         height: 200,
         firstRun: false,
@@ -167,7 +167,7 @@ test('use hotkey with alt', () => {
     Channel.MAIN,
     syncReducers({
       storage: {
-        apps: [{ id: 'com.apple.Safari', hotkey: 's', hotCode: 'KeyS' }],
+        apps: [{ id: 'com.apple.Safari', hotCode: 'KeyS' }],
         supportMessage: -1,
         height: 200,
         firstRun: false,
