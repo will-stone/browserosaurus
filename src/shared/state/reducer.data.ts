@@ -3,23 +3,23 @@ import { createReducer } from '@reduxjs/toolkit'
 import type { AppId } from '../../config/apps'
 import { CARROT_URL } from '../../config/CONSTANTS'
 import {
+  availableUpdate,
+  downloadedUpdate,
+  downloadingUpdate,
   gotAppVersion,
   gotDefaultBrowserStatus,
   installedAppsRetrieved,
+  openedUrl,
   syncReducers,
-  updateAvailable,
-  updateDownloaded,
-  updateDownloading,
-  urlOpened,
 } from '../../main/state/actions'
 import {
   clickedDonate,
-  pickerStarted,
   pressedBackspaceKey,
+  startedPicker,
 } from '../../renderers/picker/state/actions'
 import {
   clickedTabButton,
-  prefsStarted,
+  startedPrefs,
 } from '../../renderers/prefs/state/actions'
 import { gotKeyLayoutMap } from '../../renderers/shared/state/actions'
 import { backspaceUrlParse } from '../utils/backspace-url-parse'
@@ -58,11 +58,11 @@ export const data = createReducer<Data>(defaultData, (builder) =>
       state.installedApps = action.payload
     })
 
-    .addCase(pickerStarted, (state) => {
+    .addCase(startedPicker, (state) => {
       state.pickerStarted = true
     })
 
-    .addCase(prefsStarted, (state) => {
+    .addCase(startedPrefs, (state) => {
       state.prefsStarted = true
     })
 
@@ -74,19 +74,19 @@ export const data = createReducer<Data>(defaultData, (builder) =>
       state.isDefaultProtocolClient = action.payload
     })
 
-    .addCase(updateAvailable, (state) => {
+    .addCase(availableUpdate, (state) => {
       state.updateStatus = 'available'
     })
 
-    .addCase(updateDownloading, (state) => {
+    .addCase(downloadingUpdate, (state) => {
       state.updateStatus = 'downloading'
     })
 
-    .addCase(updateDownloaded, (state) => {
+    .addCase(downloadedUpdate, (state) => {
       state.updateStatus = 'downloaded'
     })
 
-    .addCase(urlOpened, (state, action) => {
+    .addCase(openedUrl, (state, action) => {
       state.url = action.payload
     })
 

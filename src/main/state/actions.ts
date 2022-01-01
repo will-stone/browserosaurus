@@ -8,38 +8,38 @@ import { actionNamespacer } from '../../shared/utils/action-namespacer'
 
 const cA = actionNamespacer('main')
 
-const appReady = cA('app/ready')
+const readiedApp = cA('app/readied')
 
-const urlOpened = cA<string>('url/opened')
+const openedUrl = cA<string>('url/opened')
 
-const pickerWindowBoundsChanged = cA<Rectangle>('picker-window/bounds-changed')
+const changedPickerWindowBounds = cA<Rectangle>('picker-window-bounds/changed')
 
-const installedAppsRetrieved = cA<AppId[]>('installed-apps/returned')
+const installedAppsRetrieved = cA<AppId[]>('installed-apps/retrieved')
 
 const syncReducers =
   cA<CombinedState<{ data: Data; storage: Storage }>>('sync-reducers')
 
-const gotAppVersion = cA<string>('app-version/returned')
-const gotDefaultBrowserStatus = cA<boolean>('default-browser-status/returned')
+const gotAppVersion = cA<string>('app-version/got')
+const gotDefaultBrowserStatus = cA<boolean>('default-browser-status/got')
 
-const updateAvailable = cA('update/available')
-const updateDownloading = cA('update/downloading')
-const updateDownloaded = cA('update/downloaded')
+const availableUpdate = cA('update/available')
+const downloadingUpdate = cA('update/downloading')
+const downloadedUpdate = cA('update/downloaded')
 
 const clickedRestorePicker = cA('restore-picker/clicked')
 const clickedOpenPrefs = cA('open-prefs/clicked')
 
 export {
-  appReady,
+  availableUpdate,
+  changedPickerWindowBounds,
   clickedOpenPrefs,
   clickedRestorePicker,
+  downloadedUpdate,
+  downloadingUpdate,
   gotAppVersion,
   gotDefaultBrowserStatus,
   installedAppsRetrieved,
-  pickerWindowBoundsChanged,
+  openedUrl,
+  readiedApp,
   syncReducers,
-  updateAvailable,
-  updateDownloaded,
-  updateDownloading,
-  urlOpened,
 }

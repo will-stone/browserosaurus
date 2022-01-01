@@ -7,7 +7,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import React from 'react'
 
 import { keyLayout } from '../../../../../__fixtures__/key-layout'
-import { urlOpened } from '../../../../main/state/actions'
+import { openedUrl } from '../../../../main/state/actions'
 import { Channel } from '../../../../shared/state/channels'
 import { customWindow } from '../../../shared/custom.window'
 import Wrapper from '../_bootstrap'
@@ -48,7 +48,7 @@ test('url bar', () => {
   const rest = '/foo?bar=moo'
   const url = `${protocol}//${host}${rest}`
   act(() => {
-    win.webContents.send(Channel.MAIN, urlOpened(url))
+    win.webContents.send(Channel.MAIN, openedUrl(url))
   })
   expect(screen.getByText(multiElementText(url))).toBeVisible()
   expect(screen.queryByText('https://blah.com')).not.toBeInTheDocument()

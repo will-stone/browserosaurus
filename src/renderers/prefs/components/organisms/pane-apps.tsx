@@ -14,7 +14,7 @@ import { apps } from '../../../../config/apps'
 import Input from '../../../shared/components/atoms/input'
 import { Spinner } from '../../../shared/components/atoms/spinner'
 import { useInstalledApps, useKeyCodeMap } from '../../../shared/state/hooks'
-import { changedHotCode, reorderedApps } from '../../state/actions'
+import { reorderedApp, updatedHotCode } from '../../state/actions'
 import { Pane } from '../molecules/pane'
 
 interface DragDirectionArrowProps {
@@ -54,7 +54,7 @@ export function AppsPane(): JSX.Element {
     }
 
     dispatch(
-      reorderedApps({
+      reorderedApp({
         sourceId: installedApps[result.source.index].id,
         destinationId: installedApps[result.destination.index].id,
       }),
@@ -134,7 +134,7 @@ export function AppsPane(): JSX.Element {
                           }}
                           onKeyPress={(event) => {
                             dispatch(
-                              changedHotCode({
+                              updatedHotCode({
                                 appId: id,
                                 value: event.code,
                               }),

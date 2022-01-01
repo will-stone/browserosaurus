@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { prefsStarted } from '../state/actions'
+import { startedPrefs } from '../state/actions'
 import { HeaderBar } from './organisms/header-bar'
 import { AboutPane } from './organisms/pane-about'
 import { AppsPane } from './organisms/pane-apps'
@@ -10,7 +10,7 @@ import { GeneralPane } from './organisms/pane-general'
 const useAppStarted = () => {
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(prefsStarted())
+    dispatch(startedPrefs())
   }, [dispatch])
 }
 

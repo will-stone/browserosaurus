@@ -3,7 +3,7 @@ import electron, { app } from 'electron'
 
 import { Channel } from '../shared/state/channels'
 import { database } from './database'
-import { appReady } from './state/actions'
+import { readiedApp } from './state/actions'
 import { dispatch } from './state/store'
 import { urlOpener } from './state/thunk.url-opener'
 
@@ -18,7 +18,7 @@ if (database.get('firstRun')) {
 
 database.set('firstRun', false)
 
-app.on('ready', () => dispatch(appReady()))
+app.on('ready', () => dispatch(readiedApp()))
 
 // App doesn't always close on ctrl-c in console, this fixes that
 app.on('before-quit', () => app.exit())

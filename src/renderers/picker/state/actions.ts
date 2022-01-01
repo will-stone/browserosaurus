@@ -10,14 +10,14 @@ interface OpenAppArguments {
   isShift: boolean
 }
 
-const pickerStarted = cA('picker-window/started')
+const startedPicker = cA('started')
 
-const clickedApp = cA<OpenAppArguments>('app-tile/clicked')
+const clickedApp = cA<OpenAppArguments>('app/clicked')
 
-const pressedEscapeKey = cA('keyboard-shortcut/escape')
-const pressedBackspaceKey = cA('keyboard-shortcut/backspace')
-const pressedCopyKey = cA<string>('keyboard-shortcut/copy')
-const pressedAppKey = cA<OpenAppArguments>('keyboard-shortcut/app')
+const pressedEscapeKey = cA('escape-key/pressed')
+const pressedBackspaceKey = cA('backspace-key/pressed')
+const pressedCopyKey = cA<string>('copy-key/pressed')
+const pressedAppKey = cA<OpenAppArguments>('app-key/pressed')
 
 const clickedUrlBar = cA('url-bar/clicked')
 
@@ -29,9 +29,9 @@ export {
   clickedDonate,
   clickedMaybeLater,
   clickedUrlBar,
-  pickerStarted,
   pressedAppKey,
   pressedBackspaceKey,
   pressedCopyKey,
   pressedEscapeKey,
+  startedPicker,
 }

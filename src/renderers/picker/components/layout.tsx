@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { Spinner } from '../../shared/components/atoms/spinner'
 import { useInstalledApps, useKeyCodeMap } from '../../shared/state/hooks'
 import { favAppRef } from '../refs'
-import { pickerStarted } from '../state/actions'
+import { startedPicker } from '../state/actions'
 import AppLogo from './atoms/app-logo'
 import Kbd from './atoms/kbd'
 import { useKeyboardEvents } from './hooks/use-keyboard-events'
@@ -15,7 +15,7 @@ import UrlBar from './organisms/url-bar'
 const useAppStarted = () => {
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(pickerStarted())
+    dispatch(startedPicker())
   }, [dispatch])
 }
 

@@ -2,7 +2,7 @@
 import {
   clickedRestorePicker,
   installedAppsRetrieved,
-  urlOpened,
+  openedUrl,
 } from '../../../main/state/actions'
 import type { Middleware } from '../../../shared/state/model'
 import { getKeyLayout } from '../../shared/state/thunk.get-key-layout-map'
@@ -21,7 +21,7 @@ export const pickerMiddleware =
     const result = next(action)
 
     const doesActionOpenPicker =
-      urlOpened.match(action) || clickedRestorePicker.match(action)
+      openedUrl.match(action) || clickedRestorePicker.match(action)
 
     if (
       doesActionOpenPicker ||

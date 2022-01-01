@@ -4,9 +4,9 @@ import { actionNamespacer } from '../../../shared/utils/action-namespacer'
 
 const cA = actionNamespacer('prefs')
 
-const prefsStarted = cA('prefs-window/started')
+const startedPrefs = cA('started')
 
-const clickedTabButton = cA<PrefsTab>('prefs-tab-button/clicked')
+const clickedTabButton = cA<PrefsTab>('tab-button/clicked')
 
 const clickedSetAsDefaultBrowserButton = cA(
   'set-as-default-browser-button/clicked',
@@ -15,15 +15,14 @@ const clickedRescanApps = cA('rescan-apps/clicked')
 const clickedUpdateButton = cA('update-button/clicked')
 const clickedUpdateRestartButton = cA('update-restart-button/clicked')
 
-const changedHotCode = cA<{ appId: AppId; value: string }>('hot-code/updated')
-const reorderedApps =
+const updatedHotCode = cA<{ appId: AppId; value: string }>('hot-code/updated')
+const reorderedApp =
   cA<{ sourceId: AppId; destinationId: AppId }>('app/reordered')
 
 const clickedHomepageButton = cA('homepage-button/clicked')
 const clickedOpenIssueButton = cA('open-issue-button/clicked')
 
 export {
-  changedHotCode,
   clickedHomepageButton,
   clickedOpenIssueButton,
   clickedRescanApps,
@@ -31,6 +30,7 @@ export {
   clickedTabButton,
   clickedUpdateButton,
   clickedUpdateRestartButton,
-  prefsStarted,
-  reorderedApps,
+  reorderedApp,
+  startedPrefs,
+  updatedHotCode,
 }

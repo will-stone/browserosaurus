@@ -8,13 +8,13 @@ import React from 'react'
 import { keyLayout } from '../../../../../__fixtures__/key-layout'
 import {
   installedAppsRetrieved,
+  openedUrl,
   syncReducers,
-  urlOpened,
 } from '../../../../main/state/actions'
 import { Channel } from '../../../../shared/state/channels'
 import { defaultData } from '../../../../shared/state/reducer.data'
 import { addChannelToAction } from '../../../../shared/utils/add-channel-to-action'
-import { reorderedApps } from '../../../prefs/state/actions'
+import { reorderedApp } from '../../../prefs/state/actions'
 import { customWindow } from '../../../shared/custom.window'
 import { clickedApp, pressedAppKey } from '../../state/actions'
 import Wrapper from '../_bootstrap'
@@ -100,7 +100,7 @@ test('apps', () => {
 
   // Correct info sent to main when app clicked
   const url = 'http://example.com'
-  win.webContents.send(Channel.MAIN, urlOpened(url))
+  win.webContents.send(Channel.MAIN, openedUrl(url))
   fireEvent.click(screen.getByRole('button', { name: 'Brave Nightly App' }), {
     altKey: true,
   })
@@ -139,7 +139,7 @@ test('use hotkey', () => {
   )
 
   const url = 'http://example.com'
-  win.webContents.send(Channel.MAIN, urlOpened(url))
+  win.webContents.send(Channel.MAIN, openedUrl(url))
   fireEvent.keyDown(document, { key: 'S', code: 'KeyS', keyCode: 83 })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     Channel.PICKER,
@@ -177,7 +177,7 @@ test('use hotkey with alt', () => {
   )
 
   const url = 'http://example.com'
-  win.webContents.send(Channel.MAIN, urlOpened(url))
+  win.webContents.send(Channel.MAIN, openedUrl(url))
   fireEvent.keyDown(document, {
     key: 's',
     code: 'KeyS',
@@ -206,7 +206,7 @@ test('hold shift', () => {
     installedAppsRetrieved(['org.mozilla.firefox']),
   )
   const url = 'http://example.com'
-  win.webContents.send(Channel.MAIN, urlOpened(url))
+  win.webContents.send(Channel.MAIN, openedUrl(url))
   fireEvent.click(screen.getByRole('button', { name: 'Firefox App' }), {
     shiftKey: true,
   })
@@ -259,21 +259,21 @@ test('tiles order', () => {
 
   win.webContents.send(
     Channel.MAIN,
-    reorderedApps({
+    reorderedApp({
       sourceId: 'com.apple.Safari',
       destinationId: 'org.mozilla.firefox',
     }),
   )
   win.webContents.send(
     Channel.MAIN,
-    reorderedApps({
+    reorderedApp({
       sourceId: 'com.operasoftware.Opera',
       destinationId: 'org.mozilla.firefox',
     }),
   )
   win.webContents.send(
     Channel.MAIN,
-    reorderedApps({
+    reorderedApp({
       sourceId: 'com.brave.Browser',
       destinationId: 'org.mozilla.firefox',
     }),

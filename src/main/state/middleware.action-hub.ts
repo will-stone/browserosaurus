@@ -11,10 +11,10 @@ import { B_URL, ISSUES_URL } from '../../config/CONSTANTS'
 import {
   clickedApp,
   clickedUrlBar,
-  pickerStarted,
   pressedAppKey,
   pressedCopyKey,
   pressedEscapeKey,
+  startedPicker,
 } from '../../renderers/picker/state/actions'
 import {
   clickedHomepageButton,
@@ -23,7 +23,7 @@ import {
   clickedSetAsDefaultBrowserButton,
   clickedUpdateButton,
   clickedUpdateRestartButton,
-  prefsStarted,
+  startedPrefs,
 } from '../../renderers/prefs/state/actions'
 import type { Middleware } from '../../shared/state/model'
 import type { RootState } from '../../shared/state/reducer.root'
@@ -41,16 +41,16 @@ import {
   showPrefsWindow,
 } from '../windows'
 import {
-  appReady,
+  availableUpdate,
   clickedOpenPrefs,
   clickedRestorePicker,
+  downloadedUpdate,
+  downloadingUpdate,
   gotAppVersion,
   gotDefaultBrowserStatus,
+  openedUrl,
+  readiedApp,
   syncReducers,
-  updateAvailable,
-  updateDownloaded,
-  updateDownloading,
-  urlOpened,
 } from './actions'
 import { checkForUpdate } from './thunk.check-for-update'
 import { getInstalledAppIds } from './thunk.get-installed-app-ids'
@@ -88,7 +88,7 @@ export const actionHubMiddleware =
     updateDatabase(previousState, nextState)
 
     // Main's process is ready
-    if (appReady.match(action)) {
+    if (readiedApp.match(action)) {
       // Hide from dock and cmd-tab
       app.dock.hide()
 
@@ -108,11 +108,11 @@ export const actionHubMiddleware =
         })
 
         autoUpdater.on('update-available', () => {
-          dispatch(updateDownloading())
+          dispatch(downloadingUpdate())
         })
 
         autoUpdater.on('update-downloaded', () => {
-          dispatch(updateDownloaded())
+          dispatch(downloadedUpdate())
         })
 
         autoUpdater.on('error', () => {
@@ -125,7 +125,7 @@ export const actionHubMiddleware =
         // action-hub.
         setInterval(async () => {
           if (await isUpdateAvailable()) {
-            dispatch(updateAvailable())
+            dispatch(availableUpdate())
           }
         }, ONE_DAY_MS)
       }
@@ -144,7 +144,7 @@ export const actionHubMiddleware =
     }
 
     // When a renderer starts, send down all the local store for synchronisation
-    else if (pickerStarted.match(action) || prefsStarted.match(action)) {
+    else if (startedPicker.match(action) || startedPrefs.match(action)) {
       dispatch(syncReducers(nextState))
     }
 
@@ -168,7 +168,7 @@ export const actionHubMiddleware =
     }
 
     // Update and restart
-    else if (updateAvailable.match(action)) {
+    else if (availableUpdate.match(action)) {
       tray?.setImage(path.join(__dirname, '/static/icon/tray_iconBlue.png'))
     }
 
@@ -231,7 +231,7 @@ export const actionHubMiddleware =
     }
 
     // Open URL
-    else if (urlOpened.match(action)) {
+    else if (openedUrl.match(action)) {
       showPickerWindow()
 
       if (nextState.data.installedApps.length === 0) {

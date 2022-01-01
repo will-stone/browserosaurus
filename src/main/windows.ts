@@ -3,8 +3,8 @@ import path from 'path'
 
 import { database } from './database'
 import {
+  changedPickerWindowBounds,
   gotDefaultBrowserStatus,
-  pickerWindowBoundsChanged,
 } from './state/actions'
 import { dispatch } from './state/store'
 
@@ -112,7 +112,7 @@ export async function createWindows(): Promise<void> {
 
   pickerWindow.on('resize', () => {
     if (pickerWindow) {
-      dispatch(pickerWindowBoundsChanged(pickerWindow.getBounds()))
+      dispatch(changedPickerWindowBounds(pickerWindow.getBounds()))
     }
   })
 

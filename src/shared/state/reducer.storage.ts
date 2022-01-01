@@ -2,8 +2,8 @@ import { createReducer } from '@reduxjs/toolkit'
 
 import type { AppId } from '../../config/apps'
 import {
+  changedPickerWindowBounds,
   installedAppsRetrieved,
-  pickerWindowBoundsChanged,
   syncReducers,
 } from '../../main/state/actions'
 import {
@@ -11,8 +11,8 @@ import {
   clickedMaybeLater,
 } from '../../renderers/picker/state/actions'
 import {
-  changedHotCode,
-  reorderedApps,
+  reorderedApp,
+  updatedHotCode,
 } from '../../renderers/prefs/state/actions'
 
 export interface Storage {
@@ -47,7 +47,7 @@ export const storage = createReducer<Storage>(defaultStorage, (builder) =>
       }
     })
 
-    .addCase(changedHotCode, (state, action) => {
+    .addCase(updatedHotCode, (state, action) => {
       const hotCode = action.payload.value
       const appWithSameHotCodeIndex = state.apps.findIndex(
         (app) => app.hotCode === hotCode,
@@ -72,11 +72,11 @@ export const storage = createReducer<Storage>(defaultStorage, (builder) =>
       state.supportMessage = Date.now()
     })
 
-    .addCase(pickerWindowBoundsChanged, (state, action) => {
+    .addCase(changedPickerWindowBounds, (state, action) => {
       state.height = action.payload.height
     })
 
-    .addCase(reorderedApps, (state, action) => {
+    .addCase(reorderedApp, (state, action) => {
       const sourceIndex = state.apps.findIndex(
         (app) => app.id === action.payload.sourceId,
       )
