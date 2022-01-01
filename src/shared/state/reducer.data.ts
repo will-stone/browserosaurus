@@ -6,7 +6,6 @@ import {
   availableUpdate,
   downloadedUpdate,
   downloadingUpdate,
-  gotAppVersion,
   gotDefaultBrowserStatus,
   installedAppsRetrieved,
   openedUrl,
@@ -88,10 +87,6 @@ export const data = createReducer<Data>(defaultData, (builder) =>
 
     .addCase(openedUrl, (state, action) => {
       state.url = action.payload
-    })
-
-    .addCase(gotAppVersion, (state, action) => {
-      state.version = action.payload
     })
 
     .addCase(clickedDonate, (state) => {

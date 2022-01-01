@@ -46,7 +46,6 @@ import {
   clickedRestorePicker,
   downloadedUpdate,
   downloadingUpdate,
-  gotAppVersion,
   gotDefaultBrowserStatus,
   openedUrl,
   readiedApp,
@@ -129,11 +128,6 @@ export const actionHubMiddleware =
           }
         }, ONE_DAY_MS)
       }
-
-      // App version
-      dispatch(
-        gotAppVersion(`${app.getVersion()}${app.isPackaged ? '' : ' DEV'}`),
-      )
 
       // Is default browser?
       dispatch(gotDefaultBrowserStatus(app.isDefaultProtocolClient('http')))

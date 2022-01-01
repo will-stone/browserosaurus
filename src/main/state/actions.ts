@@ -19,7 +19,6 @@ const installedAppsRetrieved = cA<AppId[]>('installed-apps/retrieved')
 const syncReducers =
   cA<CombinedState<{ data: Data; storage: Storage }>>('sync-reducers')
 
-const gotAppVersion = cA<string>('app-version/got')
 const gotDefaultBrowserStatus = cA<boolean>('default-browser-status/got')
 
 const availableUpdate = cA('update/available')
@@ -36,7 +35,6 @@ export {
   clickedRestorePicker,
   downloadedUpdate,
   downloadingUpdate,
-  gotAppVersion,
   gotDefaultBrowserStatus,
   installedAppsRetrieved,
   openedUrl,
