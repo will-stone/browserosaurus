@@ -1,12 +1,12 @@
 import { app, BrowserWindow, screen } from 'electron'
 import path from 'path'
 
+import { database } from './database'
 import {
   gotDefaultBrowserStatus,
   pickerWindowBoundsChanged,
 } from './state/actions'
 import { dispatch } from './state/store'
-import { storage } from './storage'
 
 declare const PICKER_WINDOW_WEBPACK_ENTRY: string
 declare const PICKER_WINDOW_PRELOAD_WEBPACK_ENTRY: string
@@ -63,7 +63,7 @@ export async function createWindows(): Promise<void> {
     dispatch(gotDefaultBrowserStatus(app.isDefaultProtocolClient('http')))
   })
 
-  const height = storage.get('height')
+  const height = database.get('height')
 
   pickerWindow = new BrowserWindow({
     frame: true,

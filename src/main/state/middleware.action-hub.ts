@@ -27,7 +27,7 @@ import {
 } from '../../renderers/prefs/state/actions'
 import type { Middleware } from '../../shared/state/model'
 import { logger } from '../../shared/utils/logger'
-import { storage } from '../storage'
+import { database } from '../database'
 import { createTray, tray } from '../tray'
 import copyToClipboard from '../utils/copy-to-clipboard'
 import { getUpdateUrl } from '../utils/get-update-url'
@@ -73,7 +73,7 @@ export const actionHubMiddleware =
      * Update perma store on state.storage changes
      */
     if (!deepEqual(previousState.storage, nextState.storage)) {
-      storage.setAll(nextState.storage)
+      database.setAll(nextState.storage)
     }
 
     // Main's process is ready

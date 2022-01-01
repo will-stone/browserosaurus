@@ -10,53 +10,53 @@ const keys = Object.keys as <T>(o: T) => Extract<keyof T, string>[]
 const STORAGE_FILE = path.join(app.getPath('userData'), 'store.json')
 
 const adapter = new JSONFileSync<Storage>(STORAGE_FILE)
-const database = new LowSync<Storage>(adapter)
-database.read()
-database.data ||= defaultStorage
-database.write()
+const lowdb = new LowSync<Storage>(adapter)
+lowdb.read()
+lowdb.data ||= defaultStorage
+lowdb.write()
 
 /**
  * Keyboard shortcuts
  */
 
-export const storage = {
+export const database = {
   get: <Key extends keyof Storage>(key: Key): Storage[Key] => {
-    return storage.getAll()[key]
+    return database.getAll()[key]
   },
 
   set: <Key extends keyof Storage>(key: Key, value: Storage[Key]): void => {
-    database.read()
+    lowdb.read()
 
-    if (database.data === null) {
-      database.data = defaultStorage
+    if (lowdb.data === null) {
+      lowdb.data = defaultStorage
     }
 
-    database.data[key] = value
-    database.write()
+    lowdb.data[key] = value
+    lowdb.write()
   },
 
   getAll: (): Storage => {
-    database.read()
+    lowdb.read()
 
-    if (database.data === null) {
+    if (lowdb.data === null) {
       return defaultStorage
     }
 
     // Removes unknown keys in storage
-    for (const key of keys(database.data)) {
+    for (const key of keys(lowdb.data)) {
       if (typeof defaultStorage[key] === 'undefined') {
-        delete database.data[key]
+        delete lowdb.data[key]
       }
     }
 
     return {
       ...defaultStorage,
-      ...database.data,
+      ...lowdb.data,
     }
   },
 
   setAll: (value: Storage): void => {
-    database.data = value
-    database.write()
+    lowdb.data = value
+    lowdb.write()
   },
 }
