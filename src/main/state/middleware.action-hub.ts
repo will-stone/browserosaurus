@@ -44,8 +44,8 @@ import {
   readiedApp,
   syncReducers,
 } from './actions'
+import { getInstalledAppIds } from './mid.get-installed-app-ids'
 import { initUpdateChecker } from './mid.init-update-checker'
-import { getInstalledAppIds } from './thunk.get-installed-app-ids'
 
 /**
  * Asynchronously update perma store on state.storage changes
@@ -144,7 +144,7 @@ export const actionHubMiddleware =
 
     // Rescan for browsers
     else if (clickedRescanApps.match(action)) {
-      dispatch(getInstalledAppIds())
+      getInstalledAppIds()
     }
 
     // Open app
@@ -190,7 +190,7 @@ export const actionHubMiddleware =
       showPickerWindow()
 
       if (nextState.data.installedApps.length === 0) {
-        dispatch(getInstalledAppIds())
+        getInstalledAppIds()
       }
     }
 
@@ -199,7 +199,7 @@ export const actionHubMiddleware =
       showPickerWindow()
 
       if (nextState.data.installedApps.length === 0) {
-        dispatch(getInstalledAppIds())
+        getInstalledAppIds()
       }
     }
 
@@ -208,7 +208,7 @@ export const actionHubMiddleware =
       showPrefsWindow()
 
       if (nextState.data.installedApps.length === 0) {
-        dispatch(getInstalledAppIds())
+        getInstalledAppIds()
       }
     }
 

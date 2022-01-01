@@ -1,11 +1,11 @@
 import sleep from 'tings/lib/sleep'
 
 import { apps } from '../../config/apps'
-import type { AppThunk } from '../../shared/state/reducer.root'
 import { filterAppsByInstalled } from '../utils/filter-apps-by-installed'
 import { installedAppsRetrieved } from './actions'
+import { dispatch } from './store'
 
-export const getInstalledAppIds = (): AppThunk => async (dispatch) => {
+export async function getInstalledAppIds(): Promise<void> {
   const installedApps = await filterAppsByInstalled(apps)
 
   // It appears that sometimes the installed app IDs are not fetched, maybe a
@@ -13,7 +13,7 @@ export const getInstalledAppIds = (): AppThunk => async (dispatch) => {
   // https://github.com/will-stone/browserosaurus/issues/425
   if (installedApps.length === 0) {
     await sleep(500)
-    dispatch(getInstalledAppIds())
+    getInstalledAppIds()
   } else {
     dispatch(installedAppsRetrieved(installedApps))
   }
