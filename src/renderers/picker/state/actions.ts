@@ -4,7 +4,6 @@ import { actionNamespacer } from '../../../shared/utils/action-namespacer'
 const cA = actionNamespacer('picker')
 
 interface OpenAppArguments {
-  url: string
   appId: AppId | undefined
   isAlt: boolean
   isShift: boolean

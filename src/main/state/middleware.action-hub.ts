@@ -1,11 +1,9 @@
 /* eslint-disable node/callback-return -- must flush middleware to get nextState */
 /* eslint-disable unicorn/prefer-regexp-test -- rtk uses .match */
-import { execFile } from 'child_process'
 import { app, autoUpdater, Notification, shell } from 'electron'
 import deepEqual from 'fast-deep-equal'
 import path from 'path'
 
-import { apps } from '../../config/apps'
 import { B_URL, ISSUES_URL } from '../../config/CONSTANTS'
 import {
   clickedApp,
@@ -29,6 +27,7 @@ import { createTray, tray } from '../tray'
 import copyToClipboard from '../utils/copy-to-clipboard'
 import { getInstalledAppIds } from '../utils/get-installed-app-ids'
 import { initUpdateChecker } from '../utils/init-update-checker'
+import { openApp } from '../utils/open-app'
 import {
   createWindows,
   pickerWindow,
@@ -89,7 +88,6 @@ export const actionHubMiddleware =
     if (readiedApp.match(action)) {
       // Hide from dock and cmd-tab
       app.dock.hide()
-
       createWindows()
       createTray()
       initUpdateChecker()
@@ -152,35 +150,13 @@ export const actionHubMiddleware =
 
     // Clicked app
     else if (clickedApp.match(action)) {
-      const { appId, url = '', isAlt, isShift } = action.payload
+      const { appId, isAlt, isShift } = action.payload
 
-      // Bail if app's bundle id is missing
-      if (!appId) return result
-
-      const selectedApp = apps[appId]
-
-      const processedUrlTemplate =
-        'urlTemplate' in selectedApp
-          ? selectedApp.urlTemplate.replace(/\{\{URL\}\}/u, url)
-          : url
-
-      const openArguments: string[] = [
-        '-b',
-        appId,
-        isAlt ? '--background' : [],
-        isShift && 'privateArg' in selectedApp
-          ? ['--new', '--args', selectedApp.privateArg]
-          : [],
-        // In order for private/incognito mode to work the URL needs to be passed
-        // in last, _after_ the respective app.privateArg flag
-        processedUrlTemplate,
-      ]
-        .filter(Boolean)
-        .flat()
-
-      execFile('open', openArguments)
-
-      pickerWindow?.hide()
+      // Ignore if app's bundle id is missing
+      if (appId) {
+        openApp(appId, nextState.data.url, isAlt, isShift)
+        pickerWindow?.hide()
+      }
     }
 
     // Pressed key in picker window
@@ -196,32 +172,12 @@ export const actionHubMiddleware =
         )
 
         if (!action.payload.metaKey && foundApp) {
-          const selectedApp = apps[foundApp.id]
-
-          const processedUrlTemplate =
-            'urlTemplate' in selectedApp
-              ? selectedApp.urlTemplate.replace(
-                  /\{\{URL\}\}/u,
-                  nextState.data.url,
-                )
-              : nextState.data.url
-
-          const openArguments: string[] = [
-            '-b',
+          openApp(
             foundApp.id,
-            action.payload.altKey ? '--background' : [],
-            action.payload.shiftKey && 'privateArg' in selectedApp
-              ? ['--new', '--args', selectedApp.privateArg]
-              : [],
-            // In order for private/incognito mode to work the URL needs to be passed
-            // in last, _after_ the respective app.privateArg flag
-            processedUrlTemplate,
-          ]
-            .filter(Boolean)
-            .flat()
-
-          execFile('open', openArguments)
-
+            nextState.data.url,
+            action.payload.altKey,
+            action.payload.shiftKey,
+          )
           pickerWindow?.hide()
         }
       }

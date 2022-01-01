@@ -89,7 +89,6 @@ test('apps', () => {
     Channel.PICKER,
     addChannelToAction(
       clickedApp({
-        url: '',
         appId: 'org.mozilla.firefox',
         isAlt: false,
         isShift: false,
@@ -108,7 +107,6 @@ test('apps', () => {
     Channel.PICKER,
     addChannelToAction(
       clickedApp({
-        url,
         appId: 'com.brave.Browser.nightly',
         isAlt: true,
         isShift: false,
@@ -207,8 +205,7 @@ test('hold shift', () => {
     Channel.MAIN,
     installedAppsRetrieved(['org.mozilla.firefox']),
   )
-  const url = 'http://example.com'
-  win.webContents.send(Channel.MAIN, openedUrl(url))
+  win.webContents.send(Channel.MAIN, openedUrl('http://example.com'))
   fireEvent.click(screen.getByRole('button', { name: 'Firefox App' }), {
     shiftKey: true,
   })
@@ -216,7 +213,6 @@ test('hold shift', () => {
     Channel.PICKER,
     addChannelToAction(
       clickedApp({
-        url,
         appId: 'org.mozilla.firefox',
         isAlt: false,
         isShift: true,

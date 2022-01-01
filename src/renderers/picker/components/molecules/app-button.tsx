@@ -3,7 +3,6 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import type { InstalledApp } from '../../../shared/state/hooks'
-import { useSelector } from '../../../shared/state/hooks'
 import { clickedApp } from '../../state/actions'
 
 interface Props {
@@ -18,7 +17,6 @@ export const AppButton = React.forwardRef(
     ref: React.ForwardedRef<HTMLButtonElement>,
   ): JSX.Element => {
     const dispatch = useDispatch()
-    const url = useSelector((state) => state.data.url)
 
     return (
       <button
@@ -38,7 +36,6 @@ export const AppButton = React.forwardRef(
         onClick={(event) =>
           dispatch(
             clickedApp({
-              url,
               appId: app.id,
               isAlt: event.altKey,
               isShift: event.shiftKey,
