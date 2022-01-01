@@ -14,10 +14,13 @@ const startedPicker = cA('started')
 
 const clickedApp = cA<OpenAppArguments>('app/clicked')
 
-const pressedEscapeKey = cA('escape-key/pressed')
-const pressedBackspaceKey = cA('backspace-key/pressed')
-const pressedCopyKey = cA<string>('copy-key/pressed')
-const pressedAppKey = cA<OpenAppArguments>('app-key/pressed')
+const pressedKey = cA<{
+  virtualKey: string
+  physicalKey: string
+  metaKey: boolean
+  altKey: boolean
+  shiftKey: boolean
+}>('key/pressed')
 
 const clickedUrlBar = cA('url-bar/clicked')
 
@@ -29,9 +32,6 @@ export {
   clickedDonate,
   clickedMaybeLater,
   clickedUrlBar,
-  pressedAppKey,
-  pressedBackspaceKey,
-  pressedCopyKey,
-  pressedEscapeKey,
+  pressedKey,
   startedPicker,
 }

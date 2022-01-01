@@ -10,9 +10,7 @@ import { B_URL, ISSUES_URL } from '../../config/CONSTANTS'
 import {
   clickedApp,
   clickedUrlBar,
-  pressedAppKey,
-  pressedCopyKey,
-  pressedEscapeKey,
+  pressedKey,
   startedPicker,
 } from '../../renderers/picker/state/actions'
 import {
@@ -103,7 +101,12 @@ export const actionHubMiddleware =
     }
 
     // Copy to clipboard
-    else if (clickedUrlBar.match(action) || pressedCopyKey.match(action)) {
+    else if (
+      clickedUrlBar.match(action) ||
+      (pressedKey.match(action) &&
+        action.payload.metaKey &&
+        action.payload.virtualKey === 'c')
+    ) {
       if (nextState.data.url) {
         copyToClipboard(nextState.data.url)
         pickerWindow?.hide()
@@ -147,8 +150,8 @@ export const actionHubMiddleware =
       getInstalledAppIds()
     }
 
-    // Open app
-    else if (pressedAppKey.match(action) || clickedApp.match(action)) {
+    // Clicked app
+    else if (clickedApp.match(action)) {
       const { appId, url = '', isAlt, isShift } = action.payload
 
       // Bail if app's bundle id is missing
@@ -180,9 +183,48 @@ export const actionHubMiddleware =
       pickerWindow?.hide()
     }
 
-    // Escape key
-    else if (pressedEscapeKey.match(action)) {
-      pickerWindow?.hide()
+    // Pressed key in picker window
+    else if (pressedKey.match(action)) {
+      // Escape key
+      if (action.payload.physicalKey === 'Escape') {
+        pickerWindow?.hide()
+      }
+      // App hotkey
+      else {
+        const foundApp = nextState.storage.apps.find(
+          (storedApp) => storedApp.hotCode === action.payload.physicalKey,
+        )
+
+        if (!action.payload.metaKey && foundApp) {
+          const selectedApp = apps[foundApp.id]
+
+          const processedUrlTemplate =
+            'urlTemplate' in selectedApp
+              ? selectedApp.urlTemplate.replace(
+                  /\{\{URL\}\}/u,
+                  nextState.data.url,
+                )
+              : nextState.data.url
+
+          const openArguments: string[] = [
+            '-b',
+            foundApp.id,
+            action.payload.altKey ? '--background' : [],
+            action.payload.shiftKey && 'privateArg' in selectedApp
+              ? ['--new', '--args', selectedApp.privateArg]
+              : [],
+            // In order for private/incognito mode to work the URL needs to be passed
+            // in last, _after_ the respective app.privateArg flag
+            processedUrlTemplate,
+          ]
+            .filter(Boolean)
+            .flat()
+
+          execFile('open', openArguments)
+
+          pickerWindow?.hide()
+        }
+      }
     }
 
     // Open URL

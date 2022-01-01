@@ -13,7 +13,7 @@ import {
 } from '../../main/state/actions'
 import {
   clickedDonate,
-  pressedBackspaceKey,
+  pressedKey,
   startedPicker,
 } from '../../renderers/picker/state/actions'
 import {
@@ -65,8 +65,11 @@ export const data = createReducer<Data>(defaultData, (builder) =>
       state.prefsStarted = true
     })
 
-    .addCase(pressedBackspaceKey, (state) => {
-      state.url = backspaceUrlParse(state.url)
+    // Pressed key in picker window
+    .addCase(pressedKey, (state, action) => {
+      if (action.payload.physicalKey === 'Backspace') {
+        state.url = backspaceUrlParse(state.url)
+      }
     })
 
     .addCase(gotDefaultBrowserStatus, (state, action) => {

@@ -16,7 +16,7 @@ import { defaultData } from '../../../../shared/state/reducer.data'
 import { addChannelToAction } from '../../../../shared/utils/add-channel-to-action'
 import { reorderedApp } from '../../../prefs/state/actions'
 import { customWindow } from '../../../shared/custom.window'
-import { clickedApp, pressedAppKey } from '../../state/actions'
+import { clickedApp, pressedKey } from '../../state/actions'
 import Wrapper from '../_bootstrap'
 
 const originalNavigator = cloneDeep(customWindow.navigator)
@@ -144,11 +144,12 @@ test('use hotkey', () => {
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     Channel.PICKER,
     addChannelToAction(
-      pressedAppKey({
-        url,
-        appId: 'com.apple.Safari',
-        isAlt: false,
-        isShift: false,
+      pressedKey({
+        virtualKey: 's',
+        physicalKey: 'KeyS',
+        altKey: false,
+        shiftKey: false,
+        metaKey: false,
       }),
       Channel.PICKER,
     ),
@@ -187,11 +188,12 @@ test('use hotkey with alt', () => {
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     Channel.PICKER,
     addChannelToAction(
-      pressedAppKey({
-        url,
-        appId: 'com.apple.Safari',
-        isAlt: true,
-        isShift: false,
+      pressedKey({
+        virtualKey: 's',
+        physicalKey: 'KeyS',
+        altKey: true,
+        shiftKey: false,
+        metaKey: false,
       }),
       Channel.PICKER,
     ),
