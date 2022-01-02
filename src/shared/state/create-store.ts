@@ -24,7 +24,7 @@ const createStore = (
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => [
       channelInjectorMiddleware(channel),
-      ...getDefaultMiddleware(),
+      ...getDefaultMiddleware({ thunk: false }),
       ...middleware,
       logMiddleware(),
     ],
