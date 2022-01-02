@@ -40,6 +40,7 @@ import pocket from './logos/pocket.png'
 import polypane from './logos/polypane.png'
 import spotify from './logos/spotify.png'
 import waterfox from './logos/waterfox.png'
+import yattee from './logos/yattee.png'
 import zoom from './logos/zoom.png'
 
 export const apps = {
@@ -219,6 +220,10 @@ export const apps = {
   'ru.yandex.desktop.yandex-browser': {
     name: 'Yandex',
     logo: yandex,
+  },
+  'stream.yattee.app': {
+    name: 'Yattee',
+    logo: yattee,
   },
   'us.zoom.xos': {
     name: 'Zoom',
