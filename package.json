@@ -29,7 +29,7 @@
     "package:arm": "NODE_ENV=production electron-forge package --platform=darwin --arch=arm64",
     "package:intel": "NODE_ENV=production electron-forge package --platform=darwin --arch=x64",
     "prepare": "husky install",
-    "release": "bump --commit && npm run doctor && npm run package && npm run notarize && npm run make",
+    "release": "bump --commit \"chore: release v\" && npm run doctor && npm run package && npm run notarize && npm run make",
     "start": "ELECTRON_DISABLE_SECURITY_WARNINGS=true TAILWIND_MODE=watch electron-forge start",
     "test": "jest",
     "typecheck": "tsc --noEmit --skipLibCheck"
