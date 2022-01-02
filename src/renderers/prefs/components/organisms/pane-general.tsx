@@ -8,6 +8,7 @@ import {
   clickedSetAsDefaultBrowserButton,
   clickedUpdateButton,
   clickedUpdateRestartButton,
+  confirmedReset,
 } from '../../state/actions'
 import { Pane } from '../molecules/pane'
 
@@ -96,6 +97,26 @@ export const GeneralPane = (): JSX.Element => {
             </Button>
           )}
           {updateStatus === 'no-update' && 'No update available'}
+        </Right>
+      </Row>
+
+      <Row>
+        <Left>Factory Reset:</Left>
+        <Right>
+          <Button
+            onClick={() => {
+              // eslint-disable-next-line no-restricted-globals, no-alert
+              if (confirm('Are you sure you wish to reset all preferences?')) {
+                dispatch(confirmedReset())
+              }
+            }}
+          >
+            Reset
+          </Button>
+          <p className="text-sm mt-2 opacity-70">
+            Restores all preferences to initial defaults and restarts the app as
+            if run for the first time.
+          </p>
         </Right>
       </Row>
     </Pane>

@@ -18,6 +18,7 @@ import {
   clickedSetAsDefaultBrowserButton,
   clickedUpdateButton,
   clickedUpdateRestartButton,
+  confirmedReset,
   startedPrefs,
 } from '../../renderers/prefs/state/actions'
 import type { Middleware } from '../../shared/state/model'
@@ -28,6 +29,7 @@ import copyUrlToClipboard from '../utils/copy-url-to-clipboard'
 import { getInstalledAppIds } from '../utils/get-installed-app-ids'
 import { initUpdateChecker } from '../utils/init-update-checker'
 import { openApp } from '../utils/open-app'
+import { removeWindowsFromMemory } from '../utils/remove-windows-from-memory'
 import {
   createWindows,
   pickerWindow,
@@ -124,12 +126,7 @@ export const actionHubMiddleware =
     // Update and restart
     else if (clickedUpdateRestartButton.match(action)) {
       autoUpdater.quitAndInstall()
-      // @ts-expect-error -- window must be destroyed to prevent race condition
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      prefsWindow = null
-      // @ts-expect-error -- window must be destroyed to prevent race condition
-      pickerWindow = null
-      // https://stackoverflow.com/questions/38309240/object-has-been-destroyed-when-open-secondary-child-window-in-electron-js
+      removeWindowsFromMemory()
     }
 
     // Rescan for browsers
@@ -213,6 +210,17 @@ export const actionHubMiddleware =
     // Open issues page
     else if (clickedOpenIssueButton.match(action)) {
       shell.openExternal(ISSUES_URL)
+    }
+
+    // Factory reset
+    else if (confirmedReset.match(action)) {
+      if (process.env.NODE_ENV === 'development') {
+        prefsWindow?.hide()
+      } else {
+        removeWindowsFromMemory()
+        app.relaunch()
+        app.exit()
+      }
     }
 
     return result

@@ -18,6 +18,7 @@ import {
 } from '../../renderers/picker/state/actions'
 import {
   clickedTabButton,
+  confirmedReset,
   startedPrefs,
 } from '../../renderers/prefs/state/actions'
 import { gotKeyLayoutMap } from '../../renderers/shared/state/actions'
@@ -52,6 +53,8 @@ export const defaultData: Data = {
 export const data = createReducer<Data>(defaultData, (builder) =>
   builder
     .addCase(syncReducers, (_, action) => action.payload.data)
+
+    .addCase(confirmedReset, () => defaultData)
 
     .addCase(installedAppsRetrieved, (state, action) => {
       state.installedApps = action.payload

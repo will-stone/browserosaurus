@@ -12,6 +12,7 @@ import {
   clickedMaybeLater,
 } from '../../renderers/picker/state/actions'
 import {
+  confirmedReset,
   reorderedApp,
   updatedHotCode,
 } from '../../renderers/prefs/state/actions'
@@ -35,6 +36,8 @@ export const storage = createReducer<Storage>(defaultStorage, (builder) =>
     .addCase(readiedApp, (state) => {
       state.isSetup = true
     })
+
+    .addCase(confirmedReset, () => defaultStorage)
 
     .addCase(syncReducers, (_, action) => action.payload.storage)
 
