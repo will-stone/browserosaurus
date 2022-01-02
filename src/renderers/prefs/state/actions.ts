@@ -2,25 +2,26 @@ import type { AppId } from '../../../config/apps'
 import type { PrefsTab } from '../../../shared/state/reducer.data'
 import { actionNamespacer } from '../../../shared/utils/action-namespacer'
 
-const cA = actionNamespacer('prefs')
+const prefs = actionNamespacer('prefs')
 
-const startedPrefs = cA('started')
+const startedPrefs = prefs('started')
 
-const clickedTabButton = cA<PrefsTab>('tab-button/clicked')
+const clickedTabButton = prefs<PrefsTab>('tab-button/clicked')
 
-const clickedSetAsDefaultBrowserButton = cA(
+const clickedSetAsDefaultBrowserButton = prefs(
   'set-as-default-browser-button/clicked',
 )
-const clickedRescanApps = cA('rescan-apps/clicked')
-const clickedUpdateButton = cA('update-button/clicked')
-const clickedUpdateRestartButton = cA('update-restart-button/clicked')
+const clickedRescanApps = prefs('rescan-apps/clicked')
+const clickedUpdateButton = prefs('update-button/clicked')
+const clickedUpdateRestartButton = prefs('update-restart-button/clicked')
 
-const updatedHotCode = cA<{ appId: AppId; value: string }>('hot-code/updated')
+const updatedHotCode =
+  prefs<{ appId: AppId; value: string }>('hot-code/updated')
 const reorderedApp =
-  cA<{ sourceId: AppId; destinationId: AppId }>('app/reordered')
+  prefs<{ sourceId: AppId; destinationId: AppId }>('app/reordered')
 
-const clickedHomepageButton = cA('homepage-button/clicked')
-const clickedOpenIssueButton = cA('open-issue-button/clicked')
+const clickedHomepageButton = prefs('homepage-button/clicked')
+const clickedOpenIssueButton = prefs('open-issue-button/clicked')
 
 export {
   clickedHomepageButton,

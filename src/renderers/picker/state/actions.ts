@@ -1,7 +1,7 @@
 import type { AppId } from '../../../config/apps'
 import { actionNamespacer } from '../../../shared/utils/action-namespacer'
 
-const cA = actionNamespacer('picker')
+const picker = actionNamespacer('picker')
 
 interface OpenAppArguments {
   appId: AppId | undefined
@@ -9,11 +9,11 @@ interface OpenAppArguments {
   isShift: boolean
 }
 
-const startedPicker = cA('started')
+const startedPicker = picker('started')
 
-const clickedApp = cA<OpenAppArguments>('app/clicked')
+const clickedApp = picker<OpenAppArguments>('app/clicked')
 
-const pressedKey = cA<{
+const pressedKey = picker<{
   virtualKey: string
   physicalKey: string
   metaKey: boolean
@@ -21,10 +21,10 @@ const pressedKey = cA<{
   shiftKey: boolean
 }>('key/pressed')
 
-const clickedUrlBar = cA('url-bar/clicked')
+const clickedUrlBar = picker('url-bar/clicked')
 
-const clickedDonate = cA('donate/clicked')
-const clickedMaybeLater = cA('maybe-later/clicked')
+const clickedDonate = picker('donate/clicked')
+const clickedMaybeLater = picker('maybe-later/clicked')
 
 export {
   clickedApp,
