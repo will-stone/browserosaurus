@@ -5,7 +5,7 @@ import {
   changedPickerWindowBounds,
   installedAppsRetrieved,
   readiedApp,
-  syncReducers,
+  receivedRendererStartupSignal,
 } from '../../main/state/actions'
 import {
   clickedDonate,
@@ -39,7 +39,10 @@ export const storage = createReducer<Storage>(defaultStorage, (builder) =>
 
     .addCase(confirmedReset, () => defaultStorage)
 
-    .addCase(syncReducers, (_, action) => action.payload.storage)
+    .addCase(
+      receivedRendererStartupSignal,
+      (_, action) => action.payload.storage,
+    )
 
     .addCase(installedAppsRetrieved, (state, action) => {
       const installedAppIds = action.payload

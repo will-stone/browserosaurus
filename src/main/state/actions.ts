@@ -18,7 +18,7 @@ const changedPickerWindowBounds = main<Rectangle>(
 
 const installedAppsRetrieved = main<AppId[]>('installed-apps/retrieved')
 
-const syncReducers =
+const receivedRendererStartupSignal =
   main<CombinedState<{ data: Data; storage: Storage }>>('sync-reducers')
 
 const gotDefaultBrowserStatus = main<boolean>('default-browser-status/got')
@@ -43,5 +43,5 @@ export {
   installedAppsRetrieved,
   openedUrl,
   readiedApp,
-  syncReducers,
+  receivedRendererStartupSignal,
 }

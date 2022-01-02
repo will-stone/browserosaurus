@@ -9,7 +9,7 @@ import { keyLayout } from '../../../../../__fixtures__/key-layout'
 import {
   installedAppsRetrieved,
   openedUrl,
-  syncReducers,
+  receivedRendererStartupSignal,
 } from '../../../../main/state/actions'
 import { Channel } from '../../../../shared/state/channels'
 import { defaultData } from '../../../../shared/state/reducer.data'
@@ -61,7 +61,7 @@ test('apps', () => {
 
   win.webContents.send(
     Channel.MAIN,
-    syncReducers({
+    receivedRendererStartupSignal({
       storage: {
         apps: [
           { id: 'org.mozilla.firefox', hotCode: null },
@@ -125,7 +125,7 @@ test('use hotkey', () => {
   )
   win.webContents.send(
     Channel.MAIN,
-    syncReducers({
+    receivedRendererStartupSignal({
       storage: {
         apps: [{ id: 'com.apple.Safari', hotCode: 'KeyS' }],
         supportMessage: -1,
@@ -164,7 +164,7 @@ test('use hotkey with alt', () => {
 
   win.webContents.send(
     Channel.MAIN,
-    syncReducers({
+    receivedRendererStartupSignal({
       storage: {
         apps: [{ id: 'com.apple.Safari', hotCode: 'KeyS' }],
         supportMessage: -1,
@@ -229,7 +229,7 @@ test('tiles order', () => {
 
   win.webContents.send(
     Channel.MAIN,
-    syncReducers({
+    receivedRendererStartupSignal({
       storage: {
         apps: [],
         supportMessage: -1,

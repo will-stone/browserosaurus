@@ -9,7 +9,7 @@ import {
   gotDefaultBrowserStatus,
   installedAppsRetrieved,
   openedUrl,
-  syncReducers,
+  receivedRendererStartupSignal,
 } from '../../main/state/actions'
 import {
   clickedDonate,
@@ -52,7 +52,7 @@ export const defaultData: Data = {
 
 export const data = createReducer<Data>(defaultData, (builder) =>
   builder
-    .addCase(syncReducers, (_, action) => action.payload.data)
+    .addCase(receivedRendererStartupSignal, (_, action) => action.payload.data)
 
     .addCase(confirmedReset, () => defaultData)
 

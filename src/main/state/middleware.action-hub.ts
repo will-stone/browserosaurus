@@ -43,7 +43,7 @@ import {
   clickedRestorePicker,
   openedUrl,
   readiedApp,
-  syncReducers,
+  receivedRendererStartupSignal,
 } from './actions'
 
 /**
@@ -95,9 +95,10 @@ export const actionHubMiddleware =
       initUpdateChecker()
     }
 
-    // When a renderer starts, send down all the local store for synchronisation
+    // When a renderer starts, send down all the locally stored data
+    // for reducer synchronisation.
     else if (startedPicker.match(action) || startedPrefs.match(action)) {
-      dispatch(syncReducers(nextState))
+      dispatch(receivedRendererStartupSignal(nextState))
     }
 
     // Clicked URL bar
