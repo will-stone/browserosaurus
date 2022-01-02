@@ -1,19 +1,8 @@
 const plugin = require('tailwindcss/plugin')
-const colors = require('tailwindcss/colors')
 
 module.exports = {
-  darkMode: 'media',
-  mode: 'jit',
-  purge: ['./src/**/*.tsx', './src/**/*.html'],
+  content: ['./src/**/*.tsx', './src/**/*.html'],
   theme: {
-    colors: {
-      gray: colors.gray,
-      blueGray: colors.blueGray,
-      white: colors.white,
-      black: colors.black,
-      yellow: colors.yellow,
-      blue: colors.blue,
-    },
     fontSize: {
       'xxs': '.6rem',
       'xs': '.75rem',

@@ -109,7 +109,7 @@ export function AppsPane(): JSX.Element {
                       </div>
                       <div className="flex items-center justify-center p-4 w-16">
                         {index === 0 ? (
-                          <StarIcon className="text-yellow-600 dark:text-yellow-400 h-4" />
+                          <StarIcon className="text-amber-600 dark:text-amber-400 h-4" />
                         ) : (
                           index + 1
                         )}
