@@ -33,6 +33,7 @@ import dissenter from './logos/dissenter.png'
 import figma from './logos/figma.png'
 import finicky from './logos/finicky.png'
 import librewolf from './logos/librewolf.png'
+import linear from './logos/linear.png'
 import min from './logos/min.png'
 import naverWhale from './logos/NAVER_whale.png'
 import orion from './logos/orion.png'
@@ -139,6 +140,10 @@ export const apps = {
   'io.gitlab.librewolf-community.librewolf': {
     name: 'Librewolf',
     logo: librewolf,
+  },
+  'com.linear': {
+    name: 'Linear',
+    logo: linear,
   },
   'com.maxthon.mac.Maxthon': {
     name: 'Maxthon',
