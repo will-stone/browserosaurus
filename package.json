@@ -211,7 +211,7 @@
     "@types/react-redux": "^7.1.22",
     "@typescript-eslint/eslint-plugin": "^5.9.1",
     "@typescript-eslint/parser": "^5.9.1",
-    "@will-stone/eslint-config": "^6.6.1",
+    "@will-stone/eslint-config": "^6.7.0",
     "@will-stone/prettier-config": "^6.0.0",
     "concurrently": "^7.0.0",
     "copy-webpack-plugin": "^10.2.0",
