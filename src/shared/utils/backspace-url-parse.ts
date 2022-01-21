@@ -1,4 +1,4 @@
-import Url from 'url'
+import { parse } from 'uri-js'
 
 /**
  * Returns the URL domain or undefined if it was already just a domain.
@@ -7,14 +7,21 @@ import Url from 'url'
  */
 export function backspaceUrlParse(url: string): string {
   if (url) {
-    const { protocol, slashes, host, pathname, search, hash } = Url.parse(url)
+    const { scheme, host, port, path, query, fragment } = parse(url)
 
-    if (hash) {
-      return [protocol, slashes ? '//' : '', host, pathname, search].join('')
+    if (fragment) {
+      return [
+        scheme,
+        '://',
+        host,
+        port ? `:${port}` : '',
+        path,
+        query ? `?${query}` : '',
+      ].join('')
     }
 
-    if (search) {
-      const searchParameters = new URLSearchParams(search)
+    if (query) {
+      const searchParameters = new URLSearchParams(query)
       const searchParametersArray: string[] = []
 
       for (const [key, value] of searchParameters.entries()) {
@@ -26,28 +33,29 @@ export function backspaceUrlParse(url: string): string {
         const searchParametersString = minusLast.join('&')
 
         return [
-          protocol,
-          slashes ? '//' : '',
+          scheme,
+          '://',
           host,
-          pathname,
+          port ? `:${port}` : '',
+          path,
           '?',
           searchParametersString,
         ].join('')
       }
 
-      return `${protocol}${slashes ? '//' : ''}${host}${pathname}`
+      return `${scheme}://${host}${port ? `:${port}` : ''}${path}`
     }
 
-    if (pathname && pathname !== '/') {
-      const pathnameArray = pathname.split('/').filter(Boolean)
+    if (path && path !== '/') {
+      const pathnameArray = path.split('/').filter(Boolean)
 
       if (pathnameArray.length > 1) {
         const minusLast = pathnameArray.slice(0, -1)
         const pathnameString = minusLast.join('/')
-        return `${protocol}${slashes ? '//' : ''}${host}/${pathnameString}/`
+        return `${scheme}://${host}${port ? `:${port}` : ''}/${pathnameString}/`
       }
 
-      return `${protocol}${slashes ? '//' : ''}${host}/`
+      return `${scheme}://${host}${port ? `:${port}` : ''}/`
     }
   }
 

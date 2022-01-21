@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import Url from 'url'
+import { parse } from 'uri-js'
 
 import { CARROT_URL } from '../../../../config/CONSTANTS'
 import { useSelector } from '../../../shared/state/hooks'
@@ -14,7 +14,7 @@ interface Props {
 const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.data.url)
-  const parsedUrl = Url.parse(url)
+  const parsedUrl = parse(url)
 
   return (
     <div
@@ -50,15 +50,15 @@ const UrlBar: React.FC<Props> = ({ className }) => {
             Choose a browser to open URL:
           </div>
         )}
-        <span>{parsedUrl.protocol}</span>
-        <span>{parsedUrl.slashes && '//'}</span>
+        <span>{parsedUrl.scheme && `${parsedUrl.scheme}://`}</span>
         <span className="text-opacity-100 dark:text-opacity-100 text-black dark:text-white">
           {parsedUrl.host || <span className="opacity-30">Browserosaurus</span>}
         </span>
         <span>
-          {parsedUrl.pathname}
-          {parsedUrl.search}
-          {parsedUrl.hash}
+          {parsedUrl.port && `:${parsedUrl.port}`}
+          {parsedUrl.path}
+          {parsedUrl.query && `?${parsedUrl.query}`}
+          {parsedUrl.fragment && `#${parsedUrl.fragment}`}
         </span>
       </div>
     </div>

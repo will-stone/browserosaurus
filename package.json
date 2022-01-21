@@ -191,10 +191,11 @@
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
-    "tings": "^4.1.0"
+    "tings": "^4.1.0",
+    "uri-js": "^4.4.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^16.0.3",
+    "@commitlint/cli": "^16.1.0",
     "@commitlint/config-conventional": "^16.0.0",
     "@electron-forge/cli": "6.0.0-beta.63",
     "@electron-forge/maker-zip": "6.0.0-beta.63",
@@ -214,7 +215,7 @@
     "@will-stone/eslint-config": "^6.8.2",
     "@will-stone/prettier-config": "^6.0.0",
     "concurrently": "^7.0.0",
-    "copy-webpack-plugin": "^10.2.0",
+    "copy-webpack-plugin": "^10.2.1",
     "css-loader": "^6.5.1",
     "electron": "^16.0.7",
     "eslint": "^8.7.0",
@@ -231,7 +232,7 @@
     "fork-ts-checker-webpack-plugin": "^6.5.0",
     "husky": "^7.0.4",
     "jest": "^27.4.7",
-    "lint-staged": "^12.2.1",
+    "lint-staged": "^12.2.2",
     "mini-css-extract-plugin": "^2.5.2",
     "postcss": "^8.4.5",
     "postcss-cli": "^9.1.0",
@@ -244,7 +245,7 @@
     "ts-jest": "^27.1.3",
     "ts-loader": "^9.2.6",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.4",
+    "typescript": "^4.5.5",
     "url-loader": "^4.1.1",
     "version-bump-prompt": "^6.1.0"
   },

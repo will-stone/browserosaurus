@@ -43,10 +43,10 @@ afterAll(() => {
 test('url bar', () => {
   render(<Wrapper />)
   const win = new electron.BrowserWindow()
-  const protocol = 'http:'
-  const host = 'example.com:8000'
-  const rest = '/foo?bar=moo'
-  const url = `${protocol}//${host}${rest}`
+  const protocol = 'http://'
+  const host = 'example.com'
+  const rest = ':8000/foo?bar=moo'
+  const url = `${protocol}${host}${rest}`
   act(() => {
     win.webContents.send(Channel.MAIN, openedUrl(url))
   })

@@ -24,11 +24,11 @@ const cases: [string, string][] = [
   ['https://example.com', ''],
   // Just hash
   ['https://example.com/#hash', 'https://example.com/'],
-  ['https://example.com#hash', 'https://example.com/'],
+  ['https://example.com#hash', 'https://example.com'],
   // Just query params
   ['https://example.com/?a=1&b=2', 'https://example.com/?a=1'],
   ['https://example.com/?a=1', 'https://example.com/'],
-  ['https://example.com?a=1&b=2', 'https://example.com/?a=1'],
+  ['https://example.com?a=1&b=2', 'https://example.com?a=1'],
   // Hash hijacking
   [
     'https://example.com/a/b#comment:8/agdsf?sdfasdfasd&jhgsadf',
