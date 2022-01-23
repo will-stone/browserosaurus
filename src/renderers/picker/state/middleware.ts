@@ -1,8 +1,8 @@
 /* eslint-disable unicorn/prefer-regexp-test */
 import {
   clickedRestorePicker,
-  installedAppsRetrieved,
   openedUrl,
+  retrievedInstalledApps,
 } from '../../../main/state/actions'
 import type { Middleware } from '../../../shared/state/model'
 import { getKeyLayout } from '../../shared/utils/get-key-layout-map'
@@ -25,7 +25,7 @@ export const pickerMiddleware =
 
     if (
       doesActionOpenPicker ||
-      installedAppsRetrieved.match(action) ||
+      retrievedInstalledApps.match(action) ||
       clickedDonate.match(action) ||
       clickedMaybeLater.match(action)
     ) {

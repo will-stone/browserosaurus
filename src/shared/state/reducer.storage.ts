@@ -3,9 +3,9 @@ import { createReducer } from '@reduxjs/toolkit'
 import type { AppId } from '../../config/apps'
 import {
   changedPickerWindowBounds,
-  installedAppsRetrieved,
   readiedApp,
   receivedRendererStartupSignal,
+  retrievedInstalledApps,
 } from '../../main/state/actions'
 import {
   clickedDonate,
@@ -18,7 +18,7 @@ import {
 } from '../../renderers/prefs/state/actions'
 
 export interface Storage {
-  apps: { id: AppId; hotCode: string | null }[]
+  apps: { id: AppId; hotCode: string | null; isInstalled: boolean }[]
   supportMessage: number
   isSetup: boolean
   height: number
@@ -44,8 +44,12 @@ export const storage = createReducer<Storage>(defaultStorage, (builder) =>
       (_, action) => action.payload.storage,
     )
 
-    .addCase(installedAppsRetrieved, (state, action) => {
+    .addCase(retrievedInstalledApps, (state, action) => {
       const installedAppIds = action.payload
+
+      for (const storedApp of state.apps) {
+        storedApp.isInstalled = installedAppIds.includes(storedApp.id)
+      }
 
       for (const installedAppId of installedAppIds) {
         const installedAppInStorage = state.apps.some(
@@ -53,7 +57,11 @@ export const storage = createReducer<Storage>(defaultStorage, (builder) =>
         )
 
         if (!installedAppInStorage) {
-          state.apps.push({ id: installedAppId, hotCode: null })
+          state.apps.push({
+            id: installedAppId,
+            hotCode: null,
+            isInstalled: true,
+          })
         }
       }
     })

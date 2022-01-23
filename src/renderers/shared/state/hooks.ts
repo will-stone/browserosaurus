@@ -24,11 +24,8 @@ export interface InstalledApp {
 
 export const useInstalledApps = (): InstalledApp[] => {
   const storedApps = useDeepEqualSelector((state) => state.storage.apps)
-  const installedApps = useDeepEqualSelector(
-    (state) => state.data.installedApps,
-  )
   return storedApps
-    .filter((storedApp) => installedApps.includes(storedApp.id))
+    .filter((storedApp) => storedApp.isInstalled)
     .map((storedApp) => ({
       id: storedApp.id,
       hotCode: storedApp.hotCode,

@@ -16,7 +16,8 @@ const changedPickerWindowBounds = main<Rectangle>(
   'picker-window-bounds/changed',
 )
 
-const installedAppsRetrieved = main<AppId[]>('installed-apps/retrieved')
+const startedScanning = main('installed-apps/scanning')
+const retrievedInstalledApps = main<AppId[]>('installed-apps/retrieved')
 
 const receivedRendererStartupSignal =
   main<CombinedState<{ data: Data; storage: Storage }>>('sync-reducers')
@@ -40,8 +41,9 @@ export {
   downloadedUpdate,
   downloadingUpdate,
   gotDefaultBrowserStatus,
-  installedAppsRetrieved,
   openedUrl,
   readiedApp,
   receivedRendererStartupSignal,
+  retrievedInstalledApps,
+  startedScanning,
 }

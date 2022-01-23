@@ -180,7 +180,7 @@ export const actionHubMiddleware =
     else if (openedUrl.match(action)) {
       showPickerWindow()
 
-      if (nextState.data.installedApps.length === 0) {
+      if (nextState.data.scanStatus === 'init') {
         getInstalledAppIds()
       }
     }
@@ -189,7 +189,7 @@ export const actionHubMiddleware =
     else if (clickedRestorePicker.match(action)) {
       showPickerWindow()
 
-      if (nextState.data.installedApps.length === 0) {
+      if (nextState.data.scanStatus === 'init') {
         getInstalledAppIds()
       }
     }
@@ -198,7 +198,7 @@ export const actionHubMiddleware =
     else if (clickedOpenPrefs.match(action)) {
       showPrefsWindow()
 
-      if (nextState.data.installedApps.length === 0) {
+      if (nextState.data.scanStatus === 'init') {
         getInstalledAppIds()
       }
     }

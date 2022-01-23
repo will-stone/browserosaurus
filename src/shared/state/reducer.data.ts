@@ -1,15 +1,15 @@
 import { createReducer } from '@reduxjs/toolkit'
 
-import type { AppId } from '../../config/apps'
 import { CARROT_URL } from '../../config/CONSTANTS'
 import {
   availableUpdate,
   downloadedUpdate,
   downloadingUpdate,
   gotDefaultBrowserStatus,
-  installedAppsRetrieved,
   openedUrl,
   receivedRendererStartupSignal,
+  retrievedInstalledApps,
+  startedScanning,
 } from '../../main/state/actions'
 import {
   clickedDonate,
@@ -34,8 +34,8 @@ export interface Data {
   pickerStarted: boolean
   prefsStarted: boolean
   prefsTab: PrefsTab
-  installedApps: AppId[]
   keyCodeMap: Record<string, string>
+  scanStatus: 'init' | 'scanned' | 'scanning'
 }
 
 export const defaultData: Data = {
@@ -46,8 +46,8 @@ export const defaultData: Data = {
   pickerStarted: false,
   prefsStarted: false,
   prefsTab: 'general',
-  installedApps: [],
   keyCodeMap: {},
+  scanStatus: 'init',
 }
 
 export const data = createReducer<Data>(defaultData, (builder) =>
@@ -56,8 +56,12 @@ export const data = createReducer<Data>(defaultData, (builder) =>
 
     .addCase(confirmedReset, () => defaultData)
 
-    .addCase(installedAppsRetrieved, (state, action) => {
-      state.installedApps = action.payload
+    .addCase(startedScanning, (state) => {
+      state.scanStatus = 'scanning'
+    })
+
+    .addCase(retrievedInstalledApps, (state) => {
+      state.scanStatus = 'scanned'
     })
 
     .addCase(startedPicker, (state) => {

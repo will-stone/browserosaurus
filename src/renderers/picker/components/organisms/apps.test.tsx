@@ -7,9 +7,9 @@ import React from 'react'
 
 import { keyLayout } from '../../../../../__fixtures__/key-layout'
 import {
-  installedAppsRetrieved,
   openedUrl,
   receivedRendererStartupSignal,
+  retrievedInstalledApps,
 } from '../../../../main/state/actions'
 import { Channel } from '../../../../shared/state/channels'
 import { defaultData } from '../../../../shared/state/reducer.data'
@@ -36,19 +36,19 @@ afterAll(() => {
   customWindow.navigator = originalNavigator
 })
 
-test('apps', () => {
+test('kitchen sink', () => {
   render(<Wrapper />)
   const win = new electron.BrowserWindow()
   win.webContents.send(
     Channel.MAIN,
-    installedAppsRetrieved([
+    retrievedInstalledApps([
       'org.mozilla.firefox',
       'com.apple.Safari',
       'com.brave.Browser.nightly',
     ]),
   )
   // Check apps and app logos shown
-  expect(screen.getByText('Firefox')).toBeVisible()
+  expect(screen.getByAltText('Firefox')).toBeVisible()
   expect(screen.getByRole('button', { name: 'Firefox App' })).toBeVisible()
   expect(screen.getByAltText('Safari')).toBeVisible()
   expect(screen.getByRole('button', { name: 'Safari App' })).toBeVisible()
@@ -64,9 +64,10 @@ test('apps', () => {
     receivedRendererStartupSignal({
       storage: {
         apps: [
-          { id: 'org.mozilla.firefox', hotCode: null },
-          { id: 'com.apple.Safari', hotCode: null },
-          { id: 'com.brave.Browser.nightly', hotCode: null },
+          { id: 'org.mozilla.firefox', hotCode: null, isInstalled: true },
+          { id: 'com.apple.Safari', hotCode: null, isInstalled: true },
+          { id: 'com.operasoftware.Opera', hotCode: null, isInstalled: false },
+          { id: 'com.brave.Browser.nightly', hotCode: null, isInstalled: true },
         ],
         supportMessage: -1,
         height: 200,
@@ -74,14 +75,13 @@ test('apps', () => {
       },
       data: {
         ...defaultData,
-        installedApps: [
-          'com.brave.Browser.nightly',
-          'org.mozilla.firefox',
-          'com.apple.Safari',
-        ],
       },
     }),
   )
+
+  expect(
+    screen.queryByRole('alert', { name: 'Loading browsers' }),
+  ).not.toBeInTheDocument()
 
   // Correct info sent to main when app clicked
   fireEvent.click(screen.getByRole('button', { name: 'Firefox App' }))
@@ -116,18 +116,36 @@ test('apps', () => {
   )
 })
 
-test('use hotkey', () => {
+test('should show spinner when no installed apps are found', () => {
   render(<Wrapper />)
   const win = new electron.BrowserWindow()
   win.webContents.send(
     Channel.MAIN,
-    installedAppsRetrieved(['com.apple.Safari']),
+    receivedRendererStartupSignal({
+      storage: {
+        apps: [{ id: 'com.apple.Safari', hotCode: 'KeyS', isInstalled: false }],
+        supportMessage: -1,
+        height: 200,
+        isSetup: true,
+      },
+      data: defaultData,
+    }),
+  )
+  expect(screen.getByRole('alert', { name: 'Loading browsers' })).toBeVisible()
+})
+
+test('should use hotkey', () => {
+  render(<Wrapper />)
+  const win = new electron.BrowserWindow()
+  win.webContents.send(
+    Channel.MAIN,
+    retrievedInstalledApps(['com.apple.Safari']),
   )
   win.webContents.send(
     Channel.MAIN,
     receivedRendererStartupSignal({
       storage: {
-        apps: [{ id: 'com.apple.Safari', hotCode: 'KeyS' }],
+        apps: [{ id: 'com.apple.Safari', hotCode: 'KeyS', isInstalled: true }],
         supportMessage: -1,
         height: 200,
         isSetup: true,
@@ -154,19 +172,19 @@ test('use hotkey', () => {
   )
 })
 
-test('use hotkey with alt', () => {
+test('should use hotkey with alt', () => {
   render(<Wrapper />)
   const win = new electron.BrowserWindow()
   win.webContents.send(
     Channel.MAIN,
-    installedAppsRetrieved(['com.apple.Safari']),
+    retrievedInstalledApps(['com.apple.Safari']),
   )
 
   win.webContents.send(
     Channel.MAIN,
     receivedRendererStartupSignal({
       storage: {
-        apps: [{ id: 'com.apple.Safari', hotCode: 'KeyS' }],
+        apps: [{ id: 'com.apple.Safari', hotCode: 'KeyS', isInstalled: true }],
         supportMessage: -1,
         height: 200,
         isSetup: true,
@@ -198,12 +216,12 @@ test('use hotkey with alt', () => {
   )
 })
 
-test('hold shift', () => {
+test('should hold shift', () => {
   render(<Wrapper />)
   const win = new electron.BrowserWindow()
   win.webContents.send(
     Channel.MAIN,
-    installedAppsRetrieved(['org.mozilla.firefox']),
+    retrievedInstalledApps(['org.mozilla.firefox']),
   )
   win.webContents.send(Channel.MAIN, openedUrl('http://example.com'))
   fireEvent.click(screen.getByRole('button', { name: 'Firefox App' }), {
@@ -222,7 +240,7 @@ test('hold shift', () => {
   )
 })
 
-test('tiles order', () => {
+test('should order tiles', () => {
   render(<Wrapper />)
 
   const win = new electron.BrowserWindow()
@@ -242,7 +260,7 @@ test('tiles order', () => {
 
   win.webContents.send(
     Channel.MAIN,
-    installedAppsRetrieved([
+    retrievedInstalledApps([
       'org.mozilla.firefox',
       'com.apple.Safari',
       'com.operasoftware.Opera',
