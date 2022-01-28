@@ -35,6 +35,7 @@ import finicky from './logos/finicky.png'
 import librewolf from './logos/librewolf.png'
 import linear from './logos/linear.png'
 import min from './logos/min.png'
+import miro from './logos/miro.png'
 import naverWhale from './logos/NAVER_whale.png'
 import orion from './logos/orion.png'
 import pocket from './logos/pocket.png'
@@ -64,6 +65,10 @@ export const apps = {
     name: 'Brave Nightly',
     privateArg: '--incognito',
     logo: braveNightly,
+  },
+  'com.electron.realtimeboard': {
+    name: 'Miro',
+    logo: miro,
   },
   'com.google.Chrome': {
     name: 'Chrome',
