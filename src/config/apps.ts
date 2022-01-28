@@ -66,10 +66,6 @@ export const apps = {
     privateArg: '--incognito',
     logo: braveNightly,
   },
-  'com.electron.realtimeboard': {
-    name: 'Miro',
-    logo: miro,
-  },
   'com.google.Chrome': {
     name: 'Chrome',
     privateArg: '--incognito',
@@ -157,6 +153,10 @@ export const apps = {
   'com.electron.min': {
     name: 'Min',
     logo: min,
+  },
+  'com.electron.realtimeboard': {
+    name: 'Miro',
+    logo: miro,
   },
   'com.naver.Whale': {
     name: 'NAVER Whale',
