@@ -40,6 +40,7 @@ import naverWhale from './logos/NAVER_whale.png'
 import orion from './logos/orion.png'
 import pocket from './logos/pocket.png'
 import polypane from './logos/polypane.png'
+import sidekick from './logos/sidekick.png'
 import spotify from './logos/spotify.png'
 import waterfox from './logos/waterfox.png'
 import yattee from './logos/yattee.png'
@@ -206,6 +207,11 @@ export const apps = {
   'com.apple.SafariTechnologyPreview': {
     name: 'Safari TP',
     logo: safariTechnologyPreview,
+  },
+  'com.pushplaylabs.sidekick': {
+    name: 'Sidekick',
+    privateArg: '--incognito',
+    logo: sidekick,
   },
   'com.spotify.client': {
     name: 'Spotify',
