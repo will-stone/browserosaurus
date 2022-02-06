@@ -28,5 +28,12 @@ module.exports = {
         },
       })
     }),
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        '.no-drag': {
+          '-webkit-user-drag': 'none',
+        },
+      })
+    }),
   ],
 }

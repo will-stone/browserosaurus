@@ -11,7 +11,11 @@ interface Props extends React.ComponentPropsWithoutRef<'img'> {
 
 const AppLogo = ({ app, className }: Props): JSX.Element => {
   return (
-    <img alt={app.name} className={clsx(className)} src={apps[app.id].logo} />
+    <img
+      alt={app.name}
+      className={clsx(className, 'no-drag')}
+      src={apps[app.id].logo}
+    />
   )
 }
 
