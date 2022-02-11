@@ -45,6 +45,7 @@ import spotify from './logos/spotify.png'
 import waterfox from './logos/waterfox.png'
 import yattee from './logos/yattee.png'
 import zoom from './logos/zoom.png'
+import wavebox from './logos/wavebox.png'
 
 export const apps = {
   'com.brave.Browser': {
@@ -232,6 +233,11 @@ export const apps = {
   'net.waterfox.waterfox': {
     name: 'Waterfox',
     logo: waterfox,
+  },
+  'com.bookry.wavebox': {
+    name: 'Wavebox',
+    logo: wavebox,
+    privateArg: '--incognito',
   },
   'ru.yandex.desktop.yandex-browser': {
     name: 'Yandex',
