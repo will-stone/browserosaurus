@@ -37,15 +37,16 @@ import linear from './logos/linear.png'
 import min from './logos/min.png'
 import miro from './logos/miro.png'
 import naverWhale from './logos/NAVER_whale.png'
+import notion from './logos/notion.png'
 import orion from './logos/orion.png'
 import pocket from './logos/pocket.png'
 import polypane from './logos/polypane.png'
 import sidekick from './logos/sidekick.png'
 import spotify from './logos/spotify.png'
 import waterfox from './logos/waterfox.png'
+import wavebox from './logos/wavebox.png'
 import yattee from './logos/yattee.png'
 import zoom from './logos/zoom.png'
-import wavebox from './logos/wavebox.png'
 
 export const apps = {
   'com.brave.Browser': {
@@ -163,6 +164,10 @@ export const apps = {
   'com.naver.Whale': {
     name: 'NAVER Whale',
     logo: naverWhale,
+  },
+  'notion.id': {
+    name: 'Notion',
+    logo: notion,
   },
   'com.operasoftware.Opera': {
     name: 'Opera',
