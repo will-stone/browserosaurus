@@ -43,9 +43,9 @@ import polypane from './logos/polypane.png'
 import sidekick from './logos/sidekick.png'
 import spotify from './logos/spotify.png'
 import waterfox from './logos/waterfox.png'
+import wavebox from './logos/wavebox.png'
 import yattee from './logos/yattee.png'
 import zoom from './logos/zoom.png'
-import wavebox from './logos/wavebox.png'
 
 export const apps = {
   'com.brave.Browser': {
