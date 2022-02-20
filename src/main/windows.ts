@@ -87,7 +87,7 @@ export async function createWindows(): Promise<void> {
     maximizable: false,
     fullscreen: false,
     fullscreenable: false,
-    movable: true,
+    movable: false,
     resizable: true,
     transparent: true,
     hasShadow: true,
