@@ -68,6 +68,7 @@ export const storage = createReducer<Storage>(defaultStorage, (builder) =>
 
     .addCase(updatedHotCode, (state, action) => {
       const hotCode = action.payload.value
+
       const appWithSameHotCodeIndex = state.apps.findIndex(
         (app) => app.hotCode === hotCode,
       )
@@ -99,9 +100,11 @@ export const storage = createReducer<Storage>(defaultStorage, (builder) =>
       const sourceIndex = state.apps.findIndex(
         (app) => app.id === action.payload.sourceId,
       )
+
       const destinationIndex = state.apps.findIndex(
         (app) => app.id === action.payload.destinationId,
       )
+
       const [removed] = state.apps.splice(sourceIndex, 1)
       state.apps.splice(destinationIndex, 0, removed)
     }),

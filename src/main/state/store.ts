@@ -10,6 +10,7 @@ import { busMiddleware } from './middleware.bus'
 
 const channel = Channel.MAIN
 const middleware = [busMiddleware(), actionHubMiddleware()]
+
 const preloadedState: RootState = {
   storage: database.getAll(),
   data: {

@@ -11,6 +11,7 @@ const clickedTabButton = prefs<PrefsTab>('tab-button/clicked')
 const clickedSetAsDefaultBrowserButton = prefs(
   'set-as-default-browser-button/clicked',
 )
+
 const clickedRescanApps = prefs('rescan-apps/clicked')
 const clickedUpdateButton = prefs('update-button/clicked')
 const clickedUpdateRestartButton = prefs('update-restart-button/clicked')
@@ -18,6 +19,7 @@ const confirmedReset = prefs('reset/confirmed')
 
 const updatedHotCode =
   prefs<{ appId: AppId; value: string }>('hot-code/updated')
+
 const reorderedApp =
   prefs<{ sourceId: AppId; destinationId: AppId }>('app/reordered')
 

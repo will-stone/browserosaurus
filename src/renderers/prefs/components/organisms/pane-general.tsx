@@ -42,6 +42,7 @@ export const GeneralPane = (): JSX.Element => {
   const isDefaultProtocolClient = useSelector(
     (state) => state.data.isDefaultProtocolClient,
   )
+
   const updateStatus = useSelector((state) => state.data.updateStatus)
 
   const numberOfInstalledApps = useSelector(

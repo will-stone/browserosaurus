@@ -16,6 +16,7 @@ const multiElementText =
   (text: string): MatcherFunction =>
   (_, node) => {
     const nodeHasText = node?.textContent === text
+
     const childrenDontHaveText = [
       ...(node?.children as unknown as HTMLElement[]),
     ].every((child) => child?.textContent !== text)

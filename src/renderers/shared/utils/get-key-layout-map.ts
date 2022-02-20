@@ -8,6 +8,7 @@ const getLayoutObject = async (): Promise<Record<string, string>> => {
   try {
     const keyboardLayoutMap =
       await customWindow.navigator.keyboard.getLayoutMap()
+
     const keyValueObject: Record<string, string> = {}
 
     for (const [key, value] of keyboardLayoutMap.entries()) {
