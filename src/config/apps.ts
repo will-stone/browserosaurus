@@ -28,7 +28,7 @@ import tor from '@browser-logos/tor/tor_128x128.png'
 import vivaldi from '@browser-logos/vivaldi/vivaldi_128x128.png'
 import vivaldiSnapshot from '@browser-logos/vivaldi-snapshot/vivaldi-snapshot_128x128.png'
 import yandex from '@browser-logos/yandex/yandex_128x128.png'
-
+import freetube from './logos/freetubeapp.png'
 import dissenter from './logos/dissenter.png'
 import figma from './logos/figma.png'
 import finicky from './logos/finicky.png'
@@ -135,6 +135,10 @@ export const apps = {
     name: 'Firefox Nightly',
     privateArg: '--private-window',
     logo: firefoxNightly,
+  },
+  'io.freetubeapp.freetube': {
+    name: 'FreeTube',
+    logo: freetube,
   },
   'de.iridiumbrowser': {
     name: 'Iridium',
