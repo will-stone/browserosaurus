@@ -119,10 +119,6 @@ export const apps = {
     name: 'Figma',
     logo: figma,
   },
-  'com.tinyspeck.slackmacgap': {
-    name: 'Slack',
-    logo: slack,
-  },
   'net.kassett.finicky': {
     name: 'Finicky',
     logo: finicky,
@@ -223,6 +219,10 @@ export const apps = {
     name: 'Sidekick',
     privateArg: '--incognito',
     logo: sidekick,
+  },
+  'com.tinyspeck.slackmacgap': {
+    name: 'Slack',
+    logo: slack,
   },
   'com.spotify.client': {
     name: 'Spotify',
