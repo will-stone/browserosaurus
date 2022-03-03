@@ -28,10 +28,11 @@ import tor from '@browser-logos/tor/tor_128x128.png'
 import vivaldi from '@browser-logos/vivaldi/vivaldi_128x128.png'
 import vivaldiSnapshot from '@browser-logos/vivaldi-snapshot/vivaldi-snapshot_128x128.png'
 import yandex from '@browser-logos/yandex/yandex_128x128.png'
-import freetube from './logos/freetubeapp.png'
+
 import dissenter from './logos/dissenter.png'
 import figma from './logos/figma.png'
 import finicky from './logos/finicky.png'
+import freetube from './logos/freetubeapp.png'
 import librewolf from './logos/librewolf.png'
 import linear from './logos/linear.png'
 import min from './logos/min.png'
@@ -41,6 +42,7 @@ import orion from './logos/orion.png'
 import pocket from './logos/pocket.png'
 import polypane from './logos/polypane.png'
 import sidekick from './logos/sidekick.png'
+import slack from './logos/slack.png'
 import spotify from './logos/spotify.png'
 import waterfox from './logos/waterfox.png'
 import wavebox from './logos/wavebox.png'
@@ -116,6 +118,10 @@ export const apps = {
   'com.figma.Desktop': {
     name: 'Figma',
     logo: figma,
+  },
+  'com.tinyspeck.slackmacgap': {
+    name: 'Slack',
+    logo: slack,
   },
   'net.kassett.finicky': {
     name: 'Finicky',
