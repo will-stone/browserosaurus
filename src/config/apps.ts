@@ -49,7 +49,16 @@ import wavebox from './logos/wavebox.png'
 import yattee from './logos/yattee.png'
 import zoom from './logos/zoom.png'
 
-export const apps = {
+interface App {
+  name: string
+  logo: typeof firefox
+  privateArg?: string
+  convertUrl?: (url: string) => string
+}
+
+const typeApps = <T extends Record<string, App>>(apps: T) => apps
+
+export const apps = typeApps({
   'com.brave.Browser': {
     name: 'Brave',
     privateArg: '--incognito',
@@ -200,7 +209,7 @@ export const apps = {
   },
   'com.readitlater.PocketMac': {
     name: 'Pocket',
-    urlTemplate: 'pocket://add?url={{URL}}',
+    convertUrl: (url) => `pocket://add?url=${url}`,
     logo: pocket,
   },
   'com.firstversionist.polypane': {
@@ -261,7 +270,7 @@ export const apps = {
     name: 'Zoom',
     logo: zoom,
   },
-} as const
+})
 
 export type Apps = typeof apps
 
