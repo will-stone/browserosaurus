@@ -11,10 +11,8 @@ export function openApp(
 ): void {
   const selectedApp = apps[appId]
 
-  const processedUrlTemplate =
-    'urlTemplate' in selectedApp
-      ? selectedApp.urlTemplate.replace(/\{\{URL\}\}/u, url)
-      : url
+  const convertedUrl =
+    'convertUrl' in selectedApp ? selectedApp.convertUrl(url) : url
 
   const openArguments: string[] = [
     '-b',
@@ -25,7 +23,7 @@ export function openApp(
       : [],
     // In order for private/incognito mode to work the URL needs to be passed
     // in last, _after_ the respective app.privateArg flag
-    processedUrlTemplate,
+    convertedUrl,
   ]
     .filter(Boolean)
     .flat()
