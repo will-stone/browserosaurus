@@ -51,7 +51,7 @@ import zoom from './logos/zoom.png'
 
 interface App {
   name: string
-  logo: typeof firefox
+  logo: string
   privateArg?: string
   convertUrl?: (url: string) => string
 }
