@@ -33,6 +33,7 @@ import dissenter from './logos/dissenter.png'
 import figma from './logos/figma.png'
 import finicky from './logos/finicky.png'
 import freetube from './logos/freetubeapp.png'
+import icecat from '@browser-logos/icecat/icecat_128x128.png'
 import librewolf from './logos/librewolf.png'
 import linear from './logos/linear.png'
 import mighty from './logos/mighty.png'
@@ -132,6 +133,11 @@ export const apps = typeApps({
   'net.kassett.finicky': {
     name: 'Finicky',
     logo: finicky,
+  },
+  'org.mozilla.icecat': {
+    name: 'IceCat',
+    privateArg: '--private-window',
+    logo: icecat,
   },
   'org.mozilla.firefox': {
     name: 'Firefox',
