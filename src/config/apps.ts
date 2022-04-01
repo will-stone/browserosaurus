@@ -35,6 +35,7 @@ import finicky from './logos/finicky.png'
 import freetube from './logos/freetubeapp.png'
 import librewolf from './logos/librewolf.png'
 import linear from './logos/linear.png'
+import mighty from './logos/mighty.png'
 import min from './logos/min.png'
 import miro from './logos/miro.png'
 import naverWhale from './logos/NAVER_whale.png'
@@ -166,6 +167,11 @@ export const apps = typeApps({
   'com.maxthon.mac.Maxthon': {
     name: 'Maxthon',
     logo: maxthon,
+  },
+  'com.mighty.app': {
+    name: 'Mighty',
+    privateArg: '--incognito',
+    logo: mighty,
   },
   'com.electron.min': {
     name: 'Min',
