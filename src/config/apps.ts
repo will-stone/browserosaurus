@@ -134,11 +134,6 @@ export const apps = typeApps({
     name: 'Finicky',
     logo: finicky,
   },
-  'org.mozilla.icecat': {
-    name: 'IceCat',
-    privateArg: '--private-window',
-    logo: icecat,
-  },
   'org.mozilla.firefox': {
     name: 'Firefox',
     privateArg: '--private-window',
@@ -157,6 +152,11 @@ export const apps = typeApps({
   'io.freetubeapp.freetube': {
     name: 'FreeTube',
     logo: freetube,
+  },
+  'org.mozilla.icecat': {
+    name: 'IceCat',
+    privateArg: '--private-window',
+    logo: icecat,
   },
   'de.iridiumbrowser': {
     name: 'Iridium',
