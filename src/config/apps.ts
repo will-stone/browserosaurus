@@ -14,6 +14,7 @@ import edgeDev from '@browser-logos/edge-dev/edge-dev_128x128.png'
 import firefox from '@browser-logos/firefox/firefox_128x128.png'
 import firefoxDevEdition from '@browser-logos/firefox-developer-edition/firefox-developer-edition_128x128.png'
 import firefoxNightly from '@browser-logos/firefox-nightly/firefox-nightly_128x128.png'
+import icecat from '@browser-logos/icecat/icecat_128x128.png'
 import iridium from '@browser-logos/iridium/iridium_128x128.png'
 import maxthon from '@browser-logos/maxthon/maxthon_128x128.png'
 import opera from '@browser-logos/opera/opera_128x128.png'
@@ -151,6 +152,11 @@ export const apps = typeApps({
   'io.freetubeapp.freetube': {
     name: 'FreeTube',
     logo: freetube,
+  },
+  'org.mozilla.icecat': {
+    name: 'IceCat',
+    privateArg: '--private-window',
+    logo: icecat,
   },
   'de.iridiumbrowser': {
     name: 'Iridium',
