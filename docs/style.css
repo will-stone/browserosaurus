@@ -287,6 +287,9 @@ video {
 .mt-4 {
   margin-top: 1rem;
 }
+.mt-16 {
+  margin-top: 4rem;
+}
 .flex {
   display: flex;
 }
