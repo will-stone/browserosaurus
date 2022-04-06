@@ -1,7 +1,7 @@
 Browserosaurus is now considered _Public Feature Complete_, however I'm always
 open to ideas.
 
-- [New apps/browsers](docs/supporting-a-browser-or-app.md)
+- [New apps/browsers](guide/supporting-a-browser-or-app.md)
 - [Bugs](https://github.com/will-stone/browserosaurus/issues)
 - [Feature requests](https://github.com/will-stone/browserosaurus/discussions/categories/ideas)
 - [Help](https://github.com/will-stone/browserosaurus/discussions/categories/q-a)

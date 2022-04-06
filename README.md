@@ -39,11 +39,11 @@ please see the documentation below or open a
 
 - [Changelog](https://github.com/will-stone/browserosaurus/releases)
 - [Help](https://github.com/will-stone/browserosaurus/discussions/categories/q-a)
-- [Supporting a new browser or app](docs/supporting-a-browser-or-app.md)
-- [Setting up for development](docs/setting-up-for-development.md)
-- [Privacy policy](docs/privacy.md)
+- [Supporting a new browser or app](guide/supporting-a-browser-or-app.md)
+- [Setting up for development](guide/setting-up-for-development.md)
+- [Privacy policy](guide/privacy.md)
 
 For the maintainer:
 
-- [Creating menubar icon](docs/creating-menubar-icon.md)
-- [Publishing](docs/publishing.md)
+- [Creating menubar icon](guide/creating-menubar-icon.md)
+- [Publishing](guide/publishing.md)
