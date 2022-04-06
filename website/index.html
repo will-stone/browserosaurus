@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html class="loading" lang="en">
+  <head>
+    <title>Browserosaurus: for macOS multi-browser users.</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/apple-touch-icon.png?v=2"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon-32x32.png?v=2"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon-16x16.png?v=2"
+    />
+    <link rel="manifest" href="/site.webmanifest?v=2" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg?v=2" color="#071c3f" />
+    <link rel="shortcut icon" href="/favicon.ico?v=2" />
+    <meta name="msapplication-TileColor" content="#071c3f" />
+    <meta name="theme-color" content="#071c3f" />
+
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body
+    class="bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-50 min-h-screen flex flex-col overflow-x-hidden"
+  >
+    <header class="shrink-0 py-4">
+      <div class="container mx-auto flex items-center">
+        <a class="-ml-2 flex gap-3 items-center px-4 py-3 text-lg" href="/"
+          ><span
+            ><img src="/icon_squooshed.png" alt="" width="60" height="60"
+          /></span>
+          <div>
+            <span class="font-bold">Browser</span
+            ><span class="font-light">osaurus</span>
+          </div></a
+        >
+        <a
+          class="ml-auto px-4 py-2 hover:text-indigo-500 font-bold"
+          href="https://github.com/will-stone/browserosaurus"
+          >GitHub</a
+        >
+      </div>
+    </header>
+
+    <main class="grow">
+      <div class="container mx-auto px-4 py-4 lg:py-16">
+        <div>
+          <div class="lg:w-6/12 lg:float-right">
+            <img src="/screenshot.jpg" alt="" class="rounded" />
+          </div>
+          <div
+            class="mt-8 lg:mt-0 lg:w-6/12 text-zinc-800 dark:text-zinc-50 text-5xl md:text-6xl font-semibold"
+          >
+            For macOS multi-browser users.
+          </div>
+          <div
+            class="mt-5 lg:w-7/12 text-zinc-500 dark:text-zinc-400 text-2xl md:text-3xl font-semibold"
+          >
+            Select from any of your installed browsers when clicking a link in a
+            non-browser app.
+          </div>
+          <pre
+            class="mt-12"
+          ><code class="before:content-['$'] before:mr-2 select-all"
+            >brew install --cask browserosaurus</code
+          ></pre>
+          <div class="mt-12 flex flex-wrap gap-5 items-center">
+            <a
+              class="w-full sm:w-auto text-xl text-center font-semibold select-none text-white px-5 py-3 rounded-md shadow-md dark:shadow-none bg-indigo-500 shadow-indigo-500/25 transition-all hover:bg-indigo-500/90 active:bg-indigo-600 active:shadow-sm"
+              href="https://github.com/will-stone/browserosaurus/releases"
+              >Download for free</a
+            ><a
+              class="w-full sm:w-auto text-xl text-center px-5 py-3 text-indigo-500 hover:text-indigo-500/90 active:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-400/90 dark:active:text-indigo-500"
+              href="https://github.com/will-stone/browserosaurus#readme"
+              >Learn more on GitHub</a
+            >
+          </div>
+          <p class="mt-4 text-zinc-500 dark:text-zinc-400">
+            Select x64 for Intel machines, or arm64 for Apple Silicon (M1)
+            machines.
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="shrink-0 bg-zinc-50 dark:bg-zinc-800 text-zinc-500">
+      <div class="container mx-auto px-4 py-12">
+        Created by
+        <a
+          class="font-bold text-zinc-800 dark:text-zinc-50 hover:text-indigo-500"
+          href="https://wstone.uk"
+          >Will Stone</a
+        >.
+      </div>
+    </footer>
+  </body>
+</html>

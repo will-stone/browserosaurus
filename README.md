@@ -1,4 +1,4 @@
-<img src="./designs/icon_squooshed.png" alt="logo" width="100" height="100" align="right" />
+<img src="./website/icon_squooshed.png" alt="logo" width="100" height="100" align="right" />
 
 # Browserosaurus
 
@@ -8,7 +8,7 @@ apps are now sent to Browserosaurus where you are presented with a menu of all
 your installed browsers. You may now decide which app you’d like to continue
 opening the link with.
 
-<img src="./screenshot.jpg" alt="screenshot" />
+<img src="./website/screenshot.jpg" alt="screenshot" />
 
 ## Installation
 

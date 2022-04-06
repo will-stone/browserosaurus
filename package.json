@@ -32,7 +32,9 @@
     "release": "bump --commit \"chore: release v\" && npm run doctor && npm run package && npm run notarize && npm run make",
     "start": "ELECTRON_DISABLE_SECURITY_WARNINGS=true electron-forge start",
     "test": "jest",
-    "typecheck": "tsc --noEmit --skipLibCheck"
+    "typecheck": "tsc --noEmit --skipLibCheck",
+    "website-css:build": "npx tailwindcss -i node_modules/tailwindcss/tailwind.css -o ./website/style.css --content website/index.html -m",
+    "website-css:watch": "npx tailwindcss -i node_modules/tailwindcss/tailwind.css -o ./website/style.css --content website/index.html -m --watch"
   },
   "lint-staged": {
     "*.{css,json,md}": [
