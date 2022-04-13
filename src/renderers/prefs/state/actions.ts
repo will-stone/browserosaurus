@@ -17,11 +17,13 @@ const clickedUpdateButton = prefs('update-button/clicked')
 const clickedUpdateRestartButton = prefs('update-restart-button/clicked')
 const confirmedReset = prefs('reset/confirmed')
 
-const updatedHotCode =
-  prefs<{ appId: AppId; value: string }>('hot-code/updated')
+const updatedHotCode = prefs<{ appId: AppId; value: string }>(
+  'hot-code/updated',
+)
 
-const reorderedApp =
-  prefs<{ sourceId: AppId; destinationId: AppId }>('app/reordered')
+const reorderedApp = prefs<{ sourceId: AppId; destinationId: AppId }>(
+  'app/reordered',
+)
 
 const clickedHomepageButton = prefs('homepage-button/clicked')
 const clickedOpenIssueButton = prefs('open-issue-button/clicked')
