@@ -31,6 +31,7 @@ import vivaldiSnapshot from '@browser-logos/vivaldi-snapshot/vivaldi-snapshot_12
 import yandex from '@browser-logos/yandex/yandex_128x128.png'
 
 import dissenter from './logos/dissenter.png'
+import duckDuckGo from './logos/duckDuckGo.png'
 import figma from './logos/figma.png'
 import finicky from './logos/finicky.png'
 import freetube from './logos/freetubeapp.png'
@@ -109,6 +110,10 @@ export const apps = typeApps({
   'com.gab.Dissenter': {
     name: 'Dissenter',
     logo: dissenter,
+  },
+  'com.duckduckgo.macos.browser': {
+    name: 'DuckDuckGo',
+    logo: duckDuckGo,
   },
   'com.microsoft.edgemac': {
     name: 'Edge',
