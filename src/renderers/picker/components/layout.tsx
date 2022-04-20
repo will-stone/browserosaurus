@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 
 import { Spinner } from '../../shared/components/atoms/spinner'
 import { useInstalledApps, useKeyCodeMap } from '../../shared/state/hooks'
-import { favAppRef } from '../refs'
+import { firstAppRef } from '../refs'
 import { startedPicker } from '../state/actions'
 import AppLogo from './atoms/app-logo'
 import Kbd from './atoms/kbd'
@@ -30,52 +30,40 @@ const App: React.FC = () => {
    */
   useKeyboardEvents()
 
-  const [favApp, ...normalApps] = useInstalledApps()
+  const apps = useInstalledApps()
 
   const keyCodeMap = useKeyCodeMap()
 
   return (
-    <div className="h-screen w-screen select-none flex flex-col items-center relative dark:text-white">
-      {!favApp && (
+    <div className="h-screen w-screen select-none flex flex-col items-center relative dark:text-white dark:bg-gray-800 bg-white">
+      {!apps[0] && (
         <div className="flex justify-center items-center h-full">
           <Spinner />
         </div>
       )}
-      <div className="flex-grow w-full flex relative overflow-hidden px-4 pt-2 space-x-4">
-        <div className="flex-shrink-0 pt-2 pb-4">
-          {favApp && (
-            <AppButton
-              ref={favAppRef}
-              app={favApp}
-              className="flex flex-col items-center justify-start px-2 py-4 w-[130px]"
-            >
-              <AppLogo app={favApp} className="h-20 w-20 mb-2" />
-              <span>{favApp.name}</span>
-              {favApp.hotCode && (
-                <Kbd className="mt-2">{keyCodeMap[favApp.hotCode]}</Kbd>
-              )}
-            </AppButton>
-          )}
-        </div>
-
-        <div className="relative flex-grow w-full overflow-y-scroll space-y-2 py-2 pr-4 pl-1">
-          {normalApps.map((app, index) => {
-            const key = app.id + index
-            return (
+      <div className="relative flex-grow w-full overflow-y-scroll divide-y divide-black/10 dark:divide-white/10">
+        {apps.map((app, index) => {
+          const key = app.id + index
+          return (
+            <div key={key}>
               <AppButton
-                key={key}
+                ref={index === 0 ? firstAppRef : null}
                 app={app}
-                className="flex-shrink-0 flex items-center text-left px-4 py-3 space-x-4 w-full"
+                className="flex-shrink-0 flex items-center justify-between text-left px-4 py-2 space-x-4 w-full"
               >
-                <AppLogo app={app} className="flex-shrink-0 h-8 w-8" />
-                {app.hotCode && (
-                  <Kbd className="flex-shrink-0">{keyCodeMap[app.hotCode]}</Kbd>
-                )}
                 <span>{app.name}</span>
+                <span className="flex items-center space-x-4">
+                  {app.hotCode && (
+                    <Kbd className="flex-shrink-0">
+                      {keyCodeMap[app.hotCode]}
+                    </Kbd>
+                  )}
+                  <AppLogo app={app} className="flex-shrink-0 h-8 w-8" />
+                </span>
               </AppButton>
-            )
-          })}
-        </div>
+            </div>
+          )
+        })}
       </div>
       <UrlBar />
       <SupportMessage />

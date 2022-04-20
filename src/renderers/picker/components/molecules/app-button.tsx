@@ -24,13 +24,8 @@ export const AppButton = React.forwardRef(
         ref={ref}
         aria-label={`${app.name} App`}
         className={clsx(
-          'rounded-xl',
-          'hover:bg-black hover:bg-opacity-10 border-0',
-          'focus:outline-none',
-          'focus:bg-white dark:focus:bg-black focus:bg-opacity-50 dark:focus:bg-opacity-30',
-          'focus:shadow-xl',
-          'focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500',
-          'focus:hover:ring-black dark:focus:hover:ring-white',
+          'hover:bg-neutral-100 dark:hover:bg-gray-700',
+          'focus:outline-none focus:bg-neutral-200 dark:focus:bg-gray-900',
           className,
         )}
         onClick={(event) =>

@@ -6,7 +6,7 @@ import {
 } from '../../../main/state/actions'
 import type { Middleware } from '../../../shared/state/model'
 import { getKeyLayout } from '../../shared/utils/get-key-layout-map'
-import { favAppRef } from '../refs'
+import { firstAppRef } from '../refs'
 import { clickedDonate, clickedMaybeLater } from './actions'
 
 /**
@@ -29,7 +29,7 @@ export const pickerMiddleware =
       clickedDonate.match(action) ||
       clickedMaybeLater.match(action)
     ) {
-      favAppRef.current?.focus()
+      firstAppRef.current?.focus()
     }
 
     if (doesActionOpenPicker) {

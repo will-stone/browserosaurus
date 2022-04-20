@@ -78,10 +78,10 @@ export async function createWindows(): Promise<void> {
     },
     center: true,
     height,
-    minHeight: 250,
-    width: 375,
-    maxWidth: 375,
-    minWidth: 375,
+    minHeight: 200,
+    width: 250,
+    maxWidth: 250,
+    minWidth: 250,
     show: false,
     minimizable: false,
     maximizable: false,
@@ -91,7 +91,6 @@ export async function createWindows(): Promise<void> {
     resizable: true,
     transparent: true,
     hasShadow: true,
-    vibrancy: 'tooltip',
     visualEffectState: 'active',
     titleBarStyle: 'hidden',
     alwaysOnTop: true,
@@ -141,23 +140,18 @@ export function showPickerWindow(): void {
 
     const bWindowBounds = pickerWindow.getBounds()
 
-    const bWindowEdges = {
-      right: mousePoint.x + bWindowBounds.width,
-      bottom: mousePoint.y + bWindowBounds.height,
-    }
-
     const nudge = {
-      x: 50,
-      y: 10,
+      x: -125,
+      y: -15,
     }
 
     const inWindowPosition = {
       x:
-        bWindowEdges.right > displayEnd.x + nudge.x
+        mousePoint.x + bWindowBounds.width + nudge.x > displayEnd.x
           ? displayEnd.x - bWindowBounds.width
-          : mousePoint.x - nudge.x,
+          : mousePoint.x + nudge.x,
       y:
-        bWindowEdges.bottom > displayEnd.y + nudge.y
+        mousePoint.y + bWindowBounds.height + nudge.y > displayEnd.y
           ? displayEnd.y - bWindowBounds.height
           : mousePoint.y + nudge.y,
     }
