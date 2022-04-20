@@ -3,7 +3,6 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { parse } from 'uri-js'
 
-import { CARROT_URL } from '../../../../config/CONSTANTS'
 import { useSelector } from '../../../shared/state/hooks'
 import { clickedUrlBar } from '../../state/actions'
 
@@ -20,8 +19,8 @@ const UrlBar: React.FC<Props> = ({ className }) => {
     <div
       className={clsx(
         className,
-        'h-20 flex-shrink-0 w-full px-4 text-center flex items-center',
-        'bg-black bg-opacity-5 dark:bg-opacity-30 border-t border-gray-400 dark:border-black',
+        'flex-shrink-0 w-full py-2 px-4 text-center flex items-center text-sm',
+        'bg-neutral-200 dark:bg-gray-900 border-t border-neutral-400 dark:border-gray-900',
         'cursor-default',
       )}
       onClick={() => dispatch(clickedUrlBar())}
@@ -34,7 +33,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         className="flex-grow tracking-wider text-opacity-50 dark:text-opacity-50 text-black dark:text-white"
         style={{
           display: '-webkit-box',
-          WebkitLineClamp: 2,
+          WebkitLineClamp: 1,
           WebkitBoxOrient: 'vertical',
           overflow: 'hidden',
           overflowWrap: 'break-word',
@@ -42,17 +41,10 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           textOverflow: 'ellipsis',
         }}
       >
-        {url === CARROT_URL && (
-          <div>
-            <span aria-label="Coffee emoji" role="img">
-              ☕️
-            </span>{' '}
-            Choose a browser to open URL:
-          </div>
-        )}
-        <span>{parsedUrl.scheme && `${parsedUrl.scheme}://`}</span>
         <span className="text-opacity-100 dark:text-opacity-100 text-black dark:text-white">
-          {parsedUrl.host || <span className="opacity-30">Browserosaurus</span>}
+          {parsedUrl.host?.replace(/^www./u, '') || (
+            <span className="opacity-30">Browserosaurus</span>
+          )}
         </span>
         <span>
           {parsedUrl.port && `:${parsedUrl.port}`}
