@@ -287,6 +287,10 @@ export const apps = typeApps({
     name: 'Zoom',
     logo: zoom,
   },
+  'com.clickup.desktop-app': {
+    name: 'ClickUp',
+    logo: clickup,
+  },
 })
 
 export type Apps = typeof apps
