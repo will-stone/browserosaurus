@@ -51,11 +51,10 @@ test('url bar', () => {
   act(() => {
     win.webContents.send(Channel.MAIN, openedUrl(url))
   })
-  expect(screen.getByText(multiElementText(url))).toBeVisible()
-  expect(screen.queryByText('https://blah.com')).not.toBeInTheDocument()
+  expect(screen.queryByText(protocol)).not.toBeInTheDocument()
+  expect(screen.getByText(multiElementText(host + rest))).toBeVisible()
 
   const hostHighlightClass = 'text-opacity-100'
-  expect(screen.getByText(protocol)).not.toHaveClass(hostHighlightClass)
   expect(screen.getByText(host)).toHaveClass(hostHighlightClass)
   expect(screen.getByText(rest)).not.toHaveClass(hostHighlightClass)
 })

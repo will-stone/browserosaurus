@@ -28,7 +28,7 @@ export const defaultStorage: Storage = {
   apps: [],
   supportMessage: 0,
   isSetup: false,
-  height: 204,
+  height: 200,
 }
 
 export const storage = createReducer<Storage>(defaultStorage, (builder) =>

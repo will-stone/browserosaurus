@@ -1,7 +1,6 @@
 import {
   ArrowSmDownIcon,
   ArrowSmUpIcon,
-  StarIcon,
   SwitchVerticalIcon,
 } from '@heroicons/react/solid'
 import clsx from 'clsx'
@@ -108,11 +107,7 @@ export function AppsPane(): JSX.Element {
                         />
                       </div>
                       <div className="flex items-center justify-center p-4 w-16">
-                        {index === 0 ? (
-                          <StarIcon className="text-amber-600 dark:text-amber-400 h-4" />
-                        ) : (
-                          index + 1
-                        )}
+                        {index + 1}
                       </div>
                       <div className="flex-grow flex items-center p-4">
                         <img

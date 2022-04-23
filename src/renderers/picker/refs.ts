@@ -1,3 +1,3 @@
 import { createRef } from 'react'
 
-export const favAppRef = createRef<HTMLButtonElement>()
+export const firstAppRef = createRef<HTMLButtonElement>()

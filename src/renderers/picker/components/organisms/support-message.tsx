@@ -12,12 +12,12 @@ const SupportMessage = (): JSX.Element => {
   return (
     <div
       className={clsx(
-        'absolute inset-0',
-        'grid grid-cols-12 gap-4 bg-slate-800 text-slate-400 overflow-y-auto px-8',
+        'absolute inset-0 flex flex-col justify-center',
+        'bg-slate-800 text-slate-400 overflow-y-auto p-4',
         isSupportMessageHidden && 'hidden',
       )}
     >
-      <div className="col-span-7 flex flex-col justify-center space-y-2">
+      <div className="flex flex-col justify-center space-y-2">
         <p>
           Thank you for downloading Browserosaurus. Please consider supporting
           my open source projects.
@@ -31,16 +31,16 @@ const SupportMessage = (): JSX.Element => {
         <p>— Will</p>
       </div>
 
-      <div className="col-span-5 flex flex-col justify-center items-stretch space-y-4">
+      <div className="flex justify-center items-center gap-2 mt-8">
         <button
-          className="bg-slate-900 text-slate-100 p-4 rounded text-xl focus:outline-none active:opacity-75"
+          className="grow bg-slate-900 text-slate-100 p-2 rounded focus:outline-none active:opacity-75"
           onClick={() => dispatch(clickedDonate())}
           type="button"
         >
           Buy Me a Coffee
         </button>
         <button
-          className="bg-slate-900 text-slate-300 p-2 rounded focus:outline-none active:opacity-75"
+          className="grow text-slate-300 p-2 rounded focus:outline-none active:opacity-75"
           onClick={() => dispatch(clickedMaybeLater())}
           type="button"
         >
