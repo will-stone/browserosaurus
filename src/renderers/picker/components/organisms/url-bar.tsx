@@ -40,17 +40,10 @@ const UrlBar: React.FC<Props> = ({ className }) => {
           textOverflow: 'ellipsis',
         }}
       >
-        <span className="text-opacity-100 dark:text-opacity-100 text-black dark:text-white">
-          {parsedUrl.host?.replace(/^www\./u, '') || (
-            <span className="opacity-30">Browserosaurus</span>
-          )}
-        </span>
-        <span>
-          {parsedUrl.port && `:${parsedUrl.port}`}
-          {parsedUrl.path}
-          {parsedUrl.query && `?${parsedUrl.query}`}
-          {parsedUrl.fragment && `#${parsedUrl.fragment}`}
-        </span>
+        {parsedUrl.host?.replace(/^www\./u, '') || (
+          <span className="opacity-30">Browserosaurus</span>
+        )}
+        {parsedUrl.port && `:${parsedUrl.port}`}
       </div>
     </div>
   )
