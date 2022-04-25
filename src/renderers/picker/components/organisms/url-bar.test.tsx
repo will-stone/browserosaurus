@@ -1,6 +1,5 @@
 import '../../../shared/preload'
 
-import type { MatcherFunction } from '@testing-library/react'
 import { act, render, screen } from '@testing-library/react'
 import electron from 'electron'
 import cloneDeep from 'lodash/cloneDeep'
@@ -11,18 +10,6 @@ import { openedUrl } from '../../../../main/state/actions'
 import { Channel } from '../../../../shared/state/channels'
 import { customWindow } from '../../../shared/custom.window'
 import Wrapper from '../_bootstrap'
-
-const multiElementText =
-  (text: string): MatcherFunction =>
-  (_, node) => {
-    const nodeHasText = node?.textContent === text
-
-    const childrenDontHaveText = [
-      ...(node?.children as unknown as HTMLElement[]),
-    ].every((child) => child?.textContent !== text)
-
-    return nodeHasText && childrenDontHaveText
-  }
 
 const originalNavigator = cloneDeep(customWindow.navigator)
 
@@ -46,15 +33,13 @@ test('url bar', () => {
   const win = new electron.BrowserWindow()
   const protocol = 'http://'
   const host = 'example.com'
-  const rest = ':8000/foo?bar=moo'
-  const url = `${protocol}${host}${rest}`
+  const port = ':8000'
+  const rest = '/foo?bar=moo'
+  const url = `${protocol}${host}${port}${rest}`
   act(() => {
     win.webContents.send(Channel.MAIN, openedUrl(url))
   })
   expect(screen.queryByText(protocol)).not.toBeInTheDocument()
-  expect(screen.getByText(multiElementText(host + rest))).toBeVisible()
-
-  const hostHighlightClass = 'text-opacity-100'
-  expect(screen.getByText(host)).toHaveClass(hostHighlightClass)
-  expect(screen.getByText(rest)).not.toHaveClass(hostHighlightClass)
+  expect(screen.getByText(host + port)).toBeVisible()
+  expect(screen.queryByText(rest)).not.toBeInTheDocument()
 })
