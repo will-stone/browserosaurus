@@ -41,7 +41,7 @@ const App: React.FC = () => {
           <Spinner />
         </div>
       )}
-      <div className="relative flex-grow w-full overflow-y-scroll divide-y divide-black/10 dark:divide-white/10">
+      <div className="relative flex-grow w-full overflow-y-auto divide-y divide-black/10 dark:divide-white/10">
         {apps.map((app, index) => {
           const key = app.id + index
           return (
