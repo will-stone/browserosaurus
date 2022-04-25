@@ -78,7 +78,7 @@ export async function createWindows(): Promise<void> {
     },
     center: true,
     height,
-    minHeight: 200,
+    minHeight: 112,
     width: 250,
     maxWidth: 250,
     minWidth: 250,
