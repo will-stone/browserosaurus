@@ -41,7 +41,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         }}
       >
         <span className="text-opacity-100 dark:text-opacity-100 text-black dark:text-white">
-          {parsedUrl.host?.replace(/^www./u, '') || (
+          {parsedUrl.host?.replace(/^www\./u, '') || (
             <span className="opacity-30">Browserosaurus</span>
           )}
         </span>
