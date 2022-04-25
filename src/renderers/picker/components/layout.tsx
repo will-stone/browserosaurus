@@ -2,7 +2,11 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { Spinner } from '../../shared/components/atoms/spinner'
-import { useInstalledApps, useKeyCodeMap } from '../../shared/state/hooks'
+import {
+  useInstalledApps,
+  useKeyCodeMap,
+  useSelector,
+} from '../../shared/state/hooks'
 import { firstAppRef } from '../refs'
 import { startedPicker } from '../state/actions'
 import AppLogo from './atoms/app-logo'
@@ -31,11 +35,15 @@ const App: React.FC = () => {
   useKeyboardEvents()
 
   const apps = useInstalledApps()
+  const url = useSelector((state) => state.data.url)
 
   const keyCodeMap = useKeyCodeMap()
 
   return (
-    <div className="h-screen w-screen select-none flex flex-col items-center relative dark:text-white dark:bg-gray-800 bg-white">
+    <div
+      className="h-screen w-screen select-none flex flex-col items-center relative dark:text-white dark:bg-gray-800 bg-white"
+      title={url}
+    >
       {!apps[0] && (
         <div className="flex justify-center items-center h-full">
           <Spinner />

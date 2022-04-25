@@ -27,7 +27,6 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       onKeyDown={() => false}
       role="button"
       tabIndex={-1}
-      title="Click to copy (⌘ + C)"
     >
       <div
         className="flex-grow tracking-wider text-opacity-50 dark:text-opacity-50 text-black dark:text-white"
