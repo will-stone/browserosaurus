@@ -19,7 +19,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
     <div
       className={clsx(
         className,
-        'flex-shrink-0 w-full py-2 px-4 text-center flex items-center text-sm',
+        'shrink-0 w-full py-2 px-4 text-center flex items-center text-sm',
         'bg-neutral-200 dark:bg-gray-900 border-t border-neutral-400 dark:border-gray-900',
         'cursor-default',
       )}
@@ -28,18 +28,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       role="button"
       tabIndex={-1}
     >
-      <div
-        className="flex-grow tracking-wider text-opacity-50 dark:text-opacity-50 text-black dark:text-white"
-        style={{
-          display: '-webkit-box',
-          WebkitLineClamp: 1,
-          WebkitBoxOrient: 'vertical',
-          overflow: 'hidden',
-          overflowWrap: 'break-word',
-          wordBreak: 'break-all',
-          textOverflow: 'ellipsis',
-        }}
-      >
+      <div className="flex-grow tracking-wider text-opacity-50 dark:text-opacity-50 text-black dark:text-white text-ellipsis overflow-hidden">
         {parsedUrl.host?.replace(/^www\./u, '') || (
           <span className="opacity-30">Browserosaurus</span>
         )}
