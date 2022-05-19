@@ -30,6 +30,7 @@ import vivaldi from '@browser-logos/vivaldi/vivaldi_128x128.png'
 import vivaldiSnapshot from '@browser-logos/vivaldi-snapshot/vivaldi-snapshot_128x128.png'
 import yandex from '@browser-logos/yandex/yandex_128x128.png'
 
+import arc from './logos/arc.png'
 import dissenter from './logos/dissenter.png'
 import duckDuckGo from './logos/duckDuckGo.png'
 import figma from './logos/figma.png'
@@ -62,6 +63,10 @@ interface App {
 const typeApps = <T extends Record<string, App>>(apps: T) => apps
 
 export const apps = typeApps({
+  'company.thebrowser.Browser': {
+    name: 'Arc',
+    logo: arc,
+  },
   'com.brave.Browser': {
     name: 'Brave',
     privateArg: '--incognito',
