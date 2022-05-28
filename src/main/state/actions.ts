@@ -17,7 +17,10 @@ const changedPickerWindowBounds = main<Rectangle>(
 )
 
 const startedScanning = main('installed-apps/scanning')
-const retrievedInstalledApps = main<AppId[]>('installed-apps/retrieved')
+
+const retrievedInstalledApps = main<{ id: AppId; icon: string }[]>(
+  'installed-apps/retrieved',
+)
 
 const receivedRendererStartupSignal =
   main<CombinedState<{ data: Data; storage: Storage }>>('sync-reducers')

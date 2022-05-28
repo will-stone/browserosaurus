@@ -9,7 +9,6 @@ import type { DropResult } from 'react-beautiful-dnd'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useDispatch } from 'react-redux'
 
-import { apps } from '../../../../config/apps'
 import Input from '../../../shared/components/atoms/input'
 import { Spinner } from '../../../shared/components/atoms/spinner'
 import { useInstalledApps, useKeyCodeMap } from '../../../shared/state/hooks'
@@ -78,7 +77,7 @@ export function AppsPane(): JSX.Element {
               className="overflow-y-auto p-2"
               {...droppableProvided.droppableProps}
             >
-              {installedApps.map(({ id, name, hotCode }, index) => (
+              {installedApps.map(({ id, name, hotCode, icon }, index) => (
                 <Draggable key={id} draggableId={id} index={index}>
                   {(draggableProvided, draggableSnapshot) => (
                     <div
@@ -110,11 +109,7 @@ export function AppsPane(): JSX.Element {
                         {index + 1}
                       </div>
                       <div className="flex-grow flex items-center p-4">
-                        <img
-                          alt=""
-                          className="h-8 w-8 mr-4"
-                          src={apps[id].logo}
-                        />
+                        <img alt="" className="h-8 w-8 mr-4" src={icon} />
                         <span>{name}</span>
                       </div>
                       <div className="p-4 flex items-center justify-center">

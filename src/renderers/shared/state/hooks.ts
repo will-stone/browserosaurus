@@ -20,6 +20,7 @@ export interface InstalledApp {
   id: AppId
   name: Apps[AppId]['name']
   hotCode: string | null
+  icon: string
 }
 
 export const useInstalledApps = (): InstalledApp[] => {
@@ -30,6 +31,7 @@ export const useInstalledApps = (): InstalledApp[] => {
       id: storedApp.id,
       hotCode: storedApp.hotCode,
       name: allApps[storedApp.id].name,
+      icon: storedApp.icon,
     }))
 }
 

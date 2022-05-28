@@ -1,7 +1,6 @@
 import clsx from 'clsx'
 import React from 'react'
 
-import { apps } from '../../../../config/apps'
 import type { InstalledApp } from '../../../shared/state/hooks'
 
 interface Props extends React.ComponentPropsWithoutRef<'img'> {
@@ -9,12 +8,13 @@ interface Props extends React.ComponentPropsWithoutRef<'img'> {
   className?: string
 }
 
-const AppLogo = ({ app, className }: Props): JSX.Element => {
+const AppLogo = ({ app, className }: Props): JSX.Element | null => {
   return (
     <img
-      alt={app.name}
+      alt=""
       className={clsx(className, 'no-drag')}
-      src={apps[app.id].logo}
+      data-testid={app.name}
+      src={app.icon}
     />
   )
 }

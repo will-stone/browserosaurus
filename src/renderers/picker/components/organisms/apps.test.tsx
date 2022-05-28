@@ -42,17 +42,17 @@ test('kitchen sink', () => {
   win.webContents.send(
     Channel.MAIN,
     retrievedInstalledApps([
-      'org.mozilla.firefox',
-      'com.apple.Safari',
-      'com.brave.Browser.nightly',
+      { id: 'org.mozilla.firefox', icon: '' },
+      { id: 'com.apple.Safari', icon: '' },
+      { id: 'com.brave.Browser.nightly', icon: '' },
     ]),
   )
   // Check apps and app logos shown
-  expect(screen.getByAltText('Firefox')).toBeVisible()
+  expect(screen.getByTestId('Firefox')).toBeVisible()
   expect(screen.getByRole('button', { name: 'Firefox App' })).toBeVisible()
-  expect(screen.getByAltText('Safari')).toBeVisible()
+  expect(screen.getByTestId('Safari')).toBeVisible()
   expect(screen.getByRole('button', { name: 'Safari App' })).toBeVisible()
-  expect(screen.getByAltText('Brave Nightly')).toBeVisible()
+  expect(screen.getByTestId('Brave Nightly')).toBeVisible()
   expect(
     screen.getByRole('button', { name: 'Brave Nightly App' }),
   ).toBeVisible()
@@ -64,10 +64,30 @@ test('kitchen sink', () => {
     receivedRendererStartupSignal({
       storage: {
         apps: [
-          { id: 'org.mozilla.firefox', hotCode: null, isInstalled: true },
-          { id: 'com.apple.Safari', hotCode: null, isInstalled: true },
-          { id: 'com.operasoftware.Opera', hotCode: null, isInstalled: false },
-          { id: 'com.brave.Browser.nightly', hotCode: null, isInstalled: true },
+          {
+            id: 'org.mozilla.firefox',
+            hotCode: null,
+            isInstalled: true,
+            icon: '',
+          },
+          {
+            id: 'com.apple.Safari',
+            hotCode: null,
+            isInstalled: true,
+            icon: '',
+          },
+          {
+            id: 'com.operasoftware.Opera',
+            hotCode: null,
+            isInstalled: false,
+            icon: '',
+          },
+          {
+            id: 'com.brave.Browser.nightly',
+            hotCode: null,
+            isInstalled: true,
+            icon: '',
+          },
         ],
         supportMessage: -1,
         height: 200,
@@ -123,7 +143,14 @@ test('should show spinner when no installed apps are found', () => {
     Channel.MAIN,
     receivedRendererStartupSignal({
       storage: {
-        apps: [{ id: 'com.apple.Safari', hotCode: 'KeyS', isInstalled: false }],
+        apps: [
+          {
+            id: 'com.apple.Safari',
+            hotCode: 'KeyS',
+            isInstalled: false,
+            icon: '',
+          },
+        ],
         supportMessage: -1,
         height: 200,
         isSetup: true,
@@ -139,13 +166,20 @@ test('should use hotkey', () => {
   const win = new electron.BrowserWindow()
   win.webContents.send(
     Channel.MAIN,
-    retrievedInstalledApps(['com.apple.Safari']),
+    retrievedInstalledApps([{ id: 'com.apple.Safari', icon: '' }]),
   )
   win.webContents.send(
     Channel.MAIN,
     receivedRendererStartupSignal({
       storage: {
-        apps: [{ id: 'com.apple.Safari', hotCode: 'KeyS', isInstalled: true }],
+        apps: [
+          {
+            id: 'com.apple.Safari',
+            hotCode: 'KeyS',
+            isInstalled: true,
+            icon: '',
+          },
+        ],
         supportMessage: -1,
         height: 200,
         isSetup: true,
@@ -177,14 +211,21 @@ test('should use hotkey with alt', () => {
   const win = new electron.BrowserWindow()
   win.webContents.send(
     Channel.MAIN,
-    retrievedInstalledApps(['com.apple.Safari']),
+    retrievedInstalledApps([{ id: 'com.apple.Safari', icon: '' }]),
   )
 
   win.webContents.send(
     Channel.MAIN,
     receivedRendererStartupSignal({
       storage: {
-        apps: [{ id: 'com.apple.Safari', hotCode: 'KeyS', isInstalled: true }],
+        apps: [
+          {
+            id: 'com.apple.Safari',
+            hotCode: 'KeyS',
+            isInstalled: true,
+            icon: '',
+          },
+        ],
         supportMessage: -1,
         height: 200,
         isSetup: true,
@@ -221,7 +262,7 @@ test('should hold shift', () => {
   const win = new electron.BrowserWindow()
   win.webContents.send(
     Channel.MAIN,
-    retrievedInstalledApps(['org.mozilla.firefox']),
+    retrievedInstalledApps([{ id: 'org.mozilla.firefox', icon: '' }]),
   )
   win.webContents.send(Channel.MAIN, openedUrl('http://example.com'))
   fireEvent.click(screen.getByRole('button', { name: 'Firefox App' }), {
@@ -261,11 +302,11 @@ test('should order tiles', () => {
   win.webContents.send(
     Channel.MAIN,
     retrievedInstalledApps([
-      'org.mozilla.firefox',
-      'com.apple.Safari',
-      'com.operasoftware.Opera',
-      'com.microsoft.edgemac',
-      'com.brave.Browser',
+      { id: 'org.mozilla.firefox', icon: '' },
+      { id: 'com.apple.Safari', icon: '' },
+      { id: 'com.operasoftware.Opera', icon: '' },
+      { id: 'com.microsoft.edgemac', icon: '' },
+      { id: 'com.brave.Browser', icon: '' },
     ]),
   )
   // Check tiles and tile logos shown

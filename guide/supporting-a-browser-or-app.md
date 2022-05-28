@@ -69,42 +69,6 @@ export const apps = {
 > order by the `name` key. There's a test that will check for this. We'll
 > discuss running tests below.
 
-### Adding a logo
-
-All apps must have a logo, that you will no doubt have seen displayed in the
-picker window, when Browserosaurus shows. Most browser logos can be installed
-from an excellent project that contains
-[almost all browser logos](https://github.com/alrra/browser-logos) by
-[Cătălin Mariș](https://github.com/alrra).
-
-Following our example of using Firefox, the command to add the Firefox logo
-would be:
-
-```sh
-npm i @browser-logos/firefox
-```
-
-If you find the browser you'd like to add is not supported by Cătălin's project,
-or you're not adding a browser at all, you'll need to source the logo yourself.
-Please find a suitable 128x128 pixel logo and place it in the `src/config/logos`
-folder.
-
-Import the browser from the location where you've installed it, and add it to a
-`logo` key in your app's object:
-
-```ts
-import firefox from '@browser-logos/firefox/firefox_128x128.png'
-
-export const apps = {
-  // ...
-  'org.mozilla.firefox': {
-    name: 'Firefox',
-    logo: firefox,
-  },
-  // ...
-} as const
-```
-
 That's all there is to it. Run your updated code using `npm start`, and see if
 it behaves how you would expect.
 
@@ -125,7 +89,6 @@ export const apps = {
   // ...
   'org.mozilla.firefox': {
     name: 'Firefox',
-    logo: firefox,
     privateArg: '--private-window',
   },
   // ...
@@ -144,7 +107,6 @@ export const apps = {
   'com.readitlater.PocketMac': {
     name: 'Pocket',
     urlTemplate: 'pocket://add?url={{URL}}',
-    logo: pocket,
   },
   // ...
 } as const
