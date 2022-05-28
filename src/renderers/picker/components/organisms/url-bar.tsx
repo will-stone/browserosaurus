@@ -1,7 +1,6 @@
 import clsx from 'clsx'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { parse } from 'uri-js'
 
 import { useSelector } from '../../../shared/state/hooks'
 import { clickedUrlBar } from '../../state/actions'
@@ -13,7 +12,14 @@ interface Props {
 const UrlBar: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
   const url = useSelector((state) => state.data.url)
-  const parsedUrl = parse(url)
+
+  let parsedUrl
+
+  try {
+    parsedUrl = new URL(url)
+  } catch {
+    parsedUrl = { hostname: '', port: '' }
+  }
 
   return (
     <div
@@ -29,7 +35,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       tabIndex={-1}
     >
       <div className="flex-grow tracking-wider text-opacity-50 dark:text-opacity-50 text-black dark:text-white text-ellipsis overflow-hidden">
-        {parsedUrl.host?.replace(/^www\./u, '') || (
+        {parsedUrl.hostname?.replace(/^www\./u, '') || (
           <span className="opacity-30">Browserosaurus</span>
         )}
         {parsedUrl.port && `:${parsedUrl.port}`}
