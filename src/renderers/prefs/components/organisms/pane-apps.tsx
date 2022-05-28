@@ -1,8 +1,6 @@
-import {
-  ArrowSmDownIcon,
-  ArrowSmUpIcon,
-  SwitchVerticalIcon,
-} from '@heroicons/react/solid'
+import ArrowSmDownIcon from '@heroicons/react/solid/ArrowSmDownIcon'
+import ArrowSmUpIcon from '@heroicons/react/solid/ArrowSmUpIcon'
+import SwitchVerticalIcon from '@heroicons/react/solid/SwitchVerticalIcon'
 import clsx from 'clsx'
 import React from 'react'
 import type { DropResult } from 'react-beautiful-dnd'
