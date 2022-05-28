@@ -32,6 +32,20 @@ export function actionLogger(action: FSA): void {
   console.log(`${channelLog} ${namespaceLog}/${typeLog}`)
 
   if (action.payload) {
-    console.log(gray(JSON.stringify(action.payload, null, 2)))
+    console.log(
+      gray(
+        JSON.stringify(
+          action.payload,
+          (_, value) => {
+            if (typeof value === 'string' && value.length > 100) {
+              return `${value.slice(0, 100)}…`
+            }
+
+            return value
+          },
+          2,
+        ),
+      ),
+    )
   }
 }
