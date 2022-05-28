@@ -13,7 +13,6 @@ import {
 } from '../../main/state/actions'
 import {
   clickedDonate,
-  pressedKey,
   startedPicker,
 } from '../../renderers/picker/state/actions'
 import {
@@ -22,7 +21,6 @@ import {
   startedPrefs,
 } from '../../renderers/prefs/state/actions'
 import { gotKeyLayoutMap } from '../../renderers/shared/state/actions'
-import { backspaceUrlParse } from '../utils/backspace-url-parse'
 
 export type PrefsTab = 'about' | 'apps' | 'general'
 
@@ -70,13 +68,6 @@ export const data = createReducer<Data>(defaultData, (builder) =>
 
     .addCase(startedPrefs, (state) => {
       state.prefsStarted = true
-    })
-
-    // Pressed key in picker window
-    .addCase(pressedKey, (state, action) => {
-      if (action.payload.physicalKey === 'Backspace') {
-        state.url = backspaceUrlParse(state.url)
-      }
     })
 
     .addCase(gotDefaultBrowserStatus, (state, action) => {

@@ -1,5 +1,6 @@
 import type { AnyAction } from '@reduxjs/toolkit'
 import electron, { app } from 'electron'
+import { TidyURL } from 'tidy-url'
 import sleep from 'tings/lib/sleep'
 
 import { Channel } from '../shared/state/channels'
@@ -17,9 +18,11 @@ app.on('before-quit', () => app.exit())
 app.on('open-url', (event, url) => {
   event.preventDefault()
 
+  const tidyUrl = TidyURL.clean(url)
+
   const urlOpener = async () => {
     if (getState().data.pickerStarted) {
-      dispatch(openedUrl(url))
+      dispatch(openedUrl(tidyUrl.url))
     }
     // If B was opened by sending it a URL, the `open-url` electron.app event
     // can be fired before the picker window is ready. Here we wait before trying again.
