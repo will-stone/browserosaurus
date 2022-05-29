@@ -10,6 +10,9 @@ export const apps = typeApps({
   'company.thebrowser.Browser': {
     name: 'Arc',
   },
+  'org.blisk.Blisk': {
+    name: 'Blisk',
+  },
   'com.brave.Browser': {
     name: 'Brave',
     privateArg: '--incognito',
