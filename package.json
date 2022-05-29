@@ -158,6 +158,7 @@
     "@electron-forge/cli": "6.0.0-beta.63",
     "@electron-forge/maker-zip": "6.0.0-beta.63",
     "@electron-forge/plugin-webpack": "6.0.0-beta.63",
+    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.4",
     "@types/jest": "^27.4.1",
@@ -187,6 +188,7 @@
     "lint-staged": "^12.3.7",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.6.0",
+    "node-loader": "^2.0.0",
     "postcss": "^8.4.12",
     "postcss-cli": "^9.1.0",
     "postcss-import": "^14.1.0",
@@ -200,7 +202,8 @@
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3",
     "url-loader": "^4.1.1",
-    "version-bump-prompt": "^6.1.0"
+    "version-bump-prompt": "^6.1.0",
+    "webpack": "^5.72.1"
   },
   "engines": {
     "node": ">=16.0.0"
