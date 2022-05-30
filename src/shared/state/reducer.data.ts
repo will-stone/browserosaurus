@@ -1,10 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit'
 
+import type { AppId } from '../../config/apps'
 import { CARROT_URL } from '../../config/CONSTANTS'
 import {
   availableUpdate,
   downloadedUpdate,
   downloadingUpdate,
+  gotAppIcons,
   gotDefaultBrowserStatus,
   openedUrl,
   receivedRendererStartupSignal,
@@ -34,6 +36,7 @@ export interface Data {
   prefsTab: PrefsTab
   keyCodeMap: Record<string, string>
   scanStatus: 'init' | 'scanned' | 'scanning'
+  icons: Partial<Record<AppId, string>>
 }
 
 export const defaultData: Data = {
@@ -46,6 +49,7 @@ export const defaultData: Data = {
   prefsTab: 'general',
   keyCodeMap: {},
   scanStatus: 'init',
+  icons: {},
 }
 
 export const data = createReducer<Data>(defaultData, (builder) =>
@@ -100,5 +104,9 @@ export const data = createReducer<Data>(defaultData, (builder) =>
 
     .addCase(gotKeyLayoutMap, (state, action) => {
       state.keyCodeMap = action.payload
+    })
+
+    .addCase(gotAppIcons, (state, action) => {
+      state.icons = action.payload
     }),
 )

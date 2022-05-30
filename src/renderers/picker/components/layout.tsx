@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 
 import { Spinner } from '../../shared/components/atoms/spinner'
 import {
+  useDeepEqualSelector,
   useInstalledApps,
   useKeyCodeMap,
   useSelector,
@@ -36,6 +37,7 @@ const App: React.FC = () => {
 
   const apps = useInstalledApps()
   const url = useSelector((state) => state.data.url)
+  const icons = useDeepEqualSelector((state) => state.data.icons)
 
   const keyCodeMap = useKeyCodeMap()
 
@@ -57,7 +59,7 @@ const App: React.FC = () => {
               <AppButton
                 ref={index === 0 ? firstAppRef : null}
                 app={app}
-                className="flex-shrink-0 flex items-center justify-between text-left px-4 py-2 space-x-4 w-full"
+                className="flex-shrink-0 flex items-center justify-between text-left px-4 py-2 space-x-4 w-full h-12"
               >
                 <span>{app.name}</span>
                 <span className="flex items-center space-x-4">
@@ -66,7 +68,11 @@ const App: React.FC = () => {
                       {keyCodeMap[app.hotCode]}
                     </Kbd>
                   )}
-                  <AppLogo app={app} className="flex-shrink-0 h-8 w-8" />
+                  <AppLogo
+                    app={app}
+                    className="flex-shrink-0 h-8 w-8"
+                    icon={icons[app.id]}
+                  />
                 </span>
               </AppButton>
             </div>

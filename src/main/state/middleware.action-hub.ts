@@ -26,6 +26,7 @@ import type { RootState } from '../../shared/state/reducer.root'
 import { database } from '../database'
 import { createTray, tray } from '../tray'
 import copyUrlToClipboard from '../utils/copy-url-to-clipboard'
+import { getAppIcons } from '../utils/get-app-icons'
 import { getInstalledAppIds } from '../utils/get-installed-app-ids'
 import { initUpdateChecker } from '../utils/init-update-checker'
 import { openApp } from '../utils/open-app'
@@ -44,6 +45,7 @@ import {
   openedUrl,
   readiedApp,
   receivedRendererStartupSignal,
+  retrievedInstalledApps,
 } from './actions'
 
 /**
@@ -222,6 +224,11 @@ export const actionHubMiddleware =
         app.relaunch()
         app.exit()
       }
+    }
+
+    // Get app icons
+    else if (retrievedInstalledApps.match(action)) {
+      getAppIcons(nextState.storage.apps)
     }
 
     return result
