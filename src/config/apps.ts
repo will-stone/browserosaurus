@@ -92,8 +92,9 @@ export const apps = typeApps({
   'de.iridiumbrowser': {
     name: 'Iridium',
   },
-  'io.gitlab.librewolf-community.librewolf': {
-    name: 'Librewolf',
+  'org.mozilla.librewolf': {
+    name: 'LibreWolf',
+    privateArg: '--private-window',
   },
   'com.linear': {
     name: 'Linear',
