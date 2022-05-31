@@ -15,6 +15,7 @@ import {
 } from '../../main/state/actions'
 import {
   clickedDonate,
+  clickedUpdateBar,
   startedPicker,
 } from '../../renderers/picker/state/actions'
 import {
@@ -108,5 +109,9 @@ export const data = createReducer<Data>(defaultData, (builder) =>
 
     .addCase(gotAppIcons, (state, action) => {
       state.icons = action.payload
+    })
+
+    .addCase(clickedUpdateBar, (state) => {
+      state.prefsTab = 'general'
     }),
 )

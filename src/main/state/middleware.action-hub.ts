@@ -2,11 +2,11 @@
 /* eslint-disable unicorn/prefer-regexp-test -- rtk uses .match */
 import { app, autoUpdater, shell } from 'electron'
 import deepEqual from 'fast-deep-equal'
-import path from 'path'
 
 import { B_URL, ISSUES_URL } from '../../config/CONSTANTS'
 import {
   clickedApp,
+  clickedUpdateBar,
   clickedUrlBar,
   pressedKey,
   startedPicker,
@@ -24,7 +24,7 @@ import {
 import type { Middleware } from '../../shared/state/model'
 import type { RootState } from '../../shared/state/reducer.root'
 import { database } from '../database'
-import { createTray, tray } from '../tray'
+import { createTray } from '../tray'
 import copyUrlToClipboard from '../utils/copy-url-to-clipboard'
 import { getAppIcons } from '../utils/get-app-icons'
 import { getInstalledAppIds } from '../utils/get-installed-app-ids'
@@ -39,7 +39,6 @@ import {
   showPrefsWindow,
 } from '../windows'
 import {
-  availableUpdate,
   clickedOpenPrefs,
   clickedRestorePicker,
   openedUrl,
@@ -114,11 +113,6 @@ export const actionHubMiddleware =
     else if (clickedSetAsDefaultBrowserButton.match(action)) {
       app.setAsDefaultProtocolClient('http')
       app.setAsDefaultProtocolClient('https')
-    }
-
-    // Update and restart
-    else if (availableUpdate.match(action)) {
-      tray?.setImage(path.join(__dirname, '/static/icon/tray_iconBlue.png'))
     }
 
     // Update and restart
@@ -203,6 +197,12 @@ export const actionHubMiddleware =
       if (nextState.data.scanStatus === 'init') {
         getInstalledAppIds()
       }
+    }
+
+    // Open prefs on click update bar
+    else if (clickedUpdateBar.match(action)) {
+      pickerWindow?.hide()
+      showPrefsWindow()
     }
 
     // Open homepage

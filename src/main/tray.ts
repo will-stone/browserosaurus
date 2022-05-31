@@ -4,7 +4,7 @@ import path from 'path'
 import { clickedOpenPrefs, clickedRestorePicker } from './state/actions'
 import { dispatch } from './state/store'
 
-export let tray: Tray | undefined
+let tray: Tray | undefined
 
 /**
  * Menubar icon
