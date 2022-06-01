@@ -1,4 +1,5 @@
 // @ts-expect-error -- no types provided for file-icon
+import log from 'electron-log'
 import { fileIconToBuffer } from 'file-icon'
 
 import type { AppId } from '../../config/apps'
@@ -8,9 +9,12 @@ import { dispatch } from '../state/store'
 
 async function getAppIcon(bundleId: string): Promise<string> {
   try {
+    log.info('Getting icon from ID', bundleId)
     const buffer = await fileIconToBuffer(bundleId, { size: 64 })
     return `data:image/png;base64,${buffer.toString('base64')}`
-  } catch {
+  } catch (error: unknown) {
+    log.error(error)
+    console.error('[getAppIcon error]', error)
     return ''
   }
 }
