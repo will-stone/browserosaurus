@@ -1,5 +1,5 @@
-// @ts-expect-error -- no types provided for file-icon
 import log from 'electron-log'
+// @ts-expect-error -- no types provided for file-icon
 import { fileIconToBuffer } from 'file-icon'
 
 import type { AppId } from '../../config/apps'
@@ -14,6 +14,7 @@ async function getAppIcon(bundleId: string): Promise<string> {
     return `data:image/png;base64,${buffer.toString('base64')}`
   } catch (error: unknown) {
     log.error(error)
+    // eslint-disable-next-line no-console
     console.error('[getAppIcon error]', error)
     return ''
   }
