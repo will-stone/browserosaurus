@@ -1,6 +1,6 @@
 import log from 'electron-log'
 // @ts-expect-error -- no types provided for file-icon
-import { fileIconToBuffer } from 'file-icon'
+import fileIcon from 'file-icon'
 
 import type { AppId } from '../../config/apps'
 import type { Storage } from '../../shared/state/reducer.storage'
@@ -9,7 +9,7 @@ import { dispatch } from '../state/store'
 
 export async function getAppIcons(apps: Storage['apps']): Promise<void> {
   try {
-    const buffers: Buffer[] = await fileIconToBuffer(
+    const buffers: Buffer[] = await fileIcon.buffer(
       apps.map((app) => app.id),
       { size: 64 },
     )

@@ -7,7 +7,7 @@ module.exports = {
    * that runs in the main process.
    */
   entry: './src/main/main.ts',
-  // Put your normal webpack config below here
+
   module: {
     rules: [
       {
@@ -30,11 +30,18 @@ module.exports = {
       ...rules,
     ],
   },
+
+  externals: {
+    'file-icon': 'commonjs2 file-icon',
+  },
+
   // Do not create source maps
   devtool: false,
+
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
   },
+
   plugins: [
     new CopyPlugin({
       patterns: [{ from: 'src/shared/static', to: 'static' }],
