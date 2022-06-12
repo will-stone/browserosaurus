@@ -109,7 +109,8 @@
                 }
               ]
             }
-          }
+          },
+          "@electron-forge/plugin-auto-unpack-natives"
         ]
       ]
     }
@@ -158,8 +159,8 @@
     "@commitlint/config-conventional": "^16.2.1",
     "@electron-forge/cli": "6.0.0-beta.63",
     "@electron-forge/maker-zip": "6.0.0-beta.63",
+    "@electron-forge/plugin-auto-unpack-natives": "^6.0.0-beta.63",
     "@electron-forge/plugin-webpack": "6.0.0-beta.63",
-    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.4",
     "@types/jest": "^27.4.1",
@@ -169,6 +170,7 @@
     "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-dom": "^17.0.14",
     "@types/react-redux": "^7.1.23",
+    "@vercel/webpack-asset-relocator-loader": "^1.7.2",
     "@will-stone/eslint-config-base": "^1.1.0",
     "@will-stone/eslint-config-jest": "^2.0.0",
     "@will-stone/eslint-config-node": "^2.0.0",
