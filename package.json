@@ -165,10 +165,9 @@
   "devDependencies": {
     "@commitlint/cli": "^16.2.3",
     "@commitlint/config-conventional": "^16.2.1",
-    "@electron-forge/cli": "6.0.0-beta.63",
-    "@electron-forge/maker-zip": "6.0.0-beta.63",
-    "@electron-forge/plugin-auto-unpack-natives": "^6.0.0-beta.63",
-    "@electron-forge/plugin-webpack": "6.0.0-beta.63",
+    "@electron-forge/cli": "6.0.0-beta.64",
+    "@electron-forge/maker-zip": "6.0.0-beta.64",
+    "@electron-forge/plugin-webpack": "6.0.0-beta.64",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.4",
     "@timfish/forge-externals-plugin": "^0.1.2",
