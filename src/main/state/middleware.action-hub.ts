@@ -94,6 +94,7 @@ export const actionHubMiddleware =
       createWindows()
       createTray()
       initUpdateChecker()
+      getInstalledAppIds()
     }
 
     // When a renderer starts, send down all the locally stored data
@@ -175,28 +176,16 @@ export const actionHubMiddleware =
     // Open URL
     else if (openedUrl.match(action)) {
       showPickerWindow()
-
-      if (nextState.data.scanStatus === 'init') {
-        getInstalledAppIds()
-      }
     }
 
     // Tray: restore picker
     else if (clickedRestorePicker.match(action)) {
       showPickerWindow()
-
-      if (nextState.data.scanStatus === 'init') {
-        getInstalledAppIds()
-      }
     }
 
     // Tray: open prefs
     else if (clickedOpenPrefs.match(action)) {
       showPrefsWindow()
-
-      if (nextState.data.scanStatus === 'init') {
-        getInstalledAppIds()
-      }
     }
 
     // Open prefs on click update bar
