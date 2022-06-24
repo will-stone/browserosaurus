@@ -9,7 +9,11 @@ import { useDispatch } from 'react-redux'
 
 import Input from '../../../shared/components/atoms/input'
 import { Spinner } from '../../../shared/components/atoms/spinner'
-import { useInstalledApps, useKeyCodeMap } from '../../../shared/state/hooks'
+import {
+  useDeepEqualSelector,
+  useInstalledApps,
+  useKeyCodeMap,
+} from '../../../shared/state/hooks'
 import { reorderedApp, updatedHotCode } from '../../state/actions'
 import { Pane } from '../molecules/pane'
 
@@ -57,6 +61,8 @@ export function AppsPane(): JSX.Element {
     )
   }
 
+  const icons = useDeepEqualSelector((state) => state.data.icons)
+
   const keyCodeMap = useKeyCodeMap()
 
   return (
@@ -75,7 +81,7 @@ export function AppsPane(): JSX.Element {
               className="overflow-y-auto p-2"
               {...droppableProvided.droppableProps}
             >
-              {installedApps.map(({ id, name, hotCode, icon }, index) => (
+              {installedApps.map(({ id, name, hotCode }, index) => (
                 <Draggable key={id} draggableId={id} index={index}>
                   {(draggableProvided, draggableSnapshot) => (
                     <div
@@ -107,7 +113,14 @@ export function AppsPane(): JSX.Element {
                         {index + 1}
                       </div>
                       <div className="flex-grow flex items-center p-4">
-                        <img alt="" className="h-8 w-8 mr-4" src={icon} />
+                        <img
+                          alt=""
+                          className={clsx(
+                            'h-8 w-8 mr-4',
+                            !icons[id] && 'hidden',
+                          )}
+                          src={icons[id] || ''}
+                        />
                         <span>{name}</span>
                       </div>
                       <div className="p-4 flex items-center justify-center">

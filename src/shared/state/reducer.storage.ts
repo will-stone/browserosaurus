@@ -22,7 +22,6 @@ export interface Storage {
     id: AppId
     hotCode: string | null
     isInstalled: boolean
-    icon: string
   }[]
   supportMessage: number
   isSetup: boolean
@@ -50,31 +49,22 @@ export const storage = createReducer<Storage>(defaultStorage, (builder) =>
     )
 
     .addCase(retrievedInstalledApps, (state, action) => {
-      const installedApps = action.payload
+      const installedAppIds = action.payload
 
       for (const storedApp of state.apps) {
-        const installedStoredApp = installedApps.find(
-          (app) => app.id === storedApp.id,
-        )
-
-        storedApp.isInstalled = Boolean(installedStoredApp)
-
-        if (installedStoredApp) {
-          storedApp.icon = installedStoredApp.icon
-        }
+        storedApp.isInstalled = installedAppIds.includes(storedApp.id)
       }
 
-      for (const installedApp of installedApps) {
+      for (const installedAppId of installedAppIds) {
         const installedAppInStorage = state.apps.some(
-          ({ id }) => id === installedApp.id,
+          ({ id }) => id === installedAppId,
         )
 
         if (!installedAppInStorage) {
           state.apps.push({
-            id: installedApp.id,
+            id: installedAppId,
             hotCode: null,
             isInstalled: true,
-            icon: installedApp.icon,
           })
         }
       }
