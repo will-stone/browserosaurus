@@ -123,11 +123,11 @@ export const apps = typeApps({
   'com.operasoftware.OperaNext': {
     name: 'Opera Beta',
   },
-  'com.operasoftware.OperaDeveloper': {
-    name: 'Opera Dev',
-  },
   'com.operasoftware.OperaCryptoDeveloper': {
     name: 'Opera CD',
+  },
+  'com.operasoftware.OperaDeveloper': {
+    name: 'Opera Dev',
   },
   'com.operasoftware.OperaGX': {
     name: 'Opera GX',
