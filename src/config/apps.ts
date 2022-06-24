@@ -126,6 +126,9 @@ export const apps = typeApps({
   'com.operasoftware.OperaDeveloper': {
     name: 'Opera Dev',
   },
+  'com.operasoftware.OperaCryptoDeveloper': {
+    name: 'Opera CD',
+  },
   'com.operasoftware.OperaGX': {
     name: 'Opera GX',
   },
