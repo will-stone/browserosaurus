@@ -95,6 +95,10 @@ export const apps = typeApps({
   'io.gitlab.librewolf-community.librewolf': {
     name: 'Librewolf',
   },
+  'org.mozilla.librewolf': {
+    name: 'Librewolf',
+    privateArg: '--private-window',
+  },
   'com.linear': {
     name: 'Linear',
   },
