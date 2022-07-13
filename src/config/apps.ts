@@ -183,6 +183,9 @@ export const apps = typeApps({
   'us.zoom.xos': {
     name: 'Zoom',
   },
+  'com.kitze.sizzy': {
+    name: 'Sizzy',
+  }
 })
 
 export type Apps = typeof apps
