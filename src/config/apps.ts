@@ -156,6 +156,9 @@ export const apps = typeApps({
     name: 'Sidekick',
     privateArg: '--incognito',
   },
+  'com.kitze.sizzy': {
+    name: 'Sizzy',
+  },
   'com.spotify.client': {
     name: 'Spotify',
   },

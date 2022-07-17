@@ -6,15 +6,16 @@ import type { InstalledApp } from '../../../shared/state/hooks'
 interface Props extends React.ComponentPropsWithoutRef<'img'> {
   app: InstalledApp
   className?: string
+  icon: string | undefined
 }
 
-const AppLogo = ({ app, className }: Props): JSX.Element | null => {
+const AppLogo = ({ app, className, icon }: Props): JSX.Element => {
   return (
     <img
       alt=""
-      className={clsx(className, 'no-drag')}
+      className={clsx(className, 'no-drag', !icon && 'hidden')}
       data-testid={app.name}
-      src={app.icon}
+      src={icon || ''}
     />
   )
 }

@@ -42,9 +42,9 @@ test('kitchen sink', () => {
   win.webContents.send(
     Channel.MAIN,
     retrievedInstalledApps([
-      { id: 'org.mozilla.firefox', icon: '' },
-      { id: 'com.apple.Safari', icon: '' },
-      { id: 'com.brave.Browser.nightly', icon: '' },
+      'org.mozilla.firefox',
+      'com.apple.Safari',
+      'com.brave.Browser.nightly',
     ]),
   )
   // Check apps and app logos shown
@@ -68,25 +68,21 @@ test('kitchen sink', () => {
             id: 'org.mozilla.firefox',
             hotCode: null,
             isInstalled: true,
-            icon: '',
           },
           {
             id: 'com.apple.Safari',
             hotCode: null,
             isInstalled: true,
-            icon: '',
           },
           {
             id: 'com.operasoftware.Opera',
             hotCode: null,
             isInstalled: false,
-            icon: '',
           },
           {
             id: 'com.brave.Browser.nightly',
             hotCode: null,
             isInstalled: true,
-            icon: '',
           },
         ],
         supportMessage: -1,
@@ -148,7 +144,6 @@ test('should show spinner when no installed apps are found', () => {
             id: 'com.apple.Safari',
             hotCode: 'KeyS',
             isInstalled: false,
-            icon: '',
           },
         ],
         supportMessage: -1,
@@ -166,7 +161,7 @@ test('should use hotkey', () => {
   const win = new electron.BrowserWindow()
   win.webContents.send(
     Channel.MAIN,
-    retrievedInstalledApps([{ id: 'com.apple.Safari', icon: '' }]),
+    retrievedInstalledApps(['com.apple.Safari']),
   )
   win.webContents.send(
     Channel.MAIN,
@@ -177,7 +172,6 @@ test('should use hotkey', () => {
             id: 'com.apple.Safari',
             hotCode: 'KeyS',
             isInstalled: true,
-            icon: '',
           },
         ],
         supportMessage: -1,
@@ -211,7 +205,7 @@ test('should use hotkey with alt', () => {
   const win = new electron.BrowserWindow()
   win.webContents.send(
     Channel.MAIN,
-    retrievedInstalledApps([{ id: 'com.apple.Safari', icon: '' }]),
+    retrievedInstalledApps(['com.apple.Safari']),
   )
 
   win.webContents.send(
@@ -223,7 +217,6 @@ test('should use hotkey with alt', () => {
             id: 'com.apple.Safari',
             hotCode: 'KeyS',
             isInstalled: true,
-            icon: '',
           },
         ],
         supportMessage: -1,
@@ -262,7 +255,7 @@ test('should hold shift', () => {
   const win = new electron.BrowserWindow()
   win.webContents.send(
     Channel.MAIN,
-    retrievedInstalledApps([{ id: 'org.mozilla.firefox', icon: '' }]),
+    retrievedInstalledApps(['org.mozilla.firefox']),
   )
   win.webContents.send(Channel.MAIN, openedUrl('http://example.com'))
   fireEvent.click(screen.getByRole('button', { name: 'Firefox App' }), {
@@ -302,11 +295,11 @@ test('should order tiles', () => {
   win.webContents.send(
     Channel.MAIN,
     retrievedInstalledApps([
-      { id: 'org.mozilla.firefox', icon: '' },
-      { id: 'com.apple.Safari', icon: '' },
-      { id: 'com.operasoftware.Opera', icon: '' },
-      { id: 'com.microsoft.edgemac', icon: '' },
-      { id: 'com.brave.Browser', icon: '' },
+      'org.mozilla.firefox',
+      'com.apple.Safari',
+      'com.operasoftware.Opera',
+      'com.microsoft.edgemac',
+      'com.brave.Browser',
     ]),
   )
   // Check tiles and tile logos shown

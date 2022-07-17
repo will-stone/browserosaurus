@@ -12,40 +12,41 @@ const SupportMessage = (): JSX.Element => {
   return (
     <div
       className={clsx(
-        'absolute inset-0 flex flex-col justify-center',
-        'bg-slate-800 text-slate-400 overflow-y-auto p-4',
+        'absolute inset-0 flex flex-col',
+        'bg-slate-800 text-slate-400 overflow-y-auto',
         isSupportMessageHidden && 'hidden',
       )}
     >
-      <div className="flex flex-col justify-center space-y-2">
+      <div className="p-4">
         <p>
           Thank you for downloading Browserosaurus. Please consider supporting
           my open source projects.
         </p>
+
         <p>
           Thank you{' '}
           <span aria-label="kiss emoji" role="img">
             😘
-          </span>
+          </span>{' '}
+          — Will.
         </p>
-        <p>— Will</p>
-      </div>
 
-      <div className="flex justify-center items-center gap-2 mt-8">
-        <button
-          className="grow bg-slate-900 text-slate-100 p-2 rounded focus:outline-none active:opacity-75"
-          onClick={() => dispatch(clickedDonate())}
-          type="button"
-        >
-          Buy Me a Coffee
-        </button>
-        <button
-          className="grow text-slate-300 p-2 rounded focus:outline-none active:opacity-75"
-          onClick={() => dispatch(clickedMaybeLater())}
-          type="button"
-        >
-          Maybe Later
-        </button>
+        <div className="flex justify-center items-center gap-2 mt-2">
+          <button
+            className="grow bg-slate-900 text-slate-100 p-1 rounded focus:outline-none active:opacity-75"
+            onClick={() => dispatch(clickedDonate())}
+            type="button"
+          >
+            Buy Me a Coffee
+          </button>
+          <button
+            className="grow text-slate-300 p-1 rounded focus:outline-none active:opacity-75"
+            onClick={() => dispatch(clickedMaybeLater())}
+            type="button"
+          >
+            Maybe Later
+          </button>
+        </div>
       </div>
     </div>
   )

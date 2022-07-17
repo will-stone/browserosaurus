@@ -18,14 +18,14 @@ const changedPickerWindowBounds = main<Rectangle>(
 
 const startedScanning = main('installed-apps/scanning')
 
-const retrievedInstalledApps = main<{ id: AppId; icon: string }[]>(
-  'installed-apps/retrieved',
-)
+const retrievedInstalledApps = main<AppId[]>('installed-apps/retrieved')
 
 const receivedRendererStartupSignal =
   main<CombinedState<{ data: Data; storage: Storage }>>('sync-reducers')
 
 const gotDefaultBrowserStatus = main<boolean>('default-browser-status/got')
+
+const gotAppIcons = main<Partial<Record<AppId, string>>>('app-icons/got')
 
 const availableUpdate = main('update/available')
 const downloadingUpdate = main('update/downloading')
@@ -43,6 +43,7 @@ export {
   clickedRestorePicker,
   downloadedUpdate,
   downloadingUpdate,
+  gotAppIcons,
   gotDefaultBrowserStatus,
   openedUrl,
   readiedApp,

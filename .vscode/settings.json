@@ -9,5 +9,11 @@
   },
   "peacock.color": "#234870",
   "typescript.preferences.importModuleSpecifier": "relative",
-  "cSpell.words": ["fullscreenable", "maximizable", "minimizable", "Namespacer"]
+  "cSpell.words": [
+    "fullscreenable",
+    "maximizable",
+    "minimizable",
+    "Namespacer",
+    "relocator"
+  ]
 }

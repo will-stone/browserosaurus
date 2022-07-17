@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 
 import { Spinner } from '../../shared/components/atoms/spinner'
 import {
+  useDeepEqualSelector,
   useInstalledApps,
   useKeyCodeMap,
   useSelector,
@@ -14,6 +15,7 @@ import Kbd from './atoms/kbd'
 import { useKeyboardEvents } from './hooks/use-keyboard-events'
 import { AppButton } from './molecules/app-button'
 import SupportMessage from './organisms/support-message'
+import UpdateBar from './organisms/update-bar'
 import UrlBar from './organisms/url-bar'
 
 const useAppStarted = () => {
@@ -36,6 +38,7 @@ const App: React.FC = () => {
 
   const apps = useInstalledApps()
   const url = useSelector((state) => state.data.url)
+  const icons = useDeepEqualSelector((state) => state.data.icons)
 
   const keyCodeMap = useKeyCodeMap()
 
@@ -49,6 +52,7 @@ const App: React.FC = () => {
           <Spinner />
         </div>
       )}
+
       <div className="relative flex-grow w-full overflow-y-auto divide-y divide-black/10 dark:divide-white/10">
         {apps.map((app, index) => {
           const key = app.id + index
@@ -57,7 +61,7 @@ const App: React.FC = () => {
               <AppButton
                 ref={index === 0 ? firstAppRef : null}
                 app={app}
-                className="flex-shrink-0 flex items-center justify-between text-left px-4 py-2 space-x-4 w-full"
+                className="flex-shrink-0 flex items-center justify-between text-left px-4 py-2 space-x-4 w-full h-12"
               >
                 <span>{app.name}</span>
                 <span className="flex items-center space-x-4">
@@ -66,14 +70,22 @@ const App: React.FC = () => {
                       {keyCodeMap[app.hotCode]}
                     </Kbd>
                   )}
-                  <AppLogo app={app} className="flex-shrink-0 h-8 w-8" />
+                  <AppLogo
+                    app={app}
+                    className="flex-shrink-0 h-8 w-8"
+                    icon={icons[app.id]}
+                  />
                 </span>
               </AppButton>
             </div>
           )
         })}
       </div>
+
       <UrlBar />
+
+      <UpdateBar />
+
       <SupportMessage />
     </div>
   )
