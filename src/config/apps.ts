@@ -102,6 +102,11 @@ export const apps = typeApps({
   'com.maxthon.mac.Maxthon': {
     name: 'Maxthon',
   },
+  'com.microsoft.teams': {
+    name: 'Microsoft Teams',
+    convertUrl: (url) =>
+      url.replace('https://teams.microsoft.com/', 'msteams:/'),
+  },
   'com.mighty.app': {
     name: 'Mighty',
     privateArg: '--incognito',
