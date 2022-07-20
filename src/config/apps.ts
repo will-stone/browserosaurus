@@ -173,6 +173,9 @@ export const apps = typeApps({
   'org.torproject.torbrowser': {
     name: 'Tor',
   },
+  'maccatalyst.com.atebits.Tweetie2': {
+    name: 'Twitter',
+  },
   'com.vivaldi.Vivaldi': {
     name: 'Vivaldi',
   },
