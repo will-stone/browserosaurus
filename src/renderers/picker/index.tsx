@@ -1,8 +1,13 @@
 import '../shared/index.css'
 
 import * as React from 'react'
-import * as ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 
 import Bootstrap from './components/_bootstrap'
 
-ReactDOM.render(<Bootstrap />, document.querySelector('#root'))
+const container = document.querySelector('#root')
+
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const root = createRoot(container!)
+
+root.render(<Bootstrap />)
