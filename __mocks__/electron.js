@@ -1,4 +1,5 @@
 const EventEmitter = require('events')
+const { act } = require('@testing-library/react')
 
 const eventEmitter = new EventEmitter()
 
@@ -21,10 +22,12 @@ module.exports = {
     return {
       webContents: {
         send: jest.fn((eventName, payload) =>
-          eventEmitter.emit(eventName, {
-            ...payload,
-            // web contents always sends an action from main
-            meta: { ...payload.meta, channel: 'MAIN' },
+          act(() => {
+            eventEmitter.emit(eventName, {
+              ...payload,
+              // web contents always sends an action from main
+              meta: { ...payload.meta, channel: 'MAIN' },
+            })
           }),
         ),
       },
