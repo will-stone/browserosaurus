@@ -40,7 +40,9 @@
     "forge": "./forge.config.cjs"
   },
   "dependencies": {
-    "@heroicons/react": "^1.0.6",
+    "@dnd-kit/core": "^6.0.5",
+    "@dnd-kit/sortable": "^7.0.1",
+    "@dnd-kit/utilities": "^3.2.0",
     "@reduxjs/toolkit": "^1.8.2",
     "app-exists": "^2.1.1",
     "axios": "^0.27.2",
@@ -52,7 +54,6 @@
     "kolorist": "^1.5.1",
     "lowdb": "^3.0.0",
     "react": "^17.0.2",
-    "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^17.0.2",
     "react-redux": "^8.0.2",
     "redux": "^4.2.0",
@@ -72,7 +73,6 @@
     "@types/lodash": "^4.14.181",
     "@types/node": "^17.0.23",
     "@types/react": "^17.0.41",
-    "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-dom": "^17.0.14",
     "@types/react-redux": "^7.1.23",
     "@vercel/webpack-asset-relocator-loader": "^1.7.2",
