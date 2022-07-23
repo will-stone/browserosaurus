@@ -167,6 +167,9 @@ export const apps = typeApps({
     name: 'Sidekick',
     privateArg: '--incognito',
   },
+  'com.sigmaos.sigmaos.macos': {
+    name: 'SigmaOS',
+  },
   'com.kitze.sizzy': {
     name: 'Sizzy',
   },
