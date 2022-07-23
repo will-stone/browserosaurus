@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import React from 'react'
 
 const Input: React.FC<React.ComponentPropsWithoutRef<'input'>> = ({
   className,

@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import React from 'react'
 
 import type { PrefsTab } from '../../../../shared/state/reducer.data'
 import { useSelector } from '../../../shared/state/hooks'

@@ -15,7 +15,6 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import clsx from 'clsx'
-import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import type { AppId } from '../../../../config/apps'

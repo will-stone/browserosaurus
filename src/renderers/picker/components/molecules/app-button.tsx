@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React from 'react'
+import { forwardRef } from 'react'
 import { useDispatch } from 'react-redux'
 
 import type { InstalledApp } from '../../../shared/state/hooks'
@@ -11,7 +11,7 @@ interface Props {
   className?: string
 }
 
-export const AppButton = React.forwardRef(
+export const AppButton = forwardRef(
   (
     { children, app, className }: Props,
     ref: React.ForwardedRef<HTMLButtonElement>,

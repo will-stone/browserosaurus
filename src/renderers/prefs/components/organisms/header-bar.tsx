@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import type { PrefsTab } from '../../../../shared/state/reducer.data'

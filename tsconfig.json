@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "downlevelIteration": true,
     "esModuleInterop": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "commonjs",
     "noImplicitAny": true,
