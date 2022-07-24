@@ -90,6 +90,7 @@
     "electron": "^19.0.9",
     "electron-notarize": "^1.2.1",
     "eslint": "^8.20.0",
+    "eslint-plugin-tailwindcss": "^3.6.0",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
     "husky": "^8.0.1",
     "jest": "^28.1.3",

@@ -25,7 +25,7 @@ export const AppButton = forwardRef(
         aria-label={`${app.name} App`}
         className={clsx(
           'hover:bg-neutral-100 dark:hover:bg-gray-700',
-          'focus:outline-none focus:bg-neutral-200 dark:focus:bg-gray-900',
+          'focus:bg-neutral-200 focus:outline-none dark:focus:bg-gray-900',
           className,
         )}
         onClick={(event) =>

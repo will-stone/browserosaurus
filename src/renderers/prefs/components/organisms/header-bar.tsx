@@ -19,10 +19,10 @@ const TabButton = ({ tab, children }: TabButtonProps) => {
       className={clsx(
         'bg-black dark:bg-white',
         prefsTab === tab
-          ? 'text-black dark:text-white bg-opacity-10 dark:bg-opacity-10'
-          : 'bg-opacity-0 dark:bg-opacity-0 hover:bg-opacity-5 dark:hover:bg-opacity-5',
-        'focus-visible:outline-none focus-visible:bg-white dark:focus-visible:bg-black focus-visible:bg-opacity-70 focus-visible:shadow-xl focus-visible:ring-1 focus-visible:ring-gray-500',
-        'px-4 py-2 rounded',
+          ? 'bg-black/10 text-black dark:bg-white/10 dark:text-white'
+          : 'bg-black/0 hover:bg-black/5 dark:bg-white/0 dark:hover:bg-white/5',
+        'focus-visible:bg-white/70 focus-visible:shadow-xl focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-500 dark:focus-visible:bg-black',
+        'rounded px-4 py-2',
       )}
       onClick={() => dispatch(clickedTabButton(tab))}
       type="button"
@@ -40,14 +40,14 @@ export const HeaderBar = ({ className }: HeaderBarProps): JSX.Element => {
   return (
     <div
       className={clsx(
-        'bg-black bg-opacity-5 dark:bg-opacity-30 pb-4 border-b border-gray-400 dark:border-black',
+        'border-b border-gray-400 bg-black/5 pb-4 dark:border-black dark:bg-black/30',
         className,
       )}
     >
-      <div className="flex justify-center items-center h-8 draggable pt-4 pb-8">
+      <div className="draggable flex h-8 items-center justify-center pt-4 pb-8">
         Browserosaurus Preferences
       </div>
-      <div className="flex justify-center items-center space-x-12">
+      <div className="flex items-center justify-center space-x-12">
         <TabButton tab="general">General</TabButton>
         <TabButton tab="apps">Apps</TabButton>
         <TabButton tab="about">About</TabButton>

@@ -24,8 +24,8 @@ const UrlBar: React.FC<Props> = ({ className }) => {
     <div
       className={clsx(
         className,
-        'shrink-0 w-full py-2 px-4 text-center flex items-center text-sm',
-        'bg-neutral-200 dark:bg-gray-900 border-t border-neutral-400 dark:border-gray-900',
+        'flex w-full shrink-0 items-center py-2 px-4 text-center text-sm',
+        'border-t border-neutral-400 bg-neutral-200 dark:border-gray-900 dark:bg-gray-900',
         'cursor-default',
       )}
       onClick={() => dispatch(clickedUrlBar())}
@@ -33,7 +33,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       role="button"
       tabIndex={-1}
     >
-      <div className="flex-grow tracking-wider text-opacity-50 dark:text-opacity-50 text-black dark:text-white text-ellipsis overflow-hidden">
+      <div className="grow overflow-hidden text-ellipsis tracking-wider text-black text-opacity-50 dark:text-white dark:text-opacity-50">
         {parsedUrl.hostname?.replace(/^www\./u, '') || (
           <span className="opacity-30">Browserosaurus</span>
         )}

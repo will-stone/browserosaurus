@@ -12,7 +12,7 @@ const SupportMessage = (): JSX.Element => {
     <div
       className={clsx(
         'absolute inset-0 flex flex-col',
-        'bg-slate-800 text-slate-400 overflow-y-auto',
+        'overflow-y-auto bg-slate-800 text-slate-400',
         isSupportMessageHidden && 'hidden',
       )}
     >
@@ -30,16 +30,16 @@ const SupportMessage = (): JSX.Element => {
           — Will.
         </p>
 
-        <div className="flex justify-center items-center gap-2 mt-2">
+        <div className="mt-2 flex items-center justify-center gap-2">
           <button
-            className="grow bg-slate-900 text-slate-100 p-1 rounded focus:outline-none active:opacity-75"
+            className="grow rounded bg-slate-900 p-1 text-slate-100 focus:outline-none active:opacity-75"
             onClick={() => dispatch(clickedDonate())}
             type="button"
           >
             Buy Me a Coffee
           </button>
           <button
-            className="grow text-slate-300 p-1 rounded focus:outline-none active:opacity-75"
+            className="grow rounded p-1 text-slate-300 focus:outline-none active:opacity-75"
             onClick={() => dispatch(clickedMaybeLater())}
             type="button"
           >

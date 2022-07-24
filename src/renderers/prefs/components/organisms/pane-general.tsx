@@ -24,7 +24,7 @@ interface LeftProps {
 }
 
 const Left = ({ children }: LeftProps): JSX.Element => (
-  <div className="text-right col-span-5">{children}</div>
+  <div className="col-span-5 text-right">{children}</div>
 )
 
 interface RightProps {
@@ -62,7 +62,7 @@ export const GeneralPane = (): JSX.Element => {
               Set As Default Browser
             </Button>
           )}
-          <p className="text-sm mt-2 opacity-70">
+          <p className="mt-2 text-sm opacity-70">
             Setting Browserosaurus as your default web browser means links
             clicked outside of web browsers will open the picker window. This is
             the primary design of Browserosaurus. However, you can also
@@ -75,7 +75,7 @@ export const GeneralPane = (): JSX.Element => {
         <Left>Find apps:</Left>
         <Right>
           <Button onClick={() => dispatch(clickedRescanApps())}>Rescan</Button>
-          <p className="text-sm mt-2 opacity-70">
+          <p className="mt-2 text-sm opacity-70">
             {numberOfInstalledApps} compatible apps found. Rescan if you have
             added or removed a compatible app whilst Browserosaurus is running.
           </p>
@@ -113,7 +113,7 @@ export const GeneralPane = (): JSX.Element => {
           >
             Reset
           </Button>
-          <p className="text-sm mt-2 opacity-70">
+          <p className="mt-2 text-sm opacity-70">
             Restores all preferences to initial defaults and restarts the app as
             if run for the first time.
           </p>

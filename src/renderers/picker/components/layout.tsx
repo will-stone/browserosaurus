@@ -44,16 +44,16 @@ const App: React.FC = () => {
 
   return (
     <div
-      className="h-screen w-screen select-none flex flex-col items-center relative dark:text-white dark:bg-gray-800 bg-white"
+      className="relative flex h-screen w-screen select-none flex-col items-center bg-white dark:bg-gray-800 dark:text-white"
       title={url}
     >
       {!apps[0] && (
-        <div className="flex justify-center items-center h-full">
+        <div className="flex h-full items-center justify-center">
           <Spinner />
         </div>
       )}
 
-      <div className="relative flex-grow w-full overflow-y-auto divide-y divide-black/10 dark:divide-white/10">
+      <div className="relative w-full grow divide-y divide-black/10 overflow-y-auto dark:divide-white/10">
         {apps.map((app, index) => {
           const key = app.id + index
           return (
@@ -61,18 +61,16 @@ const App: React.FC = () => {
               <AppButton
                 ref={index === 0 ? firstAppRef : null}
                 app={app}
-                className="flex-shrink-0 flex items-center justify-between text-left px-4 py-2 space-x-4 w-full h-12"
+                className="flex h-12 w-full shrink-0 items-center justify-between space-x-4 px-4 py-2 text-left"
               >
                 <span>{app.name}</span>
                 <span className="flex items-center space-x-4">
                   {app.hotCode && (
-                    <Kbd className="flex-shrink-0">
-                      {keyCodeMap[app.hotCode]}
-                    </Kbd>
+                    <Kbd className="shrink-0">{keyCodeMap[app.hotCode]}</Kbd>
                   )}
                   <AppLogo
                     app={app}
-                    className="flex-shrink-0 h-8 w-8"
+                    className="h-8 w-8 shrink-0"
                     icon={icons[app.id]}
                   />
                 </span>

@@ -68,25 +68,25 @@ const SortableItem = ({
       {...listeners}
       className={clsx(
         'flex',
-        'bg-black dark:bg-white bg-opacity-5 dark:bg-opacity-5 shadow',
-        'rounded-xl mb-4',
-        'focus-visible:outline-none focus-visible:bg-white dark:focus-visible:bg-black focus-visible:bg-opacity-70 focus-visible:shadow-xl focus-visible:ring-1 focus-visible:ring-gray-500',
+        'bg-black/5 shadow dark:bg-white/5',
+        'mb-4 rounded-xl',
+        'focus-visible:bg-white/70 focus-visible:shadow-xl focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-500 dark:focus-visible:bg-black',
         isDragging &&
-          'focus-visible:ring-2 dark:focus-visible:ring-gray-100 focus-visible:ring-gray-900',
+          'focus-visible:ring-2 focus-visible:ring-gray-900 dark:focus-visible:ring-gray-100',
       )}
     >
-      <div className="flex items-center justify-center p-4 w-16">
+      <div className="flex w-16 items-center justify-center p-4">
         {index + 1}
       </div>
-      <div className="flex-grow flex items-center p-4">
+      <div className="flex grow items-center p-4">
         <img
           alt=""
-          className={clsx('h-8 w-8 mr-4', !icon && 'hidden')}
+          className={clsx('mr-4 h-8 w-8', !icon && 'hidden')}
           src={icon}
         />
         <span>{name}</span>
       </div>
-      <div className="p-4 flex items-center justify-center">
+      <div className="flex items-center justify-center p-4">
         <Input
           aria-label={`${name} hotkey`}
           className="h-8 w-12"
@@ -144,7 +144,7 @@ export function AppsPane(): JSX.Element {
   return (
     <Pane pane="apps">
       {installedApps.length === 0 && (
-        <div className="flex justify-center items-center h-full">
+        <div className="flex h-full items-center justify-center">
           <Spinner />
         </div>
       )}
