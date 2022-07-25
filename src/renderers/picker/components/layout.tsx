@@ -8,7 +8,7 @@ import {
   useKeyCodeMap,
   useSelector,
 } from '../../shared/state/hooks'
-import { firstAppRef } from '../refs'
+import { appsScrollerRef, firstAppRef } from '../refs'
 import { startedPicker } from '../state/actions'
 import AppLogo from './atoms/app-logo'
 import Kbd from './atoms/kbd'
@@ -53,7 +53,10 @@ const App: React.FC = () => {
         </div>
       )}
 
-      <div className="relative w-full grow divide-y divide-black/10 overflow-y-auto dark:divide-white/10">
+      <div
+        ref={appsScrollerRef}
+        className="relative w-full grow divide-y divide-black/10 overflow-y-auto dark:divide-white/10"
+      >
         {apps.map((app, index) => {
           const key = app.id + index
           return (
