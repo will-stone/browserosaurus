@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import React from 'react'
 
 interface Props {
   children: React.ReactNode
@@ -12,8 +11,8 @@ const Kbd = ({ children, className, style }: Props): JSX.Element => {
     <kbd
       className={clsx(
         className,
-        'uppercase rounded text-center text-xs font-bold',
-        'bg-black bg-opacity-5 dark:bg-opacity-30 py-1 px-2 border border-gray-400 dark:border-black',
+        'rounded text-center text-xs font-bold uppercase',
+        'border border-gray-400 bg-black/5 py-0.5 px-2 dark:border-black dark:bg-black/30',
       )}
       style={style}
     >

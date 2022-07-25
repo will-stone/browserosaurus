@@ -94,6 +94,7 @@ export async function createWindows(): Promise<void> {
     visualEffectState: 'active',
     titleBarStyle: 'hidden',
     alwaysOnTop: true,
+    vibrancy: 'popover',
   })
 
   pickerWindow.setWindowButtonVisibility(false)
@@ -142,7 +143,7 @@ export function showPickerWindow(): void {
 
     const nudge = {
       x: -125,
-      y: -15,
+      y: -30,
     }
 
     const inWindowPosition = {

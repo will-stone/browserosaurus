@@ -18,12 +18,14 @@ module.exports = {
   },
   // Do not create source maps
   devtool: false,
+
   plugins: [
     new ForkTsCheckerWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'shared/index.css',
     }),
   ],
+
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
   },

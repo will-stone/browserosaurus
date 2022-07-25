@@ -1,23 +1,23 @@
 /* eslint-disable no-console */
 
 import {
-  bgLightBlue,
-  bgLightMagenta,
-  bgLightYellow,
+  bgBlue,
+  bgMagenta,
+  bgYellow,
   black,
   bold,
   gray,
   green,
   white,
-} from 'kolorist'
+} from 'picocolors'
 
 import { Channel } from '../state/channels'
 import type { FSA } from '../state/model'
 
 const channelColorMap = {
-  [Channel.MAIN]: bgLightYellow,
-  [Channel.PREFS]: bgLightBlue,
-  [Channel.PICKER]: bgLightMagenta,
+  [Channel.MAIN]: bgYellow,
+  [Channel.PREFS]: bgBlue,
+  [Channel.PICKER]: bgMagenta,
 }
 
 export function actionLogger(action: FSA): void {

@@ -38,6 +38,7 @@ export interface Data {
   keyCodeMap: Record<string, string>
   scanStatus: 'init' | 'scanned' | 'scanning'
   icons: Partial<Record<AppId, string>>
+  activeAppIndex: number
 }
 
 export const defaultData: Data = {
@@ -51,6 +52,7 @@ export const defaultData: Data = {
   keyCodeMap: {},
   scanStatus: 'init',
   icons: {},
+  activeAppIndex: 0,
 }
 
 export const data = createReducer<Data>(defaultData, (builder) =>

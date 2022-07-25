@@ -8,8 +8,15 @@ module.exports = {
     '@will-stone/eslint-config-react',
     '@will-stone/eslint-config-jest',
     '@will-stone/eslint-config-prettier',
+    'plugin:tailwindcss/recommended',
   ],
   rules: {
     'unicorn/prefer-top-level-await': 'off',
+    'tailwindcss/no-custom-classname': [
+      'warn',
+      {
+        whitelist: ['draggable', 'no-drag'],
+      },
+    ],
   },
 }
