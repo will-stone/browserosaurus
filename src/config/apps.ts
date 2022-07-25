@@ -173,6 +173,9 @@ export const apps = typeApps({
   'com.kitze.sizzy': {
     name: 'Sizzy',
   },
+  'com.tinyspeck.slackmacgap': {
+    name: 'Slack',
+  },
   'com.spotify.client': {
     name: 'Spotify',
   },
