@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { startedPrefs } from '../state/actions'
@@ -21,9 +21,9 @@ const Layout = (): JSX.Element => {
   useAppStarted()
 
   return (
-    <div className="flex flex-col h-screen w-screen text-gray-800 dark:text-gray-300">
-      <HeaderBar className="flex-shrink-0" />
-      <div className="flex-grow overflow-hidden p-8 flex flex-col">
+    <div className="flex h-screen w-screen flex-col text-gray-800 dark:text-gray-300">
+      <HeaderBar className="shrink-0" />
+      <div className="flex grow flex-col overflow-hidden p-8">
         <GeneralPane />
         <AppsPane />
         <AboutPane />

@@ -1,4 +1,3 @@
-import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import icon from '../../../../shared/static/icon/icon.png'
@@ -18,10 +17,10 @@ export const AboutPane = (): JSX.Element => {
     <Pane className="space-y-8" pane="about">
       <div className="text-center">
         <img alt="Logo" className="inline-block w-40" src={icon} />
-        <h1 className="text-4xl tracking-wider mb-2 text-gray-900 dark:text-gray-50">
+        <h1 className="mb-2 text-4xl tracking-wider text-gray-900 dark:text-gray-50">
           Browserosaurus
         </h1>
-        <p className="text-xl mb-8">The browser prompter for macOS</p>
+        <p className="mb-8 text-xl">The browser prompter for macOS</p>
         <p className="mb-4 opacity-70">Version {version}</p>
         <p className="mb-8">Copyright © Will Stone</p>
         <div className="space-x-4">

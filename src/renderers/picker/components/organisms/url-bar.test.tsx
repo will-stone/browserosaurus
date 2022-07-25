@@ -3,7 +3,6 @@ import '../../../shared/preload'
 import { act, render, screen } from '@testing-library/react'
 import electron from 'electron'
 import cloneDeep from 'lodash/cloneDeep'
-import React from 'react'
 
 import { keyLayout } from '../../../../../__fixtures__/key-layout'
 import { openedUrl } from '../../../../main/state/actions'

@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import React from 'react'
 
 import type { PrefsTab } from '../../../../shared/state/reducer.data'
 import { useSelector } from '../../../shared/state/hooks'
@@ -17,7 +16,7 @@ export function Pane({ children, pane, className }: Props): JSX.Element {
   return (
     <div
       className={clsx(
-        isVisible ? 'flex-grow flex flex-col overflow-hidden' : 'hidden',
+        isVisible ? 'flex grow flex-col overflow-hidden' : 'hidden',
         className,
       )}
     >

@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import { useSelector } from '../../../shared/state/hooks'
@@ -13,9 +12,8 @@ const UpdateBar: React.FC = () => {
     return (
       <button
         className={clsx(
-          'shrink-0 w-full pb-1',
+          'w-full shrink-0 pb-1',
           'text-center text-xs dark:text-gray-400',
-          'bg-neutral-200 dark:bg-gray-900',
           'cursor-default',
         )}
         onClick={() => dispatch(clickedUpdateBar())}
