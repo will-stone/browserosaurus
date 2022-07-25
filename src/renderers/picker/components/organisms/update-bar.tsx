@@ -14,7 +14,6 @@ const UpdateBar: React.FC = () => {
         className={clsx(
           'w-full shrink-0 pb-1',
           'text-center text-xs dark:text-gray-400',
-          'bg-neutral-200 dark:bg-gray-900',
           'cursor-default',
         )}
         onClick={() => dispatch(clickedUpdateBar())}

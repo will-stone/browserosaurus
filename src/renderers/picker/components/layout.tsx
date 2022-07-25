@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -8,12 +9,11 @@ import {
   useKeyCodeMap,
   useSelector,
 } from '../../shared/state/hooks'
-import { appsScrollerRef, firstAppRef } from '../refs'
-import { startedPicker } from '../state/actions'
+import { appsRef, appsScrollerRef } from '../refs'
+import { clickedApp, startedPicker } from '../state/actions'
 import AppLogo from './atoms/app-logo'
 import Kbd from './atoms/kbd'
 import { useKeyboardEvents } from './hooks/use-keyboard-events'
-import { AppButton } from './molecules/app-button'
 import SupportMessage from './organisms/support-message'
 import UpdateBar from './organisms/update-bar'
 import UrlBar from './organisms/url-bar'
@@ -26,6 +26,8 @@ const useAppStarted = () => {
 }
 
 const App: React.FC = () => {
+  const dispatch = useDispatch()
+
   /**
    * Tell main that renderer is available
    */
@@ -42,9 +44,13 @@ const App: React.FC = () => {
 
   const keyCodeMap = useKeyCodeMap()
 
+  // const totalApps = apps.length
+
+  // useEffect(() => {}, [totalApps])
+
   return (
     <div
-      className="relative flex h-screen w-screen select-none flex-col items-center bg-white dark:bg-gray-800 dark:text-white"
+      className="relative flex h-screen w-screen select-none flex-col items-center px-2 pt-4 dark:text-white"
       title={url}
     >
       {!apps[0] && (
@@ -55,16 +61,50 @@ const App: React.FC = () => {
 
       <div
         ref={appsScrollerRef}
-        className="relative w-full grow divide-y divide-black/10 overflow-y-auto dark:divide-white/10"
+        className="relative w-full grow overflow-y-auto px-2 pb-2"
       >
         {apps.map((app, index) => {
           const key = app.id + index
           return (
             <div key={key}>
-              <AppButton
-                ref={index === 0 ? firstAppRef : null}
-                app={app}
-                className="flex h-12 w-full shrink-0 items-center justify-between space-x-4 px-4 py-2 text-left"
+              <button
+                ref={(element) => {
+                  if (!appsRef.current) {
+                    appsRef.current = []
+                  }
+
+                  if (element) {
+                    appsRef.current[index] = element
+                  }
+                }}
+                aria-label={`${app.name} App`}
+                className={clsx(
+                  'flex h-12 w-full shrink-0 items-center justify-between space-x-4 px-4 py-2 text-left',
+                  'focus:bg-blue-500 focus:text-white focus:outline-none focus:dark:bg-blue-700',
+                  'hover:bg-black/10 hover:dark:bg-blue-50/10',
+                  'rounded-xl',
+                )}
+                onClick={(event) =>
+                  dispatch(
+                    clickedApp({
+                      appId: app.id,
+                      isAlt: event.altKey,
+                      isShift: event.shiftKey,
+                    }),
+                  )
+                }
+                onKeyDown={(event) => {
+                  if (event.code === 'ArrowDown') {
+                    event.preventDefault()
+                    event.stopPropagation()
+                    appsRef.current?.[index + 1].focus()
+                  } else if (event.code === 'ArrowUp') {
+                    event.preventDefault()
+                    event.stopPropagation()
+                    appsRef.current?.[index - 1].focus()
+                  }
+                }}
+                type="button"
               >
                 <span>{app.name}</span>
                 <span className="flex items-center space-x-4">
@@ -73,11 +113,11 @@ const App: React.FC = () => {
                   )}
                   <AppLogo
                     app={app}
-                    className="h-8 w-8 shrink-0"
+                    className="h-6 w-6 shrink-0"
                     icon={icons[app.id]}
                   />
                 </span>
-              </AppButton>
+              </button>
             </div>
           )
         })}

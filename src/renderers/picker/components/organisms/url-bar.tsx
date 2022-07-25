@@ -25,7 +25,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       className={clsx(
         className,
         'flex w-full shrink-0 items-center py-2 px-4 text-center text-sm',
-        'border-t border-neutral-400 bg-neutral-200 dark:border-gray-900 dark:bg-gray-900',
+        'border-t border-neutral-400 dark:border-gray-900',
         'cursor-default',
       )}
       onClick={() => dispatch(clickedUrlBar())}

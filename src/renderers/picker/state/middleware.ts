@@ -6,7 +6,7 @@ import {
 } from '../../../main/state/actions'
 import type { Middleware } from '../../../shared/state/model'
 import { getKeyLayout } from '../../shared/utils/get-key-layout-map'
-import { appsScrollerRef, firstAppRef } from '../refs'
+import { appsRef, appsScrollerRef } from '../refs'
 import { clickedDonate, clickedMaybeLater } from './actions'
 
 /**
@@ -29,7 +29,7 @@ export const pickerMiddleware =
       clickedDonate.match(action) ||
       clickedMaybeLater.match(action)
     ) {
-      firstAppRef.current?.focus()
+      appsRef.current?.[0].focus()
       appsScrollerRef.current?.scrollTo({ top: 0 })
     }
 
