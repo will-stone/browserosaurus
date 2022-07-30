@@ -1,7 +1,7 @@
-const EventEmitter = require('events')
+const EventTarget = require('events')
 const { act } = require('@testing-library/react')
 
-const eventEmitter = new EventEmitter()
+const eventEmitter = new EventTarget()
 
 let clipboard
 

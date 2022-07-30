@@ -17,7 +17,7 @@ import {
   updatedHotCode,
 } from '../../renderers/prefs/state/actions'
 
-export interface Storage {
+interface Storage {
   apps: {
     id: AppId
     hotCode: string | null
@@ -28,14 +28,14 @@ export interface Storage {
   height: number
 }
 
-export const defaultStorage: Storage = {
+const defaultStorage: Storage = {
   apps: [],
   supportMessage: 0,
   isSetup: false,
   height: 200,
 }
 
-export const storage = createReducer<Storage>(defaultStorage, (builder) =>
+const storage = createReducer<Storage>(defaultStorage, (builder) =>
   builder
     .addCase(readiedApp, (state) => {
       state.isSetup = true
@@ -113,3 +113,5 @@ export const storage = createReducer<Storage>(defaultStorage, (builder) =>
       state.apps.splice(destinationIndex, 0, removed)
     }),
 )
+
+export { defaultStorage, Storage, storage }

@@ -6,7 +6,7 @@ interface App {
 
 const typeApps = <T extends Record<string, App>>(apps: T) => apps
 
-export const apps = typeApps({
+const apps = typeApps({
   'company.thebrowser.Browser': {
     name: 'Arc',
   },
@@ -209,6 +209,8 @@ export const apps = typeApps({
   },
 })
 
-export type Apps = typeof apps
+type Apps = typeof apps
 
-export type AppId = keyof typeof apps
+type AppId = keyof typeof apps
+
+export { AppId, Apps, apps }

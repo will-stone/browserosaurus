@@ -10,11 +10,11 @@ const middleware = [busMiddleware(Channel.PICKER), pickerMiddleware()]
 
 const store = createStore(Channel.PICKER, middleware)
 
-export default store
-
 /**
  * Listen for all actions from main
  */
 customWindow.electron.receive(Channel.MAIN, (action: AnyAction) => {
   store.dispatch(action)
 })
+
+export default store

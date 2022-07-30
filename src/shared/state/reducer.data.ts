@@ -25,9 +25,9 @@ import {
 } from '../../renderers/prefs/state/actions'
 import { gotKeyLayoutMap } from '../../renderers/shared/state/actions'
 
-export type PrefsTab = 'about' | 'apps' | 'general'
+type PrefsTab = 'about' | 'apps' | 'general'
 
-export interface Data {
+interface Data {
   version: string
   updateStatus: 'available' | 'downloaded' | 'downloading' | 'no-update'
   isDefaultProtocolClient: boolean
@@ -41,7 +41,7 @@ export interface Data {
   activeAppIndex: number
 }
 
-export const defaultData: Data = {
+const defaultData: Data = {
   version: '',
   updateStatus: 'no-update',
   isDefaultProtocolClient: true,
@@ -55,7 +55,7 @@ export const defaultData: Data = {
   activeAppIndex: 0,
 }
 
-export const data = createReducer<Data>(defaultData, (builder) =>
+const data = createReducer<Data>(defaultData, (builder) =>
   builder
     .addCase(receivedRendererStartupSignal, (_, action) => action.payload.data)
 
@@ -117,3 +117,5 @@ export const data = createReducer<Data>(defaultData, (builder) =>
       state.prefsTab = 'general'
     }),
 )
+
+export { Data, data, defaultData, PrefsTab }

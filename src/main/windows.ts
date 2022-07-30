@@ -14,10 +14,10 @@ declare const PREFS_WINDOW_WEBPACK_ENTRY: string
 declare const PREFS_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 
 // Prevents garbage collection
-export let pickerWindow: BrowserWindow | null | undefined
-export let prefsWindow: BrowserWindow | null | undefined
+let pickerWindow: BrowserWindow | null | undefined
+let prefsWindow: BrowserWindow | null | undefined
 
-export async function createWindows(): Promise<void> {
+async function createWindows(): Promise<void> {
   prefsWindow = new BrowserWindow({
     // Only show on demand
     show: false,
@@ -126,7 +126,7 @@ export async function createWindows(): Promise<void> {
   ])
 }
 
-export function showPickerWindow(): void {
+function showPickerWindow(): void {
   if (pickerWindow) {
     const displayBounds = screen.getDisplayNearestPoint(
       screen.getCursorScreenPoint(),
@@ -163,6 +163,14 @@ export function showPickerWindow(): void {
   }
 }
 
-export function showPrefsWindow(): void {
+function showPrefsWindow(): void {
   prefsWindow?.show()
+}
+
+export {
+  createWindows,
+  pickerWindow,
+  prefsWindow,
+  showPickerWindow,
+  showPrefsWindow,
 }

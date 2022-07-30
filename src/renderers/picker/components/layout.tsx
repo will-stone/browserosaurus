@@ -108,9 +108,9 @@ const App: React.FC = () => {
               >
                 <span>{app.name}</span>
                 <span className="flex items-center space-x-4">
-                  {app.hotCode && (
+                  {app.hotCode ? (
                     <Kbd className="shrink-0">{keyCodeMap[app.hotCode]}</Kbd>
-                  )}
+                  ) : null}
                   <AppLogo
                     app={app}
                     className="h-6 w-6 shrink-0"

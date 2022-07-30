@@ -1,9 +1,7 @@
 import { createRef } from 'react'
 
-export const firstAppRef: React.MutableRefObject<HTMLButtonElement | null> =
-  createRef()
+const appsRef: React.MutableRefObject<HTMLButtonElement[] | null> = createRef()
 
-export const appsRef: React.MutableRefObject<HTMLButtonElement[] | null> =
-  createRef()
+const appsScrollerRef = createRef<HTMLDivElement>()
 
-export const appsScrollerRef = createRef<HTMLDivElement>()
+export { appsRef, appsScrollerRef }

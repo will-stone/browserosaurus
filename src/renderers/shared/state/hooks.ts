@@ -6,23 +6,21 @@ import type { AppId, Apps } from '../../../config/apps'
 import { apps as allApps } from '../../../config/apps'
 import type { RootState } from '../../../shared/state/reducer.root'
 
-export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector
+const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector
 
-export const useShallowEqualSelector: TypedUseSelectorHook<RootState> = (
-  selector,
-) => useSelector(selector, shallowEqual)
+const useShallowEqualSelector: TypedUseSelectorHook<RootState> = (selector) =>
+  useSelector(selector, shallowEqual)
 
-export const useDeepEqualSelector: TypedUseSelectorHook<RootState> = (
-  selector,
-) => useSelector(selector, deepEqual)
+const useDeepEqualSelector: TypedUseSelectorHook<RootState> = (selector) =>
+  useSelector(selector, deepEqual)
 
-export interface InstalledApp {
+interface InstalledApp {
   id: AppId
   name: Apps[AppId]['name']
   hotCode: string | null
 }
 
-export const useInstalledApps = (): InstalledApp[] => {
+const useInstalledApps = (): InstalledApp[] => {
   const storedApps = useDeepEqualSelector((state) => state.storage.apps)
   return storedApps
     .filter((storedApp) => storedApp.isInstalled)
@@ -33,7 +31,7 @@ export const useInstalledApps = (): InstalledApp[] => {
     }))
 }
 
-export const useIsSupportMessageHidden = (): boolean => {
+const useIsSupportMessageHidden = (): boolean => {
   const supportMessageNumber = useSelector(
     (state) => state.storage.supportMessage,
   )
@@ -48,5 +46,15 @@ export const useIsSupportMessageHidden = (): boolean => {
   )
 }
 
-export const useKeyCodeMap = (): Record<string, string> =>
+const useKeyCodeMap = (): Record<string, string> =>
   useShallowEqualSelector((state) => state.data.keyCodeMap)
+
+export {
+  InstalledApp,
+  useDeepEqualSelector,
+  useInstalledApps,
+  useIsSupportMessageHidden,
+  useKeyCodeMap,
+  useSelector,
+  useShallowEqualSelector,
+}
