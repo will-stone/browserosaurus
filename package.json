@@ -87,7 +87,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
     "cssnano": "^5.1.12",
-    "electron": "^19.0.10",
+    "electron": "^20.0.0",
     "electron-notarize": "^1.2.1",
     "eslint": "^8.20.0",
     "eslint-plugin-tailwindcss": "^3.6.0",
