@@ -1,4 +1,4 @@
-import sleep from 'tings/lib/sleep'
+import { sleep } from 'tings'
 
 import { apps } from '../../config/apps'
 import { retrievedInstalledApps, startedScanning } from '../state/actions'

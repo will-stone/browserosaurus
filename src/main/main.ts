@@ -1,7 +1,7 @@
 import type { AnyAction } from '@reduxjs/toolkit'
 import electron, { app } from 'electron'
 import { TidyURL } from 'tidy-url'
-import sleep from 'tings/lib/sleep'
+import { sleep } from 'tings'
 
 import { Channel } from '../shared/state/channels'
 import { openedUrl, readiedApp } from './state/actions'

@@ -58,7 +58,7 @@
     "react-redux": "^8.0.2",
     "redux": "^4.2.0",
     "tidy-url": "^1.5.5",
-    "tings": "^4.1.1"
+    "tings": "^5.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
