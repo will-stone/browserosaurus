@@ -1,7 +1,7 @@
 module.exports = {
   packagerConfig: {
     appBundleId: 'com.browserosaurus',
-    asar: true,
+    asar: false,
     appCategoryType: 'public.app-category.developer-tools',
     packageManager: 'npm',
     extendInfo: 'plist/Info.plist',
@@ -61,7 +61,7 @@ module.exports = {
       '@timfish/forge-externals-plugin',
       {
         externals: ['file-icon'],
-        includeDeps: true,
+        includeDeps: false,
       },
     ],
   ],
