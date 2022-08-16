@@ -198,6 +198,9 @@ const apps = typeApps({
     name: 'Wavebox',
     privateArg: '--incognito',
   },
+  'com.whisttechnologies.whist': {
+    name: 'Whist',
+  },
   'ru.yandex.desktop.yandex-browser': {
     name: 'Yandex',
   },
