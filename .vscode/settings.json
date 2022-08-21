@@ -5,7 +5,8 @@
     "titleBar.activeForeground": "#e7e7e7",
     "titleBar.inactiveBackground": "#23487099",
     "titleBar.inactiveForeground": "#e7e7e799",
-    "sash.hoverBorder": "#2f6197"
+    "sash.hoverBorder": "#2f6197",
+    "commandCenter.border": "#e7e7e799"
   },
   "peacock.color": "#234870",
   "typescript.preferences.importModuleSpecifier": "relative",
