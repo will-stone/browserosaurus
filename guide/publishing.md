@@ -23,6 +23,12 @@ keychain.
 - I have found it best to store the generated item in the `login` keychain, and
   the location used above is usually where it is found.
 
+Make sure the _Developer ID Application_ and _Developer ID Installer_
+certificates are in you keychain and have private keys attached to them. If this
+is a new mac, then can be exported from the old mac's keychain. Make sure to
+give the export a passphrase otherwise the private keys will not be exported.
+Failing that, restart the old mac and try again.
+
 The following command will prompt to bump version number, package, notarize, and
 make ZIP bundle:
 
