@@ -49,6 +49,30 @@ const apps = typeApps({
     name: 'Chromium',
     privateArg: '--incognito',
   },
+  'com.hnc.Discord': {
+    name: 'Discord',
+    convertUrl: (url) =>
+      url.replace(
+        /^https?:\/\/(?:(?:ptb|canary)\.)?discord\.com\//u,
+        'discord://-/',
+      ),
+  },
+  'com.hnc.DiscordCanary': {
+    name: 'Discord Canary',
+    convertUrl: (url) =>
+      url.replace(
+        /^https?:\/\/(?:(?:ptb|canary)\.)?discord\.com\//u,
+        'discord://-/',
+      ),
+  },
+  'com.hnc.DiscordPTB': {
+    name: 'Discord PTB',
+    convertUrl: (url) =>
+      url.replace(
+        /^https?:\/\/(?:(?:ptb|canary)\.)?discord\.com\//u,
+        'discord://-/',
+      ),
+  },
   'com.gab.Dissenter': {
     name: 'Dissenter',
   },
