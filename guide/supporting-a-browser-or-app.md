@@ -98,15 +98,14 @@ export const apps = {
 ### URL Template
 
 If you're adding an app that uses a different protocol, where the URL is just a
-parameter, you can use a URL template. The token `{{URL}}` in the string will be
-replaced with the incoming URL. For example, the Pocket app is set like so:
+parameter, you can use `convertUrl`. For example, the Pocket app is set like so:
 
 ```ts
 export const apps = {
   // ...
   'com.readitlater.PocketMac': {
     name: 'Pocket',
-    urlTemplate: 'pocket://add?url={{URL}}',
+    convertUrl: (url) => `pocket://add?url=${url}`,
   },
   // ...
 } as const
