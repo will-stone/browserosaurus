@@ -1,7 +1,8 @@
-import log from 'electron-log'
 import { execFile } from 'node:child_process'
 import path from 'node:path'
 import { promisify } from 'node:util'
+
+import log from 'electron-log'
 
 import type { AppId } from '../../config/apps'
 import type { Storage } from '../../shared/state/reducer.storage'
