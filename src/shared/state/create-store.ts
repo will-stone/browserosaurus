@@ -21,7 +21,6 @@ const createStore = (
   preloadedState?: PreloadedState<CombinedState<NoInfer<RootState>>>,
 ): BoundaryType =>
   configureStore({
-    reducer: rootReducer,
     middleware: (getDefaultMiddleware) => [
       channelInjectorMiddleware(channel),
       ...getDefaultMiddleware({ thunk: false }),
@@ -29,6 +28,7 @@ const createStore = (
       logMiddleware(),
     ],
     preloadedState,
+    reducer: rootReducer,
   })
 
 export default createStore

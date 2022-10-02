@@ -5,7 +5,6 @@ const path = require('path')
 
 const notarizeArch = (arch) =>
   notarize({
-    tool: 'notarytool',
     appBundleId: 'com.browserosaurus',
     appPath: path.join(
       '.',
@@ -15,6 +14,7 @@ const notarizeArch = (arch) =>
     ),
     keychain: '~/Library/Keychains/login.keychain-db',
     keychainProfile: 'AC_PASSWORD',
+    tool: 'notarytool',
   })
     .then(() => {
       console.log(`Successfully notarized ${arch} :)`)

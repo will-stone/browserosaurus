@@ -16,11 +16,11 @@ export const useKeyboardEvents = (): void => {
 
       dispatch(
         pressedKey({
-          virtualKey: event.key.toLowerCase(),
-          physicalKey: event.code,
-          metaKey: event.metaKey,
           altKey: event.altKey,
+          metaKey: event.metaKey,
+          physicalKey: event.code,
           shiftKey: event.shiftKey,
+          virtualKey: event.key.toLowerCase(),
         }),
       )
     }

@@ -6,18 +6,6 @@ const eventEmitter = new EventTarget()
 let clipboard
 
 module.exports = {
-  app: jest.fn(),
-  dialog: jest.fn(),
-  ipcRenderer: {
-    on: jest.fn((eventName, function_) =>
-      eventEmitter.on(eventName, (payload) => function_(undefined, payload)),
-    ),
-    removeAllListeners: jest.fn((channel) =>
-      eventEmitter.removeAllListeners(channel),
-    ),
-    send: jest.fn(),
-  },
-  match: jest.fn(),
   BrowserWindow: function () {
     return {
       webContents: {
@@ -38,6 +26,27 @@ module.exports = {
       show: jest.fn,
     }
   },
+  app: jest.fn(),
+  clipboard: {
+    readText: () => clipboard,
+    writeText: (string) => (clipboard = string),
+  },
+  contextBridge: {
+    exposeInMainWorld: jest.fn((apiKey, { send, receive }) => {
+      window[apiKey] = { receive, send }
+    }),
+  },
+  dialog: jest.fn(),
+  ipcRenderer: {
+    on: jest.fn((eventName, function_) =>
+      eventEmitter.on(eventName, (payload) => function_(undefined, payload)),
+    ),
+    removeAllListeners: jest.fn((channel) =>
+      eventEmitter.removeAllListeners(channel),
+    ),
+    send: jest.fn(),
+  },
+  match: jest.fn(),
   remote: {
     getCurrentWindow() {
       return {
@@ -46,13 +55,4 @@ module.exports = {
     },
   },
   require: jest.fn(),
-  clipboard: {
-    writeText: (string) => (clipboard = string),
-    readText: () => clipboard,
-  },
-  contextBridge: {
-    exposeInMainWorld: jest.fn((apiKey, { send, receive }) => {
-      window[apiKey] = { send, receive }
-    }),
-  },
 }

@@ -42,17 +42,17 @@ interface Data {
 }
 
 const defaultData: Data = {
-  version: '',
-  updateStatus: 'no-update',
+  activeAppIndex: 0,
+  icons: {},
   isDefaultProtocolClient: true,
-  url: '',
+  keyCodeMap: {},
   pickerStarted: false,
   prefsStarted: false,
   prefsTab: 'general',
-  keyCodeMap: {},
   scanStatus: 'init',
-  icons: {},
-  activeAppIndex: 0,
+  updateStatus: 'no-update',
+  url: '',
+  version: '',
 }
 
 const data = createReducer<Data>(defaultData, (builder) =>

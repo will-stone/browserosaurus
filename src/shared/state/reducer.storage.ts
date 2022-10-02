@@ -30,9 +30,9 @@ interface Storage {
 
 const defaultStorage: Storage = {
   apps: [],
-  supportMessage: 0,
-  isSetup: false,
   height: 200,
+  isSetup: false,
+  supportMessage: 0,
 }
 
 const storage = createReducer<Storage>(defaultStorage, (builder) =>
@@ -62,8 +62,8 @@ const storage = createReducer<Storage>(defaultStorage, (builder) =>
 
         if (!installedAppInStorage) {
           state.apps.push({
-            id: installedAppId,
             hotCode: null,
+            id: installedAppId,
             isInstalled: true,
           })
         }

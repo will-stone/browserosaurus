@@ -11,12 +11,12 @@ module.exports = {
     'plugin:tailwindcss/recommended',
   ],
   rules: {
-    'unicorn/prefer-top-level-await': 'off',
     'tailwindcss/no-custom-classname': [
       'warn',
       {
         whitelist: ['draggable', 'no-drag'],
       },
     ],
+    'unicorn/prefer-top-level-await': 'off',
   },
 }

@@ -21,22 +21,22 @@ export function createTray(): void {
   tray.setContextMenu(
     Menu.buildFromTemplate([
       {
-        label: 'Restore recently closed URL',
         click: () => dispatch(clickedRestorePicker()),
+        label: 'Restore recently closed URL',
       },
       {
         type: 'separator',
       },
       {
-        label: 'Preferences...',
         click: () => dispatch(clickedOpenPrefs()),
+        label: 'Preferences...',
       },
       {
         type: 'separator',
       },
       {
-        label: 'Quit',
         click: () => app.exit(),
+        label: 'Quit',
       },
     ]),
   )

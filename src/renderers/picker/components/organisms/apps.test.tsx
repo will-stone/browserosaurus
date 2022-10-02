@@ -61,35 +61,35 @@ test('kitchen sink', () => {
   win.webContents.send(
     Channel.MAIN,
     receivedRendererStartupSignal({
+      data: {
+        ...defaultData,
+      },
       storage: {
         apps: [
           {
+            hotCode: null,
             id: 'org.mozilla.firefox',
-            hotCode: null,
             isInstalled: true,
           },
           {
+            hotCode: null,
             id: 'com.apple.Safari',
-            hotCode: null,
             isInstalled: true,
           },
           {
-            id: 'com.operasoftware.Opera',
             hotCode: null,
+            id: 'com.operasoftware.Opera',
             isInstalled: false,
           },
           {
-            id: 'com.brave.Browser.nightly',
             hotCode: null,
+            id: 'com.brave.Browser.nightly',
             isInstalled: true,
           },
         ],
-        supportMessage: -1,
         height: 200,
         isSetup: true,
-      },
-      data: {
-        ...defaultData,
+        supportMessage: -1,
       },
     }),
   )
@@ -137,19 +137,19 @@ test('should show spinner when no installed apps are found', () => {
   win.webContents.send(
     Channel.MAIN,
     receivedRendererStartupSignal({
+      data: defaultData,
       storage: {
         apps: [
           {
-            id: 'com.apple.Safari',
             hotCode: 'KeyS',
+            id: 'com.apple.Safari',
             isInstalled: false,
           },
         ],
-        supportMessage: -1,
         height: 200,
         isSetup: true,
+        supportMessage: -1,
       },
-      data: defaultData,
     }),
   )
   expect(screen.getByRole('alert', { name: 'Loading browsers' })).toBeVisible()
@@ -165,34 +165,34 @@ test('should use hotkey', () => {
   win.webContents.send(
     Channel.MAIN,
     receivedRendererStartupSignal({
+      data: defaultData,
       storage: {
         apps: [
           {
-            id: 'com.apple.Safari',
             hotCode: 'KeyS',
+            id: 'com.apple.Safari',
             isInstalled: true,
           },
         ],
-        supportMessage: -1,
         height: 200,
         isSetup: true,
+        supportMessage: -1,
       },
-      data: defaultData,
     }),
   )
 
   const url = 'http://example.com'
   win.webContents.send(Channel.MAIN, openedUrl(url))
-  fireEvent.keyDown(document, { key: 'S', code: 'KeyS', keyCode: 83 })
+  fireEvent.keyDown(document, { code: 'KeyS', key: 'S', keyCode: 83 })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     Channel.PICKER,
     addChannelToAction(
       pressedKey({
-        virtualKey: 's',
-        physicalKey: 'KeyS',
         altKey: false,
-        shiftKey: false,
         metaKey: false,
+        physicalKey: 'KeyS',
+        shiftKey: false,
+        virtualKey: 's',
       }),
       Channel.PICKER,
     ),
@@ -210,39 +210,39 @@ test('should use hotkey with alt', () => {
   win.webContents.send(
     Channel.MAIN,
     receivedRendererStartupSignal({
+      data: defaultData,
       storage: {
         apps: [
           {
-            id: 'com.apple.Safari',
             hotCode: 'KeyS',
+            id: 'com.apple.Safari',
             isInstalled: true,
           },
         ],
-        supportMessage: -1,
         height: 200,
         isSetup: true,
+        supportMessage: -1,
       },
-      data: defaultData,
     }),
   )
 
   const url = 'http://example.com'
   win.webContents.send(Channel.MAIN, openedUrl(url))
   fireEvent.keyDown(document, {
-    key: 's',
-    code: 'KeyS',
-    keyCode: 83,
     altKey: true,
+    code: 'KeyS',
+    key: 's',
+    keyCode: 83,
   })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     Channel.PICKER,
     addChannelToAction(
       pressedKey({
-        virtualKey: 's',
-        physicalKey: 'KeyS',
         altKey: true,
-        shiftKey: false,
         metaKey: false,
+        physicalKey: 'KeyS',
+        shiftKey: false,
+        virtualKey: 's',
       }),
       Channel.PICKER,
     ),
@@ -281,13 +281,13 @@ test('should order tiles', () => {
   win.webContents.send(
     Channel.MAIN,
     receivedRendererStartupSignal({
+      data: defaultData,
       storage: {
         apps: [],
-        supportMessage: -1,
         height: 200,
         isSetup: true,
+        supportMessage: -1,
       },
-      data: defaultData,
     }),
   )
 
@@ -309,22 +309,22 @@ test('should order tiles', () => {
   win.webContents.send(
     Channel.MAIN,
     reorderedApp({
+      destinationId: 'org.mozilla.firefox',
       sourceId: 'com.apple.Safari',
-      destinationId: 'org.mozilla.firefox',
     }),
   )
   win.webContents.send(
     Channel.MAIN,
     reorderedApp({
+      destinationId: 'org.mozilla.firefox',
       sourceId: 'com.operasoftware.Opera',
-      destinationId: 'org.mozilla.firefox',
     }),
   )
   win.webContents.send(
     Channel.MAIN,
     reorderedApp({
-      sourceId: 'com.brave.Browser',
       destinationId: 'org.mozilla.firefox',
+      sourceId: 'com.brave.Browser',
     }),
   )
 

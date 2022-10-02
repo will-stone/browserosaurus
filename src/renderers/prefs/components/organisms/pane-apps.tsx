@@ -130,8 +130,8 @@ export function AppsPane(): JSX.Element {
     if (active.id !== over?.id) {
       dispatch(
         reorderedApp({
-          sourceId: active.id as AppId,
           destinationId: over?.id as AppId,
+          sourceId: active.id as AppId,
         }),
       )
     }

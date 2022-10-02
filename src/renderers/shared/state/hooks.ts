@@ -25,8 +25,8 @@ const useInstalledApps = (): InstalledApp[] => {
   return storedApps
     .filter((storedApp) => storedApp.isInstalled)
     .map((storedApp) => ({
-      id: storedApp.id,
       hotCode: storedApp.hotCode,
+      id: storedApp.id,
       name: allApps[storedApp.id].name,
     }))
 }

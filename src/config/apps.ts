@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys -- apps are sorted by name */
+
 interface App {
   name: string
   privateArg?: string

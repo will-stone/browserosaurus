@@ -18,10 +18,10 @@ import { isUpdateAvailable } from './is-update-available'
 export async function initUpdateChecker(): Promise<void> {
   if (app.isPackaged) {
     autoUpdater.setFeedURL({
-      url: getUpdateUrl(),
       headers: {
         'User-Agent': `${package_.name}/${package_.version} (darwin: ${process.arch})`,
       },
+      url: getUpdateUrl(),
     })
 
     autoUpdater.on('before-quit-for-update', () => {
