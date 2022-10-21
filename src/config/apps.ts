@@ -137,6 +137,9 @@ const apps = typeApps({
   'com.operasoftware.OperaCryptoDeveloper': {
     name: 'Opera CD',
   },
+  'com.operasoftware.OperaCrypto': {
+    name: 'Opera Crypto',
+  },
   'com.operasoftware.OperaDeveloper': {
     name: 'Opera Dev',
   },
