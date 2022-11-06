@@ -11,10 +11,13 @@
   "peacock.color": "#234870",
   "typescript.preferences.importModuleSpecifier": "relative",
   "cSpell.words": [
+    "asar",
     "fullscreenable",
+    "icns",
     "maximizable",
     "minimizable",
     "Namespacer",
-    "relocator"
+    "relocator",
+    "timfish"
   ]
 }
