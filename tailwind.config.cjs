@@ -1,5 +1,9 @@
+// @ts-check
+
+/* eslint-disable sort-keys -- too many keys need to be naturally sorted */
 const plugin = require('tailwindcss/plugin')
 
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.tsx', './src/**/*.html'],
   theme: {

@@ -1,6 +1,6 @@
 {
   "name": "browserosaurus",
-  "version": "19.1.1",
+  "version": "19.1.5",
   "description": "The browser prompter for macOS",
   "keywords": [
     "macOS",
@@ -18,7 +18,7 @@
   "scripts": {
     "doctor": "npm run lint && npm run typecheck && npm run test",
     "icns": "cd ./src/shared/static/icon && ../../../../scripts/png2icns.sh icon.png",
-    "lint": "eslint . --ignore-path .gitignore",
+    "lint": "eslint . --ignore-path .gitignore --ext .js,.jsx,.cjs,.mjs,.ts,.tsx",
     "list-apps": "ts-node ./scripts/listInstalledApps",
     "make": "concurrently \"npm:make:*\" --kill-others-on-fail",
     "make:arm": "electron-forge make --skip-package --arch=arm64",
@@ -35,9 +35,6 @@
     "typecheck": "tsc --noEmit --skipLibCheck",
     "website-css:build": "npx tailwindcss -i node_modules/tailwindcss/tailwind.css -o ./docs/style.css --content docs/index.html -m",
     "website-css:watch": "npx tailwindcss -i node_modules/tailwindcss/tailwind.css -o ./docs/style.css --content docs/index.html -m --watch"
-  },
-  "config": {
-    "forge": "./forge.config.cjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.5",
@@ -63,12 +60,15 @@
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
-    "@electron-forge/cli": "6.0.0-beta.66",
-    "@electron-forge/maker-zip": "6.0.0-beta.66",
-    "@electron-forge/plugin-webpack": "6.0.0-beta.66",
+    "@electron-forge/cli": "^6.0.0",
+    "@electron-forge/maker-zip": "^6.0.0",
+    "@electron-forge/plugin-base": "^6.0.0",
+    "@electron-forge/plugin-webpack": "^6.0.0",
+    "@electron-forge/shared-types": "^6.0.0",
+    "@electron/notarize": "^1.2.3",
+    "@electron/osx-sign": "^1.0.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
-    "@timfish/forge-externals-plugin": "^0.2.0",
     "@types/jest": "^29.1.1",
     "@types/lodash": "^4.14.186",
     "@types/node": "^18.7.23",
@@ -88,7 +88,6 @@
     "css-loader": "^6.7.1",
     "cssnano": "^5.1.13",
     "electron": "^21.0.1",
-    "electron-notarize": "^1.2.1",
     "eslint": "^8.24.0",
     "eslint-plugin-tailwindcss": "^3.6.2",
     "fork-ts-checker-webpack-plugin": "^7.2.13",

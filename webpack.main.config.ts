@@ -1,13 +1,19 @@
-const CopyPlugin = require('copy-webpack-plugin')
-const rules = require('./webpack.rules.cjs')
+import CopyPlugin from 'copy-webpack-plugin'
+import type { Configuration } from 'webpack'
 
-module.exports = {
+import rules from './webpack.rules'
+
+export const mainConfig: Configuration = {
+  // Do not create source maps
+  devtool: false,
   /**
    * This is the main entry point for your application, it's the first file
    * that runs in the main process.
    */
   entry: './src/main/main.ts',
-
+  externals: {
+    'file-icon': 'file-icon',
+  },
   module: {
     rules: [
       {
@@ -18,8 +24,8 @@ module.exports = {
         use: 'node-loader',
       },
       {
-        test: /\.(m?js|node)$/u,
         parser: { amd: false },
+        test: /\.(m?js|node)$/u,
         use: {
           loader: '@vercel/webpack-asset-relocator-loader',
           options: {
@@ -30,21 +36,12 @@ module.exports = {
       ...rules,
     ],
   },
-
-  externals: {
-    'file-icon': 'commonjs2 file-icon',
-  },
-
-  // Do not create source maps
-  devtool: false,
-
-  resolve: {
-    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
-  },
-
   plugins: [
     new CopyPlugin({
       patterns: [{ from: 'src/shared/static', to: 'static' }],
     }),
   ],
+  resolve: {
+    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
+  },
 }

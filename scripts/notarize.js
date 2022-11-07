@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/no-process-exit */
 /* eslint-disable no-console */
-const { notarize } = require('electron-notarize')
+const { notarize } = require('@electron/notarize')
 const path = require('path')
 
 const notarizeArch = (arch) =>

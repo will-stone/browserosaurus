@@ -1,8 +1,12 @@
-const rules = require('./webpack.rules.cjs')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import type { Configuration } from 'webpack'
 
-module.exports = {
+import rules from './webpack.rules'
+
+export const rendererConfig: Configuration = {
+  // Do not create source maps
+  devtool: false,
   module: {
     rules: [
       ...rules,
@@ -16,16 +20,12 @@ module.exports = {
       },
     ],
   },
-  // Do not create source maps
-  devtool: false,
-
   plugins: [
     new ForkTsCheckerWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'shared/index.css',
     }),
   ],
-
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
   },

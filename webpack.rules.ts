@@ -1,7 +1,7 @@
-module.exports = [
+const rules = [
   {
-    test: /\.tsx?$/u,
     exclude: /(node_modules|\.webpack)/u,
+    test: /\.tsx?$/u,
     use: {
       loader: 'ts-loader',
       options: {
@@ -10,3 +10,5 @@ module.exports = [
     },
   },
 ]
+
+export default rules
