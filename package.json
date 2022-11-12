@@ -106,7 +106,7 @@
     "style-loader": "^3.3.1",
     "tailwindcss": "^3.1.8",
     "tidy-url": "^1.6.3",
-    "tings": "^5.0.0",
+    "tings": "^6.0.0",
     "ts-jest": "^29.0.3",
     "ts-loader": "^9.4.1",
     "ts-node": "^10.9.1",
