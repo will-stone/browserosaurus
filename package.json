@@ -1,6 +1,6 @@
 {
   "name": "browserosaurus",
-  "version": "19.2.1",
+  "version": "19.2.2",
   "description": "The browser prompter for macOS",
   "keywords": [
     "macOS",
@@ -20,7 +20,7 @@
     "icns": "cd ./src/shared/static/icon && ../../../../scripts/png2icns.sh icon.png",
     "lint": "eslint . --ignore-path .gitignore --ext .js,.jsx,.cjs,.mjs,.ts,.tsx",
     "list-apps": "ts-node ./scripts/listInstalledApps",
-    "make": "concurrently \"npm:make:*\" --kill-others-on-fail",
+    "make": "electron-forge make --skip-package --arch=x64,arm64",
     "make:arm": "electron-forge make --skip-package --arch=arm64",
     "make:intel": "electron-forge make --skip-package --arch=x64",
     "notarize": "node ./scripts/notarize.js",
