@@ -69,7 +69,7 @@ export const apps = {
 > order by the `name` key. There's a test that will check for this. We'll
 > discuss running tests below.
 
-That's all there is to it. Run your updated code using `npm start`, and see if
+That's all there is to it. Run your updated code using `pnpm start`, and see if
 it behaves how you would expect.
 
 ## Extras
@@ -114,9 +114,9 @@ export const apps = {
 ## Testing
 
 There are a few tests that will check the compatibility of your `apps.ts` file.
-Run `npm test` and make sure all tests successfully pass. If any tests fail, and
-you are unsure about the results, please submit your changes anyway and we can
-discuss it on the pull request page.
+Run `pnpm test` and make sure all tests successfully pass. If any tests fail,
+and you are unsure about the results, please submit your changes anyway and we
+can discuss it on the pull request page.
 
 ## Submit your changes
 
