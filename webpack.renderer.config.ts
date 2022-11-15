@@ -21,7 +21,7 @@ export const rendererConfig: Configuration = {
     ],
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin(),
+    new ForkTsCheckerWebpackPlugin({ logger: 'webpack-infrastructure' }),
     new MiniCssExtractPlugin({
       filename: 'shared/index.css',
     }),
