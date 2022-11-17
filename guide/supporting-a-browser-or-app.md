@@ -69,7 +69,7 @@ export const apps = {
 > order by the `name` key. There's a test that will check for this. We'll
 > discuss running tests below.
 
-That's all there is to it. Run your updated code using `pnpm start`, and see if
+That's all there is to it. Run your updated code using `npm start`, and see if
 it behaves how you would expect.
 
 ## Extras

@@ -18,13 +18,13 @@ cd browserosaurus
 Install dependencies:
 
 ```
-pnpm i
+npm i
 ```
 
 Run Browserosaurus in dev mode:
 
 ```
-pnpm start
+npm start
 ```
 
 > ℹ️ If you already have a copy of Browserosaurus installed, it's advisable to

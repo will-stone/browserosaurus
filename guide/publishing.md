@@ -33,7 +33,7 @@ The following command will prompt to bump version number, package, notarize, and
 make ZIP bundle:
 
 ```
-pnpm run release
+npm run release
 ```
 
 The zip files can then be added to a GitHub release.
