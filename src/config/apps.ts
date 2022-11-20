@@ -136,10 +136,6 @@ const apps = typeApps({
     convertUrl: (url) =>
       url.replace('https://teams.microsoft.com/', 'msteams:/'),
   },
-  'com.mighty.app': {
-    name: 'Mighty',
-    privateArg: '--incognito',
-  },
   'com.electron.min': {
     name: 'Min',
   },
