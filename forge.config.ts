@@ -14,6 +14,11 @@ const config: ForgeConfig = {
     asar: false,
     extendInfo: 'plist/Info.plist',
     icon: 'src/shared/static/icon/icon.icns',
+    osxNotarize: {
+      keychain: '~/Library/Keychains/login.keychain-db',
+      keychainProfile: 'AC_PASSWORD',
+      tool: 'notarytool',
+    },
     osxSign: {
       optionsForFile: () => ({
         'entitlements': 'plist/entitlements.mac.plist',
