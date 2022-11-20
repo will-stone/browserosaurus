@@ -49,8 +49,6 @@
     "@electron-forge/plugin-base": "^6.0.3",
     "@electron-forge/plugin-webpack": "^6.0.3",
     "@electron-forge/shared-types": "^6.0.3",
-    "@electron/notarize": "^1.2.3",
-    "@electron/osx-sign": "^1.0.1",
     "@reduxjs/toolkit": "^1.8.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
