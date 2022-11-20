@@ -17,6 +17,7 @@
     "maximizable",
     "minimizable",
     "Namespacer",
+    "onlyin",
     "relocator",
     "timfish"
   ]
