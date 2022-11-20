@@ -21,12 +21,14 @@ const config: ForgeConfig = {
           keychainProfile: 'AC_PASSWORD',
           tool: 'notarytool',
         },
-    osxSign: {
-      optionsForFile: () => ({
-        'entitlements': 'plist/entitlements.mac.plist',
-        'hardened-runtime': true,
-      }),
-    },
+    osxSign: process.env.CI
+      ? undefined
+      : {
+          optionsForFile: () => ({
+            'entitlements': 'plist/entitlements.mac.plist',
+            'hardened-runtime': true,
+          }),
+        },
     protocols: [
       {
         name: 'HTTP link',
