@@ -13,12 +13,11 @@ import { dispatch } from '../state/store'
 const execFileP = promisify(execFile)
 
 async function getAllInstalledBundleIds(): Promise<string[]> {
-  const { stdout: allApps } = await execFileP('mdfind', [
-    "kMDItemKind == 'Application'",
-    '-onlyin',
+  const { stdout: allApps } = await execFileP('find', [
     '/Applications',
-    '-onlyin',
     path.join(homedir(), 'Applications'),
+    "-iname '*.app'",
+    '-maxdepth 1',
   ])
 
   const bundleIds = await Promise.all(
