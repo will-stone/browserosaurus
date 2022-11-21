@@ -13,15 +13,17 @@ import { dispatch } from '../state/store'
 const execFileP = promisify(execFile)
 
 async function getAllInstalledBundleIds(): Promise<string[]> {
-  const { stdout: allApps } = await execFileP('find', [
-    '/Applications',
-    "-iname '*.app'",
-    '-maxdepth 1',
-  ])
-
   if (fs.existsSync(path.join(homedir(), 'Applications'))) {
     const { stdout: allApps } = await execFileP('find', [
+      '/Applications',
       path.join(homedir(), 'Applications'),
+      "-iname '*.app'",
+      '-maxdepth 1',
+    ])
+  }
+  else {
+    const { stdout: allApps } = await execFileP('find', [
+      '/Applications',
       "-iname '*.app'",
       '-maxdepth 1',
     ])
