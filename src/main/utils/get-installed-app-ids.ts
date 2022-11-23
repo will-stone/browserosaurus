@@ -1,7 +1,4 @@
-import { execFile } from 'node:child_process'
-import { homedir } from 'node:os'
-import path from 'node:path'
-import { promisify } from 'node:util'
+import { execSync } from 'node:child_process'
 
 import { sleep } from 'tings'
 
@@ -10,32 +7,13 @@ import { apps } from '../../config/apps'
 import { retrievedInstalledApps, startedScanning } from '../state/actions'
 import { dispatch } from '../state/store'
 
-const execFileP = promisify(execFile)
-
-async function getAllInstalledBundleIds(): Promise<string[]> {
-  const { stdout: allApps } = await execFileP('mdfind', [
-    "kMDItemKind == 'Application'",
-    '-onlyin',
-    '/Applications',
-    '-onlyin',
-    path.join(homedir(), 'Applications'),
-  ])
-
-  const bundleIds = await Promise.all(
-    allApps
-      .trim()
-      .split('\n')
-      .map(async (entry) => {
-        const { stdout: bundleId } = await execFileP('mdls', [
-          '-name',
-          'kMDItemCFBundleIdentifier',
-          '-raw',
-          entry,
-        ])
-
-        return bundleId
-      }),
+function getAllInstalledBundleIds(): string[] {
+  const bundleIds = execSync(
+    'mdfind -onlyin /Applications kMDItemKind == \'*\' -attr kMDItemCFBundleIdentifier | sed -e "s/^.*kMDItemCFBundleIdentifier = //" -e "/(null)/d"',
   )
+    .toString()
+    .trim()
+    .split('\n')
 
   return bundleIds
 }
@@ -43,7 +21,7 @@ async function getAllInstalledBundleIds(): Promise<string[]> {
 async function getInstalledAppIds(): Promise<void> {
   dispatch(startedScanning())
 
-  const allInstalledBundleIds = await getAllInstalledBundleIds()
+  const allInstalledBundleIds = getAllInstalledBundleIds()
   const installedApps: AppId[] = []
 
   for (const installedBundleId of allInstalledBundleIds) {
