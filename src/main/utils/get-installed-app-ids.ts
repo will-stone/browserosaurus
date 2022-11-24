@@ -19,7 +19,7 @@ async function getAllInstalledAppBundleIds(): Promise<[string[], string[]]> {
     '/Applications',
     '-onlyin',
     path.join(homedir(), 'Applications'),
-    "kMDItemKind == '*'",
+    'kind:app',
     '-attr',
     'kMDItemCFBundleIdentifier',
   ])
@@ -34,7 +34,7 @@ async function getAllInstalledAppBundleIds(): Promise<[string[], string[]]> {
     if (pathAndId.length === 2) {
       const appID = pathAndId[1].split(' = ')
 
-      if (appID.length === 2 && !appID[1].includes('null')) {
+      if (appID.length === 2) {
         appPaths.push(pathAndId[0])
         bundleIds.push(appID[1])
       }
