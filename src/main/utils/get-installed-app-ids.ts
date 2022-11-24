@@ -54,11 +54,21 @@ async function getAllInstalledApps(): Promise<string[]> {
       path.join(homedir(), 'Applications'),
       '-iname',
       '*.app',
-      '-maxdepth',
-      '1',
+      '-prune',
+      '-o',
+      '-iname',
+      '*.app',
     ]
   } else {
-    findArguments = ['/Applications', '-iname', '*.app', '-maxdepth', '1']
+    findArguments = [
+      '/Applications',
+      '-iname',
+      '*.app',
+      '-prune',
+      '-o',
+      '-iname',
+      '*.app',
+    ]
   }
 
   const { stdout: allApps } = await execFileP('find', findArguments)
