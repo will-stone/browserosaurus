@@ -55,9 +55,9 @@ async function getAllInstalledApps(): Promise<string[]> {
       '-iname',
       '*.app',
       '-prune',
-      '-o',
-      '-iname',
-      '*.app',
+      '-not',
+      '-path',
+      '*/.*',
     ]
   } else {
     findArguments = [
@@ -65,9 +65,9 @@ async function getAllInstalledApps(): Promise<string[]> {
       '-iname',
       '*.app',
       '-prune',
-      '-o',
-      '-iname',
-      '*.app',
+      '-not',
+      '-path',
+      '*/.*',
     ]
   }
 
