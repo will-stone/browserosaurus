@@ -1,7 +1,7 @@
 import { execFile } from 'node:child_process'
-import fs from 'node:fs'
-import { homedir } from 'node:os'
-import path from 'node:path'
+import { existsSync } from 'node:fs'
+import { homedir, uptime } from 'node:os'
+import { join } from 'node:path'
 import { promisify } from 'node:util'
 
 import { sleep } from 'tings'
@@ -18,7 +18,7 @@ async function getAllInstalledAppBundleIds(): Promise<[string[], string[]]> {
     '-onlyin',
     '/Applications',
     '-onlyin',
-    path.join(homedir(), 'Applications'),
+    join(homedir(), 'Applications'),
     'kind:app',
     '-attr',
     'kMDItemCFBundleIdentifier',
@@ -45,13 +45,13 @@ async function getAllInstalledAppBundleIds(): Promise<[string[], string[]]> {
 }
 
 async function getAllInstalledApps(): Promise<string[]> {
-  const hasUserAppsFolder = fs.existsSync(path.join(homedir(), 'Applications'))
+  const hasUserAppsFolder = existsSync(join(homedir(), 'Applications'))
   let findArguments: string[]
 
   if (hasUserAppsFolder) {
     findArguments = [
       '/Applications',
-      path.join(homedir(), 'Applications'),
+      join(homedir(), 'Applications'),
       '-iname',
       '*.app',
       '-prune',
@@ -108,14 +108,32 @@ async function getInstalledAppIds(): Promise<void> {
   let allInstalledBundleIds: string[]
 
   // It appears that sometimes the installed app IDs are not fetched, or is incomplete.
-  // Maybe a race with Spotlight index? So to address this the app paths from 'find'
-  // are compared with the app paths from 'mdfind'. If no match, keep retrying.
+  // Maybe a race with Spotlight index? So to address this, the app paths from 'mdfind'
+  // are compared with the app paths from 'find'. If no match, keep retrying but up to
+  // a limit inversely related to the uptime of the system.
   // https://github.com/will-stone/browserosaurus/issues/572
-  for (let index = 0; index < 300; index = index + 1) {
+  const sysUptime = uptime()
+  let limit: number
+
+  switch (true) {
+    case sysUptime < 30:
+      limit = 120
+      break
+
+    case sysUptime > 120:
+      limit = 10
+      break
+
+    default:
+      limit = -1.2 * sysUptime + 155
+      break
+  }
+
+  for (let index = 0; index <= limit; index = index + 1) {
     // eslint-disable-next-line no-await-in-loop
     ;[pathsMatch, allInstalledBundleIds] = await getVerifiedAppIds()
 
-    if (pathsMatch) {
+    if (pathsMatch || index === limit) {
       const installedApps: AppId[] = []
 
       for (const installedBundleId of allInstalledBundleIds) {
