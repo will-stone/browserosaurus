@@ -1,20 +1,15 @@
-import { execFile } from 'node:child_process'
+import { spawnSync } from 'node:child_process'
 import { existsSync } from 'node:fs'
 import { homedir, uptime } from 'node:os'
 import { join } from 'node:path'
-import { promisify } from 'node:util'
-
-import { sleep } from 'tings'
 
 import type { AppId } from '../../config/apps'
 import { apps } from '../../config/apps'
 import { retrievedInstalledApps, startedScanning } from '../state/actions'
 import { dispatch } from '../state/store'
 
-const execFileP = promisify(execFile)
-
-async function getAllInstalledAppBundleIds(): Promise<[string[], string[]]> {
-  const { stdout: allApps } = await execFileP('mdfind', [
+function getAllInstalledAppBundleIds(): [string[], string[]] {
+  const allApps = spawnSync('mdfind', [
     '-onlyin',
     '/Applications',
     '-onlyin',
@@ -23,12 +18,14 @@ async function getAllInstalledAppBundleIds(): Promise<[string[], string[]]> {
     '-attr',
     'kMDItemCFBundleIdentifier',
   ])
+    .stdout.toString()
+    .trim()
+    .split('\n')
 
   const appPaths: string[] = []
   const bundleIds: string[] = []
-  const appsList = allApps.trim().split('\n')
 
-  for (const result of appsList) {
+  for (const result of allApps) {
     const pathAndId = result.split('   ')
 
     if (pathAndId.length === 2) {
@@ -44,7 +41,7 @@ async function getAllInstalledAppBundleIds(): Promise<[string[], string[]]> {
   return [appPaths, bundleIds]
 }
 
-async function getAllInstalledApps(): Promise<string[]> {
+function getAllInstalledApps(): string[] {
   const hasUserAppsFolder = existsSync(join(homedir(), 'Applications'))
   let findArguments: string[]
 
@@ -71,17 +68,19 @@ async function getAllInstalledApps(): Promise<string[]> {
     ]
   }
 
-  const { stdout: allApps } = await execFileP('find', findArguments)
-  const installedApps = allApps.trim().split('\n')
+  const allApps = spawnSync('find', findArguments)
+    .stdout.toString()
+    .trim()
+    .split('\n')
 
-  return installedApps
+  return allApps
 }
 
-async function getVerifiedAppIds(): Promise<[boolean, string[]]> {
+function getVerifiedAppIds(): [boolean, string[]] {
   const [allInstalledAppPaths, allInstalledBundleIds] =
-    await getAllInstalledAppBundleIds()
+    getAllInstalledAppBundleIds()
 
-  const allInstalledApps = await getAllInstalledApps()
+  const allInstalledApps = getAllInstalledApps()
 
   let pathsMatch = true
 
@@ -102,7 +101,11 @@ async function getVerifiedAppIds(): Promise<[boolean, string[]]> {
   return [pathsMatch, allInstalledBundleIds]
 }
 
-async function getInstalledAppIds(): Promise<void> {
+function msleep(n: number) {
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, n)
+}
+
+function getInstalledAppIds(): void {
   dispatch(startedScanning())
   let pathsMatch: boolean
   let allInstalledBundleIds: string[]
@@ -117,23 +120,22 @@ async function getInstalledAppIds(): Promise<void> {
 
   switch (true) {
     case sysUptime < 30:
-      limit = 120
+      limit = 100
       break
 
     case sysUptime > 120:
-      limit = 10
+      limit = 1
       break
 
     default:
-      limit = -1.2 * sysUptime + 155
+      limit = -1.1 * sysUptime + 133
       break
   }
 
   for (let index = 0; index <= limit; index = index + 1) {
-    // eslint-disable-next-line no-await-in-loop
-    ;[pathsMatch, allInstalledBundleIds] = await getVerifiedAppIds()
+    ;[pathsMatch, allInstalledBundleIds] = getVerifiedAppIds()
 
-    if (pathsMatch || index === limit) {
+    if (pathsMatch || index >= limit) {
       const installedApps: AppId[] = []
 
       for (const installedBundleId of allInstalledBundleIds) {
@@ -145,8 +147,7 @@ async function getInstalledAppIds(): Promise<void> {
       dispatch(retrievedInstalledApps(installedApps))
       break
     } else {
-      // eslint-disable-next-line no-await-in-loop
-      await sleep(500)
+      msleep(500)
     }
   }
 }
