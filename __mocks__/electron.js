@@ -6,6 +6,7 @@ const eventEmitter = new EventTarget()
 let clipboard
 
 module.exports = {
+  app: jest.fn(),
   BrowserWindow: function () {
     return {
       webContents: {
@@ -21,12 +22,6 @@ module.exports = {
       },
     }
   },
-  Notification: function () {
-    return {
-      show: jest.fn,
-    }
-  },
-  app: jest.fn(),
   clipboard: {
     readText: () => clipboard,
     writeText: (string) => (clipboard = string),
@@ -47,6 +42,11 @@ module.exports = {
     send: jest.fn(),
   },
   match: jest.fn(),
+  Notification: function () {
+    return {
+      show: jest.fn,
+    }
+  },
   remote: {
     getCurrentWindow() {
       return {
