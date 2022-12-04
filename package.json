@@ -59,7 +59,7 @@
     "@types/react-dom": "^18.0.6",
     "@types/react-redux": "^7.1.24",
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
-    "@will-stone/eslint-config-base": "^4.0.0",
+    "@will-stone/eslint-config-base": "^5.0.0",
     "@will-stone/eslint-config-jest": "^2.2.2",
     "@will-stone/eslint-config-node": "^2.0.1",
     "@will-stone/eslint-config-prettier": "^2.0.1",

@@ -2,8 +2,7 @@ import deepEqual from 'fast-deep-equal'
 import type { TypedUseSelectorHook } from 'react-redux'
 import { shallowEqual, useSelector as useReduxSelector } from 'react-redux'
 
-import type { AppId, Apps } from '../../../config/apps'
-import { apps as allApps } from '../../../config/apps'
+import type { AppName } from '../../../config/apps'
 import type { RootState } from '../../../shared/state/reducer.root'
 
 const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector
@@ -15,8 +14,7 @@ const useDeepEqualSelector: TypedUseSelectorHook<RootState> = (selector) =>
   useSelector(selector, deepEqual)
 
 interface InstalledApp {
-  id: AppId
-  name: Apps[AppId]['name']
+  name: AppName
   hotCode: string | null
 }
 
@@ -26,8 +24,7 @@ const useInstalledApps = (): InstalledApp[] => {
     .filter((storedApp) => storedApp.isInstalled)
     .map((storedApp) => ({
       hotCode: storedApp.hotCode,
-      id: storedApp.id,
-      name: allApps[storedApp.id].name,
+      name: storedApp.name,
     }))
 }
 

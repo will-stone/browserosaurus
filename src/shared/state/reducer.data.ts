@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
 
-import type { AppId } from '../../config/apps'
+import type { AppName } from '../../config/apps'
 import { CARROT_URL } from '../../config/CONSTANTS'
 import {
   availableUpdate,
@@ -37,7 +37,7 @@ interface Data {
   prefsTab: PrefsTab
   keyCodeMap: Record<string, string>
   scanStatus: 'init' | 'scanned' | 'scanning'
-  icons: Partial<Record<AppId, string>>
+  icons: Partial<Record<AppName, string>>
   activeAppIndex: number
 }
 
