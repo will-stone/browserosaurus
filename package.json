@@ -36,7 +36,7 @@
     "website-css:watch": "npx tailwindcss -i node_modules/tailwindcss/tailwind.css -o ./docs/style.css --content docs/index.html -m --watch"
   },
   "dependencies": {
-    "file-icon": "^5.1.0"
+    "file-icon": "^5.1.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
@@ -59,7 +59,7 @@
     "@types/react-dom": "^18.0.6",
     "@types/react-redux": "^7.1.24",
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
-    "@will-stone/eslint-config-base": "^4.0.0",
+    "@will-stone/eslint-config-base": "^5.0.0",
     "@will-stone/eslint-config-jest": "^2.2.2",
     "@will-stone/eslint-config-node": "^2.0.1",
     "@will-stone/eslint-config-prettier": "^2.0.1",
@@ -78,7 +78,6 @@
     "eslint": "^8.24.0",
     "eslint-plugin-tailwindcss": "^3.6.2",
     "fast-deep-equal": "^3.1.3",
-    "file-icon": "^5.1.0",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
     "husky": "^8.0.1",
     "immer": "^9.0.15",

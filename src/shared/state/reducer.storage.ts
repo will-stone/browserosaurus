@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
 
-import type { AppId } from '../../config/apps'
+import type { AppName } from '../../config/apps'
 import {
   changedPickerWindowBounds,
   readiedApp,
@@ -19,7 +19,7 @@ import {
 
 interface Storage {
   apps: {
-    id: AppId
+    name: AppName
     hotCode: string | null
     isInstalled: boolean
   }[]
@@ -49,22 +49,22 @@ const storage = createReducer<Storage>(defaultStorage, (builder) =>
     )
 
     .addCase(retrievedInstalledApps, (state, action) => {
-      const installedAppIds = action.payload
+      const installedAppNames = action.payload
 
       for (const storedApp of state.apps) {
-        storedApp.isInstalled = installedAppIds.includes(storedApp.id)
+        storedApp.isInstalled = installedAppNames.includes(storedApp.name)
       }
 
-      for (const installedAppId of installedAppIds) {
+      for (const installedAppName of installedAppNames) {
         const installedAppInStorage = state.apps.some(
-          ({ id }) => id === installedAppId,
+          ({ name }) => name === installedAppName,
         )
 
         if (!installedAppInStorage) {
           state.apps.push({
             hotCode: null,
-            id: installedAppId,
             isInstalled: true,
+            name: installedAppName,
           })
         }
       }
@@ -82,7 +82,7 @@ const storage = createReducer<Storage>(defaultStorage, (builder) =>
       }
 
       const appIndex = state.apps.findIndex(
-        (app) => app.id === action.payload.appId,
+        (app) => app.name === action.payload.appName,
       )
 
       state.apps[appIndex].hotCode = hotCode
@@ -102,11 +102,11 @@ const storage = createReducer<Storage>(defaultStorage, (builder) =>
 
     .addCase(reorderedApp, (state, action) => {
       const sourceIndex = state.apps.findIndex(
-        (app) => app.id === action.payload.sourceId,
+        (app) => app.name === action.payload.sourceName,
       )
 
       const destinationIndex = state.apps.findIndex(
-        (app) => app.id === action.payload.destinationId,
+        (app) => app.name === action.payload.destinationName,
       )
 
       const [removed] = state.apps.splice(sourceIndex, 1)

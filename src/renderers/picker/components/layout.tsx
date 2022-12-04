@@ -64,9 +64,8 @@ const App: React.FC = () => {
         className="relative w-full grow overflow-y-auto px-2 pb-2"
       >
         {apps.map((app, index) => {
-          const key = app.id + index
           return (
-            <div key={key}>
+            <div key={app.name}>
               <button
                 ref={(element) => {
                   if (!appsRef.current) {
@@ -87,7 +86,7 @@ const App: React.FC = () => {
                 onClick={(event) =>
                   dispatch(
                     clickedApp({
-                      appId: app.id,
+                      appName: app.name,
                       isAlt: event.altKey,
                       isShift: event.shiftKey,
                     }),
@@ -114,7 +113,7 @@ const App: React.FC = () => {
                   <AppLogo
                     app={app}
                     className="h-6 w-6 shrink-0"
-                    icon={icons[app.id]}
+                    icon={icons[app.name]}
                   />
                 </span>
               </button>

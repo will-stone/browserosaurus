@@ -1,4 +1,4 @@
-import type { AppId } from '../../../config/apps'
+import type { AppName } from '../../../config/apps'
 import type { PrefsTab } from '../../../shared/state/reducer.data'
 import { actionNamespacer } from '../../../shared/utils/action-namespacer'
 
@@ -17,11 +17,11 @@ const clickedUpdateButton = prefs('update-button/clicked')
 const clickedUpdateRestartButton = prefs('update-restart-button/clicked')
 const confirmedReset = prefs('reset/confirmed')
 
-const updatedHotCode = prefs<{ appId: AppId; value: string }>(
+const updatedHotCode = prefs<{ appName: AppName; value: string }>(
   'hot-code/updated',
 )
 
-const reorderedApp = prefs<{ sourceId: AppId; destinationId: AppId }>(
+const reorderedApp = prefs<{ sourceName: AppName; destinationName: AppName }>(
   'app/reordered',
 )
 

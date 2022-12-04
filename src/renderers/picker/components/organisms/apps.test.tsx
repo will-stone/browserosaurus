@@ -40,20 +40,16 @@ test('kitchen sink', () => {
   const win = new electron.BrowserWindow()
   win.webContents.send(
     Channel.MAIN,
-    retrievedInstalledApps([
-      'org.mozilla.firefox',
-      'com.apple.Safari',
-      'com.brave.Browser.nightly',
-    ]),
+    retrievedInstalledApps(['Firefox', 'Safari', 'Brave Browser']),
   )
   // Check apps and app logos shown
   expect(screen.getByTestId('Firefox')).toBeVisible()
   expect(screen.getByRole('button', { name: 'Firefox App' })).toBeVisible()
   expect(screen.getByTestId('Safari')).toBeVisible()
   expect(screen.getByRole('button', { name: 'Safari App' })).toBeVisible()
-  expect(screen.getByTestId('Brave Nightly')).toBeVisible()
+  expect(screen.getByTestId('Brave Browser')).toBeVisible()
   expect(
-    screen.getByRole('button', { name: 'Brave Nightly App' }),
+    screen.getByRole('button', { name: 'Brave Browser App' }),
   ).toBeVisible()
 
   expect(screen.getAllByRole('button', { name: /[A-z]+ App/u })).toHaveLength(3)
@@ -68,23 +64,23 @@ test('kitchen sink', () => {
         apps: [
           {
             hotCode: null,
-            id: 'org.mozilla.firefox',
             isInstalled: true,
+            name: 'Firefox',
           },
           {
             hotCode: null,
-            id: 'com.apple.Safari',
             isInstalled: true,
+            name: 'Safari',
           },
           {
             hotCode: null,
-            id: 'com.operasoftware.Opera',
             isInstalled: false,
+            name: 'Opera',
           },
           {
             hotCode: null,
-            id: 'com.brave.Browser.nightly',
             isInstalled: true,
+            name: 'Brave Browser',
           },
         ],
         height: 200,
@@ -104,7 +100,7 @@ test('kitchen sink', () => {
     Channel.PICKER,
     addChannelToAction(
       clickedApp({
-        appId: 'org.mozilla.firefox',
+        appName: 'Firefox',
         isAlt: false,
         isShift: false,
       }),
@@ -115,14 +111,14 @@ test('kitchen sink', () => {
   // Correct info sent to main when app clicked
   const url = 'http://example.com'
   win.webContents.send(Channel.MAIN, openedUrl(url))
-  fireEvent.click(screen.getByRole('button', { name: 'Brave Nightly App' }), {
+  fireEvent.click(screen.getByRole('button', { name: 'Brave Browser App' }), {
     altKey: true,
   })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     Channel.PICKER,
     addChannelToAction(
       clickedApp({
-        appId: 'com.brave.Browser.nightly',
+        appName: 'Brave Browser',
         isAlt: true,
         isShift: false,
       }),
@@ -142,8 +138,8 @@ test('should show spinner when no installed apps are found', () => {
         apps: [
           {
             hotCode: 'KeyS',
-            id: 'com.apple.Safari',
             isInstalled: false,
+            name: 'Safari',
           },
         ],
         height: 200,
@@ -158,10 +154,7 @@ test('should show spinner when no installed apps are found', () => {
 test('should use hotkey', () => {
   render(<Wrapper />)
   const win = new electron.BrowserWindow()
-  win.webContents.send(
-    Channel.MAIN,
-    retrievedInstalledApps(['com.apple.Safari']),
-  )
+  win.webContents.send(Channel.MAIN, retrievedInstalledApps(['Safari']))
   win.webContents.send(
     Channel.MAIN,
     receivedRendererStartupSignal({
@@ -170,8 +163,8 @@ test('should use hotkey', () => {
         apps: [
           {
             hotCode: 'KeyS',
-            id: 'com.apple.Safari',
             isInstalled: true,
+            name: 'Safari',
           },
         ],
         height: 200,
@@ -202,10 +195,7 @@ test('should use hotkey', () => {
 test('should use hotkey with alt', () => {
   render(<Wrapper />)
   const win = new electron.BrowserWindow()
-  win.webContents.send(
-    Channel.MAIN,
-    retrievedInstalledApps(['com.apple.Safari']),
-  )
+  win.webContents.send(Channel.MAIN, retrievedInstalledApps(['Safari']))
 
   win.webContents.send(
     Channel.MAIN,
@@ -215,8 +205,8 @@ test('should use hotkey with alt', () => {
         apps: [
           {
             hotCode: 'KeyS',
-            id: 'com.apple.Safari',
             isInstalled: true,
+            name: 'Safari',
           },
         ],
         height: 200,
@@ -252,10 +242,7 @@ test('should use hotkey with alt', () => {
 test('should hold shift', () => {
   render(<Wrapper />)
   const win = new electron.BrowserWindow()
-  win.webContents.send(
-    Channel.MAIN,
-    retrievedInstalledApps(['org.mozilla.firefox']),
-  )
+  win.webContents.send(Channel.MAIN, retrievedInstalledApps(['Firefox']))
   win.webContents.send(Channel.MAIN, openedUrl('http://example.com'))
   fireEvent.click(screen.getByRole('button', { name: 'Firefox App' }), {
     shiftKey: true,
@@ -264,7 +251,7 @@ test('should hold shift', () => {
     Channel.PICKER,
     addChannelToAction(
       clickedApp({
-        appId: 'org.mozilla.firefox',
+        appName: 'Firefox',
         isAlt: false,
         isShift: true,
       }),
@@ -294,11 +281,11 @@ test('should order tiles', () => {
   win.webContents.send(
     Channel.MAIN,
     retrievedInstalledApps([
-      'org.mozilla.firefox',
-      'com.apple.Safari',
-      'com.operasoftware.Opera',
-      'com.microsoft.edgemac',
-      'com.brave.Browser',
+      'Firefox',
+      'Safari',
+      'Opera',
+      'Microsoft Edge',
+      'Brave Browser',
     ]),
   )
   // Check tiles and tile logos shown
@@ -309,22 +296,22 @@ test('should order tiles', () => {
   win.webContents.send(
     Channel.MAIN,
     reorderedApp({
-      destinationId: 'org.mozilla.firefox',
-      sourceId: 'com.apple.Safari',
+      destinationName: 'Firefox',
+      sourceName: 'Safari',
     }),
   )
   win.webContents.send(
     Channel.MAIN,
     reorderedApp({
-      destinationId: 'org.mozilla.firefox',
-      sourceId: 'com.operasoftware.Opera',
+      destinationName: 'Firefox',
+      sourceName: 'Opera',
     }),
   )
   win.webContents.send(
     Channel.MAIN,
     reorderedApp({
-      destinationId: 'org.mozilla.firefox',
-      sourceId: 'com.brave.Browser',
+      destinationName: 'Firefox',
+      sourceName: 'Brave Browser',
     }),
   )
 
@@ -332,7 +319,7 @@ test('should order tiles', () => {
 
   expect(updatedApps[0]).toHaveAttribute('aria-label', 'Safari App')
   expect(updatedApps[1]).toHaveAttribute('aria-label', 'Opera App')
-  expect(updatedApps[2]).toHaveAttribute('aria-label', 'Brave App')
+  expect(updatedApps[2]).toHaveAttribute('aria-label', 'Brave Browser App')
   expect(updatedApps[3]).toHaveAttribute('aria-label', 'Firefox App')
-  expect(updatedApps[4]).toHaveAttribute('aria-label', 'Edge App')
+  expect(updatedApps[4]).toHaveAttribute('aria-label', 'Microsoft Edge App')
 })

@@ -17,7 +17,7 @@ import { CSS } from '@dnd-kit/utilities'
 import clsx from 'clsx'
 import { useDispatch } from 'react-redux'
 
-import type { AppId } from '../../../../config/apps'
+import type { AppName } from '../../../../config/apps'
 import Input from '../../../shared/components/atoms/input'
 import { Spinner } from '../../../shared/components/atoms/spinner'
 import type { InstalledApp } from '../../../shared/state/hooks'
@@ -30,7 +30,7 @@ import { reorderedApp, updatedHotCode } from '../../state/actions'
 import { Pane } from '../molecules/pane'
 
 interface SortableItemProps {
-  id: InstalledApp['id']
+  id: InstalledApp['name']
   name: InstalledApp['name']
   index: number
   icon?: string
@@ -100,7 +100,7 @@ const SortableItem = ({
           onKeyPress={(event) => {
             dispatch(
               updatedHotCode({
-                appId: id,
+                appName: id,
                 value: event.code,
               }),
             )
@@ -117,7 +117,10 @@ const SortableItem = ({
 export function AppsPane(): JSX.Element {
   const dispatch = useDispatch()
 
-  const installedApps = useInstalledApps()
+  const installedApps = useInstalledApps().map((installedApp) => ({
+    ...installedApp,
+    id: installedApp.name,
+  }))
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -130,8 +133,8 @@ export function AppsPane(): JSX.Element {
     if (active.id !== over?.id) {
       dispatch(
         reorderedApp({
-          destinationId: over?.id as AppId,
-          sourceId: active.id as AppId,
+          destinationName: over?.id as AppName,
+          sourceName: active.id as AppName,
         }),
       )
     }
