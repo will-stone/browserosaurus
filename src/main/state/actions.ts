@@ -1,7 +1,7 @@
 import type { Rectangle } from 'electron/main'
 import type { CombinedState } from 'redux'
 
-import type { AppId } from '../../config/apps'
+import type { AppName } from '../../config/apps'
 import type { Data } from '../../shared/state/reducer.data'
 import type { Storage } from '../../shared/state/reducer.storage'
 import { actionNamespacer } from '../../shared/utils/action-namespacer'
@@ -18,14 +18,14 @@ const changedPickerWindowBounds = main<Rectangle>(
 
 const startedScanning = main('installed-apps/scanning')
 
-const retrievedInstalledApps = main<AppId[]>('installed-apps/retrieved')
+const retrievedInstalledApps = main<AppName[]>('installed-apps/retrieved')
 
 const receivedRendererStartupSignal =
   main<CombinedState<{ data: Data; storage: Storage }>>('sync-reducers')
 
 const gotDefaultBrowserStatus = main<boolean>('default-browser-status/got')
 
-const gotAppIcons = main<Partial<Record<AppId, string>>>('app-icons/got')
+const gotAppIcons = main<Partial<Record<AppName, string>>>('app-icons/got')
 
 const availableUpdate = main('update/available')
 const downloadingUpdate = main('update/downloading')

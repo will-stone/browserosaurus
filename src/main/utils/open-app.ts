@@ -1,22 +1,22 @@
 import { execFile } from 'child_process'
 
-import type { AppId } from '../../config/apps'
+import type { AppName } from '../../config/apps'
 import { apps } from '../../config/apps'
 
 export function openApp(
-  appId: AppId,
+  appName: AppName,
   url: string,
   isAlt: boolean,
   isShift: boolean,
 ): void {
-  const selectedApp = apps[appId]
+  const selectedApp = apps[appName]
 
   const convertedUrl =
     'convertUrl' in selectedApp ? selectedApp.convertUrl(url) : url
 
   const openArguments: string[] = [
-    '-b',
-    appId,
+    '-a',
+    appName,
     isAlt ? '--background' : [],
     isShift && 'privateArg' in selectedApp
       ? ['--new', '--args', selectedApp.privateArg]
