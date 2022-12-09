@@ -125,6 +125,7 @@ const apps = typeApps({
   'Yandex': {},
   'Yattee': {},
   'Zoom': {},
+  'zoom.us': {},
 })
 
 type Apps = typeof apps
