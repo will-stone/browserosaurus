@@ -45,5 +45,5 @@ please see the documentation below or open a
 
 For the maintainer:
 
-- [Creating menubar icon](guide/creating-menubar-icon.md)
+- [Creating app icon](guide/creating-app-icon.md)
 - [Publishing](guide/publishing.md)
