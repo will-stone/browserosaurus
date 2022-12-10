@@ -27,7 +27,7 @@ import { database } from '../database'
 import { createTray } from '../tray'
 import copyUrlToClipboard from '../utils/copy-url-to-clipboard'
 import { getAppIcons } from '../utils/get-app-icons'
-import { getInstalledAppIds } from '../utils/get-installed-app-ids'
+import { getInstalledAppNames } from '../utils/get-installed-app-names'
 import { initUpdateChecker } from '../utils/init-update-checker'
 import { openApp } from '../utils/open-app'
 import { removeWindowsFromMemory } from '../utils/remove-windows-from-memory'
@@ -94,7 +94,7 @@ export const actionHubMiddleware =
       createWindows()
       createTray()
       initUpdateChecker()
-      getInstalledAppIds()
+      getInstalledAppNames()
     }
 
     // When a renderer starts, send down all the locally stored data
@@ -129,16 +129,16 @@ export const actionHubMiddleware =
 
     // Rescan for browsers
     else if (clickedRescanApps.match(action)) {
-      getInstalledAppIds()
+      getInstalledAppNames()
     }
 
     // Clicked app
     else if (clickedApp.match(action)) {
-      const { appId, isAlt, isShift } = action.payload
+      const { appName, isAlt, isShift } = action.payload
 
       // Ignore if app's bundle id is missing
-      if (appId) {
-        openApp(appId, nextState.data.url, isAlt, isShift)
+      if (appName) {
+        openApp(appName, nextState.data.url, isAlt, isShift)
         pickerWindow?.hide()
       }
     }
@@ -163,7 +163,7 @@ export const actionHubMiddleware =
 
         if (!action.payload.metaKey && foundApp) {
           openApp(
-            foundApp.id,
+            foundApp.name,
             nextState.data.url,
             action.payload.altKey,
             action.payload.shiftKey,

@@ -1,7 +1,4 @@
-/* eslint-disable sort-keys -- apps are sorted by name */
-
 interface App {
-  name: string
   privateArg?: string
   convertUrl?: (url: string) => string
 }
@@ -9,236 +6,129 @@ interface App {
 const typeApps = <T extends Record<string, App>>(apps: T) => apps
 
 const apps = typeApps({
-  'company.thebrowser.Browser': {
-    name: 'Arc',
-  },
-  'org.blisk.Blisk': {
-    name: 'Blisk',
-  },
-  'com.brave.Browser': {
-    name: 'Brave',
+  'Arc': {},
+  'Blisk': {},
+  'Brave Beta': {
     privateArg: '--incognito',
   },
-  'com.brave.Browser.beta': {
-    name: 'Brave Beta',
+  'Brave Browser': {
     privateArg: '--incognito',
   },
-  'com.brave.Browser.dev': {
-    name: 'Brave Dev',
+  'Brave Dev': {
     privateArg: '--incognito',
   },
-  'com.brave.Browser.nightly': {
-    name: 'Brave Nightly',
+  'Brave Nightly': {
     privateArg: '--incognito',
   },
-  'com.google.Chrome': {
-    name: 'Chrome',
+  'Chromium': {
     privateArg: '--incognito',
   },
-  'com.google.Chrome.beta': {
-    name: 'Chrome Beta',
-    privateArg: '--incognito',
-  },
-  'com.google.Chrome.canary': {
-    name: 'Chrome Canary',
-    privateArg: '--incognito',
-  },
-  'com.google.Chrome.dev': {
-    name: 'Chrome Dev',
-    privateArg: '--incognito',
-  },
-  'org.chromium.Chromium': {
-    name: 'Chromium',
-    privateArg: '--incognito',
-  },
-  'com.hnc.Discord': {
-    name: 'Discord',
+  'Discord': {
     convertUrl: (url) =>
       url.replace(
         /^https?:\/\/(?:(?:ptb|canary)\.)?discord\.com\//u,
         'discord://-/',
       ),
   },
-  'com.hnc.DiscordCanary': {
-    name: 'Discord Canary',
+  'Discord Canary': {
     convertUrl: (url) =>
       url.replace(
         /^https?:\/\/(?:(?:ptb|canary)\.)?discord\.com\//u,
         'discord://-/',
       ),
   },
-  'com.hnc.DiscordPTB': {
-    name: 'Discord PTB',
+  'Discord PTB': {
     convertUrl: (url) =>
       url.replace(
         /^https?:\/\/(?:(?:ptb|canary)\.)?discord\.com\//u,
         'discord://-/',
       ),
   },
-  'com.gab.Dissenter': {
-    name: 'Dissenter',
-  },
-  'com.duckduckgo.macos.browser': {
-    name: 'DuckDuckGo',
-  },
-  'com.microsoft.edgemac': {
-    name: 'Edge',
-  },
-  'com.microsoft.edgemac.Beta': {
-    name: 'Edge Beta',
-  },
-  'com.microsoft.edgemac.Canary': {
-    name: 'Edge Canary',
-  },
-  'com.microsoft.edgemac.Dev': {
-    name: 'Edge Dev',
-  },
-  'com.figma.Desktop': {
-    name: 'Figma',
-  },
-  'net.kassett.finicky': {
-    name: 'Finicky',
-  },
-  'org.mozilla.firefox': {
-    name: 'Firefox',
+  'Dissenter': {},
+  'DuckDuckGo': {},
+  'Figma': {},
+  'Finicky': {},
+  'Firefox': {
     privateArg: '--private-window',
   },
-  'org.mozilla.firefoxdeveloperedition': {
-    name: 'Firefox Dev',
+  'Firefox Dev': {
     privateArg: '--private-window',
   },
-  'org.mozilla.nightly': {
-    name: 'Firefox Nightly',
+  'Firefox Nightly': {
     privateArg: '--private-window',
   },
-  'io.freetubeapp.freetube': {
-    name: 'FreeTube',
+  'FreeTube': {},
+  'Google Chrome': {
+    privateArg: '--incognito',
   },
-  'org.mozilla.icecat': {
-    name: 'IceCat',
+  'Google Chrome Beta': {
+    privateArg: '--incognito',
+  },
+  'Google Chrome Canary': {
+    privateArg: '--incognito',
+  },
+  'Google Chrome Dev': {
+    privateArg: '--incognito',
+  },
+  'IceCat': {
     privateArg: '--private-window',
   },
-  'de.iridiumbrowser': {
-    name: 'Iridium',
-  },
-  'org.mozilla.librewolf': {
-    name: 'LibreWolf',
+  'Iridium': {},
+  'LibreWolf': {
     privateArg: '--private-window',
   },
-  'com.linear': {
-    name: 'Linear',
-  },
-  'com.maxthon.mac.Maxthon': {
-    name: 'Maxthon',
-  },
-  'com.microsoft.teams': {
-    name: 'Microsoft Teams',
+  'Linear': {},
+  'Maxthon': {},
+  'Microsoft Edge': {},
+  'Microsoft Edge Beta': {},
+  'Microsoft Edge Canary': {},
+  'Microsoft Edge Dev': {},
+  'Microsoft Teams': {
     convertUrl: (url) =>
       url.replace('https://teams.microsoft.com/', 'msteams:/'),
   },
-  'com.electron.min': {
-    name: 'Min',
-  },
-  'com.electron.realtimeboard': {
-    name: 'Miro',
-  },
-  'com.naver.Whale': {
-    name: 'NAVER Whale',
-  },
-  'notion.id': {
-    name: 'Notion',
-  },
-  'com.operasoftware.Opera': {
-    name: 'Opera',
-  },
-  'com.operasoftware.OperaNext': {
-    name: 'Opera Beta',
-  },
-  'com.operasoftware.OperaCryptoDeveloper': {
-    name: 'Opera CD',
-  },
-  'com.operasoftware.OperaCrypto': {
-    name: 'Opera Crypto',
-  },
-  'com.operasoftware.OperaDeveloper': {
-    name: 'Opera Dev',
-  },
-  'com.operasoftware.OperaGX': {
-    name: 'Opera GX',
-  },
-  'com.opera.Neon': {
-    name: 'Opera Neon',
-  },
-  'com.kagi.kagimacOS': {
-    name: 'Orion',
-  },
-  'com.readitlater.PocketMac': {
-    name: 'Pocket',
+  'Min': {},
+  'Miro': {},
+  'NAVER Whale': {},
+  'Notion': {},
+  'Opera': {},
+  'Opera Beta': {},
+  'Opera CD': {},
+  'Opera Crypto': {},
+  'Opera Dev': {},
+  'Opera GX': {},
+  'Opera Neon': {},
+  'Orion': {},
+  'Pocket': {
     convertUrl: (url) => `pocket://add?url=${url}`,
   },
-  'com.firstversionist.polypane': {
-    name: 'Polypane',
-  },
-  'org.qt-project.Qt.QtWebEngineCore': {
-    name: 'qutebrowser',
-  },
-  'com.apple.Safari': {
-    name: 'Safari',
-  },
-  'com.apple.SafariTechnologyPreview': {
-    name: 'Safari TP',
-  },
-  'com.pushplaylabs.sidekick': {
-    name: 'Sidekick',
+  'Polypane': {},
+  'qutebrowser': {},
+  'Safari': {},
+  'Safari TP': {},
+  'Sidekick': {
     privateArg: '--incognito',
   },
-  'com.sigmaos.sigmaos.macos': {
-    name: 'SigmaOS',
-  },
-  'com.kitze.sizzy': {
-    name: 'Sizzy',
-  },
-  'com.tinyspeck.slackmacgap': {
-    name: 'Slack',
-  },
-  'com.spotify.client': {
-    name: 'Spotify',
-  },
-  'org.torproject.torbrowser': {
-    name: 'Tor',
-  },
-  'maccatalyst.com.atebits.Tweetie2': {
-    name: 'Twitter',
-  },
-  'com.vivaldi.Vivaldi': {
-    name: 'Vivaldi',
-  },
-  'com.vivaldi.Vivaldi.snapshot': {
-    name: 'Vivaldi Snapshot',
-  },
-  'net.waterfox.waterfox': {
-    name: 'Waterfox',
-  },
-  'com.bookry.wavebox': {
-    name: 'Wavebox',
+  'SigmaOS': {},
+  'Sizzy': {},
+  'Slack': {},
+  'Spotify': {},
+  'Tor': {},
+  'Twitter': {},
+  'Vivaldi': {},
+  'Vivaldi Snapshot': {},
+  'Waterfox': {},
+  'Wavebox': {
     privateArg: '--incognito',
   },
-  'com.whisttechnologies.whist': {
-    name: 'Whist',
-  },
-  'ru.yandex.desktop.yandex-browser': {
-    name: 'Yandex',
-  },
-  'stream.yattee.app': {
-    name: 'Yattee',
-  },
-  'us.zoom.xos': {
-    name: 'Zoom',
-  },
+  'Whist': {},
+  'Yandex': {},
+  'Yattee': {},
+  'zoom.us': {},
 })
 
 type Apps = typeof apps
 
-type AppId = keyof typeof apps
+type AppName = keyof typeof apps
 
-export { AppId, Apps, apps }
+export { AppName, Apps, apps }

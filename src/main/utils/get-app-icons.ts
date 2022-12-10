@@ -4,7 +4,7 @@ import { promisify } from 'node:util'
 
 import log from 'electron-log'
 
-import type { AppId } from '../../config/apps'
+import type { AppName } from '../../config/apps'
 import type { Storage } from '../../shared/state/reducer.storage'
 import { gotAppIcons } from '../state/actions'
 import { dispatch } from '../state/store'
@@ -23,23 +23,32 @@ const binary = path.join(
 const HUNDRED_MEGABYTES = 1024 * 1024 * 100
 
 async function getIconDataURI(file: string, size: number): Promise<string> {
-  const { stdout: buffer } = await execFileP(
-    binary,
-    [JSON.stringify([{ appOrPID: file, size }])],
-    { encoding: null, maxBuffer: HUNDRED_MEGABYTES },
-  )
+  try {
+    const { stdout: buffer } = await execFileP(
+      binary,
+      [JSON.stringify([{ appOrPID: file, size }])],
+      { encoding: null, maxBuffer: HUNDRED_MEGABYTES },
+    )
 
-  return `data:image/png;base64,${buffer.toString('base64')}`
+    return `data:image/png;base64,${buffer.toString('base64')}`
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      // eslint-disable-next-line no-console
+      console.log(`Error reading ${file}`)
+    }
+
+    throw error
+  }
 }
 
 export async function getAppIcons(apps: Storage['apps']): Promise<void> {
   try {
-    const icons: Partial<Record<AppId, string>> = {}
+    const icons: Partial<Record<AppName, string>> = {}
 
     for await (const app of apps) {
       try {
-        const dataURI = await getIconDataURI(app.id, 64)
-        icons[app.id] = dataURI
+        const dataURI = await getIconDataURI(app.name, 64)
+        icons[app.name] = dataURI
       } catch (error: unknown) {
         log.warn(error)
       }

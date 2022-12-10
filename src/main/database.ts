@@ -15,10 +15,6 @@ lowdb.read()
 lowdb.data ||= defaultStorage
 lowdb.write()
 
-/**
- * Keyboard shortcuts
- */
-
 export const database = {
   get: <Key extends keyof Storage>(key: Key): Storage[Key] => {
     return database.getAll()[key]
@@ -47,6 +43,13 @@ export const database = {
       if (typeof defaultStorage[key] === 'undefined') {
         delete lowdb.data[key]
       }
+    }
+
+    // Remove old, id-based apps
+    if (Array.isArray(lowdb.data.apps)) {
+      lowdb.data.apps = lowdb.data.apps.filter((storedApp) =>
+        Boolean(storedApp.name),
+      )
     }
 
     return {
