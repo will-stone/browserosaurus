@@ -51,7 +51,7 @@ const apps = typeApps({
   'Firefox': {
     privateArg: '--private-window',
   },
-  'Firefox Dev': {
+  'Firefox Developer Edition': {
     privateArg: '--private-window',
   },
   'Firefox Nightly': {
