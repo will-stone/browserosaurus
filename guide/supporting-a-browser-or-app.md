@@ -22,52 +22,23 @@ Fork the project to your GitHub account, and then make sure you are
 
 ## Adding a new browser
 
-### Finding bundle identifier for an app
-
-When Browserosaurus loads, it looks for which apps you have installed based on
-an
-[allowed list](https://github.com/will-stone/browserosaurus/blob/master/src/config/apps.ts)
-of bundle identifiers. To find the ID of the app you'd like added, open your
-Terminal.app and run the following:
-
-```sh
-mdls -name kMDItemCFBundleIdentifier -r /PATH/TO/APP.app
-```
-
-For example, most apps are installed to `/Applications`:
-
-```sh
-mdls -name kMDItemCFBundleIdentifier -r /Applications/Firefox.app
-```
-
-In this case, you should receive an identifier that looks something like this:
-
-```
-org.mozilla.firefox
-```
-
-### Adding the entry to Browserosaurus
-
 Using your text editor (I recommend
 [Visual Studio Code](https://code.visualstudio.com/)), open the
 `/src/config/apps.ts` file. After all the import statements, you'll see an
 `apps` object that contains all of the apps that Browserosaurus can find on a
-user's system. The key to each app object is the bundle identifier, so start by
-adding your new app to the list, and give it a name:
+user's system. The key to each app object is the app name (as written in the
+`/Applications` folder). Add your new app to the list:
 
 ```ts
-export const apps = {
+export const apps = typeApps({
   // ...
-  'org.mozilla.firefox': {
-    name: 'Firefox',
-  },
+  Firefox: {},
   // ...
-} as const
+})
 ```
 
-> ℹ️ The app objects within the root `apps` object should be in alphabetical
-> order by the `name` key. There's a test that will check for this. We'll
-> discuss running tests below.
+> ℹ️ The app objects within the root `apps` object should be in alphabetical.
+> There's an ESLint rule that will check for this.
 
 That's all there is to it. Run your updated code using `npm start`, and see if
 it behaves how you would expect.
@@ -85,14 +56,13 @@ that your browser uses when opening URLs from the command-line. In the case of
 Firefox this is `--private-window`:
 
 ```ts
-export const apps = {
+export const apps = typeApps({
   // ...
-  'org.mozilla.firefox': {
-    name: 'Firefox',
+  Firefox: {
     privateArg: '--private-window',
   },
   // ...
-} as const
+})
 ```
 
 ### URL Template
@@ -101,22 +71,21 @@ If you're adding an app that uses a different protocol, where the URL is just a
 parameter, you can use `convertUrl`. For example, the Pocket app is set like so:
 
 ```ts
-export const apps = {
+export const apps = typeApps({
   // ...
-  'com.readitlater.PocketMac': {
-    name: 'Pocket',
+  Pocket: {
     convertUrl: (url) => `pocket://add?url=${url}`,
   },
   // ...
-} as const
+})
 ```
 
 ## Testing
 
 There are a few tests that will check the compatibility of your `apps.ts` file.
-Run `pnpm test` and make sure all tests successfully pass. If any tests fail,
-and you are unsure about the results, please submit your changes anyway and we
-can discuss it on the pull request page.
+Run `npm test` and make sure all tests successfully pass. If any tests fail, and
+you are unsure about the results, please submit your changes anyway and we can
+discuss it on the pull request page.
 
 ## Submit your changes
 
