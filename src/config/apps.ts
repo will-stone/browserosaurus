@@ -105,7 +105,7 @@ const apps = typeApps({
   'Polypane': {},
   'qutebrowser': {},
   'Safari': {},
-  'Safari TP': {},
+  'Safari Technology Preview': {},
   'Sidekick': {
     privateArg: '--incognito',
   },
@@ -113,7 +113,7 @@ const apps = typeApps({
   'Sizzy': {},
   'Slack': {},
   'Spotify': {},
-  'Tor': {},
+  'Tor Browser': {},
   'Twitter': {},
   'Vivaldi': {},
   'Vivaldi Snapshot': {},
