@@ -8,10 +8,10 @@ const typeApps = <T extends Record<string, App>>(apps: T) => apps
 const apps = typeApps({
   'Arc': {},
   'Blisk': {},
-  'Brave Beta': {
+  'Brave Browser': {
     privateArg: '--incognito',
   },
-  'Brave Browser': {
+  'Brave Browser Beta': {
     privateArg: '--incognito',
   },
   'Brave Dev': {
