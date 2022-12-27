@@ -45,7 +45,7 @@ export const GeneralPane = (): JSX.Element => {
   const updateStatus = useSelector((state) => state.data.updateStatus)
 
   const numberOfInstalledApps = useSelector(
-    (state) => state.storage.apps.length,
+    (state) => state.storage.apps.filter((app) => app.isInstalled).length,
   )
 
   return (
