@@ -40,7 +40,7 @@ export const database = {
 
     // Removes unknown keys in storage
     for (const key of keys(lowdb.data)) {
-      if (typeof defaultStorage[key] === 'undefined') {
+      if (defaultStorage[key] === undefined) {
         delete lowdb.data[key]
       }
     }
