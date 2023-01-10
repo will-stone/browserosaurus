@@ -10,7 +10,7 @@ import { dispatch } from '../state/store'
 
 function getAllInstalledAppNames(): string[] {
   const appNames = execSync(
-    'find /Applications -iname "*.app" -prune -not -path "*/.*"',
+    'find /Applications -iname "*.app" -prune -not -path "*/.*" 2>/dev/null',
   )
     .toString()
     .trim()
