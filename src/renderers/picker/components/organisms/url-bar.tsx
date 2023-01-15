@@ -21,7 +21,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
   }
 
   return (
-    <div
+    <button
       className={clsx(
         className,
         'flex w-full shrink-0 items-center py-2 px-4 text-center text-sm',
@@ -30,8 +30,8 @@ const UrlBar: React.FC<Props> = ({ className }) => {
       )}
       onClick={() => dispatch(clickedUrlBar())}
       onKeyDown={() => false}
-      role="button"
       tabIndex={-1}
+      type="button"
     >
       <div className="grow overflow-hidden text-ellipsis tracking-wider text-black text-opacity-50 dark:text-white dark:text-opacity-50">
         {parsedUrl.hostname?.replace(/^www\./u, '') || (
@@ -39,7 +39,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
         )}
         {parsedUrl.port ? `:${parsedUrl.port}` : null}
       </div>
-    </div>
+    </button>
   )
 }
 

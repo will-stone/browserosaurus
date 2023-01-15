@@ -1,7 +1,7 @@
 import { PluginBase } from '@electron-forge/plugin-base'
-import type {
-  ForgeHookMap,
-  ForgeMutatingHookFn,
+import {
+  type ForgeHookMap,
+  type ForgeMutatingHookFn,
 } from '@electron-forge/shared-types'
 
 interface Options {

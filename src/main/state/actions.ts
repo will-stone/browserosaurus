@@ -1,9 +1,9 @@
-import type { Rectangle } from 'electron/main'
-import type { CombinedState } from 'redux'
+import { type Rectangle } from 'electron/main'
+import { type CombinedState } from 'redux'
 
-import type { AppName } from '../../config/apps'
-import type { Data } from '../../shared/state/reducer.data'
-import type { Storage } from '../../shared/state/reducer.storage'
+import { type AppName } from '../../config/apps'
+import { type Data } from '../../shared/state/reducer.data'
+import { type Storage } from '../../shared/state/reducer.storage'
 import { actionNamespacer } from '../../shared/utils/action-namespacer'
 
 const main = actionNamespacer('main')

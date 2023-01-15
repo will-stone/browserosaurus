@@ -1,6 +1,6 @@
-import type { Dispatch } from '@reduxjs/toolkit'
+import { type Dispatch } from '@reduxjs/toolkit'
 
-import type { RootState } from './reducer.root'
+import { type RootState } from './reducer.root'
 
 interface FSA {
   type: string

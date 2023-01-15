@@ -1,5 +1,5 @@
 import { Channel } from '../../shared/state/channels'
-import type { Middleware } from '../../shared/state/model'
+import { type Middleware } from '../../shared/state/model'
 import { pickerWindow, prefsWindow } from '../windows'
 
 /**

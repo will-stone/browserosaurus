@@ -1,6 +1,6 @@
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import type { Configuration } from 'webpack'
+import { type Configuration } from 'webpack'
 
 import rules from './webpack.rules'
 

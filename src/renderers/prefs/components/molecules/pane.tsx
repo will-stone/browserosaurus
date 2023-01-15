@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 
-import type { PrefsTab } from '../../../../shared/state/reducer.data'
+import { type PrefsTab } from '../../../../shared/state/reducer.data'
 import { useSelector } from '../../../shared/state/hooks'
 
 interface Props {

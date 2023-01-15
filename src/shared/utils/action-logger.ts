@@ -12,7 +12,7 @@ import {
 } from 'picocolors'
 
 import { Channel } from '../state/channels'
-import type { FSA } from '../state/model'
+import { type FSA } from '../state/model'
 
 const channelColorMap = {
   [Channel.MAIN]: bgYellow,

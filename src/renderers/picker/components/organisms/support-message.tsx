@@ -23,11 +23,7 @@ const SupportMessage = (): JSX.Element => {
         </p>
 
         <p>
-          Thank you{' '}
-          <span aria-label="kiss emoji" role="img">
-            😘
-          </span>{' '}
-          — Will.
+          Thank you <span aria-label="kiss emoji">&#128536;</span> — Will.
         </p>
 
         <div className="mt-2 flex items-center justify-center gap-2">

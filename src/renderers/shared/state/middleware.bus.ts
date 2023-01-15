@@ -1,5 +1,5 @@
-import type { Channel } from '../../../shared/state/channels'
-import type { Middleware } from '../../../shared/state/model'
+import { type Channel } from '../../../shared/state/channels'
+import { type Middleware } from '../../../shared/state/model'
 import { customWindow } from '../custom.window'
 
 /**

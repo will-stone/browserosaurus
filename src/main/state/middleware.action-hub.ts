@@ -21,8 +21,8 @@ import {
   confirmedReset,
   startedPrefs,
 } from '../../renderers/prefs/state/actions'
-import type { Middleware } from '../../shared/state/model'
-import type { RootState } from '../../shared/state/reducer.root'
+import { type Middleware } from '../../shared/state/model'
+import { type RootState } from '../../shared/state/reducer.root'
 import { database } from '../database'
 import { createTray } from '../tray'
 import copyUrlToClipboard from '../utils/copy-url-to-clipboard'

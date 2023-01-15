@@ -1,7 +1,6 @@
-import type { ThunkAction } from '@reduxjs/toolkit'
-import { combineReducers } from '@reduxjs/toolkit'
+import { type ThunkAction, combineReducers } from '@reduxjs/toolkit'
 
-import type { FSA } from './model'
+import { type FSA } from './model'
 import { data } from './reducer.data'
 import { storage } from './reducer.storage'
 

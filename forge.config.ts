@@ -1,6 +1,6 @@
 import { MakerZIP } from '@electron-forge/maker-zip'
 import { WebpackPlugin } from '@electron-forge/plugin-webpack'
-import type { ForgeConfig } from '@electron-forge/shared-types'
+import { type ForgeConfig } from '@electron-forge/shared-types'
 
 import ForgeExternalsPlugin from './forge-externals-plugin'
 import { mainConfig } from './webpack.main.config'

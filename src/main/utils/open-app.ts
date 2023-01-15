@@ -1,7 +1,6 @@
 import { execFile } from 'child_process'
 
-import type { AppName } from '../../config/apps'
-import { apps } from '../../config/apps'
+import { type AppName, apps } from '../../config/apps'
 
 export function openApp(
   appName: AppName,

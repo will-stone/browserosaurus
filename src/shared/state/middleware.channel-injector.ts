@@ -1,6 +1,6 @@
 import { addChannelToAction } from '../utils/add-channel-to-action'
-import type { Channel } from './channels'
-import type { Middleware } from './model'
+import { type Channel } from './channels'
+import { type Middleware } from './model'
 
 /**
  * Adds the current channel to actions if it is not present.

@@ -1,5 +1,5 @@
 import CopyPlugin from 'copy-webpack-plugin'
-import type { Configuration } from 'webpack'
+import { type Configuration } from 'webpack'
 
 import rules from './webpack.rules'
 

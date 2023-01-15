@@ -3,8 +3,7 @@ import path from 'node:path'
 
 import { sleep } from 'tings'
 
-import type { AppName } from '../../config/apps'
-import { apps } from '../../config/apps'
+import { type AppName, apps } from '../../config/apps'
 import { retrievedInstalledApps, startedScanning } from '../state/actions'
 import { dispatch } from '../state/store'
 
