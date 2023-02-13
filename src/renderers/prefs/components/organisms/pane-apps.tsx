@@ -175,9 +175,11 @@ export function AppsPane(): JSX.Element {
           </SortableContext>
         </DndContext>
       </div>
-      <p className="mt-2 text-sm opacity-70">
-        Drag and drop to sort the list of apps.
-      </p>
+      {installedApps.length > 1 && (
+        <p className="mt-2 text-sm opacity-70">
+          Drag and drop to sort the list of apps.
+        </p>
+      )}
     </Pane>
   )
 }
