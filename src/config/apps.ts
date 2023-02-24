@@ -46,6 +46,7 @@ const apps = typeApps({
   },
   'Dissenter': {},
   'DuckDuckGo': {},
+  'Epic': {},
   'Figma': {},
   'Finicky': {},
   'Firefox': {
