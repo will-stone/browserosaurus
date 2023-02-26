@@ -1,5 +1,5 @@
+import type { DragEndEvent } from '@dnd-kit/core'
 import {
-  type DragEndEvent,
   closestCenter,
   DndContext,
   KeyboardSensor,
@@ -17,11 +17,11 @@ import { CSS } from '@dnd-kit/utilities'
 import clsx from 'clsx'
 import { useDispatch } from 'react-redux'
 
-import { type AppName } from '../../../../config/apps'
+import type { AppName } from '../../../../config/apps'
 import Input from '../../../shared/components/atoms/input'
 import { Spinner } from '../../../shared/components/atoms/spinner'
+import type { InstalledApp } from '../../../shared/state/hooks'
 import {
-  type InstalledApp,
   useDeepEqualSelector,
   useInstalledApps,
   useKeyCodeMap,

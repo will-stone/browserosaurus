@@ -1,4 +1,4 @@
-import { type AnyAction } from '@reduxjs/toolkit'
+import type { AnyAction } from '@reduxjs/toolkit'
 import electron, { app } from 'electron'
 import { TidyURL } from 'tidy-url'
 import { sleep } from 'tings'

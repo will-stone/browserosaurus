@@ -1,12 +1,9 @@
 import deepEqual from 'fast-deep-equal'
-import {
-  type TypedUseSelectorHook,
-  shallowEqual,
-  useSelector as useReduxSelector,
-} from 'react-redux'
+import type { TypedUseSelectorHook } from 'react-redux'
+import { shallowEqual, useSelector as useReduxSelector } from 'react-redux'
 
-import { type AppName } from '../../../config/apps'
-import { type RootState } from '../../../shared/state/reducer.root'
+import type { AppName } from '../../../config/apps'
+import type { RootState } from '../../../shared/state/reducer.root'
 
 const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector
 

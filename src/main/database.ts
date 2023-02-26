@@ -2,7 +2,8 @@ import { app } from 'electron'
 import { JSONFileSync, LowSync } from 'lowdb'
 import path from 'path'
 
-import { type Storage, defaultStorage } from '../shared/state/reducer.storage'
+import type { Storage } from '../shared/state/reducer.storage'
+import { defaultStorage } from '../shared/state/reducer.storage'
 
 const keys = Object.keys as <T>(o: T) => Extract<keyof T, string>[]
 

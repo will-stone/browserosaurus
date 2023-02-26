@@ -1,4 +1,5 @@
-import { type PayloadActionCreator, createAction } from '@reduxjs/toolkit'
+import type { PayloadActionCreator } from '@reduxjs/toolkit'
+import { createAction } from '@reduxjs/toolkit'
 
 /**
  * Prefixes action creator types with a string
