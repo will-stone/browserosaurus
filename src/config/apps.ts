@@ -14,10 +14,10 @@ const apps = typeApps({
   'Brave Browser Beta': {
     privateArg: '--incognito',
   },
-  'Brave Dev': {
+  'Brave Browser Nightly': {
     privateArg: '--incognito',
   },
-  'Brave Nightly': {
+  'Brave Dev': {
     privateArg: '--incognito',
   },
   'Chromium': {
@@ -46,6 +46,7 @@ const apps = typeApps({
   },
   'Dissenter': {},
   'DuckDuckGo': {},
+  'Epic': {},
   'Figma': {},
   'Finicky': {},
   'Firefox': {
