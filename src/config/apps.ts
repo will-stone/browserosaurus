@@ -48,6 +48,7 @@ const apps = typeApps({
   'DuckDuckGo': {},
   'Epic': {},
   'Figma': {},
+  'Figma Beta': {},
   'Finicky': {},
   'Firefox': {
     privateArg: '--private-window',
@@ -58,6 +59,7 @@ const apps = typeApps({
   'Firefox Nightly': {
     privateArg: '--private-window',
   },
+  'Framer': {},
   'FreeTube': {},
   'Google Chrome': {
     privateArg: '--incognito',
