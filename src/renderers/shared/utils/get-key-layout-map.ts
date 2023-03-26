@@ -1,6 +1,6 @@
-import { type Dispatch } from '@reduxjs/toolkit'
+import type { Dispatch } from '@reduxjs/toolkit'
 
-import { type FSA } from '../../../shared/state/model'
+import type { FSA } from '../../../shared/state/model'
 import { customWindow } from '../custom.window'
 import { gotKeyLayoutMap } from '../state/actions'
 

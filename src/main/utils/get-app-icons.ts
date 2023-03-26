@@ -4,8 +4,8 @@ import { promisify } from 'node:util'
 
 import log from 'electron-log'
 
-import { type AppName } from '../../config/apps'
-import { type Storage } from '../../shared/state/reducer.storage'
+import type { AppName } from '../../config/apps'
+import type { Storage } from '../../shared/state/reducer.storage'
 import { gotAppIcons } from '../state/actions'
 import { dispatch } from '../state/store'
 

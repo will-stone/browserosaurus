@@ -1,6 +1,6 @@
-import { type AnyAction } from 'redux'
+import type { AnyAction } from 'redux'
 
-import { type Channel } from '../../shared/state/channels'
+import type { Channel } from '../../shared/state/channels'
 
 interface CustomNavigator extends Navigator {
   keyboard: {

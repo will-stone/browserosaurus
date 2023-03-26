@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import { type AnyAction } from 'redux'
+import type { AnyAction } from 'redux'
 
 import { Channel } from '../../shared/state/channels'
 

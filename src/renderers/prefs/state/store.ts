@@ -1,4 +1,4 @@
-import { type AnyAction } from '@reduxjs/toolkit'
+import type { AnyAction } from '@reduxjs/toolkit'
 
 import { Channel } from '../../../shared/state/channels'
 import createStore from '../../../shared/state/create-store'

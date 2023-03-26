@@ -4,7 +4,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [macos-10.15]
+        os: [macos-12]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -12,7 +12,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16.13.x
+          node-version: 18.14.x
           cache: 'npm'
       - run: npm ci --audit false
       - run: npm run lint
