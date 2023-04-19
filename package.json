@@ -85,7 +85,7 @@
     "jest-environment-jsdom": "^29.5.0",
     "lint-staged": "^13.2.0",
     "lodash": "^4.17.21",
-    "lowdb": "^3.0.0",
+    "lowdb": "^6.0.0",
     "mini-css-extract-plugin": "^2.7.5",
     "node-loader": "^2.0.0",
     "picocolors": "^1.0.0",

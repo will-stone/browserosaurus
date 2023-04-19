@@ -1,5 +1,7 @@
 import { app } from 'electron'
-import { JSONFileSync, LowSync } from 'lowdb'
+import { LowSync } from 'lowdb'
+// @ts-expect-error -- lowdb expects to be in a type=module env
+import { JSONFileSync } from 'lowdb/node'
 import path from 'path'
 
 import type { Storage } from '../shared/state/reducer.storage'
@@ -10,10 +12,7 @@ const keys = Object.keys as <T>(o: T) => Extract<keyof T, string>[]
 const STORAGE_FILE = path.join(app.getPath('userData'), 'store.json')
 
 const adapter = new JSONFileSync<Storage>(STORAGE_FILE)
-const lowdb = new LowSync<Storage>(adapter)
-lowdb.read()
-lowdb.data ||= defaultStorage
-lowdb.write()
+const lowdb = new LowSync<Storage>(adapter, defaultStorage)
 
 export const database = {
   get: <Key extends keyof Storage>(key: Key): Storage[Key] => {
