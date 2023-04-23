@@ -19,4 +19,4 @@ interface CustomWindow extends Window {
   navigator: CustomNavigator
 }
 
-export const customWindow = window as unknown as CustomWindow
+export const customWindow = Object.create(window) as unknown as CustomWindow
