@@ -24,7 +24,7 @@ const UrlBar: React.FC<Props> = ({ className }) => {
     <button
       className={clsx(
         className,
-        'flex w-full shrink-0 items-center py-2 px-4 text-center text-sm',
+        'flex w-full shrink-0 items-center px-4 py-2 text-center text-sm',
         'border-t border-neutral-400 dark:border-gray-900',
         'cursor-default',
       )}
