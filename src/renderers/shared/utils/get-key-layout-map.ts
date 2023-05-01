@@ -1,13 +1,11 @@
 import type { Dispatch } from '@reduxjs/toolkit'
 
 import type { FSA } from '../../../shared/state/model'
-import { customWindow } from '../custom.window'
 import { gotKeyLayoutMap } from '../state/actions'
 
 const getLayoutObject = async (): Promise<Record<string, string>> => {
   try {
-    const keyboardLayoutMap =
-      await customWindow.navigator.keyboard.getLayoutMap()
+    const keyboardLayoutMap = await window.navigator.keyboard.getLayoutMap()
 
     const keyValueObject: Record<string, string> = {}
 
@@ -16,7 +14,12 @@ const getLayoutObject = async (): Promise<Record<string, string>> => {
     }
 
     return keyValueObject
-  } catch {
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      // eslint-disable-next-line no-console
+      console.error(error)
+    }
+
     return {}
   }
 }

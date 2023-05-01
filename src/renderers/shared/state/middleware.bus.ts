@@ -1,6 +1,5 @@
 import type { Channel } from '../../../shared/state/channels'
 import type { Middleware } from '../../../shared/state/model'
-import { customWindow } from '../custom.window'
 
 /**
  * Pass actions between main and renderers
@@ -18,7 +17,7 @@ export const busMiddleware =
 
     // Only send actions from this channel to prevent an infinite loop.
     if (action.meta?.channel === channel) {
-      customWindow.electron.send(channel, action)
+      window.electron.send(channel, action)
     }
 
     return result

@@ -2,7 +2,6 @@ import '../../../shared/preload'
 
 import { fireEvent, render, screen } from '@testing-library/react'
 import electron from 'electron'
-import cloneDeep from 'lodash/cloneDeep'
 
 import { keyLayout } from '../../../../../__fixtures__/key-layout'
 import {
@@ -14,25 +13,20 @@ import { Channel } from '../../../../shared/state/channels'
 import { defaultData } from '../../../../shared/state/reducer.data'
 import { addChannelToAction } from '../../../../shared/utils/add-channel-to-action'
 import { reorderedApp } from '../../../prefs/state/actions'
-import { customWindow } from '../../../shared/custom.window'
 import { clickedApp, pressedKey } from '../../state/actions'
 import Wrapper from '../_bootstrap'
 
-const originalNavigator = cloneDeep(customWindow.navigator)
-
 beforeAll(() => {
-  customWindow.navigator = {
-    ...customWindow.navigator,
-    keyboard: {
+  global.window ??= Object.create(window)
+
+  Object.defineProperty(window.navigator, 'keyboard', {
+    value: {
       getLayoutMap: jest
         .fn()
         .mockResolvedValue({ entries: jest.fn().mockReturnValue(keyLayout) }),
     },
-  }
-})
-
-afterAll(() => {
-  customWindow.navigator = originalNavigator
+    writable: true,
+  })
 })
 
 test('kitchen sink', () => {
