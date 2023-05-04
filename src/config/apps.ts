@@ -93,6 +93,9 @@ const apps = typeApps({
   },
   'Min': {},
   'Miro': {},
+  'Mullvad Browser': {
+    privateArg: '--private-window',
+  },
   'NAVER Whale': {},
   'Notion': {},
   'Opera': {},
