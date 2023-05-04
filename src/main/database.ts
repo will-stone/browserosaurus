@@ -1,6 +1,5 @@
 import { app } from 'electron'
 import { LowSync } from 'lowdb'
-// @ts-expect-error -- lowdb expects to be in a type=module env
 import { JSONFileSync } from 'lowdb/node'
 import path from 'path'
 
@@ -46,9 +45,10 @@ export const database = {
 
     // Remove old, id-based apps
     if (Array.isArray(lowdb.data.apps)) {
-      lowdb.data.apps = lowdb.data.apps.filter((storedApp) =>
-        Boolean(storedApp.name),
-      )
+      lowdb.data = {
+        ...lowdb.data,
+        apps: lowdb.data.apps.filter((storedApp) => Boolean(storedApp.name)),
+      }
     }
 
     return {
