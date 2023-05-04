@@ -55,8 +55,8 @@
     "@types/jest": "^29.5.1",
     "@types/lodash": "^4.14.194",
     "@types/node": "^18.16.3",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.1",
+    "@types/react": "^18.2.1",
+    "@types/react-dom": "^18.2.3",
     "@types/react-redux": "^7.1.25",
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
     "@will-stone/eslint-config-base": "^7.0.3",
@@ -109,7 +109,7 @@
     "typescript": "^5.0.4",
     "url-loader": "^4.1.1",
     "version-bump-prompt": "^6.1.0",
-    "webpack": "^5.81.0"
+    "webpack": "^5.82.0"
   },
   "engines": {
     "node": ">=16.0.0"
