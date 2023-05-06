@@ -3,7 +3,7 @@ import { actionNamespacer } from '../../../shared/utils/action-namespacer'
 
 const picker = actionNamespacer('picker')
 
-interface OpenAppArguments {
+type OpenAppArguments = {
   appName: AppName | undefined
   isAlt: boolean
   isShift: boolean

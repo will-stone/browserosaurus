@@ -1,4 +1,4 @@
-interface App {
+type App = {
   privateArg?: string
   convertUrl?: (url: string) => string
 }

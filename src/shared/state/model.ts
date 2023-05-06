@@ -2,7 +2,7 @@ import type { Dispatch } from '@reduxjs/toolkit'
 
 import type { RootState } from './reducer.root'
 
-interface FSA {
+type FSA = {
   type: string
   payload?: unknown
   error?: boolean

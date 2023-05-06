@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from '../../../shared/state/hooks'
 import { clickedUrlBar } from '../../state/actions'
 
-interface Props {
+type Props = {
   className?: string
 }
 

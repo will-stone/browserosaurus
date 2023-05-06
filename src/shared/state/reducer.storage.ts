@@ -17,7 +17,7 @@ import {
   updatedHotCode,
 } from '../../renderers/prefs/state/actions'
 
-interface Storage {
+type Storage = {
   apps: {
     name: AppName
     hotCode: string | null

@@ -2,7 +2,7 @@ import clsx from 'clsx'
 
 import type { InstalledApp } from '../../../shared/state/hooks'
 
-interface Props extends React.ComponentPropsWithoutRef<'img'> {
+type Props = React.ComponentPropsWithoutRef<'img'> & {
   app: InstalledApp
   className?: string
   icon: string | undefined

@@ -13,7 +13,7 @@ const useShallowEqualSelector: TypedUseSelectorHook<RootState> = (selector) =>
 const useDeepEqualSelector: TypedUseSelectorHook<RootState> = (selector) =>
   useSelector(selector, deepEqual)
 
-interface InstalledApp {
+type InstalledApp = {
   name: AppName
   hotCode: string | null
 }

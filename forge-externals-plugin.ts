@@ -4,7 +4,7 @@ import type {
   ForgeMutatingHookFn,
 } from '@electron-forge/shared-types'
 
-interface Options {
+type Options = {
   externals: string[]
 }
 

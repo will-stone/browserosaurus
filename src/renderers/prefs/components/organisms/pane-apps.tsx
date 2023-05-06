@@ -29,7 +29,7 @@ import {
 import { reorderedApp, updatedHotCode } from '../../state/actions'
 import { Pane } from '../molecules/pane'
 
-interface SortableItemProps {
+type SortableItemProps = {
   id: InstalledApp['name']
   name: InstalledApp['name']
   index: number

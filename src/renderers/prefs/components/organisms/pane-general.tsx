@@ -11,7 +11,7 @@ import {
 } from '../../state/actions'
 import { Pane } from '../molecules/pane'
 
-interface RowProps {
+type RowProps = {
   children: React.ReactNode
 }
 
@@ -19,7 +19,7 @@ const Row = ({ children }: RowProps): JSX.Element => (
   <div className="grid grid-cols-12 gap-8">{children}</div>
 )
 
-interface LeftProps {
+type LeftProps = {
   children: React.ReactNode
 }
 
@@ -27,7 +27,7 @@ const Left = ({ children }: LeftProps): JSX.Element => (
   <div className="col-span-5 text-right">{children}</div>
 )
 
-interface RightProps {
+type RightProps = {
   children: React.ReactNode
 }
 

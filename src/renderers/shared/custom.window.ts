@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-definitions -- declaration merging required to patch globals */
 import type { AnyAction } from 'redux'
 
 import type { Channel } from '../../shared/state/channels'

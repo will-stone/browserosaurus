@@ -27,7 +27,7 @@ import { gotKeyLayoutMap } from '../../renderers/shared/state/actions'
 
 type PrefsTab = 'about' | 'apps' | 'general'
 
-interface Data {
+type Data = {
   version: string
   updateStatus: 'available' | 'downloaded' | 'downloading' | 'no-update'
   isDefaultProtocolClient: boolean
