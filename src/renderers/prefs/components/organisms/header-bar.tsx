@@ -44,7 +44,7 @@ export const HeaderBar = ({ className }: HeaderBarProps): JSX.Element => {
         className,
       )}
     >
-      <div className="draggable flex h-8 items-center justify-center pb-8 pt-4">
+      <div className="flex h-8 items-center justify-center pb-8 pt-4 draggable">
         Browserosaurus Preferences
       </div>
       <div className="flex items-center justify-center space-x-12">
