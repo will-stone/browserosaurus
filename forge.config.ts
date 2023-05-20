@@ -2,7 +2,6 @@ import { MakerZIP } from '@electron-forge/maker-zip'
 import { WebpackPlugin } from '@electron-forge/plugin-webpack'
 import type { ForgeConfig } from '@electron-forge/shared-types'
 
-import ForgeExternalsPlugin from './forge-externals-plugin'
 import { mainConfig } from './webpack.main.config'
 import { rendererConfig } from './webpack.renderer.config'
 
@@ -65,9 +64,13 @@ const config: ForgeConfig = {
         ],
       },
     }),
-    new ForgeExternalsPlugin({
-      externals: ['file-icon'],
-    }),
+    {
+      config: {
+        externals: ['file-icon'],
+        includeDeps: false,
+      },
+      name: '@timfish/forge-externals-plugin',
+    },
   ],
 }
 
