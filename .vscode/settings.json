@@ -1,14 +1,9 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
   "workbench.colorCustomizations": {
-    "titleBar.activeBackground": "#234870",
-    "titleBar.activeForeground": "#e7e7e7",
-    "titleBar.inactiveBackground": "#23487099",
-    "titleBar.inactiveForeground": "#e7e7e799",
-    "sash.hoverBorder": "#2f6197",
-    "commandCenter.border": "#e7e7e799"
+    "titleBar.activeForeground": "#037afa",
+    "titleBar.inactiveForeground": "#117df099"
   },
-  "peacock.color": "#234870",
   "typescript.preferences.importModuleSpecifier": "relative",
   "cSpell.words": [
     "asar",
