@@ -77,6 +77,7 @@ const apps = typeApps({
     privateArg: '--private-window',
   },
   'Iridium': {},
+  'Island': {},
   'Lagrange': {},
   'LibreWolf': {
     privateArg: '--private-window',
