@@ -123,6 +123,9 @@ const apps = typeApps({
   'Spotify': {},
   'Tor Browser': {},
   'Twitter': {},
+  'Ulaa': {
+    privateArg: '--incognito',
+  },
   'Vivaldi': {},
   'Vivaldi Snapshot': {},
   'Waterfox': {},
