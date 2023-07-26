@@ -30,11 +30,11 @@ import { reorderedApp, updatedHotCode } from '../../state/actions'
 import { Pane } from '../molecules/pane'
 
 type SortableItemProps = {
-  id: InstalledApp['name']
-  name: InstalledApp['name']
-  index: number
-  icon?: string
-  keyCode?: string
+  readonly id: InstalledApp['name']
+  readonly name: InstalledApp['name']
+  readonly index: number
+  readonly icon?: string
+  readonly keyCode?: string
 }
 
 const SortableItem = ({

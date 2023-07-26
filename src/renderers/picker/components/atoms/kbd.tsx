@@ -1,9 +1,9 @@
 import clsx from 'clsx'
 
 type Props = {
-  children: React.ReactNode
-  className?: string
-  style?: React.CSSProperties
+  readonly children: React.ReactNode
+  readonly className?: string
+  readonly style?: React.CSSProperties
 }
 
 const Kbd = ({ children, className, style }: Props): JSX.Element => {

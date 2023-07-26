@@ -6,8 +6,8 @@ import { useSelector } from '../../../shared/state/hooks'
 import { clickedTabButton } from '../../state/actions'
 
 type TabButtonProps = {
-  tab: PrefsTab
-  children: string
+  readonly tab: PrefsTab
+  readonly children: string
 }
 
 const TabButton = ({ tab, children }: TabButtonProps) => {
@@ -33,7 +33,7 @@ const TabButton = ({ tab, children }: TabButtonProps) => {
 }
 
 type HeaderBarProps = {
-  className?: string
+  readonly className?: string
 }
 
 export const HeaderBar = ({ className }: HeaderBarProps): JSX.Element => {

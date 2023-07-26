@@ -4,9 +4,9 @@ import type { PrefsTab } from '../../../../shared/state/reducer.data'
 import { useSelector } from '../../../shared/state/hooks'
 
 type Props = {
-  children: React.ReactNode
-  pane: PrefsTab
-  className?: string
+  readonly children: React.ReactNode
+  readonly pane: PrefsTab
+  readonly className?: string
 }
 
 export function Pane({ children, pane, className }: Props): JSX.Element {

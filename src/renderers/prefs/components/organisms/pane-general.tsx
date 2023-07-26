@@ -12,7 +12,7 @@ import {
 import { Pane } from '../molecules/pane'
 
 type RowProps = {
-  children: React.ReactNode
+  readonly children: React.ReactNode
 }
 
 const Row = ({ children }: RowProps): JSX.Element => (
@@ -20,7 +20,7 @@ const Row = ({ children }: RowProps): JSX.Element => (
 )
 
 type LeftProps = {
-  children: React.ReactNode
+  readonly children: React.ReactNode
 }
 
 const Left = ({ children }: LeftProps): JSX.Element => (
@@ -28,7 +28,7 @@ const Left = ({ children }: LeftProps): JSX.Element => (
 )
 
 type RightProps = {
-  children: React.ReactNode
+  readonly children: React.ReactNode
 }
 
 const Right = ({ children }: RightProps): JSX.Element => (
