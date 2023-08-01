@@ -107,6 +107,7 @@ const apps = typeApps({
   'Opera GX': {},
   'Opera Neon': {},
   'Orion': {},
+  'Orion RC': {},
   'Pocket': {
     convertUrl: (url) => `pocket://add?url=${url}`,
   },
