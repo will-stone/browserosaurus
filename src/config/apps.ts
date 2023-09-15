@@ -104,6 +104,7 @@ const apps = typeApps({
   'Opera CD': {},
   'Opera Crypto': {},
   'Opera Dev': {},
+  'Opera Developer': {},
   'Opera GX': {},
   'Opera Neon': {},
   'Orion': {},
