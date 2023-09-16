@@ -12,7 +12,7 @@ export const busMiddleware =
     /**
      * Move to next middleware
      */
-    // eslint-disable-next-line node/callback-return -- must flush to get nextState
+    // eslint-disable-next-line n/callback-return -- must flush to get nextState
     const result = next(action)
 
     // Only send actions from this channel to prevent an infinite loop.

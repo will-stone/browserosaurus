@@ -63,7 +63,7 @@
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
     "@will-stone/eslint-config-base": "^7.1.2",
     "@will-stone/eslint-config-jest": "^3.0.1",
-    "@will-stone/eslint-config-node": "^2.0.1",
+    "@will-stone/eslint-config-node": "^2.0.2",
     "@will-stone/eslint-config-prettier": "^3.0.1",
     "@will-stone/eslint-config-react": "^3.0.2",
     "@will-stone/eslint-config-typescript": "^8.0.2",

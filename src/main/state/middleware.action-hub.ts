@@ -1,4 +1,4 @@
-/* eslint-disable node/callback-return -- must flush middleware to get nextState */
+/* eslint-disable n/callback-return -- must flush middleware to get nextState */
 /* eslint-disable unicorn/prefer-regexp-test -- rtk uses .match */
 import { app, autoUpdater, shell } from 'electron'
 import deepEqual from 'fast-deep-equal'

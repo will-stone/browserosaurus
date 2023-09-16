@@ -9,7 +9,7 @@ export const busMiddleware = (): Middleware => () => (next) => (action) => {
   /**
    * Move to next middleware
    */
-  // eslint-disable-next-line node/callback-return -- must flush to get nextState
+  // eslint-disable-next-line n/callback-return -- must flush to get nextState
   const result = next(action)
 
   // Send actions from main to all renderers

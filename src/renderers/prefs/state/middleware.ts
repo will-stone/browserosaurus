@@ -11,7 +11,7 @@ export const prefsMiddleware =
   ({ dispatch }) =>
   (next) =>
   (action) => {
-    // eslint-disable-next-line node/callback-return -- Move to next middleware
+    // eslint-disable-next-line n/callback-return -- Move to next middleware
     const result = next(action)
 
     if (clickedOpenPrefs.match(action)) {
