@@ -9,7 +9,6 @@ const rootReducer = combineReducers({ data, storage })
 
 type RootState = ReturnType<typeof rootReducer>
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,
