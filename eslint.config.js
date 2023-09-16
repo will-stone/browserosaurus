@@ -21,10 +21,4 @@ module.exports = [
       ],
     },
   },
-  {
-    files: ['**/*.{js,jsx}'],
-    rules: {
-      'unicorn/prefer-top-level-await': 'off',
-    },
-  },
 ]
