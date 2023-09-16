@@ -1,7 +1,21 @@
-import { apps } from '../src/config/apps'
-import { filterAppsByInstalled } from '../src/main/utils/filter-apps-by-installed'
+import { execSync } from 'node:child_process'
+import path from 'node:path'
 
-filterAppsByInstalled(apps).then((installedApps) => {
-  // eslint-disable-next-line no-console
-  console.table(installedApps)
-})
+import { apps } from '../src/config/apps'
+
+const allInstalledAppNames = new Set(
+  execSync(
+    'find ~/Applications /Applications -iname "*.app" -prune -not -path "*/.*" 2>/dev/null ||true',
+  )
+    .toString()
+    .trim()
+    .split('\n')
+    .map((appPath) => path.parse(appPath).name),
+)
+
+const installedApps = Object.keys(apps).filter((appName) =>
+  allInstalledAppNames.has(appName),
+)
+
+// eslint-disable-next-line no-console
+console.log(installedApps)
