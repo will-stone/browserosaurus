@@ -15,5 +15,6 @@
     "onlyin",
     "relocator",
     "timfish"
-  ]
+  ],
+  "eslint.experimental.useFlatConfig": true
 }
