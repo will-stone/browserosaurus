@@ -3,6 +3,9 @@ const { FlatCompat } = require('@eslint/eslintrc')
 const compat = new FlatCompat()
 
 module.exports = [
+  {
+    ignores: ['.webpack/'],
+  },
   ...compat.extends(
     '@will-stone/eslint-config-base',
     '@will-stone/eslint-config-typescript',
