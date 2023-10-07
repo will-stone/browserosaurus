@@ -3,7 +3,7 @@
 import { app, autoUpdater, shell } from 'electron'
 import deepEqual from 'fast-deep-equal'
 
-import { B_URL, ISSUES_URL } from '../../config/CONSTANTS'
+import { B_URL, ISSUES_URL } from '../../config/constants'
 import {
   clickedApp,
   clickedUpdateBar,

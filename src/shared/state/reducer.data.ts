@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 
 import type { AppName } from '../../config/apps'
-import { CARROT_URL } from '../../config/CONSTANTS'
+import { CARROT_URL } from '../../config/constants'
 import {
   availableUpdate,
   downloadedUpdate,
