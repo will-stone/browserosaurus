@@ -93,7 +93,15 @@ const apps = typeApps({
       url.replace('https://teams.microsoft.com/', 'msteams:/'),
   },
   'Min': {},
-  'Miro': {},
+  'Miro': {
+    convertUrl: (url) =>
+      decodeURIComponent(
+        url.replace(
+          /^https:\/\/[a-z]{3}[0-9]{2}\.safelinks\.protection\.outlook\.com\/\?url=https%3A%2F%2Fmiro.com/u,
+          'miroapp://miro.com',
+        ),
+      ),
+  },
   'Mullvad Browser': {
     privateArg: '--private-window',
   },
