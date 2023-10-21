@@ -60,7 +60,7 @@
     "@types/react-dom": "^18.2.7",
     "@types/react-redux": "^7.1.25",
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
-    "@will-stone/eslint-config": "^0.5.1",
+    "@will-stone/eslint-config": "^0.8.0",
     "@will-stone/prettier-config": "^7.0.1",
     "app-exists": "^2.1.1",
     "axios": "^1.4.0",
