@@ -123,8 +123,8 @@ const apps = typeApps({
   'Sizzy': {},
   'Slack': {},
   'Spotify': {},
-  'Tor Browser': {},
   'Thorium': {},
+  'Tor Browser': {},
   'Twitter': {},
   'Ulaa': {
     privateArg: '--incognito',
