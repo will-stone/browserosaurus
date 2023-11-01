@@ -124,6 +124,7 @@ const apps = typeApps({
   'Slack': {},
   'Spotify': {},
   'Tor Browser': {},
+  'Thorium': {},
   'Twitter': {},
   'Ulaa': {
     privateArg: '--incognito',
