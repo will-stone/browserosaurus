@@ -16,5 +16,5 @@
     "strict": true,
     "target": "ESNext"
   },
-  "include": ["src/**/*", "@types/*"]
+  "include": ["src/**/*", "@types/*", "./jest-setup-files-after-environment.ts"]
 }
