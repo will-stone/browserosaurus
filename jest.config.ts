@@ -9,10 +9,7 @@ const config: Config.InitialOptions = {
   },
   modulePathIgnorePatterns: ['<rootDir>/out/'],
   preset: 'ts-jest',
-  setupFilesAfterEnv: [
-    '@testing-library/jest-dom/extend-expect',
-    '<rootDir>/jest-setup-files-after-environment.ts',
-  ],
+  setupFilesAfterEnv: ['<rootDir>/jest-setup-files-after-environment.ts'],
   testEnvironment: 'jsdom',
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/out/'],
 }
