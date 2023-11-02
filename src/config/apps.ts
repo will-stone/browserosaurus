@@ -123,6 +123,7 @@ const apps = typeApps({
   'Sizzy': {},
   'Slack': {},
   'Spotify': {},
+  'Thorium': {},
   'Tor Browser': {},
   'Twitter': {},
   'Ulaa': {
