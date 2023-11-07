@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html class="loading" lang="en">
   <head>
     <title>Browserosaurus: for macOS multi-browser users.</title>
@@ -34,21 +34,23 @@
     class="bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-50 min-h-screen flex flex-col overflow-x-hidden"
   >
     <header class="shrink-0 py-4">
-      <div class="container mx-auto flex items-center">
-        <a class="-ml-2 flex gap-3 items-center px-4 py-3 text-lg" href="/"
+      <div class="container mx-auto flex sm:items-center">
+        <a
+          class="-ml-2 flex gap-3 sm:items-center px-4 py-3 text-lg shrink-0 flex-col sm:flex-row"
+          href="/"
           ><span
             ><img src="/icon_squooshed.png" alt="" width="60" height="60"
           /></span>
-          <div>
+          <div class="pl-3 sm:pl-0">
             <span class="font-bold">Browser</span
             ><span class="font-light">osaurus</span>
           </div></a
         >
         <a
-          class="ml-auto px-4 py-2 hover:text-indigo-500 font-bold"
-          href="https://github.com/will-stone/browserosaurus"
-          >GitHub</a
-        >
+          class="ml-auto block pr-4 pt-6 sm:pt-0"
+          href="https://www.buymeacoffee.com/wstone"
+          ><img src="yellow-button.png" class="w-40"
+        /></a>
       </div>
     </header>
 
@@ -61,7 +63,7 @@
         </div>
         <div class="lg:w-6/12 lg:order-1">
           <div
-            class="text-zinc-800 dark:text-zinc-50 text-5xl md:text-6xl font-semibold"
+            class="text-zinc-800 dark:text-zinc-50 text-4xl sm:text-6xl font-semibold"
           >
             For macOS multi-browser users.
           </div>
