@@ -18,7 +18,6 @@ const config: ForgeConfig = {
       : {
           keychain: '~/Library/Keychains/login.keychain-db',
           keychainProfile: 'AC_PASSWORD',
-          tool: 'notarytool',
         },
     osxSign: process.env.CI
       ? undefined
