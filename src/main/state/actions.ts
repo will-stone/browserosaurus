@@ -1,5 +1,4 @@
 import type { Rectangle } from 'electron/main'
-import type { CombinedState } from 'redux'
 
 import type { AppName } from '../../config/apps'
 import type { Data } from '../../shared/state/reducer.data'
@@ -20,8 +19,9 @@ const startedScanning = main('installed-apps/scanning')
 
 const retrievedInstalledApps = main<AppName[]>('installed-apps/retrieved')
 
-const receivedRendererStartupSignal =
-  main<CombinedState<{ data: Data; storage: Storage }>>('sync-reducers')
+const receivedRendererStartupSignal = main<{ data: Data; storage: Storage }>(
+  'sync-reducers',
+)
 
 const gotDefaultBrowserStatus = main<boolean>('default-browser-status/got')
 

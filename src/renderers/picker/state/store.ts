@@ -1,18 +1,29 @@
-import type { AnyAction } from '@reduxjs/toolkit'
+/* eslint-disable unicorn/prefer-spread -- see https://redux-toolkit.js.org/api/getDefaultMiddleware#intended-usage */
+
+import type { Action } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 
 import { Channel } from '../../../shared/state/channels'
-import createStore from '../../../shared/state/create-store'
+import { channelInjectorMiddleware } from '../../../shared/state/middleware.channel-injector'
+import { logMiddleware } from '../../../shared/state/middleware.log'
+import { rootReducer } from '../../../shared/state/reducer.root'
 import { busMiddleware } from '../../shared/state/middleware.bus'
 import { pickerMiddleware } from './middleware'
 
-const middleware = [busMiddleware(Channel.PICKER), pickerMiddleware()]
-
-const store = createStore(Channel.PICKER, middleware)
+const store = configureStore({
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ thunk: false })
+      .prepend(channelInjectorMiddleware(Channel.PICKER))
+      .concat(busMiddleware(Channel.PICKER))
+      .concat(pickerMiddleware())
+      .concat(logMiddleware()),
+  reducer: rootReducer,
+})
 
 /**
  * Listen for all actions from main
  */
-window.electron.receive(Channel.MAIN, (action: AnyAction) => {
+window.electron.receive(Channel.MAIN, (action: Action) => {
   store.dispatch(action)
 })
 

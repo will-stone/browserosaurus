@@ -1,10 +1,11 @@
 /* eslint-disable unicorn/prefer-regexp-test */
+import type { Middleware } from 'redux'
+
 import {
   clickedRestorePicker,
   openedUrl,
   retrievedInstalledApps,
 } from '../../../main/state/actions'
-import type { Middleware } from '../../../shared/state/model'
 import { getKeyLayout } from '../../shared/utils/get-key-layout-map'
 import { appsRef, appsScrollerRef } from '../refs'
 import { clickedDonate, clickedMaybeLater } from './actions'

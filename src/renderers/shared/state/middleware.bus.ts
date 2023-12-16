@@ -1,5 +1,7 @@
+import type { Middleware } from 'redux'
+
 import type { Channel } from '../../../shared/state/channels'
-import type { Middleware } from '../../../shared/state/model'
+import { isFSA } from '../../../shared/state/model'
 
 /**
  * Pass actions between main and renderers
@@ -9,6 +11,8 @@ export const busMiddleware =
   () =>
   (next) =>
   (action) => {
+    if (!isFSA(action)) return next(action)
+
     /**
      * Move to next middleware
      */

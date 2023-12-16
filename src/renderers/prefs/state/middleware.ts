@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/prefer-regexp-test */
+import type { Middleware } from 'redux'
+
 import { clickedOpenPrefs } from '../../../main/state/actions'
-import type { Middleware } from '../../../shared/state/model'
 import { getKeyLayout } from '../../shared/utils/get-key-layout-map'
 
 /**
