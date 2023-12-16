@@ -21,7 +21,7 @@ beforeAll(() => {
   })
 })
 
-test('url bar', () => {
+test('url bar', async () => {
   render(<Wrapper />)
   const win = new electron.BrowserWindow()
   const protocol = 'http://'
@@ -29,7 +29,7 @@ test('url bar', () => {
   const port = ':8000'
   const rest = '/foo?bar=moo'
   const url = `${protocol}${host}${port}${rest}`
-  win.webContents.send(Channel.MAIN, openedUrl(url))
+  await win.webContents.send(Channel.MAIN, openedUrl(url))
   expect(screen.queryByText(protocol)).not.toBeInTheDocument()
   expect(screen.getByText(host + port)).toBeVisible()
   expect(screen.queryByText(rest)).not.toBeInTheDocument()

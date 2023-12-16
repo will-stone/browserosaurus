@@ -29,10 +29,10 @@ beforeAll(() => {
   })
 })
 
-test('kitchen sink', () => {
+test('kitchen sink', async () => {
   render(<Wrapper />)
   const win = new electron.BrowserWindow()
-  win.webContents.send(
+  await win.webContents.send(
     Channel.MAIN,
     retrievedInstalledApps(['Firefox', 'Safari', 'Brave Browser']),
   )
@@ -48,7 +48,7 @@ test('kitchen sink', () => {
 
   expect(screen.getAllByRole('button', { name: /[A-z]+ App/u })).toHaveLength(3)
 
-  win.webContents.send(
+  await win.webContents.send(
     Channel.MAIN,
     receivedRendererStartupSignal({
       data: {
@@ -104,7 +104,7 @@ test('kitchen sink', () => {
 
   // Correct info sent to main when app clicked
   const url = 'http://example.com'
-  win.webContents.send(Channel.MAIN, openedUrl(url))
+  await win.webContents.send(Channel.MAIN, openedUrl(url))
   fireEvent.click(screen.getByRole('button', { name: 'Brave Browser App' }), {
     altKey: true,
   })
@@ -121,10 +121,10 @@ test('kitchen sink', () => {
   )
 })
 
-test('should show spinner when no installed apps are found', () => {
+test('should show spinner when no installed apps are found', async () => {
   render(<Wrapper />)
   const win = new electron.BrowserWindow()
-  win.webContents.send(
+  await win.webContents.send(
     Channel.MAIN,
     receivedRendererStartupSignal({
       data: defaultData,
@@ -145,11 +145,11 @@ test('should show spinner when no installed apps are found', () => {
   expect(screen.getByRole('alert', { name: 'Loading browsers' })).toBeVisible()
 })
 
-test('should use hotkey', () => {
+test('should use hotkey', async () => {
   render(<Wrapper />)
   const win = new electron.BrowserWindow()
-  win.webContents.send(Channel.MAIN, retrievedInstalledApps(['Safari']))
-  win.webContents.send(
+  await win.webContents.send(Channel.MAIN, retrievedInstalledApps(['Safari']))
+  await win.webContents.send(
     Channel.MAIN,
     receivedRendererStartupSignal({
       data: defaultData,
@@ -169,7 +169,7 @@ test('should use hotkey', () => {
   )
 
   const url = 'http://example.com'
-  win.webContents.send(Channel.MAIN, openedUrl(url))
+  await win.webContents.send(Channel.MAIN, openedUrl(url))
   fireEvent.keyDown(document, { code: 'KeyS', key: 'S', keyCode: 83 })
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     Channel.PICKER,
@@ -186,12 +186,12 @@ test('should use hotkey', () => {
   )
 })
 
-test('should use hotkey with alt', () => {
+test('should use hotkey with alt', async () => {
   render(<Wrapper />)
   const win = new electron.BrowserWindow()
-  win.webContents.send(Channel.MAIN, retrievedInstalledApps(['Safari']))
+  await win.webContents.send(Channel.MAIN, retrievedInstalledApps(['Safari']))
 
-  win.webContents.send(
+  await win.webContents.send(
     Channel.MAIN,
     receivedRendererStartupSignal({
       data: defaultData,
@@ -211,7 +211,7 @@ test('should use hotkey with alt', () => {
   )
 
   const url = 'http://example.com'
-  win.webContents.send(Channel.MAIN, openedUrl(url))
+  await win.webContents.send(Channel.MAIN, openedUrl(url))
   fireEvent.keyDown(document, {
     altKey: true,
     code: 'KeyS',
@@ -233,11 +233,11 @@ test('should use hotkey with alt', () => {
   )
 })
 
-test('should hold shift', () => {
+test('should hold shift', async () => {
   render(<Wrapper />)
   const win = new electron.BrowserWindow()
-  win.webContents.send(Channel.MAIN, retrievedInstalledApps(['Firefox']))
-  win.webContents.send(Channel.MAIN, openedUrl('http://example.com'))
+  await win.webContents.send(Channel.MAIN, retrievedInstalledApps(['Firefox']))
+  await win.webContents.send(Channel.MAIN, openedUrl('http://example.com'))
   fireEvent.click(screen.getByRole('button', { name: 'Firefox App' }), {
     shiftKey: true,
   })
@@ -254,12 +254,12 @@ test('should hold shift', () => {
   )
 })
 
-test('should order tiles', () => {
+test('should order tiles', async () => {
   render(<Wrapper />)
 
   const win = new electron.BrowserWindow()
 
-  win.webContents.send(
+  await win.webContents.send(
     Channel.MAIN,
     receivedRendererStartupSignal({
       data: defaultData,
@@ -272,7 +272,7 @@ test('should order tiles', () => {
     }),
   )
 
-  win.webContents.send(
+  await win.webContents.send(
     Channel.MAIN,
     retrievedInstalledApps([
       'Firefox',
@@ -287,21 +287,21 @@ test('should order tiles', () => {
 
   expect(apps).toHaveLength(5)
 
-  win.webContents.send(
+  await win.webContents.send(
     Channel.MAIN,
     reorderedApp({
       destinationName: 'Firefox',
       sourceName: 'Safari',
     }),
   )
-  win.webContents.send(
+  await win.webContents.send(
     Channel.MAIN,
     reorderedApp({
       destinationName: 'Firefox',
       sourceName: 'Opera',
     }),
   )
-  win.webContents.send(
+  await win.webContents.send(
     Channel.MAIN,
     reorderedApp({
       destinationName: 'Firefox',
