@@ -59,6 +59,7 @@ const apps = typeApps({
   'Firefox Nightly': {
     privateArg: '--private-window',
   },
+  'Floorp': {},
   'Framer': {},
   'FreeTube': {},
   'Google Chrome': {
