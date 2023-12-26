@@ -1,8 +1,8 @@
 import clsx from 'clsx'
 import { useDispatch } from 'react-redux'
 
-import { useSelector } from '../../../shared/state/hooks'
-import { clickedUrlBar } from '../../state/actions'
+import { useSelector } from '../../../shared/state/hooks.js'
+import { clickedUrlBar } from '../../state/actions.js'
 
 type Props = {
   className?: string

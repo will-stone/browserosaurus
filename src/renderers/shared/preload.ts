@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import type { AnyAction } from 'redux'
+import type { UnknownAction } from 'redux'
 
-import { Channel } from '../../shared/state/channels'
+import { Channel } from '../../shared/state/channels.js'
 
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
@@ -19,7 +19,7 @@ contextBridge.exposeInMainWorld('electron', {
       )
     }
   },
-  send: (channel: Channel, action: AnyAction) => {
+  send: (channel: Channel, action: UnknownAction) => {
     const validChannels = [Channel.PREFS, Channel.PICKER]
 
     if (validChannels.includes(channel)) {

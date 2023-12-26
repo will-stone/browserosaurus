@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { getUpdateUrl } from './get-update-url'
+import { getUpdateUrl } from './get-update-url.js'
 
 export async function isUpdateAvailable(): Promise<boolean> {
   let isNewVersionAvailable = false

@@ -3,14 +3,14 @@
 import { app, autoUpdater, shell } from 'electron'
 import deepEqual from 'fast-deep-equal'
 
-import { B_URL, ISSUES_URL } from '../../config/constants'
+import { B_URL, ISSUES_URL } from '../../config/constants.js'
 import {
   clickedApp,
   clickedUpdateBar,
   clickedUrlBar,
   pressedKey,
   startedPicker,
-} from '../../renderers/picker/state/actions'
+} from '../../renderers/picker/state/actions.js'
 import {
   clickedHomepageButton,
   clickedOpenIssueButton,
@@ -20,24 +20,24 @@ import {
   clickedUpdateRestartButton,
   confirmedReset,
   startedPrefs,
-} from '../../renderers/prefs/state/actions'
-import type { Middleware } from '../../shared/state/model'
-import type { RootState } from '../../shared/state/reducer.root'
-import { database } from '../database'
-import { createTray } from '../tray'
-import copyUrlToClipboard from '../utils/copy-url-to-clipboard'
-import { getAppIcons } from '../utils/get-app-icons'
-import { getInstalledAppNames } from '../utils/get-installed-app-names'
-import { initUpdateChecker } from '../utils/init-update-checker'
-import { openApp } from '../utils/open-app'
-import { removeWindowsFromMemory } from '../utils/remove-windows-from-memory'
+} from '../../renderers/prefs/state/actions.js'
+import type { Middleware } from '../../shared/state/model.js'
+import type { RootState } from '../../shared/state/reducer.root.js'
+import { database } from '../database.js'
+import { createTray } from '../tray.js'
+import copyUrlToClipboard from '../utils/copy-url-to-clipboard.js'
+import { getAppIcons } from '../utils/get-app-icons.js'
+import { getInstalledAppNames } from '../utils/get-installed-app-names.js'
+import { initUpdateChecker } from '../utils/init-update-checker.js'
+import { openApp } from '../utils/open-app.js'
+// import { removeWindowsFromMemory } from '../utils/remove-windows-from-memory'
 import {
   createWindows,
   pickerWindow,
   prefsWindow,
   showPickerWindow,
   showPrefsWindow,
-} from '../windows'
+} from '../windows.js'
 import {
   clickedOpenPrefs,
   clickedRestorePicker,
@@ -45,7 +45,7 @@ import {
   readiedApp,
   receivedRendererStartupSignal,
   retrievedInstalledApps,
-} from './actions'
+} from './actions.js'
 
 /**
  * Asynchronously update perma store on state.storage changes
@@ -124,7 +124,7 @@ export const actionHubMiddleware =
     // Update and restart
     else if (clickedUpdateRestartButton.match(action)) {
       autoUpdater.quitAndInstall()
-      removeWindowsFromMemory()
+      // removeWindowsFromMemory()
     }
 
     // Rescan for browsers
@@ -209,7 +209,7 @@ export const actionHubMiddleware =
       if (process.env.NODE_ENV === 'development') {
         prefsWindow?.hide()
       } else {
-        removeWindowsFromMemory()
+        // removeWindowsFromMemory()
         app.relaunch()
         app.exit()
       }

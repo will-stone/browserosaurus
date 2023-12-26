@@ -1,21 +1,21 @@
 import { createReducer } from '@reduxjs/toolkit'
 
-import type { AppName } from '../../config/apps'
+import type { AppName } from '../../config/apps.js'
 import {
   changedPickerWindowBounds,
   readiedApp,
   receivedRendererStartupSignal,
   retrievedInstalledApps,
-} from '../../main/state/actions'
+} from '../../main/state/actions.js'
 import {
   clickedDonate,
   clickedMaybeLater,
-} from '../../renderers/picker/state/actions'
+} from '../../renderers/picker/state/actions.js'
 import {
   confirmedReset,
   reorderedApp,
   updatedHotCode,
-} from '../../renderers/prefs/state/actions'
+} from '../../renderers/prefs/state/actions.js'
 
 type Storage = {
   apps: {

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { pickerWindow, prefsWindow } from '../windows'
+import { pickerWindow, prefsWindow } from '../windows.js'
 
 /**
  * When exiting the app, the windows must first be removed from memory so that

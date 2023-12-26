@@ -2,21 +2,21 @@ import clsx from 'clsx'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { Spinner } from '../../shared/components/atoms/spinner'
+import { Spinner } from '../../shared/components/atoms/spinner.js'
 import {
   useDeepEqualSelector,
   useInstalledApps,
   useKeyCodeMap,
   useSelector,
-} from '../../shared/state/hooks'
-import { appsRef, appsScrollerRef } from '../refs'
-import { clickedApp, startedPicker } from '../state/actions'
-import AppLogo from './atoms/app-logo'
-import Kbd from './atoms/kbd'
-import { useKeyboardEvents } from './hooks/use-keyboard-events'
-import SupportMessage from './organisms/support-message'
-import UpdateBar from './organisms/update-bar'
-import UrlBar from './organisms/url-bar'
+} from '../../shared/state/hooks.js'
+import { appsRef, appsScrollerRef } from '../refs.js'
+import { clickedApp, startedPicker } from '../state/actions.js'
+import AppLogo from './atoms/app-logo.js'
+import Kbd from './atoms/kbd.js'
+import { useKeyboardEvents } from './hooks/use-keyboard-events.js'
+import SupportMessage from './organisms/support-message.js'
+import UpdateBar from './organisms/update-bar.js'
+import UrlBar from './organisms/url-bar.js'
 
 const useAppStarted = () => {
   const dispatch = useDispatch()

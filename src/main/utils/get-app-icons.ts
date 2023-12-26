@@ -1,13 +1,16 @@
 import { execFile } from 'node:child_process'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
 
 import log from 'electron-log'
 
-import type { AppName } from '../../config/apps'
-import type { Storage } from '../../shared/state/reducer.storage'
-import { gotAppIcons } from '../state/actions'
-import { dispatch } from '../state/store'
+import type { AppName } from '../../config/apps.js'
+import type { Storage } from '../../shared/state/reducer.storage.js'
+import { gotAppIcons } from '../state/actions.js'
+import { dispatch } from '../state/store.js'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const execFileP = promisify(execFile)
 

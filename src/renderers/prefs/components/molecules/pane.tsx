@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 
-import type { PrefsTab } from '../../../../shared/state/reducer.data'
-import { useSelector } from '../../../shared/state/hooks'
+import type { PrefsTab } from '../../../../shared/state/reducer.data.js'
+import { useSelector } from '../../../shared/state/hooks.js'
 
 type Props = {
   readonly children: React.ReactNode

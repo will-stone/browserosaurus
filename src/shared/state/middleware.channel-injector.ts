@@ -1,7 +1,7 @@
-import { addChannelToAction } from '../utils/add-channel-to-action'
-import type { Channel } from './channels'
-import type { Middleware } from './model'
-import { isFSA } from './model'
+import { addChannelToAction } from '../utils/add-channel-to-action.js'
+import type { Channel } from './channels.js'
+import type { Middleware } from './model.js'
+import { isFSA } from './model.js'
 
 /**
  * Adds the current channel to actions if it is not present.

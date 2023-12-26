@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 
-import type { AppName } from '../../config/apps'
-import { CARROT_URL } from '../../config/constants'
+import type { AppName } from '../../config/apps.js'
+import { CARROT_URL } from '../../config/constants.js'
 import {
   availableUpdate,
   downloadedUpdate,
@@ -12,18 +12,18 @@ import {
   receivedRendererStartupSignal,
   retrievedInstalledApps,
   startedScanning,
-} from '../../main/state/actions'
+} from '../../main/state/actions.js'
 import {
   clickedDonate,
   clickedUpdateBar,
   startedPicker,
-} from '../../renderers/picker/state/actions'
+} from '../../renderers/picker/state/actions.js'
 import {
   clickedTabButton,
   confirmedReset,
   startedPrefs,
-} from '../../renderers/prefs/state/actions'
-import { gotKeyLayoutMap } from '../../renderers/shared/state/actions'
+} from '../../renderers/prefs/state/actions.js'
+import { gotKeyLayoutMap } from '../../renderers/shared/state/actions.js'
 
 type PrefsTab = 'about' | 'apps' | 'general'
 

@@ -1,8 +1,8 @@
 import clsx from 'clsx'
 import { useDispatch } from 'react-redux'
 
-import { useSelector } from '../../../shared/state/hooks'
-import { clickedUpdateBar } from '../../state/actions'
+import { useSelector } from '../../../shared/state/hooks.js'
+import { clickedUpdateBar } from '../../state/actions.js'
 
 const UpdateBar: React.FC = () => {
   const dispatch = useDispatch()

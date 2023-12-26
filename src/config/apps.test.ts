@@ -1,5 +1,5 @@
-import { getKeys } from '../shared/utils/get-keys'
-import { apps } from './apps'
+import { getKeys } from '../shared/utils/get-keys.js'
+import { apps } from './apps.js'
 
 test.each(getKeys(apps))(
   '%s should not include anything but allowed keys',

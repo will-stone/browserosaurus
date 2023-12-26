@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions -- declaration merging required to patch globals */
-import type { AnyAction } from 'redux'
+import type { UnknownAction } from 'redux'
 
-import type { Channel } from '../../shared/state/channels'
+import type { Channel } from '../../shared/state/channels.js'
 
 declare global {
   interface Window {
     electron: {
-      send: (channel: Channel, action: AnyAction) => void
+      send: (channel: Channel, action: UnknownAction) => void
       receive: (
         mainChannel: Channel.MAIN,
-        callback: (action: AnyAction) => void,
+        callback: (action: UnknownAction) => void,
       ) => void
     }
   }

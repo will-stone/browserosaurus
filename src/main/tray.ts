@@ -1,8 +1,12 @@
-import { app, Menu, Tray } from 'electron'
-import path from 'path'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-import { clickedOpenPrefs, clickedRestorePicker } from './state/actions'
-import { dispatch } from './state/store'
+import { app, Menu, Tray } from 'electron'
+
+import { clickedOpenPrefs, clickedRestorePicker } from './state/actions.js'
+import { dispatch } from './state/store.js'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 let tray: Tray | undefined
 
@@ -10,11 +14,9 @@ let tray: Tray | undefined
  * Menubar icon
  */
 export function createTray(): void {
-  tray = new Tray(path.join(__dirname, '/static/icon/tray_iconTemplate.png'))
+  tray = new Tray(path.join(__dirname, '/icon/tray_iconTemplate.png'))
 
-  tray.setPressedImage(
-    path.join(__dirname, '/static/icon/tray_iconHighlight.png'),
-  )
+  tray.setPressedImage(path.join(__dirname, '/icon/tray_iconHighlight.png'))
 
   tray.setToolTip('Browserosaurus')
 
