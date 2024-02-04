@@ -85,10 +85,18 @@ const apps = typeApps({
   },
   'Linear': {},
   'Maxthon': {},
-  'Microsoft Edge': {},
-  'Microsoft Edge Beta': {},
-  'Microsoft Edge Canary': {},
-  'Microsoft Edge Dev': {},
+  'Microsoft Edge': {
+    privateArg: '--inprivate',
+  },
+  'Microsoft Edge Beta': {
+    privateArg: '--inprivate',
+  },
+  'Microsoft Edge Canary': {
+    privateArg: '--inprivate',
+  },
+  'Microsoft Edge Dev': {
+    privateArg: '--inprivate',
+  },
   'Microsoft Teams': {
     convertUrl: (url) =>
       url.replace('https://teams.microsoft.com/', 'msteams:/'),
