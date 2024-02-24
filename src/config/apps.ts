@@ -23,6 +23,9 @@ const apps = typeApps({
   'Chromium': {
     privateArg: '--incognito',
   },
+  'Chromium-Gost': {
+    privateArg: '--incognito',
+  },
   'Discord': {
     convertUrl: (url) =>
       url.replace(
@@ -132,7 +135,9 @@ const apps = typeApps({
   'Sizzy': {},
   'Slack': {},
   'Spotify': {},
-  'Thorium': {},
+  'Thorium': {
+    privateArg: '--incognito',
+  },
   'Tor Browser': {},
   'Twitter': {},
   'Ulaa': {
