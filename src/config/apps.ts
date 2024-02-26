@@ -104,6 +104,14 @@ const apps = typeApps({
     convertUrl: (url) =>
       url.replace('https://teams.microsoft.com/', 'msteams:/'),
   },
+  'Microsoft Teams (work or school)': {
+    convertUrl: (url) =>
+      url.replace('https://teams.microsoft.com/', 'msteams:/'),
+  },
+  'Microsoft Teams classic': {
+    convertUrl: (url) =>
+      url.replace('https://teams.microsoft.com/', 'msteams:/'),
+  },
   'Min': {},
   'Miro': {},
   'Mullvad Browser': {
