@@ -3,7 +3,7 @@ export const Spinner = (): JSX.Element => {
     <svg
       aria-busy="true"
       aria-label="Loading browsers"
-      className="h-16 w-16 animate-spin text-white"
+      className="size-16 animate-spin text-white"
       fill="none"
       role="alert"
       viewBox="0 0 24 24"

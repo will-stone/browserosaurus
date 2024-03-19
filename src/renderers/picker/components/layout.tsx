@@ -112,7 +112,7 @@ const App: React.FC = () => {
                   ) : null}
                   <AppLogo
                     app={app}
-                    className="h-6 w-6 shrink-0"
+                    className="size-6 shrink-0"
                     icon={icons[app.name]}
                   />
                 </span>

@@ -81,7 +81,7 @@ const SortableItem = ({
       <div className="flex grow items-center p-4">
         <img
           alt=""
-          className={clsx('mr-4 h-8 w-8', !icon && 'hidden')}
+          className={clsx('mr-4 size-8', !icon && 'hidden')}
           src={icon}
         />
         <span>{name}</span>
