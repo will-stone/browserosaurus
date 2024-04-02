@@ -8,23 +8,23 @@ const UpdateBar: React.FC = () => {
   const dispatch = useDispatch()
   const updateStatus = useSelector((state) => state.data.updateStatus)
 
-  if (updateStatus === 'available') {
-    return (
-      <button
-        className={clsx(
-          'w-full shrink-0 pb-1',
-          'text-center text-xs dark:text-gray-400',
-          'cursor-default',
-        )}
-        onClick={() => dispatch(clickedUpdateBar())}
-        type="button"
-      >
-        Update Available
-      </button>
-    )
+  if (updateStatus !== 'available') {
+    return null
   }
 
-  return null
+  return (
+    <button
+      className={clsx(
+        'w-full shrink-0 pb-1',
+        'text-center text-xs dark:text-gray-400',
+        'cursor-default',
+      )}
+      onClick={() => dispatch(clickedUpdateBar())}
+      type="button"
+    >
+      Update Available
+    </button>
+  )
 }
 
 export default UpdateBar
