@@ -1,4 +1,4 @@
-const EventTarget = require('events')
+const EventTarget = require('node:events')
 const { act } = require('@testing-library/react')
 
 const eventEmitter = new EventTarget()

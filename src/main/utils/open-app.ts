@@ -1,4 +1,4 @@
-import { execFile } from 'child_process'
+import { execFile } from 'node:child_process'
 
 import type { AppName } from '../../config/apps.js'
 import { apps } from '../../config/apps.js'

@@ -1,7 +1,8 @@
+import path from 'node:path'
+
 import { app } from 'electron'
 import { LowSync } from 'lowdb'
 import { JSONFileSync } from 'lowdb/node'
-import path from 'path'
 
 import type { Storage } from '../shared/state/reducer.storage.js'
 import { defaultStorage } from '../shared/state/reducer.storage.js'
