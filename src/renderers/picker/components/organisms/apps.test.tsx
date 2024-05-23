@@ -77,6 +77,7 @@ test('kitchen sink', async () => {
             name: 'Brave Browser',
           },
         ],
+        exitMode: 'none',
         height: 200,
         isSetup: true,
         supportMessage: -1,
@@ -95,6 +96,7 @@ test('kitchen sink', async () => {
     addChannelToAction(
       clickedApp({
         appName: 'Firefox',
+        exitMode: 'none',
         isAlt: false,
         isShift: false,
       }),
@@ -113,6 +115,7 @@ test('kitchen sink', async () => {
     addChannelToAction(
       clickedApp({
         appName: 'Brave Browser',
+        exitMode: 'none',
         isAlt: true,
         isShift: false,
       }),
@@ -136,6 +139,7 @@ test('should show spinner when no installed apps are found', async () => {
             name: 'Safari',
           },
         ],
+        exitMode: 'none',
         height: 200,
         isSetup: true,
         supportMessage: -1,
@@ -161,6 +165,7 @@ test('should use hotkey', async () => {
             name: 'Safari',
           },
         ],
+        exitMode: 'none',
         height: 200,
         isSetup: true,
         supportMessage: -1,
@@ -203,6 +208,7 @@ test('should use hotkey with alt', async () => {
             name: 'Safari',
           },
         ],
+        exitMode: 'none',
         height: 200,
         isSetup: true,
         supportMessage: -1,
@@ -246,6 +252,7 @@ test('should hold shift', async () => {
     addChannelToAction(
       clickedApp({
         appName: 'Firefox',
+        exitMode: 'none',
         isAlt: false,
         isShift: true,
       }),
@@ -265,6 +272,7 @@ test('should order tiles', async () => {
       data: defaultData,
       storage: {
         apps: [],
+        exitMode: 'none',
         height: 200,
         isSetup: true,
         supportMessage: -1,
