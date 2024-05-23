@@ -46,9 +46,13 @@ const useIsSupportMessageHidden = (): boolean => {
 const useKeyCodeMap = (): Record<string, string> =>
   useShallowEqualSelector((state) => state.data.keyCodeMap)
 
+const useExitMode = (): 'none' | 'on-launch' =>
+  useShallowEqualSelector((state) => state.storage.exitMode)
+
 export {
   InstalledApp,
   useDeepEqualSelector,
+  useExitMode,
   useInstalledApps,
   useIsSupportMessageHidden,
   useKeyCodeMap,

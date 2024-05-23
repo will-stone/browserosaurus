@@ -12,6 +12,7 @@ import {
   clickedMaybeLater,
 } from '../../renderers/picker/state/actions.js'
 import {
+  changedExitMode,
   confirmedReset,
   reorderedApp,
   updatedHotCode,
@@ -26,10 +27,12 @@ type Storage = {
   supportMessage: number
   isSetup: boolean
   height: number
+  exitMode: 'none' | 'on-launch'
 }
 
 const defaultStorage: Storage = {
   apps: [],
+  exitMode: 'none',
   height: 200,
   isSetup: false,
   supportMessage: 0,
@@ -111,6 +114,10 @@ const storage = createReducer<Storage>(defaultStorage, (builder) =>
 
       const [removed] = state.apps.splice(sourceIndex, 1)
       state.apps.splice(destinationIndex, 0, removed)
+    })
+
+    .addCase(changedExitMode, (state, action) => {
+      state.exitMode = action.payload
     }),
 )
 

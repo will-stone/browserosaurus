@@ -28,7 +28,10 @@ const reorderedApp = prefs<{ sourceName: AppName; destinationName: AppName }>(
 const clickedHomepageButton = prefs('homepage-button/clicked')
 const clickedOpenIssueButton = prefs('open-issue-button/clicked')
 
+const changedExitMode = prefs<'none' | 'on-launch'>('exit-mode/changed')
+
 export {
+  changedExitMode,
   clickedHomepageButton,
   clickedOpenIssueButton,
   clickedRescanApps,

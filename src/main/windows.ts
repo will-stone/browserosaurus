@@ -30,7 +30,7 @@ async function createWindows(): Promise<void> {
     center: true,
     fullscreen: false,
     fullscreenable: false,
-    height: 500,
+    height: 600,
     maximizable: false,
     minimizable: false,
     resizable: false,

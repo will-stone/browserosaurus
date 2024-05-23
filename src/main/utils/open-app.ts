@@ -1,14 +1,17 @@
 import { execFile } from 'node:child_process'
+import { promisify } from 'node:util'
 
 import type { AppName } from '../../config/apps.js'
 import { apps } from '../../config/apps.js'
+
+const pExecFile = promisify(execFile)
 
 export function openApp(
   appName: AppName,
   url: string,
   isAlt: boolean,
   isShift: boolean,
-): void {
+): ReturnType<typeof pExecFile> {
   const selectedApp = apps[appName]
 
   const convertedUrl =
@@ -28,5 +31,5 @@ export function openApp(
     .filter(Boolean)
     .flat()
 
-  execFile('open', openArguments)
+  return pExecFile('open', openArguments)
 }

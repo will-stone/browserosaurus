@@ -134,11 +134,18 @@ export const actionHubMiddleware =
 
     // Clicked app
     else if (clickedApp.match(action)) {
-      const { appName, isAlt, isShift } = action.payload
+      const { appName, isAlt, isShift, exitMode } = action.payload
 
       // Ignore if app's bundle id is missing
       if (appName) {
-        openApp(appName, nextState.data.url, isAlt, isShift)
+        const spawn = openApp(appName, nextState.data.url, isAlt, isShift)
+        if (exitMode === 'on-launch') {
+          spawn.then(() => {
+            pickerWindow?.close()
+            prefsWindow?.close()
+            app.exit()
+          })
+        }
         pickerWindow?.hide()
       }
     }

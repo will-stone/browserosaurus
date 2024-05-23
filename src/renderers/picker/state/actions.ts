@@ -7,6 +7,7 @@ type OpenAppArguments = {
   appName: AppName | undefined
   isAlt: boolean
   isShift: boolean
+  exitMode: 'none' | 'on-launch'
 }
 
 const startedPicker = picker('started')

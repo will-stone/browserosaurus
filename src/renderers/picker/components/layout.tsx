@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { Spinner } from '../../shared/components/atoms/spinner.js'
 import {
   useDeepEqualSelector,
+  useExitMode,
   useInstalledApps,
   useKeyCodeMap,
   useSelector,
@@ -41,6 +42,7 @@ const App: React.FC = () => {
   const apps = useInstalledApps()
   const url = useSelector((state) => state.data.url)
   const icons = useDeepEqualSelector((state) => state.data.icons)
+  const exitMode = useExitMode()
 
   const keyCodeMap = useKeyCodeMap()
 
@@ -87,6 +89,7 @@ const App: React.FC = () => {
                   dispatch(
                     clickedApp({
                       appName: app.name,
+                      exitMode,
                       isAlt: event.altKey,
                       isShift: event.shiftKey,
                     }),

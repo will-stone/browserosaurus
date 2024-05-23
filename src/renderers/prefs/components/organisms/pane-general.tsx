@@ -1,8 +1,9 @@
 import { useDispatch } from 'react-redux'
 
 import Button from '../../../shared/components/atoms/button.js'
-import { useSelector } from '../../../shared/state/hooks.js'
+import { useExitMode, useSelector } from '../../../shared/state/hooks.js'
 import {
+  changedExitMode,
   clickedRescanApps,
   clickedSetAsDefaultBrowserButton,
   clickedUpdateButton,
@@ -43,6 +44,7 @@ export const GeneralPane = (): JSX.Element => {
   )
 
   const updateStatus = useSelector((state) => state.data.updateStatus)
+  const exitMode = useExitMode()
 
   const numberOfInstalledApps = useSelector(
     (state) => state.storage.apps.filter((app) => app.isInstalled).length,
@@ -116,6 +118,28 @@ export const GeneralPane = (): JSX.Element => {
           <p className="mt-2 text-sm opacity-70">
             Restores all preferences to initial defaults and restarts the app as
             if run for the first time.
+          </p>
+        </Right>
+      </Row>
+
+      <Row>
+        <Left>Exit on selection:</Left>
+        <Right>
+          <input
+            checked={exitMode === 'on-launch' ? true : undefined}
+            onChange={(ev) => {
+              const isChecked = ev.target.checked
+              if (isChecked) {
+                dispatch(changedExitMode('on-launch'))
+              } else {
+                dispatch(changedExitMode('none'))
+              }
+            }}
+            type="checkbox"
+          />
+          <p className="mt-2 text-sm opacity-70">
+            Exiting Browserosaurus after selecting a browser can reduce memory
+            usage and fix issues when using fullscreen apps.
           </p>
         </Right>
       </Row>
