@@ -35,7 +35,7 @@ Found a bug? Please log an
 please see the documentation below or open a
 [discussion](https://github.com/will-stone/browserosaurus/discussions).
 
-## Notable Forks
+## Projects inspired by Browserosaurus
 
 Browserosaurus is primarily made for my needs and environment. Therefore, some
 feature requests do not make it into the main project, but that's the beauty of
@@ -45,6 +45,7 @@ forks of this project that you may like to consider:
 
 - [Browseratops](https://github.com/riotrah/browseratops) by
   [@riotrah](https://github.com/riotrah). Browserosaurus but for **Windows**!
+- [Browserino](https://github.com/AlexStrNik/Browserino) by [@alexstrnik](https://github.com/AlexStrNik). **Swift UI** port of Browserosaurus.
 
 > Please PR your own fork to this list.
 
