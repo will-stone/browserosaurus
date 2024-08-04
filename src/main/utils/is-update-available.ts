@@ -3,7 +3,7 @@ import axios from 'axios'
 import { getUpdateUrl } from './get-update-url.js'
 
 export async function isUpdateAvailable(): Promise<boolean> {
-  let isNewVersionAvailable = false
+  let isNewVersionAvailable: boolean
 
   try {
     const { data } = await axios(getUpdateUrl())
