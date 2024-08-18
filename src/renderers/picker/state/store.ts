@@ -3,12 +3,12 @@
 import type { Action } from '@reduxjs/toolkit'
 import { configureStore } from '@reduxjs/toolkit'
 
-import { Channel } from '../../../shared/state/channels.js'
-import { channelInjectorMiddleware } from '../../../shared/state/middleware.channel-injector.js'
-import { logMiddleware } from '../../../shared/state/middleware.log.js'
-import { rootReducer } from '../../../shared/state/reducer.root.js'
-import { busMiddleware } from '../../shared/state/middleware.bus.js'
-import { pickerMiddleware } from './middleware.js'
+import { Channel } from '../../../shared/state/channels'
+import { channelInjectorMiddleware } from '../../../shared/state/middleware.channel-injector'
+import { logMiddleware } from '../../../shared/state/middleware.log'
+import { rootReducer } from '../../../shared/state/reducer.root'
+import { busMiddleware } from '../../shared/state/middleware.bus'
+import { pickerMiddleware } from './middleware'
 
 const store = configureStore({
   middleware: (getDefaultMiddleware) =>

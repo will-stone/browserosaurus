@@ -1,15 +1,15 @@
 import { useDispatch } from 'react-redux'
 
-import Button from '../../../shared/components/atoms/button.js'
-import { useSelector } from '../../../shared/state/hooks.js'
+import Button from '../../../shared/components/atoms/button'
+import { useSelector } from '../../../shared/state/hooks'
 import {
   clickedRescanApps,
   clickedSetAsDefaultBrowserButton,
   clickedUpdateButton,
   clickedUpdateRestartButton,
   confirmedReset,
-} from '../../state/actions.js'
-import { Pane } from '../molecules/pane.js'
+} from '../../state/actions'
+import { Pane } from '../molecules/pane'
 
 type RowProps = {
   readonly children: React.ReactNode

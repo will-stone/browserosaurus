@@ -2,7 +2,7 @@ import '../shared/index.css'
 
 import { createRoot } from 'react-dom/client'
 
-import Bootstrap from './components/_bootstrap.js'
+import Bootstrap from './components/_bootstrap'
 
 const container = document.querySelector('#root')
 

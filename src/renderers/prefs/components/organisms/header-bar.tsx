@@ -1,9 +1,9 @@
 import clsx from 'clsx'
 import { useDispatch } from 'react-redux'
 
-import type { PrefsTab } from '../../../../shared/state/reducer.data.js'
-import { useSelector } from '../../../shared/state/hooks.js'
-import { clickedTabButton } from '../../state/actions.js'
+import type { PrefsTab } from '../../../../shared/state/reducer.data'
+import { useSelector } from '../../../shared/state/hooks'
+import { clickedTabButton } from '../../state/actions'
 
 type TabButtonProps = {
   readonly tab: PrefsTab

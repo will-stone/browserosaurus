@@ -1,10 +1,8 @@
-// @ts-check
-
 import { MakerZIP } from '@electron-forge/maker-zip'
 import { VitePlugin } from '@electron-forge/plugin-vite'
+import type { ForgeConfig } from '@electron-forge/shared-types'
 
-/** @type {import('@electron-forge/shared-types').ForgeConfig} */
-const config = {
+const config: ForgeConfig = {
   makers: [new MakerZIP({}, ['darwin'])],
   packagerConfig: {
     appBundleId: 'com.browserosaurus',

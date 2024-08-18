@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux'
 
-import store from '../state/store.js'
-import App from './layout.js'
+import store from '../state/store'
+import App from './layout'
 
 const Bootstrap: React.FC = () => {
   return (

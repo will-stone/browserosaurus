@@ -3,14 +3,14 @@
 import { app, autoUpdater, shell } from 'electron'
 import deepEqual from 'fast-deep-equal'
 
-import { B_URL, ISSUES_URL } from '../../config/constants.js'
+import { B_URL, ISSUES_URL } from '../../config/constants'
 import {
   clickedApp,
   clickedUpdateBar,
   clickedUrlBar,
   pressedKey,
   startedPicker,
-} from '../../renderers/picker/state/actions.js'
+} from '../../renderers/picker/state/actions'
 import {
   clickedHomepageButton,
   clickedOpenIssueButton,
@@ -20,16 +20,16 @@ import {
   clickedUpdateRestartButton,
   confirmedReset,
   startedPrefs,
-} from '../../renderers/prefs/state/actions.js'
-import type { Middleware } from '../../shared/state/model.js'
-import type { RootState } from '../../shared/state/reducer.root.js'
-import { database } from '../database.js'
-import { createTray } from '../tray.js'
-import copyUrlToClipboard from '../utils/copy-url-to-clipboard.js'
-import { getAppIcons } from '../utils/get-app-icons.js'
-import { getInstalledAppNames } from '../utils/get-installed-app-names.js'
-import { initUpdateChecker } from '../utils/init-update-checker.js'
-import { openApp } from '../utils/open-app.js'
+} from '../../renderers/prefs/state/actions'
+import type { Middleware } from '../../shared/state/model'
+import type { RootState } from '../../shared/state/reducer.root'
+import { database } from '../database'
+import { createTray } from '../tray'
+import copyUrlToClipboard from '../utils/copy-url-to-clipboard'
+import { getAppIcons } from '../utils/get-app-icons'
+import { getInstalledAppNames } from '../utils/get-installed-app-names'
+import { initUpdateChecker } from '../utils/init-update-checker'
+import { openApp } from '../utils/open-app'
 // import { removeWindowsFromMemory } from '../utils/remove-windows-from-memory'
 import {
   createWindows,
@@ -37,7 +37,7 @@ import {
   prefsWindow,
   showPickerWindow,
   showPrefsWindow,
-} from '../windows.js'
+} from '../windows'
 import {
   clickedOpenPrefs,
   clickedRestorePicker,
@@ -45,7 +45,7 @@ import {
   readiedApp,
   receivedRendererStartupSignal,
   retrievedInstalledApps,
-} from './actions.js'
+} from './actions'
 
 /**
  * Asynchronously update perma store on state.storage changes

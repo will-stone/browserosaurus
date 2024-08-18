@@ -14,7 +14,6 @@
   "repository": "https://github.com/will-stone/browserosaurus",
   "license": "GPL-3.0-only",
   "author": "Will Stone",
-  "type": "module",
   "main": ".vite/build/main.js",
   "scripts": {
     "doctor": "npm run lint && npm run typecheck && npm run test",

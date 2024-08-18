@@ -1,9 +1,9 @@
 import type { Rectangle } from 'electron/main'
 
-import type { AppName } from '../../config/apps.js'
-import type { Data } from '../../shared/state/reducer.data.js'
-import type { Storage } from '../../shared/state/reducer.storage.js'
-import { actionNamespacer } from '../../shared/utils/action-namespacer.js'
+import type { AppName } from '../../config/apps'
+import type { Data } from '../../shared/state/reducer.data'
+import type { Storage } from '../../shared/state/reducer.storage'
+import { actionNamespacer } from '../../shared/utils/action-namespacer'
 
 const main = actionNamespacer('main')
 

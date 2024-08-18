@@ -11,8 +11,8 @@ import {
   white,
 } from 'picocolors'
 
-import { Channel } from '../state/channels.js'
-import type { FSA } from '../state/model.js'
+import { Channel } from '../state/channels'
+import type { FSA } from '../state/model'
 
 const channelColorMap = {
   [Channel.MAIN]: bgYellow,

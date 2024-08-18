@@ -3,10 +3,10 @@ import '../../../shared/preload'
 import { render, screen } from '@testing-library/react'
 import electron from 'electron'
 
-import { keyLayout } from '../../../../../__fixtures__/key-layout.js'
-import { openedUrl } from '../../../../main/state/actions.js'
-import { Channel } from '../../../../shared/state/channels.js'
-import Wrapper from '../_bootstrap.js'
+import { keyLayout } from '../../../../../__fixtures__/key-layout'
+import { openedUrl } from '../../../../main/state/actions'
+import { Channel } from '../../../../shared/state/channels'
+import Wrapper from '../_bootstrap'
 
 beforeAll(() => {
   global.window ??= Object.create(window)

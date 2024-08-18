@@ -1,7 +1,7 @@
-import { Channel } from '../../shared/state/channels.js'
-import type { Middleware } from '../../shared/state/model.js'
-import { isFSA } from '../../shared/state/model.js'
-import { pickerWindow, prefsWindow } from '../windows.js'
+import { Channel } from '../../shared/state/channels'
+import type { Middleware } from '../../shared/state/model'
+import { isFSA } from '../../shared/state/model'
+import { pickerWindow, prefsWindow } from '../windows'
 
 /**
  * Pass actions between main and renderers

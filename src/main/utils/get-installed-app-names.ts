@@ -3,10 +3,10 @@ import path from 'node:path'
 
 import { sleep } from 'tings'
 
-import type { AppName } from '../../config/apps.js'
-import { apps } from '../../config/apps.js'
-import { retrievedInstalledApps, startedScanning } from '../state/actions.js'
-import { dispatch } from '../state/store.js'
+import type { AppName } from '../../config/apps'
+import { apps } from '../../config/apps'
+import { retrievedInstalledApps, startedScanning } from '../state/actions'
+import { dispatch } from '../state/store'
 
 function getAllInstalledAppNames(): string[] {
   const appNames = execSync(

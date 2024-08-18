@@ -1,9 +1,9 @@
 import type { ThunkAction } from '@reduxjs/toolkit'
 import { combineReducers } from '@reduxjs/toolkit'
 
-import type { FSA } from './model.js'
-import { data } from './reducer.data.js'
-import { storage } from './reducer.storage.js'
+import type { FSA } from './model'
+import { data } from './reducer.data'
+import { storage } from './reducer.storage'
 
 const rootReducer = combineReducers({ data, storage })
 

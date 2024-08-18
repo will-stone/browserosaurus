@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { pressedKey } from '../../state/actions.js'
+import { pressedKey } from '../../state/actions'
 
 export const useKeyboardEvents = (): void => {
   const dispatch = useDispatch()

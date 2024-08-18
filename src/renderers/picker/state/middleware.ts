@@ -5,10 +5,10 @@ import {
   clickedRestorePicker,
   openedUrl,
   retrievedInstalledApps,
-} from '../../../main/state/actions.js'
-import { getKeyLayout } from '../../shared/utils/get-key-layout-map.js'
-import { appsRef, appsScrollerRef } from '../refs.js'
-import { clickedDonate, clickedMaybeLater } from './actions.js'
+} from '../../../main/state/actions'
+import { getKeyLayout } from '../../shared/utils/get-key-layout-map'
+import { appsRef, appsScrollerRef } from '../refs'
+import { clickedDonate, clickedMaybeLater } from './actions'
 
 /**
  * Pass actions between main and renderers

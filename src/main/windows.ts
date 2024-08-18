@@ -3,12 +3,12 @@ import { fileURLToPath } from 'node:url'
 
 import { app, BrowserWindow, screen } from 'electron'
 
-import { database } from './database.js'
+import { database } from './database'
 import {
   changedPickerWindowBounds,
   gotDefaultBrowserStatus,
-} from './state/actions.js'
-import { dispatch } from './state/store.js'
+} from './state/actions'
+import { dispatch } from './state/store'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 

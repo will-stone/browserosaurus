@@ -1,7 +1,7 @@
 import type { Dispatch } from '@reduxjs/toolkit'
 
-import type { FSA } from '../../../shared/state/model.js'
-import { gotKeyLayoutMap } from '../state/actions.js'
+import type { FSA } from '../../../shared/state/model'
+import { gotKeyLayoutMap } from '../state/actions'
 
 const getLayoutObject = async (): Promise<Record<string, string>> => {
   try {

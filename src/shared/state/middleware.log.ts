@@ -1,6 +1,6 @@
-import { actionLogger } from '../utils/action-logger.js'
-import type { Middleware } from './model.js'
-import { isFSA } from './model.js'
+import { actionLogger } from '../utils/action-logger'
+import type { Middleware } from './model'
+import { isFSA } from './model'
 
 /**
  * Log all actions to console

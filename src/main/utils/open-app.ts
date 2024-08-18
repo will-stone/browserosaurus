@@ -1,7 +1,7 @@
 import { execFile } from 'node:child_process'
 
-import type { AppName } from '../../config/apps.js'
-import { apps } from '../../config/apps.js'
+import type { AppName } from '../../config/apps'
+import { apps } from '../../config/apps'
 
 export function openApp(
   appName: AppName,

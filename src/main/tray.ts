@@ -3,8 +3,8 @@ import { fileURLToPath } from 'node:url'
 
 import { app, Menu, Tray } from 'electron'
 
-import { clickedOpenPrefs, clickedRestorePicker } from './state/actions.js'
-import { dispatch } from './state/store.js'
+import { clickedOpenPrefs, clickedRestorePicker } from './state/actions'
+import { dispatch } from './state/store'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 

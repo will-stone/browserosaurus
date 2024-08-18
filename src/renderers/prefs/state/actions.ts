@@ -1,6 +1,6 @@
-import type { AppName } from '../../../config/apps.js'
-import type { PrefsTab } from '../../../shared/state/reducer.data.js'
-import { actionNamespacer } from '../../../shared/utils/action-namespacer.js'
+import type { AppName } from '../../../config/apps'
+import type { PrefsTab } from '../../../shared/state/reducer.data'
+import { actionNamespacer } from '../../../shared/utils/action-namespacer'
 
 const prefs = actionNamespacer('prefs')
 

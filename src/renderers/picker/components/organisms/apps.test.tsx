@@ -3,18 +3,18 @@ import '../../../shared/preload'
 import { fireEvent, render, screen } from '@testing-library/react'
 import electron from 'electron'
 
-import { keyLayout } from '../../../../../__fixtures__/key-layout.js'
+import { keyLayout } from '../../../../../__fixtures__/key-layout'
 import {
   openedUrl,
   receivedRendererStartupSignal,
   retrievedInstalledApps,
-} from '../../../../main/state/actions.js'
-import { Channel } from '../../../../shared/state/channels.js'
-import { defaultData } from '../../../../shared/state/reducer.data.js'
-import { addChannelToAction } from '../../../../shared/utils/add-channel-to-action.js'
-import { reorderedApp } from '../../../prefs/state/actions.js'
-import { clickedApp, pressedKey } from '../../state/actions.js'
-import Wrapper from '../_bootstrap.js'
+} from '../../../../main/state/actions'
+import { Channel } from '../../../../shared/state/channels'
+import { defaultData } from '../../../../shared/state/reducer.data'
+import { addChannelToAction } from '../../../../shared/utils/add-channel-to-action'
+import { reorderedApp } from '../../../prefs/state/actions'
+import { clickedApp, pressedKey } from '../../state/actions'
+import Wrapper from '../_bootstrap'
 
 beforeAll(() => {
   global.window ??= Object.create(window)

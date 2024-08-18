@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import type { UnknownAction } from 'redux'
 
-import { Channel } from '../../shared/state/channels.js'
+import { Channel } from '../../shared/state/channels'
 
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object

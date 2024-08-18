@@ -1,7 +1,7 @@
 import type { Dispatch, Middleware as ReduxMiddleware } from '@reduxjs/toolkit'
 import { isFluxStandardAction } from '@reduxjs/toolkit'
 
-import type { RootState } from './reducer.root.js'
+import type { RootState } from './reducer.root'
 
 type FSA = {
   type: string

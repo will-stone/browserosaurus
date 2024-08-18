@@ -10,7 +10,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: ['src/main/main.ts'],
-      formats: ['es'],
+      formats: ['cjs'],
     },
     rollupOptions: {
       external: ['file-icon'],
