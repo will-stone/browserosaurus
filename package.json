@@ -70,7 +70,7 @@
     "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
     "cssnano": "^7.0.5",
-    "electron": "^29.2.0",
+    "electron": "^31.4.0",
     "electron-log": "^5.1.7",
     "eslint": "^9.9.0",
     "fast-deep-equal": "^3.1.3",
