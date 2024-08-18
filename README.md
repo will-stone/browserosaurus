@@ -45,7 +45,9 @@ forks of this project that you may like to consider:
 
 - [Browseratops](https://github.com/riotrah/browseratops) by
   [@riotrah](https://github.com/riotrah). Browserosaurus but for **Windows**!
-- [Browserino](https://github.com/AlexStrNik/Browserino) by [@alexstrnik](https://github.com/AlexStrNik). **Swift UI** port of Browserosaurus.
+- [Browserino](https://github.com/AlexStrNik/Browserino) by
+  [@alexstrnik](https://github.com/AlexStrNik). **Swift UI** port of
+  Browserosaurus.
 
 > Please PR your own fork to this list.
 
