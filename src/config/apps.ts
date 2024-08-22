@@ -160,6 +160,7 @@ const apps = typeApps({
   Whist: {},
   Yandex: {},
   Yattee: {},
+  'Zen Browser': {},
   'zoom.us': {},
 })
 
