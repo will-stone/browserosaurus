@@ -92,7 +92,6 @@
     "redux": "^5.0.1",
     "rimraf": "^6.0.1",
     "tailwindcss": "^3.4.10",
-    "tidy-url": "^1.18.3",
     "tings": "^9.1.0",
     "ts-jest": "^29.2.4",
     "ts-node": "^10.9.2",
