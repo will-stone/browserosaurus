@@ -1,5 +1,5 @@
-import type { AppName } from '../../../config/apps'
-import { actionNamespacer } from '../../../shared/utils/action-namespacer'
+import type { AppName } from '../../../config/apps.js'
+import { actionNamespacer } from '../../../shared/utils/action-namespacer.js'
 
 const picker = actionNamespacer('picker')
 

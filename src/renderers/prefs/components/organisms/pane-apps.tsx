@@ -17,17 +17,17 @@ import { CSS } from '@dnd-kit/utilities'
 import clsx from 'clsx'
 import { useDispatch } from 'react-redux'
 
-import type { AppName } from '../../../../config/apps'
-import Input from '../../../shared/components/atoms/input'
-import { Spinner } from '../../../shared/components/atoms/spinner'
-import type { InstalledApp } from '../../../shared/state/hooks'
+import type { AppName } from '../../../../config/apps.js'
+import Input from '../../../shared/components/atoms/input.js'
+import { Spinner } from '../../../shared/components/atoms/spinner.js'
+import type { InstalledApp } from '../../../shared/state/hooks.js'
 import {
   useDeepEqualSelector,
   useInstalledApps,
   useKeyCodeMap,
-} from '../../../shared/state/hooks'
-import { reorderedApp, updatedHotCode } from '../../state/actions'
-import { Pane } from '../molecules/pane'
+} from '../../../shared/state/hooks.js'
+import { reorderedApp, updatedHotCode } from '../../state/actions.js'
+import { Pane } from '../molecules/pane.js'
 
 type SortableItemProps = {
   readonly id: InstalledApp['name']

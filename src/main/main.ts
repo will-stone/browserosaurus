@@ -3,9 +3,9 @@ import electron, { app } from 'electron'
 import { TidyURL } from 'tidy-url'
 import { sleep } from 'tings'
 
-import { Channel } from '../shared/state/channels'
-import { openedUrl, readiedApp } from './state/actions'
-import { dispatch, getState } from './state/store'
+import { Channel } from '../shared/state/channels.js'
+import { openedUrl, readiedApp } from './state/actions.js'
+import { dispatch, getState } from './state/store.js'
 
 app.on('ready', () => dispatch(readiedApp()))
 

@@ -1,7 +1,7 @@
 import type { Middleware } from 'redux'
 
-import type { Channel } from '../../../shared/state/channels'
-import { isFSA } from '../../../shared/state/model'
+import type { Channel } from '../../../shared/state/channels.js'
+import { isFSA } from '../../../shared/state/model.js'
 
 /**
  * Pass actions between main and renderers

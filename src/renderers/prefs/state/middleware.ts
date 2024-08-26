@@ -1,8 +1,8 @@
 /* eslint-disable unicorn/prefer-regexp-test */
 import type { Middleware } from 'redux'
 
-import { clickedOpenPrefs } from '../../../main/state/actions'
-import { getKeyLayout } from '../../shared/utils/get-key-layout-map'
+import { clickedOpenPrefs } from '../../../main/state/actions.js'
+import { getKeyLayout } from '../../shared/utils/get-key-layout-map.js'
 
 /**
  * Pass actions between main and renderers

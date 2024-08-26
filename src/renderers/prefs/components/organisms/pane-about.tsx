@@ -1,13 +1,13 @@
 import { useDispatch } from 'react-redux'
 
 import icon from '../../../../shared/static/icon/icon.png'
-import Button from '../../../shared/components/atoms/button'
-import { useSelector } from '../../../shared/state/hooks'
+import Button from '../../../shared/components/atoms/button.js'
+import { useSelector } from '../../../shared/state/hooks.js'
 import {
   clickedHomepageButton,
   clickedOpenIssueButton,
-} from '../../state/actions'
-import { Pane } from '../molecules/pane'
+} from '../../state/actions.js'
+import { Pane } from '../molecules/pane.js'
 
 export const AboutPane = (): JSX.Element => {
   const dispatch = useDispatch()

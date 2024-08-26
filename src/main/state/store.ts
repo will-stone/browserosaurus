@@ -3,15 +3,15 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { app } from 'electron'
 
-import { Channel } from '../../shared/state/channels'
-import { channelInjectorMiddleware } from '../../shared/state/middleware.channel-injector'
-import { logMiddleware } from '../../shared/state/middleware.log'
-import { defaultData } from '../../shared/state/reducer.data'
-import type { RootState } from '../../shared/state/reducer.root'
-import { rootReducer } from '../../shared/state/reducer.root'
-import { database } from '../database'
-import { actionHubMiddleware } from './middleware.action-hub'
-import { busMiddleware } from './middleware.bus'
+import { Channel } from '../../shared/state/channels.js'
+import { channelInjectorMiddleware } from '../../shared/state/middleware.channel-injector.js'
+import { logMiddleware } from '../../shared/state/middleware.log.js'
+import { defaultData } from '../../shared/state/reducer.data.js'
+import type { RootState } from '../../shared/state/reducer.root.js'
+import { rootReducer } from '../../shared/state/reducer.root.js'
+import { database } from '../database.js'
+import { actionHubMiddleware } from './middleware.action-hub.js'
+import { busMiddleware } from './middleware.bus.js'
 
 const channel = Channel.MAIN
 

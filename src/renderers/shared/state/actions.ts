@@ -1,4 +1,4 @@
-import { actionNamespacer } from '../../../shared/utils/action-namespacer'
+import { actionNamespacer } from '../../../shared/utils/action-namespacer.js'
 
 const renderer = actionNamespacer('renderer')
 
