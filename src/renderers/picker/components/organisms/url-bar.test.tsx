@@ -9,8 +9,6 @@ import { Channel } from '../../../../shared/state/channels.js'
 import Wrapper from '../_bootstrap.js'
 
 beforeAll(() => {
-  globalThis.window ??= Object.create(globalThis)
-
   Object.defineProperty(globalThis.navigator, 'keyboard', {
     value: {
       getLayoutMap: jest

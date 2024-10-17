@@ -17,8 +17,6 @@ import { clickedApp, pressedKey } from '../../state/actions.js'
 import Wrapper from '../_bootstrap.js'
 
 beforeAll(() => {
-  globalThis.window ??= Object.create(globalThis)
-
   Object.defineProperty(globalThis.navigator, 'keyboard', {
     value: {
       getLayoutMap: jest
