@@ -5,7 +5,7 @@ import { gotKeyLayoutMap } from '../state/actions.js'
 
 const getLayoutObject = async (): Promise<Record<string, string>> => {
   try {
-    const keyboardLayoutMap = await window.navigator.keyboard.getLayoutMap()
+    const keyboardLayoutMap = await globalThis.navigator.keyboard.getLayoutMap()
 
     const keyValueObject: Record<string, string> = {}
 

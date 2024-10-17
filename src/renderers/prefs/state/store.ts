@@ -23,7 +23,7 @@ const store = configureStore({
 /**
  * Listen for all actions
  */
-window.electron.receive(Channel.MAIN, (action: UnknownAction) => {
+globalThis.electron.receive(Channel.MAIN, (action: UnknownAction) => {
   store.dispatch(action)
 })
 

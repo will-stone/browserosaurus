@@ -17,5 +17,6 @@ test.each(getKeys(apps))(
 test('should have apps in alphabetical order by name', () => {
   const appNames = Object.keys(apps).map((appName) => appName.toLowerCase())
   const sortedAppNames = [...appNames].sort()
+
   expect(appNames).toStrictEqual(sortedAppNames)
 })
