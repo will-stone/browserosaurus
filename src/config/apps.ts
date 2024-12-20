@@ -22,13 +22,13 @@ const apps = typeApps({
   'Brave Dev': {
     privateArg: '--incognito',
   },
-  'Chromium': {
+  Chromium: {
     privateArg: '--incognito',
   },
   'Chromium-Gost': {
     privateArg: '--incognito',
   },
-  'Discord': {
+  Discord: {
     convertUrl: (url) =>
       url.replace(
         /^https?:\/\/(?:(?:ptb|canary)\.)?discord\.com\//u,
@@ -49,13 +49,13 @@ const apps = typeApps({
         'discord://-/',
       ),
   },
-  'Dissenter': {},
-  'DuckDuckGo': {},
-  'Epic': {},
-  'Figma': {},
+  Dissenter: {},
+  DuckDuckGo: {},
+  Epic: {},
+  Figma: {},
   'Figma Beta': {},
-  'Finicky': {},
-  'Firefox': {
+  Finicky: {},
+  Firefox: {
     privateArg: '--private-window',
   },
   'Firefox Developer Edition': {
@@ -64,9 +64,9 @@ const apps = typeApps({
   'Firefox Nightly': {
     privateArg: '--private-window',
   },
-  'Floorp': {},
-  'Framer': {},
-  'FreeTube': {},
+  Floorp: {},
+  Framer: {},
+  FreeTube: {},
   'Google Chrome': {
     privateArg: '--incognito',
   },
@@ -79,17 +79,17 @@ const apps = typeApps({
   'Google Chrome Dev': {
     privateArg: '--incognito',
   },
-  'IceCat': {
+  IceCat: {
     privateArg: '--private-window',
   },
-  'Iridium': {},
-  'Island': {},
-  'Lagrange': {},
-  'LibreWolf': {
+  Iridium: {},
+  Island: {},
+  Lagrange: {},
+  LibreWolf: {
     privateArg: '--private-window',
   },
-  'Linear': {},
-  'Maxthon': {},
+  Linear: {},
+  Maxthon: {},
   'Microsoft Edge': {
     privateArg: '--inprivate',
   },
@@ -114,14 +114,14 @@ const apps = typeApps({
     convertUrl: (url) =>
       url.replace('https://teams.microsoft.com/', 'msteams:/'),
   },
-  'Min': {},
-  'Miro': {},
+  Min: {},
+  Miro: {},
   'Mullvad Browser': {
     privateArg: '--private-window',
   },
   'NAVER Whale': {},
-  'Notion': {},
-  'Opera': {},
+  Notion: {},
+  Opera: {},
   'Opera Beta': {},
   'Opera CD': {},
   'Opera Crypto': {},
@@ -129,39 +129,40 @@ const apps = typeApps({
   'Opera Developer': {},
   'Opera GX': {},
   'Opera Neon': {},
-  'Orion': {},
+  Orion: {},
   'Orion RC': {},
-  'Pocket': {
+  Pocket: {
     convertUrl: (url) => `pocket://add?url=${url}`,
   },
-  'Polypane': {},
-  'qutebrowser': {},
-  'Safari': {},
+  Polypane: {},
+  qutebrowser: {},
+  Safari: {},
   'Safari Technology Preview': {},
-  'Sidekick': {
+  Sidekick: {
     privateArg: '--incognito',
   },
-  'SigmaOS': {},
-  'Sizzy': {},
-  'Slack': {},
-  'Spotify': {},
-  'Thorium': {
+  SigmaOS: {},
+  Sizzy: {},
+  Slack: {},
+  Spotify: {},
+  Thorium: {
     privateArg: '--incognito',
   },
   'Tor Browser': {},
-  'Twitter': {},
-  'Ulaa': {
+  Twitter: {},
+  Ulaa: {
     privateArg: '--incognito',
   },
-  'Vivaldi': {},
+  Vivaldi: {},
   'Vivaldi Snapshot': {},
-  'Waterfox': {},
-  'Wavebox': {
+  Waterfox: {},
+  Wavebox: {
     privateArg: '--incognito',
   },
-  'Whist': {},
-  'Yandex': {},
-  'Yattee': {},
+  Whist: {},
+  Yandex: {},
+  Yattee: {},
+  'Zen Browser': {},
   'zoom.us': {},
 })
 

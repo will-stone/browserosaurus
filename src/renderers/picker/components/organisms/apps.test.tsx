@@ -17,9 +17,7 @@ import { clickedApp, pressedKey } from '../../state/actions.js'
 import Wrapper from '../_bootstrap.js'
 
 beforeAll(() => {
-  global.window ??= Object.create(window)
-
-  Object.defineProperty(window.navigator, 'keyboard', {
+  Object.defineProperty(globalThis.navigator, 'keyboard', {
     value: {
       getLayoutMap: jest
         .fn()
@@ -36,6 +34,7 @@ test('kitchen sink', async () => {
     Channel.MAIN,
     retrievedInstalledApps(['Firefox', 'Safari', 'Brave Browser']),
   )
+
   // Check apps and app logos shown
   expect(screen.getByTestId('Firefox')).toBeVisible()
   expect(screen.getByRole('button', { name: 'Firefox App' })).toBeVisible()
@@ -90,6 +89,7 @@ test('kitchen sink', async () => {
 
   // Correct info sent to main when app clicked
   fireEvent.click(screen.getByRole('button', { name: 'Firefox App' }))
+
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     Channel.PICKER,
     addChannelToAction(
@@ -108,6 +108,7 @@ test('kitchen sink', async () => {
   fireEvent.click(screen.getByRole('button', { name: 'Brave Browser App' }), {
     altKey: true,
   })
+
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     Channel.PICKER,
     addChannelToAction(
@@ -142,6 +143,7 @@ test('should show spinner when no installed apps are found', async () => {
       },
     }),
   )
+
   expect(screen.getByRole('alert', { name: 'Loading browsers' })).toBeVisible()
 })
 
@@ -171,6 +173,7 @@ test('should use hotkey', async () => {
   const url = 'http://example.com'
   await win.webContents.send(Channel.MAIN, openedUrl(url))
   fireEvent.keyDown(document, { code: 'KeyS', key: 'S', keyCode: 83 })
+
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     Channel.PICKER,
     addChannelToAction(
@@ -218,6 +221,7 @@ test('should use hotkey with alt', async () => {
     key: 's',
     keyCode: 83,
   })
+
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     Channel.PICKER,
     addChannelToAction(
@@ -241,6 +245,7 @@ test('should hold shift', async () => {
   fireEvent.click(screen.getByRole('button', { name: 'Firefox App' }), {
     shiftKey: true,
   })
+
   expect(electron.ipcRenderer.send).toHaveBeenCalledWith(
     Channel.PICKER,
     addChannelToAction(

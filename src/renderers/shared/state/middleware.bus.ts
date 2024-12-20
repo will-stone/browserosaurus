@@ -21,7 +21,7 @@ export const busMiddleware =
 
     // Only send actions from this channel to prevent an infinite loop.
     if (action.meta?.channel === channel) {
-      window.electron.send(channel, action)
+      globalThis.electron.send(channel, action)
     }
 
     return result

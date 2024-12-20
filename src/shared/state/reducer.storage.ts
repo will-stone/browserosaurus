@@ -77,7 +77,7 @@ const storage = createReducer<Storage>(defaultStorage, (builder) =>
         (app) => app.hotCode === hotCode,
       )
 
-      if (appWithSameHotCodeIndex > -1) {
+      if (appWithSameHotCodeIndex !== -1) {
         state.apps[appWithSameHotCodeIndex].hotCode = null
       }
 

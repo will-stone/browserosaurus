@@ -9,9 +9,7 @@ import { Channel } from '../../../../shared/state/channels.js'
 import Wrapper from '../_bootstrap.js'
 
 beforeAll(() => {
-  global.window ??= Object.create(window)
-
-  Object.defineProperty(window.navigator, 'keyboard', {
+  Object.defineProperty(globalThis.navigator, 'keyboard', {
     value: {
       getLayoutMap: jest
         .fn()
@@ -30,6 +28,7 @@ test('url bar', async () => {
   const rest = '/foo?bar=moo'
   const url = `${protocol}${host}${port}${rest}`
   await win.webContents.send(Channel.MAIN, openedUrl(url))
+
   expect(screen.queryByText(protocol)).not.toBeInTheDocument()
   expect(screen.getByText(host + port)).toBeVisible()
   expect(screen.queryByText(rest)).not.toBeInTheDocument()

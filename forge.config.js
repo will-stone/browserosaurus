@@ -22,7 +22,7 @@ const config = {
       ? undefined
       : {
           optionsForFile: () => ({
-            'entitlements': 'plist/entitlements.mac.plist',
+            entitlements: 'plist/entitlements.mac.plist',
             'hardened-runtime': true,
           }),
         },
