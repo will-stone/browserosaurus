@@ -6,6 +6,8 @@ type App = {
 const typeApps = <T extends Record<string, App>>(apps: T) => apps
 
 const apps = typeApps({
+  'Basilisk': {},
+  'Pale Moon': {},
   'Arc': {},
   'Blisk': {},
   'Brave Browser': {
