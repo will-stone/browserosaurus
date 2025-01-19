@@ -6,9 +6,8 @@ type App = {
 const typeApps = <T extends Record<string, App>>(apps: T) => apps
 
 const apps = typeApps({
-  Basilisk: {},
-  'Pale Moon': {},
   Arc: {},
+  Basilisk: {},
   Blisk: {},
   'Brave Browser': {
     privateArg: '--incognito',
@@ -131,6 +130,7 @@ const apps = typeApps({
   'Opera Neon': {},
   Orion: {},
   'Orion RC': {},
+  'Pale Moon': {},
   Pocket: {
     convertUrl: (url) => `pocket://add?url=${url}`,
   },
