@@ -135,6 +135,8 @@ const apps = typeApps({
     convertUrl: (url) => `pocket://add?url=${url}`,
   },
   Polypane: {},
+  'PrivateWindow': {},
+  'PublicWindow': {},
   qutebrowser: {},
   Safari: {},
   'Safari Technology Preview': {},
