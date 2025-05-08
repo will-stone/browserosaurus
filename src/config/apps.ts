@@ -151,6 +151,9 @@ const apps = typeApps({
     privateArg: '--incognito',
   },
   'Tor Browser': {},
+  Twilight: {
+    privateArg: '--incognito',
+  },
   Twitter: {},
   Ulaa: {
     privateArg: '--incognito',
@@ -164,6 +167,9 @@ const apps = typeApps({
   Whist: {},
   Yandex: {},
   Yattee: {},
+  'Zen': {
+    privateArg: '--incognito',
+  },
   'Zen Browser': {},
   'zoom.us': {},
 })
