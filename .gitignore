@@ -4,3 +4,4 @@ out
 .env
 .idea
 .vite
+.claude
