@@ -41,12 +41,7 @@ const App: React.FC = () => {
   const apps = useInstalledApps()
   const url = useSelector((state) => state.data.url)
   const icons = useDeepEqualSelector((state) => state.data.icons)
-
   const keyCodeMap = useKeyCodeMap()
-
-  // const totalApps = apps.length
-
-  // useEffect(() => {}, [totalApps])
 
   return (
     <div
@@ -96,11 +91,11 @@ const App: React.FC = () => {
                   if (event.code === 'ArrowDown') {
                     event.preventDefault()
                     event.stopPropagation()
-                    appsRef.current?.[index + 1].focus()
+                    appsRef.current?.[index + 1]?.focus()
                   } else if (event.code === 'ArrowUp') {
                     event.preventDefault()
                     event.stopPropagation()
-                    appsRef.current?.[index - 1].focus()
+                    appsRef.current?.[index - 1]?.focus()
                   }
                 }}
                 type="button"

@@ -3,6 +3,7 @@ import electron, { app, globalShortcut } from 'electron'
 import { sleep } from 'tings'
 
 import { Channel } from '../shared/state/channels.js'
+import { database } from './database.js'
 import { openedUrl, readiedApp } from './state/actions.js'
 import { dispatch, getState } from './state/store.js'
 
@@ -11,9 +12,11 @@ app.on('ready', () => dispatch(readiedApp()))
 // App doesn't always close on ctrl-c in console, this fixes that
 app.on('before-quit', () => app.exit())
 
-// Clean up global shortcuts on quit
+// Clean up global shortcuts and flush database on quit
 app.on('will-quit', () => {
   globalShortcut.unregisterAll()
+  // Ensure all pending database writes are completed
+  database.flush()
 })
 
 app.on('open-url', (event, url) => {

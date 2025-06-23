@@ -1,5 +1,6 @@
-import { execSync } from 'node:child_process'
+import { exec } from 'node:child_process'
 import path from 'node:path'
+import { promisify } from 'node:util'
 
 import { sleep } from 'tings'
 
@@ -8,22 +9,34 @@ import { apps } from '../../config/apps.js'
 import { retrievedInstalledApps, startedScanning } from '../state/actions.js'
 import { dispatch } from '../state/store.js'
 
-function getAllInstalledAppNames(): string[] {
-  const appNames = execSync(
-    'find ~/Applications /Applications -iname "*.app" -prune -not -path "*/.*" 2>/dev/null ||true',
-  )
-    .toString()
-    .trim()
-    .split('\n')
-    .map((appPath) => path.parse(appPath).name)
+const execAsync = promisify(exec)
 
-  return appNames
+async function getAllInstalledAppNames(): Promise<string[]> {
+  try {
+    const { stdout } = await execAsync(
+      'find ~/Applications /Applications -iname "*.app" -prune -not -path "*/.*" 2>/dev/null ||true',
+    )
+    
+    const appNames = stdout
+      .toString()
+      .trim()
+      .split('\n')
+      .filter(line => line.trim().length > 0)
+      .map((appPath) => path.parse(appPath).name)
+
+    return appNames
+  } catch (error) {
+    console.error('Error scanning for apps:', error)
+    return []
+  }
 }
 
-async function getInstalledAppNames(): Promise<void> {
+async function getInstalledAppNames(retryCount = 0): Promise<void> {
+  const maxRetries = 3
+  
   dispatch(startedScanning())
 
-  const allInstalledAppNames = getAllInstalledAppNames()
+  const allInstalledAppNames = await getAllInstalledAppNames()
 
   const installedApps = Object.keys(apps).filter((appName) =>
     allInstalledAppNames.includes(appName),
@@ -33,9 +46,11 @@ async function getInstalledAppNames(): Promise<void> {
   // race with Spotlight index? So if none found, keep retrying.
   // TODO is this needed any more, now using we're `find` method?
   // https://github.com/will-stone/browserosaurus/issues/425
-  if (installedApps.length === 0) {
-    await sleep(500)
-    getInstalledAppNames()
+  if (installedApps.length === 0 && retryCount < maxRetries) {
+    console.log(`No apps found, retrying... (${retryCount + 1}/${maxRetries})`)
+    // Exponential backoff
+    await sleep(500 * (retryCount + 1))
+    await getInstalledAppNames(retryCount + 1)
   } else {
     dispatch(retrievedInstalledApps(installedApps))
   }

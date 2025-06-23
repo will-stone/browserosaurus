@@ -14,12 +14,42 @@ const STORAGE_FILE = path.join(app.getPath('userData'), 'store.json')
 const adapter = new JSONFileSync<Storage>(STORAGE_FILE)
 const lowdb = new LowSync<Storage>(adapter, defaultStorage)
 
+// Debouncing for database writes
+let writeTimeout: NodeJS.Timeout | null = null
+let pendingChanges = false
+
+// 100ms debounce delay
+const WRITE_DELAY = 100
+
+const debouncedWrite = () => {
+  if (writeTimeout) {
+    clearTimeout(writeTimeout)
+  }
+  
+  writeTimeout = setTimeout(() => {
+    if (pendingChanges) {
+      lowdb.write()
+      pendingChanges = false
+    }
+    writeTimeout = null
+  }, WRITE_DELAY)
+}
+
+const immediateWrite = () => {
+  if (writeTimeout) {
+    clearTimeout(writeTimeout)
+    writeTimeout = null
+  }
+  lowdb.write()
+  pendingChanges = false
+}
+
 export const database = {
   get: <Key extends keyof Storage>(key: Key): Storage[Key] => {
     return database.getAll()[key]
   },
 
-  set: <Key extends keyof Storage>(key: Key, value: Storage[Key]): void => {
+  set: <Key extends keyof Storage>(key: Key, value: Storage[Key], immediate = false): void => {
     lowdb.read()
 
     if (lowdb.data === null) {
@@ -27,7 +57,13 @@ export const database = {
     }
 
     lowdb.data[key] = value
-    lowdb.write()
+    pendingChanges = true
+    
+    if (immediate) {
+      immediateWrite()
+    } else {
+      debouncedWrite()
+    }
   },
 
   getAll: (): Storage => {
@@ -58,8 +94,19 @@ export const database = {
     }
   },
 
-  setAll: (value: Storage): void => {
+  setAll: (value: Storage, immediate = false): void => {
     lowdb.data = value
-    lowdb.write()
+    pendingChanges = true
+    
+    if (immediate) {
+      immediateWrite()
+    } else {
+      debouncedWrite()
+    }
+  },
+
+  // Force immediate write (useful for critical operations like app shutdown)
+  flush: (): void => {
+    immediateWrite()
   },
 }

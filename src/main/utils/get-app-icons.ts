@@ -48,15 +48,27 @@ export async function getAppIcons(apps: Storage['apps']): Promise<void> {
   try {
     const icons: Partial<Record<AppName, string>> = {}
 
-    for await (const app of apps) {
+    // Simple parallel loading - much simpler for small app lists
+    const iconPromises = apps.map(async (app) => {
       try {
         const dataURI = await getIconDataURI(app.name, 64)
-        icons[app.name] = dataURI
+        return { dataURI, name: app.name }
       } catch (error: unknown) {
-        log.warn(error)
+        log.warn(`Failed to load icon for ${app.name}:`, error)
+        return null
+      }
+    })
+
+    const results = await Promise.all(iconPromises)
+    
+    // Build icons object
+    for (const result of results) {
+      if (result) {
+        icons[result.name] = result.dataURI
       }
     }
 
+    // Single dispatch
     dispatch(gotAppIcons(icons))
   } catch (error: unknown) {
     log.error(error)
