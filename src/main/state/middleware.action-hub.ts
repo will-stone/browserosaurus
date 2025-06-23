@@ -1,6 +1,6 @@
 /* eslint-disable n/callback-return -- must flush middleware to get nextState */
 /* eslint-disable unicorn/prefer-regexp-test -- rtk uses .match */
-import { app, autoUpdater, shell, globalShortcut } from 'electron'
+import { app, autoUpdater, globalShortcut, shell } from 'electron'
 import deepEqual from 'fast-deep-equal'
 
 import { B_URL, ISSUES_URL } from '../../config/constants.js'
@@ -97,9 +97,20 @@ export const actionHubMiddleware =
       getInstalledAppNames()
       
       // Register global shortcut for restore picker
-      globalShortcut.register('Alt+Shift+Y', () => {
-        dispatch(clickedRestorePicker())
-      })
+      try {
+        const registered = globalShortcut.register('Alt+Shift+Y', () => {
+          console.log('Global shortcut Alt+Shift+Y triggered!')
+          dispatch(clickedRestorePicker())
+        })
+        
+        if (registered) {
+          console.log('✅ Global shortcut Alt+Shift+Y registered successfully')
+        } else {
+          console.log('❌ Failed to register global shortcut Alt+Shift+Y')
+        }
+      } catch (error) {
+        console.error('❌ Error registering global shortcut:', error)
+      }
     }
 
     // When a renderer starts, send down all the locally stored data
