@@ -55,7 +55,7 @@ export const GeneralPane = (): JSX.Element => {
   )
 
   // Platform-specific shortcut display
-  const isMac = process.platform === 'darwin'
+  const isMac = navigator.userAgent.includes('Mac')
   const shortcutKey = isMac ? 'Cmd+Shift+Y' : 'Ctrl+Shift+Y'
 
   return (
