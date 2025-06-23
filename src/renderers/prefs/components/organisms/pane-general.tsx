@@ -54,6 +54,10 @@ export const GeneralPane = (): JSX.Element => {
     (state) => state.storage.globalShortcutEnabled,
   )
 
+  // Platform-specific shortcut display
+  const isMac = process.platform === 'darwin'
+  const shortcutKey = isMac ? 'Cmd+Shift+Y' : 'Ctrl+Shift+Y'
+
   return (
     <Pane className="space-y-8" pane="general">
       <Row>
@@ -82,11 +86,11 @@ export const GeneralPane = (): JSX.Element => {
         <Right>
           <Checkbox
             checked={globalShortcutEnabled}
-            label="Enable Cmd+Shift+Y shortcut"
+            label={`Enable global shortcut (${shortcutKey})`}
             onChange={() => dispatch(toggledGlobalShortcut())}
           />
           <p className="mt-2 text-sm opacity-70">
-            When enabled, press Cmd+Shift+Y from anywhere to open the browser picker.
+            {`When enabled, press ${shortcutKey} from anywhere to open the browser picker.`}
           </p>
         </Right>
       </Row>
