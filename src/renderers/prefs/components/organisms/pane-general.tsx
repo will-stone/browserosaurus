@@ -82,11 +82,11 @@ export const GeneralPane = (): JSX.Element => {
         <Right>
           <Checkbox
             checked={globalShortcutEnabled}
-            label="Enable Alt+Shift+Y shortcut"
+            label="Enable Cmd+Shift+Y shortcut"
             onChange={() => dispatch(toggledGlobalShortcut())}
           />
           <p className="mt-2 text-sm opacity-70">
-            When enabled, press Alt+Shift+Y from anywhere to open the browser picker.
+            When enabled, press Cmd+Shift+Y from anywhere to open the browser picker.
           </p>
         </Right>
       </Row>

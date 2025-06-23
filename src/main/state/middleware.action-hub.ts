@@ -51,7 +51,7 @@ import {
 /**
  * Global shortcut management
  */
-const SHORTCUT_KEY = 'Alt+Shift+Y'
+const SHORTCUT_KEY = 'CommandOrControl+Shift+Y'
 
 function registerGlobalShortcut(dispatch: (action: any) => void): boolean {
   try {
