@@ -20,6 +20,7 @@ import {
   clickedUpdateRestartButton,
   confirmedReset,
   startedPrefs,
+  toggledGlobalShortcut,
 } from '../../renderers/prefs/state/actions.js'
 import type { Middleware } from '../../shared/state/model.js'
 import type { RootState } from '../../shared/state/reducer.root.js'
@@ -46,6 +47,42 @@ import {
   receivedRendererStartupSignal,
   retrievedInstalledApps,
 } from './actions.js'
+
+/**
+ * Global shortcut management
+ */
+const SHORTCUT_KEY = 'Alt+Shift+Y'
+
+function registerGlobalShortcut(dispatch: (action: any) => void): boolean {
+  try {
+    const registered = globalShortcut.register(SHORTCUT_KEY, () => {
+      console.log(`Global shortcut ${SHORTCUT_KEY} triggered!`)
+      dispatch(clickedRestorePicker())
+    })
+    
+    if (registered) {
+      console.log(`✅ Global shortcut ${SHORTCUT_KEY} registered successfully`)
+    } else {
+      console.log(`❌ Failed to register global shortcut ${SHORTCUT_KEY}`)
+    }
+    
+    return registered
+  } catch (error) {
+    console.error('❌ Error registering global shortcut:', error)
+    return false
+  }
+}
+
+function unregisterGlobalShortcut(): boolean {
+  try {
+    globalShortcut.unregister(SHORTCUT_KEY)
+    console.log(`✅ Global shortcut ${SHORTCUT_KEY} unregistered`)
+    return true
+  } catch (error) {
+    console.error('❌ Error unregistering global shortcut:', error)
+    return false
+  }
+}
 
 /**
  * Asynchronously update perma store on state.storage changes
@@ -96,20 +133,9 @@ export const actionHubMiddleware =
       initUpdateChecker()
       getInstalledAppNames()
       
-      // Register global shortcut for restore picker
-      try {
-        const registered = globalShortcut.register('Alt+Shift+Y', () => {
-          console.log('Global shortcut Alt+Shift+Y triggered!')
-          dispatch(clickedRestorePicker())
-        })
-        
-        if (registered) {
-          console.log('✅ Global shortcut Alt+Shift+Y registered successfully')
-        } else {
-          console.log('❌ Failed to register global shortcut Alt+Shift+Y')
-        }
-      } catch (error) {
-        console.error('❌ Error registering global shortcut:', error)
+      // Register global shortcut if enabled
+      if (nextState.storage.globalShortcutEnabled) {
+        registerGlobalShortcut(dispatch)
       }
     }
 
@@ -234,6 +260,15 @@ export const actionHubMiddleware =
     // Get app icons
     else if (retrievedInstalledApps.match(action)) {
       getAppIcons(nextState.storage.apps)
+    }
+
+    // Toggle global shortcut
+    else if (toggledGlobalShortcut.match(action)) {
+      if (nextState.storage.globalShortcutEnabled) {
+        registerGlobalShortcut(dispatch)
+      } else {
+        unregisterGlobalShortcut()
+      }
     }
 
     return result
