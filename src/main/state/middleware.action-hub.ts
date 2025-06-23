@@ -1,6 +1,6 @@
 /* eslint-disable n/callback-return -- must flush middleware to get nextState */
 /* eslint-disable unicorn/prefer-regexp-test -- rtk uses .match */
-import { app, autoUpdater, shell } from 'electron'
+import { app, autoUpdater, shell, globalShortcut } from 'electron'
 import deepEqual from 'fast-deep-equal'
 
 import { B_URL, ISSUES_URL } from '../../config/constants.js'
@@ -95,6 +95,11 @@ export const actionHubMiddleware =
       createTray()
       initUpdateChecker()
       getInstalledAppNames()
+      
+      // Register global shortcut for restore picker
+      globalShortcut.register('Alt+Shift+Y', () => {
+        dispatch(clickedRestorePicker())
+      })
     }
 
     // When a renderer starts, send down all the locally stored data
