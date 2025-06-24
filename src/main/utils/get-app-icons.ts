@@ -3,12 +3,10 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
 
-import { ipcMain } from 'electron'
 import log from 'electron-log'
 
 import type { AppName } from '../../config/apps.js'
 import type { Storage } from '../../shared/state/reducer.storage.js'
-import { Channel } from '../../shared/state/channels.js'
 import { gotAppIcons } from '../state/actions.js'
 import { dispatch } from '../state/store.js'
 
@@ -35,7 +33,10 @@ async function getIconBase64(file: string, size: number): Promise<string> {
   
   // Return cached version if available
   if (iconCache.has(cacheKey)) {
-    return iconCache.get(cacheKey)!
+    const cachedIcon = iconCache.get(cacheKey)
+    if (cachedIcon) {
+      return cachedIcon
+    }
   }
   
   try {
@@ -61,26 +62,16 @@ async function getIconBase64(file: string, size: number): Promise<string> {
   }
 }
 
-// Set up IPC handler for icon requests
-ipcMain.handle(Channel.GET_ICON, async (event, appName: string) => {
-  try {
-    return await getIconBase64(appName, 64)
-  } catch (error) {
-    log.warn(`Failed to get icon for ${appName}:`, error)
-    return ''
-  }
-})
 
 export async function getAppIcons(apps: Storage['apps']): Promise<void> {
   try {
     const icons: Partial<Record<AppName, string>> = {}
 
-    // Pre-load icons into cache but only store app names in Redux
+    // Use smaller icons (32px instead of 64px) to reduce memory usage
     const iconPromises = apps.map(async (appData) => {
       try {
-        // This loads into cache but we don't store the base64 in Redux
-        await getIconBase64(appData.name, 64)
-        return { name: appData.name }
+        const base64Icon = await getIconBase64(appData.name, 32)
+        return { base64Icon, name: appData.name }
       } catch (error: unknown) {
         log.warn(`Failed to load icon for ${appData.name}:`, error)
         return null
@@ -89,14 +80,14 @@ export async function getAppIcons(apps: Storage['apps']): Promise<void> {
 
     const results = await Promise.all(iconPromises)
     
-    // Only store app names - icons served via IPC
+    // Store smaller base64 icons in Redux
     for (const result of results) {
       if (result) {
-        icons[result.name] = 'cached' // Lightweight placeholder
+        icons[result.name] = result.base64Icon
       }
     }
 
-    // Single dispatch with minimal data
+    // Single dispatch
     dispatch(gotAppIcons(icons))
   } catch (error: unknown) {
     log.error(error)

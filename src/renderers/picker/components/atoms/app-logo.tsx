@@ -13,13 +13,8 @@ const AppLogo = ({ app, className, icon }: Props): JSX.Element => {
   const [iconSrc, setIconSrc] = useState<string>('')
   
   useEffect(() => {
-    if (icon === 'cached') {
-      // Fetch icon via IPC
-      window.electron.getIcon(app.name).then(setIconSrc).catch(() => setIconSrc(''))
-    } else {
-      setIconSrc(icon || '')
-    }
-  }, [app.name, icon])
+    setIconSrc(icon || '')
+  }, [icon])
   
   return (
     <img

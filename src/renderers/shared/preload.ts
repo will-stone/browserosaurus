@@ -6,6 +6,9 @@ import { Channel } from '../../shared/state/channels.js'
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
 contextBridge.exposeInMainWorld('electron', {
+  getIcon: (appName: string): Promise<string> => {
+    return ipcRenderer.invoke(Channel.GET_ICON, appName)
+  },
   receive: (
     channel: Channel.MAIN,
     function_: (...arguments_: unknown[]) => void,
@@ -25,8 +28,5 @@ contextBridge.exposeInMainWorld('electron', {
     if (validChannels.includes(channel)) {
       ipcRenderer.send(channel, action)
     }
-  },
-  getIcon: async (appName: string): Promise<string> => {
-    return ipcRenderer.invoke(Channel.GET_ICON, appName)
   },
 })
