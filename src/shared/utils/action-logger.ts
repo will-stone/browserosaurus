@@ -18,6 +18,7 @@ const channelColorMap = {
   [Channel.MAIN]: bgYellow,
   [Channel.PREFS]: bgBlue,
   [Channel.PICKER]: bgMagenta,
+  [Channel.GET_ICON]: bgYellow, // IPC channel, use same as MAIN
 }
 
 export function actionLogger(action: FSA): void {

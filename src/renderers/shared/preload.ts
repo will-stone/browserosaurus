@@ -26,4 +26,7 @@ contextBridge.exposeInMainWorld('electron', {
       ipcRenderer.send(channel, action)
     }
   },
+  getIcon: async (appName: string): Promise<string> => {
+    return ipcRenderer.invoke(Channel.GET_ICON, appName)
+  },
 })

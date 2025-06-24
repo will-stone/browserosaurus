@@ -1,15 +1,14 @@
 import { execFile } from 'node:child_process'
-import { writeFile } from 'node:fs/promises'
-import { join } from 'node:path'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
 
-import { app } from 'electron'
+import { ipcMain } from 'electron'
 import log from 'electron-log'
 
 import type { AppName } from '../../config/apps.js'
 import type { Storage } from '../../shared/state/reducer.storage.js'
+import { Channel } from '../../shared/state/channels.js'
 import { gotAppIcons } from '../state/actions.js'
 import { dispatch } from '../state/store.js'
 
@@ -28,7 +27,17 @@ const binary = path.join(
 
 const HUNDRED_MEGABYTES = 1024 * 1024 * 100
 
-async function getIconFileURL(file: string, size: number): Promise<string> {
+// Icon cache in main process - keeps base64 data out of Redux state
+const iconCache = new Map<string, string>()
+
+async function getIconBase64(file: string, size: number): Promise<string> {
+  const cacheKey = `${file}_${size}`
+  
+  // Return cached version if available
+  if (iconCache.has(cacheKey)) {
+    return iconCache.get(cacheKey)!
+  }
+  
   try {
     const { stdout: buffer } = await execFileP(
       binary,
@@ -36,24 +45,12 @@ async function getIconFileURL(file: string, size: number): Promise<string> {
       { encoding: null, maxBuffer: HUNDRED_MEGABYTES },
     )
 
-    // Save to temp file instead of storing base64 in memory
-    const tempDir = app.getPath('temp')
-    const iconFileName = `${file.replaceAll(/[^a-zA-Z0-9]/gu, '_')}_${size}.png`
-    const iconPath = join(tempDir, 'browserosaurus-icons', iconFileName)
+    const base64Icon = `data:image/png;base64,${buffer.toString('base64')}`
     
-    // Ensure directory exists
-    await writeFile(iconPath, buffer, { flag: 'w' }).catch(async (error) => {
-      if (error.code === 'ENOENT') {
-        const { mkdir } = await import('node:fs/promises')
-        await mkdir(path.dirname(iconPath), { recursive: true })
-        await writeFile(iconPath, buffer, { flag: 'w' })
-      } else {
-        throw error
-      }
-    })
-
-    // Return file:// URL instead of base64 - saves massive memory
-    return `file://${iconPath}`
+    // Cache the icon data in main process
+    iconCache.set(cacheKey, base64Icon)
+    
+    return base64Icon
   } catch (error: unknown) {
     if (error instanceof Error) {
       // eslint-disable-next-line no-console
@@ -64,15 +61,26 @@ async function getIconFileURL(file: string, size: number): Promise<string> {
   }
 }
 
+// Set up IPC handler for icon requests
+ipcMain.handle(Channel.GET_ICON, async (event, appName: string) => {
+  try {
+    return await getIconBase64(appName, 64)
+  } catch (error) {
+    log.warn(`Failed to get icon for ${appName}:`, error)
+    return ''
+  }
+})
+
 export async function getAppIcons(apps: Storage['apps']): Promise<void> {
   try {
     const icons: Partial<Record<AppName, string>> = {}
 
-    // Simple parallel loading - much simpler for small app lists
+    // Pre-load icons into cache but only store app names in Redux
     const iconPromises = apps.map(async (appData) => {
       try {
-        const fileURL = await getIconFileURL(appData.name, 64)
-        return { fileURL, name: appData.name }
+        // This loads into cache but we don't store the base64 in Redux
+        await getIconBase64(appData.name, 64)
+        return { name: appData.name }
       } catch (error: unknown) {
         log.warn(`Failed to load icon for ${appData.name}:`, error)
         return null
@@ -81,14 +89,14 @@ export async function getAppIcons(apps: Storage['apps']): Promise<void> {
 
     const results = await Promise.all(iconPromises)
     
-    // Build icons object
+    // Only store app names - icons served via IPC
     for (const result of results) {
       if (result) {
-        icons[result.name] = result.fileURL
+        icons[result.name] = 'cached' // Lightweight placeholder
       }
     }
 
-    // Single dispatch
+    // Single dispatch with minimal data
     dispatch(gotAppIcons(icons))
   } catch (error: unknown) {
     log.error(error)
