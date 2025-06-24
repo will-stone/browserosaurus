@@ -1,8 +1,11 @@
 import { execFile } from 'node:child_process'
+import { writeFile } from 'node:fs/promises'
+import { join } from 'node:path'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
 
+import { app } from 'electron'
 import log from 'electron-log'
 
 import type { AppName } from '../../config/apps.js'
@@ -25,7 +28,7 @@ const binary = path.join(
 
 const HUNDRED_MEGABYTES = 1024 * 1024 * 100
 
-async function getIconDataURI(file: string, size: number): Promise<string> {
+async function getIconFileURL(file: string, size: number): Promise<string> {
   try {
     const { stdout: buffer } = await execFileP(
       binary,
@@ -33,7 +36,24 @@ async function getIconDataURI(file: string, size: number): Promise<string> {
       { encoding: null, maxBuffer: HUNDRED_MEGABYTES },
     )
 
-    return `data:image/png;base64,${buffer.toString('base64')}`
+    // Save to temp file instead of storing base64 in memory
+    const tempDir = app.getPath('temp')
+    const iconFileName = `${file.replaceAll(/[^a-zA-Z0-9]/gu, '_')}_${size}.png`
+    const iconPath = join(tempDir, 'browserosaurus-icons', iconFileName)
+    
+    // Ensure directory exists
+    await writeFile(iconPath, buffer, { flag: 'w' }).catch(async (error) => {
+      if (error.code === 'ENOENT') {
+        const { mkdir } = await import('node:fs/promises')
+        await mkdir(path.dirname(iconPath), { recursive: true })
+        await writeFile(iconPath, buffer, { flag: 'w' })
+      } else {
+        throw error
+      }
+    })
+
+    // Return file:// URL instead of base64 - saves massive memory
+    return `file://${iconPath}`
   } catch (error: unknown) {
     if (error instanceof Error) {
       // eslint-disable-next-line no-console
@@ -49,12 +69,12 @@ export async function getAppIcons(apps: Storage['apps']): Promise<void> {
     const icons: Partial<Record<AppName, string>> = {}
 
     // Simple parallel loading - much simpler for small app lists
-    const iconPromises = apps.map(async (app) => {
+    const iconPromises = apps.map(async (appData) => {
       try {
-        const dataURI = await getIconDataURI(app.name, 64)
-        return { dataURI, name: app.name }
+        const fileURL = await getIconFileURL(appData.name, 64)
+        return { fileURL, name: appData.name }
       } catch (error: unknown) {
-        log.warn(`Failed to load icon for ${app.name}:`, error)
+        log.warn(`Failed to load icon for ${appData.name}:`, error)
         return null
       }
     })
@@ -64,7 +84,7 @@ export async function getAppIcons(apps: Storage['apps']): Promise<void> {
     // Build icons object
     for (const result of results) {
       if (result) {
-        icons[result.name] = result.dataURI
+        icons[result.name] = result.fileURL
       }
     }
 
