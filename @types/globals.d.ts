@@ -5,9 +5,9 @@ declare module '*.css'
 declare global {
   interface Window {
     electron: {
-      receive: (channel: string, callback: (...args: unknown[]) => void) => void
-      send: (channel: string, action: unknown) => void
       getIcon: (appName: string) => Promise<string>
+      receive: (channel: any, callback: (...args: unknown[]) => void) => void
+      send: (channel: any, action: unknown) => void
     }
   }
 }

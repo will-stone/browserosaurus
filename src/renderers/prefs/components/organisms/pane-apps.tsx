@@ -18,6 +18,7 @@ import clsx from 'clsx'
 import { useDispatch } from 'react-redux'
 
 import type { AppName } from '../../../../config/apps.js'
+import AppLogo from '../../../picker/components/atoms/app-logo.js'
 import Input from '../../../shared/components/atoms/input.js'
 import { Spinner } from '../../../shared/components/atoms/spinner.js'
 import type { InstalledApp } from '../../../shared/state/hooks.js'
@@ -79,10 +80,10 @@ const SortableItem = ({
         {index + 1}
       </div>
       <div className="flex grow items-center p-4">
-        <img
-          alt=""
-          className={clsx('mr-4 size-8', !icon && 'hidden')}
-          src={icon}
+        <AppLogo
+          app={{ hotCode: null, name }}
+          className="mr-4 size-8"
+          icon={icon}
         />
         <span>{name}</span>
       </div>

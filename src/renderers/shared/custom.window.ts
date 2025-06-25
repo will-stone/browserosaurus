@@ -6,6 +6,7 @@ import type { Channel } from '../../shared/state/channels.js'
 declare global {
   // eslint-disable-next-line vars-on-top, no-var
   var electron: {
+    getIcon: (appName: string) => Promise<string>
     send: (channel: Channel, action: UnknownAction) => void
     receive: (
       mainChannel: Channel.MAIN,

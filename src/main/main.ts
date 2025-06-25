@@ -1,3 +1,5 @@
+import './utils/get-app-icons.js'
+
 import type { UnknownAction } from '@reduxjs/toolkit'
 import electron, { app, globalShortcut } from 'electron'
 import { sleep } from 'tings'
