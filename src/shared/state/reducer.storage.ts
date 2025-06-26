@@ -14,6 +14,7 @@ import {
 import {
   confirmedReset,
   reorderedApp,
+  toggledGlobalShortcut,
   updatedHotCode,
 } from '../../renderers/prefs/state/actions.js'
 
@@ -23,13 +24,15 @@ type Storage = {
     hotCode: string | null
     isInstalled: boolean
   }[]
-  supportMessage: number
-  isSetup: boolean
+  globalShortcutEnabled: boolean
   height: number
+  isSetup: boolean
+  supportMessage: number
 }
 
 const defaultStorage: Storage = {
   apps: [],
+  globalShortcutEnabled: true,
   height: 200,
   isSetup: false,
   supportMessage: 0,
@@ -111,6 +114,10 @@ const storage = createReducer<Storage>(defaultStorage, (builder) =>
 
       const [removed] = state.apps.splice(sourceIndex, 1)
       state.apps.splice(destinationIndex, 0, removed)
+      })
+
+    .addCase(toggledGlobalShortcut, (state) => {
+      state.globalShortcutEnabled = !state.globalShortcutEnabled
     }),
 )
 

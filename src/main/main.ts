@@ -1,5 +1,5 @@
 import type { UnknownAction } from '@reduxjs/toolkit'
-import electron, { app } from 'electron'
+import electron, { app, globalShortcut } from 'electron'
 import { sleep } from 'tings'
 
 import { Channel } from '../shared/state/channels.js'
@@ -10,6 +10,11 @@ app.on('ready', () => dispatch(readiedApp()))
 
 // App doesn't always close on ctrl-c in console, this fixes that
 app.on('before-quit', () => app.exit())
+
+// Clean up global shortcuts
+app.on('will-quit', () => {
+  globalShortcut.unregisterAll()
+})
 
 app.on('open-url', (event, url) => {
   event.preventDefault()

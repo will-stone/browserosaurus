@@ -27,6 +27,7 @@ const reorderedApp = prefs<{ sourceName: AppName; destinationName: AppName }>(
 
 const clickedHomepageButton = prefs('homepage-button/clicked')
 const clickedOpenIssueButton = prefs('open-issue-button/clicked')
+const toggledGlobalShortcut = prefs('global-shortcut/toggled')
 
 export {
   clickedHomepageButton,
@@ -39,5 +40,6 @@ export {
   confirmedReset,
   reorderedApp,
   startedPrefs,
+  toggledGlobalShortcut,
   updatedHotCode,
 }

@@ -1,6 +1,7 @@
 /* eslint-disable n/callback-return -- must flush middleware to get nextState */
 /* eslint-disable unicorn/prefer-regexp-test -- rtk uses .match */
-import { app, autoUpdater, shell } from 'electron'
+import type { UnknownAction } from '@reduxjs/toolkit'
+import { app, autoUpdater, globalShortcut, shell } from 'electron'
 import deepEqual from 'fast-deep-equal'
 
 import { B_URL, ISSUES_URL } from '../../config/constants.js'
@@ -20,6 +21,7 @@ import {
   clickedUpdateRestartButton,
   confirmedReset,
   startedPrefs,
+  toggledGlobalShortcut,
 } from '../../renderers/prefs/state/actions.js'
 import type { Middleware } from '../../shared/state/model.js'
 import type { RootState } from '../../shared/state/reducer.root.js'
@@ -46,6 +48,32 @@ import {
   receivedRendererStartupSignal,
   retrievedInstalledApps,
 } from './actions.js'
+
+/**
+ * Global shortcut management
+ */
+const SHORTCUT_KEY = 'CommandOrControl+Shift+Y'
+
+function registerGlobalShortcut(dispatch: (action: UnknownAction) => void): boolean {
+  try {
+    const registered = globalShortcut.register(SHORTCUT_KEY, () => {
+      dispatch(clickedRestorePicker())
+    })
+
+    return registered
+  } catch {
+    return false
+  }
+}
+
+function unregisterGlobalShortcut(): boolean {
+  try {
+    globalShortcut.unregister(SHORTCUT_KEY)
+    return true
+  } catch {
+    return false
+  }
+}
 
 /**
  * Asynchronously update perma store on state.storage changes
@@ -95,6 +123,9 @@ export const actionHubMiddleware =
       createTray()
       initUpdateChecker()
       getInstalledAppNames()
+      if (nextState.storage.globalShortcutEnabled) {
+        registerGlobalShortcut(dispatch)
+      }
     }
 
     // When a renderer starts, send down all the locally stored data
@@ -218,6 +249,15 @@ export const actionHubMiddleware =
     // Get app icons
     else if (retrievedInstalledApps.match(action)) {
       getAppIcons(nextState.storage.apps)
+    }
+
+    // Toggle global shortcut
+    else if (toggledGlobalShortcut.match(action)) {
+      if (nextState.storage.globalShortcutEnabled) {
+        registerGlobalShortcut(dispatch)
+      } else {
+        unregisterGlobalShortcut()
+      }
     }
 
     return result

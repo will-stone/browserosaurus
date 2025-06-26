@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux'
 
 import Button from '../../../shared/components/atoms/button.js'
+import Checkbox from '../../../shared/components/atoms/checkbox.js'
 import { useSelector } from '../../../shared/state/hooks.js'
 import {
   clickedRescanApps,
@@ -8,6 +9,7 @@ import {
   clickedUpdateButton,
   clickedUpdateRestartButton,
   confirmedReset,
+  toggledGlobalShortcut,
 } from '../../state/actions.js'
 import { Pane } from '../molecules/pane.js'
 
@@ -48,6 +50,14 @@ export const GeneralPane = (): JSX.Element => {
     (state) => state.storage.apps.filter((app) => app.isInstalled).length,
   )
 
+  const globalShortcutEnabled = useSelector(
+    (state) => state.storage.globalShortcutEnabled,
+  )
+
+  // Platform-specific shortcut display
+  const isMac = navigator.userAgent.includes('Mac')
+  const shortcutKey = isMac ? 'Cmd+Shift+Y' : 'Ctrl+Shift+Y'
+
   return (
     <Pane className="space-y-8" pane="general">
       <Row>
@@ -67,6 +77,20 @@ export const GeneralPane = (): JSX.Element => {
             clicked outside of web browsers will open the picker window. This is
             the primary design of Browserosaurus. However, you can also
             programmatically send URLs to Browserosaurus.
+          </p>
+        </Right>
+      </Row>
+
+      <Row>
+        <Left>Global shortcut:</Left>
+        <Right>
+          <Checkbox
+            checked={globalShortcutEnabled}
+            label={`Enable global shortcut (${shortcutKey})`}
+            onChange={() => dispatch(toggledGlobalShortcut())}
+          />
+          <p className="mt-2 text-sm opacity-70">
+            {`When enabled, press ${shortcutKey} from anywhere to open the browser picker.`}
           </p>
         </Right>
       </Row>
