@@ -169,7 +169,7 @@ const apps = typeApps({
   Yandex: {},
   Yattee: {},
   'Zen': {
-    privateArg: '--incognito',
+    privateArg: '--private-window',
   },
   'Zen Browser': {},
   'zoom.us': {},
