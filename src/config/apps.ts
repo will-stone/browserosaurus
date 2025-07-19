@@ -27,6 +27,7 @@ const apps = typeApps({
   'Chromium-Gost': {
     privateArg: '--incognito',
   },
+  Comet: {},
   Dia: {},
   Discord: {
     convertUrl: (url) =>
