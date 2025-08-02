@@ -1,12 +1,17 @@
+📣 This project is no longer maintained. Please see my
+[blog post](https://wstone.uk/blog/the-retirement-of-browserosaurus/) for the
+final thoughts on the project. Thank you everyone who has enjoyed using my
+little app 🤓
+
 <img src="./docs/icon_squooshed.png" alt="logo" width="100" height="100" align="right" />
 
 # Browserosaurus
 
 Browserosaurus is an open-source (GPLv3 license) browser prompter for macOS. It
-works by setting itself as the default browser, and any clicked links in non-browser
-apps are now sent to Browserosaurus where you are presented with a menu of all
-your installed browsers. You may now decide which app you’d like to continue
-opening the link with.
+works by setting itself as the default browser, and any clicked links in
+non-browser apps are now sent to Browserosaurus where you are presented with a
+menu of all your installed browsers. You may now decide which app you’d like to
+continue opening the link with.
 
 <img src="./docs/screenshot.jpg" alt="screenshot" />
 
